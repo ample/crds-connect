@@ -15,12 +15,8 @@ import { PreloaderModule } from './preloader/preloader.module';
 
 import { AmountComponent } from './amount/amount.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { BillingComponent } from './billing/billing.component';
-import { ConfirmationComponent } from './confirmation/confirmation.component';
-import { FundAndFrequencyComponent  } from './fund-and-frequency/fund-and-frequency.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
-import { SummaryComponent, WindowToken, _window } from './summary/summary.component';
 
 import { APIService } from './services/api.service';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -57,19 +53,15 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     AmountComponent,
     AppComponent,
     AuthenticationComponent,
-    BillingComponent,
-    ConfirmationComponent,
     CreditCardFormatDirective,
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
     IsPredefinedToggleDirective,
-    FundAndFrequencyComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     RegisterComponent,
-    FormatPaymentNumberDirective,
-    SummaryComponent,
+    FormatPaymentNumberDirective
   ],
   providers: [
     appRoutingProviders,
@@ -80,8 +72,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     SessionService,
     StateService,
     StoreService,
-    ValidationService,
-    {provide: WindowToken, useFactory: _window}
+    ValidationService
   ],
   bootstrap: [AppComponent]
 })
