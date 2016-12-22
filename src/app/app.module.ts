@@ -12,7 +12,7 @@ import { routing, appRoutingProviders } from './app.routing';
 
 import { PreloaderModule } from './preloader/preloader.module';
 
-import { AmountComponent } from './amount/amount.component';
+import { HostApplicationComponent } from './host-application/host-application.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
@@ -29,7 +29,6 @@ import { CreditCardFormatDirective } from './directives/credit-card-format.direc
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
 import { CvvFormatDirective } from './directives/cvv-format.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
-import { IsPredefinedToggleDirective } from './directives/is-predefined-toggle.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
 
@@ -48,14 +47,13 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     routing
   ],
   declarations: [
-    AmountComponent,
+    HostApplicationComponent,
     AppComponent,
     AuthenticationComponent,
     CreditCardFormatDirective,
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
-    IsPredefinedToggleDirective,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     RegisterComponent,

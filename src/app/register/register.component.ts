@@ -47,12 +47,12 @@ export class RegisterComponent implements OnInit {
   }
 
   back(): boolean {
-    this.router.navigateByUrl(this.state.getPage(this.state.authenticationIndex));
+    //navigate
     return false;
   }
 
   adv(): void {
-    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.registrationIndex));
+    //navigate
   }
 
   submitRegistration() {

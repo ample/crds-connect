@@ -42,7 +42,7 @@ export class AuthenticationComponent implements OnInit {
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
-    if ( this.store.isGuest === true && this.store.isOneTimeGift() === true ) {
+    if ( this.store.isGuest === true ) {
       this.signinOption = 'Guest';
       this.email = this.store.email;
     }
@@ -58,8 +58,6 @@ export class AuthenticationComponent implements OnInit {
     this.form.valueChanges.subscribe((value: any) => {
       this.store.email = value.email;
     });
-
-    this.store.validateRoute(this.router);
     this.state.setLoading(false);
   }
 
@@ -107,7 +105,6 @@ export class AuthenticationComponent implements OnInit {
       .subscribe(
         (user) => {
           this.store.loadUserData();
-          this.state.hidePage(this.state.authenticationIndex);
           this.adv();
         },
         (error) => {
@@ -125,7 +122,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public adv(): void {
-    this.router.navigateByUrl(this.state.getNextPageToShow(this.state.authenticationIndex));
+    //navigate to target page
   }
 
   public back(): boolean {
@@ -133,7 +130,7 @@ export class AuthenticationComponent implements OnInit {
     if (this.signinOption === 'Guest') {
       this.store.isGuest = true;
     }
-    this.router.navigateByUrl(this.state.getPrevPageToShow(this.state.authenticationIndex));
+    //navigate back IF we will provide this option
     return false;
   }
 
@@ -146,9 +143,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public hideBack() {
-    if (this.store.isPayment() && this.store.amountLocked) {
-      return true;
-    }
+    //if condition which returns 'true' in order to hide the back button, may not be used
     return false;
   }
 }

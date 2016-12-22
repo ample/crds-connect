@@ -14,7 +14,7 @@
     <form [formGroup]="form" action="/" (ngSubmit)="store.preSubmit($event);submitLogin();" novalidate>
       <div class="form-group">
         <label class="sr-only" for="email">Email</label>
-        <input type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
+        <input id="email" type="email" class="form-control" placeholder="Email" name="email" [formControl]="form.get('email')">
       </div>
 
       <div class="alert alert-danger" *ngIf="(formSubmitted) && formInvalid('email')">
@@ -24,7 +24,7 @@
 
       <div class="form-group">
         <label class="sr-only" for="password">Password</label>
-        <input type="password" class="form-control" placeholder="Password" name="password"
+        <input id="password" type="password" class="form-control" placeholder="Password" name="password"
                [formControl]="form.get('password')">
       </div>
 
