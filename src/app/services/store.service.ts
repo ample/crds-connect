@@ -45,7 +45,7 @@ export class StoreService {
 
   public preloadData(): void {
     if (this.api.isLoggedIn()) {
-      //this.state.hidePage(this.state.authenticationIndex);
+      // this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
     }
   }

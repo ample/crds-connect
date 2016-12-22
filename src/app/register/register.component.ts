@@ -47,12 +47,12 @@ export class RegisterComponent implements OnInit {
   }
 
   back(): boolean {
-    //navigate
+    // navigate
     return false;
   }
 
   adv(): void {
-    //navigate
+    // navigate
   }
 
   submitRegistration() {

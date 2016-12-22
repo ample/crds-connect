@@ -42,10 +42,6 @@ export class AuthenticationComponent implements OnInit {
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
-    if ( this.store.isGuest === true ) {
-      this.signinOption = 'Guest';
-      this.email = this.store.email;
-    }
     this.form = this.fb.group({
       email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.validation.emailRegex)]],
       password: ['', <any>Validators.required]
@@ -58,52 +54,20 @@ export class AuthenticationComponent implements OnInit {
     this.form.valueChanges.subscribe((value: any) => {
       this.store.email = value.email;
     });
+
     this.state.setLoading(false);
-  }
-
-  public resetGuestEmailFormSubmission(event) {
-    if ( event.target.value !== this.store.email ) {
-      this.showMessage = false;
-      this.buttonText = 'Next';
-    }
-  }
-
-  public showExistingEmailMessage() {
-    this.guestEmail = false;
-    this.showMessage = true;
-    this.buttonText = 'Continue Anyway';
-    this.state.setLoading(false);
-  }
-
-  public submitGuest() {
-    this.formGuestSubmitted = true;
-    if ( this.formGuest.valid ) {
-      this.store.isGuest = true;
-      this.state.setLoading(true);
-      this.api.getRegisteredUser(this.email).subscribe(
-        resp => {
-          this.guestEmail = resp;
-         if ( this.existingGuestEmail === this.email || resp === false ) {
-            this.store.email = this.email;
-            this.adv();
-          } else {
-            this.existingGuestEmail = this.email;
-            this.showExistingEmailMessage();
-          }
-        }
-      );
-    }
   }
 
   public submitLogin(): boolean {
     this.formSubmitted = true;
-    this.store.isGuest = false;
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
+          console.log('Login successful, user: ');
+          console.log(user);
           this.store.loadUserData();
           this.adv();
         },
@@ -121,16 +85,14 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
-  public adv(): void {
-    //navigate to target page
+  public adv(): boolean {
+    console.log('This is a placeholder for navigating to the next page after successful login');
+    this.state.setLoading(false);
+    return false;
   }
 
   public back(): boolean {
-    this.store.email = this.email;
-    if (this.signinOption === 'Guest') {
-      this.store.isGuest = true;
-    }
-    //navigate back IF we will provide this option
+    // navigate back IF we will provide this option
     return false;
   }
 
@@ -138,12 +100,8 @@ export class AuthenticationComponent implements OnInit {
     return !this.form.controls[field].valid;
   }
 
-  public switchToSignIn() {
-    this.signinOption = 'Sign In';
-  }
-
   public hideBack() {
-    //if condition which returns 'true' in order to hide the back button, may not be used
+    // if condition which returns 'true' in order to hide the back button, may not be used
     return false;
   }
 }
