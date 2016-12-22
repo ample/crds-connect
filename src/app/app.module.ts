@@ -10,7 +10,6 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
-import { DemoModule } from './demo/demo.module';
 import { PreloaderModule } from './preloader/preloader.module';
 
 import { AmountComponent } from './amount/amount.component';
@@ -43,7 +42,6 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     CollapseModule,
     CommonModule,
     DatepickerModule,
-    DemoModule,
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
