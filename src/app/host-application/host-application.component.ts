@@ -9,7 +9,7 @@ import { StoreService } from '../services/store.service';
 
 
 @Component({
-  selector: 'host-application',
+  selector: 'app-host-application',
   templateUrl: 'host-application.html'
 })
 export class HostApplicationComponent implements OnInit {

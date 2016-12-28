@@ -15,7 +15,7 @@ describe('Component: Registration', () => {
       fb: FormBuilder,
       state: StateService,
       api: APIService,
-      store: StoreService
+      store: StoreService;
 
   beforeEach(() => {
 

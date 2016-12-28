@@ -20,12 +20,12 @@ export class APIService {
     put: 'PUT'
   };
 
-  constructor( private http: Http,
-               private session: SessionService) { }
-
   public defaults = {
     authorized: null
   };
+
+  constructor( private http: Http,
+               private session: SessionService) { }
 
   public getAuthentication(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/v1.0.0/authenticated')
