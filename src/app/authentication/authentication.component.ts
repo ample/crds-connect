@@ -15,11 +15,7 @@ export class AuthenticationComponent implements OnInit {
   public buttonText: string = 'Next';
   public email: string;
   public form: FormGroup;
-  public formGuest: FormGroup;
-  public formGuestSubmitted: boolean;
   public formSubmitted: boolean;
-  public guestEmail: boolean;
-  public existingGuestEmail: string;
   public loginException: boolean;
   public showMessage: boolean = false;
   public signinOption: string = 'Sign In';
@@ -44,10 +40,6 @@ export class AuthenticationComponent implements OnInit {
     this.form = this.fb.group({
       email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
       password: ['', <any>Validators.required]
-    });
-
-    this.formGuest = this.fb.group({
-      email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]]
     });
 
     this.form.valueChanges.subscribe((value: any) => {

@@ -14,14 +14,9 @@ import { StoreService } from '../services/store.service';
 })
 export class HostApplicationComponent implements OnInit {
 
-  public amountDue: Array<Object>;
-  public customAmount: string;
   public form: FormGroup;
-  public selectedAmount: number;
-  public predefinedAmounts: number[];
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public customAmtSelected: boolean = false;
 
   constructor() {
   }

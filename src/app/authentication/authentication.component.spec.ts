@@ -51,11 +51,6 @@ describe('Component: Authentication', () => {
     fixture.form.setValue({ email: email, password: password});
   }
 
-  function setGuestForm( email ) {
-    fixture.formGuest.setValue({ email: email });
-    fixture.email = email;
-  }
-
   describe('#ngOnInit', () => {
     it('should initialize the component', () => {
       expect(fixture).toBeTruthy();
