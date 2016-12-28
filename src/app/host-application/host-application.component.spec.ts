@@ -11,7 +11,6 @@ import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { ValidationService } from '../services/validation.service';
 
 import { HostApplicationComponent } from './host-application.component';
 
@@ -33,12 +32,10 @@ describe('Component: Host Application', () => {
       providers: [
         IFrameParentService,
         StoreService,
-        ValidationService,
         StateService,
         APIService,
         SessionService,
         CookieService,
-        ValidationService,
         Angulartics2
       ]
     });

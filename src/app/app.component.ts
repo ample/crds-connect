@@ -35,8 +35,6 @@ export class AppComponent implements OnInit {
     if ( this.iFrameResizerCW === undefined ) {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');
     }
-
-    (<any>window).Stripe.setPublishableKey(process.env.CRDS_STRIPE_PUBKEY);
   }
 
   ngOnInit() {

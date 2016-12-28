@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { ValidationService } from '../services/validation.service';
 
 
 @Component({

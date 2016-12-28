@@ -3,7 +3,6 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StoreService } from './store.service';
 import { ActivatedRoute } from '@angular/router';
-import { ValidationService } from './validation.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { IFrameParentService } from './iframe-parent.service';
@@ -26,7 +25,6 @@ describe('Service: Store', () => {
       providers: [
         IFrameParentService,
         StoreService,
-        ValidationService,
         APIService,
         SessionService,
         StateService,

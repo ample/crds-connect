@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
 import { StateService } from './state.service';
-import { ValidationService } from './validation.service';
 
 declare var _;
 
@@ -22,7 +21,6 @@ export class StoreService {
 
   constructor(
     private api: APIService,
-    private validation: ValidationService,
     private route: ActivatedRoute,
     private state: StateService
     ) {

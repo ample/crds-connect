@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
-import { ValidationService } from './services/validation.service';
 import { ContentService } from './services/content.service';
 
 describe('App: CrdsEmbed', () => {
@@ -34,8 +33,7 @@ describe('App: CrdsEmbed', () => {
         StateService,
         ContentService,
         Angulartics2,
-        Angulartics2GoogleTagManager,
-        ValidationService
+        Angulartics2GoogleTagManager
       ]
     })
       .compileComponents();

@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Rx';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { ValidationService } from '../services/validation.service';
 
 import { RegisterComponent } from './register.component';
 
@@ -16,8 +15,7 @@ describe('Component: Registration', () => {
       fb: FormBuilder,
       state: StateService,
       api: APIService,
-      store: StoreService,
-      validation: ValidationService;
+      store: StoreService
 
   beforeEach(() => {
 
@@ -32,9 +30,8 @@ describe('Component: Registration', () => {
       ]
     );
     fb = new FormBuilder();
-    validation = new ValidationService();
     api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
-    fixture = new RegisterComponent(api, fb, router, state, store, validation);
+    fixture = new RegisterComponent(api, fb, router, state, store);
     fixture.ngOnInit();
   });
 

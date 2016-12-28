@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { ValidationService } from '../services/validation.service';
 
 import { AuthenticationComponent } from './authentication.component';
 
@@ -16,8 +15,7 @@ describe('Component: Authentication', () => {
       stateService: StateService,
       store: StoreService,
       fb: FormBuilder,
-      api: APIService,
-      validation: ValidationService;
+      api: APIService;
 
   beforeEach(() => {
 
@@ -39,14 +37,12 @@ describe('Component: Authentication', () => {
         'validateRoute'
       ]
     );
-    validation = new ValidationService();
     fixture = new AuthenticationComponent(
       api,
       fb,
       router,
       stateService,
-      store,
-      validation
+      store
     );
     fixture.ngOnInit();
   });
