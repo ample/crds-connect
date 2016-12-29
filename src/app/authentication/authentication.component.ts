@@ -76,14 +76,34 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
+// TODO: Only here as proof of concept for SSO Config
+// Edit or Remove function...
+  public submitLogout(): boolean {
+    this.formSubmitted = true;
+    this.state.setLoading(true);
+    this.loginException = false;
+
+    this.api.logOut();
+    this.remain();
+
+    return false;
+  }  
+
   public adv(): boolean {
-    console.log('This is a placeholder for navigating to the next page after successful login');
     this.state.setLoading(false);
+    // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
+    this.router.navigateByUrl('host-signup');
     return false;
   }
 
   public back(): boolean {
     // navigate back IF we will provide this option
+    return false;
+  }
+
+  public remain(): boolean {
+    console.log('This is a placeholder for staying on signin page after logout');
+    this.state.setLoading(false);
     return false;
   }
 
