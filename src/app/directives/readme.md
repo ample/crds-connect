@@ -1,4 +1,4 @@
-# CRDS Embed Directives
+# CRDS Connect Directives
 
 ## Only These Keys
 

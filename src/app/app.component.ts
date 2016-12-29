@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 
-import { StateService } from './services/state.service';
 import { ContentService } from './services/content.service';
+import { StateService } from './services/state.service';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +28,9 @@ export class AppComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private contentService: ContentService,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
-    private state: StateService) {
+    private state: StateService,
+    private content: ContentService) {
 
     if ( this.iFrameResizerCW === undefined ) {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contentService.loadData();
+    this.content.loadData();
   }
 
 }

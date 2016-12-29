@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -18,7 +19,9 @@ export class HostApplicationComponent implements OnInit {
   public submitted: boolean = false;
   public errorMessage: string = '';
 
-  constructor() {
+  constructor(private store: StoreService,
+              private content: ContentService 
+              ) {
   }
 
   public ngOnInit() {
