@@ -8,19 +8,21 @@ import { ContentBlock } from '../models/content-block';
 @Injectable()
 export class ContentService {
 
+  private isContentBlocksAvailable: boolean;
   private contentBlockTitle: string;
-  contentBlocks: ContentBlock[];
+  public contentBlocks: ContentBlock[];  
 
   constructor(private http: Http) {}
 
-  loadData(categories = Array('common', 'main')) {
+  loadData(categories = Array('common', 'main')): void {
     // call for each type of content block used in the app
-    this.getContentBlocks(categories).subscribe(contentBlocks => {
-      this.contentBlocks = contentBlocks;
-    });
+     this.getContentBlocks(categories).subscribe(contentBlocks => {
+       this.contentBlocks = contentBlocks;
+       this.isContentBlocksAvailable = true;
+     });
   }
 
-  getContentBlocks (categories: Array<string>) {
+  getContentBlocks (categories: Array<string>): Observable<any> {
     let url = process.env.CRDS_CMS_ENDPOINT + 'api/contentblock';
     if (Array.isArray(categories) && categories.length > 0) {
       for (let i = 0; i < categories.length; i++) {
@@ -33,17 +35,18 @@ export class ContentService {
     }  
     return this.http.get(url)
       .map(res => {
-        console.log(res.json().contentblocks);
-        return res.json().contentblocks;
+        return res.json().contentblocks;        
       })
-      .catch(this.handleError);                
+      .catch(this.handleError);
   }
 
-  getContent (contentBlockTitle) {
-    return this.contentBlocks.find(x => x.title === contentBlockTitle).content;
+  getContent (contentBlockTitle): string {
+    if (this.isContentBlocksAvailable || this.contentBlocks != undefined) {      
+      return this.contentBlocks.find(x => x.title === contentBlockTitle).content;
+    }
   }
 
-  private handleError (error: any) {    
+  private handleError (error: any): Observable<any>  {    
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }

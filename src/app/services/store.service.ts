@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
-import { ContentService } from './content.service';
 import { StateService } from './state.service';
 
 declare var _;
@@ -22,7 +21,6 @@ export class StoreService {
 
   constructor(
     private api: APIService,
-    // public content: ContentService,
     private route: ActivatedRoute,
     private state: StateService
     ) {
@@ -44,8 +42,6 @@ export class StoreService {
   }
 
   public preloadData(): void {
-    // this.content.loadData();
-
     if (this.api.isLoggedIn()) {
       // this.state.hidePage(this.state.authenticationIndex);
       this.loadUserData();
