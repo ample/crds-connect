@@ -1,5 +1,5 @@
 {
-  "name": "crds-embed",
+  "name": "crds-connect",
   "version": "1.0.0",
   "scripts": {
     "serve": "npm run start",

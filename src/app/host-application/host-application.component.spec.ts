@@ -7,6 +7,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { APIService } from '../services/api.service';
+import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
@@ -36,7 +37,8 @@ describe('Component: Host Application', () => {
         APIService,
         SessionService,
         CookieService,
-        Angulartics2
+        Angulartics2,
+        ContentService
       ]
     });
     this.fixture = TestBed.createComponent(HostApplicationComponent);

@@ -2,62 +2,51 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Http } from '@angular/http';
-import { Toast, BodyOutputType } from 'angular2-toaster';
+import { BodyOutputType } from 'angular2-toaster';
 import { ContentBlock } from '../models/content-block';
 
 @Injectable()
 export class ContentService {
 
+  private isContentBlocksAvailable: boolean;
   private contentBlockTitle: string;
-  contentBlocks: ContentBlock[];
+  public contentBlocks: ContentBlock[];
 
   constructor(private http: Http) {}
 
-  loadData() {
+  loadData(categories = Array('common', 'main')): void {
     // call for each type of content block used in the app
-    this.getContentBlocks().then(contentBlocks => {
-      this.contentBlocks = contentBlocks;
-    });
+     this.getContentBlocks(categories).subscribe(contentBlocks => {
+       this.contentBlocks = contentBlocks;
+       this.isContentBlocksAvailable = true;
+     });
   }
 
-  getContentBlocks () {
-      const url = `${process.env.CRDS_CMS_ENDPOINT}api/contentblock?category[]=main&category[]=common&category[]=echeck`;
-      return this.http.get(url).toPromise()
-                    .then(res => { return res.json().contentblocks; })
-                    .catch(this.handleError);
+  getContentBlocks (categories: Array<string>): Observable<any> {
+    let url = process.env.CRDS_CMS_ENDPOINT + 'api/contentblock';
+    if (Array.isArray(categories) && categories.length > 0) {
+      for (let i = 0; i < categories.length; i++) {
+        let pre = '&';
+        if (i === 0) {
+          pre = '?';
+        }
+        url += pre + 'category[]=' + categories[i];
+      }
+    }  
+    return this.http.get(url)
+      .map(res => {
+        return res.json().contentblocks;        
+      })
+      .catch(this.handleError);
   }
 
-  getContent (contentBlockTitle) {
-    return this.contentBlocks.find(x => x.title === contentBlockTitle).content;
-  }
-
-  getToastContent (contentBlockTitle): Promise<any> {
-    this.contentBlockTitle = contentBlockTitle;
-    if (this.contentBlocks === undefined) {
-      return this.getContentBlocks().then(mainContentBlocks => {
-        this.contentBlocks = mainContentBlocks;
-
-        return this.displayToast(this.contentBlockTitle);
-
-      });
-    } else {
-      return Promise.resolve(this.displayToast(this.contentBlockTitle));
+  getContent (contentBlockTitle): string {
+    if (this.isContentBlocksAvailable || this.contentBlocks != undefined) {      
+      return this.contentBlocks.find(x => x.title === contentBlockTitle).content;
     }
   }
 
-  displayToast(contentBlockTitle) {
-      const contentBlock = this.contentBlocks.find(x => x.title === contentBlockTitle);
-
-      const toast: Toast = {
-        type: contentBlock.type,
-        body: contentBlock.content,
-        bodyOutputType: BodyOutputType.TrustedHtml
-      };
-
-    return toast;
-  }
-
-  private handleError (error: any) {
+  private handleError (error: any): Observable<any>  {    
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }

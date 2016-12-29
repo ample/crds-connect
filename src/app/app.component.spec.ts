@@ -12,7 +12,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ContentService } from './services/content.service';
 
-describe('App: CrdsEmbed', () => {
+describe('App: CrdsConnect', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
