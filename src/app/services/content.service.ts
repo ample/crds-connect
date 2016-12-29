@@ -10,7 +10,7 @@ export class ContentService {
 
   private isContentBlocksAvailable: boolean;
   private contentBlockTitle: string;
-  public contentBlocks: ContentBlock[];  
+  public contentBlocks: ContentBlock[];
 
   constructor(private http: Http) {}
 
