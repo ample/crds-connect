@@ -12,6 +12,7 @@ import { IFrameParentService } from '../services/iframe-parent.service';
 import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { LoginRedirectService } from '../shared/services/login-redirect.service';
 
 import { HostApplicationComponent } from './host-application.component';
 
@@ -38,7 +39,8 @@ describe('Component: Host Application', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService
+        ContentService,
+        LoginRedirectService
       ]
     });
     this.fixture = TestBed.createComponent(HostApplicationComponent);
