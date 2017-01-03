@@ -7,6 +7,7 @@ import { APIService } from '../services/api.service';
 import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { LoginRedirectService } from '../services/login-redirect.service';
 
 
 @Component({
@@ -19,11 +20,18 @@ export class HostApplicationComponent implements OnInit {
   public submitted: boolean = false;
   public errorMessage: string = '';
 
-  constructor(private store: StoreService,
-              private content: ContentService 
+  constructor(private api: APIService,
+              private content: ContentService,
+              private loginRedirectService: LoginRedirectService,
+              private router: Router,
+              private store: StoreService
               ) {
   }
 
   public ngOnInit() {
+    if (!this.api.isLoggedIn()) {
+        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+    }
   }
+
 }

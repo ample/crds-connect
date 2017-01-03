@@ -7,8 +7,8 @@ import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
   { path: '', component: HostApplicationComponent },
-  { path: 'host-application', component: HostApplicationComponent },
-  { path: 'authentication', component: AuthenticationComponent },
+  { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

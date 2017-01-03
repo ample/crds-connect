@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { APIService } from '../services/api.service';
+import { LoginRedirectService } from '../services/login-redirect.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -29,6 +30,7 @@ export class AuthenticationComponent implements OnInit {
     private api: APIService,
     private fb: FormBuilder,
     private router: Router,
+    private redirectService: LoginRedirectService,
     private state: StateService,
     private store: StoreService
   ) { }
@@ -60,7 +62,10 @@ export class AuthenticationComponent implements OnInit {
           console.log('Login successful, user: ');
           console.log(user);
           this.store.loadUserData();
-          this.adv();
+          // this.adv();
+          this.state.setLoading(false);
+          // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
+          this.redirectService.redirectToTarget('host-signup');
         },
         (error) => {
           this.loginException = true;
@@ -74,25 +79,29 @@ export class AuthenticationComponent implements OnInit {
       this.state.setLoading(false);
     }
     return false;
-  }
+  } 
 
+// TODO: - currently not used - may be able to delete - using redirectService instead
   public adv(): boolean {
-    console.log('This is a placeholder for navigating to the next page after successful login');
     this.state.setLoading(false);
+    this.router.navigateByUrl('host-signup');
     return false;
   }
 
+// TODO: - may be able to delete this function  - not needed?
   public back(): boolean {
     // navigate back IF we will provide this option
     return false;
   }
 
+// TODO: - may be able to delete this function - not needed?
+  public hideBack() {
+    // if condition which returns 'true' in order to hide the back button, may not be used
+    return false;
+  }  
+
   public formInvalid(field): boolean {
     return !this.form.controls[field].valid;
   }
 
-  public hideBack() {
-    // if condition which returns 'true' in order to hide the back button, may not be used
-    return false;
-  }
 }

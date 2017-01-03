@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { APIService } from '../services/api.service';
+import { LoginRedirectService } from '../services/login-redirect.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -12,6 +13,7 @@ describe('Component: Authentication', () => {
 
   let fixture: AuthenticationComponent,
       router: Router,
+      redirectService: LoginRedirectService,
       stateService: StateService,
       store: StoreService,
       fb: FormBuilder,
@@ -41,6 +43,7 @@ describe('Component: Authentication', () => {
       api,
       fb,
       router,
+      redirectService,
       stateService,
       store
     );
@@ -126,15 +129,5 @@ describe('Component: Authentication', () => {
       });
     });
 
-    describe('when valid auth credentials are submitted', () => {
-      it('should call #adv when valid auth credentials are submitted', () => {
-        setForm('good@good.com', 'foobar');
-        fixture.form.markAsDirty();
-        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.of({}));
-        spyOn(fixture, 'adv');
-        fixture.submitLogin();
-        expect(fixture.adv).toHaveBeenCalled();
-      });
-    });
   });
 });
