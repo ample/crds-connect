@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { APIService } from '../services/api.service';
-import { LoginRedirectService } from '../shared/services/login-redirect.service';
+import { LoginRedirectService } from '../services/login-redirect.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 
@@ -84,7 +84,6 @@ export class AuthenticationComponent implements OnInit {
 // TODO: - currently not used - may be able to delete - using redirectService instead
   public adv(): boolean {
     this.state.setLoading(false);
-    // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
     this.router.navigateByUrl('host-signup');
     return false;
   }

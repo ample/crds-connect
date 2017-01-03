@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { APIService } from '../services/api.service';
-import { LoginRedirectService } from '../shared/services/login-redirect.service';
+import { LoginRedirectService } from '../services/login-redirect.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 

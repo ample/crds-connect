@@ -7,7 +7,7 @@ import { APIService } from '../services/api.service';
 import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
-import { LoginRedirectService } from '../shared/services/login-redirect.service';
+import { LoginRedirectService } from '../services/login-redirect.service';
 
 
 @Component({
