@@ -129,16 +129,5 @@ describe('Component: Authentication', () => {
       });
     });
 
-// No longer using adv function - now using redirectService
-    // describe('when valid auth credentials are submitted', () => {
-    //   it('should call #adv when valid auth credentials are submitted', () => {
-    //     setForm('good@good.com', 'foobar');
-    //     fixture.form.markAsDirty();
-    //     (<jasmine.Spy>api.postLogin).and.returnValue(Observable.of({}));
-    //     spyOn(fixture, 'adv');
-    //     fixture.submitLogin();
-    //     expect(fixture.adv).toHaveBeenCalled();
-    //   });
-    // });
   });
 });
