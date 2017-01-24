@@ -9,16 +9,20 @@ import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
 
-
 @Component({
   selector: 'app-host-application',
-  templateUrl: 'host-application.html'
+  templateUrl: 'host-application.html',
+  styleUrls: ['host-application.css']
 })
 export class HostApplicationComponent implements OnInit {
 
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
+
+  public title: string = 'Welcome to Cincinnati';
+  public lat: number = 39.1031;
+  public lng: number = -84.5120;
 
   constructor(private api: APIService,
               private content: ContentService,
@@ -32,6 +36,6 @@ export class HostApplicationComponent implements OnInit {
     if (!this.api.isLoggedIn()) {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     }
-  }
 
+  }
 }

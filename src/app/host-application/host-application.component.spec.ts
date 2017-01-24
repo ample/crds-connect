@@ -17,6 +17,7 @@ import { LoginRedirectService } from '../services/login-redirect.service';
 import { HostApplicationComponent } from './host-application.component';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('Component: Host Application', () => {
 
@@ -41,7 +42,8 @@ describe('Component: Host Application', () => {
         Angulartics2,
         ContentService,
         LoginRedirectService
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
     this.fixture = TestBed.createComponent(HostApplicationComponent);
     this.component = this.fixture.componentInstance;
