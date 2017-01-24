@@ -8,8 +8,6 @@ import { ContentService } from '../services/content.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
-import { LocationService} from '../services/location.service';
-
 
 @Component({
   selector: 'app-host-application',
@@ -30,8 +28,7 @@ export class HostApplicationComponent implements OnInit {
               private content: ContentService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
-              private store: StoreService,
-              private locationService: LocationService
+              private store: StoreService
               ) {
   }
 
@@ -40,6 +37,5 @@ export class HostApplicationComponent implements OnInit {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     }
 
-    this.locationService.initMap();
   }
 }

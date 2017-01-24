@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,7 +24,6 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { ContentService } from './services/content.service';
 import { LoginRedirectService } from './services/login-redirect.service';
-import { LocationService } from './services/location.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -74,8 +73,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
     LoginRedirectService,
     SessionService,
     StateService,
-    StoreService,
-    LocationService
+    StoreService
   ],
   bootstrap: [AppComponent]
 })
