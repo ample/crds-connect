@@ -24,6 +24,7 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { ContentService } from './services/content.service';
 import { LoginRedirectService } from './services/login-redirect.service';
+import { LocationService } from './services/location.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
@@ -31,6 +32,8 @@ import { CvvFormatDirective } from './directives/cvv-format.directive';
 import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
+
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 @NgModule({
   imports: [
@@ -44,6 +47,9 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
+    }),
     routing
   ],
   declarations: [
@@ -68,7 +74,8 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     LoginRedirectService,
     SessionService,
     StateService,
-    StoreService
+    StoreService,
+    LocationService
   ],
   bootstrap: [AppComponent]
 })
