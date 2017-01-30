@@ -6,6 +6,8 @@ import { Angulartics2GoogleTagManager } from 'angulartics2';
 import { ContentService } from './services/content.service';
 import { StateService } from './services/state.service';
 
+import '../styles/application.scss';
+
 @Component({
   selector: 'app-root',
   template: `
@@ -15,7 +17,7 @@ import { StateService } from './services/state.service';
         <router-outlet></router-outlet>
       </div>
     </div>`,
-  styleUrls: ['../styles/application.scss'],
+  styles: [],
   encapsulation: ViewEncapsulation.None
 })
 
