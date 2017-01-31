@@ -1,6 +1,6 @@
 {
   "name": "crds-connect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "serve": "npm run start",
     "start": "webpack-dev-server --inline --open --progress --port 8080",
