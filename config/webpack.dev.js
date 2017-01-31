@@ -3,6 +3,7 @@ const webpackMerge = require('webpack-merge'); // used to merge webpack configs
 const webpackMergeDll = webpackMerge.strategy({plugins: 'replace'});
 const commonConfig = require('./webpack.common.js'); // the settings that are common to prod and dev
 
+//const { CheckerPlugin } = require('awesome-typescript-loader')
 const PHOENIX_SERVER = process.env.MIX_ENV || false;
 
 /**
@@ -139,6 +140,7 @@ module.exports = function (options) {
           'HMR': METADATA.HMR,
         }
       }),
+      //new CheckerPlugin(),
 
       new DllBundlesPlugin({
         bundles: {
