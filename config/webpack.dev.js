@@ -19,7 +19,7 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; 
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
@@ -138,6 +138,13 @@ module.exports = function (options) {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
+          'PHIL': JSON.stringify('jfdsjfl fjldksjfkls fjlskdfjkls'),
+          'CRDS_ENV': JSON.stringify('int'),
+          'CRDS_API_ENDPOINT':JSON.stringify('http://localhost:49380/'),
+          'CRDS_CMS_ENDPOINT': JSON.stringify('https://contentint.crossroads.net/'),
+          'CRDS_COOKIE_DOMAIN': JSON.stringify('.crossroads.net'),
+          'CRDS_STRIPE_PUBKEY': JSON.stringify('pk_test_U8U15gSZFM4AQtPDLHYnKWqH'),
+          'PARENT_WHITELIST': JSON.stringify("^https:\/\/.*\.crossroads\.net(?::\d{1,5})?|^http:\/\/localhost(?::\d{1,5})?")
         }
       }),
       //new CheckerPlugin(),
