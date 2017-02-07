@@ -25,6 +25,7 @@ export class AuthenticationComponent implements OnInit {
 
   private forgotPasswordUrl: string;
   private helpUrl: string;
+  private philiscool: string;
 
   constructor(
     private api: APIService,
@@ -36,7 +37,9 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
+     this.philiscool = `${process.env.PHIL}`;
+
+    this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help  ` + this.philiscool;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
     this.form = this.fb.group({

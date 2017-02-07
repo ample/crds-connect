@@ -8,14 +8,11 @@ module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
 
   output: {
-    path: helpers.root('dist'),
+    path: PHOENIX_SERVER ? "./priv/static/js/crds-connect" : helpers.root('dist'),
     publicPath: '/',
+    publicPath: PHOENIX_SERVER ? '/js/crds-connect/' : '/'
     filename: '[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
-  },
-
-  htmlLoader: {
-    minimize: false
   },
 
   plugins: [
