@@ -17,9 +17,9 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].[hash].chunk.js'
   },
 
-  //htmlLoader: {
-    //minimize: false
-  //},
+  htmlLoader: {
+    minimize: false
+  },
 
   plugins: [
     new webpack.NoErrorsPlugin(),
