@@ -12,6 +12,5 @@ import 'rxjs';
 // Other vendors for example jQuery, Lodash or Bootstrap
 // You can import js, ts, css, sass, ...
 
-import * as _ from 'lodash';
 import 'intl';
 import 'intl/locale-data/jsonp/en';

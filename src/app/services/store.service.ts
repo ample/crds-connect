@@ -5,8 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { APIService } from './api.service';
 import { StateService } from './state.service';
 
-declare var _;
-
 @Injectable()
 export class StoreService {
 
