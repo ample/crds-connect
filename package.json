@@ -25,7 +25,6 @@
     "@angular/platform-browser": "~2.2.3",
     "@angular/platform-browser-dynamic": "~2.2.3",
     "@angular/router": "~3.2.3",
-    "@types/lodash": "^4.14.41",
     "angular2-cookie": "^1.2.5",
     "angular2-toaster": "^1.1.0",
     "angulartics2": "^1.5.2",
@@ -33,7 +32,6 @@
     "core-js": "^2.4.1",
     "iframe-resizer": "^3.5.5",
     "intl": "^1.2.5",
-    "lodash": "^4.16.6",
     "moment": "^2.17.0",
     "ng2-bootstrap": "1.1.16",
     "rxjs": "5.0.0-beta.12",
@@ -43,7 +41,6 @@
   "devDependencies": {
     "@types/core-js": "^0.9.34",
     "@types/jasmine": "^2.5.36",
-    "@types/lodash": "^4.14.38",
     "@types/node": "^6.0.46",
     "angular-cli": "^1.0.0-beta.18",
     "angular2-template-loader": "^0.5.0",
