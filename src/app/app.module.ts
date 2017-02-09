@@ -14,6 +14,7 @@ import { PreloaderModule } from './preloader/preloader.module';
 
 import { HostApplicationComponent } from './host-application/host-application.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 
@@ -54,6 +55,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    MapComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     RegisterComponent,
@@ -72,4 +74,5 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
