@@ -1,5 +1,7 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { MapSettings } from '../models/map-settings';
+
 @Component({
   selector: 'app-map',
   templateUrl: 'map.component.html',
@@ -7,18 +9,11 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 export class MapComponent implements OnInit {
 
-  public lat: number = 39.1031;
-  public lng: number = -84.5120;
-  public zoom: number = 15;
-  public disableDefaultUI = false;
-  public zoomControl = true;
+  public mapSettings: MapSettings  = new MapSettings(39.1031, -84.5120, 15, false, true);
 
-
-  constructor(
-  ) { }
+  constructor() { }
 
   public ngOnInit(): void {
-
   }
 
 
