@@ -1,3 +1,12 @@
-<div>
-    MAP
-</div>
+
+<h2>Map Proof of Concept</h2>
+
+<sebm-google-map [latitude]="lat"
+                 [longitude]="lng"
+                 [zoom] = "zoom"
+                 [disableDefaultUI]="disableDefaultUI"
+                 [zoomControl]="zoomControl">
+
+    <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+
+</sebm-google-map>

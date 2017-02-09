@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,12 @@ import { StoreService } from '../services/store.service';
 })
 export class MapComponent implements OnInit {
 
+  public lat: number = 39.1031;
+  public lng: number = -84.5120;
+  public zoom: number = 15;
+  public disableDefaultUI = false;
+  public zoomControl = true;
+
 
   constructor(
     private api: APIService,
@@ -27,7 +33,6 @@ export class MapComponent implements OnInit {
   public ngOnInit(): void {
 
   }
-
 
 
 }
