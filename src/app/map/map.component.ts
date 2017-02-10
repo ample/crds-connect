@@ -1,6 +1,7 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { crdsOakleyCoords } from '../shared/constants';
+import { LocationService } from '../services/location.service';
 import { MapSettings } from '../models/map-settings';
 
 @Component({
@@ -12,9 +13,17 @@ export class MapComponent implements OnInit {
 
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 15, false, true);
 
-  constructor() { }
+  constructor(private locationService: LocationService) { }
 
   public ngOnInit(): void {
+    this.locationService.getCurrentPosition().subscribe(
+      pos => {
+        console.log('Got position!');
+        console.log(pos);
+        this.mapSettings.lat = pos.lat;
+        this.mapSettings.lng = pos.lng;
+      }
+    );
   }
 
 

@@ -1,12 +1,15 @@
+import { LocationService } from '../services/location.service';
 import { MapComponent } from './map.component';
+
 
 describe('Component: Map', () => {
 
   let fixture: MapComponent;
+  let locationService = LocationService;
 
   beforeEach(() => {
 
-    fixture = new MapComponent();
+    fixture = new MapComponent(locationService);
     fixture.ngOnInit();
 
   });
