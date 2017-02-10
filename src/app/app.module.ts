@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { AgmCoreModule } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -14,6 +16,7 @@ import { PreloaderModule } from './preloader/preloader.module';
 
 import { HostApplicationComponent } from './host-application/host-application.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 
@@ -35,6 +38,9 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 @NgModule({
   imports: [
     AlertModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
+    }),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     BrowserModule,
     ButtonsModule,
@@ -54,6 +60,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    MapComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     RegisterComponent,
@@ -72,4 +79,5 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
