@@ -1,5 +1,6 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { crdsOakleyCoords } from '../shared/constants';
 import { MapSettings } from '../models/map-settings';
 
 @Component({
@@ -9,7 +10,7 @@ import { MapSettings } from '../models/map-settings';
 })
 export class MapComponent implements OnInit {
 
-  public mapSettings: MapSettings  = new MapSettings(39.159398, -84.423367, 15, false, true);
+  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 15, false, true);
 
   constructor() { }
 
