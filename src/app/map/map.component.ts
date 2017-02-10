@@ -9,7 +9,7 @@ import { MapSettings } from '../models/map-settings';
 })
 export class MapComponent implements OnInit {
 
-  public mapSettings: MapSettings  = new MapSettings(39.1031, -84.5120, 15, false, true);
+  public mapSettings: MapSettings  = new MapSettings(39.159398, -84.423367, 15, false, true);
 
   constructor() { }
 
