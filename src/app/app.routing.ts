@@ -7,7 +7,7 @@ import { MapComponent } from './map/map.component';
 import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HostApplicationComponent },
+  { path: '', component: MapComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
