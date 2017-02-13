@@ -18,8 +18,6 @@ export class MapComponent implements OnInit {
   public ngOnInit(): void {
     this.locationService.getCurrentPosition().subscribe(
       pos => {
-        console.log('Got position!');
-        console.log(pos);
         this.mapSettings.lat = pos.lat;
         this.mapSettings.lng = pos.lng;
       }
