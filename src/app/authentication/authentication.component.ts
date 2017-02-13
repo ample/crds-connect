@@ -79,7 +79,7 @@ export class AuthenticationComponent implements OnInit {
       this.state.setLoading(false);
     }
     return false;
-  } 
+  }
 
 // TODO: - currently not used - may be able to delete - using redirectService instead
   public adv(): boolean {
