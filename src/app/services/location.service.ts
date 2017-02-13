@@ -1,28 +1,16 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { SessionService } from './session.service';
-
-import { IFrameParentService } from './iframe-parent.service';
-import { GeoCoordinates } from '../models/geo-coordinates';
-import { User } from '../models/user';
-
 import { crdsOakleyCoords } from '../shared/constants';
+import { GeoCoordinates } from '../models/geo-coordinates';
 
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class LocationService {
 
-  private baseUrl = process.env.CRDS_API_ENDPOINT;
-  public position: GeoCoordinates;
+  constructor() { }
 
-  constructor( private http: Http,
-               private session: SessionService) { }
-
-  public getCurrentPosition(): any {
+  public getCurrentPosition(): Observable<any> {
 
     let isGeoLocationAvailable: boolean = Boolean(navigator.geolocation);
 
@@ -42,8 +30,8 @@ export class LocationService {
     return positionObs;
   };
 
-  public getPositionFromGeoLocation(): any {
-    let geoLocationObservable = new Observable( observer => {
+  public getPositionFromGeoLocation(): Observable<any> {
+    let geoLocationObservable: Observable<any> = new Observable( observer => {
       let position: GeoCoordinates;
 
       navigator.geolocation.getCurrentPosition(pos => {
@@ -52,7 +40,7 @@ export class LocationService {
       }, () => {
         position =  this.getDefaultPosition();
         observer.next(position);
-      });
+      }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
     });
 
     return geoLocationObservable;
