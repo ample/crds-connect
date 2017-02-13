@@ -98,7 +98,7 @@ export class AuthenticationComponent implements OnInit {
   public hideBack() {
     // if condition which returns 'true' in order to hide the back button, may not be used
     return false;
-  }  
+  }
 
   public formInvalid(field): boolean {
     return !this.form.controls[field].valid;

@@ -15,12 +15,12 @@ export class LocationService {
     let isGeoLocationAvailable: boolean = Boolean(navigator.geolocation);
 
     let positionObs = new Observable( observer => {
-      if(isGeoLocationAvailable){
+      if (isGeoLocationAvailable) {
         this.getPositionFromGeoLocation().subscribe(
             geoLocPos => {
               observer.next(geoLocPos);
             }
-        )
+        );
       } else {
         let defaultPos: any = this.getDefaultPosition();
         observer.next(defaultPos);
@@ -40,13 +40,13 @@ export class LocationService {
       }, () => {
         position =  this.getDefaultPosition();
         observer.next(position);
-      }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
+      }, { maximumAge: 600000, timeout: 5000, enableHighAccuracy: true});
     });
 
     return geoLocationObservable;
   };
 
-  public getDefaultPosition(): GeoCoordinates{
+  public getDefaultPosition(): GeoCoordinates {
     return new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.long);
   };
 
