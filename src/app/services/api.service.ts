@@ -37,6 +37,20 @@ export class APIService {
       });
   }
 
+  public getMyIP(): Observable<any> {
+    let profileUrl = 'https://api.ipify.org?format=json';
+      return this.session.get(profileUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  public getLocationFromIP(ipaddress: string): Observable<any> {
+    let profileUrl = 'http://freegeoip.net/json/' + ipaddress;
+      return this.session.get(profileUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   public getProfileById(id: number): Observable<any> {
     let profileUrl = this.baseUrl + 'api/v1.0.0/profile/' + id;
       return this.session.get(profileUrl)
