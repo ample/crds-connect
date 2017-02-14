@@ -1,0 +1,22 @@
+
+<div>Connect</div>
+<div class="container">
+    <strong *ngIf="!isLoggedInUser">Say Hello to</strong>
+    <span *ngIf="isLoggedInUser" class="label label-primary">Me</span>
+    <p>{{person.firstName}} {{person.lastName | slice:0:1}}</p>
+    <p>Saying "Hi" is nice and stuff. You should probably do it unless you're not nice.</p>
+    <div *ngIf="isLoggedInUser">
+        <p>{{person.address.street1}} {{person.address.street2}}</p>
+        <p>{{person.address.city}}, {{person.address.state}} {{person.address.zip}}</p>
+    </div>
+    <div *ngIf="!isLoggedIn">
+        <button class="btn primary" [routerLink]="['/signin']">Sign In</button>
+        <p>Don't have an account? <a [routerLink]="['/register']">Register Now</a></p>
+    </div>
+    <div *ngIf="isLoggedIn && !isLoggedInUser">
+        <button class="btn primary btn-primary" (click)="sayHi()">Say Hi!</button>
+    </div>
+    <div *ngIf="isLoggedInUser">
+        <button class="btn primary btn-primary" (click)="edit">Edit</button>
+    </div>
+</div>   

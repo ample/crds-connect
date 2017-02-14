@@ -13,8 +13,12 @@ const appRoutes: Routes = [
   { path: 'person-details', component: PersonDetailsComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
+<<<<<<< Updated upstream
   { path: 'map', component: MapComponent },
   { path: '**', component: PageNotFoundComponent }
+=======
+  { path: '**', component: PageNotFoundComponent },
+>>>>>>> Stashed changes
 ];
 
 export const appRoutingProviders: any[] = [

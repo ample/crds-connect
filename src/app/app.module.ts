@@ -15,6 +15,7 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PreloaderModule } from './preloader/preloader.module';
 
 import { HostApplicationComponent } from './host-application/host-application.component';
+import { PersonDetailsComponent } from './person-details/person-details.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -64,6 +65,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     MapComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
+    PersonDetailsComponent,
     RegisterComponent,
     FormatPaymentNumberDirective
   ],
