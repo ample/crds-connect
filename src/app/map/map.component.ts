@@ -4,11 +4,8 @@ import { Router } from '@angular/router';
 
 import { APIService } from '../services/api.service';
 import { crdsOakleyCoords } from '../shared/constants';
-<<<<<<<
 import { LoginRedirectService } from '../services/login-redirect.service';
-=======
 import { LocationService } from '../services/location.service';
->>>>>>>
 import { MapSettings } from '../models/map-settings';
 
 
@@ -25,9 +22,9 @@ export class MapComponent implements OnInit {
 
   constructor(private api: APIService,
               private loginRedirectService: LoginRedirectService,
-              private router: Router) {
+              private router: Router,
+              private locationService: LocationService) {
   }
-  constructor(private locationService: LocationService) { }
 
   public ngOnInit(): void {
 
@@ -35,10 +32,11 @@ export class MapComponent implements OnInit {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     }
 
-    this.mapSettings.lat = 51.0;
+    /*this.mapSettings.lat = 51.0;
     this.mapSettings.lng = -84.1;
     console.log('phil is cool');
-    this.setUserLocation();
+    this.setUserLocation();*/
+
     this.locationService.getCurrentPosition().subscribe(
       pos => {
         this.mapSettings.lat = pos.lat;
