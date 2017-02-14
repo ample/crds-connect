@@ -79,7 +79,7 @@ export class AuthenticationComponent implements OnInit {
       this.state.setLoading(false);
     }
     return false;
-  } 
+  }
 
 // TODO: - currently not used - may be able to delete - using redirectService instead
   public adv(): boolean {
@@ -98,7 +98,7 @@ export class AuthenticationComponent implements OnInit {
   public hideBack() {
     // if condition which returns 'true' in order to hide the back button, may not be used
     return false;
-  }  
+  }
 
   public formInvalid(field): boolean {
     return !this.form.controls[field].valid;
