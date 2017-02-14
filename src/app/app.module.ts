@@ -14,11 +14,12 @@ import { routing, appRoutingProviders } from './app.routing';
 
 import { PreloaderModule } from './preloader/preloader.module';
 
-import { HostApplicationComponent } from './host-application/host-application.component';
-import { PersonDetailsComponent } from './person-details/person-details.component';
+import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { HostApplicationComponent } from './host-application/host-application.component';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PersonDetailsComponent } from './person-details/person-details.component';
 import { RegisterComponent} from './register/register.component';
 
 import { APIService } from './services/api.service';
@@ -55,6 +56,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     routing
   ],
   declarations: [
+    AddMeToMapMapComponent,
     HostApplicationComponent,
     AppComponent,
     AuthenticationComponent,
