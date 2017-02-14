@@ -32,21 +32,21 @@ export class ContentService {
         }
         url += pre + 'category[]=' + categories[i];
       }
-    }  
+    }
     return this.http.get(url)
       .map(res => {
-        return res.json().contentblocks;        
+        return res.json().contentblocks;
       })
       .catch(this.handleError);
   }
 
   getContent (contentBlockTitle): string {
-    if (this.isContentBlocksAvailable || this.contentBlocks != undefined) {      
+    if (this.isContentBlocksAvailable || this.contentBlocks !== undefined) {
       return this.contentBlocks.find(x => x.title === contentBlockTitle).content;
     }
   }
 
-  private handleError (error: any): Observable<any>  {    
+  private handleError (error: any): Observable<any>  {
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }

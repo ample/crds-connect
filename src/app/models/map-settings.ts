@@ -1,7 +1,7 @@
 export class MapSettings {
 
-    lat: number; //map centered on this latitutde
-    lng: number; //map centered on this longitude
+    lat: number; // map centers on this latitutde
+    lng: number; // map centers on this longitude
     zoom: number;
     disableDefaultUi: boolean;
     zoomControl: boolean;
