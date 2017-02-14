@@ -1,1 +1,177 @@
-Hello from the add me to the map component
+
+<form novalidate [formGroup]="addMeToMapFormGroup">
+
+    <!--ADDRES LINE 1-->
+    <div class="row">
+        <div class="form-group">
+            <label class="sr-only" for="addressLine1">Address Line 1</label>
+            <input tabindex="1"
+                   type="text"
+                   class="form-control"
+                   maxlength="16"
+                   placeholder="Address Line 1"
+                   id = "addressLine1"
+                   formControlName="addressLine1"
+                   name="addressLine1">
+        </div>
+    </div>
+    <div *ngIf="formSubmitted && !ccForm.controls['addressLine1'].valid" class="errors">
+        <div class="alert alert-danger">
+            <p>Address Line 1 is invalid</p>
+        </div>
+    </div>
+
+    <!--ADDRESS LINE 2-->
+    <div class="row">
+        <div class="form-group">
+            <label class="sr-only" for="addressLine2">Address Line 2</label>
+            <input tabindex="2"
+                   type="text"
+                   class="form-control"
+                   maxlength="16"
+                   placeholder="Address Line 2"
+                   id = "addressLine2"
+                   formControlName="addressLine2"
+                   name="addressLine2">
+        </div>
+    </div>
+    <div *ngIf="formSubmitted && !ccForm.controls['addressLine2'].valid" class="errors">
+        <div class="alert alert-danger">
+            <p>Address Line 2 is invalid</p>
+        </div>
+    </div>
+
+    <!--CITY-->
+    <div class="row">
+        <div class="form-group">
+            <label class="sr-only" for="city">City2</label>
+            <input tabindex="3"
+                   type="text"
+                   class="form-control"
+                   maxlength="16"
+                   placeholder="City"
+                   id = "city"
+                   formControlName="city"
+                   name="city">
+        </div>
+    </div>
+    <div *ngIf="formSubmitted && !ccForm.controls['city'].valid" class="errors">
+        <div class="alert alert-danger">
+            <p>City is invalid</p>
+        </div>
+    </div>
+
+    <div class="row inline-form">
+
+        <!--STATE-->
+        <div class="form-group inline-form__input">
+            <label class="sr-only" for="state">State</label>
+            <input tabindex="4"
+                   type="text"
+                   class="form-control"
+                   maxlength="7"
+                   placeholder="State"
+                   formControlName="state"
+                   name="state"
+                   id = "state">
+        </div>
+
+        <!--ZIP-->
+        <div class="form-group inline-form__input">
+            <label class="sr-only" for="zip">Zip Code</label>
+            <input tabindex="5"
+                   type="tel"
+                   onlyTheseKeys="[0-9\-]"
+                   class="form-control"
+                   maxlength="10"
+                   placeholder="Zip Code"
+                   formControlName="zip"
+                   id = "zip"
+                   name="zip"
+                   pattern="^(\d{5}|\d{5}-\d{4})$">
+        </div>
+    </div>
+
+    <div class="errors" *ngIf="ccSubmitted && (!ccForm.controls['expDate'].valid || !ccForm.controls['cvv'].valid || !ccForm.controls['zipCode'].valid)">
+        <div class="alert alert-danger">
+            <ul>
+                <li *ngIf="!ccForm.controls['expDate'].valid">
+                    <span>State Error</span>
+                </li>
+                <li *ngIf="!ccForm.controls['zipCode'].valid">
+                    Zip code <span [innerHTML]="switchMessage(ccForm.controls['zip'].errors)"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</form>
+
+
+<pre>{{addMeToMapFormGroup.value  | json}}</pre>
+
+
+    <!--<div *ngIf="ccSubmitted && !ccForm.controls['ccNumber'].valid" class="errors">-->
+        <!--<div class="alert alert-danger">-->
+            <!--<p>Card number <span [innerHTML]="switchMessage(ccForm.controls['ccNumber'].errors)"></span></p>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row inline-form">-->
+        <!--<div class="form-group inline-form__input">-->
+            <!--<label class="sr-only" for="state">State</label>-->
+            <!--<input tabindex="4"-->
+                   <!--type="text"-->
+                   <!--class="form-control"-->
+                   <!--maxlength="7"-->
+                   <!--placeholder="State"-->
+                   <!--formControlName="state"-->
+                   <!--name="state"-->
+                   <!--id = "state"-->
+                   <!--[(ngModel)]="addMeToMapForm.state">-->
+        <!--</div>-->
+
+        <!--<div class="form-group inline-form__input">-->
+            <!--<label class="sr-only" for="zipCode">Zip Code</label>-->
+            <!--<input tabindex="4"-->
+                   <!--type="tel"-->
+                   <!--onlyTheseKeys="[0-9\-]"-->
+                   <!--class="form-control"-->
+                   <!--maxlength="10"-->
+                   <!--placeholder="Zip Code"-->
+                   <!--formControlName="zipCode"-->
+                   <!--id = "zipCode"-->
+                   <!--name="zipCode"-->
+                   <!--[(ngModel)]="addMeToMapForm.zip"-->
+                   <!--pattern="^(\d{5}|\d{5}-\d{4})$">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="errors" *ngIf="ccSubmitted && (!ccForm.controls['expDate'].valid || !ccForm.controls['cvv'].valid || !ccForm.controls['zipCode'].valid)">-->
+        <!--<div class="alert alert-danger">-->
+            <!--<ul>-->
+                <!--<li *ngIf="!ccForm.controls['expDate'].valid">-->
+                    <!--Expiration Date <span [innerHTML]="switchMessage(ccForm.controls['expDate'].errors)"></span>-->
+                <!--</li>-->
+                <!--<li *ngIf="!ccForm.controls['cvv'].valid">-->
+                    <!--CVV <span [innerHTML]="switchMessage(ccForm.controls['cvv'].errors)"></span>-->
+                <!--</li>-->
+                <!--<li *ngIf="!ccForm.controls['zipCode'].valid">-->
+                    <!--Zip code <span [innerHTML]="switchMessage(ccForm.controls['zipCode'].errors)"></span>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div *ngIf="store.stripeException" class="alert alert-danger">-->
+        <!--<p>Your payment method has been declined.</p>-->
+    <!--</div>-->
+    <!--<div *ngIf="store.systemException" class="alert alert-danger">-->
+        <!--<p>Something went wrong, please try again. If the problem persists, contact the administrator at helpdesk@crossroads.net.</p>-->
+    <!--</div>-->
+
+    <!--<footer class="page-footer page-footer&#45;&#45;border-top">-->
+        <!--<input type="button" class="btn btn-previous pull-left" (click)="back()" *ngIf="!hideBack()" value="Back">-->
+        <!--<input type="submit" class="btn btn-next pull-right" (click)="store.preSubmit($event);ccSubmit();" value="Next">-->
+    <!--</footer>-->
+<!--</form>-->

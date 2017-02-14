@@ -10,7 +10,7 @@ import { PersonDetailsComponent } from './person-details/person-details.componen
 import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
-  { path: '', component: MapComponent },
+  { path: '', component: AddMeToMapMapComponent },
   { path: 'add-me-to-the-map', component: AddMeToMapMapComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: MapComponent },
