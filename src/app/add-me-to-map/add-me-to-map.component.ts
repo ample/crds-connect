@@ -43,5 +43,9 @@ export class AddMeToMapMapComponent implements OnInit {
 
   }
 
+  onSubmit({ value, valid }: { value: any, valid: boolean }) {
+    console.log(value, valid);
+  }
+
 }
 
