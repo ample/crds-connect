@@ -21,7 +21,7 @@ export class PinDetailsComponent implements OnInit {
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public isLoggedInUser: boolean;
+  public isLoggedInUser: boolean = false;
   public isLoggedIn: boolean = false;
   public pin: Pin;
 
@@ -45,7 +45,6 @@ export class PinDetailsComponent implements OnInit {
       this.isLoggedInUser = this.doesLoggedInUserOwnPin();
     }
     this.state.setLoading(false);
-    console.log(this.pin);
   }
 
   public sayHi() {

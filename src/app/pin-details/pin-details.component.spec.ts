@@ -5,6 +5,8 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
 
 import { APIService } from '../services/api.service';
 import { ContentService } from '../services/content.service';
@@ -14,6 +16,7 @@ import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
 import { PinService } from '../services/pin.service';
+import { Observable } from 'rxjs/Rx';
 
 import { PinDetailsComponent } from './pin-details.component';
 
@@ -24,31 +27,10 @@ describe('Component: Pin-Details component', () => {
 
   let component;
   let fixture;
+  let pin;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        PinDetailsComponent
-      ],
-      imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
-      ],
-      providers: [
-        IFrameParentService,
-        StoreService,
-        StateService,
-        APIService,
-        SessionService,
-        CookieService,
-        PinService,
-        Angulartics2,
-        ContentService,
-        LoginRedirectService
-      ]
-    });
-    this.fixture = TestBed.createComponent(PinDetailsComponent);
-    this.component = this.fixture.componentInstance;
-    this.component.pin = {
+    this.pin = {
       'firstName': 'Joe',
       'lastName': 'Kerstanoff',
       'emailAddress': 'jkerstanoff@callibrity.com',
@@ -69,6 +51,31 @@ describe('Component: Pin-Details component', () => {
       'hostStatus': 0,
       'gathering': null
     };
+    TestBed.configureTestingModule({
+      declarations: [
+        PinDetailsComponent
+      ],
+      imports: [
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+      ],
+      providers: [
+        { provide: ActivatedRoute,
+          useValue: { snapshot: { data: { pin:  this.pin} } },
+        },
+        IFrameParentService,
+        StoreService,
+        StateService,
+        APIService,
+        SessionService,
+        CookieService,
+        PinService,
+        Angulartics2,
+        ContentService,
+        LoginRedirectService
+      ]
+    });
+    this.fixture = TestBed.createComponent(PinDetailsComponent);
+    this.component = this.fixture.componentInstance;
 
   });
 
@@ -78,6 +85,7 @@ describe('Component: Pin-Details component', () => {
 
   it('doesLoggedInUserOwnPin() should return true if contactId matches', inject([SessionService], (service:any) => {
     spyOn(service, 'getContactId').and.returnValue(2562378);
+    this.component.ngOnInit();
     let returnValue = this.component.doesLoggedInUserOwnPin();
     expect(returnValue).toBe(true);
 
@@ -85,8 +93,24 @@ describe('Component: Pin-Details component', () => {
 
   it('doesLoggedInUserOwnPin() should return false if contactId doesnt match', inject([SessionService], (service:any) => {
     spyOn(service, 'getContactId').and.returnValue(42);
+    this.component.ngOnInit();
     let returnValue = this.component.doesLoggedInUserOwnPin();
     expect(returnValue).toBe(false);
+  }));
+
+  it('shouldInit while not logged in', inject([APIService],  (api) => {
+    spyOn(api, 'isLoggedIn').and.returnValue(false);
+    this.component.ngOnInit();
+    expect(this.component.isLoggedIn).toBe(false);
+    expect(this.component.pin.firstName).toBe('Joe');
+    expect(api.isLoggedIn.calls.count()).toEqual(1);
+    expect(this.component.isLoggedInUser).toBe(false);
+  }));
+
+  it('shouldInit while logged in', inject([APIService], (api) => {
+    spyOn(api, 'isLoggedIn').and.returnValue(true);
+    this.component.ngOnInit();
+    expect(this.component.isLoggedIn).toBe(true);
   }));
 
 });
