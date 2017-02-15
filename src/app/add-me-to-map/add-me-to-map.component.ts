@@ -15,6 +15,7 @@ export class AddMeToMapMapComponent implements OnInit {
   public userData: any;
   public stateList: Array<LookupTable>;
   public addMeToMapFormGroup: FormGroup;
+  public stateListForSelect: Array<any>;
 
   constructor(private fb: FormBuilder,
               private locationService: LocationService,
@@ -26,6 +27,11 @@ export class AddMeToMapMapComponent implements OnInit {
     this.userData = this.route.snapshot.data['userData'];
     this.stateList = this.route.snapshot.data['stateList'];
     console.log(this.stateList);
+
+    this.stateListForSelect = this.stateList.map(state => {
+      var formmatedState = {label: state.dp_RecordName, value: state.dp_RecordID}
+      return formmatedState;
+    });
 
     this.addMeToMapFormGroup = new FormGroup({
       addressLine1: new FormControl('', [Validators.required]),

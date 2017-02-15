@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
 import { PreloaderModule } from './preloader/preloader.module';
+import { SelectModule } from 'angular2-select';
 
 import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
@@ -58,6 +59,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
+    SelectModule,
     routing
   ],
   declarations: [

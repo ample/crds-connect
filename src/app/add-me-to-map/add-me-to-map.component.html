@@ -64,17 +64,17 @@
     <div class="row inline-form">
 
         <!--STATE-->
-        <div class="form-group inline-form__input">
-            <label class="sr-only" for="state">State</label>
-            <input tabindex="4"
-                   type="text"
-                   class="form-control"
-                   maxlength="7"
-                   placeholder="State"
-                   formControlName="state"
-                   name="state"
-                   id = "state">
-        </div>
+        <!--<div class="form-group inline-form__input">-->
+            <!--<label class="sr-only" for="state">State</label>-->
+            <!--<input tabindex="4"-->
+                   <!--type="text"-->
+                   <!--class="form-control"-->
+                   <!--maxlength="7"-->
+                   <!--placeholder="State"-->
+                   <!--formControlName="state"-->
+                   <!--name="state"-->
+                   <!--id = "state">-->
+        <!--</div>-->
 
         <!--<div class="form-group inline-form__input">-->
             <!--<label class="sr-only" for="state">State</label>-->
@@ -88,10 +88,27 @@
                    <!--id = "state">-->
         <!--</div>-->
 
-        <!--<option *ngFor="#workout of workouts" [selected]="workout.name == 'back'">-->
-            <!--{{workout.name}}-->
-        <!--</option>-->
+        <!--<div class="form-group inline-form__input">-->
+            <!--<label class="sr-only" for="state">State</label>-->
+            <!--<select>-->
+                <!--<option *ngFor="let state of stateList" value= {{state.dp_RecordID}}-->
+                        <!--formControlName="state"-->
+                        <!--name="state"-->
+                        <!--id = "state>-->
+                    <!--{{state.dp_RecordName}}-->
+                <!--</option>-->
+            <!--</select>-->
+        <!--</div>-->
 
+        <div class="form-group inline-form__input">
+            <label class="sr-only" for="state">State</label>
+            <ng-select
+                    [options]="stateListForSelect"
+                    placeholder="State"
+                    formControlName="state"
+                    [allowClear]="true">
+            </ng-select>
+        </div>
 
         <!--ZIP-->
         <div class="form-group inline-form__input">
