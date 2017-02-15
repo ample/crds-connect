@@ -27,18 +27,11 @@ export class MapComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.userLocationService.getUserLocationFromIp().subscribe(
+    this.userLocationService.GetUserLocation().subscribe(
       pos => {
         this.mapSettings.lat = pos.lat;
         this.mapSettings.lng = pos.lng;
       }
     );
-    
-    /*this.locationService.getCurrentPosition().subscribe(
-      pos => {
-        this.mapSettings.lat = pos.lat;
-        this.mapSettings.lng = pos.lng;
-      }
-    );*/
   }
 }

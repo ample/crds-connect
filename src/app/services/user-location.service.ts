@@ -13,32 +13,62 @@ export class UserLocationService {
                private location: LocationService ) { }
 
   public GetUserLocation(): Observable<any> {
-    //return this.getUserLocationFromIp();
-  
-    let locationObs = new Observable( observer => {
+    let locObs = new Observable( observer => {
+      if (this.api.isLoggedIn()) {
 
-        this.getUserLocationFromIp().subscribe(
-            ipLocPos => {
-              observer.next(ipLocPos);
-            }
+        let contactid: number = 123; //get contactid from cookie
+
+        this.getUserLocationFromUserId(contactid).subscribe(
+          success => {
+            observer.next(success);
+          },
+          failure => {
+            this.getUserLocationFromCurrentLocation().subscribe(
+              location => {
+                observer.next(location);
+              },
+              error => {
+                observer.next(this.getUserLocationFromDefault());
+              }
+            );
+          }
         );
+      } else {
+        this.getUserLocationFromCurrentLocation().subscribe(
+          success => {
+            observer.next(success);
+          },
+          failure => {
+            this.getUserLocationFromIp().subscribe(
+              ipLocPos => {
+                observer.next(ipLocPos);
+              },
+              error => {
+                observer.next(this.getUserLocationFromDefault());
+              }
+            );
+          }
+        );
+      }
     });
-
-    return locationObs;
+    return locObs;
   }
 
-  private getUserLocationFromUserId(userId: number): GeoCoordinates {
-    return new GeoCoordinates(1, 2);
+  private getUserLocationFromUserId(contactId: number): Observable<any> {
+    let profileObs = new Observable ( observer => {
+      let position: GeoCoordinates;
 
-    /*this.api.getProfileById(6089102).subscribe(
-        profile => {
-          console.log('profile');
-          this.address = profile.addressLine1 + ' , ' + profile.city + ' , ' + profile.state + ' , ' + profile.postalCode;
-        },
-        noProfile => {
-          // use geolocation service
-          console.log('no profile');
-        });*/
+      this.api.getProfileById(contactId).subscribe(
+          location => {
+            position = new GeoCoordinates(location.latitude, location.longitude);
+            observer.next(position);
+          },
+          error => {
+            throw new Error('IP location failure');
+          }
+        );
+      });
+    return profileObs;
   }
 
   public getUserLocationFromIp(): Observable<any> {
@@ -62,17 +92,20 @@ export class UserLocationService {
     return this.location.getDefaultPosition();
   }
 
-  private getUserLocationFromCurrentLocation(): GeoCoordinates {
-    let geo = new GeoCoordinates(0, 0);
-    this.location.getCurrentPosition().subscribe(
-      pos => {
-        geo.lat = pos.lat;
-        geo.lng = pos.lng;
-      },
-      error => {
-        throw new Error('Geo-Location Failure');
-      }
-    );
-    return geo;
+  private getUserLocationFromCurrentLocation(): Observable<any> {
+    let locObs = new Observable ( observer => {
+      let position: GeoCoordinates;
+
+      this.location.getCurrentPosition().subscribe(
+        location => {
+          position = new GeoCoordinates(location.latitude, location.longitude);
+          observer.next(position);
+        },
+        error => {
+          throw new Error('Geo-Location Failure');
+        }
+      );
+    });
+    return locObs;
   }
 }
