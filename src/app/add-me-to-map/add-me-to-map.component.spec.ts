@@ -3,12 +3,14 @@
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { SelectModule } from 'angular2-select';
+
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { LocationService } from '../services/location.service';
 import { AddMeToMapMapComponent } from './add-me-to-map.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('Component: Map', () => {
+describe('Component: Add Me to the Map', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,7 +22,8 @@ describe('Component: Map', () => {
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         }),
         RouterTestingModule.withRoutes([]),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SelectModule
       ],
       providers: [
         LocationService
