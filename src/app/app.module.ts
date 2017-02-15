@@ -40,6 +40,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 
+import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 @NgModule({
@@ -85,6 +86,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     LocationService,
     LoggedInGuard,
     SessionService,
+    StateListResolver,
     StateService,
     StoreService,
     UserDataResolver

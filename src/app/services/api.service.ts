@@ -43,6 +43,14 @@ export class APIService {
       .catch(res => { return [true]; });
   };
 
+  public getStateList(): Observable<any> {
+    return this.session.get(this.baseUrl + 'api/lookup/states')
+        .map((res: Response) => {
+          return res;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
+  }
+
   public postLogin(email: string, password: string): Observable<any> {
     let body = {
       'username': email,

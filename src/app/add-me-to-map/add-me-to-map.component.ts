@@ -12,6 +12,7 @@ import { LocationService } from '../services/location.service';
 export class AddMeToMapMapComponent implements OnInit {
 
   public userData: any;
+  public stateList: any;
   public addMeToMapFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -22,13 +23,15 @@ export class AddMeToMapMapComponent implements OnInit {
   public ngOnInit(): void {
 
     this.userData = this.route.snapshot.data['userData'];
+    this.stateList = this.route.snapshot.data['stateList'];
+    console.log(this.stateList);
 
     this.addMeToMapFormGroup = new FormGroup({
-      addressLine1: new FormControl(''),
+      addressLine1: new FormControl('', [Validators.required]),
       addressLine2: new FormControl(''),
-      city: new FormControl(''),
-      state: new FormControl(''),
-      zip: new FormControl(''),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      zip: new FormControl('', [Validators.required]),
     });
 
   }

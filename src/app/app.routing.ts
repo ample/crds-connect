@@ -9,6 +9,8 @@ import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { RegisterComponent } from './register/register.component';
+
+import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
@@ -19,7 +21,8 @@ const appRoutes: Routes = [
       LoggedInGuard
     ],
     resolve: {
-      userData: UserDataResolver
+      userData: UserDataResolver,
+      stateList: StateListResolver
     }
   },
   { path: 'host-signup', component: HostApplicationComponent },
