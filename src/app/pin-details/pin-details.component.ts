@@ -1,45 +1,59 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../services/api.service';
 import { ContentService } from '../services/content.service';
+import { Pin } from '../models/pin';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
+import { SessionService } from '../services/session.service';
 
 
 
 @Component({
-  selector: 'app-person-detail',
-  templateUrl: 'person-details.html'
+  selector: 'app-pin-detail',
+  templateUrl: 'pin-details.html'
 })
-export class PersonDetailsComponent implements OnInit {
+export class PinDetailsComponent implements OnInit {
 
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public person;
   public isLoggedInUser: boolean;
-  public isLoggedIn: boolean;
+  public isLoggedIn: boolean = false;
+  public pin: Pin;
 
   constructor(private api: APIService,
               private content: ContentService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
-              private store: StoreService
+              private store: StoreService,
+              private route: ActivatedRoute,
+              private session: SessionService
               ) {
   }
 
   public ngOnInit() {
-    this.person = { firstName: 'Joe', lastName: 'Ker', gathering: null, address: {street1: '123 Street', street2: 'apt B', city:'city!', state:'OH', zip:'12345' } };
-    this.isLoggedInUser = true;
-    this.isLoggedIn = this.api.isLoggedIn();
+    this.pin = this.route.snapshot.data['pin'];
+
+    if(this.api.isLoggedIn()) {
+      this.isLoggedIn = true;
+      this.isLoggedInUser = this.doesLoggedInUserOwnPin();
+    }
+    console.log(this.pin);
   }
 
   public sayHi() {
     console.log('hi');
+  }
+
+  private doesLoggedInUserOwnPin() {
+    debugger;
+    let contactId = this.session.getContactId();
+    return contactId === this.pin.contactId;
   }
 
 }

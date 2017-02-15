@@ -14,7 +14,7 @@ import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
 
-import { PersonDetailsComponent } from './person-details.component';
+import { PinDetailsComponent } from './pin-details.component';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -26,7 +26,7 @@ describe('Component: Host Application', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PersonDetailsComponent
+        PinDetailsComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
@@ -43,7 +43,7 @@ describe('Component: Host Application', () => {
         LoginRedirectService
       ]
     });
-    this.fixture = TestBed.createComponent(PersonDetailsComponent);
+    this.fixture = TestBed.createComponent(PinDetailsComponent);
     this.component = this.fixture.componentInstance;
 
   });

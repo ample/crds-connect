@@ -5,12 +5,17 @@ import { HostApplicationComponent } from './host-application/host-application.co
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { MapComponent } from './map/map.component';
 import { RegisterComponent } from './register/register.component';
-import { PersonDetailsComponent } from './person-details/person-details.component';
+import { PinDetailsComponent } from './pin-details/pin-details.component';
+import { PinResolver } from './resolves/pin-resolver.service';
 
 const appRoutes: Routes = [
   { path: '', component: MapComponent },
   { path: 'host-signup', component: HostApplicationComponent },
-  { path: 'person-details', component: PersonDetailsComponent },
+  { path: 'pin-details/:participantId',
+    component: PinDetailsComponent,
+    resolve:  {
+      pin: PinResolver
+    }},
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'map', component: MapComponent },

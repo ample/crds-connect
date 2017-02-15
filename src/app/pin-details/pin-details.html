@@ -3,11 +3,11 @@
 <div class="container">
     <strong *ngIf="!isLoggedInUser">Say Hello to</strong>
     <span *ngIf="isLoggedInUser" class="label label-primary">Me</span>
-    <p>{{person.firstName}} {{person.lastName | slice:0:1}}</p>
+    <p>{{pin.firstName}} {{pin.lastName | slice:0:1}}</p>
     <p>Saying "Hi" is nice and stuff. You should probably do it unless you're not nice.</p>
     <div *ngIf="isLoggedInUser">
-        <p>{{person.address.street1}} {{person.address.street2}}</p>
-        <p>{{person.address.city}}, {{person.address.state}} {{person.address.zip}}</p>
+        <p>{{pin.address.street1}} {{pin.address.street2}}</p>
+        <p>{{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</p>
     </div>
     <div *ngIf="!isLoggedIn">
         <button class="btn primary" [routerLink]="['/signin']">Sign In</button>
