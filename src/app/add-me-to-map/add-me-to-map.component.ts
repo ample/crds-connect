@@ -1,5 +1,6 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { LocationService } from '../services/location.service';
 
@@ -10,13 +11,17 @@ import { LocationService } from '../services/location.service';
 })
 export class AddMeToMapMapComponent implements OnInit {
 
+  public userData: any;
   public addMeToMapFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private locationService: LocationService) { }
+              private locationService: LocationService,
+              private route: ActivatedRoute) { }
 
 
   public ngOnInit(): void {
+
+    this.userData = this.route.snapshot.data['userData'];
 
     this.addMeToMapFormGroup = new FormGroup({
       addressLine1: new FormControl(''),

@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { LocationService } from '../services/location.service';
 import { AddMeToMapMapComponent } from './add-me-to-map.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('Component: Map', () => {
 
@@ -18,6 +19,7 @@ describe('Component: Map', () => {
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         }),
+        RouterTestingModule.withRoutes([]),
         ReactiveFormsModule
       ],
       providers: [

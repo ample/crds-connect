@@ -9,6 +9,7 @@ import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { RegisterComponent } from './register/register.component';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
   { path: '', component: AddMeToMapMapComponent },
@@ -16,7 +17,10 @@ const appRoutes: Routes = [
     component: AddMeToMapMapComponent,
     canActivate: [
       LoggedInGuard
-    ]
+    ],
+    resolve: {
+      userData: UserDataResolver
+    }
   },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: MapComponent },

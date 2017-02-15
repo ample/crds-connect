@@ -40,6 +40,8 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
+
 @NgModule({
   imports: [
     AlertModule,
@@ -84,7 +86,8 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
     LoggedInGuard,
     SessionService,
     StateService,
-    StoreService
+    StoreService,
+    UserDataResolver
   ],
   bootstrap: [AppComponent]
 })
