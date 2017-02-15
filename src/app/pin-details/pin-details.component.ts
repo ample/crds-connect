@@ -12,7 +12,6 @@ import { LoginRedirectService } from '../services/login-redirect.service';
 import { SessionService } from '../services/session.service';
 
 
-
 @Component({
   selector: 'app-pin-detail',
   templateUrl: 'pin-details.html'
@@ -30,19 +29,22 @@ export class PinDetailsComponent implements OnInit {
               private content: ContentService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
-              private store: StoreService,
               private route: ActivatedRoute,
-              private session: SessionService
+              private session: SessionService,
+              private state: StateService
               ) {
+
   }
 
   public ngOnInit() {
+    this.state.setLoading(true);
     this.pin = this.route.snapshot.data['pin'];
 
-    if(this.api.isLoggedIn()) {
+    if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isLoggedInUser = this.doesLoggedInUserOwnPin();
     }
+    this.state.setLoading(false);
     console.log(this.pin);
   }
 
@@ -50,8 +52,11 @@ export class PinDetailsComponent implements OnInit {
     console.log('hi');
   }
 
+  public redirectToLogin() {
+    this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+  }
+
   private doesLoggedInUserOwnPin() {
-    debugger;
     let contactId = this.session.getContactId();
     return contactId === this.pin.contactId;
   }

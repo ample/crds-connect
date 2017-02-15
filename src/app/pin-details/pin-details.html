@@ -10,7 +10,7 @@
         <p>{{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</p>
     </div>
     <div *ngIf="!isLoggedIn">
-        <button class="btn primary" [routerLink]="['/signin']">Sign In</button>
+        <button class="btn primary" (click)="redirectToLogin()">Sign In</button>
         <p>Don't have an account? <a [routerLink]="['/register']">Register Now</a></p>
     </div>
     <div *ngIf="isLoggedIn && !isLoggedInUser">

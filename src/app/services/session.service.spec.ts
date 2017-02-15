@@ -142,4 +142,17 @@ describe('Service: Session', () => {
     expect(service.hasToken()).toBeFalsy();
   }));
 
+  it('should set contactId', inject([SessionService], (service: any) => {
+    spyOn(service.cookieService, 'put');
+    service.setContactId('12345');
+    expect(service.cookieService.put).toHaveBeenCalledWith(service.contactId, '12345', service.cookieOptions);
+  }));
+
+  it('should get contactId', inject([SessionService], (service:any) => {
+    spyOn(service.cookieService, 'get').and.returnValue('12345');
+    let contactId = service.getContactId();
+    expect(service.cookieService.get).toHaveBeenCalledWith(service.contactId);
+    expect(contactId).toBe(12345);
+  }));
+
 });

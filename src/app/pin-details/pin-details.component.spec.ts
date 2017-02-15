@@ -13,12 +13,14 @@ import { SessionService } from '../services/session.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
+import { PinService } from '../services/pin.service';
 
 import { PinDetailsComponent } from './pin-details.component';
 
+
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
-describe('Component: Host Application', () => {
+describe('Component: Pin-Details component', () => {
 
   let component;
   let fixture;
@@ -38,6 +40,7 @@ describe('Component: Host Application', () => {
         APIService,
         SessionService,
         CookieService,
+        PinService,
         Angulartics2,
         ContentService,
         LoginRedirectService
