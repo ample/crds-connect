@@ -41,7 +41,6 @@ export class StoreService {
 
   public loadEmail(): any {
     this.api.getAuthentication().subscribe((info) => {
-      debugger;
       if (info !== null) {
         return info.userEmail;
       }
