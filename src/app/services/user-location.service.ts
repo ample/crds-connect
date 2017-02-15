@@ -12,27 +12,19 @@ export class UserLocationService {
   constructor( private api: APIService,
                private location: LocationService ) { }
 
-  public GetUserLocation(): GeoCoordinates {
-    return this.getUserLocationFromIp();
-   /* if ( this.api.isLoggedIn()) {
-      try {
+  public GetUserLocation(): Observable<any> {
+    //return this.getUserLocationFromIp();
+  
+    let locationObs = new Observable( observer => {
 
-      }
-      catch (e) {
+        this.getUserLocationFromIp().subscribe(
+            ipLocPos => {
+              observer.next(ipLocPos);
+            }
+        );
+    });
 
-      }*/
-      // use profile address if it exists
-      
-      // if no address then use geolocation
-
-      // use default if both fail
-   // } else {
-
-      // unauthenticated
-      // use current location if user agrees
-      // use the IP address to get a location
-      // use the default location and zoom level
-    //}
+    return locationObs;
   }
 
   private getUserLocationFromUserId(userId: number): GeoCoordinates {
@@ -49,25 +41,21 @@ export class UserLocationService {
         });*/
   }
 
-  private getUserLocationFromIp(): GeoCoordinates {
-    let geo = new GeoCoordinates(0, 0);
-    this.api.getMyIP().subscribe(
-      result => {
-        this.api.getLocationFromIP(result.ip).subscribe(
+  public getUserLocationFromIp(): Observable<any> {
+    let ipObs = new Observable ( observer => {
+      let position: GeoCoordinates;
+
+      this.api.getLocationFromIP().subscribe(
           location => {
-            geo.lat = location.latitude;
-            geo.lng = location.longitude;
+            position = new GeoCoordinates(location.latitude, location.longitude);
+            observer.next(position);
           },
           error => {
             throw new Error('IP location failure');
           }
         );
-      },
-      error => {
-        throw new Error('getMyIP failure');
-      }
-    );
-    return geo;
+      });
+    return ipObs;
   }
 
   private getUserLocationFromDefault(): GeoCoordinates {
