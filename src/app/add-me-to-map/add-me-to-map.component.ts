@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 
 import { LocationService } from '../services/location.service';
+import { LookupTable } from '../models/lookup-table';
 
 @Component({
   selector: 'app-add-me-to-map',
@@ -12,7 +13,7 @@ import { LocationService } from '../services/location.service';
 export class AddMeToMapMapComponent implements OnInit {
 
   public userData: any;
-  public stateList: any;
+  public stateList: Array<LookupTable>;
   public addMeToMapFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder,

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { SessionService } from './session.service';
 
 import { IFrameParentService } from './iframe-parent.service';
+import { LookupTable } from '../models/lookup-table';
 import { User } from '../models/user';
 
 import 'rxjs/add/operator/catch';
@@ -45,7 +46,7 @@ export class APIService {
 
   public getStateList(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/lookup/states')
-        .map((res: Response) => {
+        .map((res: Array<LookupTable>) => {
           return res;
         })
         .catch( (err) => Observable.throw(err.json().error) );
