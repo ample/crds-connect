@@ -1,9 +1,14 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ContentService } from '../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { LocationService } from '../services/location.service';
 import { LookupTable } from '../models/lookup-table';
+
+import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
+import { Address } from '../models/address';
+
 
 @Component({
   selector: 'app-add-me-to-map',
@@ -12,12 +17,13 @@ import { LookupTable } from '../models/lookup-table';
 })
 export class AddMeToMapMapComponent implements OnInit {
 
-  public userData: any;
+  public userData: UserDataForPinCreation;
   public stateList: Array<LookupTable>;
   public addMeToMapFormGroup: FormGroup;
   public stateListForSelect: Array<any>;
 
   constructor(private fb: FormBuilder,
+              private content: ContentService,
               private locationService: LocationService,
               private route: ActivatedRoute) { }
 
@@ -26,6 +32,7 @@ export class AddMeToMapMapComponent implements OnInit {
 
     this.userData = this.route.snapshot.data['userData'];
     this.stateList = this.route.snapshot.data['stateList'];
+    console.log(this.userData);
     console.log(this.stateList);
 
     this.stateListForSelect = this.stateList.map(state => {
@@ -43,7 +50,7 @@ export class AddMeToMapMapComponent implements OnInit {
 
   }
 
-  onSubmit({ value, valid }: { value: any, valid: boolean }) {
+  public onSubmit({ value, valid }: { value: any, valid: boolean }) {
     console.log(value, valid);
   }
 

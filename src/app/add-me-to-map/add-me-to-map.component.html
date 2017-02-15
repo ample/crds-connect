@@ -1,7 +1,14 @@
 
+<div>Add Me to The Map</div>
+
+<div>
+    <span [innerHTML]="content.getContent('profileUpdated')"></span>
+</div>
+
+
 <form novalidate [formGroup]="addMeToMapFormGroup" (ngSubmit)="onSubmit(addMeToMapFormGroup)">
 
-    <!--ADDRES LINE 1-->
+    <!--ADDRESS LINE 1-->
     <div class="row">
         <div class="form-group">
             <label class="sr-only" for="addressLine1">Address Line 1</label>
@@ -15,9 +22,10 @@
                    name="addressLine1">
         </div>
     </div>
-    <div *ngIf="formSubmitted && !addMeToMapFormGroup.controls['addressLine1'].valid" class="errors">
+
+    <div *ngIf="addMeToMapFormGroup.controls['addressLine1'].touched && !addMeToMapFormGroup.controls['addressLine1'].valid" class="errors">
         <div class="alert alert-danger">
-            <p>Address Line 1 is invalid</p>
+            <p>Address Line 1 is required!</p>
         </div>
     </div>
 
@@ -55,9 +63,9 @@
                    name="city">
         </div>
     </div>
-    <div *ngIf="formSubmitted && !addMeToMapFormGroup.controls['city'].valid" class="errors">
+    <div *ngIf="addMeToMapFormGroup.controls['addressLine1'].touched && !addMeToMapFormGroup.controls['city'].valid" class="errors">
         <div class="alert alert-danger">
-            <p>City is invalid</p>
+            <p>City is required!</p>
         </div>
     </div>
 
@@ -111,5 +119,4 @@
 
 <br>
 <pre>{{addMeToMapFormGroup.value  | json}}</pre>
-
 

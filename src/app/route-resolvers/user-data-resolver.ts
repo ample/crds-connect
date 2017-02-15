@@ -8,14 +8,10 @@ import { APIService } from '../services/api.service';
 @Injectable()
 export class UserDataResolver implements Resolve<any> {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private api: APIService) { }
 
     resolve(): Observable<any> {
-        let testUrl = 'http://httpbin.org/post';
-        let testData = 'The sky is blue';
-
-        return this.http.post(testUrl, testData)
-            .map( (res) => res.json() )
-            .catch( (err) => Observable.throw(err.json().error) );
+        return this.api.getUserData();
     }
 }
