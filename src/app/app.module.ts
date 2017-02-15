@@ -38,6 +38,8 @@ import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
 
+import { LoggedInGuard } from './route-guards/logged-in-guard';
+
 @NgModule({
   imports: [
     AlertModule,
@@ -79,6 +81,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     IFrameParentService,
     LoginRedirectService,
     LocationService,
+    LoggedInGuard,
     SessionService,
     StateService,
     StoreService
