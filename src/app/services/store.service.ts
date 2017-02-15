@@ -21,7 +21,7 @@ export class StoreService {
     private api: APIService,
     private route: ActivatedRoute,
     private state: StateService
-    ) {
+  ) {
     this.processQueryParams();
     this.preloadData();
   }
@@ -37,6 +37,16 @@ export class StoreService {
         }
       }
     );
+  }
+
+  public loadEmail(): any {
+    this.api.getAuthentication().subscribe((info) => {
+      if (info !== null) {
+        return info.userEmail;
+      }
+    }, () => {
+      return null;
+    });
   }
 
   public preloadData(): void {
