@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/core-js": "^0.9.34",
-    "@types/jasmine": "^2.5.36",
+    "@types/jasmine": "2.5.41",
     "@types/node": "^6.0.46",
     "angular-cli": "^1.0.0-beta.18",
     "angular2-template-loader": "^0.5.0",
