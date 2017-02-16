@@ -6,6 +6,8 @@ import { APIService } from '../services/api.service';
 import { LoginRedirectService } from '../services/login-redirect.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
+import { SessionService } from '../services/session.service';
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 import { AuthenticationComponent } from './authentication.component';
 
@@ -17,7 +19,9 @@ describe('Component: Authentication', () => {
       stateService: StateService,
       store: StoreService,
       fb: FormBuilder,
-      api: APIService;
+      api: APIService,
+      cookie: CookieService,
+      session: SessionService;
 
   beforeEach(() => {
 
@@ -45,7 +49,9 @@ describe('Component: Authentication', () => {
       router,
       redirectService,
       stateService,
-      store
+      store,
+      cookie,
+      session
     );
     fixture.ngOnInit();
   });
@@ -54,27 +60,27 @@ describe('Component: Authentication', () => {
     fixture.form.setValue({ email: email, password: password});
   }
 
-  describe('#ngOnInit', () => {
+  fdescribe('#ngOnInit', () => {
     it('should initialize the component', () => {
       expect(fixture).toBeTruthy();
     });
   });
 
-  describe('#adv', () => {
+  fdescribe('#adv', () => {
     xit('should call the router to move to the next step', () => {
       fixture.adv();
       expect(router.navigateByUrl).toHaveBeenCalled();
     });
   });
 
-  describe('#back', () => {
+  fdescribe('#back', () => {
     xit('should call the router to move to the previous step', () => {
       fixture.back();
       expect(router.navigateByUrl).toHaveBeenCalled();
     });
   });
 
-  describe('#formInvalid(field)', () => {
+  fdescribe('#formInvalid(field)', () => {
     it('should check to see if field is valid when valid credentials are provided', () => {
       setForm('s@s.com', 'test');
       let isInvalid = fixture.formInvalid('email');
@@ -88,7 +94,7 @@ describe('Component: Authentication', () => {
     });
   });
 
-  describe('#next', () => {
+  fdescribe('#next', () => {
     describe('when form is invalid', () => {
       beforeEach(() => {
         setForm('good@', 'foobar');
