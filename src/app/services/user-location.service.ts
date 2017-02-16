@@ -16,7 +16,7 @@ export class UserLocationService {
     let locObs = new Observable( observer => {
       if (this.api.isLoggedIn()) {
 
-        let contactid: number = 123; //get contactid from cookie
+        let contactid: number = 6089102; //get contactid from cookie
 
         this.getUserLocationFromUserId(contactid).subscribe(
           success => {
