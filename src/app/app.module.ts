@@ -20,6 +20,7 @@ import { PinDetailsComponent } from './pin-details/pin-details.component';
 import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { MapComponent } from './map/map.component';
+import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 
@@ -68,6 +69,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     routing
   ],
   declarations: [
+    NowAPinComponent,
     AddMeToMapMapComponent,
     HostApplicationComponent,
     AppComponent,

@@ -6,6 +6,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { HostApplicationComponent } from './host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './map/map.component';
+import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './pin-details/pin-details.component';
 import { RegisterComponent } from './register/register.component';
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
       stateList: StateListResolver
     }
   },
+  { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
