@@ -33,4 +33,10 @@ export class PinService {
     .map((res: Response) => res.json())
     .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
+
+  public getPinDetailsByContactId(contactId: number): Observable<Pin> {
+    return this.http.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
+    .map((res: Response) => res.json())
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
 }

@@ -30,6 +30,7 @@ import { PinService } from './services/pin.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
+import { UserLocationService } from './services/user-location.service';
 
 import { PinResolver } from './resolves/pin-resolver.service';
 
@@ -84,7 +85,8 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
     PinResolver,
     SessionService,
     StateService,
-    StoreService
+    StoreService,
+    UserLocationService
   ],
   bootstrap: [AppComponent]
 })
