@@ -6,6 +6,7 @@ import { SessionService } from './session.service';
 
 import { IFrameParentService } from './iframe-parent.service';
 import { LookupTable } from '../models/lookup-table';
+import { Pin } from '../models/pin';
 import { User } from '../models/user';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 import { Address } from '../models/address';
@@ -86,6 +87,23 @@ export class APIService {
         return res || this.defaults.authorized;
       })
       .catch(this.handleError);
+  }
+
+  //MOCK METHOD UNTIL BACKEND PART OF STORY IS AVAILABLE
+  postPin(pin: Pin) {
+
+    let obs = new Observable(observer => {
+      setTimeout(() => {
+        let rand = Math.random();
+        if(rand < .5){
+          observer.next('Mock call succeeded');
+        } else {
+          observer.error('Mock call failed');
+        }
+      }, 2000);
+    });
+
+    return obs;
   }
 
   public postUser(user: User): Observable<any> {

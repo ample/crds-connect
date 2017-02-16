@@ -3,15 +3,18 @@
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CookieService } from 'angular2-cookie/core';
 
 import { SelectModule } from 'angular2-select';
 
+import { APIService } from '../services/api.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ContentService } from '../services/content.service';
-import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service'
+import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service';
 import { LocationService } from '../services/location.service';
 import { AddMeToMapMapComponent } from './add-me-to-map.component';
-import { RouterTestingModule } from '@angular/router/testing';
+import { SessionService } from '../services/session.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -30,9 +33,12 @@ describe('Component: Add Me to the Map', () => {
         SelectModule
       ],
       providers: [
+        APIService,
         AddMeToTheMapHelperService,
+        CookieService,
         LocationService,
-        ContentService
+        ContentService,
+        SessionService
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapMapComponent);

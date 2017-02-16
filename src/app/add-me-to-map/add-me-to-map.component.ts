@@ -1,8 +1,9 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ContentService } from '../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
+import { APIService } from '../services/api.service';
 import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service'
 import { LocationService } from '../services/location.service';
 import { LookupTable } from '../models/lookup-table';
@@ -24,10 +25,12 @@ export class AddMeToMapMapComponent implements OnInit {
   public addMeToMapFormGroup: FormGroup;
   public stateListForSelect: Array<any>;
 
-  constructor(private fb: FormBuilder,
+  constructor(private api: APIService,
+              private fb: FormBuilder,
               private helper: AddMeToTheMapHelperService,
               private content: ContentService,
               private locationService: LocationService,
+              private router: Router,
               private route: ActivatedRoute) { }
 
 
@@ -39,7 +42,7 @@ export class AddMeToMapMapComponent implements OnInit {
     console.log(this.stateList);
 
     this.stateListForSelect = this.stateList.map(state => {
-      var formmatedState = {label: state.dp_RecordName, value: state.dp_RecordID}
+      let formmatedState = {label: state.dp_RecordName, value: state.dp_RecordID};
       return formmatedState;
     });
 
@@ -54,7 +57,15 @@ export class AddMeToMapMapComponent implements OnInit {
   }
 
   public onSubmit({ value, valid }: { value: any, valid: boolean }) {
-    console.log(value, valid);
+    // console.log(value, valid);
+    this.api.postPin(value).subscribe(
+      next => {this.router.navigate(['/now-a-pin'])},
+      err => this.toggleSubmissionError()
+    );
+  }
+
+  public toggleSubmissionError() {
+    console.log('SubmissionError')
   }
 
 }
