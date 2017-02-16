@@ -24,6 +24,7 @@ export class AddMeToMapMapComponent implements OnInit {
   public stateList: Array<LookupTable>;
   public addMeToMapFormGroup: FormGroup;
   public stateListForSelect: Array<any>;
+  public submissionError = false;
 
   constructor(private api: APIService,
               private fb: FormBuilder,
@@ -59,13 +60,13 @@ export class AddMeToMapMapComponent implements OnInit {
   public onSubmit({ value, valid }: { value: any, valid: boolean }) {
     // console.log(value, valid);
     this.api.postPin(value).subscribe(
-      next => {this.router.navigate(['/now-a-pin'])},
-      err => this.toggleSubmissionError()
+      next => { this.router.navigate(['/now-a-pin']) },
+      err => this.toggleSubmissionError(true)
     );
   }
 
-  public toggleSubmissionError() {
-    console.log('SubmissionError')
+  public toggleSubmissionError(isErrorActive) {
+    this.submissionError = isErrorActive;
   }
 
 }
