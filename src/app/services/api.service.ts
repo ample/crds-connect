@@ -44,13 +44,6 @@ export class APIService {
       .catch(this.handleError);
   }
 
-  public getProfileById(id: number): Observable<any> {
-    let profileUrl = this.baseUrl + 'api/v1.0.0/profile/' + id;
-      return this.session.get(profileUrl)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
   public getRegisteredUser(email: string): Observable<boolean> {
     return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
