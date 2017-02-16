@@ -56,14 +56,15 @@
             <input tabindex="3"
                    type="text"
                    class="form-control"
-                   maxlength="16"
+                   onlyTheseKeys="[a-zA-Z]"
+                   maxlength="20"
                    placeholder="City"
                    id = "city"
                    formControlName="city"
                    name="city">
         </div>
     </div>
-    <div *ngIf="addMeToMapFormGroup.controls['addressLine1'].touched && !addMeToMapFormGroup.controls['city'].valid" class="errors">
+    <div *ngIf="addMeToMapFormGroup.controls['city'].touched && !addMeToMapFormGroup.controls['city'].valid" class="errors">
         <div class="alert alert-danger">
             <p>City is required!</p>
         </div>
@@ -77,6 +78,7 @@
             <ng-select
                     [options]="stateListForSelect"
                     placeholder="State"
+                    id = "state"
                     formControlName="state"
                     [allowClear]="true">
             </ng-select>
@@ -98,14 +100,15 @@
         </div>
     </div>
 
-    <div class="errors" *ngIf="ccSubmitted && (!ccForm.controls['expDate'].valid || !ccForm.controls['cvv'].valid || !ccForm.controls['zipCode'].valid)">
+    <div class="errors" *ngIf="( addMeToMapFormGroup.controls['state'].touched && !addMeToMapFormGroup.controls['state'].valid )
+        || (addMeToMapFormGroup.controls['zip'].touched && !addMeToMapFormGroup.controls['zip'].valid)">
         <div class="alert alert-danger">
             <ul>
-                <li *ngIf="!ccForm.controls['expDate'].valid">
-                    <span>State Error</span>
+                <li *ngIf="addMeToMapFormGroup.controls['state'].touched && !addMeToMapFormGroup.controls['state'].valid">
+                    <span>State is required</span>
                 </li>
-                <li *ngIf="!ccForm.controls['zipCode'].valid">
-                    Zip code <span [innerHTML]="switchMessage(ccForm.controls['zip'].errors)"></span>
+                <li *ngIf="addMeToMapFormGroup.controls['zip'].touched && !addMeToMapFormGroup.controls['zip'].valid">
+                    <span>Zip is required</span>
                 </li>
             </ul>
         </div>
