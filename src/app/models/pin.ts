@@ -10,9 +10,11 @@ export class Pin {
     participantId: number;
     hostStatus: number;
     gathering: Group;
+    address: Address;
+    householdId: number;
 
     constructor(first_name: string, last_name: string, email: string, contactId: number, participantId: number, 
-                hostStatus: number, gathering: Group) {
+                hostStatus: number, gathering: Group, address: Address, householdId: number) {
         this.firstname = first_name;
         this.lastname = last_name;
         this.emailAddress = email;
@@ -20,5 +22,6 @@ export class Pin {
         this.participantId = participantId;
         this.hostStatus = hostStatus;
         this.gathering = gathering;
+        this.householdId = householdId;
     }
 }

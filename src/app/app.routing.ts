@@ -7,9 +7,10 @@ import { HostApplicationComponent } from './host-application/host-application.co
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { PersonDetailsComponent } from './person-details/person-details.component';
+import { PinDetailsComponent } from './pin-details/pin-details.component';
 import { RegisterComponent } from './register/register.component';
 
+import { PinResolver } from './resolves/pin-resolver.service';
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -26,10 +27,15 @@ const appRoutes: Routes = [
     }
   },
   { path: 'host-signup', component: HostApplicationComponent },
-  { path: 'map', component: MapComponent },
-  { path: 'person-details', component: PersonDetailsComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'signin', component: AuthenticationComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'map', component: MapComponent },
+  { path: 'pin-details/:participantId',
+    component: PinDetailsComponent,
+    resolve:  {
+      pin: PinResolver
+    }
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
