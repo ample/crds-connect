@@ -33,6 +33,7 @@ import { PinService } from './services/pin.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
+import { UserLocationService } from './services/user-location.service';
 
 import { PinResolver } from './resolves/pin-resolver.service';
 
@@ -98,6 +99,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     StateListResolver,
     StateService,
     StoreService,
+    UserLocationService,
     UserDataResolver
   ],
   bootstrap: [AppComponent]

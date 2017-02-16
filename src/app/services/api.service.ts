@@ -40,6 +40,13 @@ export class APIService {
       });
   }
 
+  public getLocationFromIP(): Observable<any> {
+    let profileUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip';
+      return this.session.get(profileUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   public getRegisteredUser(email: string): Observable<boolean> {
     return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
