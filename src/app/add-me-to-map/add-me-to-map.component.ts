@@ -28,7 +28,7 @@ export class AddMeToMapMapComponent implements OnInit {
 
   constructor(private api: APIService,
               private fb: FormBuilder,
-              private helper: AddMeToTheMapHelperService,
+              private hlpr: AddMeToTheMapHelperService,
               private content: ContentService,
               private locationService: LocationService,
               private router: Router,
@@ -48,11 +48,11 @@ export class AddMeToMapMapComponent implements OnInit {
     });
 
     this.addMeToMapFormGroup = new FormGroup({
-      addressLine1: new FormControl('', [Validators.required]),
-      addressLine2: new FormControl(''),
-      city: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required]),
-      zip: new FormControl('', [Validators.required]),
+      addressLine1: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine1'), [Validators.required]),
+      addressLine2: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine2')),
+      city: new FormControl(this.hlpr.getStringField(this.userData, 'city'), [Validators.required]),
+      state: new FormControl(this.hlpr.getStringField(this.userData, 'state'), [Validators.required]),
+      zip: new FormControl(this.hlpr.getStringField(this.userData, 'zip'), [Validators.required])
     });
 
   }

@@ -11,6 +11,18 @@ export class AddMeToTheMapHelperService {
 
   constructor() { }
 
+  public getStringField(data: UserDataForPinCreation, fieldName: string): string{
+    let prepopulatedAddressValue: string;
+
+    if(data.address !== null && data.address[fieldName]){
+      prepopulatedAddressValue = data.address[fieldName];
+    } else {
+      prepopulatedAddressValue = '';
+    }
+
+    return prepopulatedAddressValue;
+  }
+
   //All the notes on this method are assumptions which need to be verified
   public createNewPin(addMeForm: AddMeToMapFormFields, initialUserData: UserDataForPinCreation ): Pin {
 
