@@ -60,27 +60,27 @@ describe('Component: Authentication', () => {
     fixture.form.setValue({ email: email, password: password});
   }
 
-  fdescribe('#ngOnInit', () => {
+  describe('#ngOnInit', () => {
     it('should initialize the component', () => {
       expect(fixture).toBeTruthy();
     });
   });
 
-  fdescribe('#adv', () => {
+  describe('#adv', () => {
     xit('should call the router to move to the next step', () => {
       fixture.adv();
       expect(router.navigateByUrl).toHaveBeenCalled();
     });
   });
 
-  fdescribe('#back', () => {
+  describe('#back', () => {
     xit('should call the router to move to the previous step', () => {
       fixture.back();
       expect(router.navigateByUrl).toHaveBeenCalled();
     });
   });
 
-  fdescribe('#formInvalid(field)', () => {
+  describe('#formInvalid(field)', () => {
     it('should check to see if field is valid when valid credentials are provided', () => {
       setForm('s@s.com', 'test');
       let isInvalid = fixture.formInvalid('email');
@@ -94,7 +94,7 @@ describe('Component: Authentication', () => {
     });
   });
 
-  fdescribe('#next', () => {
+  describe('#next', () => {
     describe('when form is invalid', () => {
       beforeEach(() => {
         setForm('good@', 'foobar');
