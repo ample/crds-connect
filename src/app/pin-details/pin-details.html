@@ -4,7 +4,7 @@
     <strong *ngIf="!isLoggedInUser">Say Hello to</strong>
     <span *ngIf="isLoggedInUser" class="label label-primary">Me</span>
     <p>{{pin.firstName}} {{pin.lastName | slice:0:1}}</p>
-    <p *ngIf="!isLoggedInUser">Saying, "Hi," is a nice thing to do. This will send an email introduction form you to them.
+    <p *ngIf="!isLoggedInUser">Saying, "Hi," is a nice thing to do. This will send an email introduction from you to them.
         Connecting with and knowing the people in your community is part of what this church thing is all about.
     </p>
     <div *ngIf="isLoggedInUser">
