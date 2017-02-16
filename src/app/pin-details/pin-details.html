@@ -4,10 +4,12 @@
     <strong *ngIf="!isLoggedInUser">Say Hello to</strong>
     <span *ngIf="isLoggedInUser" class="label label-primary">Me</span>
     <p>{{pin.firstName}} {{pin.lastName | slice:0:1}}</p>
-    <p>Saying "Hi" is nice and stuff. You should probably do it unless you're not nice.</p>
+    <p *ngIf="!isLoggedInUser">Saying, "Hi," is a nice thing to do. This will send an email introduction form you to them.
+        Connecting with and knowing the people in your community is part of what this church thing is all about.
+    </p>
     <div *ngIf="isLoggedInUser">
-        <p>{{pin.address.street1}} {{pin.address.street2}}</p>
-        <p>{{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</p>
+        <address>{{pin.address.addressLine1}} {{pin.address.addressLine2}}<br>
+        {{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
     </div>
     <div *ngIf="!isLoggedIn">
         <button class="btn primary" (click)="redirectToLogin()">Sign In</button>
