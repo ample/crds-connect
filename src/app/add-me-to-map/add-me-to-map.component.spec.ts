@@ -8,6 +8,7 @@ import { SelectModule } from 'angular2-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ContentService } from '../services/content.service';
+import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service'
 import { LocationService } from '../services/location.service';
 import { AddMeToMapMapComponent } from './add-me-to-map.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,6 +30,7 @@ describe('Component: Add Me to the Map', () => {
         SelectModule
       ],
       providers: [
+        AddMeToTheMapHelperService,
         LocationService,
         ContentService
       ]

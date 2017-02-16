@@ -23,6 +23,7 @@ import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 
+import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
 import { APIService } from './services/api.service';
 import { ContentService } from './services/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -82,6 +83,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     FormatPaymentNumberDirective
   ],
   providers: [
+    AddMeToTheMapHelperService,
     appRoutingProviders,
     ContentService,
     CookieService,

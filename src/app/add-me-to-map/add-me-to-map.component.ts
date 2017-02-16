@@ -3,8 +3,10 @@ import { ContentService } from '../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
+import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service'
 import { LocationService } from '../services/location.service';
 import { LookupTable } from '../models/lookup-table';
+import { Pin } from '../models/pin';
 
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 import { Address } from '../models/address';
@@ -23,6 +25,7 @@ export class AddMeToMapMapComponent implements OnInit {
   public stateListForSelect: Array<any>;
 
   constructor(private fb: FormBuilder,
+              private helper: AddMeToTheMapHelperService,
               private content: ContentService,
               private locationService: LocationService,
               private route: ActivatedRoute) { }
