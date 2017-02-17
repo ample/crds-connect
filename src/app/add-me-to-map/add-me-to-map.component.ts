@@ -54,7 +54,6 @@ export class AddMeToMapMapComponent implements OnInit {
       state: new FormControl(this.hlpr.getStringField(this.userData, 'state'), [Validators.required]),
       zip: new FormControl(this.hlpr.getStringField(this.userData, 'zip'), [Validators.required])
     });
-
   }
 
 
@@ -67,10 +66,11 @@ export class AddMeToMapMapComponent implements OnInit {
 
     this.api.postPin(pinToSubmit).subscribe(
       next => {
-        this.router.navigate(['/now-a-pin'])
+        this.router.navigate(['/now-a-pin']);
       },
       err => {
-        this.setSubmissionErrorWarningTo(true)}
+        this.setSubmissionErrorWarningTo(true);
+      }
     );
   }
 
