@@ -69,7 +69,8 @@ export class AddMeToMapMapComponent implements OnInit {
       next => {
         this.router.navigate(['/now-a-pin'])
       },
-      err => this.setSubmissionErrorWarningTo(true)
+      err => {
+        this.setSubmissionErrorWarningTo(true)}
     );
   }
 

@@ -40,7 +40,15 @@ export class SessionService {
       this.setRefreshToken(res.headers.get('RefreshToken'));
     }
 
-    let body = res.json();
+    let body: any;
+
+    try {
+      body = res.json();
+    }
+    catch(err) {
+      body = ''
+    }
+
     if (body != null && body.userToken) {
       this.setAccessToken(body.userToken);
     }

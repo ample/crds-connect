@@ -1,8 +1,6 @@
 
-<div>Add Me to The Map</div>
-
 <div>
-    <span [innerHTML]="content.getContent('profileUpdated')"></span>
+    <span [innerHTML]="content.getContent('addMeToMapHeader')"></span>
 </div>
 
 
@@ -124,7 +122,7 @@
 
     <div *ngIf="submissionError">
         <div class="alert alert-danger">
-            <p>Could not submit your data, please try again.</p>
+            <p><span [innerHTML]="content.getContent('generalError')"></span></p>
         </div>
     </div>
 
