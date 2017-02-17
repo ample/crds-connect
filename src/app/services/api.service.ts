@@ -65,7 +65,6 @@ export class APIService {
   public getUserData(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/profile')
         .map((res: any) => {
-          console.log(res);
           var userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2,
             res.city, res.state, res.postalCode, 0, 0);
           //Last two zeroes are mocked latitude and longitude, will come from service once complete

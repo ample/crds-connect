@@ -41,8 +41,6 @@ export class AddMeToMapMapComponent implements OnInit {
     this.state.setLoading(false);
     this.userData = this.route.snapshot.data['userData'];
     this.stateList = this.route.snapshot.data['stateList'];
-    console.log(this.userData);
-    console.log(this.stateList);
 
     this.stateListForSelect = this.stateList.map(state => {
       let formmatedState = {label: state.dp_RecordName, value: state.dp_RecordName};
