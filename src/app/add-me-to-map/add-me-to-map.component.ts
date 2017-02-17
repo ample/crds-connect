@@ -45,7 +45,7 @@ export class AddMeToMapMapComponent implements OnInit {
     console.log(this.stateList);
 
     this.stateListForSelect = this.stateList.map(state => {
-      let formmatedState = {label: state.dp_RecordName, value: state.dp_RecordID};
+      let formmatedState = {label: state.dp_RecordName, value: state.dp_RecordName};
       return formmatedState;
     });
 

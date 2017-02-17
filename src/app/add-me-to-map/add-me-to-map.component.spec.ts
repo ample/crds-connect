@@ -15,6 +15,7 @@ import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.ser
 import { LocationService } from '../services/location.service';
 import { AddMeToMapMapComponent } from './add-me-to-map.component';
 import { SessionService } from '../services/session.service';
+import { StateService } from '../services/state.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -38,7 +39,8 @@ describe('Component: Add Me to the Map', () => {
         CookieService,
         LocationService,
         ContentService,
-        SessionService
+        SessionService,
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapMapComponent);
