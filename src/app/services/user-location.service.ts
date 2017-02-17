@@ -66,6 +66,9 @@ export class UserLocationService {
         success => {
           position = new GeoCoordinates(success.address.latitude, success.address.longitude);
             observer.next(position);
+        },
+        failure => {
+          observer.error();
         }
       );
 
@@ -83,7 +86,7 @@ export class UserLocationService {
             observer.next(position);
           },
           error => {
-            throw new Error('IP location failure');
+            observer.error();
           }
         );
       });
@@ -104,7 +107,7 @@ export class UserLocationService {
           observer.next(position);
         },
         error => {
-          throw new Error('Geo-Location Failure');
+          observer.error();
         }
       );
     });
