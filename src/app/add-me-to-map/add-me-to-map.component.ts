@@ -78,5 +78,10 @@ export class AddMeToMapMapComponent implements OnInit {
     this.submissionError = isErrorActive;
   }
 
+  public closeClick()  {
+    //this.router.navigateByUrl('/map');
+    this.router.navigate(['/now-a-pin']);
+  }
+
 }
 
