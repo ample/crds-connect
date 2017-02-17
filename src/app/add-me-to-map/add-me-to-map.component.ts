@@ -79,8 +79,7 @@ export class AddMeToMapMapComponent implements OnInit {
   }
 
   public closeClick()  {
-    //this.router.navigateByUrl('/map');
-    this.router.navigate(['/now-a-pin']);
+    this.router.navigateByUrl('/map');
   }
 
 }
