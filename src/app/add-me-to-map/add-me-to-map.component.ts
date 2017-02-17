@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../services/api.service';
+import { StateService } from '../services/state.service';
 import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service'
 import { LocationService } from '../services/location.service';
 import { LookupTable } from '../models/lookup-table';
@@ -32,11 +33,12 @@ export class AddMeToMapMapComponent implements OnInit {
               private content: ContentService,
               private locationService: LocationService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private state: StateService) { }
 
 
   public ngOnInit(): void {
-
+    this.state.setLoading(false);
     this.userData = this.route.snapshot.data['userData'];
     this.stateList = this.route.snapshot.data['stateList'];
     console.log(this.userData);
