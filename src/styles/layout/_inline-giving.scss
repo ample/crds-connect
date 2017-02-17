@@ -485,7 +485,7 @@
     }
 
     .inline-form__input {
-      @include make-xs-column(4);
+      @include make-xs-column(6);
       padding-left: 8px;
       padding-right: 8px;
 

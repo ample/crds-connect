@@ -5,7 +5,11 @@ import { Observable } from 'rxjs/Observable';
 import { SessionService } from './session.service';
 
 import { IFrameParentService } from './iframe-parent.service';
+import { LookupTable } from '../models/lookup-table';
+import { Pin } from '../models/pin';
 import { User } from '../models/user';
+import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
+import { Address } from '../models/address';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -50,6 +54,28 @@ export class APIService {
       .catch(res => { return [true]; });
   };
 
+  public getStateList(): Observable<any> {
+    return this.session.get(this.baseUrl + 'api/lookup/states')
+        .map((res: Array<LookupTable>) => {
+          return res;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
+  }
+
+  public getUserData(): Observable<any> {
+    return this.session.get(this.baseUrl + 'api/profile')
+        .map((res: any) => {
+          var userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2,
+            res.city, res.state, res.postalCode, 0, 0);
+          //Last two zeroes are mocked latitude and longitude, will come from service once complete
+          var userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.householdId,
+              res.firstName, res.lastName, res.emailAddress, userAddress);
+
+          return userData;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
+  }
+
   public postLogin(email: string, password: string): Observable<any> {
     let body = {
       'username': email,
@@ -60,6 +86,19 @@ export class APIService {
         return res || this.defaults.authorized;
       })
       .catch(this.handleError);
+  }
+
+  //MOCK METHOD UNTIL BACKEND PART OF STORY IS AVAILABLE
+  postPin(pin: Pin) {
+
+    let postPinUrl = this.baseUrl + 'api/finder/pin';
+    console.log('Pin being sent to server');
+
+    return this.session.post(postPinUrl, pin)
+        .map((res: any) => {
+          return res;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
   }
 
   public postUser(user: User): Observable<any> {

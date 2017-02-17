@@ -1,0 +1,12 @@
+.dropdown-select{
+  border: 1px solid transparent;
+}
+
+.dropdown-select.ng-touched.ng-valid{
+  border: 1px solid #66C93E;
+}
+
+.dropdown-select.ng-touched.ng-invalid{
+  border: 1px solid #ebccd1;
+}
+

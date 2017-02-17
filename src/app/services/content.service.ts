@@ -47,7 +47,6 @@ export class ContentService {
   }
 
   private handleError (error: any): Observable<any>  {
-    console.error(error);
     return Observable.throw(error.json().error || 'Server error');
   }
 

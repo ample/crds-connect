@@ -1,24 +1,43 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HostApplicationComponent } from './host-application/host-application.component';
+
+import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { HostApplicationComponent } from './host-application/host-application.component';
+import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './map/map.component';
-import { RegisterComponent } from './register/register.component';
+import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './pin-details/pin-details.component';
+import { RegisterComponent } from './register/register.component';
+
 import { PinResolver } from './resolves/pin-resolver.service';
+import { StateListResolver } from './route-resolvers/state-list-resolver';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
   { path: '', component: MapComponent },
+  { path: 'add-me-to-the-map',
+    component: AddMeToMapMapComponent,
+    canActivate: [
+      LoggedInGuard
+    ],
+    resolve: {
+      userData: UserDataResolver,
+      stateList: StateListResolver
+    }
+  },
+  { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'signin', component: AuthenticationComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'map', component: MapComponent },
   { path: 'pin-details/:participantId',
     component: PinDetailsComponent,
     resolve:  {
       pin: PinResolver
-    }},
-  { path: 'signin', component: AuthenticationComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'map', component: MapComponent },
+    }
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
