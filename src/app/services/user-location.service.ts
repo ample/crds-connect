@@ -100,7 +100,7 @@ export class UserLocationService {
 
       this.location.getCurrentPosition().subscribe(
         location => {
-          position = new GeoCoordinates(location.latitude, location.longitude);
+          position = new GeoCoordinates(location.lat, location.lng);
           observer.next(position);
         },
         error => {
