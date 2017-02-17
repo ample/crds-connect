@@ -16,7 +16,7 @@ import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
-  { path: '', component: AddMeToMapMapComponent },
+  { path: '', component: MapComponent },
   { path: 'add-me-to-the-map',
     component: AddMeToMapMapComponent,
     canActivate: [
