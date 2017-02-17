@@ -57,15 +57,23 @@ export class AddMeToMapMapComponent implements OnInit {
 
   }
 
+
   public onSubmit({ value, valid }: { value: any, valid: boolean }) {
-    // console.log(value, valid);
-    this.api.postPin(value).subscribe(
-      next => { this.router.navigate(['/now-a-pin']) },
-      err => this.toggleSubmissionError(true)
+
+    this.setSubmissionErrorWarningTo(false);
+
+    let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData );
+    pinToSubmit.address.state = this.hlpr.setStateToStringIfNum(pinToSubmit.address.state, this.stateList);
+
+    this.api.postPin(pinToSubmit).subscribe(
+      next => {
+        this.router.navigate(['/now-a-pin'])
+      },
+      err => this.setSubmissionErrorWarningTo(true)
     );
   }
 
-  public toggleSubmissionError(isErrorActive) {
+  public setSubmissionErrorWarningTo(isErrorActive) {
     this.submissionError = isErrorActive;
   }
 

@@ -92,18 +92,14 @@ export class APIService {
   //MOCK METHOD UNTIL BACKEND PART OF STORY IS AVAILABLE
   postPin(pin: Pin) {
 
-    let obs = new Observable(observer => {
-      setTimeout(() => {
-        let rand = Math.random();
-        if(rand < .5){
-          observer.next('Mock call succeeded');
-        } else {
-          observer.error('Mock call failed');
-        }
-      }, 2000);
-    });
+    let postPinUrl = this.baseUrl + 'api/finder/pin';
+    console.log('Pin being sent to server');
 
-    return obs;
+    return this.session.post(postPinUrl, pin)
+        .map((res: any) => {
+          return res;
+        })
+        .catch( (err) => Observable.throw(err.json().error) );
   }
 
   public postUser(user: User): Observable<any> {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Address } from '../models/address';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
+import { LookupTable } from '../models/lookup-table';
 import { Pin } from '../models/pin';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
@@ -10,6 +11,23 @@ export class AddMeToTheMapHelperService {
 
 
   constructor() { }
+
+  isObjectNumber (o) {
+    return ! isNaN (o-0) && o != null;
+  }
+
+  public setStateToStringIfNum(stateValue: string, stateList: Array<LookupTable>): string{
+
+    let stateAsString: string;
+
+    if( this.isObjectNumber(stateValue) ){
+      stateAsString = stateList.find(state => state.dp_RecordID === Number(stateValue)).dp_RecordName;
+    } else {
+      stateAsString = stateValue;
+    }
+
+    return stateAsString;
+  }
 
   public getStringField(data: UserDataForPinCreation, fieldName: string): string{
     let prepopulatedAddressValue: string;
