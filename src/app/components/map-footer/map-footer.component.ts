@@ -11,11 +11,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MapFooterComponent {
 
 
-  constructor(private fb: FormBuilder,
-              private content: ContentService,
-              private router: Router) { }
+  constructor(private router: Router) { }
 
-  public btnClick()  {
+  public myPinBtnClicked()  {
     this.router.navigateByUrl('/add-me-to-the-map');
   }
 }

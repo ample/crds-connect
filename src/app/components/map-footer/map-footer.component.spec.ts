@@ -8,15 +8,15 @@ import { SelectModule } from 'angular2-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ContentService } from '../../services/content.service';
-import { NowAPinComponent } from './map-footer.component';
+import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('Component: Now A Pin', () => {
+describe('Component: Map Footer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        NowAPinComponent
+        MapFooterComponent
       ],
       imports: [
         AgmCoreModule.forRoot({
@@ -31,7 +31,7 @@ describe('Component: Now A Pin', () => {
         ContentService
       ]
     });
-    this.fixture = TestBed.createComponent(NowAPinComponent);
+    this.fixture = TestBed.createComponent(MapFooterComponent);
     this.component = this.fixture.componentInstance;
 
   });
