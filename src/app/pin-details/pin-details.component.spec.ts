@@ -83,7 +83,7 @@ describe('Component: Pin-Details component', () => {
     expect(this.component).toBeTruthy();
   });
 
-  it('doesLoggedInUserOwnPin() should return true if contactId matches', inject([SessionService], (service:any) => {
+  it('doesLoggedInUserOwnPin() should return true if contactId matches', inject([SessionService], (service: any) => {
     spyOn(service, 'getContactId').and.returnValue(2562378);
     this.component.ngOnInit();
     let returnValue = this.component.doesLoggedInUserOwnPin();
@@ -91,7 +91,7 @@ describe('Component: Pin-Details component', () => {
 
   }));
 
-  it('doesLoggedInUserOwnPin() should return false if contactId doesnt match', inject([SessionService], (service:any) => {
+  it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', inject([SessionService], (service: any) => {
     spyOn(service, 'getContactId').and.returnValue(42);
     this.component.ngOnInit();
     let returnValue = this.component.doesLoggedInUserOwnPin();

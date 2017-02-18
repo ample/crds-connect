@@ -9,7 +9,7 @@ export class SessionService {
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
   private cookieOptions: CookieOptionsArgs;
 
-  private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';;
+  private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
 
   constructor(private http: Http, private cookieService: CookieService) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
@@ -44,9 +44,8 @@ export class SessionService {
 
     try {
       body = res.json();
-    }
-    catch(err) {
-      body = ''
+    } catch (err) {
+      body = '';
     }
 
     if (body != null && body.userToken) {

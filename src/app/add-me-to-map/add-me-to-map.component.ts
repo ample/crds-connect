@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../services/api.service';
 import { StateService } from '../services/state.service';
-import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service'
+import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service';
 import { LocationService } from '../services/location.service';
 import { LookupTable } from '../models/lookup-table';
 import { Pin } from '../models/pin';

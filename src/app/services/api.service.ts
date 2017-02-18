@@ -65,10 +65,10 @@ export class APIService {
   public getUserData(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/profile')
         .map((res: any) => {
-          var userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2,
+          let userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2,
             res.city, res.state, res.postalCode, 0, 0);
-          //Last two zeroes are mocked latitude and longitude, will come from service once complete
-          var userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.householdId,
+          // Last two zeroes are mocked latitude and longitude, will come from service once complete
+          let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.householdId,
               res.firstName, res.lastName, res.emailAddress, userAddress);
 
           return userData;
@@ -88,11 +88,9 @@ export class APIService {
       .catch(this.handleError);
   }
 
-  //MOCK METHOD UNTIL BACKEND PART OF STORY IS AVAILABLE
   postPin(pin: Pin) {
 
     let postPinUrl = this.baseUrl + 'api/finder/pin';
-    console.log('Pin being sent to server');
 
     return this.session.post(postPinUrl, pin)
         .map((res: any) => {
