@@ -103,8 +103,12 @@ export class UserLocationService {
 
       this.location.getCurrentPosition().subscribe(
         location => {
-          position = new GeoCoordinates(location.lat, location.lng);
-          observer.next(position);
+          if (location.lat == null || location.lng == null) {
+             observer.error();
+          }  else {
+            position = new GeoCoordinates(location.lat, location.lng);
+            observer.next(position);
+          }
         },
         error => {
           observer.error();
