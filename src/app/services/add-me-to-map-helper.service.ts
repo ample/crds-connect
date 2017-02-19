@@ -13,14 +13,14 @@ export class AddMeToTheMapHelperService {
   constructor() { }
 
   isObjectNumber (o) {
-    return ! isNaN (o-0) && o != null;
+    return ! isNaN (o - 0) && o != null;
   }
 
-  public setStateToStringIfNum(stateValue: string, stateList: Array<LookupTable>): string{
+  public setStateToStringIfNum (stateValue: string, stateList: Array<LookupTable>): string {
 
     let stateAsString: string;
 
-    if( this.isObjectNumber(stateValue) ){
+    if ( this.isObjectNumber(stateValue) ) {
       stateAsString = stateList.find(state => state.dp_RecordID === Number(stateValue)).dp_RecordName;
     } else {
       stateAsString = stateValue;
@@ -29,10 +29,10 @@ export class AddMeToTheMapHelperService {
     return stateAsString;
   }
 
-  public getStringField(data: UserDataForPinCreation, fieldName: string): string{
+  public getStringField(data: UserDataForPinCreation, fieldName: string): string {
     let prepopulatedAddressValue: string;
 
-    if(data.address !== null && data.address[fieldName]){
+    if (data.address !== null && data.address[fieldName]) {
       prepopulatedAddressValue = data.address[fieldName];
     } else {
       prepopulatedAddressValue = '';
@@ -41,8 +41,8 @@ export class AddMeToTheMapHelperService {
     return prepopulatedAddressValue;
   }
 
-  //All the notes on this method are assumptions which need to be verified
-  public createNewPin(addMeForm: AddMeToMapFormFields, initialUserData: UserDataForPinCreation ): Pin {
+  // All the notes on this method are assumptions which need to be verified
+  public createNewPin (addMeForm: AddMeToMapFormFields, initialUserData: UserDataForPinCreation ): Pin {
 
     let address = new Address(initialUserData.address.addressId, addMeForm.addressLine1, addMeForm.addressLine2,
         addMeForm.city, addMeForm.state, addMeForm.zip, 0, 0);
@@ -54,7 +54,7 @@ export class AddMeToTheMapHelperService {
       initialUserData.contactId,
       0, // This is not available, may need to add it back - will be used for groups
       address,
-      0,// not applied - the statuses need to be a constant enum on the front end
+      0, // not applied - the statuses need to be a constant enum on the front end
       null, // null if not a group
       initialUserData.householdId
     );

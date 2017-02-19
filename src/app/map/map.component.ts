@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { crdsOakleyCoords } from '../shared/constants';
 import { MapSettings } from '../models/map-settings';
+import { MapFooterComponent } from '../components/map-footer/map-footer.component';
 import { UserLocationService } from  '../services/user-location.service';
 
 @Component({

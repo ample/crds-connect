@@ -148,7 +148,7 @@ describe('Service: Session', () => {
     expect(service.cookieService.put).toHaveBeenCalledWith(service.contactId, '12345', service.cookieOptions);
   }));
 
-  it('should get contactId', inject([SessionService], (service:any) => {
+  it ('should get contactId', inject([SessionService], (service: any) => {
     spyOn(service.cookieService, 'get').and.returnValue('12345');
     let contactId = service.getContactId();
     expect(service.cookieService.get).toHaveBeenCalledWith(service.contactId);
