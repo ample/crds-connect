@@ -59,7 +59,7 @@ export class APIService {
       this.getClientIpFromThirdPartyApi().subscribe(
         ipData => {
           let corsFriendlyIp = ipData.ip.toString().split('.').join('-');
-          let geoLocByIpUrl = this.baseUrl + 'api/finder/pinbyip/' + corsFriendlyIp;
+          let geoLocByIpUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip/' + corsFriendlyIp;
           this.session.get(geoLocByIpUrl)
             .map(this.extractData)
             .catch(this.handleError)
