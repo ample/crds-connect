@@ -23,35 +23,35 @@ export class UserLocationService {
         let contactid: number = this.session.getContactId(); // get contactid from cookie
 
         this.getUserLocationFromUserId(contactid).subscribe(
-            success => {
-              observer.next(success);
-            },
-            failure => {
-              this.getUserLocationFromCurrentLocation().subscribe(
-                  location => {
-                    observer.next(location);
-                  },
-                  error => {
-                    observer.next(this.getUserLocationFromDefault());
-                  }
-              );
-            }
+          success => {
+            observer.next(success);
+          },
+          failure => {
+            this.getUserLocationFromCurrentLocation().subscribe(
+              location => {
+                observer.next(location);
+              },
+              error => {
+                observer.next(this.getUserLocationFromDefault());
+              }
+            );
+          }
         );
       } else {
         this.getUserLocationFromCurrentLocation().subscribe(
-            success => {
-              observer.next(success);
-            },
-            failure => {
-              this.getUserLocationFromIp().subscribe(
-                  ipLocPos => {
-                    observer.next(ipLocPos);
-                  },
-                  error => {
-                    observer.next(this.getUserLocationFromDefault());
-                  }
-              );
-            }
+          success => {
+            observer.next(success);
+          },
+          failure => {
+            this.getUserLocationFromIp().subscribe(
+              ipLocPos => {
+                observer.next(ipLocPos);
+              },
+              error => {
+                observer.next(this.getUserLocationFromDefault());
+              }
+            );
+          }
         );
       }
     });
@@ -63,13 +63,13 @@ export class UserLocationService {
       let position: GeoCoordinates;
 
       this.pinservice.getPinDetailsByContactId(contactId).subscribe(
-          success => {
-            position = new GeoCoordinates(success.address.latitude, success.address.longitude);
-            observer.next(position);
-          },
-          failure => {
-            observer.error();
-          }
+        success => {
+          position = new GeoCoordinates(success.address.latitude, success.address.longitude);
+          observer.next(position);
+        },
+        failure => {
+          observer.error();
+        }
       );
 
     });
@@ -81,13 +81,13 @@ export class UserLocationService {
       let position: GeoCoordinates;
 
       this.api.getLocationFromIP().subscribe(
-          location => {
-            position = new GeoCoordinates(location.latitude, location.longitude);
-            observer.next(position);
-          },
-          error => {
-            observer.error();
-          }
+        location => {
+          position = new GeoCoordinates(location.latitude, location.longitude);
+          observer.next(position);
+        },
+        error => {
+          observer.error();
+        }
       );
     });
     return ipObs;
@@ -102,17 +102,17 @@ export class UserLocationService {
       let position: GeoCoordinates;
 
       this.location.getCurrentPosition().subscribe(
-          location => {
-            if (location.lat == null || location.lng == null) {
-              observer.error();
-            }  else {
-              position = new GeoCoordinates(location.lat, location.lng);
-              observer.next(position);
-            }
-          },
-          error => {
+        location => {
+          if (location.lat == null || location.lng == null) {
             observer.error();
+          }  else {
+            position = new GeoCoordinates(location.lat, location.lng);
+            observer.next(position);
           }
+        },
+        error => {
+          observer.error();
+        }
       );
     });
     return locObs;
