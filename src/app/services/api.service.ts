@@ -58,10 +58,8 @@ export class APIService {
     let obs: Observable<any> = new Observable(observer => {
       this.getClientIpFromThirdPartyApi().subscribe(
         ipData => {
-          console.log(ipData);
-          let corsFriendlyIp = 'test'; //ipData.ip.toString().replace('.', 'dot');
-          let geoLocByIpUrl = this.baseUrl + 'api/finder/pinbyip/' + ipData.ip;
-          console.log(geoLocByIpUrl);
+          let corsFriendlyIp = ipData.ip.toString().split('.').join('-');
+          let geoLocByIpUrl = this.baseUrl + 'api/finder/pinbyip/' + corsFriendlyIp;
           this.session.get(geoLocByIpUrl)
             .map(this.extractData)
             .catch(this.handleError)
@@ -70,7 +68,6 @@ export class APIService {
               err => observer.error(new Error('Failed to get geolocation from API via IP'))
             );
         }, error => {
-          console.log('Failed to get geolocation from API via IP');
           observer.error(new Error('Failed to get geolocation from API via IP'));
         }
       )
