@@ -60,17 +60,8 @@ export class UserLocationService {
 
   private getUserLocationFromUserId(contactId: number): Observable<any> {
     let profileObs = new Observable ( observer => {
-      let position: GeoCoordinates;
 
-      this.pinservice.getPinDetailsByContactId(contactId).subscribe(
-        success => {
-          position = new GeoCoordinates(success.address.latitude, success.address.longitude);
-            observer.next(position);
-        },
-        failure => {
-          observer.error();
-        }
-      );
+    observer.error();
 
     });
     return profileObs;
@@ -99,21 +90,9 @@ export class UserLocationService {
 
   private getUserLocationFromCurrentLocation(): Observable<any> {
     let locObs = new Observable ( observer => {
-      let position: GeoCoordinates;
 
-      this.location.getCurrentPosition().subscribe(
-        location => {
-          if (location.lat == null || location.lng == null) {
-             observer.error();
-          }  else {
-            position = new GeoCoordinates(location.lat, location.lng);
-            observer.next(position);
-          }
-        },
-        error => {
-          observer.error();
-        }
-      );
+    observer.error();
+
     });
     return locObs;
   }
