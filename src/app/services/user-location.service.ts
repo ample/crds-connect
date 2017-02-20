@@ -65,7 +65,7 @@ export class UserLocationService {
       this.pinservice.getPinDetailsByContactId(contactId).subscribe(
         success => {
           position = new GeoCoordinates(success.address.latitude, success.address.longitude);
-            observer.next(position);
+          observer.next(position);
         },
         failure => {
           observer.error();
@@ -81,15 +81,15 @@ export class UserLocationService {
       let position: GeoCoordinates;
 
       this.api.getLocationFromIP().subscribe(
-          location => {
-            position = new GeoCoordinates(location.latitude, location.longitude);
-            observer.next(position);
-          },
-          error => {
-            observer.error();
-          }
-        );
-      });
+        location => {
+          position = new GeoCoordinates(location.latitude, location.longitude);
+          observer.next(position);
+        },
+        error => {
+          observer.error();
+        }
+      );
+    });
     return ipObs;
   }
 
@@ -104,7 +104,7 @@ export class UserLocationService {
       this.location.getCurrentPosition().subscribe(
         location => {
           if (location.lat == null || location.lng == null) {
-             observer.error();
+            observer.error();
           }  else {
             position = new GeoCoordinates(location.lat, location.lng);
             observer.next(position);

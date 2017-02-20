@@ -41,11 +41,39 @@ export class APIService {
       });
   }
 
+  public getClientIpFromThirdPartyApi(): Observable<any> {
+
+    let obs: Observable<any> = new Observable(observer => {
+      this.http.get('https://api.ipify.org/?format=json').map(this.extractData).subscribe(
+        ip => observer.next(ip),
+        err => observer.error(new Error('Could not fetch client IP'))
+      );
+    });
+
+    return obs;
+  }
+
   public getLocationFromIP(): Observable<any> {
-    let profileUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip';
-      return this.session.get(profileUrl)
-      .map(this.extractData)
-      .catch(this.handleError);
+
+    let obs: Observable<any> = new Observable(observer => {
+      this.getClientIpFromThirdPartyApi().subscribe(
+        ipData => {
+          let corsFriendlyIp = ipData.ip.toString().split('.').join('-');
+          let geoLocByIpUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip/' + corsFriendlyIp;
+          this.session.get(geoLocByIpUrl)
+            .map(this.extractData)
+            .catch(this.handleError)
+            .subscribe(
+              geoLocationData => observer.next(geoLocationData),
+              err => observer.error(new Error('Failed to get geolocation from API via IP'))
+            );
+        }, error => {
+          observer.error(new Error('Failed to get geolocation from API via IP'));
+        }
+      )
+    });
+
+    return obs;
   }
 
   public getRegisteredUser(email: string): Observable<boolean> {
