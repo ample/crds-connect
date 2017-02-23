@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
+import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { HostApplicationComponent } from './host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
