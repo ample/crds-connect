@@ -93,12 +93,12 @@ export class APIService {
   }
 
   public getUserData(): Observable<any> {
-    return this.pin.getPinDetailsByContactId(this.session.getContactId())
-        .map((res: any) => {
+    return this.session.get(`${this.baseUrl}api/finder/pin/contact/${this.session.getContactId()}/false`)
+        .map((res: Pin) => {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
-            res.address.city, res.address.state, res.address.postalCode, res.address.logitude, res.address.latitude);
+            res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
           let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.householdId,
-              res.firstName, res.lastName, res.emailAddress, userAddress);
+              res.firstname, res.lastname, res.emailAddress, userAddress);
 
           return userData;
         })

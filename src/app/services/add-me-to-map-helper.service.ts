@@ -45,7 +45,7 @@ export class AddMeToTheMapHelperService {
   public createNewPin (addMeForm: AddMeToMapFormFields, initialUserData: UserDataForPinCreation ): Pin {
 
     let address = new Address(initialUserData.address.addressId, addMeForm.addressLine1, addMeForm.addressLine2,
-        addMeForm.city, addMeForm.state, addMeForm.zip, 0, 0);
+        addMeForm.city, addMeForm.state, addMeForm.zip, initialUserData.address.longitude, initialUserData.address.latitude);
 
     let pin = new Pin(
       initialUserData.firstname,

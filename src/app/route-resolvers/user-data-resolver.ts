@@ -9,12 +9,12 @@ import { APIService } from '../services/api.service';
 @Injectable()
 export class UserDataResolver implements Resolve<any> {
 
-    constructor(private http: Http,
-                private api: APIService,
-                private state: StateService) { }
+  constructor(private http: Http,
+              private api: APIService,
+              private state: StateService) { }
 
-    resolve(): Observable<any> {
-        this.state.setLoading(true);
-        return this.api.getUserData();
-    }
+  resolve(): Observable<any> {
+    this.state.setLoading(true);
+    return this.api.getUserData();
+  }
 }
