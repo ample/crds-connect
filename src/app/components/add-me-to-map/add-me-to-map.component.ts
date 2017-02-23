@@ -1,17 +1,17 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ContentService } from '../services/content.service';
+import { ContentService } from '../../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { APIService } from '../services/api.service';
-import { StateService } from '../services/state.service';
-import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service';
-import { LocationService } from '../services/location.service';
-import { LookupTable } from '../models/lookup-table';
-import { Pin } from '../models/pin';
+import { APIService } from '../../services/api.service';
+import { StateService } from '../../services/state.service';
+import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
+import { LocationService } from '../../services/location.service';
+import { LookupTable } from '../../models/lookup-table';
+import { Pin } from '../../models/pin';
 
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
-import { Address } from '../models/address';
+import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
+import { Address } from '../../models/address';
 
 
 @Component({

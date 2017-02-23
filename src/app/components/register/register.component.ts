@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { APIService } from '../services/api.service';
-import { StateService } from '../services/state.service';
-import { StoreService } from '../services/store.service';
+import { APIService } from '../../services/api.service';
+import { StateService } from '../../services/state.service';
+import { StoreService } from '../../services/store.service';
 
-import { User } from '../models/user';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html'
+  templateUrl: 'register.component.html'
 })
 export class RegisterComponent implements OnInit {
   public errorMessage: string = '';

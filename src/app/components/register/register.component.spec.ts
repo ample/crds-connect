@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { APIService } from '../services/api.service';
-import { StateService } from '../services/state.service';
-import { StoreService } from '../services/store.service';
+import { APIService } from '../../services/api.service';
+import { StateService } from '../../services/state.service';
+import { StoreService } from '../../services/store.service';
 
 import { RegisterComponent } from './register.component';
 

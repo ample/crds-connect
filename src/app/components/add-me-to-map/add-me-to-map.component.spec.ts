@@ -8,15 +8,15 @@ import { CookieService } from 'angular2-cookie/core';
 
 import { SelectModule } from 'angular2-select';
 
-import { APIService } from '../services/api.service';
+import { APIService } from '../../services/api.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { ContentService } from '../services/content.service';
-import { AddMeToTheMapHelperService } from '../services/add-me-to-map-helper.service';
-import { LocationService } from '../services/location.service';
+import { ContentService } from '../../services/content.service';
+import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
+import { LocationService } from '../../services/location.service';
 import { AddMeToMapMapComponent } from './add-me-to-map.component';
-import { SessionService } from '../services/session.service';
-import { StateService } from '../services/state.service';
-import { PinService } from '../services/pin.service';
+import { SessionService } from '../../services/session.service';
+import { StateService } from '../../services/state.service';
+import { PinService } from '../../services/pin.service';
 
 describe('Component: Add Me to the Map', () => {
 

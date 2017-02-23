@@ -15,15 +15,15 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'angular2-select';
 
-import { HostApplicationComponent } from './host-application/host-application.component';
-import { PinDetailsComponent } from './pin-details/pin-details.component';
-import { AddMeToMapMapComponent } from './add-me-to-map/add-me-to-map.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
-import { MapComponent } from './map/map.component';
+import { HostApplicationComponent } from './components/host-application/host-application.component';
+import { PinDetailsComponent } from './components/pin-details/pin-details.component';
+import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { MapComponent } from './components/map/map.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RegisterComponent} from './register/register.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { RegisterComponent} from './components/register/register.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
 import { APIService } from './services/api.service';
@@ -37,7 +37,7 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
 
-import { PinResolver } from './resolves/pin-resolver.service';
+import { PinResolver } from './route-resolvers/pin-resolver.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';
