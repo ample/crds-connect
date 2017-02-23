@@ -16,7 +16,7 @@ import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'angular2-select';
 
 import { HostApplicationComponent } from './components/host-application/host-application.component';
-import { PinDetailsComponent } from './pin-details/pin-details.component';
+import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { MapComponent } from './components/map/map.component';

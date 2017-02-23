@@ -8,7 +8,7 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './components/map/map.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { PinDetailsComponent } from './pin-details/pin-details.component';
+import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './register/register.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
