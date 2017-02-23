@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
-import { HostApplicationComponent } from './host-application/host-application.component';
+import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './components/map/map.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
