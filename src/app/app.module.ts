@@ -18,7 +18,7 @@ import { SelectModule } from 'angular2-select';
 import { HostApplicationComponent } from './host-application/host-application.component';
 import { PinDetailsComponent } from './pin-details/pin-details.component';
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { MapComponent } from './components/map/map.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
