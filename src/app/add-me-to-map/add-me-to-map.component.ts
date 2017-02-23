@@ -60,6 +60,7 @@ export class AddMeToMapMapComponent implements OnInit {
   public onSubmit({ value, valid }: { value: any, valid: boolean }) {
 
     this.setSubmissionErrorWarningTo(false);
+    value.isFormDirty = this.addMeToMapFormGroup.dirty;
 
     let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData );
     pinToSubmit.address.state = this.hlpr.setStateToStringIfNum(pinToSubmit.address.state, this.stateList);

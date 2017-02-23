@@ -13,10 +13,10 @@ describe('Service: Add me to the Map Helper', () => {
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0);
   const mockUserData = new UserDataForPinCreation(111, 9999, 'Bob', 'Smith', 'bobby@bob.com', mockAddress);
-  const mockForm = new AddMeToMapFormFields('Test3 St', '', 'KarmaSt', 'II', '54321');
+  const mockForm = new AddMeToMapFormFields('Test3 St', '', 'KarmaSt', 'II', '54321', true);
   const mockModifiedAddress = new Address(mockAddress.addressId, mockForm.addressLine1, mockForm.addressLine2,
                                           mockForm.city, mockForm.state, mockForm.zip, 0, 0);
-  const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 0, mockModifiedAddress, 0, null, 9999);
+  const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 0, mockModifiedAddress, 0, null, 9999, true);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
