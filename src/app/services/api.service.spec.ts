@@ -9,6 +9,7 @@ import { IFrameParentService } from './iframe-parent.service';
 import { StoreService } from './store.service';
 import { SessionService } from './session.service';
 import { APIService } from './api.service';
+import { PinService } from './pin.service';
 import { StateService } from './state.service';
 
 class MockActivatedRoute {
@@ -33,6 +34,7 @@ describe('Service: API', () => {
                 SessionService,
                 BaseRequestOptions,
                 APIService,
+                PinService,
                 StateService,
                 StoreService,
                 CookieService,
