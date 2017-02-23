@@ -22,7 +22,7 @@ import { AuthenticationComponent } from './components/authentication/authenticat
 import { MapComponent } from './components/map/map.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { RegisterComponent} from './register/register.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
