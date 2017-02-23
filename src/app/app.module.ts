@@ -37,7 +37,7 @@ import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
 
-import { PinResolver } from './resolves/pin-resolver.service';
+import { PinResolver } from './route-resolvers/pin-resolver.service';
 
 import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
 import { CurrencyFormatDirective } from './directives/currency-format.directive';

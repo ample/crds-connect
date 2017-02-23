@@ -11,7 +11,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PinDetailsComponent } from './pin-details/pin-details.component';
 import { RegisterComponent } from './register/register.component';
 
-import { PinResolver } from './resolves/pin-resolver.service';
+import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
