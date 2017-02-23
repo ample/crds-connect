@@ -19,7 +19,7 @@ import { HostApplicationComponent } from './host-application/host-application.co
 import { PinDetailsComponent } from './pin-details/pin-details.component';
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { MapComponent } from './map/map.component';
+import { MapComponent } from './components/map/map.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
