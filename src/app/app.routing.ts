@@ -9,7 +9,7 @@ import { MapComponent } from './components/map/map.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { StateListResolver } from './route-resolvers/state-list-resolver';
