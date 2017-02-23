@@ -3,6 +3,7 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { SessionService } from './session.service';
+import { PinService } from './pin.service';
 
 import { IFrameParentService } from './iframe-parent.service';
 import { LookupTable } from '../models/lookup-table';
@@ -29,7 +30,8 @@ export class APIService {
   };
 
   constructor( private http: Http,
-               private session: SessionService) { }
+               private session: SessionService,
+               private pin: PinService) { }
 
   public getAuthentication(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/v1.0.0/authenticated')
@@ -91,11 +93,10 @@ export class APIService {
   }
 
   public getUserData(): Observable<any> {
-    return this.session.get(this.baseUrl + 'api/profile')
+    return this.pin.getPinDetailsByContactId(this.session.getContactId())
         .map((res: any) => {
-          let userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2,
-            res.city, res.state, res.postalCode, 0, 0);
-          // Last two zeroes are mocked latitude and longitude, will come from service once complete
+          let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
+            res.address.city, res.address.state, res.address.postalCode, res.address.logitude, res.address.latitude);
           let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.householdId,
               res.firstName, res.lastName, res.emailAddress, userAddress);
 
