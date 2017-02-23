@@ -12,9 +12,10 @@ export class Pin {
     gathering: Group;
     address: Address;
     householdId: number;
+    isFormDirty: boolean;
 
     constructor(first_name: string, last_name: string, email: string, contactId: number, participantId: number,
-                address: Address, hostStatus: number, gathering: Group, householdId: number) {
+                address: Address, hostStatus: number, gathering: Group, householdId: number, isFormDirty: boolean) {
         this.firstname = first_name;
         this.lastname = last_name;
         this.emailAddress = email;
@@ -24,5 +25,6 @@ export class Pin {
         this.hostStatus = hostStatus;
         this.gathering = gathering;
         this.householdId = householdId;
+        this.isFormDirty = isFormDirty;
     }
 }

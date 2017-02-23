@@ -56,7 +56,8 @@ export class AddMeToTheMapHelperService {
       address,
       0, // not applied - the statuses need to be a constant enum on the front end
       null, // null if not a group
-      initialUserData.householdId
+      initialUserData.householdId,
+      addMeForm.isFormDirty
     );
 
     return pin;

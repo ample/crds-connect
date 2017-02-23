@@ -4,13 +4,15 @@ export class AddMeToMapFormFields {
     city: string;
     state: string;
     zip: string;
+    isFormDirty: boolean;
 
-    constructor (addressLine1: string, addressLine2: string, city: string, state: string, zip: string) {
+    constructor (addressLine1: string, addressLine2: string, city: string, state: string, zip: string, isFormDirty: boolean) {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
         this.state = state;
         this.zip = zip;
+        this.isFormDirty = isFormDirty;
     }
 }
 
