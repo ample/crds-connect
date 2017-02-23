@@ -12,7 +12,6 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { RegisterComponent } from './components/register/register.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
-import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
@@ -23,8 +22,7 @@ const appRoutes: Routes = [
       LoggedInGuard
     ],
     resolve: {
-      userData: UserDataResolver,
-      stateList: StateListResolver
+      userData: UserDataResolver
     }
   },
   { path: 'now-a-pin', component: NowAPinComponent },
