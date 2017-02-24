@@ -35,7 +35,8 @@ export class SessionService {
   private extractAuthToken = (res: Response) => {
     if (res.headers != null && res.headers.get('Authorization')) {
       this.setAccessToken(res.headers.get('Authorization'));
-    };
+    }
+
     if (res.headers != null && res.headers.get('RefreshToken')) {
       this.setRefreshToken(res.headers.get('RefreshToken'));
     }

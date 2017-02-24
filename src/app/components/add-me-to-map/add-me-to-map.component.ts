@@ -12,6 +12,7 @@ import { Pin } from '../../models/pin';
 
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 import { Address } from '../../models/address';
+import { usStatesList } from '../../shared/constants'
 
 
 @Component({
@@ -22,9 +23,8 @@ import { Address } from '../../models/address';
 export class AddMeToMapMapComponent implements OnInit {
 
   public userData: UserDataForPinCreation;
-  public stateList: Array<LookupTable>;
   public addMeToMapFormGroup: FormGroup;
-  public stateListForSelect: Array<any>;
+  public stateList: Array<string>;
   public submissionError = false;
 
   constructor(private api: APIService,
@@ -40,12 +40,7 @@ export class AddMeToMapMapComponent implements OnInit {
   public ngOnInit(): void {
     this.state.setLoading(false);
     this.userData = this.route.snapshot.data['userData'];
-    this.stateList = this.route.snapshot.data['stateList'];
-
-    this.stateListForSelect = this.stateList.map(state => {
-      let formmatedState = {label: state.dp_RecordName, value: state.dp_RecordName};
-      return formmatedState;
-    });
+    this.stateList = usStatesList;
 
     this.addMeToMapFormGroup = new FormGroup({
       addressLine1: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine1'), [Validators.required]),
@@ -63,7 +58,6 @@ export class AddMeToMapMapComponent implements OnInit {
     value.isFormDirty = this.addMeToMapFormGroup.dirty;
 
     let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData );
-    pinToSubmit.address.state = this.hlpr.setStateToStringIfNum(pinToSubmit.address.state, this.stateList);
 
     this.api.postPin(pinToSubmit).subscribe(
       next => {

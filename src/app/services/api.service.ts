@@ -79,13 +79,13 @@ export class APIService {
   }
 
   public getRegisteredUser(email: string): Observable<boolean> {
-    return this.http.get(this.baseUrl + 'api/lookup/0/find/?email=' + encodeURIComponent(email))
+    return this.http.get(this.baseUrl + 'api/v1.0.0/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
       .catch(res => { return [true]; });
   };
 
   public getStateList(): Observable<any> {
-    return this.session.get(this.baseUrl + 'api/lookup/states')
+    return this.session.get(this.baseUrl + 'api/v1.0.0/lookup/states')
         .map((res: Array<LookupTable>) => {
           return res;
         })
@@ -93,7 +93,7 @@ export class APIService {
   }
 
   public getUserData(): Observable<any> {
-    return this.session.get(`${this.baseUrl}api/finder/pin/contact/${this.session.getContactId()}/false`)
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${this.session.getContactId()}/false`)
         .map((res: Pin) => {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
             res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
@@ -110,7 +110,7 @@ export class APIService {
       'username': email,
       'password': password
     };
-    return this.session.post(this.baseUrl + 'api/login', body)
+    return this.session.post(this.baseUrl + 'api/v1.0.0/login', body)
       .map((res: Response) => {
         return res || this.defaults.authorized;
       })
@@ -119,7 +119,7 @@ export class APIService {
 
   postPin(pin: Pin) {
 
-    let postPinUrl = this.baseUrl + 'api/finder/pin';
+    let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
 
     return this.session.post(postPinUrl, pin)
         .map((res: any) => {
@@ -129,7 +129,7 @@ export class APIService {
   }
 
   public postUser(user: User): Observable<any> {
-    return this.session.post(this.baseUrl + 'api/user', user)
+    return this.session.post(this.baseUrl + 'api/v1.0.0/user', user)
       .map(this.extractData)
       .catch(this.handleError);
   };

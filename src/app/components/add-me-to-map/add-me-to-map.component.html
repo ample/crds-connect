@@ -80,14 +80,14 @@
         <!--STATE-->
         <div class="form-group inline-form__input">
             <label class="sr-only" for="state">State</label>
-            <ng-select
-                    [options]="stateListForSelect"
+            <select formControlName="state"
+                    class="form-control override-styles-for-dropdown"
                     placeholder="State"
-                    id = "state"
-                    class ="dropdown-select"
-                    formControlName="state"
-                    [allowClear]="true">
-            </ng-select>
+                    id = "state">
+                <option *ngFor="let state of stateList" [value]="state">
+                    {{state}}
+                </option>
+            </select>
         </div>
 
         <!--ZIP-->
@@ -133,4 +133,3 @@
     </div>
 
 </form>
-
