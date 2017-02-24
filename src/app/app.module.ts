@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -20,6 +20,7 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { MapComponent } from './components/map/map.component';
+import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -80,6 +81,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     CvvFormatDirective,
     ExpiryFormatDirective,
     MapComponent,
+    MapContentComponent,
     MapFooterComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
@@ -93,6 +95,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     ContentService,
     CookieService,
     APIService,
+    GoogleMapsAPIWrapper,
     IFrameParentService,
     LoginRedirectService,
     LocationService,
