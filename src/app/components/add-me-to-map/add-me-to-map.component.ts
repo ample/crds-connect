@@ -24,7 +24,7 @@ export class AddMeToMapMapComponent implements OnInit {
 
   public userData: UserDataForPinCreation;
   public addMeToMapFormGroup: FormGroup;
-  public stateListForSelect: Array<any>;
+  public stateList: Array<string>;
   public submissionError = false;
 
   constructor(private api: APIService,
@@ -40,11 +40,7 @@ export class AddMeToMapMapComponent implements OnInit {
   public ngOnInit(): void {
     this.state.setLoading(false);
     this.userData = this.route.snapshot.data['userData'];
-
-    this.stateListForSelect = usStatesList.map(state => {
-      let formmatedState = {label: state, value: state};
-      return formmatedState;
-    });
+    this.stateList = usStatesList;
 
     this.addMeToMapFormGroup = new FormGroup({
       addressLine1: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine1'), [Validators.required]),
