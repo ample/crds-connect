@@ -6,7 +6,8 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from './map.component';
-import { MapFooterComponent } from '../../components/map-footer/map-footer.component';
+import { MapContentComponent } from '../../components/map-content/map-content.component';
+import { MapFooterComponent } from '../map-footer/map-footer.component';
 
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -29,6 +30,7 @@ describe('Component: Map', () => {
     TestBed.configureTestingModule({
       declarations: [
         MapComponent,
+        MapContentComponent,
         MapFooterComponent
       ],
       imports: [
