@@ -78,6 +78,12 @@ export class APIService {
     return obs;
   }
 
+  public getPinsAddressSearchResults(userSearchAddress: string): Observable<Pin[]> {
+    return this.http.get(this.baseUrl + 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress)
+    .map((res: Response) => res.json())
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
   public getRegisteredUser(email: string): Observable<boolean> {
     return this.http.get(this.baseUrl + 'api/v1.0.0/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
@@ -117,8 +123,7 @@ export class APIService {
       .catch(this.handleError);
   }
 
-  postPin(pin: Pin) {
-
+  public postPin(pin: Pin) {
     let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
 
     return this.session.post(postPinUrl, pin)
