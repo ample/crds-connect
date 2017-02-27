@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent {
+  @Input() buttontext;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
@@ -17,10 +18,11 @@ export class SearchBarComponent {
   constructor( ) {}
 
   public toggleView() {
+    this.buttontext = 'toggle';
     this.mapViewActive = !this.mapViewActive;
     this.viewMap.emit(this.mapViewActive);
 
-    if (this.searchText.length> 0) {
+    if (this.searchText.length > 0) {
       this.onSearch(this.searchText);
     }
   }
