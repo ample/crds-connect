@@ -19,6 +19,10 @@ export class SearchBarComponent {
   public toggleView() {
     this.mapViewActive = !this.mapViewActive;
     this.viewMap.emit(this.mapViewActive);
+
+    if (this.searchText.length> 0) {
+      this.onSearch(this.searchText);
+    }
   }
 
   public onSearch(searchString: string) {
