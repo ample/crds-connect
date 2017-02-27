@@ -19,6 +19,7 @@ import { HostApplicationComponent } from './components/host-application/host-app
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { ListViewComponent } from './components/list-view/list-view.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
@@ -82,6 +83,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    ListViewComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,

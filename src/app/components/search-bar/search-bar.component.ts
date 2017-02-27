@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent {
+  @Output()  viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
+
+  public mapViewActive: boolean = true;
 
   constructor( ) {}
+
+  public toggleView() {
+    this.mapViewActive = !this.mapViewActive;
+    this.viewMap.emit(this.mapViewActive);
+  }
 
 }

@@ -1,3 +1,8 @@
-<app-search-bar> </app-search-bar>
+<app-search-bar (viewMap)="onVoted($event)"> </app-search-bar>
 <br>
+<div *ngIf=mapViewActive>
 <app-map></app-map>
+</div>
+<div *ngIf="!mapViewActive">
+<app-listview></app-listview>
+</div>
