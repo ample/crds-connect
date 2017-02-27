@@ -65,7 +65,7 @@ describe('Component: Map', () => {
 
   });
 
-fit('should create an instance', () => {
+it('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
 
