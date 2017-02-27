@@ -5,7 +5,7 @@ import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
-import { MainComponent } from './components/main/main.component';
+import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -16,7 +16,7 @@ import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
-  { path: '', component: MainComponent },
+  { path: '', component: NeighborsComponent },
   { path: 'add-me-to-the-map',
     component: AddMeToMapMapComponent,
     canActivate: [

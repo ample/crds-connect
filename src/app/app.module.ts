@@ -19,13 +19,14 @@ import { HostApplicationComponent } from './components/host-application/host-app
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
-import { MainComponent } from './components/main/main.component';
+import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { RegisterComponent} from './components/register/register.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
 import { APIService } from './services/api.service';
@@ -81,14 +82,15 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
-    MainComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
+    NeighborsComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     PinDetailsComponent,
     RegisterComponent,
+    SearchBarComponent,
     FormatPaymentNumberDirective
   ],
   providers: [

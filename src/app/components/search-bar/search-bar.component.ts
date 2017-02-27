@@ -3,10 +3,11 @@ import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: 'main.component.html'
+  selector: 'app-search-bar',
+  templateUrl: 'search-bar.component.html',
+  styleUrls: ['search-bar.component.css']
 })
-export class MainComponent {
+export class SearchBarComponent {
 
   constructor( ) {}
 
