@@ -1,4 +1,4 @@
-<app-search-bar (viewMap)="onVoted($event)"> </app-search-bar>
+<app-search-bar (viewMap)="viewChanged($event)" (search)="doSearch($event)"> </app-search-bar>
 <br>
 <div *ngIf=mapViewActive>
 <app-map></app-map>

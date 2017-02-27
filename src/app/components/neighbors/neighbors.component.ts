@@ -11,8 +11,11 @@ export class NeighborsComponent {
 
   constructor( ) {}
 
-  onVoted(agreed: boolean) {
+  viewChanged(agreed: boolean) {
     this.mapViewActive = agreed;
   }
 
+  doSearch(searchString: string) {
+    console.log(searchString);
+  }
 }

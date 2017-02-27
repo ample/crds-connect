@@ -2,9 +2,9 @@
 <div class="container">
         <div class="row">
             <div class="input-group">
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" class="form-control" [(ngModel)]="searchText">
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary btn-sm">></button>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="onSearch(searchText.value)">></button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="toggleView()">List/Map</button>
                 </span>
         </div>

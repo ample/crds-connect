@@ -8,15 +8,22 @@ import { Router } from '@angular/router';
   styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent {
-  @Output()  viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
+  @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
+  @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
-  public mapViewActive: boolean = true;
+  private mapViewActive: boolean = true;
+  private searchText: string = '';
 
   constructor( ) {}
 
   public toggleView() {
     this.mapViewActive = !this.mapViewActive;
     this.viewMap.emit(this.mapViewActive);
+  }
+
+  public onSearch(searchString: string) {
+    this.search.emit(this.searchText);
+    this.searchText = '';
   }
 
 }
