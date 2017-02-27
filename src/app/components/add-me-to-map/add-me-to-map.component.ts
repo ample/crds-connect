@@ -12,7 +12,7 @@ import { Pin } from '../../models/pin';
 
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 import { Address } from '../../models/address';
-import { usStatesList } from '../../shared/constants'
+import { usStatesList } from '../../shared/constants';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { usStatesList } from '../../shared/constants'
   templateUrl: 'add-me-to-map.component.html',
   styleUrls: ['add-me-to-map.component.css']
 })
-export class AddMeToMapMapComponent implements OnInit {
+export class AddMeToMapComponent implements OnInit {
 
   public userData: UserDataForPinCreation;
   public addMeToMapFormGroup: FormGroup;
@@ -38,39 +38,14 @@ export class AddMeToMapMapComponent implements OnInit {
 
 
   public ngOnInit(): void {
-    this.state.setLoading(false);
     this.userData = this.route.snapshot.data['userData'];
-    this.stateList = usStatesList;
-
-    this.addMeToMapFormGroup = new FormGroup({
-      addressLine1: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine1'), [Validators.required]),
-      addressLine2: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine2')),
-      city: new FormControl(this.hlpr.getStringField(this.userData, 'city'), [Validators.required]),
-      state: new FormControl(this.hlpr.getStringField(this.userData, 'state'), [Validators.required]),
-      zip: new FormControl(this.hlpr.getStringField(this.userData, 'zip'), [Validators.required])
-    });
+    this.state.setLoading(false);
   }
 
-
-  public onSubmit({ value, valid }: { value: any, valid: boolean }) {
-
-    this.setSubmissionErrorWarningTo(false);
-    value.isFormDirty = this.addMeToMapFormGroup.dirty;
-
+  public onSubmit(value) {
     let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData );
 
-    this.api.postPin(pinToSubmit).subscribe(
-      next => {
-        this.router.navigate(['/now-a-pin']);
-      },
-      err => {
-        this.setSubmissionErrorWarningTo(true);
-      }
-    );
-  }
-
-  public setSubmissionErrorWarningTo(isErrorActive) {
-    this.submissionError = isErrorActive;
+    return this.api.postPin(pinToSubmit);
   }
 
   public closeClick()  {
