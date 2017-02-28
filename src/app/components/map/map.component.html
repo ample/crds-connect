@@ -1,15 +1,17 @@
-<sebm-google-map [latitude] = "mapSettings.lat"
-                 [longitude] = "mapSettings.lng"
+
+<sebm-google-map [latitude] = "searchResults?.centerLocation.lat"
+                 [longitude] = "searchResults?.centerLocation.lng"
                  [zoom] = "mapSettings.zoom"
                  [disableDefaultUI] = "mapSettings.disableDefaultUI"
                  [zoomControl] = "mapSettings.zoomControl">
 
-    <sebm-google-map-marker [latitude] = "mapSettings.lat" [longitude] = "mapSettings.lng"></sebm-google-map-marker>
 
-    <sebm-google-map-marker *ngFor="let marker of markers" [latitude] = "marker.lat" [longitude] = "marker.lng" iconUrl = "assets/{{marker.type}}.png">
+    <sebm-google-map-marker *ngFor="let pin of pins"
+                            [latitude] = "pin.address.latitude"
+                            [longitude] = "pin.address.longitude"
+                            iconUrl = "src/assets/{{pin.getStringByEnumValue(pin.pinType)}}.png">
     </sebm-google-map-marker>
 
-    <app-map-content></app-map-content>
 
 </sebm-google-map>
 

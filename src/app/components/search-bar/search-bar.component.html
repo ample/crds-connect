@@ -1,0 +1,13 @@
+<div class="searchbar">
+    <div class="container">
+        <div class="row">
+            <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="searchText">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="onSearch(searchText)">></button>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="toggleView()">{{buttontext}}</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
