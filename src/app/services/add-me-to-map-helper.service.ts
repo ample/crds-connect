@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Address } from '../models/address';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
 import { LookupTable } from '../models/lookup-table';
-import { Pin } from '../models/pin';
+import { Pin, pinType } from '../models/pin';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 @Injectable()
@@ -57,7 +57,9 @@ export class AddMeToTheMapHelperService {
       0, // not applied - the statuses need to be a constant enum on the front end
       null, // null if not a group
       initialUserData.householdId,
-      addMeForm.isFormDirty
+      addMeForm.isFormDirty,
+      '', // don't need site name to add person
+      pinType.PERSON
     );
 
     return pin;

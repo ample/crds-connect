@@ -8,6 +8,7 @@ import { PinService } from './pin.service';
 import { IFrameParentService } from './iframe-parent.service';
 import { LookupTable } from '../models/lookup-table';
 import { Pin } from '../models/pin';
+import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { User } from '../models/user';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 import { Address } from '../models/address';
@@ -78,6 +79,12 @@ export class APIService {
     return obs;
   }
 
+  public getPinsAddressSearchResults(userSearchAddress: string): Observable<PinSearchResultsDto> {
+    return this.http.get(this.baseUrl + 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress)
+    .map((res: Response) => res.json())
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
   public getRegisteredUser(email: string): Observable<boolean> {
     return this.http.get(this.baseUrl + 'api/v1.0.0/lookup/0/find/?email=' + encodeURIComponent(email))
       .map(res => { return false; })
@@ -117,8 +124,7 @@ export class APIService {
       .catch(this.handleError);
   }
 
-  postPin(pin: Pin) {
-
+  public postPin(pin: Pin) {
     let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
 
     return this.session.post(postPinUrl, pin)
