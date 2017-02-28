@@ -11,3 +11,10 @@
         </div>
     </div>
 </div>
+<br>
+<div *ngIf="mapViewActive">
+  <app-map #mapComponent [searchResults]="pinSearchResults"></app-map>
+</div>
+<div *ngIf="!mapViewActive">
+  <app-listview></app-listview>
+</div>

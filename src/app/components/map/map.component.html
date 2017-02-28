@@ -1,10 +1,10 @@
-<sebm-google-map [latitude] = "mapSettings.lat"
-                 [longitude] = "mapSettings.lng"
+<sebm-google-map [latitude] = "searchResults?.centerLocation.lat"
+                 [longitude] = "searchResults?.centerLocation.lng"
                  [zoom] = "mapSettings.zoom"
                  [disableDefaultUI] = "mapSettings.disableDefaultUI"
                  [zoomControl] = "mapSettings.zoomControl">
 
-    <sebm-google-map-marker [latitude] = "mapSettings.lat" [longitude] = "mapSettings.lng"></sebm-google-map-marker>
+    <sebm-google-map-marker [latitude] = "searchResults?.centerLocation.lat" [longitude] = "searchResults?.centerLocation.lng"></sebm-google-map-marker>
     <app-map-content></app-map-content>
 
 </sebm-google-map>

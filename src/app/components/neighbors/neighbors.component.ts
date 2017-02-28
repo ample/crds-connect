@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 
+import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
-import { GeoCoordinates } from '../../models/geo-coordinates';
 
 import { crdsOakleyCoords } from '../../shared/constants';
 

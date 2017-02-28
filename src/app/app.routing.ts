@@ -11,12 +11,14 @@ import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './components/register/register.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
+  { path: 'app-search-bar', component: SearchBarComponent },
   { path: 'add-me-to-the-map',
     component: AddMeToMapMapComponent,
     canActivate: [
