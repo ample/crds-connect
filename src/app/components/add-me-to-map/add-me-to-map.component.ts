@@ -26,6 +26,7 @@ export class AddMeToMapComponent implements OnInit {
   public addMeToMapFormGroup: FormGroup;
   public stateList: Array<string>;
   public submissionError = false;
+  public routeToGoTo = '/now-a-pin';
 
   constructor(private api: APIService,
               private fb: FormBuilder,
@@ -43,9 +44,9 @@ export class AddMeToMapComponent implements OnInit {
   }
 
   public onSubmit(value) {
-    let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData );
-
-    return this.api.postPin(pinToSubmit);
+    if (value) {
+      this.router.navigate(['/now-a-pin']);
+    }
   }
 
   public closeClick()  {

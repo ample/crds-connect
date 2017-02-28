@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter  } from '@angular/core';
 import { ContentService } from '../../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,12 +24,14 @@ export class AddressFormComponent implements OnInit {
 
     @Input() userData: UserDataForPinCreation;
     @Input() buttonText: String = 'Add';
-    @Input() saveFunction: Function;
+    @Input() routeToGoTo: string = null;
+    @Output() save: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
     public stateList: Array<string>;
     public addressFormGroup: FormGroup;
     public stateListForSelect: Array<any>;
     public submissionError: boolean = false;
+
 
     constructor(private api: APIService,
         private fb: FormBuilder,
@@ -59,13 +61,17 @@ export class AddressFormComponent implements OnInit {
         this.setSubmissionErrorWarningTo(false);
         value.isFormDirty = this.addressFormGroup.dirty;
 
-        this.saveFunction(value).subscribe(
+        let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData);
+
+        this.api.postPin(pinToSubmit).subscribe(
             next => {
-                this.router.navigate(['/now-a-pin']);
+                this.save.emit(true);
             },
             err => {
                 this.setSubmissionErrorWarningTo(true);
-            });
+                this.save.emit(false);
+            }
+        );
     }
 
     public setSubmissionErrorWarningTo(isErrorActive) {
