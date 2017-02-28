@@ -18,7 +18,6 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
-  { path: 'app-search-bar', component: SearchBarComponent },
   { path: 'add-me-to-the-map',
     component: AddMeToMapMapComponent,
     canActivate: [
