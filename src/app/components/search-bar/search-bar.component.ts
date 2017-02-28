@@ -17,7 +17,6 @@ export class SearchBarComponent  {
 
   private mapViewActive: boolean = true;
   private searchText: string = '';
-  public pinSearchResults: PinSearchResultsDto;
   public buttontext: string;
 
   constructor() {

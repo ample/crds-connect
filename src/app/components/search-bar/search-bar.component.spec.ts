@@ -63,7 +63,11 @@ describe('Component: Search Bar', () => {
     expect(this.component).toBeTruthy();
   });
 
+  it('should toggle view', () => {
+    expect(this.component.buttontext).toBe('List');
+    this.component.toggleView();
+    expect(this.component.buttontext).toBe('Map');
+  });
+
 });
-
-
 
