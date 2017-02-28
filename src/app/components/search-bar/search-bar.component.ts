@@ -14,40 +14,37 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
   styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent  {
-  @Input() buttontext;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private mapViewActive: boolean = true;
   private searchText: string = '';
   public pinSearchResults: PinSearchResultsDto;
+  public buttontext: string;
 
-  constructor(private userLocationService: UserLocationService) {}
-
-  // public ngOnInit(): void {
-  //   let haveResults = !!this.pinSearchResults;
-  //   if (!haveResults) {
-  //     this.userLocationService.GetUserLocation().subscribe(
-  //       pos => {
-  //         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-  //       }
-  //     );
-  //   }
-  // }
+  constructor(private userLocationService: UserLocationService) {
+    this.setButtonText();
+  }
 
   public toggleView() {
-    this.buttontext = 'toggle';
     this.mapViewActive = !this.mapViewActive;
     this.viewMap.emit(this.mapViewActive);
 
     if (this.searchText.length > 0) {
       this.onSearch(this.searchText);
     }
+
+    this.setButtonText();
   }
 
   public onSearch(searchString: string) {
     this.search.emit(this.searchText);
     this.searchText = '';
+    console.log(searchString);
+  }
+
+  private setButtonText() {
+    this.buttontext = this.mapViewActive ? 'List' : 'Map';
   }
 
 }
