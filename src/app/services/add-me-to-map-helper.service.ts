@@ -52,7 +52,7 @@ export class AddMeToTheMapHelperService {
       initialUserData.lastname,
       initialUserData.email,
       initialUserData.contactId,
-      0, // This is not available, may need to add it back - will be used for groups
+      initialUserData.participantId,
       address,
       0, // not applied - the statuses need to be a constant enum on the front end
       null, // null if not a group
