@@ -19,6 +19,7 @@ export class MapComponent implements OnInit {
   constructor( private userLocationService: UserLocationService) {}
 
   public ngOnInit(): void {
+    // TODO do we really need this? Have similar login in search-bar-component
     let haveResults = !!this.searchResults;
     if (!haveResults) {
       this.userLocationService.GetUserLocation().subscribe(
