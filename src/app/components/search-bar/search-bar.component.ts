@@ -35,9 +35,11 @@ export class SearchBarComponent  {
   }
 
   public onSearch(searchString: string) {
-    this.search.emit(this.searchText);
-    this.searchText = '';
-    console.log(searchString);
+    if (searchString !== null && searchString.length > 0) {
+      this.search.emit(this.searchText);
+      this.searchText = '';
+      console.log(searchString);
+    }
   }
 
   private setButtonText() {

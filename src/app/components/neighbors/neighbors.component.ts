@@ -9,8 +9,6 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
-import { crdsOakleyCoords } from '../../shared/constants';
-
 @Component({
   selector: 'app-neighbors',
   templateUrl: 'neighbors.component.html'
@@ -49,7 +47,7 @@ export class NeighborsComponent implements OnInit {
         } else {
           observer.error('Error!');
         }
-      }, 3000)
+      }, 3000);
     });
 
     mockApiCall.subscribe(
