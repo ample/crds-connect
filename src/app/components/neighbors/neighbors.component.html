@@ -1,6 +1,6 @@
 <app-search-bar (viewMap)="viewChanged($event)" (search)="doSearch($event)"> </app-search-bar>
 <br>
-<div *ngIf=mapViewActive>
+<div *ngIf="mapViewActive">
 <app-map [searchResults]="pinSearchResults"></app-map>
 </div>
 <div *ngIf="!mapViewActive">
