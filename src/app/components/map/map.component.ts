@@ -21,7 +21,6 @@ export class MapComponent implements OnInit {
   public mockAddPerson: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.423363, 39.158398);
   public mockAddHost: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.424363, 39.158498);
   public mockAddBuilding: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.422363, 39.158398);
-  public img: string = 'assets/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg';
 
   public pins: Array<Pin> = [
     new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddPerson, 0, null, 9999, true, '', pinType.PERSON),
