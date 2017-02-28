@@ -25,8 +25,6 @@ export class AddMeToMapComponent implements OnInit {
   public userData: UserDataForPinCreation;
   public addMeToMapFormGroup: FormGroup;
   public stateList: Array<string>;
-  public submissionError = false;
-  public routeToGoTo = '/now-a-pin';
 
   constructor(private api: APIService,
               private fb: FormBuilder,

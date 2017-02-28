@@ -24,7 +24,6 @@ export class AddressFormComponent implements OnInit {
 
     @Input() userData: UserDataForPinCreation;
     @Input() buttonText: String = 'Add';
-    @Input() routeToGoTo: string = null;
     @Output() save: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
     public stateList: Array<string>;

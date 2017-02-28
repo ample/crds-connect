@@ -12,6 +12,7 @@ import { APIService } from '../../services/api.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { ContentService } from '../../services/content.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
+import { AddressFormComponent } from '../address-form/address-form.component';
 import { LocationService } from '../../services/location.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
 import { SessionService } from '../../services/session.service';
@@ -23,7 +24,7 @@ describe('Component: Add Me to the Map', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddMeToMapComponent
+        AddMeToMapComponent, AddressFormComponent
       ],
       imports: [
         AgmCoreModule.forRoot({
