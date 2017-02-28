@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { Address } from '../models/address';
 import { AddMeToTheMapHelperService } from './add-me-to-map-helper.service';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
-import { Pin } from '../models/pin';
+import { Pin, pinType } from '../models/pin';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 describe('Service: Add me to the Map Helper', () => {
@@ -16,7 +16,7 @@ describe('Service: Add me to the Map Helper', () => {
   const mockForm = new AddMeToMapFormFields('Test3 St', '', 'KarmaSt', 'II', '54321', true);
   const mockModifiedAddress = new Address(mockAddress.addressId, mockForm.addressLine1, mockForm.addressLine2,
                                           mockForm.city, mockForm.state, mockForm.zip, 0, 0);
-  const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 0, mockModifiedAddress, 0, null, 9999, true);
+  const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 0, mockModifiedAddress, 0, null, 9999, true, '', pinType.PERSON);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

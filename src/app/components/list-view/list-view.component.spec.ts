@@ -24,7 +24,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 
-describe('Component: Map', () => {
+describe('Component: List View', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({

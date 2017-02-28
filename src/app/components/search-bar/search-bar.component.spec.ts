@@ -1,8 +1,9 @@
 /* tslint:disable:no-unused-variable */
-
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { APIService } from '../../services/api.service';
 import { Http, Response, RequestOptions } from '@angular/http';
+import { FormsModule }   from '@angular/forms';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { SearchBarComponent } from './search-bar.component';
@@ -24,7 +25,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 
-describe('Component: Map', () => {
+describe('Component: Search Bar', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,13 +35,12 @@ describe('Component: Map', () => {
         MapFooterComponent
       ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         })
       ],
       providers: [
-        UserLocationService,
         LocationService,
         PinService,
         IFrameParentService,

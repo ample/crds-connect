@@ -11,7 +11,7 @@ import { MapComponent } from '../../components/map/map.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
-
+import { FormsModule }   from '@angular/forms';
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
@@ -27,7 +27,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 
-describe('Component: Map', () => {
+describe('Component: Neighbors', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,7 +40,7 @@ describe('Component: Map', () => {
         MapComponent
       ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         })

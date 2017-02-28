@@ -1,9 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-
-import { UserLocationService } from  '../../services/user-location.service';
-
+import { FormsModule }   from '@angular/forms';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -22,7 +20,7 @@ export class SearchBarComponent  {
   public pinSearchResults: PinSearchResultsDto;
   public buttontext: string;
 
-  constructor(private userLocationService: UserLocationService) {
+  constructor() {
     this.setButtonText();
   }
 
