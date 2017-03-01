@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
+import { SessionService } from './session.service';
 import { StateService } from './state.service';
 
 @Injectable()
@@ -14,16 +15,52 @@ export class StoreService {
   // user info
   public email: string = '';
   public isGuest: boolean = false;
-  public previousGiftAmount: string = '';
-
+  public reactiveSsoTimer: any;
+  public reactiveSsoTimeOut: number = 3000;
+  public reactiveSsoLoggedIn: boolean = false;
 
   constructor(
     private api: APIService,
     private route: ActivatedRoute,
-    private state: StateService
+    private state: StateService,
+    private zone: NgZone,
+    public session: SessionService
   ) {
     this.processQueryParams();
     this.preloadData();
+    this.enableReactiveSso();
+  }
+
+  public enableReactiveSso() {
+    if (this.session.hasToken()) {
+      this.reactiveSsoLoggedIn = true;
+    }
+    this.disableReactiveSso();
+    this.zone.runOutsideAngular(() => {
+      this.reactiveSsoTimer = setInterval(() => {
+        this.zone.run(() => {
+          this.performReactiveSso();
+        });
+      }, this.reactiveSsoTimeOut);
+    });
+  }
+
+  public performReactiveSso() {
+    if (this.session.hasToken() && this.reactiveSsoLoggedIn === false) {
+
+      this.reactiveSsoLoggedIn = true;
+      this.loadUserData();
+
+    } else if (!this.session.hasToken() && this.reactiveSsoLoggedIn === true) {
+
+      this.reactiveSsoLoggedIn = false;
+      this.email = '';
+
+    }
+  }
+
+  public disableReactiveSso() {
+    clearInterval(this.reactiveSsoTimer);
   }
 
 

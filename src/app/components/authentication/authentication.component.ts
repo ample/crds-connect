@@ -66,6 +66,7 @@ export class AuthenticationComponent implements OnInit {
           console.log('Login successful, user: ');
           console.log(user);
           this.session.setContactId(user.userId);
+          this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
           // this.adv();
           this.state.setLoading(false);
