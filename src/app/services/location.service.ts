@@ -47,7 +47,7 @@ export class LocationService {
   };
 
   public getDefaultPosition(): GeoCoordinates {
-    return new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.long);
+    return new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.lng);
   };
 
 }
