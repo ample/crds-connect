@@ -17,6 +17,10 @@ import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { PinService } from '../../services/pin.service';
 import { Observable } from 'rxjs/Rx';
+import { AddressFormComponent } from '../address-form/address-form.component';
+import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
+import { LocationService } from '../../services/location.service';
+
 
 import { PinDetailsComponent } from './pin-details.component';
 
@@ -53,7 +57,7 @@ describe('Component: Pin-Details component', () => {
     };
     TestBed.configureTestingModule({
       declarations: [
-        PinDetailsComponent
+        PinDetailsComponent, AddressFormComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
@@ -71,7 +75,9 @@ describe('Component: Pin-Details component', () => {
         PinService,
         Angulartics2,
         ContentService,
-        LoginRedirectService
+        LoginRedirectService,
+        AddMeToTheMapHelperService,
+        LocationService
       ]
     });
     this.fixture = TestBed.createComponent(PinDetailsComponent);

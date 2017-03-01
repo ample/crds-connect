@@ -1,6 +1,6 @@
 
 <div>Connect</div>
-<div class="container">
+<div *ngIf="!editMode" class="container">
     <strong *ngIf="!isLoggedInUser">Say Hello to</strong>
     <span *ngIf="isLoggedInUser" class="label label-primary">Me</span>
     <p>{{pin.firstName}} {{pin.lastName | slice:0:1}}</p>
@@ -19,6 +19,9 @@
         <button class="btn primary btn-primary" (click)="sayHi()">Say Hi!</button>
     </div>
     <div *ngIf="isLoggedInUser">
-        <button class="btn primary btn-primary" (click)="edit">Edit</button>
+        <button class="btn primary btn-primary" (click)="edit()">Edit</button>
     </div>
-</div>   
+</div> 
+<div *ngIf="editMode">
+    <address-form  [userData]="pin" [buttonText]="buttonText" (save)="onSubmit($event)"></address-form>
+</div>
