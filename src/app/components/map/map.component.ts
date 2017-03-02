@@ -43,8 +43,15 @@ export class MapComponent implements OnInit {
   }
 
   public getStringByEnumValue(enumNumber) {
-      return pinType[enumNumber];
+      if (enumNumber === pinType.PERSON) {
+        return 'http://i65.tinypic.com/7149lc.jpg';
+      } else if (enumNumber === pinType.GATHERING) {
+        return 'http://i65.tinypic.com/qyvldt.jpg';
+      } else {
+        return 'http://i65.tinypic.com/5mz2bc.jpg';
+      }
+
+      // add this back in when images are better...
+       // return pinType[enumNumber];
   }
-
-
 }
