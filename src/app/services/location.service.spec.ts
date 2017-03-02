@@ -26,7 +26,7 @@ describe('Service: Location', () => {
   })));
 
   it('Should get the default Crds-Oakley coordinates', inject([LocationService], (service: any) => {
-    expect(service.getDefaultPosition()).toEqual(new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.long));
+    expect(service.getDefaultPosition()).toEqual(new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.lng));
   }));
 
 });

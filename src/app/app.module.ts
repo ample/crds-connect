@@ -17,7 +17,8 @@ import { SelectModule } from 'angular2-select';
 
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
-import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
+import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
+import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
@@ -75,7 +76,8 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
   ],
   declarations: [
     NowAPinComponent,
-    AddMeToMapMapComponent,
+    AddMeToMapComponent,
+    AddressFormComponent,
     HostApplicationComponent,
     AppComponent,
     AuthenticationComponent,
