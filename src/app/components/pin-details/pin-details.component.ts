@@ -28,6 +28,10 @@ export class PinDetailsComponent implements OnInit {
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
   public pin: Pin;
+  public isGatheringPin: boolean = false;
+  public sayHiText: string = '';
+  public isInGathering: boolean = false;
+  
 
   constructor(private api: APIService,
               private content: ContentService,
@@ -38,18 +42,40 @@ export class PinDetailsComponent implements OnInit {
               private state: StateService,
               private hlpr: AddMeToTheMapHelperService
               ) {
-
   }
 
   public ngOnInit() {
     this.state.setLoading(true);
+    //I think this is bad
+    //We are just appending a bunch of properties to our pin class, not necessarily composing a
+    //new pin via a constructor.  This should be rectified.
     this.pin = this.route.snapshot.data['pin'];
+
+    if (this.pin.gathering !== null && this.pin.gathering !== undefined){
+      this.isGatheringPin = true;
+      this.sayHiText = 'Say Hi!'
+    } else {
+      this.sayHiText = 'Contact Host'
+    }
+
+    console.log(this.pin);
 
     if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isLoggedInUser = this.doesLoggedInUserOwnPin();
+      if (this.loggedInUserIsInGathering(this.session.getContactId())){
+        this.isInGathering = true;
+      }
     }
     this.state.setLoading(false);
+  }
+
+  public loggedInUserIsInGathering(contactId: number) {
+    return this.pin.gathering.Participants.map((participant) => {
+      if (participant.contactId === contactId){
+        return true;
+      }
+    });
   }
 
   public sayHi() {

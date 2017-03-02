@@ -40,5 +40,4 @@ export class Pin {
       let iconName: string = iconNames[enumNumber - 1];
       return iconName;
     }
-
 }
