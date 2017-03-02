@@ -35,7 +35,8 @@ const appRoutes: Routes = [
   { path: 'pin-details/:participantId',
     component: PinDetailsComponent,
     resolve:  {
-      pin: PinResolver
+      pin: PinResolver,
+      user: UserDataResolver
     }
   },
   { path: '**', component: PageNotFoundComponent }
