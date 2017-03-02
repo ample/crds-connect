@@ -18,15 +18,15 @@ export class MapComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 15, false, true);
 
-  public mockAddPerson: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.423363, 39.158398);
-  public mockAddHost: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.424363, 39.158498);
-  public mockAddBuilding: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.422363, 39.158398);
+  // public mockAddPerson: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.423363, 39.158398);
+  // public mockAddHost: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.424363, 39.158498);
+  // public mockAddBuilding: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.422363, 39.158398);
 
-  public pins: Array<Pin> = [
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddPerson, 0, null, 9999, true, '', pinType.PERSON),
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddHost, 0, null, 9999, true, '', pinType.GATHERING),
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddBuilding, 0, null, 9999, true, '', pinType.SITE)
-  ];
+  // public pins: Array<Pin> = [
+  //   new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddPerson, 0, null, 9999, true, '', pinType.PERSON),
+  //   new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddHost, 0, null, 9999, true, '', pinType.GATHERING),
+  //   new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddBuilding, 0, null, 9999, true, '', pinType.SITE)
+  // ];
 
   constructor( private userLocationService: UserLocationService) {}
 

@@ -2,7 +2,7 @@ import { Address } from './address';
 import { Group } from './group';
 
 export enum pinType {PERSON = 1, GATHERING = 2, SITE = 3 };
-let iconNames = [ "PERSON", "GATHERING", "SITE" ];
+// let iconNames = [ 'PERSON', 'GATHERING', 'SITE' ];
 
 export class Pin {
     firstname: string;
@@ -36,9 +36,9 @@ export class Pin {
         this.pinType = pinType;
     }
 
-    public getStringByEnumValue(enumNumber){
-      let iconName: string = iconNames[enumNumber - 1];
-      return iconName;
-    }
+    // public getStringByEnumValue(enumNumber){
+    //   let iconName: string = iconNames[enumNumber - 1];
+    //   return iconName;
+    // }
 
 }

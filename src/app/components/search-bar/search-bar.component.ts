@@ -38,7 +38,6 @@ export class SearchBarComponent  {
     if (searchString !== null && searchString.length > 0) {
       this.search.emit(this.searchText);
       this.searchText = '';
-      console.log(searchString);
     }
   }
 

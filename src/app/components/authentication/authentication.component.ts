@@ -22,7 +22,6 @@ export class AuthenticationComponent implements OnInit {
   public loginException: boolean;
   public showMessage: boolean = false;
   public signinOption: string = 'Sign In';
-  public userPmtInfo: any;
   public emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
   private forgotPasswordUrl: string;
@@ -63,11 +62,8 @@ export class AuthenticationComponent implements OnInit {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
-          console.log('Login successful, user: ');
-          console.log(user);
           this.session.setContactId(user.userId);
           this.store.loadUserData();
-          // this.adv();
           this.state.setLoading(false);
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget('host-signup');
@@ -83,25 +79,6 @@ export class AuthenticationComponent implements OnInit {
       this.form.controls['password'].markAsTouched();
       this.state.setLoading(false);
     }
-    return false;
-  }
-
-// TODO: - currently not used - may be able to delete - using redirectService instead
-  public adv(): boolean {
-    this.state.setLoading(false);
-    this.router.navigateByUrl('host-signup');
-    return false;
-  }
-
-// TODO: - may be able to delete this function  - not needed?
-  public back(): boolean {
-    // navigate back IF we will provide this option
-    return false;
-  }
-
-// TODO: - may be able to delete this function - not needed?
-  public hideBack() {
-    // if condition which returns 'true' in order to hide the back button, may not be used
     return false;
   }
 

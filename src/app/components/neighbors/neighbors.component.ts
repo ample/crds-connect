@@ -35,9 +35,9 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = agreed;
   }
 
-  doSearch(searchString: string) {
-    console.log(searchString);
 
+
+  doSearch(searchString: string) {
     this.api.getPinsAddressSearchResults(searchString).subscribe(
       next => {
           console.log(next);

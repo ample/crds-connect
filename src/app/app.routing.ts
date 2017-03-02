@@ -31,7 +31,6 @@ const appRoutes: Routes = [
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'map', component: MapComponent },
   { path: 'pin-details/:participantId',
     component: PinDetailsComponent,
     resolve:  {
