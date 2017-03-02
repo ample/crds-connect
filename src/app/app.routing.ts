@@ -27,6 +27,7 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
+  { path: 'map', component: NeighborsComponent },
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
