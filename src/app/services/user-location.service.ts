@@ -6,6 +6,7 @@ import { GeoCoordinates } from '../models/geo-coordinates';
 import { LocationService } from './location.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
+import { StoreService } from './store.service';
 import { PinService } from './pin.service';
 
 @Injectable()
@@ -14,13 +15,14 @@ export class UserLocationService {
   constructor( private api: APIService,
                private location: LocationService,
                private session: SessionService,
+               private store: StoreService,
                private pinservice: PinService ) { }
 
   public GetUserLocation(): Observable<any> {
     let locObs = new Observable( observer => {
       if (this.api.isLoggedIn()) {
-
-        let contactid: number = this.session.getContactId(); // get contactid from cookie
+debugger;
+        let contactid: number = this.store.getContactId(); // get contactid from cookie
 
         this.getUserLocationFromUserId(contactid).subscribe(
           success => {

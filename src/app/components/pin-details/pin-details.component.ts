@@ -36,6 +36,7 @@ export class PinDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private session: SessionService,
               private state: StateService,
+              private store: StoreService,
               private hlpr: AddMeToTheMapHelperService
               ) {
 
@@ -65,7 +66,7 @@ export class PinDetailsComponent implements OnInit {
   }
 
   private doesLoggedInUserOwnPin() {
-    let contactId = this.session.getContactId();
+    let contactId = this.store.getContactId();
     return contactId === this.pin.contactId;
   }
 

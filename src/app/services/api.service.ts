@@ -99,8 +99,8 @@ export class APIService {
         .catch( (err) => Observable.throw(err.json().error) );
   }
 
-  public getUserData(): Observable<any> {
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${this.session.getContactId()}/false`)
+  public getUserData(contactId: string): Observable<any> {
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
         .map((res: Pin) => {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
             res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);

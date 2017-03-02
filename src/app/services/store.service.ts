@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -13,6 +14,7 @@ export class StoreService {
   private queryParams: Object;
 
   // user info
+  private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
   public email: string = '';
   public isGuest: boolean = false;
   public reactiveSsoTimer: any;
@@ -22,6 +24,7 @@ export class StoreService {
   constructor(
     private api: APIService,
     private route: ActivatedRoute,
+    private cookieService: CookieService,
     private state: StateService,
     private zone: NgZone,
     public session: SessionService
@@ -102,6 +105,21 @@ export class StoreService {
 
   private setTheme(theme): void {
     document.body.classList.add(theme);
+  }
+
+  public getContactId(): number {
+    if (this.cookieService.get(this.contactId) === null) {
+      this.api.getAuthentication().subscribe(
+            user => {
+              this.setContactId(user.userId);
+            }
+        );
+    }
+    return +this.cookieService.get(this.contactId);
+  }
+
+  public setContactId(contactId: string): void {
+    this.cookieService.put(this.contactId, contactId, this.session.cookieOptions);
   }
 
 

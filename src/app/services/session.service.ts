@@ -7,9 +7,7 @@ export class SessionService {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
-  private cookieOptions: CookieOptionsArgs;
-
-  private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
+  public cookieOptions: CookieOptionsArgs;
 
   constructor(private http: Http, private cookieService: CookieService) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
@@ -88,14 +86,6 @@ export class SessionService {
     let reqOptions = options || new RequestOptions();
     reqOptions.headers = this.createAuthorizationHeader(reqOptions.headers);
     return reqOptions;
-  }
-
-  public getContactId(): number {
-    return +this.cookieService.get(this.contactId);
-  }
-
-  public setContactId(contactId: string): void {
-    this.cookieService.put(this.contactId, contactId, this.cookieOptions);
   }
 
   private createAuthorizationHeader(headers?: Headers) {
