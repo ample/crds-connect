@@ -35,15 +35,14 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = agreed;
   }
 
-
-
   doSearch(searchString: string) {
     this.api.getPinsAddressSearchResults(searchString).subscribe(
       next => {
-          console.log(next);
-          this.pinSearchResults = next as PinSearchResultsDto;
+        console.log(next);
+        this.pinSearchResults = next as PinSearchResultsDto;
       },
       err => console.log(err)
     );
   }
+
 }
