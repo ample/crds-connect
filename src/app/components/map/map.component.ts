@@ -17,34 +17,35 @@ import { UserLocationService } from  '../../services/user-location.service';
 export class MapComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
 
-  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 15, false, true);
+  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor( private userLocationService: UserLocationService) {}
 
   public ngOnInit(): void {
-    // TODO do we really need this? Have similar login in search-bar-component
+
     let haveResults = !!this.searchResults;
     if (!haveResults) {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
+          this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
         }
       );
     } else {
+      this.mapSettings.zoom = 15;
       this.setMapLocation();
     }
 
   }
 
   public setMapLocation() {
-      this.mapSettings.lat = this.searchResults.centerLocation.lat;
-      this.mapSettings.lng = this.searchResults.centerLocation.lng;
+    this.mapSettings.lat = this.searchResults.centerLocation.lat;
+    this.mapSettings.lng = this.searchResults.centerLocation.lng;
   }
 
   public getStringByEnumValue(enumNumber) {
-      return pinType[enumNumber];
+    return pinType[enumNumber];
   }
-
 
 }

@@ -1,6 +1,6 @@
 
-<sebm-google-map [latitude] = "searchResults?.centerLocation.lat"
-                 [longitude] = "searchResults?.centerLocation.lng"
+<sebm-google-map [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
+                 [longitude] = "searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
                  [zoom] = "mapSettings.zoom"
                  [disableDefaultUI] = "mapSettings.disableDefaultUI"
                  [zoomControl] = "mapSettings.zoomControl">
