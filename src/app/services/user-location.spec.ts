@@ -52,7 +52,7 @@ describe('Service: User-Location', () => {
   }));
 
   it('Should get the default Crds-Oakley coordinates', inject([UserLocationService], (service: any) => {
-    expect(service.getUserLocationFromDefault()).toEqual(new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.long));
+    expect(service.getUserLocationFromDefault()).toEqual(new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.lng));
   }));
 
   it('Should get a location as a GeoCoordinates object', async(inject(

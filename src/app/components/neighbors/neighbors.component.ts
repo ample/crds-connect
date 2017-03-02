@@ -39,36 +39,15 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = agreed;
   }
 
+
+
   doSearch(searchString: string) {
-    console.log(searchString);
-
-    let mockApiCall = new Observable(observer => {
-      let rand = Math.random();
-      let pins: Pin[];
-      setTimeout(() => {
-        if (rand > .5) {
-          observer.next(new PinSearchResultsDto(new GeoCoordinates(39.9611800, -82.9987900), pins));
-        } else {
-          observer.error('Error!');
-        }
-      }, 3000);
-    });
-
-    mockApiCall.subscribe(
+    this.api.getPinsAddressSearchResults(searchString).subscribe(
       next => {
-        console.log(next);
-        this.pinSearchResults = next as PinSearchResultsDto;
+          console.log(next);
+          this.pinSearchResults = next as PinSearchResultsDto;
       },
       err => console.log(err)
-      );
-
-    // this.api.getPinsAddressSearchResults(searchString).subscribe(
-    //   pins => {
-    //   this.pinSearchResults = next as PinSearchResultsDto;
-    //   },
-    //   err => {
-    //     console.log('error getting search results');
-    //   }
-    // );      
+    );
   }
 }

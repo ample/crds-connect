@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AddMeToMapMapComponent } from './components/add-me-to-map/add-me-to-map.component';
+import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
@@ -19,7 +19,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
   { path: 'add-me-to-the-map',
-    component: AddMeToMapMapComponent,
+    component: AddMeToMapComponent,
     canActivate: [
       LoggedInGuard
     ],
@@ -27,11 +27,11 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
+  { path: 'map', component: NeighborsComponent },
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'map', component: MapComponent },
   { path: 'pin-details/:participantId',
     component: PinDetailsComponent,
     resolve:  {
