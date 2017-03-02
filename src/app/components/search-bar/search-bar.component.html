@@ -4,7 +4,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" [(ngModel)]="searchText" (keyup.enter)="onSearch(searchText)">
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary btn-sm" (click)="onSearch(searchText)">></button>
+                    <button type="submit" class="btn btn-primary btn-sm" (click)="onSearch(searchText)">></button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="toggleView()">{{buttontext}}</button>
                 </span>
             </div>

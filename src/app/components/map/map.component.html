@@ -6,13 +6,14 @@
                  [zoomControl] = "mapSettings.zoomControl">
 
 
-    <sebm-google-map-marker *ngFor="let pin of pins"
+    <sebm-google-map-marker *ngFor="let pin of searchResults?.pinSearchResults"
                             [latitude] = "pin.address.latitude"
                             [longitude] = "pin.address.longitude"
-                            iconUrl = "src/assets/{{pin.getStringByEnumValue(pin.pinType)}}.png">
+                            iconUrl = "src/assets/{{getStringByEnumValue(pin.pinType)}}.png">
     </sebm-google-map-marker>
 
-
+   <app-map-content></app-map-content>
+   
 </sebm-google-map>
 
 <app-map-footer></app-map-footer>
