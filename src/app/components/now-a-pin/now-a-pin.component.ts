@@ -16,7 +16,7 @@ export class NowAPinComponent {
               private router: Router) { }
 
   public btnClick()  {
-    this.router.navigateByUrl('/map');
+    this.router.navigateByUrl('/');
   }
 }
 

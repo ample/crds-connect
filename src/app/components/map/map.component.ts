@@ -28,6 +28,8 @@ export class MapComponent implements OnInit {
   //   new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddBuilding, 0, null, 9999, true, '', pinType.SITE)
   // ];
 
+
+
   constructor( private userLocationService: UserLocationService) {}
 
   public ngOnInit(): void {
@@ -49,7 +51,11 @@ export class MapComponent implements OnInit {
   public setMapLocation() {
       this.mapSettings.lat = this.searchResults.centerLocation.lat;
       this.mapSettings.lng = this.searchResults.centerLocation.lng;
-    }
+  }
+
+  public getStringByEnumValue(enumNumber) {
+      return pinType[enumNumber];
+  }
 
 
 }

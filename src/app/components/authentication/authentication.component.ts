@@ -82,6 +82,18 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
+// TODO: - currently not used - may be able to delete - using redirectService instead
+  public adv(): boolean {
+    this.state.setLoading(false);
+    this.router.navigateByUrl('host-signup');
+    return false;
+  }
+
+  public back(): boolean {
+    // navigate back IF we will provide this option
+    return false;
+  }
+
   public formInvalid(field): boolean {
     return !this.form.controls[field].valid;
   }

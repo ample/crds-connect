@@ -48,7 +48,7 @@ export class AddMeToMapComponent implements OnInit {
   }
 
   public closeClick()  {
-    this.router.navigate(['/map']);
+    this.router.navigate(['/']);
   }
 
 }
