@@ -65,8 +65,8 @@ export class PinDetailsComponent implements OnInit {
     this.editMode = true;
   }
 
-  private doesLoggedInUserOwnPin() {
-    let contactId = this.store.getContactId();
+  private doesLoggedInUserOwnPin(): boolean {
+    let contactId = this.store.loadContactId();
     return contactId === this.pin.contactId;
   }
 

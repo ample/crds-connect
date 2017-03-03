@@ -17,6 +17,6 @@ export class UserDataResolver implements Resolve<any> {
 
   resolve(): Observable<any> {
     this.state.setLoading(true);
-    return this.api.getUserData(String(this.store.getContactId()));
+    return this.api.getUserData(String(this.store.loadContactId()));
   }
 }

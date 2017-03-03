@@ -14,7 +14,7 @@ export class StoreService {
   private queryParams: Object;
 
   // user info
-  private readonly contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
+  public contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
   public email: string = '';
   public isGuest: boolean = false;
   public reactiveSsoTimer: any;
@@ -72,6 +72,7 @@ export class StoreService {
       (info) => {
         if (info !== null) {
           this.email = info.userEmail;
+          this.contactId = info.userId;
         } else {
           this.api.logOut();
         }
@@ -83,6 +84,20 @@ export class StoreService {
     this.api.getAuthentication().subscribe((info) => {
       if (info !== null) {
         return info.userEmail;
+      }
+    }, () => {
+      return null;
+    });
+  }
+
+  public loadContactId(): any {
+    if (this.cookieService.get(this.contactId) !== null) {
+      return +this.cookieService.get(this.contactId);
+    }
+    this.api.getAuthentication().subscribe((info) => {
+      if (info !== null) {
+        this.setContactId(info.userId);
+        return info.userId;
       }
     }, () => {
       return null;
@@ -107,16 +122,28 @@ export class StoreService {
     document.body.classList.add(theme);
   }
 
-  public getContactId(): number {
-    if (this.cookieService.get(this.contactId) === null) {
-      this.api.getAuthentication().subscribe(
-            user => {
-              this.setContactId(user.userId);
-            }
-        );
-    }
-    return +this.cookieService.get(this.contactId);
-  }
+  /*public getContactId() {
+//how do I block here?
+    let locObs = new Observable ( observer => {
+
+      if (this.cookieService.get(this.contactId) === null) {
+        this.api.getAuthentication().subscribe(
+              success => {
+                this.setContactId(success.userId);
+                observer.next(success.userId);
+              },
+              failure => {
+                observer.error();
+              }
+          );
+      } else {
+        observer.next(+this.cookieService.get(this.contactId));
+      }
+    //return +this.cookieService.get(this.contactId);
+  });
+  
+    return locObs;
+  }*/
 
   public setContactId(contactId: string): void {
     this.cookieService.put(this.contactId, contactId, this.session.cookieOptions);
