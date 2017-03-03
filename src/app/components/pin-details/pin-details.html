@@ -7,14 +7,20 @@
     <p *ngIf="!isLoggedInUser && !isGatheringPin">Saying, "Hi," is a nice thing to do. This will send an email introduction from you to them. Connecting with and knowing
         the people in your community is part of what this church thing is all about.
     </p>
-    <div *ngIf="isLoggedInUser && isInGathering">
-        <address>{{pin.address.addressLine1}} {{pin.address.addressLine2}}<br> {{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
+    <div *ngIf="isInGathering && isGatheringPin">
+        <address>{{pin.gathering.address.addressLine1}} {{pin.gathering.address.addressLine2}}<br> {{pin.gathering.address.city}}, {{pin.gathering.address.state}} {{pin.gathering.address.zip}}</address>
     </div>
-    <div *ngIf="!isLoggedInUser || !isInGathering">
+    <div *ngIf="!isInGathering && isGatheringPin">
+        <address>{{pin.gathering.address.city}}, {{pin.gathering.address.state}} {{pin.gathering.address.zip}}</address>
+    </div>
+    <div *ngIf="!isLoggedInUser && !isGatheringPin">
         <address>{{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
     </div>
+    <div *ngIf="isLoggedInUser && !isGatheringPin">
+        <address>{{pin.address.addressLine1}} {{pin.address.addressLine2}}<br> {{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
+    </div>
     <div *ngIf="isGatheringPin">
-        <p>{{pin.groupDescription}}</p>
+        <p>{{pin.gathering.groupDescription}}</p>
     </div>
     <div *ngIf="isGatheringPin && !isInGathering">
         <button class="btn primary btn-primary" (click)="requestToJoin()">Be a participant</button>
