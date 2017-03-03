@@ -32,9 +32,7 @@ export class MapComponent implements OnInit {
           this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
-
-            //todo: Backend needs to take EITHER a string or a set of geo-coords so that address below can be replaced
-            this.api.getPinsAddressSearchResults('8683 Totempole dr Cincinnati OH 45249').subscribe(
+            this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
               pinSearchResults => {
                 let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
                 this.searchResults = results;
