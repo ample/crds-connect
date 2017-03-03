@@ -5,8 +5,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { ContentService } from '../../services/content.service';
@@ -21,9 +20,7 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
 
-
 import { PinDetailsComponent } from './pin-details.component';
-
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -89,16 +86,16 @@ describe('Component: Pin-Details component', () => {
     expect(this.component).toBeTruthy();
   });
 
-  it('doesLoggedInUserOwnPin() should return true if contactId matches', inject([SessionService], (service: any) => {
-    spyOn(service, 'getContactId').and.returnValue(2562378);
+  it('doesLoggedInUserOwnPin() should return true if contactId matches', inject([StoreService], (service: any) => {
+    spyOn(service, 'loadContactId').and.returnValue(2562378);
     this.component.ngOnInit();
     let returnValue = this.component.doesLoggedInUserOwnPin();
     expect(returnValue).toBe(true);
 
   }));
 
-  it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', inject([SessionService], (service: any) => {
-    spyOn(service, 'getContactId').and.returnValue(42);
+  it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', inject([StoreService], (service: any) => {
+    spyOn(service, 'loadContactId').and.returnValue(42);
     this.component.ngOnInit();
     let returnValue = this.component.doesLoggedInUserOwnPin();
     expect(returnValue).toBe(false);

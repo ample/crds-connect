@@ -31,41 +31,7 @@ export class StoreService {
   ) {
     this.processQueryParams();
     this.preloadData();
-    this.enableReactiveSso();
   }
-
-  public enableReactiveSso() {
-    if (this.session.hasToken()) {
-      this.reactiveSsoLoggedIn = true;
-    }
-    this.disableReactiveSso();
-    this.zone.runOutsideAngular(() => {
-      this.reactiveSsoTimer = setInterval(() => {
-        this.zone.run(() => {
-          this.performReactiveSso();
-        });
-      }, this.reactiveSsoTimeOut);
-    });
-  }
-
-  public performReactiveSso() {
-    if (this.session.hasToken() && this.reactiveSsoLoggedIn === false) {
-
-      this.reactiveSsoLoggedIn = true;
-      this.loadUserData();
-
-    } else if (!this.session.hasToken() && this.reactiveSsoLoggedIn === true) {
-
-      this.reactiveSsoLoggedIn = false;
-      this.email = '';
-
-    }
-  }
-
-  public disableReactiveSso() {
-    clearInterval(this.reactiveSsoTimer);
-  }
-
 
   public loadUserData(): void {
     this.api.getAuthentication().subscribe(
@@ -113,37 +79,7 @@ export class StoreService {
 
   private processQueryParams(): void {
     this.queryParams = this.route.snapshot.queryParams;
-    if (this.queryParams['theme'] === 'dark') {
-      this.setTheme('dark-theme');
-    }
   }
-
-  private setTheme(theme): void {
-    document.body.classList.add(theme);
-  }
-
-  /*public getContactId() {
-//how do I block here?
-    let locObs = new Observable ( observer => {
-
-      if (this.cookieService.get(this.contactId) === null) {
-        this.api.getAuthentication().subscribe(
-              success => {
-                this.setContactId(success.userId);
-                observer.next(success.userId);
-              },
-              failure => {
-                observer.error();
-              }
-          );
-      } else {
-        observer.next(+this.cookieService.get(this.contactId));
-      }
-    //return +this.cookieService.get(this.contactId);
-  });
-  
-    return locObs;
-  }*/
 
   public setContactId(contactId: string): void {
     this.cookieService.put(this.contactId, contactId, this.session.cookieOptions);

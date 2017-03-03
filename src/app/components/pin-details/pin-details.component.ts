@@ -23,7 +23,7 @@ export class PinDetailsComponent implements OnInit {
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public buttonText: string = "Update";
+  public buttonText: string;
   public isLoggedInUser: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
@@ -65,8 +65,9 @@ export class PinDetailsComponent implements OnInit {
     this.editMode = true;
   }
 
-  private doesLoggedInUserOwnPin(): boolean {
+  private doesLoggedInUserOwnPin() {
     let contactId = this.store.loadContactId();
+    console.log('pjl ' + contactId);
     return contactId === this.pin.contactId;
   }
 
