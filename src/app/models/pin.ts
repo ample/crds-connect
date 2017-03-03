@@ -34,5 +34,4 @@ export class Pin {
         this.isFormDirty = isFormDirty;
         this.pinType = pinType;
     }
-
 }
