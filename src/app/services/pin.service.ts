@@ -50,20 +50,14 @@ export class PinService {
 
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
     // Create merge data for this template
-    let dictionary = {
-      'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
-      'Pin_First_Name': pin.firstname,
-      'Community_Member_Email': user.email
-    };
     let emailInfo = {
       "fromEmailAddress": user.email,
       "toEmailAddress": pin.emailAddress,
       "subject": "Hi",
       "body": "Just wanted to say hi",
-      'mergeData': dictionary,
+      'mergeData': this.createTemplateDictionary(user, pin),
       "templateId": this.SayHiTemplateId 
     };
-    console.log(emailInfo, pin);
     
     this.state.setLoading(true);
 
@@ -74,6 +68,14 @@ export class PinService {
         return res;
       })
       .catch((err) => Observable.throw(err.json().error));
+  }
+
+  public createTemplateDictionary(user:User, pin: Pin) {
+    return {
+      'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
+      'Pin_First_Name': pin.firstName,
+      'Community_Member_Email': user.email
+    };
   }
 
   public getPinDetails(participantId: number): Observable<Pin> {
