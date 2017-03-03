@@ -16,40 +16,44 @@ import { UserLocationService } from  '../../services/user-location.service';
 })
 export class MapComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
-  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 15, false, true);
 
-  public mockAddPerson: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.423363, 39.158398);
-  public mockAddHost: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.424363, 39.158498);
-  public mockAddBuilding: Address = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', -84.422363, 39.158398);
-
-  public pins: Array<Pin> = [
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddPerson, 0, null, 9999, true, '', pinType.PERSON),
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddHost, 0, null, 9999, true, '', pinType.GATHERING),
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,this.mockAddBuilding, 0, null, 9999, true, '', pinType.SITE)
-  ];
+  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor( private userLocationService: UserLocationService) {}
 
   public ngOnInit(): void {
-    // TODO do we really need this? Have similar login in search-bar-component
+
     let haveResults = !!this.searchResults;
     if (!haveResults) {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
+          this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
         }
       );
     } else {
+      this.mapSettings.zoom = 15;
       this.setMapLocation();
     }
 
   }
 
   public setMapLocation() {
-      this.mapSettings.lat = this.searchResults.centerLocation.lat;
-      this.mapSettings.lng = this.searchResults.centerLocation.lng;
-    }
+    this.mapSettings.lat = this.searchResults.centerLocation.lat;
+    this.mapSettings.lng = this.searchResults.centerLocation.lng;
+  }
 
+  public getStringByEnumValue(enumNumber) {
+      if (enumNumber === pinType.PERSON) {
+        return "https://image.ibb.co/ebF9rF/PERSON.png";
+      } else if (enumNumber === pinType.GATHERING) {
+        return "https://image.ibb.co/kpYJka/GATHERING.png";
+      } else {
+        return "https://image.ibb.co/di5Lyv/SITE.png";
+      }
 
+      // add this back in when images are better...
+       // return pinType[enumNumber];
+  }
 }
