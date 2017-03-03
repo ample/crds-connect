@@ -67,7 +67,6 @@ export class PinDetailsComponent implements OnInit {
 
   private doesLoggedInUserOwnPin() {
     let contactId = this.store.loadContactId();
-    console.log('pjl ' + contactId);
     return contactId === this.pin.contactId;
   }
 
