@@ -63,7 +63,6 @@ export class AuthenticationComponent implements OnInit {
       .subscribe(
         (user) => {
           this.store.setContactId(user.userId);
-          this.store.reactiveSsoLoggedIn = true;
           this.store.loadUserData();
           this.state.setLoading(false);
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin

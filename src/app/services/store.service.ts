@@ -17,9 +17,6 @@ export class StoreService {
   public contactId: string = (process.env.CRDS_ENV || '') + 'contactId';
   public email: string = '';
   public isGuest: boolean = false;
-  public reactiveSsoTimer: any;
-  public reactiveSsoTimeOut: number = 3000;
-  public reactiveSsoLoggedIn: boolean = false;
 
   constructor(
     private api: APIService,
