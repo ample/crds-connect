@@ -55,7 +55,7 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
-
+import { MemberSaidHiComponent } from './components/member-said-hi/member-said-hi.component';
 @NgModule({
   imports: [
     AlertModule,
@@ -76,6 +76,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
   ],
   declarations: [
     NowAPinComponent,
+    MemberSaidHiComponent,
     AddMeToMapComponent,
     AddressFormComponent,
     HostApplicationComponent,

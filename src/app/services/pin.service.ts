@@ -1,10 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { User } from '../models/user';
+import { StateService } from '../services/state.service';
+
+
 
 import { IFrameParentService } from './iframe-parent.service';
 import { Pin } from '../models/pin';
@@ -19,7 +23,7 @@ export class PinService {
   private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
 
   public SayHiTemplateId: number;
-  
+
   public restVerbs = {
     post: 'POST',
     put: 'PUT'
@@ -31,40 +35,56 @@ export class PinService {
 
 
 
-  constructor( private http: Http,
-               private session: SessionService) { 
-      this.SayHiTemplateId = sayHiTemplateId;
+  constructor(private http: Http,
+    private session: SessionService,
+    private router: Router,
+    private state: StateService
+    ) {
+    this.SayHiTemplateId = sayHiTemplateId;
   }
 
-  public sendHiEmail(user: User,pin: Pin): Observable<any> {
+  public ngOnInit(): void {
+    this.state.setLoading(false);
+  }
+
+
+  public sendHiEmail(user: User, pin: Pin): Observable<any> {
+    // Create merge data for this template
+    let dictionary = {
+      'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
+      'Pin_First_Name': pin.firstname,
+      'Community_Member_Email': user.email
+    };
     let emailInfo = {
       "fromEmailAddress": user.email,
       "toEmailAddress": pin.emailAddress,
       "subject": "Hi",
       "body": "Just wanted to say hi",
+      'mergeData': dictionary,
       "templateId": this.SayHiTemplateId
     };
     console.log(emailInfo, pin);
+    
+    this.state.setLoading(true);
 
-    return this.session.post(this.baseServicesUrl + 'api/v1.0.0/SendEmail', emailInfo);
+    return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
+      .map((res: any) => {
+        this.router.navigate(['/member-said-hi']);
+        this.state.setLoading(false);
+        return res;
+      })
+      .catch((err) => Observable.throw(err.json().error));
   }
-
-  // public postUser(user: User): Observable<any> {
-  //   return this.session.post(this.baseUrl + 'api/v1.0.0/user', user)
-  //     .map(this.extractData)
-  //     .catch(this.handleError);
-  // };
-
 
   public getPinDetails(participantId: number): Observable<Pin> {
     return this.http.get(`${this.baseUrl}api/v1.0.0/finder/pin/${participantId}`)
-    .map((res: Response) => res.json())
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   public getPinDetailsByContactId(contactId: number): Observable<Pin> {
     return this.http.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
-    .map((res: Response) => res.json())
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 }

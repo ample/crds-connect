@@ -106,7 +106,6 @@ export class APIService {
             res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
           let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
               res.firstname, res.lastname, res.emailAddress, userAddress);
-
           return userData;
         })
         .catch( (err) => Observable.throw(err.json().error) );

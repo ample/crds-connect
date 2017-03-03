@@ -15,6 +15,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
+import { MemberSaidHiComponent } from './components/member-said-hi/member-said-hi.component';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     }
   },
   { path: 'map', component: NeighborsComponent },
+  { path: 'member-said-hi', component: MemberSaidHiComponent }, 
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
