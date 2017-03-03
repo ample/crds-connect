@@ -23,7 +23,7 @@ export class PinDetailsComponent implements OnInit {
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public buttonText: string = "Update";
+  public buttonText: string;
   public isLoggedInUser: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
@@ -36,6 +36,7 @@ export class PinDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private session: SessionService,
               private state: StateService,
+              private store: StoreService,
               private hlpr: AddMeToTheMapHelperService
               ) {
 
@@ -65,7 +66,7 @@ export class PinDetailsComponent implements OnInit {
   }
 
   private doesLoggedInUserOwnPin() {
-    let contactId = this.session.getContactId();
+    let contactId = this.store.loadContactId();
     return contactId === this.pin.contactId;
   }
 
