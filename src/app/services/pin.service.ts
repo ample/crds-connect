@@ -61,7 +61,7 @@ export class PinService {
       "subject": "Hi",
       "body": "Just wanted to say hi",
       'mergeData': dictionary,
-      "templateId": this.SayHiTemplateId
+      "templateId": this.SayHiTemplateId 
     };
     console.log(emailInfo, pin);
     
