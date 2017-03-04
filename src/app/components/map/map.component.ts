@@ -17,34 +17,43 @@ import { UserLocationService } from  '../../services/user-location.service';
 export class MapComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
 
-  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 15, false, true);
+  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor( private userLocationService: UserLocationService) {}
 
   public ngOnInit(): void {
-    // TODO do we really need this? Have similar login in search-bar-component
+
     let haveResults = !!this.searchResults;
     if (!haveResults) {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
+          this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
         }
       );
     } else {
+      this.mapSettings.zoom = 15;
       this.setMapLocation();
     }
 
   }
 
   public setMapLocation() {
-      this.mapSettings.lat = this.searchResults.centerLocation.lat;
-      this.mapSettings.lng = this.searchResults.centerLocation.lng;
+    this.mapSettings.lat = this.searchResults.centerLocation.lat;
+    this.mapSettings.lng = this.searchResults.centerLocation.lng;
   }
 
   public getStringByEnumValue(enumNumber) {
-      return pinType[enumNumber];
+      if (enumNumber === pinType.PERSON) {
+        return "https://image.ibb.co/ebF9rF/PERSON.png";
+      } else if (enumNumber === pinType.GATHERING) {
+        return "https://image.ibb.co/kpYJka/GATHERING.png";
+      } else {
+        return "https://image.ibb.co/di5Lyv/SITE.png";
+      }
+
+      // add this back in when images are better...
+       // return pinType[enumNumber];
   }
-
-
 }

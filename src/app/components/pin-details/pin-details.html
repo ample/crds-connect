@@ -1,27 +1,46 @@
-
 <div>Connect</div>
 <div *ngIf="!editMode" class="container">
-    <strong *ngIf="!isLoggedInUser">Say Hello to</strong>
+    <strong *ngIf="!isLoggedInUser && !isGatheringPin">Say Hello to</strong>
     <span *ngIf="isLoggedInUser" class="label label-primary">Me</span>
-    <p>{{pin.firstName}} {{pin.lastName | slice:0:1}}</p>
-    <p *ngIf="!isLoggedInUser">Saying, "Hi," is a nice thing to do. This will send an email introduction from you to them.
-        Connecting with and knowing the people in your community is part of what this church thing is all about.
+    <span *ngIf="isGatheringPin" class="label label-primary">Host</span>
+    <h1>{{pin.firstName}} {{pin.lastName | slice:0:1}}</h1>
+    <p *ngIf="!isLoggedInUser && !isGatheringPin">Saying, "Hi," is a nice thing to do. This will send an email introduction from you to them. Connecting with and knowing
+        the people in your community is part of what this church thing is all about.
     </p>
-    <div *ngIf="isLoggedInUser">
-        <address>{{pin.address.addressLine1}} {{pin.address.addressLine2}}<br>
-        {{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
+    <div *ngIf="isInGathering && isGatheringPin">
+        <address>{{pin.gathering.address.addressLine1}} {{pin.gathering.address.addressLine2}}<br> {{pin.gathering.address.city}}, {{pin.gathering.address.state}} {{pin.gathering.address.zip}}</address>
     </div>
-    <div *ngIf="!isLoggedIn">
-        <button class="btn primary" (click)="redirectToLogin()">Sign In</button>
-        <p>Don't have an account? <a [routerLink]="['/register']">Register Now</a></p>
+    <div *ngIf="!isInGathering && isGatheringPin">
+        <address>{{pin.gathering.address.city}}, {{pin.gathering.address.state}} {{pin.gathering.address.zip}}</address>
     </div>
-    <div *ngIf="isLoggedIn && !isLoggedInUser">
-        <button class="btn primary btn-primary" (click)="sayHi()">Say Hi!</button>
+    <div *ngIf="!isLoggedInUser && !isGatheringPin">
+        <address>{{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
+    </div>
+    <div *ngIf="isLoggedInUser && !isGatheringPin">
+        <address>{{pin.address.addressLine1}} {{pin.address.addressLine2}}<br> {{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}</address>
+    </div>
+    <div *ngIf="isGatheringPin">
+        <p>{{pin.gathering.groupDescription}}</p>
+    </div>
+    <div *ngIf="isGatheringPin && !isInGathering">
+        <button class="btn primary btn-primary" (click)="requestToJoin()">Be a participant</button>
+        <button class="btn primary" (click)="sayHi()">Contact host</button>
     </div>
     <div *ngIf="isLoggedInUser">
         <button class="btn primary btn-primary" (click)="edit()">Edit</button>
     </div>
-</div> 
+    <div *ngIf="!isLoggedIn && !isGatheringPin">
+        <button class="btn primary" (click)="redirectToLogin()">Sign In</button>
+        <p>Don't have an account? <a [routerLink]="['/register']">Register Now</a></p>
+    </div>
+    <div *ngIf="isLoggedIn && !isGatheringPin">
+        <button class="btn primary btn-primary" (click)="sayHi()">Say hi!</button>
+    </div>    
+    <div *ngIf="!isLoggedIn && isGatheringPin">
+        <a (click)="redirectToLogin()">Already in this gathering?</a><br />
+        <a (click)="redirectToLogin()">This is me</a>
+    </div>
+</div>
 <div *ngIf="editMode">
-    <address-form  [userData]="pin" [buttonText]="buttonText" (save)="onSubmit($event)"></address-form>
+    <address-form [userData]="pin" [buttonText]="buttonText" (save)="onSubmit($event)"></address-form>
 </div>
