@@ -41,8 +41,8 @@ export class PinDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private state: StateService,
-              private hlpr: AddMeToTheMapHelperService,
-              private pinService: PinService
+    private hlpr: AddMeToTheMapHelperService,
+    private pinService: PinService
   ) {
   }
 
@@ -58,7 +58,6 @@ export class PinDetailsComponent implements OnInit {
       this.isGatheringPin = true;
     }
 
-    console.log(this.pin)
     if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isLoggedInUser = this.doesLoggedInUserOwnPin();
