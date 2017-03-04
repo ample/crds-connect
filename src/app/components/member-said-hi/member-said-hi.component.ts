@@ -10,8 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MemberSaidHiComponent {
 
 
-  constructor(private fb: FormBuilder,
-              private content: ContentService,
+  constructor(private content: ContentService,
               private router: Router) {}
 
   public btnClick()  {

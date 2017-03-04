@@ -70,7 +70,7 @@ export class PinService {
       .catch((err) => Observable.throw(err.json().error));
   }
 
-  public createTemplateDictionary(user:User, pin: Pin) {
+  public createTemplateDictionary(user:User, pin:Pin) {
     return {
       'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
       'Pin_First_Name': pin.firstName,
