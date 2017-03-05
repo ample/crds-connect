@@ -36,9 +36,7 @@ export class MapComponent implements OnInit {
               pinSearchResults => {
                 let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
                 this.searchResults = results;
-            },
-                err => console.log(err)
-            );
+            });
         }
       );
     } else {

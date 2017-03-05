@@ -40,9 +40,7 @@ export class NeighborsComponent implements OnInit {
       next => {
         console.log(next);
         this.pinSearchResults = next as PinSearchResultsDto;
-      },
-      err => console.log(err)
-    );
+      });
   }
 
 }
