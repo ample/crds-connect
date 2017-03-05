@@ -55,11 +55,11 @@ export class MapComponent implements OnInit {
 
   public getStringByEnumValue(enumNumber) {
       if (enumNumber === pinType.PERSON) {
-        return 'http://i65.tinypic.com/7149lc.jpg';
+        return "https://image.ibb.co/ebF9rF/PERSON.png";
       } else if (enumNumber === pinType.GATHERING) {
-        return 'http://i65.tinypic.com/qyvldt.jpg';
+        return "https://image.ibb.co/kpYJka/GATHERING.png";
       } else {
-        return 'http://i65.tinypic.com/5mz2bc.jpg';
+        return "https://image.ibb.co/di5Lyv/SITE.png";
       }
 
       // add this back in when images are better...
