@@ -79,10 +79,18 @@ export class APIService {
     return obs;
   }
 
-  public getPinsAddressSearchResults(userSearchAddress: string): Observable<PinSearchResultsDto> {
-    return this.http.get(this.baseUrl + 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress)
-    .map((res: Response) => res.json())
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  public getPinsAddressSearchResults(userSearchAddress: string,
+                                     lat?: number, lng?: number): Observable<PinSearchResultsDto> {
+
+    let searchUrl: string = lat && lng ?
+        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+        + '/' + lat.toString().split('.').join('$') + '/'
+        + lng.toString().split('.').join('$') :
+        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+
+    return this.http.get(this.baseUrl + searchUrl)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   public getRegisteredUser(email: string): Observable<boolean> {
@@ -105,8 +113,7 @@ export class APIService {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
             res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
           let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
-              res.firstname, res.lastname, res.emailAddress, userAddress);
-
+              res.firstName, res.lastName, res.emailAddress, userAddress);
           return userData;
         })
         .catch( (err) => Observable.throw(err.json().error) );
