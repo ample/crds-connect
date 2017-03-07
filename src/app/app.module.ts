@@ -56,6 +56,8 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
+import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
+
 @NgModule({
   imports: [
     AlertModule,
@@ -95,7 +97,8 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
     PinDetailsComponent,
     RegisterComponent,
     SearchBarComponent,
-    FormatPaymentNumberDirective
+    FormatPaymentNumberDirective,
+    GoogleMapClusterDirective
   ],
   providers: [
     AddMeToTheMapHelperService,

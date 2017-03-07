@@ -8,6 +8,7 @@ import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { UserLocationService } from  '../../services/user-location.service';
+import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 
 @Component({
   selector: 'app-map',
