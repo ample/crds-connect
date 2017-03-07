@@ -125,7 +125,7 @@ describe('Component: Pin-Details component', () => {
       expect(this.component.isLoggedIn).toBe(false);
       expect(this.component.pin.firstName).toBe('Joe');
       expect(api.isLoggedIn.calls.count()).toEqual(1);
-      expect(this.component.isLoggedInUser).toBe(false);
+      expect(this.component.isPinOwner).toBe(false);
     }));
 
     it('shouldInit while logged in', inject([APIService], (api) => {
@@ -266,7 +266,7 @@ describe('Component: Pin-Details component', () => {
       expect(this.component.isGatheringPin).toBe(true);
       expect(this.component.pin.firstName).toBe('Joe');
       expect(api.isLoggedIn.calls.count()).toEqual(1);
-      expect(this.component.isLoggedInUser).toBe(false);
+      expect(this.component.isPinOwner).toBe(false);
     }));
   });
 });

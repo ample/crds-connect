@@ -3,6 +3,6 @@
 <p>{{pin.gathering.groupDescription}}</p>
 <div *ngIf="!isInGathering && !isPinOwner">
     <button class="btn primary btn-primary" (click)="requestToJoin()">Be a participant</button>
-    <say-hi [isGathering]="true" [buttonText]="sayHiButtonText"></say-hi>
+    <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
 </div>
 <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>

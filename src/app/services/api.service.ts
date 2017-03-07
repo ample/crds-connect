@@ -30,9 +30,9 @@ export class APIService {
     authorized: null
   };
 
-  constructor( private http: Http,
-               private session: SessionService,
-               private pin: PinService) { }
+  constructor(private http: Http,
+    private session: SessionService,
+    private pin: PinService) { }
 
   public getAuthentication(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/v1.0.0/authenticated')
@@ -67,8 +67,8 @@ export class APIService {
             .map(this.extractData)
             .catch(this.handleError)
             .subscribe(
-              geoLocationData => observer.next(geoLocationData),
-              err => observer.error(new Error('Failed to get geolocation from API via IP'))
+            geoLocationData => observer.next(geoLocationData),
+            err => observer.error(new Error('Failed to get geolocation from API via IP'))
             );
         }, error => {
           observer.error(new Error('Failed to get geolocation from API via IP'));
@@ -80,13 +80,13 @@ export class APIService {
   }
 
   public getPinsAddressSearchResults(userSearchAddress: string,
-                                     lat?: number, lng?: number): Observable<PinSearchResultsDto> {
+    lat?: number, lng?: number): Observable<PinSearchResultsDto> {
 
     let searchUrl: string = lat && lng ?
-        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
-        + '/' + lat.toString().split('.').join('$') + '/'
-        + lng.toString().split('.').join('$') :
-        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+      + '/' + lat.toString().split('.').join('$') + '/'
+      + lng.toString().split('.').join('$') :
+      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
 
     return this.http.get(this.baseUrl + searchUrl)
       .map((res: Response) => res.json())
@@ -101,22 +101,28 @@ export class APIService {
 
   public getStateList(): Observable<any> {
     return this.session.get(this.baseUrl + 'api/v1.0.0/lookup/states')
-        .map((res: Array<LookupTable>) => {
-          return res;
-        })
-        .catch( (err) => Observable.throw(err.json().error) );
+      .map((res: Array<LookupTable>) => {
+        return res;
+      })
+      .catch((err) => Observable.throw(err.json().error));
   }
 
   public getUserData(): Observable<any> {
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${this.session.getContactId()}/false`)
+    debugger;
+    let contactId = this.session.getContactId();
+    if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
+      return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
         .map((res: Pin) => {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
             res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
           let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
-              res.firstName, res.lastName, res.emailAddress, userAddress);
+            res.firstName, res.lastName, res.emailAddress, userAddress);
           return userData;
         })
-        .catch( (err) => Observable.throw(err.json().error) );
+        .catch((err) => Observable.throw(err.json().error));
+    } else {
+      return null;
+    }
   }
 
   public postLogin(email: string, password: string): Observable<any> {
@@ -135,10 +141,10 @@ export class APIService {
     let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
 
     return this.session.post(postPinUrl, pin)
-        .map((res: any) => {
-          return res;
-        })
-        .catch( (err) => Observable.throw(err.json().error) );
+      .map((res: any) => {
+        return res;
+      })
+      .catch((err) => Observable.throw(err.json().error));
   }
 
   public postUser(user: User): Observable<any> {

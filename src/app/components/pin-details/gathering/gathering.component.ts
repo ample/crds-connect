@@ -5,6 +5,7 @@ import { APIService } from '../../../services/api.service';
 import { ContentService } from '../../../services/content.service';
 import { Pin } from '../../../models/pin';
 import { SessionService } from '../../../services/session.service';
+import { User } from '../../../models/user';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { SessionService } from '../../../services/session.service';
 export class GatheringComponent implements OnInit {
 
   @Input() pin: Pin;
+  @Input() user: User;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
 

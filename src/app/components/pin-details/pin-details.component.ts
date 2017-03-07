@@ -24,7 +24,7 @@ export class PinDetailsComponent implements OnInit {
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = "Update";
-  public isLoggedInUser: boolean = false;
+  public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
   public pin: Pin;
@@ -58,13 +58,9 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
-      this.isLoggedInUser = this.doesLoggedInUserOwnPin();
+      this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
     this.state.setLoading(false);
-  }
-
-  public sayHi() {
-    this.pinService.sendHiEmail(this.user, this.pin).subscribe();
   }
 
   public edit() {

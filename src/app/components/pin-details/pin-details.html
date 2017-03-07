@@ -1,8 +1,8 @@
 <div>Connect</div>
 <div *ngIf="!editMode" class="container">
-    <gathering *ngIf="isGatheringPin" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isLoggedInUser"></gathering>
-    <person   *ngIf="!isGatheringPin" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isLoggedInUser"></person>
-    <button    *ngIf="isLoggedInUser" class="btn primary btn-primary" (click)="edit()">Edit</button>
+    <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
+    <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
+    <button *ngIf="isPinOwner" class="btn primary btn-primary" (click)="edit()">Edit</button>
 </div>
 <div *ngIf="editMode">
     <address-form [userData]="pin" [buttonText]="buttonText" (save)="onSubmit($event)"></address-form>
