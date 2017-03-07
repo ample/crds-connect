@@ -1,0 +1,8 @@
+<pin-header [isGathering]="true" [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName"></pin-header>
+<readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address"></readonly-address>
+<p>{{pin.gathering.groupDescription}}</p>
+<div *ngIf="!isInGathering && !isPinOwner">
+    <button class="btn primary btn-primary" (click)="requestToJoin()">Be a participant</button>
+    <say-hi [isGathering]="true" [buttonText]="sayHiButtonText"></say-hi>
+</div>
+<pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>

@@ -1,0 +1,4 @@
+<pin-header [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName"></pin-header>
+<readonly-address [isPinOwner]="isPinOwner" [address]="pin.address"></readonly-address>
+<say-hi *ngIf="!isLoggedInUser" [isGathering]="false" [buttonText]="sayHiButtonText"></say-hi>
+<pin-login-actions *ngIf="!isLoggedIn"></pin-login-actions>

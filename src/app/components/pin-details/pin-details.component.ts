@@ -9,7 +9,6 @@ import { Pin } from '../../models/pin';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
-import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 
@@ -35,7 +34,6 @@ export class PinDetailsComponent implements OnInit {
 
   constructor(private api: APIService,
     private content: ContentService,
-    private loginRedirectService: LoginRedirectService,
     private router: Router,
     private route: ActivatedRoute,
     private session: SessionService,
@@ -55,31 +53,15 @@ export class PinDetailsComponent implements OnInit {
       this.isGatheringPin = true;
     }
 
-    console.log(this.pin)
     if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isLoggedInUser = this.doesLoggedInUserOwnPin();
-      if (this.isGatheringPin) {
-        if (this.loggedInUserIsInGathering(this.session.getContactId())) {
-          this.isInGathering = true;
-        }
-      }
     }
     this.state.setLoading(false);
   }
 
-  public loggedInUserIsInGathering(contactId: number) {
-    return this.pin.gathering.Participants.find((participant) => {
-      return (participant.contactId === contactId);
-    });
-  }
-
   public sayHi() {
     console.log('hi');
-  }
-
-  public redirectToLogin() {
-    this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
   }
 
   public edit() {

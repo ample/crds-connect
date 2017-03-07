@@ -1,0 +1,26 @@
+import { Angulartics2 } from 'angulartics2';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { LoginRedirectService } from '../../../services/login-redirect.service';
+
+@Component({
+  selector: 'pin-login-actions',
+  templateUrl: 'pin-login-actions.html'
+})
+export class PinLoginActionsComponent implements OnInit {
+
+  @Input() isGathering: boolean = false;
+
+  constructor(
+    private loginRedirectService: LoginRedirectService,
+    private router: Router) {}
+
+  public ngOnInit() {
+  }
+
+  public redirectToLogin() {
+    this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+  }
+
+}
