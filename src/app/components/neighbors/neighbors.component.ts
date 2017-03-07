@@ -15,8 +15,8 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 })
 
 export class NeighborsComponent implements OnInit {
- public mapViewActive: boolean = true;
- public pinSearchResults: PinSearchResultsDto;
+  public mapViewActive: boolean = true;
+  public pinSearchResults: PinSearchResultsDto;
 
   constructor(private api: APIService, private router: Router, private userLocationService: UserLocationService ) {}
 
@@ -35,15 +35,12 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = agreed;
   }
 
-
-
   doSearch(searchString: string) {
     this.api.getPinsAddressSearchResults(searchString).subscribe(
       next => {
-          console.log(next);
-          this.pinSearchResults = next as PinSearchResultsDto;
-      },
-      err => console.log(err)
-    );
+        console.log(next);
+        this.pinSearchResults = next as PinSearchResultsDto;
+      });
   }
+
 }

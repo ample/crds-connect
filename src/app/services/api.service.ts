@@ -79,10 +79,18 @@ export class APIService {
     return obs;
   }
 
-  public getPinsAddressSearchResults(userSearchAddress: string): Observable<PinSearchResultsDto> {
-    return this.http.get(this.baseUrl + 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress)
-    .map((res: Response) => res.json())
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  public getPinsAddressSearchResults(userSearchAddress: string,
+                                     lat?: number, lng?: number): Observable<PinSearchResultsDto> {
+
+    let searchUrl: string = lat && lng ?
+        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+        + '/' + lat.toString().split('.').join('$') + '/'
+        + lng.toString().split('.').join('$') :
+        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+
+    return this.http.get(this.baseUrl + searchUrl)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   public getRegisteredUser(email: string): Observable<boolean> {
