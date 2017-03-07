@@ -6,13 +6,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { ContentService } from '../../services/content.service';
 import { Pin } from '../../models/pin';
+import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-pin-detail',
@@ -31,7 +32,7 @@ export class PinDetailsComponent implements OnInit {
   public isGatheringPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
-
+  public user: User;
 
   constructor(private api: APIService,
     private content: ContentService,
@@ -40,7 +41,8 @@ export class PinDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private state: StateService,
-    private hlpr: AddMeToTheMapHelperService
+    private hlpr: AddMeToTheMapHelperService,
+    private pinService: PinService
   ) {
   }
 
@@ -50,12 +52,12 @@ export class PinDetailsComponent implements OnInit {
     //We are just appending a bunch of properties to our pin class, not necessarily composing a
     //new pin via a constructor.  This should be rectified.
     this.pin = this.route.snapshot.data['pin'];
+    this.user = this.route.snapshot.data['user'];
 
     if (this.pin.gathering !== null && this.pin.gathering !== undefined) {
       this.isGatheringPin = true;
     }
 
-    console.log(this.pin)
     if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isLoggedInUser = this.doesLoggedInUserOwnPin();
@@ -75,7 +77,7 @@ export class PinDetailsComponent implements OnInit {
   }
 
   public sayHi() {
-    console.log('hi');
+    this.pinService.sendHiEmail(this.user, this.pin).subscribe();
   }
 
   public redirectToLogin() {

@@ -30,7 +30,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 describe('Component: Pin-Details component', () => {
 
   let component;
-  let fixture;
+  let fixture; 
   let pin;
 
   describe('non gathering', () => {
