@@ -10,7 +10,6 @@ import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
-import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { User } from '../../models/user';
@@ -25,7 +24,7 @@ export class PinDetailsComponent implements OnInit {
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = "Update";
-  public isLoggedInUser: boolean = false;
+  public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
   public pin: Pin;
@@ -36,7 +35,6 @@ export class PinDetailsComponent implements OnInit {
 
   constructor(private api: APIService,
     private content: ContentService,
-    private loginRedirectService: LoginRedirectService,
     private router: Router,
     private route: ActivatedRoute,
     private session: SessionService,
@@ -60,28 +58,9 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.api.isLoggedIn()) {
       this.isLoggedIn = true;
-      this.isLoggedInUser = this.doesLoggedInUserOwnPin();
-      if (this.isGatheringPin) {
-        if (this.loggedInUserIsInGathering(this.session.getContactId())) {
-          this.isInGathering = true;
-        }
-      }
+      this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
     this.state.setLoading(false);
-  }
-
-  public loggedInUserIsInGathering(contactId: number) {
-    return this.pin.gathering.Participants.find((participant) => {
-      return (participant.contactId === contactId);
-    });
-  }
-
-  public sayHi() {
-    this.pinService.sendHiEmail(this.user, this.pin).subscribe();
-  }
-
-  public redirectToLogin() {
-    this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
   }
 
   public edit() {

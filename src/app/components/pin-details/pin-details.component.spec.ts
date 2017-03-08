@@ -20,6 +20,12 @@ import { Observable } from 'rxjs/Rx';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
+import { GatheringComponent } from '../pin-details/gathering/gathering.component';
+import { PersonComponent } from '../pin-details/person/person.component';
+import { PinHeaderComponent } from '../pin-details/pin-header/pin-header.component';
+import { PinLoginActionsComponent } from '../pin-details/pin-login-actions/pin-login-actions.component';
+import { ReadonlyAddressComponent } from '../pin-details/readonly-address/readonly-address.component';
+import { SayHiComponent } from '../pin-details/say-hi/say-hi.component';
 
 
 import { PinDetailsComponent } from './pin-details.component';
@@ -58,7 +64,14 @@ describe('Component: Pin-Details component', () => {
       };
       TestBed.configureTestingModule({
         declarations: [
-          PinDetailsComponent, AddressFormComponent
+          AddressFormComponent,
+          PinHeaderComponent,
+          PinLoginActionsComponent,
+          ReadonlyAddressComponent,
+          SayHiComponent,
+          PersonComponent,
+          GatheringComponent,
+          PinDetailsComponent,
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
@@ -110,10 +123,9 @@ describe('Component: Pin-Details component', () => {
       spyOn(api, 'isLoggedIn').and.returnValue(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
-      expect(this.component.isGatheringPin).toBe(false);
       expect(this.component.pin.firstName).toBe('Joe');
       expect(api.isLoggedIn.calls.count()).toEqual(1);
-      expect(this.component.isLoggedInUser).toBe(false);
+      expect(this.component.isPinOwner).toBe(false);
     }));
 
     it('shouldInit while logged in', inject([APIService], (api) => {
@@ -192,7 +204,14 @@ describe('Component: Pin-Details component', () => {
       };
       TestBed.configureTestingModule({
         declarations: [
-          PinDetailsComponent, AddressFormComponent
+          AddressFormComponent,
+          PinHeaderComponent,
+          PinLoginActionsComponent,
+          ReadonlyAddressComponent,
+          SayHiComponent,
+          PersonComponent,
+          GatheringComponent,
+          PinDetailsComponent,
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
@@ -245,28 +264,9 @@ describe('Component: Pin-Details component', () => {
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
       expect(this.component.isGatheringPin).toBe(true);
-      expect(this.component.isInGathering).toBe(false);
       expect(this.component.pin.firstName).toBe('Joe');
       expect(api.isLoggedIn.calls.count()).toEqual(1);
-      expect(this.component.isLoggedInUser).toBe(false);
-    }));
-
-    it('shouldInit while logged in and not in gathering', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(true);
-      spyOn(this.component, 'loggedInUserIsInGathering').and.returnValue(false)
-      this.component.ngOnInit();
-      expect(this.component.isLoggedIn).toBe(true);
-      expect(this.component.isGatheringPin).toBe(true);
-      expect(this.component.isInGathering).toBe(false);
-    }));
-
-    it('shouldInit while logged in and in gathering', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(true);
-      spyOn(this.component, 'loggedInUserIsInGathering').and.returnValue(true)
-      this.component.ngOnInit();
-      expect(this.component.isLoggedIn).toBe(true);
-      expect(this.component.isGatheringPin).toBe(true);
-      expect(this.component.isInGathering).toBe(true);
+      expect(this.component.isPinOwner).toBe(false);
     }));
   });
 });
