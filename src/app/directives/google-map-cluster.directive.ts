@@ -27,14 +27,12 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         maxZoom: 13,
         imagePath: "https://image.ibb.co/cjEhdv/CLUSTER"
       };
-      console.log(this.markerManager)
       let sebmMarkers = this.markerManager._markers.keys(); //markerKeys();
       let markers = [];
       let promises = []
       let sebmMarker;
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;
-        console.log(sebmMarker)
         if (sebmMarker.iconUrl.endsWith("PERSON.png") ||
             sebmMarker.iconUrl.endsWith("GATHERING.png")) {
           let promise = this.markerManager.getNativeMarker(sebmMarker)
