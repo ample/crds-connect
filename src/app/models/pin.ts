@@ -4,8 +4,8 @@ import { Group } from './group';
 export enum pinType {PERSON = 1, GATHERING = 2, SITE = 3 };
 
 export class Pin {
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
     siteName: string;
     emailAddress: string;
     contactId: number;
@@ -21,8 +21,8 @@ export class Pin {
                 address: Address, hostStatus: number, gathering: Group, householdId: number, isFormDirty: boolean
                 , siteName: string, pinType: pinType ) {
 
-        this.firstname = first_name;
-        this.lastname = last_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.siteName = siteName;
         this.emailAddress = email;
         this.contactId = contactId;
@@ -34,5 +34,4 @@ export class Pin {
         this.isFormDirty = isFormDirty;
         this.pinType = pinType;
     }
-
 }

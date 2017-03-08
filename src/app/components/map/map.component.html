@@ -5,7 +5,8 @@
                  [longitude] = "searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
                  [zoom] = "mapSettings.zoom"
                  [disableDefaultUI] = "mapSettings.disableDefaultUI"
-                 [zoomControl] = "mapSettings.zoomControl">
+                 [zoomControl] = "mapSettings.zoomControl"
+                 [streetViewControl] = "false">
 
     <sebm-google-map-marker *ngFor="let pin of searchResults?.pinSearchResults"
                             [latitude] = "pin.address.latitude"

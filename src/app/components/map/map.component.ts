@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { crdsOakleyCoords } from '../../shared/constants';
 import { MapSettings } from '../../models/map-settings';
+import { APIService } from '../../services/api.service';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -20,7 +21,8 @@ export class MapComponent implements OnInit {
 
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
-  constructor( private userLocationService: UserLocationService) {}
+  constructor( private userLocationService: UserLocationService,
+               private api: APIService) {}
 
   public ngOnInit(): void {
 
@@ -31,6 +33,11 @@ export class MapComponent implements OnInit {
           this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
+            this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
+              pinSearchResults => {
+                let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
+                this.searchResults = results;
+            });
         }
       );
     } else {

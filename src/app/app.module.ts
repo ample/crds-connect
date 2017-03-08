@@ -20,6 +20,7 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
@@ -27,7 +28,12 @@ import { MapContentComponent } from './components/map-content/map-content.compon
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { PersonComponent } from './components/pin-details/person/person.component';
+import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
+import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
 import { RegisterComponent} from './components/register/register.component';
+import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
+import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
@@ -55,6 +61,7 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
+import { MemberSaidHiComponent } from './components/member-said-hi/member-said-hi.component';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
@@ -78,6 +85,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   ],
   declarations: [
     NowAPinComponent,
+    MemberSaidHiComponent,
     AddMeToMapComponent,
     AddressFormComponent,
     HostApplicationComponent,
@@ -87,6 +95,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    GatheringComponent,
     ListViewComponent,
     MapComponent,
     MapContentComponent,
@@ -94,8 +103,13 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     NeighborsComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
+    PersonComponent,
     PinDetailsComponent,
+    PinHeaderComponent,
+    PinLoginActionsComponent,
     RegisterComponent,
+    ReadonlyAddressComponent,
+    SayHiComponent,
     SearchBarComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective

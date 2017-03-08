@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { Participant } from './participant'
 
 export class Group {
 
@@ -29,9 +30,10 @@ export class Group {
     targetSize: number;
     kidsWelcome: boolean;
     proximity: number;
+    Participants: Participant[];
 
 
-   constructor($groupId: number, $groupName: string, $groupDescription: string, $groupTypeName: string, $ministryId: number, $congregationId: number, $congregationName: string, $primaryContactId: number, $primaryContactEmail: number, $startDate: string, $endDate: string, $reasonEndedId: number, $availableOnline: boolean, $remainingCapacity: number, $groupFullInd: boolean, $waitListInd: boolean, $waitListGroupId: number, $childCareInd: boolean, $meetingDayId: number, $meetingDay: string, $meetingTime: string, $meetingFrequency: string, $meetingFrequencyId: number, $address: Address, $targetSize: number, $kidsWelcome: boolean, $proximity: number) {
+   constructor($groupId: number, $groupName: string, $groupDescription: string, $groupTypeName: string, $ministryId: number, $congregationId: number, $congregationName: string, $primaryContactId: number, $primaryContactEmail: number, $startDate: string, $endDate: string, $reasonEndedId: number, $availableOnline: boolean, $remainingCapacity: number, $groupFullInd: boolean, $waitListInd: boolean, $waitListGroupId: number, $childCareInd: boolean, $meetingDayId: number, $meetingDay: string, $meetingTime: string, $meetingFrequency: string, $meetingFrequencyId: number, $address: Address, $targetSize: number, $kidsWelcome: boolean, $proximity: number, $Participants: Participant[]) {
 		this.groupId = $groupId;
 		this.groupName = $groupName;
 		this.groupDescription = $groupDescription;
@@ -59,6 +61,7 @@ export class Group {
 		this.targetSize = $targetSize;
 		this.kidsWelcome = $kidsWelcome;
 		this.proximity = $proximity;
+        this.Participants = $Participants;
 	}
 
 
