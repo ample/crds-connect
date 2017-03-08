@@ -11,7 +11,7 @@
     <sebm-google-map-marker *ngFor="let pin of searchResults?.pinSearchResults"
                             [latitude] = "pin.address.latitude"
                             [longitude] = "pin.address.longitude"
-                            iconUrl = "{{getStringByEnumValue(pin.pinType)}}">
+                            iconUrl = "{{getStringByPinType(pin.pinType)}}">
     </sebm-google-map-marker>
 
     <google-map-cluster *ngIf="searchResults?.pinSearchResults.length > 0"></google-map-cluster>

@@ -33,11 +33,11 @@ export class MapComponent implements OnInit {
           this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
-            this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
-              pinSearchResults => {
-                let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
-                this.searchResults = results;
-            });
+          this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
+            pinSearchResults => {
+              let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
+              this.searchResults = results;
+          });
         }
       );
     } else {
@@ -52,16 +52,14 @@ export class MapComponent implements OnInit {
     this.mapSettings.lng = this.searchResults.centerLocation.lng;
   }
 
-  public getStringByEnumValue(enumNumber) {
-      if (enumNumber === pinType.PERSON) {
+  public getStringByPinType(type) {
+    switch(type) {
+      case pinType.PERSON:
         return "https://image.ibb.co/ebF9rF/PERSON.png";
-      } else if (enumNumber === pinType.GATHERING) {
+      case pinType.GATHERING:
         return "https://image.ibb.co/kpYJka/GATHERING.png";
-      } else {
+      default:
         return "https://image.ibb.co/di5Lyv/SITE.png";
-      }
-
-      // add this back in when images are better...
-       // return pinType[enumNumber];
+    }
   }
 }
