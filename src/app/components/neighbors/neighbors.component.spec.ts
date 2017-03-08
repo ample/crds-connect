@@ -26,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
+import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 
 describe('Component: Neighbors', () => {
 
@@ -37,7 +38,8 @@ describe('Component: Neighbors', () => {
         MapFooterComponent,
         ListViewComponent,
         SearchBarComponent,
-        MapComponent
+        MapComponent,
+        GoogleMapClusterDirective
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
@@ -70,6 +72,3 @@ it('should create an instance', () => {
   });
 
 });
-
-
-
