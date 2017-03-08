@@ -21,7 +21,8 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor( private userLocationService: UserLocationService,
-               private api: APIService) {}
+               private api: APIService,
+               private router: Router) {}
 
   public ngOnInit(): void {
 
@@ -46,21 +47,30 @@ export class MapComponent implements OnInit {
 
   }
 
+  private displayDetails(pin: Pin) {
+    // Both Person Pin and Gathering Pin navigate to pin-details
+    // Site Pin stays on map with info-window popup
+    if (pin.pinType === pinType.PERSON || pin.pinType === pinType.GATHERING) {
+      this.router.navigate([`pin-details/${pin.participantId}/`]);
+    }
+  }
+
   public setMapLocation() {
     this.mapSettings.lat = this.searchResults.centerLocation.lat;
     this.mapSettings.lng = this.searchResults.centerLocation.lng;
   }
 
-  public getStringByEnumValue(enumNumber) {
+  public getStringByEnumValue(enumNumber: number) {
       if (enumNumber === pinType.PERSON) {
-        return "https://image.ibb.co/ebF9rF/PERSON.png";
+        return 'https://image.ibb.co/ebF9rF/PERSON.png';
       } else if (enumNumber === pinType.GATHERING) {
-        return "https://image.ibb.co/kpYJka/GATHERING.png";
+        return 'https://image.ibb.co/kpYJka/GATHERING.png';
       } else {
-        return "https://image.ibb.co/di5Lyv/SITE.png";
+        return 'https://image.ibb.co/di5Lyv/SITE.png';
       }
 
       // add this back in when images are better...
        // return pinType[enumNumber];
   }
+
 }
