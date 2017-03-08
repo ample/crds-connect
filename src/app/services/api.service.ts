@@ -108,7 +108,6 @@ export class APIService {
   }
 
   public getUserData(): Observable<any> {
-    debugger;
     let contactId = this.session.getContactId();
     if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
       return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)

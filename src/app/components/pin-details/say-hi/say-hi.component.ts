@@ -12,7 +12,7 @@ import { User } from '../../../models/user';
   selector: 'say-hi',
   templateUrl: 'say-hi.html'
 })
-export class SayHiComponent implements OnInit {
+export class SayHiComponent {
 
   @Input() isGathering: boolean = false;
   @Input() buttonText: string = "";
@@ -24,8 +24,6 @@ export class SayHiComponent implements OnInit {
     private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
     private router: Router) { }
-
-  public ngOnInit() { }
 
   public sayHi() {
     if (!this.isLoggedIn) {

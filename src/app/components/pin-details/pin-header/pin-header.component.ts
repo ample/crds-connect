@@ -6,7 +6,7 @@ import { Address } from '../../../models/address';
   selector: 'pin-header',
   templateUrl: 'pin-header.html'
 })
-export class PinHeaderComponent implements OnInit {
+export class PinHeaderComponent {
 
   @Input() isGathering: boolean = false;
   @Input() isPinOwner: boolean = false;
@@ -14,8 +14,5 @@ export class PinHeaderComponent implements OnInit {
   @Input() lastName: string = "";
 
   constructor() {}
-
-  public ngOnInit() {
-  }
 
 }

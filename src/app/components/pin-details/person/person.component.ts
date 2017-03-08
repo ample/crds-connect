@@ -9,7 +9,7 @@ import { User } from '../../../models/user';
   selector: 'person',
   templateUrl: 'person.html'
 })
-export class PersonComponent implements OnInit {
+export class PersonComponent {
 
   @Input() pin: Pin;
   @Input() isPinOwner: boolean = false;
@@ -19,8 +19,5 @@ export class PersonComponent implements OnInit {
   public sayHiButtonText: string = "Say hi!";
 
   constructor() {
-  }
-
-  public ngOnInit() {
   }
 }

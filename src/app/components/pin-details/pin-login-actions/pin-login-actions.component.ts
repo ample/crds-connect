@@ -8,16 +8,13 @@ import { LoginRedirectService } from '../../../services/login-redirect.service';
   selector: 'pin-login-actions',
   templateUrl: 'pin-login-actions.html'
 })
-export class PinLoginActionsComponent implements OnInit {
+export class PinLoginActionsComponent {
 
   @Input() isGathering: boolean = false;
 
   constructor(
     private loginRedirectService: LoginRedirectService,
     private router: Router) {}
-
-  public ngOnInit() {
-  }
 
   public redirectToLogin() {
     this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
