@@ -6,7 +6,10 @@ import '../../scripts/markerclusterer.js'
 
 declare const MarkerClusterer;
 
-//interface MarkerManager { markerKeys() : [SebmGoogleMapMarker] }
+interface IMarkerManager {
+ _markers?: any;
+  next(): any;
+}
 //MarkerManager.prototype.markerKeys = function() { return this._markers.keys(); }
 
 // An Attribute Directive that creates a MarkerClusterer in the map once the markers are loaded.
@@ -27,9 +30,9 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         maxZoom: 13,
         imagePath: "https://image.ibb.co/cjEhdv/CLUSTER"
       };
-      let sebmMarkers = this.markerManager._markers.keys(); //markerKeys();
+      let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();
       let markers = [];
-      let promises = []
+      let promises = [];
       let sebmMarker;
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;
