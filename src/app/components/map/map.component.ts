@@ -62,13 +62,13 @@ export class MapComponent implements OnInit {
   }
 
   public getStringByPinType(type) {
-    switch(type) {
+    switch (type) {
       case pinType.PERSON:
-        return "https://image.ibb.co/ebF9rF/PERSON.png";
+        return 'https://image.ibb.co/ebF9rF/PERSON.png';
       case pinType.GATHERING:
-        return "https://image.ibb.co/kpYJka/GATHERING.png";
+        return 'https://image.ibb.co/kpYJka/GATHERING.png';
       default:
-        return "https://image.ibb.co/di5Lyv/SITE.png";
+        return 'https://image.ibb.co/di5Lyv/SITE.png';
     }
   }
 
