@@ -1,5 +1,7 @@
+<script src="../../scripts/markerclusterer.js"></script>
 
-<sebm-google-map [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
+<sebm-google-map id="connect"
+                 [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
                  [longitude] = "searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
                  [zoom] = "mapSettings.zoom"
                  [disableDefaultUI] = "mapSettings.disableDefaultUI"
@@ -17,8 +19,12 @@
       </sebm-google-map-info-window>
     </sebm-google-map-marker>
 </div>
-   <app-map-content></app-map-content>
    
+
+    <google-map-cluster *ngIf="searchResults?.pinSearchResults.length > 0"></google-map-cluster>
+
+    <app-map-content></app-map-content>
+
 </sebm-google-map>
 
 <app-map-footer></app-map-footer>
