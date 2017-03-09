@@ -33,25 +33,17 @@ export class MapComponent implements OnInit {
           this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
-          this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
-            pinSearchResults => {
-              let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
-              this.searchResults = results;
-          });
         }
       );
     } else {
       this.mapSettings.zoom = 15;
-      this.setMapLocation();
+      this.mapSettings.lat = this.searchResults.centerLocation.lat;
+      this.mapSettings.lng = this.searchResults.centerLocation.lng;
     }
 
   }
 
-  public setMapLocation() {
-    this.mapSettings.lat = this.searchResults.centerLocation.lat;
-    this.mapSettings.lng = this.searchResults.centerLocation.lng;
-  }
-
+  
   public getStringByPinType(type) {
     switch(type) {
       case pinType.PERSON:

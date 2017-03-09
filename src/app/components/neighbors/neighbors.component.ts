@@ -26,6 +26,7 @@ export class NeighborsComponent implements OnInit {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
+          this.doSearch('useLatLng', pos.lat, pos.lng );
         }
       );
     }
@@ -35,11 +36,14 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = agreed;
   }
 
-  doSearch(searchString: string) {
-    this.api.getPinsAddressSearchResults(searchString).subscribe(
+  doSearch(searchString: string, lat?: number, lng?: number) {
+    this.api.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
       next => {
         console.log(next);
         this.pinSearchResults = next as PinSearchResultsDto;
+      },
+      error => {
+        console.log(error);
       });
   }
 
