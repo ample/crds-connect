@@ -1,4 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -8,8 +9,10 @@ import { APIService } from '../../services/api.service';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import {GeoCoordinates} from "../../models/geo-coordinates";
 
 @Component({
   selector: 'app-map',
@@ -22,21 +25,26 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor( private userLocationService: UserLocationService,
-               private api: APIService) {}
+               private api: APIService,
+               private mapHlpr: GoogleMapService,
+               private state: StateService) {}
 
   public ngOnInit(): void {
 
     let haveResults = !!this.searchResults;
     if (!haveResults) {
+      this.state.setLoading(true);
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
-          this.mapSettings.zoom = 15;
-          this.mapSettings.lat = pos.lat;
-          this.mapSettings.lng = pos.lng;
           this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
             pinSearchResults => {
               let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
               this.searchResults = results;
+              this.mapSettings.zoom = 15;
+              this.mapSettings.lat = pos.lat;
+              this.mapSettings.lng = pos.lng;
+              this.state.setLoading(false);
+              this.mapHlpr.emitRefreshMap(new GeoCoordinates(pos.lat, pos.lng));
           });
         }
       );
