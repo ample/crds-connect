@@ -22,6 +22,7 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
+import { ListEntryComponent } from './components/list-entry/list-entry.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
@@ -97,6 +98,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ExpiryFormatDirective,
     GatheringComponent,
     ListViewComponent,
+    ListEntryComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
