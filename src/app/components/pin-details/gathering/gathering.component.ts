@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
+import { ConfirmationSetup } from '../../../models/confirmation-setup';
 
 import { SessionService } from '../../../services/session.service';
 import { APIService } from '../../../services/api.service';
 import { ContentService } from '../../../services/content.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
+import { ConfirmationSetupService } from '../../../services/confirmation-setup.service';
 
 
 
@@ -32,7 +34,8 @@ export class GatheringComponent implements OnInit {
     private session: SessionService,
     private pinService: PinService,
     private router: Router,
-    private loginRedirectService: LoginRedirectService
+    private loginRedirectService: LoginRedirectService,
+    private confirmationSetupService: ConfirmationSetupService
   ) { }
 
   public ngOnInit() {
@@ -48,18 +51,31 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    if (this.isLoggedIn) {
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
-        success => {
-          //go to success page
-        },
-        failure => {
-          //how are we logging errors.
-        }
-      );
-    } else {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
-    }
+    this.confirmationSetupService.setConfirmationSetup(new ConfirmationSetup(
+      "Return to map",
+      "gatheringJoinRequestSent",
+      ""
+    ));
+    this.router.navigate(['confirmation']);
+    // if (this.isLoggedIn) {
+    //   this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
+    //     success => {
+    //       let navigationExtras: NavigationExtras = {
+    //         queryParams: {
+    //           "buttonText": "Return to map",
+    //           "contentBlockName": "gatheringJoinRequestSent",
+    //           "goToState": ""
+    //         }
+    //       }
+    //       this.router.navigate(['confirmation'], navigationExtras);
+    //     },
+    //     failure => {
+    //       console.log(failure)
+    //     }
+    //   );
+    // } else {
+    //   this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+    // }
   }
 
 }

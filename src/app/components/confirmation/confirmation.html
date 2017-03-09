@@ -6,8 +6,8 @@
     </p>
 </div>
 <div>
-    <span [innerHTML]="content.getContent(contentBlockName)"></span>
+    <span [innerHTML]="content.getContent(confirmationSetup.contentBlockName)"></span>
 </div>
 <br>
 
-<input type="button" class="btn btn-secondary btn-block" (click)="close();" value="{{buttonText}}">
+<input type="button" class="btn btn-secondary btn-block" (click)="close();" value="{{confirmationSetup.buttonText}}">

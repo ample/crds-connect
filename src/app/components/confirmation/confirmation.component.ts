@@ -1,6 +1,10 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ContentService } from '../../services/content.service';
+import { ConfirmationSetupService } from '../../services/confirmation-setup.service';
+
+import { ConfirmationSetup } from '../../models/confirmation-setup';
 
 @Component({
     selector: 'confirmation',
@@ -8,26 +12,18 @@ import { Router } from '@angular/router';
 })
 export class ConfirmationComponent implements OnInit {
 
-    /** Required.  Text for the action button. */
-    @Input() buttonText: string = '';
-    /** Required.  Name of the CMS content block to display. */
-    @Input() contentBlockName: string = '';
-    /** Optional.  Pass a function to override default functionality. */
-    @Input() closeFunction: Function;
-    /** Optional.  Required if not passing a closeFunction. */
-    @Input() goToState: string = '';
+    private confirmationSetup: ConfirmationSetup;
 
-
-    constructor( private router: Router) { }
+    constructor(private router: Router,
+        private content: ContentService,
+        private confirmationSetupService: ConfirmationSetupService) {
+    }
 
     ngOnInit() {
+        this.confirmationSetup = this.confirmationSetupService.getConfirmationSetup();
     }
 
     close() {
-        if (this.closeFunction !== null && this.closeFunction !== undefined) {
-            this.closeFunction();
-        } else {
-            this.router.navigate(['/' + this.goToState]);
-        }
+        this.router.navigate(['/' + this.confirmationSetup.goToState]);
     }
 }
