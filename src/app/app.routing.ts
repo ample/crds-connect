@@ -3,10 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
-import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
+import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
@@ -28,12 +29,11 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
+  { path: 'confirmation', component: ConfirmationComponent },
+  { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'member-said-hi', component: MemberSaidHiComponent }, 
   { path: 'now-a-pin', component: NowAPinComponent },
-  { path: 'host-signup', component: HostApplicationComponent },
-  { path: 'signin', component: AuthenticationComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'pin-details/:participantId',
     component: PinDetailsComponent,
     resolve:  {
@@ -41,6 +41,8 @@ const appRoutes: Routes = [
       user: UserDataResolver
     }
   },
+  { path: 'register', component: RegisterComponent },
+  { path: 'signin', component: AuthenticationComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

@@ -89,4 +89,10 @@ export class PinService {
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
+
+  public requestToJoinGathering(gatheringId: number): Observable<boolean> {
+    return this.http.get(`${this.baseUrl}api/v1.0.0/finder/joingathering/${gatheringId}`)
+    .map((res: Response) => res.json())
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
 }

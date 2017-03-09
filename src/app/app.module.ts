@@ -15,24 +15,25 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'angular2-select';
 
-import { HostApplicationComponent } from './components/host-application/host-application.component';
-import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component'
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
+import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
-import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component'
+import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
+import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
-import { RegisterComponent} from './components/register/register.component';
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
+import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
@@ -81,34 +82,35 @@ import { MemberSaidHiComponent } from './components/member-said-hi/member-said-h
     routing
   ],
   declarations: [
-    NowAPinComponent,
-    MemberSaidHiComponent,
     AddMeToMapComponent,
     AddressFormComponent,
-    HostApplicationComponent,
     AppComponent,
     AuthenticationComponent,
+    ConfirmationComponent,
     CreditCardFormatDirective,
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    FormatPaymentNumberDirective,
     GatheringComponent,
+    HostApplicationComponent,
     ListViewComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
+    MemberSaidHiComponent,
     NeighborsComponent,
+    NowAPinComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     PersonComponent,
     PinDetailsComponent,
     PinHeaderComponent,
     PinLoginActionsComponent,
-    RegisterComponent,
     ReadonlyAddressComponent,
+    RegisterComponent,
     SayHiComponent,
-    SearchBarComponent,
-    FormatPaymentNumberDirective
+    SearchBarComponent
   ],
   providers: [
     AddMeToTheMapHelperService,
