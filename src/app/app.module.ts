@@ -62,6 +62,9 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { MemberSaidHiComponent } from './components/member-said-hi/member-said-hi.component';
+
+import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
+
 @NgModule({
   imports: [
     AlertModule,
@@ -108,7 +111,8 @@ import { MemberSaidHiComponent } from './components/member-said-hi/member-said-h
     ReadonlyAddressComponent,
     SayHiComponent,
     SearchBarComponent,
-    FormatPaymentNumberDirective
+    FormatPaymentNumberDirective,
+    GoogleMapClusterDirective
   ],
   providers: [
     AddMeToTheMapHelperService,
