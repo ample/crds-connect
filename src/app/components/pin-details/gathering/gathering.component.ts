@@ -51,31 +51,23 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    this.confirmationSetupService.setConfirmationSetup(new ConfirmationSetup(
-      "Return to map",
-      "gatheringJoinRequestSent",
-      ""
-    ));
-    this.router.navigate(['confirmation']);
-    // if (this.isLoggedIn) {
-    //   this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
-    //     success => {
-    //       let navigationExtras: NavigationExtras = {
-    //         queryParams: {
-    //           "buttonText": "Return to map",
-    //           "contentBlockName": "gatheringJoinRequestSent",
-    //           "goToState": ""
-    //         }
-    //       }
-    //       this.router.navigate(['confirmation'], navigationExtras);
-    //     },
-    //     failure => {
-    //       console.log(failure)
-    //     }
-    //   );
-    // } else {
-    //   this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
-    // }
+    if (this.isLoggedIn) {
+      this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
+        success => {
+          this.confirmationSetupService.setConfirmationSetup(new ConfirmationSetup(
+            "Return to map",
+            "gatheringJoinRequestSent",
+            ""
+          ));
+          this.router.navigate(['confirmation']);
+        },
+        failure => {
+          console.log(failure)
+        }
+      );
+    } else {
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+    }
   }
 
 }
