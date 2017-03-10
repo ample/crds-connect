@@ -51,7 +51,7 @@ export class MapContentComponent implements OnInit {
           google.maps.event.trigger(map, "resize");
           map.setZoom(15);
           map.setCenter(coords);
-        }, 10);
+        }, 1);
       })
   }
 }
