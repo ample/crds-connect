@@ -7,6 +7,7 @@ import { GeoCoordinates } from '../models/geo-coordinates';
 export class GoogleMapService {
 
   public mapUpdatedEmitter: EventEmitter<GeoCoordinates>;
+  public didUserAllowGeoLoc: boolean;
 
   constructor() {
     this.mapUpdatedEmitter = new EventEmitter<GeoCoordinates>();
@@ -14,6 +15,10 @@ export class GoogleMapService {
 
   public emitRefreshMap(coords: GeoCoordinates): void {
     this.mapUpdatedEmitter.emit(coords);
+  }
+
+  public setDidUserAllowGeoLoc(value: boolean): void {
+    this.didUserAllowGeoLoc = value;
   }
 
 }
