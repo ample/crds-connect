@@ -48,7 +48,6 @@ export class MapContentComponent implements OnInit {
     this.mapApiWrapper.getNativeMap()
       .then((map)=> {
         setTimeout(() => {
-          console.log('RESIZING GOOGLE MAP');
           google.maps.event.trigger(map, "resize");
           map.setZoom(15);
           map.setCenter(coords);
