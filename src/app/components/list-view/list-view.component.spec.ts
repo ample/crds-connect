@@ -59,7 +59,7 @@ describe('Component: List View', () => {
 
   });
 
-  it('should create an instance', () => {
+  fit('should create an instance', () => {
     expect(this.component).toBeTruthy();
   });
 
