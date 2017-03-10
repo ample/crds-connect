@@ -11,3 +11,9 @@ export const usStatesList: any = [
 
 export const sayHiTemplateId: any = 451704;
 
+export enum UserState {
+  LoggedIn_NotOnMap,
+  LoggedIn_OnMap,
+  NotLoggedIn
+}
+
