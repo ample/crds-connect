@@ -42,6 +42,7 @@ import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.serv
 import { APIService } from './services/api.service';
 import { ContentService } from './services/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
+import { GoogleMapService } from './services/google-map.service';
 import { LocationService } from './services/location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
 import { PinService } from './services/pin.service';
@@ -125,6 +126,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CookieService,
     APIService,
     GoogleMapsAPIWrapper,
+    GoogleMapService,
     IFrameParentService,
     LoginRedirectService,
     LocationService,
