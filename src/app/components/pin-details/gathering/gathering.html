@@ -6,3 +6,5 @@
     <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
 </div>
 <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
+<participants-list *ngIf="isInGathering" [participants]="pin.gathering.Participants" [user]="user"
+[pinParticipantId]="pin.participantId">  </participants-list>
