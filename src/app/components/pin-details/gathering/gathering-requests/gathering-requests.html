@@ -3,7 +3,7 @@
 <div *ngIf="inquiries.length > 0">
 <div class="row" *ngFor="let inquiry of inquiries">
     <participant-card [participant]="convertToParticipant(inquiry)"></participant-card> 
-    <small class="move-right">Requested to join on {{ inquiry.requestDate | date:'shortdate' }}</small>
+    <small class="move-right">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</small>
 </div>
 </div>
 <div *ngIf="inquiries.length < 1">
