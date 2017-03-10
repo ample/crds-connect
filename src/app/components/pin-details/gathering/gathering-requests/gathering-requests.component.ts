@@ -29,7 +29,8 @@ export class GatheringRequestsComponent implements OnInit {
       this.state.setLoading(true);
     this.groupService.getGroupRequests(this.pin.gathering.groupId)
         .subscribe(inquiryList => {this.inquiries = inquiryList;
-                                   this.state.setLoading(false)},
+                                   this.state.setLoading(false);
+                                },
                    err => console.log(err));
   }
 
