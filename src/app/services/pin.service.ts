@@ -51,14 +51,14 @@ export class PinService {
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
     // Create merge data for this template
     let emailInfo = {
-      "fromEmailAddress": user.email,
-      "toEmailAddress": pin.emailAddress,
-      "subject": "Hi",
-      "body": "Just wanted to say hi",
+      'fromEmailAddress': user.email,
+      'toEmailAddress': pin.emailAddress,
+      'subject': 'Hi',
+      'body': 'Just wanted to say hi',
       'mergeData': this.createTemplateDictionary(user, pin),
-      "templateId": this.SayHiTemplateId 
+      'templateId': this.SayHiTemplateId
     };
-    
+
     this.state.setLoading(true);
 
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)

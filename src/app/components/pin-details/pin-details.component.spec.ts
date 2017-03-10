@@ -21,6 +21,7 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
 import { GatheringComponent } from '../pin-details/gathering/gathering.component';
+import { GatheringRequestsComponent } from '../pin-details/gathering/gathering-requests/gathering-requests.component';
 import { PersonComponent } from '../pin-details/person/person.component';
 import { PinHeaderComponent } from '../pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from '../pin-details/pin-login-actions/pin-login-actions.component';
@@ -75,6 +76,7 @@ describe('Component: Pin-Details component', () => {
           ParticipantCardComponent,
           PersonComponent,
           GatheringComponent,
+          GatheringRequestsComponent,
           PinDetailsComponent,
         ],
         imports: [
@@ -217,6 +219,7 @@ describe('Component: Pin-Details component', () => {
           ParticipantCardComponent,
           ParticipantsListComponent,
           GatheringComponent,
+          GatheringRequestsComponent,
           PinDetailsComponent,
         ],
         imports: [
