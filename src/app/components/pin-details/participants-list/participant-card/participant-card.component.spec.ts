@@ -53,11 +53,33 @@ describe('Component: Participant Card component', () => {
       this.fixture = TestBed.createComponent(ParticipantCardComponent);
       this.component = this.fixture.componentInstance;
       this.component.participant = participant;
+      this.component.pinParticipantId = 777;
     });
 
     it('should create an instance', () => {
       expect(this.component).toBeTruthy();
     });
+
+    it('showHostLabel should return true when pinParticipant id matches the participants id', () => {
+      this.component.participant.participantId = 777;
+      expect(this.component.showHostLabel()).toBe(true);
+    });
+
+    it('showHostLabel should return false when pinParticipant doesnt match participant', () => {
+      expect(this.component.showHostLabel()).toBe(false);
+    });
+
+    it('showMeLabel() should return true when participant.contactId matches logged in users', inject([SessionService], (session) => {
+      spyOn(session, 'getContactId').and.returnValue(321);
+      expect(this.component.showMeLabel()).toBe(true);
+    }));
+
+    it('showMeLabel() should return false when participant.contactId doesnt match logged in users', inject([SessionService], (session) => {
+      spyOn(session, 'getContactId').and.returnValue(747648367);
+      expect(this.component.showMeLabel()).toBe(false);
+    }));
+
+
 });
 });
 
