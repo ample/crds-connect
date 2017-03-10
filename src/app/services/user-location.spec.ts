@@ -67,7 +67,7 @@ describe('Service: User-Location', () => {
       });
   })));
 
-  it('Should get a location as a GeoCoordinates object from IP', async(inject(
+  xit('Should get a location as a GeoCoordinates object from IP', async(inject(
       [UserLocationService],
       (service) => {
         const resultObs = service.getUserLocationFromIp();
