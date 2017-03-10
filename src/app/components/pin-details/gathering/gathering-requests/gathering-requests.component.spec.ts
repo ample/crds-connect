@@ -99,7 +99,6 @@ describe('Component: Gathering Requests Component', () => {
     it('should convert inquiry to participant', () => {
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         let participant = this.component.convertToParticipant(inquiry);
-        console.log(participant);
         expect(participant.contactId).toBe(1);
         expect(participant.lastName).toBe('Ker');
         expect(participant.nickName).toBe('Joe');
