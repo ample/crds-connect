@@ -13,7 +13,6 @@ import { Participant } from '../../../models/participant';
 export class ParticipantsListComponent {
 
   @Input() participants: Participant[];
-  @Input() user: User;
   @Input() pinParticipantId: number;
 
   constructor() {
