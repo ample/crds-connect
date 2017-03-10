@@ -1,20 +1,29 @@
+<script src="../../scripts/markerclusterer.js"></script>
 
-<sebm-google-map [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
+<sebm-google-map id="connect"
+                 [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
                  [longitude] = "searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
                  [zoom] = "mapSettings.zoom"
                  [disableDefaultUI] = "mapSettings.disableDefaultUI"
-                 [zoomControl] = "mapSettings.zoomControl">
+                 [zoomControl] = "mapSettings.zoomControl"
+                 [streetViewControl] = "false">
 
-
-    <sebm-google-map-marker *ngFor="let pin of searchResults?.pinSearchResults"
-                            [latitude] = "pin.address.latitude"
-                            [longitude] = "pin.address.longitude"
-                              iconUrl = "{{getStringByEnumValue(pin.pinType)}}">
-<!-- iconUrl = "src/assets/{{getStringByEnumValue(pin.pinType)}}.png"> -->    
-    </sebm-google-map-marker>
-
-   <app-map-content></app-map-content>
+    <div *ngFor="let pin of searchResults?.pinSearchResults">
+        <sebm-google-map-marker [latitude] = "pin.address.latitude"
+                                [longitude] = "pin.address.longitude"
+                                iconUrl = "{{getStringByPinType(pin.pinType)}}"
+                                (markerClick) = "displayDetails(pin)" >
+        <sebm-google-map-info-window [disableAutoPan]="true" >
+            <strong> Welcome to Crossroads! </strong><br>{{pin.address.addressLine1}}<br>{{pin.address.city}}, {{pin.address.state}}  {{pin.address.zip}}
+        </sebm-google-map-info-window>
+        </sebm-google-map-marker>
+    </div>
    
+
+    <google-map-cluster *ngIf="searchResults?.pinSearchResults.length > 0"></google-map-cluster>
+
+    <app-map-content></app-map-content>
+
 </sebm-google-map>
 
 <app-map-footer></app-map-footer>

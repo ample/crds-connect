@@ -9,3 +9,5 @@ export const usStatesList: any = [
   "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"
 ];
 
+export const sayHiTemplateId: any = 451704;
+

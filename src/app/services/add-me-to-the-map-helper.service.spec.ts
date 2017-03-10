@@ -1,5 +1,3 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
@@ -15,7 +13,7 @@ describe('Service: Add me to the Map Helper', () => {
   const mockUserData = new UserDataForPinCreation(111, 222, 9999, 'Bob', 'Smith', 'bobby@bob.com', mockAddress);
   const mockForm = new AddMeToMapFormFields('Test3 St', '', 'KarmaSt', 'II', '54321', true);
   const mockModifiedAddress = new Address(mockAddress.addressId, mockForm.addressLine1, mockForm.addressLine2,
-                                          mockForm.city, mockForm.state, mockForm.zip, 0, 0);
+    mockForm.city, mockForm.state, mockForm.zip, 0, 0);
 
   const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, 9999, true, '', pinType.PERSON);
 
