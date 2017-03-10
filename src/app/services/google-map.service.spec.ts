@@ -1,28 +1,79 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { TestBed } from '@angular/core/testing';
+import { APIService } from './/api.service';
+import { Http, Response, RequestOptions } from '@angular/http';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+import { UserLocationService } from './/user-location.service';
+import { MapComponent } from '../components/map/map.component';
+import { MapContentComponent } from '../components/map-content/map-content.component';
+import { MapFooterComponent } from '../components/map-footer/map-footer.component';
+import { GeoCoordinates } from '../models/geo-coordinates';
 
-import { Address } from '../models/address';
-import { GoogleMapService } from './google-map.service';
-import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
-import { Pin, pinType } from '../models/pin';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
+import { ContentService } from './/content.service';
+import { IFrameParentService } from './/iframe-parent.service';
+import { SessionService } from './/session.service';
+import { StateService } from './/state.service';
+import { StoreService } from './/store.service';
+import { GoogleMapService } from './/google-map.service';
+import { LoginRedirectService } from './/login-redirect.service';
+import { Angulartics2 } from 'angulartics2';
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpModule, JsonpModule  } from '@angular/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { LocationService } from './/location.service';
+import { PinService}  from './/pin.service';
+import { GoogleMapClusterDirective } from  '../directives/google-map-cluster.directive';
 
-describe('Service: Map service', () => {
+describe('Service: Google Map', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpModule
+      declarations: [
+        MapComponent,
+        MapContentComponent,
+        MapFooterComponent,
+        GoogleMapClusterDirective
       ],
-      providers: [GoogleMapService]
+      imports: [
+        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+        AgmCoreModule.forRoot({
+          apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
+        })
+      ],
+      providers: [
+        UserLocationService,
+        LocationService,
+        PinService,
+        GoogleMapService,
+        IFrameParentService,
+        StoreService,
+        StateService,
+        APIService,
+        SessionService,
+        CookieService,
+        Angulartics2,
+        ContentService,
+        LoginRedirectService
+      ]
     });
+    this.fixture = TestBed.createComponent(MapComponent);
+    this.component = this.fixture.componentInstance;
+
   });
 
-  it('should create an instance', inject([GoogleMapService], (service: any) => {
-    // let pin: Pin = service.createNewPin(mockForm, mockUserData);
-    // expect(pin).toEqual(mockPin);
-  }));
+
+  it('should emit geo-coordinates', () => {
+
+    const testCoords: GeoCoordinates = new GeoCoordinates(44, 44);
+
+    spyOn(this.component.mapHlpr, 'emitRefreshMap');
+    this.component.mapHlpr.emitRefreshMap(testCoords);
+    this.fixture.detectChanges();
+    expect(this.component.mapHlpr.emitRefreshMap).toHaveBeenCalledWith(testCoords);
+
+  });
 
 });
