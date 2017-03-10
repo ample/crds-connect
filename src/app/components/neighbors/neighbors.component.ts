@@ -50,7 +50,9 @@ export class NeighborsComponent implements OnInit {
         console.log(next);
         this.pinSearchResults = next as PinSearchResultsDto;
         this.state.setLoading(false);
-        this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
+        if (this.mapViewActive) {
+          this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
+        }
       },
       error => {
         console.log(error);
