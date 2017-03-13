@@ -2,10 +2,12 @@
 
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
+
+import { ListHelperService } from '../../services/list-helper.service';
 import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('Component: Map Footer', () => {
+describe('Component: List Footer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,6 +19,7 @@ describe('Component: Map Footer', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        ListHelperService
       ]
     });
     this.fixture = TestBed.createComponent(MapFooterComponent);

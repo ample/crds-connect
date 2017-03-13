@@ -1,30 +1,33 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ListHelperService } from '../../services/list-helper.service';
+import { Pin, pinType } from '../../models/pin';
 import { SessionService } from '../../services/session.service';
+import { UserState } from '../../shared/constants';
 
 @Component({
-  selector: 'app-list-footer',
+  selector: 'list-footer',
   templateUrl: 'list-footer.component.html',
   styleUrls: ['list-footer.component.css']
 })
-export class ListFooterComponent {
+export class ListFooterComponent implements OnInit {
+
+  @Input() pins: Array<Pin>;
 
   public userContactId: number = null;
+  public userMapState: UserState = undefined;
 
-  constructor(private router: Router,
-              session: SessionService) {
-    this.userContactId = session.getContactId();
-    console.log(this.userContactId);
+  constructor(private listHlpr: ListHelperService,
+              private router: Router,
+              private session: SessionService) {}
+
+  public ngOnInit(): void {
+    this.userContactId = this.session.getContactId();
+    this.userMapState = this.listHlpr.getUserMapState(this.userContactId, this.pins);
+
+    console.log(this.userMapState);
   }
-
-  //determine whether the user is logged in, or not logged in
-  //if logged in, whether on map or not
-
-  //set state
-  //1 Not logged in
-  //2 Logged in / not on map
-  //3 Logged in / on map
 
   public myPinBtnClicked()  {
     this.router.navigateByUrl('/add-me-to-the-map');

@@ -2,10 +2,14 @@
 
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
+import { CookieService } from 'angular2-cookie/core';
+
+import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from './list-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SessionService } from '../../services/session.service';
 
-describe('Component: Map Footer', () => {
+describe('Component: List Footer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,6 +21,9 @@ describe('Component: Map Footer', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        ListHelperService,
+        SessionService,
+        CookieService
       ]
     });
     this.fixture = TestBed.createComponent(ListFooterComponent);
