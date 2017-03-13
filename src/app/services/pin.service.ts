@@ -50,7 +50,6 @@ export class PinService {
 
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
     // Create merge data for this template
-    debugger;
     let emailInfo = {
       'fromEmailAddress': user.email,
       'toEmailAddress': pin.emailAddress,
@@ -64,7 +63,6 @@ export class PinService {
 
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
-        this.router.navigate(['/member-said-hi']);
         this.state.setLoading(false);
         return res;
       })

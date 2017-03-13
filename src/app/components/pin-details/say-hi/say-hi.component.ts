@@ -22,7 +22,7 @@ export class SayHiComponent {
 
   constructor(
     private pinService: PinService,
-    private loginRedirectService: LoginRedirectService,
+    private loginRedirectService: LoginRedirectService, 
     private router: Router) { }
 
 ngOnInit(){
@@ -34,10 +34,6 @@ ngOnInit(){
     } else {
       this.pinService.sendHiEmail(this.user, this.pin).subscribe();
     }
-  }
-
-  public sendeMAIL() {
-
   }
 
 }

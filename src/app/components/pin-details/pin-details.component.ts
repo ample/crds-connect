@@ -51,11 +51,18 @@ export class PinDetailsComponent implements OnInit {
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
     this.route.queryParams.subscribe((params: Params) => {
-      let parm = params['targetFromLongAgo'];
+      let parm = params['q'];
       if (parm) {
         console.log(parm);
-        debugger;
-        this.pinService.sendHiEmail(this.user, this.pin);
+        this.pinService.sendHiEmail(this.user, this.pin).subscribe(
+          ret => {
+              this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
+          },
+          err => {
+              // redirect to error page
+          }
+
+        );
       }
     });
 
@@ -67,7 +74,7 @@ export class PinDetailsComponent implements OnInit {
       this.isLoggedIn = true;
       this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
-    this.state.setLoading(false);
+    //this.state.setLoading(false);
   }
 
   public edit() {

@@ -21,7 +21,7 @@ export class LoginRedirectService {
     if (this.originalTarget) {
       if (this.originalTargetParms) {
         let navigationExtras: NavigationExtras = {
-          queryParams: { 'targetFromLongAgo': this.originalTargetParms }
+          queryParams: { 'q': this.originalTargetParms }
         };
         this.router.navigate([this.originalTarget], navigationExtras);
       }
