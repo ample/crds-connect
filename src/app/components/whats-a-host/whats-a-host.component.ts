@@ -16,5 +16,9 @@ export class WhatsAHostComponent {
   public signUpToHostClicked()  {
     this.router.navigateByUrl('/host-signup');
   }
+
+  public closeClick()  {
+    this.router.navigateByUrl('/map');
+  }
 }
 
