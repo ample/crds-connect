@@ -2,13 +2,29 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h2>You!</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent odio nibh, scelerisque eu congue id, dignissim at leo. Nullam at semper erat. Etiam accumsan, nibh vitae tempus interdum, enim ligula fermentum ipsum, sit amet vehicula eros odio sed augue. Vivamus in velit eget arcu rutrum fringilla. Donec consequat vestibulum enim at fringilla. </p>
+
+
+                <!--LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
+                <div *ngIf = "userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === UserState.NotLoggedIn">
+                    <h2>You!</h2>
+                    <p>Let others in your community know you're here. Make some connections.</p>
 
                     <div>
-                        <input type="button" class="btn btn-primary" value="Sign Up" (click) = "myPinBtnClicked()">
-                        <input type="button" class="btn btn-primary" value="What's a Host" (click) = "myPinBtnClicked()">
+                        <input type="button" class="btn btn-primary"
+                               value="Add me to the map"
+                               (click) = "myPinBtnClicked(userMapState)">
                     </div>
+                </div>
+
+                <!--LOGGED IN, ON MAP AS PARTICIPANT-->
+                <div *ngIf = "userMapState === userMapStateEnum.LoggedIn_OnMap">
+                    <h2>Want to host a gathering?</h2>
+                    <p>We can help you get started.</p>
+                    <div>
+                        <input type="button" class="btn btn-primary" value="Sign Up" (click) = "myPinBtnClicked(userMapState)">
+                        <input type="button" class="btn btn-primary" value="What's a Host" (click) = "whatsAHostBtnClicked()">
+                    </div>
+                </div>
 
                 <div>
             </div>
