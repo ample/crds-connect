@@ -41,6 +41,7 @@ import { RegisterComponent} from './components/register/register.component';
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { WhatsAHostComponent } from  './components/whats-a-host/whats-a-host.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { APIService } from './services/api.service';
@@ -124,6 +125,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ReadonlyAddressComponent,
     SayHiComponent,
     SearchBarComponent,
+    WhatsAHostComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],

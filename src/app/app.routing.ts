@@ -13,6 +13,7 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { WhatsAHostComponent } from  './components/whats-a-host/whats-a-host.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'getting-started', component: GettingStartedComponent },
   { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'whats-a-host', component: WhatsAHostComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'pin-details/:participantId',
