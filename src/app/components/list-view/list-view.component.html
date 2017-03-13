@@ -1,13 +1,14 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h2>This is the beginning of the big party! {{searchResults?.pinSearchResults.length}}</h2>
+      <h3>{{searchResults?.pinSearchResults.length}} people</h3>
     </div>
   </div>
   <list-entry *ngFor="let pin of searchResults?.pinSearchResults"
     [firstName] = "pin.firstName"
     [lastName] = "pin.lastName"
-    [lat] = "pin.address.latitude"
-    [lng] = "pin.address.longitude">
+    [siteName] = "pin.siteName"
+    [type] = "pin.pinType"
+    [proximity] = "pin.gathering ? pin.gathering.promimity : 0">
   </list-entry>
 </div>

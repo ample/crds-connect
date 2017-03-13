@@ -22,12 +22,12 @@ export class ListViewComponent {
     if (!this.searchResults) {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
-          this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
-            pinSearchResults => {
-              let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
-              this.searchResults = results;
-            }
-          );
+          // this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
+          //   pinSearchResults => {
+          //     let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
+          //     this.searchResults = results;
+          //   }
+          // );
         }
       );
     };
