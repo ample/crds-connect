@@ -32,7 +32,6 @@ export class ListEntryComponent {
   }
 
   public isGathering() {
-    this.siteName = "Sitename";
     return this.type === pinType.GATHERING;
   }
 
@@ -51,10 +50,6 @@ export class ListEntryComponent {
     }
   }
 
-  public count() {
-    return 0;
-  }
-
   public siteAddress() {
     if (this.address === null) {
       return null;
@@ -69,11 +64,15 @@ export class ListEntryComponent {
   }
 
   public gatheringDescription() {
-    console.log(this.description)
+    //console.log(this.description)
     return (this.description === "") ? "This is a sample description to make sure that what needs to happen can happen." : this.description;
   }
 
   public displayDetails(id) {
     this.router.navigate([`pin-details/${id}/`]);
+  }
+
+  public roundedProximity() {
+    return this.proximity.toFixed(1);
   }
 }
