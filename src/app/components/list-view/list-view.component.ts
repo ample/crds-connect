@@ -11,7 +11,7 @@ import { UserLocationService } from  '../../services/user-location.service';
   selector: 'app-listview',
   templateUrl: 'list-view.component.html'
 })
-export class ListViewComponent {
+export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
 
   constructor( private userLocationService: UserLocationService,
