@@ -6,6 +6,7 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { ListViewComponent } from './list-view.component';
+import { ListEntryComponent } from './list-entry.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
@@ -30,6 +31,7 @@ describe('Component: List View', () => {
     TestBed.configureTestingModule({
       declarations: [
         ListViewComponent,
+        ListEntryComponent,
         MapContentComponent,
         MapFooterComponent
       ],
@@ -64,6 +66,3 @@ describe('Component: List View', () => {
   });
 
 });
-
-
-
