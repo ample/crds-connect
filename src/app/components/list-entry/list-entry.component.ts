@@ -71,7 +71,6 @@ export class ListEntryComponent {
   }
 
   public gatheringDescription() {
-    //console.log(this.description)
     return (this.description === "") ? "This is a sample description to make sure that what needs to happen can happen." : this.description;
   }
 
