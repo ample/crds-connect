@@ -24,7 +24,7 @@ export class ListEntryComponent {
   ) {}
 
   public name() {
-    return this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1) + " " + this.lastName.charAt(0).toUpperCase() + ".";
+    return (this.firstName + " " + this.lastName.charAt(0) + ".").toUpperCase();
   }
 
   public isPerson() {
@@ -61,9 +61,9 @@ export class ListEntryComponent {
     } else {
       let addr = this.address.addressLine1;
       if (this.address.addressLine2) {
-        addr += "\n" + this.address.addressLine2;
+        addr += "<br/>" + this.address.addressLine2;
       }
-      addr += "\n" + this.address.city + ", " + this.address.state + " " + this.address.zip;
+      addr += "<br/>" + this.address.city + ", " + this.address.state + " " + this.address.zip;
       return addr;
     }
   }
