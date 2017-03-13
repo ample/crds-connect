@@ -9,6 +9,7 @@ import { ListViewComponent } from './list-view.component';
 import { ListEntryComponent } from '../list-entry/list-entry.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
+import { GoogleMapService } from '../../services/google-map.service';
 
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -53,7 +54,8 @@ describe('Component: List View', () => {
         CookieService,
         Angulartics2,
         ContentService,
-        LoginRedirectService
+        LoginRedirectService,
+        GoogleMapService
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);
