@@ -1,4 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
 
@@ -13,10 +14,14 @@ export class ListEntryComponent {
   @Input() siteName: string = "";
   @Input() type: number;
   @Input() proximity: number = 0;
-  @Input() description: string = "This is a sample description to make sure that what needs to happen can happen.";
+  @Input() description: string = "";
   @Input() address: Address = null;
+  @Input() participantId: number = 0;
+  @Input() participantCount: number = 0;
 
-  constructor() {}
+  constructor(
+    private router: Router
+  ) {}
 
   public name() {
     return this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1) + " " + this.lastName.charAt(0).toUpperCase() + ".";
@@ -61,5 +66,14 @@ export class ListEntryComponent {
       addr += "\n" + this.address.city + ", " + this.address.state + " " + this.address.zip;
       return addr;
     }
+  }
+
+  public gatheringDescription() {
+    console.log(this.description)
+    return (this.description === "") ? "This is a sample description to make sure that what needs to happen can happen." : this.description;
+  }
+
+  public displayDetails(id) {
+    this.router.navigate([`pin-details/${id}/`]);
   }
 }
