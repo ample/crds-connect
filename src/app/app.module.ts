@@ -22,13 +22,14 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
-import { MapFooterComponent } from './components/map-footer/map-footer.component'
+import { MapFooterComponent } from './components/map-footer/map-footer.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
@@ -41,7 +42,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
-import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service'
+import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { APIService } from './services/api.service';
 import { ContentService } from './services/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -104,6 +105,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ExpiryFormatDirective,
     GatheringComponent,
     GatheringRequestsComponent,
+    GettingStartedComponent,
     ListViewComponent,
     ListFooterComponent,
     MapComponent,
