@@ -21,9 +21,12 @@ import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
 import { GatheringComponent } from '../pin-details/gathering/gathering.component';
+import { GatheringRequestsComponent } from '../pin-details/gathering/gathering-requests/gathering-requests.component';
 import { PersonComponent } from '../pin-details/person/person.component';
 import { PinHeaderComponent } from '../pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from '../pin-details/pin-login-actions/pin-login-actions.component';
+import { ParticipantsListComponent } from '../pin-details/participants-list/participants-list.component';
+import { ParticipantCardComponent } from '../pin-details/participants-list/participant-card/participant-card.component';
 import { ReadonlyAddressComponent } from '../pin-details/readonly-address/readonly-address.component';
 import { SayHiComponent } from '../pin-details/say-hi/say-hi.component';
 
@@ -36,7 +39,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 describe('Component: Pin-Details component', () => {
 
   let component;
-  let fixture; 
+  let fixture;
   let pin;
 
   describe('non gathering', () => {
@@ -69,8 +72,11 @@ describe('Component: Pin-Details component', () => {
           PinLoginActionsComponent,
           ReadonlyAddressComponent,
           SayHiComponent,
+          ParticipantsListComponent,
+          ParticipantCardComponent,
           PersonComponent,
           GatheringComponent,
+          GatheringRequestsComponent,
           PinDetailsComponent,
         ],
         imports: [
@@ -158,20 +164,20 @@ describe('Component: Pin-Details component', () => {
         },
         'hostStatus': 0,
         'gathering': {
-          "Participants": [
+          'Participants': [
             {
-              'congregation': "Anywhere",
+              'congregation': 'Anywhere',
               'contactId': 7673621,
-              'displayName': "Shannon, Doug",
-              'email': "dshannon@callibrity.com",
+              'displayName': 'Shannon, Doug',
+              'email': 'dshannon@callibrity.com',
               'groupParticipantId': 14629582,
               'groupRoleId': 22,
-              'groupRoleTitle': "Leader",
+              'groupRoleTitle': 'Leader',
               'isApprovedLeader': true,
-              'lastName': "Shannon",
-              'nickName': "Doug",
+              'lastName': 'Shannon',
+              'nickName': 'Doug',
               'participantId': 7565308,
-              'startDate': "2017-02-14T00:00:00"
+              'startDate': '2017-02-14T00:00:00'
             }
           ],
           'address': {
@@ -189,17 +195,17 @@ describe('Component: Pin-Details component', () => {
           'availableOnline': true,
           'childCareInd': false,
           'congregationId': 15,
-          'contactName': "Shannon, Doug",
-          'groupDescription': "this is a description.  it may not be the best description but it is mine.",
+          'contactName': 'Shannon, Doug',
+          'groupDescription': 'this is a description.  it may not be the best description but it is mine.',
           'groupFullInd': false,
           'groupId': 178163,
-          'groupName': "Doug's Anywhere Group",
+          'groupName': 'Dougs Anywhere Group',
           'groupRoleId': 22,
           'groupTypeId': 30,
-          'groupTypeName': "Anywhere Gathering",
+          'groupTypeName': 'Anywhere Gathering',
           'ministryId': 8,
-          'primaryContactEmail': "dshannon@callibrity.com",
-          'startDate': "2017-02-01T00:00:00",
+          'primaryContactEmail': 'dshannon@callibrity.com',
+          'startDate': '2017-02-01T00:00:00',
         }
       };
       TestBed.configureTestingModule({
@@ -210,7 +216,10 @@ describe('Component: Pin-Details component', () => {
           ReadonlyAddressComponent,
           SayHiComponent,
           PersonComponent,
+          ParticipantCardComponent,
+          ParticipantsListComponent,
           GatheringComponent,
+          GatheringRequestsComponent,
           PinDetailsComponent,
         ],
         imports: [
