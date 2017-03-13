@@ -50,6 +50,7 @@ export class PinService {
 
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
     // Create merge data for this template
+    debugger;
     let emailInfo = {
       "fromEmailAddress": user.email,
       "toEmailAddress": pin.emailAddress,

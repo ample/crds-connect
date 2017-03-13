@@ -25,12 +25,19 @@ export class SayHiComponent {
     private loginRedirectService: LoginRedirectService,
     private router: Router) { }
 
+ngOnInit(){
+}
+
   public sayHi() {
     if (!this.isLoggedIn) {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, 'sayHi');
     } else {
       this.pinService.sendHiEmail(this.user, this.pin).subscribe();
     }
+  }
+
+  public sendeMAIL() {
+
   }
 
 }

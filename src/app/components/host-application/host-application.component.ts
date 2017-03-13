@@ -29,6 +29,7 @@ export class HostApplicationComponent implements OnInit {
   }
 
   public ngOnInit() {
+    debugger;
     if (!this.api.isLoggedIn()) {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     }

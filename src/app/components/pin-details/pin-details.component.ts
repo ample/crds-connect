@@ -1,7 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { ContentService } from '../../services/content.service';
@@ -45,12 +45,19 @@ export class PinDetailsComponent implements OnInit {
   }
 
   public ngOnInit() {
+
     this.state.setLoading(true);
-    //I think this is bad
-    //We are just appending a bunch of properties to our pin class, not necessarily composing a
-    //new pin via a constructor.  This should be rectified.
+
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
+    this.route.queryParams.subscribe((params: Params) => {
+      let parm = params['targetFromLongAgo'];
+      if (parm) {
+        console.log(parm);
+        debugger;
+        this.pinService.sendHiEmail(this.user, this.pin);
+      }
+    });
 
     if (this.pin.gathering !== null && this.pin.gathering !== undefined) {
       this.isGatheringPin = true;
