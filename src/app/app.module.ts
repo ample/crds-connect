@@ -24,6 +24,7 @@ import { GatheringComponent } from './components/pin-details/gathering/gathering
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
+import { ListEntryComponent } from './components/list-entry/list-entry.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
@@ -105,6 +106,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GatheringRequestsComponent,
     GettingStartedComponent,
     ListViewComponent,
+    ListEntryComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,

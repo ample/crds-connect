@@ -20,6 +20,7 @@ import {GeoCoordinates} from "../../models/geo-coordinates";
   styleUrls: ['map.component.css']
 })
 export class MapComponent implements OnInit {
+
   @Input() searchResults: PinSearchResultsDto;
 
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
@@ -37,21 +38,17 @@ export class MapComponent implements OnInit {
       this.state.setLoading(true);
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
-          this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
-            pinSearchResults => {
-              let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
-              this.searchResults = results;
-              this.mapSettings.zoom = 15;
-              this.mapSettings.lat = pos.lat;
-              this.mapSettings.lng = pos.lng;
-              this.state.setLoading(false);
-              this.mapHlpr.emitRefreshMap(new GeoCoordinates(pos.lat, pos.lng));
-          });
+          this.mapSettings.zoom = 15;
+          this.mapSettings.lat = pos.lat;
+          this.mapSettings.lng = pos.lng;
+          this.state.setLoading(false);
+          this.mapHlpr.emitRefreshMap(new GeoCoordinates(pos.lat, pos.lng));
         }
       );
     } else {
       this.mapSettings.zoom = 15;
-      this.setMapLocation();
+      this.mapSettings.lat = this.searchResults.centerLocation.lat;
+      this.mapSettings.lng = this.searchResults.centerLocation.lng;
     }
 
   }
@@ -62,11 +59,6 @@ export class MapComponent implements OnInit {
     if (pin.pinType === pinType.PERSON || pin.pinType === pinType.GATHERING) {
       this.router.navigate([`pin-details/${pin.participantId}/`]);
     }
-  }
-
-  public setMapLocation() {
-    this.mapSettings.lat = this.searchResults.centerLocation.lat;
-    this.mapSettings.lng = this.searchResults.centerLocation.lng;
   }
 
   public getStringByPinType(type) {
