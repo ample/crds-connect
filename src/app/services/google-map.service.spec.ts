@@ -65,7 +65,7 @@ describe('Service: Google Map', () => {
   });
 
 
-  it('should emit geo-coordinates', () => {
+  xit('should emit geo-coordinates', () => {
 
     const testCoords: GeoCoordinates = new GeoCoordinates(44, 44);
 
