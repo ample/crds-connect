@@ -42,11 +42,18 @@ export class ListEntryComponent {
   public getPicByPinType() {
     switch (this.type) {
       case pinType.PERSON:
-        return 'https://image.ibb.co/ebF9rF/PERSON.png';
       case pinType.GATHERING:
-        return 'https://image.ibb.co/kpYJka/GATHERING.png';
+        return 'https://image.ibb.co/gQGf0a/GRAYGUY.png';
       default:
         return 'https://image.ibb.co/di5Lyv/SITE.png';
+    }
+  }
+
+  public count() {
+    if (this.participantCount === 1) {
+      return `1 OTHER`;
+    } else {
+      return `${this.participantCount} OTHERS`;
     }
   }
 
@@ -66,6 +73,10 @@ export class ListEntryComponent {
   public gatheringDescription() {
     //console.log(this.description)
     return (this.description === "") ? "This is a sample description to make sure that what needs to happen can happen." : this.description;
+  }
+
+  public sayHi(id) {
+    this.router.navigate([`pin-details/${id}/`]);
   }
 
   public displayDetails(id) {
