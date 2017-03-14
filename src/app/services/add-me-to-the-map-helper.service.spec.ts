@@ -15,7 +15,7 @@ describe('Service: Add me to the Map Helper', () => {
   const mockModifiedAddress = new Address(mockAddress.addressId, mockForm.addressLine1, mockForm.addressLine2,
     mockForm.city, mockForm.state, mockForm.zip, 0, 0);
 
-  const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, 9999, true, '', pinType.PERSON);
+  const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
