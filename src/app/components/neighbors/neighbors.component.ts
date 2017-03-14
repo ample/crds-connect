@@ -47,7 +47,6 @@ export class NeighborsComponent implements OnInit {
     this.state.setLoading(true);
     this.api.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
       next => {
-        console.log(next);
         this.pinSearchResults = next as PinSearchResultsDto;
         this.pinSearchResults.pinSearchResults =
           this.pinSearchResults.pinSearchResults.sort(
