@@ -16,10 +16,11 @@ export class Pin {
     householdId: number;
     isFormDirty: boolean;
     pinType: pinType;
+    proximity: number;
 
     constructor(first_name: string, last_name: string, email: string, contactId: number, participantId: number,
                 address: Address, hostStatus: number, gathering: Group, householdId: number, isFormDirty: boolean
-                , siteName: string, pinType: pinType ) {
+                , siteName: string, pinType: pinType, proximity: number ) {
 
         this.firstName = first_name;
         this.lastName = last_name;
@@ -33,5 +34,6 @@ export class Pin {
         this.householdId = householdId;
         this.isFormDirty = isFormDirty;
         this.pinType = pinType;
+        this.proximity = proximity;
     }
 }

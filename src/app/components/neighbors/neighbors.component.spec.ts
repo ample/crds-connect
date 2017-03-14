@@ -7,6 +7,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
+import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
 import { MapComponent } from '../../components/map/map.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
@@ -41,6 +42,7 @@ describe('Component: Neighbors', () => {
         MapFooterComponent,
         ListFooterComponent,
         ListViewComponent,
+        ListEntryComponent,
         SearchBarComponent,
         MapComponent,
         GoogleMapClusterDirective

@@ -26,6 +26,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
+import { ListEntryComponent } from './components/list-entry/list-entry.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
@@ -109,6 +110,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GettingStartedComponent,
     ListViewComponent,
     ListFooterComponent,
+    ListEntryComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
