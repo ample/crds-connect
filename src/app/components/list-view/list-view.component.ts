@@ -1,4 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { ListFooterComponent } from '../list-footer/list-footer.component';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
