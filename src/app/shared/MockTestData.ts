@@ -1,10 +1,9 @@
 import { Pin } from '../models/pin';
-import { Address } from '../models/Address';
-import { Group } from '../models/Group';
+import { Address } from '../models/address';
+import { Group } from '../models/group';
 import { Participant } from '../models/participant';
 export class MockTestData {
-    constructor() {
-    }
+    constructor() {}
 
 /**
  * 
