@@ -60,7 +60,7 @@ describe('GatheringComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['setBlandPageDetailsAndGo']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['setBlandPageDetailsAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
 
 
@@ -165,20 +165,13 @@ describe('GatheringComponent', () => {
     it('should fail with error while requesting to join', () => {
         comp.isLoggedIn = true;
         let pin = MockTestData.getAPin(1);
-        let expectedBPD = new BlandPageDetails(
-            "back",
-            "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
-            "pin-details/" + pin.participantId,
-            BlandPageType.Text,
-            BlandPageCause.Error
-        );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 500 }));
         comp.pin = pin;
-
 
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).not.toHaveBeenCalled();
+        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith("pin-details/" + pin.participantId)
     })
 });

@@ -13,7 +13,7 @@ export class MockTestData {
  * @param pinType 
  * @param isFormDirty 
  */
-    public static getAPin(designator = 1, hostStatus = 3, pinType = 1, numParticipantsInGathering = 5, isFormDirty = false): Pin {
+    public static getAPin(designator = 1, hostStatus = 3, pinType = 1, numParticipantsInGathering = 5, isFormDirty = false, proximity = 5): Pin {
         return new Pin(
             'firstName' + designator.toString(),
             'lastName' + designator.toString(),
@@ -26,7 +26,8 @@ export class MockTestData {
             designator,
             isFormDirty,
             'site' + designator.toString(),
-            pinType
+            pinType,
+            proximity
         )
     }
 
