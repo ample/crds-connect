@@ -1,0 +1,7 @@
+<span class="h2">Participants</span>
+<hr/>
+<div *ngFor="let participant of participants"> 
+    <div class="row">
+    <participant-card [participant]="participant"[pinParticipantId]="pinParticipantId"></participant-card>
+    </div>
+</div>

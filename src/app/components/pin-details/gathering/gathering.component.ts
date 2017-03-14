@@ -4,14 +4,15 @@ import { Router } from '@angular/router';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
-import { ConfirmationSetup } from '../../../models/confirmation-setup';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
 import { SessionService } from '../../../services/session.service';
 import { APIService } from '../../../services/api.service';
+import { StateService } from '../../../services/state.service';
 import { ContentService } from '../../../services/content.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
-import { ConfirmationSetupService } from '../../../services/confirmation-setup.service';
+import { BlandPageService } from '../../../services/bland-page.service';
 
 
 
@@ -35,8 +36,8 @@ export class GatheringComponent implements OnInit {
     private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
-    private confirmationSetupService: ConfirmationSetupService
-  ) { }
+    private blandPageService: BlandPageService,
+    private state: StateService) { }
 
   public ngOnInit() {
     if (this.loggedInUserIsInGathering(this.session.getContactId()) && this.isLoggedIn) {
@@ -44,7 +45,7 @@ export class GatheringComponent implements OnInit {
     }
   }
 
-  public loggedInUserIsInGathering(contactId: number) {
+  private loggedInUserIsInGathering(contactId: number) {
     return this.pin.gathering.Participants.find((participant) => {
       return (participant.contactId === contactId);
     });
@@ -52,17 +53,38 @@ export class GatheringComponent implements OnInit {
 
   public requestToJoin() {
     if (this.isLoggedIn) {
+      this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.confirmationSetupService.setConfirmationSetup(new ConfirmationSetup(
+          this.blandPageService.setBlandPageDetailsAndGo(new BlandPageDetails(
             "Return to map",
             "gatheringJoinRequestSent",
-            ""
+            "",
+            BlandPageType.ContentBlock,
+            BlandPageCause.Success
           ));
-          this.router.navigate(['confirmation']);
         },
         failure => {
-          console.log(failure)
+          let bpd;
+          if (failure.status == 409) {
+            console.log(failure);
+            bpd = new BlandPageDetails(
+              "back",
+              "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Looks like you have already requested to join this group.</p>",
+              "pin-details/" + this.pin.participantId,
+              BlandPageType.Text,
+              BlandPageCause.Error
+            );
+          } else {
+            bpd = new BlandPageDetails(
+              "back",
+              "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
+              "pin-details/" + this.pin.participantId,
+              BlandPageType.Text,
+              BlandPageCause.Error
+            );
+          }
+          this.blandPageService.setBlandPageDetailsAndGo(bpd);
         }
       );
     } else {

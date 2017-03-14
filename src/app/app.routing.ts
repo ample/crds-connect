@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
-import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './components/map/map.component';
@@ -29,7 +29,8 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
-  { path: 'confirmation', component: ConfirmationComponent },
+  { path: 'error', component: BlandPageComponent },
+  { path: 'success', component: BlandPageComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'member-said-hi', component: MemberSaidHiComponent }, 

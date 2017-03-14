@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GoogleMapService } from '../../services/google-map.service';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+
+import { GeoCoordinates } from '../../models/geo-coordinates';
 
 declare let google: any; //This does need to be 'declare'
 
@@ -14,7 +17,12 @@ interface NativeGoogMapProps {
 })
 export class MapContentComponent implements OnInit {
 
-  constructor(public mapApiWrapper: GoogleMapsAPIWrapper ) {}
+  constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
+              private mapHlpr: GoogleMapService ) {
+    mapHlpr.mapUpdatedEmitter.subscribe(coords => {
+      this.refreshMapSize(coords);
+    });
+  }
 
   ngOnInit() {
     this.mapApiWrapper.getNativeMap()
@@ -34,5 +42,16 @@ export class MapContentComponent implements OnInit {
           streetViewControlOptions: streetViewControlOptions
         });
       });
+  }
+
+  public refreshMapSize(coords: GeoCoordinates){
+    this.mapApiWrapper.getNativeMap()
+      .then((map)=> {
+        setTimeout(() => {
+          google.maps.event.trigger(map, "resize");
+          map.setZoom(15);
+          map.setCenter(coords);
+        }, 1);
+      })
   }
 }

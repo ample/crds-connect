@@ -1,8 +1,4 @@
-<div *ngIf="!isGathering">
-    <button class="btn primary" (click)="redirectToLogin()">Sign In</button>
-    <p>Don't have an account? <a [routerLink]="['/register']">Register Now</a></p>
-</div>
 <div *ngIf="isGathering">
     <a (click)="redirectToLogin()">Already in this gathering?</a><br />
-    <a (click)="redirectToLogin()">This is me</a>
 </div>
+<a (click)="redirectToLogin()">This is me</a>

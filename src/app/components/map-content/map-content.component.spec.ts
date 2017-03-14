@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { GoogleMapsAPIWrapper, MapsAPILoader } from 'angular2-google-maps/core';
+
+import { GoogleMapService } from '../../services/google-map.service';
 
 import { MapContentComponent } from './map-content.component';
 
@@ -10,7 +13,7 @@ describe('MapContentComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapContentComponent ],
-      providers: [ GoogleMapsAPIWrapper, MapsAPILoader ]
+      providers: [ GoogleMapService, GoogleMapsAPIWrapper, MapsAPILoader ]
     }).compileComponents();
   }));
 
