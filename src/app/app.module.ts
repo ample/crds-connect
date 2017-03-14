@@ -16,15 +16,17 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'angular2-select';
 
-import { HostApplicationComponent } from './components/host-application/host-application.component';
-import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { BlandPageComponent } from './components/bland-page/bland-page.component'
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
+import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
+import { ListFooterComponent } from './components/list-footer/list-footer.component';
+import { ListHelperService } from './services/list-helper.service';
 import { ListEntryComponent } from './components/list-entry/list-entry.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
@@ -35,12 +37,14 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
 import { ParticipantCardComponent } from './components/pin-details/participants-list/participant-card/participant-card.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
+import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
-import { RegisterComponent} from './components/register/register.component';
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
+import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { WhatsAHostComponent } from  './components/whats-a-host/whats-a-host.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { APIService } from './services/api.service';
@@ -55,6 +59,7 @@ import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
+import { BlandPageService } from './services/bland-page.service';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 
@@ -93,26 +98,29 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ContentBlockModule.forRoot({ category: 'giving' })
   ],
   declarations: [
-    NowAPinComponent,
-    MemberSaidHiComponent,
     AddMeToMapComponent,
     AddressFormComponent,
-    HostApplicationComponent,
     AppComponent,
     AuthenticationComponent,
+    BlandPageComponent,
     CreditCardFormatDirective,
     CurrencyFormatDirective,
     CvvFormatDirective,
     ExpiryFormatDirective,
+    FormatPaymentNumberDirective,
     GatheringComponent,
+    HostApplicationComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
     ListViewComponent,
+    ListFooterComponent,
     ListEntryComponent,
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
+    MemberSaidHiComponent,
     NeighborsComponent,
+    NowAPinComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     ParticipantsListComponent,
@@ -121,16 +129,18 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PinDetailsComponent,
     PinHeaderComponent,
     PinLoginActionsComponent,
-    RegisterComponent,
     ReadonlyAddressComponent,
+    RegisterComponent,
     SayHiComponent,
     SearchBarComponent,
+    WhatsAHostComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
   providers: [
     AddMeToTheMapHelperService,
     appRoutingProviders,
+    BlandPageService,
     ContentService,
     CookieService,
     APIService,
@@ -138,6 +148,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapService,
     GroupService,
     IFrameParentService,
+    ListHelperService,
     LoginRedirectService,
     LocationService,
     LoggedInGuard,
