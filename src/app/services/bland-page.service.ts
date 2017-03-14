@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BlandPageDetails, BlandPageCause } from '../models/bland-page-details';
+import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
 
 @Injectable()
 export class BlandPageService {
@@ -10,8 +10,8 @@ export class BlandPageService {
 
     constructor(private router: Router) { }
 
-    public setBlandPageDetailsAndGo(cs: BlandPageDetails) {
-        this.blandPageDetails = cs;
+    public setBlandPageDetailsAndGo(bpd: BlandPageDetails) {
+        this.blandPageDetails = bpd;
         this.go();
     }
 
@@ -20,6 +20,17 @@ export class BlandPageService {
         //clear setup for later use
         this.blandPageDetails = null;
         return bpd;
+    }
+
+    public goToDefaultError(goToRoute: string) {
+        this.blandPageDetails = new BlandPageDetails(
+            "back",
+            "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
+            goToRoute,
+            BlandPageType.Text,
+            BlandPageCause.Error
+        );
+        this.go();
     }
 
     private go() {

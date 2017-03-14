@@ -74,16 +74,10 @@ export class GatheringComponent implements OnInit {
               BlandPageType.Text,
               BlandPageCause.Error
             );
+            this.blandPageService.setBlandPageDetailsAndGo(bpd);
           } else {
-            bpd = new BlandPageDetails(
-              "back",
-              "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
-              "pin-details/" + this.pin.participantId,
-              BlandPageType.Text,
-              BlandPageCause.Error
-            );
+            this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);
           }
-          this.blandPageService.setBlandPageDetailsAndGo(bpd);
         }
       );
     } else {
