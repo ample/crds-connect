@@ -12,24 +12,18 @@ export class LoginRedirectService {
 
   constructor(private router: Router) { }
 
-  public redirectToLogin(target = this.DefaultAuthenticatedRoute, queryParm = null, redirectFunction = null): void {
+  public redirectToLogin(target = this.DefaultAuthenticatedRoute, redirectFunction = null): void {
     this.originalTarget = target;
-    queryParm ? this.originalTargetParms = queryParm : null;
     if (redirectFunction) {
       this.redirectFunction = redirectFunction;
     }
     this.router.navigate([this.SigninRoute]);
   }
 
-  public redirectToTarget(target = this.DefaultAuthenticatedRoute, user = null): void {
+  public redirectToTarget(target = this.DefaultAuthenticatedRoute): void {
     if (this.originalTarget) {
-      if (this.originalTargetParms) {
-        let navigationExtras: NavigationExtras = {
-          queryParams: { 'q': this.originalTargetParms }
-        };
-        //this.router.navigate([this.originalTarget], navigationExtras);
-        debugger;
-        this.redirectFunction(user);
+      if (this.redirectFunction) {
+        this.redirectFunction();
       }
       else {
         this.router.navigate([this.originalTarget]);
