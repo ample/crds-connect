@@ -24,18 +24,9 @@ export class ListFooterComponent implements OnInit {
               private router: Router,
               private session: SessionService) {}
 
-  public ngOnInit(): void {
+  public ngOnInit(): void {}
 
-
-    //MOCK
-    const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0);
-    const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,
-        mockAddress, 0, null, 9999, true, '', pinType.PERSON, 12.12);
-    const mockPinArray: Array<Pin> = [mockPin];
-    this.pins = mockPinArray;
-    //MOCK
-
-
+  ngOnChanges(): void {
     this.userContactId = this.session.getContactId();
     this.userMapState = this.listHlpr.getUserMapState(this.userContactId, this.pins);
   }
