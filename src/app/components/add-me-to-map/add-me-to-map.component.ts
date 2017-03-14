@@ -50,5 +50,13 @@ export class AddMeToMapComponent implements OnInit {
     this.router.navigate(['/map']);
   }
 
+  showBackdrop() {
+    let el = document.createElement('div');
+    el.className = 'modal-backdrop fade in';
+    document.body.appendChild(el);
+  }
+  hideBackdrop() {
+    document.body.removeChild(document.querySelector('.modal-backdrop'));
+  }
 }
 

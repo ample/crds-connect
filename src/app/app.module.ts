@@ -8,7 +8,7 @@ import { ContentBlockModule } from 'crds-ng2-content-block';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -90,6 +90,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CollapseModule,
     CommonModule,
     DatepickerModule,
+    ModalModule,
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
