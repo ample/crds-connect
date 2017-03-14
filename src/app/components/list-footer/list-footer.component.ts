@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Address } from '../../models/address'; //DELETE - ONLY FOR MOCK CODE
 import { ListHelperService } from '../../services/list-helper.service';
-import { Pin, pinType } from '../../models/pin';
+import { Pin } from '../../models/pin';
 import { SessionService } from '../../services/session.service';
 import { UserState } from '../../shared/constants';
 

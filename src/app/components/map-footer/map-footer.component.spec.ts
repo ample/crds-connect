@@ -7,7 +7,7 @@ import { ListHelperService } from '../../services/list-helper.service';
 import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('Component: List Footer', () => {
+describe('Component: Map Footer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({

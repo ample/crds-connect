@@ -74,6 +74,3 @@ describe('Component: List View', () => {
   });
 
 });
-
-
-
