@@ -67,7 +67,6 @@ export class GatheringComponent implements OnInit {
         failure => {
           let bpd;
           if (failure.status == 409) {
-            console.log(failure);
             bpd = new BlandPageDetails(
               "back",
               "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Looks like you have already requested to join this group.</p>",
