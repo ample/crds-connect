@@ -31,8 +31,12 @@ export class ListFooterComponent implements OnInit {
     this.userMapState = this.listHlpr.getUserMapState(this.userContactId, this.pins);
   }
 
-  public myPinBtnClicked(userMapState: UserState)  {
+  public addMeToTheMapClicked()  {
     this.router.navigateByUrl('/add-me-to-the-map');
+  }
+
+  public becomeAHostClicked()  {
+    this.router.navigateByUrl('/host-signup');
   }
 
   public whatsAHostBtnClicked()  {
