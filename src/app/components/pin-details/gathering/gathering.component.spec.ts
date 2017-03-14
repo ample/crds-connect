@@ -19,6 +19,7 @@ import { Pin } from '../../../models/pin';
 import { Address } from '../../../models/address';
 import { Group } from '../../../models/group';
 import { Participant } from '../../../models/participant';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
 import { APIService } from '../../../services/api.service';
 import { ContentService } from '../../../services/content.service';
@@ -27,6 +28,18 @@ import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
+
+class MockError implements Error {
+    public name: any;
+    public message: any;
+    public status: number;
+
+    constructor(name: any, message: any, status: number) {
+        this.name = name;
+        this.message = message;
+        this.status = status;
+    }
+}
 
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
@@ -49,6 +62,8 @@ describe('GatheringComponent', () => {
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['setBlandPageDetailsAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+
+
 
         TestBed.configureTestingModule({
             declarations: [
@@ -110,6 +125,13 @@ describe('GatheringComponent', () => {
     it('should succeed while requesting to join', () => {
         comp.isLoggedIn = true;
         let pin = MockTestData.getAPin(1);
+        let expectedBPD = new BlandPageDetails(
+            "Return to map",
+            "gatheringJoinRequestSent",
+            "",
+            BlandPageType.ContentBlock,
+            BlandPageCause.Success
+        );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.of([{}]));
         comp.pin = pin;
 
@@ -117,5 +139,46 @@ describe('GatheringComponent', () => {
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+    })
+
+    it('should fail with 409 (conflict) while requesting to join', () => {
+        comp.isLoggedIn = true;
+        let pin = MockTestData.getAPin(1);
+        let expectedBPD = new BlandPageDetails(
+            "back",
+            "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Looks like you have already requested to join this group.</p>",
+            "pin-details/" + pin.participantId,
+            BlandPageType.Text,
+            BlandPageCause.Error
+        );
+        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
+        comp.pin = pin;
+
+
+        comp.requestToJoin();
+        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+    })
+
+    it('should fail with error while requesting to join', () => {
+        comp.isLoggedIn = true;
+        let pin = MockTestData.getAPin(1);
+        let expectedBPD = new BlandPageDetails(
+            "back",
+            "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
+            "pin-details/" + pin.participantId,
+            BlandPageType.Text,
+            BlandPageCause.Error
+        );
+        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 500 }));
+        comp.pin = pin;
+
+
+        comp.requestToJoin();
+        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
     })
 });
