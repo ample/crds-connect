@@ -38,7 +38,7 @@ describe('Component: Registration', () => {
   function setForm( firstName, lastName, email, password ) {
     fixture.regForm = new FormGroup({
       firstName: new FormControl(firstName, Validators.required),
-      lastname: new FormControl(lastName, Validators.required),
+      lastName: new FormControl(lastName, Validators.required),
       email: new FormControl(email, Validators.required),
       password: new FormControl(password)
     });
