@@ -37,9 +37,7 @@
     <div id="login-exception"
           class="alert alert-danger"
           *ngIf="loginException">
-      <!--<span [innerHtml]="failedMessage"></span>-->
-      Oops! Sign in failed. Please try again or use
-      <a class="alert-link" [href]="forgotPasswordUrl" target="_blank">Forgot password</a>
+      <crds-content-block id="embedAuthenticationFailed"></crds-content-block>
     </div>
 
     <div class="clearfix">
