@@ -6,8 +6,7 @@
 
                 <!--LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
                 <div *ngIf = "userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn">
-                    <h2>You!</h2>
-                    <p>Let others in your community know you're here. Make some connections.</p>
+                    <span [innerHTML]="content.getContent('promptToPutSelfOnMap')"></span>
                     <div>
                         <input type="button" class="btn btn-primary"
                                value="Add me to the map"
@@ -17,8 +16,7 @@
 
                 <!--LOGGED IN, ON MAP AS PARTICIPANT-->
                 <div *ngIf = "userMapState === userMapStateEnum.LoggedIn_OnMap">
-                    <h2>Want to host a gathering?</h2>
-                    <p>We can help you get started.</p>
+                    <span [innerHTML]="content.getContent('promptToHostGathering')"></span>
                     <div>
                         <input type="button" class="btn btn-primary" value="Sign Up" (click) = "becomeAHostClicked()">
                         <input type="button" class="btn btn-primary" value="What's a Host" (click) = "whatsAHostBtnClicked()">
@@ -30,4 +28,3 @@
         </div>
     </div>
 </div>
-

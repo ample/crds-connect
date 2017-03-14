@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { ListHelperService } from '../../services/list-helper.service';
 import { Pin } from '../../models/pin';
+import { ContentService } from '../../services/content.service';
 import { SessionService } from '../../services/session.service';
 import { UserState } from '../../shared/constants';
 
@@ -21,7 +22,8 @@ export class ListFooterComponent implements OnInit {
 
   constructor(private listHlpr: ListHelperService,
               private router: Router,
-              private session: SessionService) {}
+              private session: SessionService,
+              private content: ContentService) {}
 
   public ngOnInit(): void {}
 

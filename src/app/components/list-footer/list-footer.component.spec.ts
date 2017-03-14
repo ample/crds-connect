@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { CookieService } from 'angular2-cookie/core';
 
+import { ContentService } from '../../services/content.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from './list-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,7 +24,8 @@ describe('Component: List Footer', () => {
       providers: [
         ListHelperService,
         SessionService,
-        CookieService
+        CookieService,
+        ContentService
       ]
     });
     this.fixture = TestBed.createComponent(ListFooterComponent);
