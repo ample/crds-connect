@@ -1,0 +1,220 @@
+// Dark theme colors
+$dt-bg-color: #171717;
+$dt-primary-color: #1E94DC;
+$dt-secondary-color: #5CAFA8;
+$dt-accent-color: #A2A2A2;
+$dt-header-color: #969696;
+$dt-underline-color: #343434;
+$dt-text-color: #969696;
+$dt-input-text-color: #505050;
+$dt-input-bg-color: #C2C2C2; // #B4B4B4
+$dt-page-bg-color: #222222;
+
+.inline-giving.dark-theme {
+  $bg-color: $dt-bg-color;
+  $primary-color: $dt-primary-color;
+  $secondary-color: $dt-secondary-color;
+  $accent-color: $dt-accent-color;
+  $header-color: $dt-header-color;
+  $underline-color: $dt-underline-color;
+  $text-color: $dt-text-color;
+  $input-text-color: $dt-input-text-color;
+  $input-bg-color: $dt-input-bg-color;
+  $page-bg-color: $dt-page-bg-color;
+  $calendar-today-bg: $bg-color;
+  $calendar-today-text: $cr-white;
+  $calendar-today-border: $cr-white;
+  $calendar-hover-bg: $secondary-color;
+  $calendar-hover-text: $cr-white;
+  $calendar-hover-border: $secondary-color;
+
+  background-color: $bg-color;
+
+  .page-header {
+    &--border-btm {
+      border-bottom-color: $underline-color;
+    }
+  }
+
+  .page-footer {
+    &--border-top {
+      border-top-color: $underline-color;
+    }
+  }
+
+  .btn-previous {
+    background-color: rgba(77,77,77,0.75);
+    border: none;
+
+    &:hover,
+    &:focus {
+      background-color: lighten(rgba(77,77,77,0.75), 10);
+    }
+  }
+
+  hr {
+    border-top-color: $underline-color;
+  }
+
+  .btn-form {
+    &--border-btm {
+      border-bottom-color: $underline-color;
+    }
+
+    &__header {
+      color: $text-color;
+    }
+  }
+
+  .btn-group {
+    .btn-option {
+      background-color: transparent;
+
+      :hover,
+      :active {
+        background-color: $secondary-color;
+      }
+    }
+
+    .btn-payment {
+      border-color: $underline-color;
+      color: $text-color;
+    }
+
+    .active {
+      background-color: $secondary-color;
+      color: $cr-white;
+    }
+
+    &--underline {
+      border-bottom-color: $underline-color;
+    }
+
+    &--flex-row {
+      border-bottom-color:  $underline-color;
+    }
+
+    &--flex-col {
+      &.btn-group--underline {
+        border-bottom-color: $underline-color;
+      }
+    }
+  }
+
+  .table {
+    border-bottom-color: $underline-color;
+
+    td:first-child {
+      a {
+        color: $text-color;
+      }
+    }
+
+    tbody {
+      > tr {
+        > td {
+          border-color: $underline-color;
+          color: $text-color;
+        }
+      }
+    }
+  }
+
+  form {
+    .input-group-addon {
+      background-color: $input-bg-color;
+    }
+
+    .form-control {
+      background-color: $input-bg-color;
+
+      &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: lighten($input-text-color, 10);
+      }
+    }
+  }
+
+  .form {
+    &--underline {
+      border-bottom-color: $underline-color;
+    }
+  }
+
+  .text-block {
+    &--lg-font {
+      color: lighten(saturate(adjust-hue($text-color, 0.0000), 0.0000), 14.5098);
+    }
+
+    &__link--underline {
+      color: currentColor;
+
+      &:hover {
+        color: darken($text-color, 30);
+      }
+    }
+  }
+
+  .form-nav {
+    .btn-option {
+      border-color: $secondary-color;
+      color: $secondary-color;
+
+      &.active {
+        background-color: $secondary-color;
+        color: $cr-white;
+      }
+    }
+  }
+
+  .contrast-background {
+    background: $page-bg-color;
+  }
+
+  datepicker {
+    .well {
+      background: $bg-color;
+      border: 0;
+      box-shadow: none;
+      padding-left: 0;
+      padding-right: 0;
+      margin-top: -1em;
+    }
+
+    .btn-default {
+      background: $bg-color;
+      border-color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+      color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+
+      &.active {
+        background-color: $secondary-color;
+        border-color: $secondary-color;
+
+        &:focus {
+          background-color: $secondary-color;
+          border-color: $secondary-color;
+        }
+
+        .text-info,
+        span {
+          color: $calendar-today-text;
+        }
+      }
+
+      .text-info {
+        color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+      }
+    }
+
+    th {
+      .btn-default {
+        &.btn-secondary {
+          &.btn-sm {
+            background: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 43.5294);
+            color: darken(saturate(adjust-hue($accent-color, 0.0000), 0.0000), 16.8627);
+          }
+        }
+      }
+    }
+  }
+}
+

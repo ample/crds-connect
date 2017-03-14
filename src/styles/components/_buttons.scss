@@ -1,0 +1,58 @@
+.btn-previous {
+  @include button-variant($cr-white, $accent-color, $accent-color);
+}
+
+.btn-next {
+  @include button-variant($cr-white, $primary-color, $primary-color);
+}
+
+.btn-option {
+  @include button-variant($text-color, $cr-white, $accent-color);
+  &.active {
+    &, &:hover, &:focus {
+      background-color: $secondary-color;
+      border-color: $secondary-color;
+      color: $cr-white;
+      box-shadow: none;
+    }
+  }
+}
+
+.btn {
+  padding: 8px 14px;
+
+  &:focus,
+  &.focus {
+    outline-color: $cr-light-blue;
+  }
+
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline: none;
+    }
+  }
+
+  datepicker & {
+    padding: 5px 10px;
+  }
+}
+
+.btn-group {
+  > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
+  > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    margin-right: 0.5em;
+  }
+  > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: $border-radius-base;
+  }
+  > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: $border-radius-base;
+    border-bottom-right-radius: $border-radius-base;
+  }
+  > .btn:last-child:not(:first-child):not(.dropdown-toggle) {
+    border-top-left-radius: $border-radius-base;
+    border-bottom-left-radius: $border-radius-base;
+  }
+}

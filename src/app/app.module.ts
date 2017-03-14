@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { ContentBlockModule } from 'crds-ng2-content-block';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -94,8 +93,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PreloaderModule,
     ReactiveFormsModule,
     SelectModule,
-    routing,
-    ContentBlockModule.forRoot({ category: 'giving' })
+    routing
   ],
   declarations: [
     AddMeToMapComponent,

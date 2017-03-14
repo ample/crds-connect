@@ -1,0 +1,13 @@
+app-preloader {
+  display: none;
+  .loading & {
+    display: block;
+  }
+}
+
+.outlet-wrapper {
+  display: block;
+  .loading & {
+    display: none;
+  }
+}
