@@ -42,8 +42,6 @@ export class MapComponent implements OnInit {
           this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
-          this.state.setLoading(false);
-          this.mapHlpr.emitRefreshMap(new GeoCoordinates(pos.lat, pos.lng));
         }
       );
     } else {
