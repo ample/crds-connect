@@ -1,6 +1,24 @@
-@import 'base/module';
-@import 'vendors/module';
-@import 'components/module';
-@import 'layout/module';
-@import 'themes/module';
 @import '~crds-styles/assets/stylesheets/bootstrap';
+
+.dark-theme {
+  background: lighten($cr-gray-darker, .75);
+}
+
+.container {
+  margin: 1em auto;
+  width: auto;
+}
+
+app-preloader {
+  display: none;
+  .loading & {
+    display: block;
+  }
+}
+
+.outlet-wrapper {
+  display: block;
+  .loading & {
+    display: none;
+  }
+}
