@@ -17,6 +17,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 })
 
 export class NeighborsComponent implements OnInit {
+  public isMapHidden = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
 
@@ -56,6 +57,11 @@ export class NeighborsComponent implements OnInit {
         if (this.mapViewActive) {
           this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
         }
+
+        this.isMapHidden = true;
+        setTimeout(()=>{
+          this.isMapHidden = false;
+        }, 1);
       },
       error => {
         console.log(error);
