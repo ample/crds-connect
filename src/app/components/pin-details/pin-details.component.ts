@@ -56,6 +56,7 @@ export class PinDetailsComponent implements OnInit {
         console.log(parm);
         this.pinService.sendHiEmail(this.user, this.pin).subscribe(
           ret => {
+              this.state.setLoading(false);
               this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
           },
           err => {
@@ -74,7 +75,7 @@ export class PinDetailsComponent implements OnInit {
       this.isLoggedIn = true;
       this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
-    //this.state.setLoading(false);
+    this.state.setLoading(false);
   }
 
   public edit() {

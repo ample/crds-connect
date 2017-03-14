@@ -62,11 +62,12 @@ export class AuthenticationComponent implements OnInit {
       this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
+          debugger;
           this.session.setContactId(user.userId);
           this.store.loadUserData();
           this.state.setLoading(false);
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
-          this.redirectService.redirectToTarget('host-signup');
+          this.redirectService.redirectToTarget('host-signup', user);
         },
         (error) => {
           this.loginException = true;

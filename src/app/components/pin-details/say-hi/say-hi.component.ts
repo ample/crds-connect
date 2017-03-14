@@ -22,18 +22,34 @@ export class SayHiComponent {
 
   constructor(
     private pinService: PinService,
-    private loginRedirectService: LoginRedirectService, 
+    private loginRedirectService: LoginRedirectService,
     private router: Router) { }
 
-ngOnInit(){
-}
+  ngOnInit() {
+    this.sendSayHi = this.sendSayHi.bind(this);
+  }
 
   public sayHi() {
+    debugger;
     if (!this.isLoggedIn) {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, 'sayHi');
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, 'sayHi', this.sendSayHi);
     } else {
-      this.pinService.sendHiEmail(this.user, this.pin).subscribe();
+      this.sendSayHi(this.user);
     }
+  }
+
+  public sendSayHi(user:User) {
+    if (!this.user)
+      this.user = user;
+    this.pinService.sendHiEmail(this.user, this.pin).subscribe(
+        ret => {
+          this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
+        },
+        err => {
+          // redirect to error page
+        }
+
+      );
   }
 
 }

@@ -60,7 +60,6 @@ export class PinService {
     };
 
     this.state.setLoading(true);
-
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
         this.state.setLoading(false);
