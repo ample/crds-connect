@@ -45,9 +45,8 @@ export class RegisterComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  back(): boolean {
-    // navigate
-    return false;
+  signin() {
+    this.router.navigate(['signin'])
   }
 
   adv(): void {
@@ -72,7 +71,7 @@ export class RegisterComponent implements OnInit {
           this.adv();
         },
         error => {
-          if (error === 'Duplicate User') {
+          if (JSON.parse(error._body).message === 'Duplicate User') {
             this.state.setLoading(false);
             this.duplicateUser = true;
           }
