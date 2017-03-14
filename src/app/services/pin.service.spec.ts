@@ -46,7 +46,7 @@ describe('Service: PinService', () => {
       'Community_Member_Email': 'efudd@looneytoons.com'
     };
     let testUser = new User('Elmer', 'Fudd', 'efudd@looneytoons.com', 'kwazey wabbit');
-    let testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, 1, false, '', 1);
+    let testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, 1, false, '', 1, 0);
     let actual = service.createTemplateDictionary(testUser, testPin);
     expect(actual.Community_Member_Name).toBe(expected.Community_Member_Name);
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);
@@ -54,4 +54,3 @@ describe('Service: PinService', () => {
   }));
 
 });
-

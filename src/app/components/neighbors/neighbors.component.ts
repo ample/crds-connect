@@ -33,6 +33,7 @@ export class NeighborsComponent implements OnInit {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
+          this.doSearch('useLatLng', pos.lat, pos.lng );
         }
       );
     }
@@ -42,14 +43,22 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = agreed;
   }
 
-  doSearch(searchString: string) {
+  doSearch(searchString: string, lat?: number, lng?: number) {
     this.state.setLoading(true);
-    this.api.getPinsAddressSearchResults(searchString).subscribe(
+    this.api.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
       next => {
-        this.state.setLoading(false);
+        console.log(next);
         this.pinSearchResults = next as PinSearchResultsDto;
+        this.pinSearchResults.pinSearchResults =
+          this.pinSearchResults.pinSearchResults.sort(
+            (p1 : Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
         this.state.setLoading(false);
-        this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
+        if (this.mapViewActive) {
+          this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
+        }
+      },
+      error => {
+        console.log(error);
       });
   }
 

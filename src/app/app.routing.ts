@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -33,8 +34,12 @@ const appRoutes: Routes = [
   { path: 'success', component: BlandPageComponent },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
-  { path: 'member-said-hi', component: MemberSaidHiComponent }, 
+  { path: 'member-said-hi', component: MemberSaidHiComponent },
   { path: 'now-a-pin', component: NowAPinComponent },
+  { path: 'getting-started', component: GettingStartedComponent },
+  { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'signin', component: AuthenticationComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'pin-details/:participantId',
     component: PinDetailsComponent,
     resolve:  {
