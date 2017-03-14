@@ -14,5 +14,9 @@ export class MapFooterComponent {
   public myPinBtnClicked()  {
     this.router.navigateByUrl('/add-me-to-the-map');
   }
+
+  public gettingStartedBtnClicked()  {
+    this.router.navigateByUrl('/getting-started');
+  }
 }
 

@@ -59,7 +59,8 @@ export class AddMeToTheMapHelperService {
       initialUserData.householdId,
       addMeForm.isFormDirty,
       '', // don't need site name to add person
-      pinType.PERSON
+      pinType.PERSON,
+      0
     );
 
     return pin;

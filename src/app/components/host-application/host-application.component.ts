@@ -34,4 +34,8 @@ export class HostApplicationComponent implements OnInit {
     }
   }
 
+  public btnClickGettingStarted()  {
+    this.router.navigateByUrl('/getting-started');
+  }
+
 }
