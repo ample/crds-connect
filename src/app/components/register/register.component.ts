@@ -77,6 +77,11 @@ export class RegisterComponent implements OnInit {
           }
         }
       );
+    } else {
+      this.regForm.controls['firstName'].markAsTouched();
+      this.regForm.controls['lastName'].markAsTouched();
+      this.regForm.controls['email'].markAsTouched();
+      this.regForm.controls['password'].markAsTouched();
     }
 
     this.submitted = true;

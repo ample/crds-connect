@@ -1,9 +1,11 @@
 <div class="container">
+
   <div class="row">
     <div class="col-xs-12">
       <h3>{{searchResults?.pinSearchResults.length}} people</h3>
     </div>
   </div>
+
   <list-entry *ngFor="let pin of searchResults?.pinSearchResults"
     [firstName] = "pin.firstName"
     [lastName] = "pin.lastName"
@@ -15,4 +17,7 @@
     [address] = "pin.address"
     [participantCount] = "pin.gathering ? pin.gathering.Participants.length : 0 ">
   </list-entry>
+
+  <list-footer [pins]="searchResults.pinSearchResults" ></list-footer>
+
 </div>
