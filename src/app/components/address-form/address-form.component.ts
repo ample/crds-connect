@@ -17,8 +17,7 @@ import { usStatesList } from '../../shared/constants';
 
 @Component({
     selector: 'address-form',
-    templateUrl: 'address-form.component.html',
-    styleUrls: ['address-form.component.css']
+    templateUrl: 'address-form.component.html'
 })
 export class AddressFormComponent implements OnInit {
 

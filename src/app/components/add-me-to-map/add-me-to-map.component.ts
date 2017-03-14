@@ -17,8 +17,7 @@ import { usStatesList } from '../../shared/constants';
 
 @Component({
   selector: 'app-add-me-to-map',
-  templateUrl: 'add-me-to-map.component.html',
-  styleUrls: ['add-me-to-map.component.css']
+  templateUrl: 'add-me-to-map.component.html'
 })
 export class AddMeToMapComponent implements OnInit {
 
