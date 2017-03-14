@@ -24,6 +24,8 @@ import { HostApplicationComponent } from './components/host-application/host-app
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
+import { ListFooterComponent } from './components/list-footer/list-footer.component';
+import { ListHelperService } from './services/list-helper.service';
 import { ListEntryComponent } from './components/list-entry/list-entry.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
@@ -41,6 +43,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { WhatsAHostComponent } from  './components/whats-a-host/whats-a-host.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { APIService } from './services/api.service';
@@ -108,6 +111,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GatheringRequestsComponent,
     GettingStartedComponent,
     ListViewComponent,
+    ListFooterComponent,
     ListEntryComponent,
     MapComponent,
     MapContentComponent,
@@ -127,6 +131,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RegisterComponent,
     SayHiComponent,
     SearchBarComponent,
+    WhatsAHostComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
@@ -141,6 +146,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapService,
     GroupService,
     IFrameParentService,
+    ListHelperService,
     LoginRedirectService,
     LocationService,
     LoggedInGuard,
