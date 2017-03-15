@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PinService } from '../../../services/pin.service';
+import { ContentService } from '../../../services/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 
 import { Pin } from '../../../models/pin';
@@ -23,7 +24,8 @@ export class SayHiComponent {
   constructor(
     private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
-    private router: Router) { }
+    private router: Router,
+    private content: ContentService) { }
 
   public sayHi() {
     if (!this.isLoggedIn) {
