@@ -51,14 +51,14 @@ export class NeighborsComponent implements OnInit {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.pinSearchResults.pinSearchResults =
           this.pinSearchResults.pinSearchResults.sort(
-            (p1 : Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
+            (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
         this.state.setLoading(false);
         if (this.mapViewActive) {
           this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
         }
 
         this.isMapHidden = true;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.isMapHidden = false;
         }, 1);
       },
