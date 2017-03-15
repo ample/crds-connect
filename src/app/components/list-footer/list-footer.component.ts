@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ListHelperService } from '../../services/list-helper.service';
 import { Pin } from '../../models/pin';
 import { ContentService } from '../../services/content.service';
+import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { UserState } from '../../shared/constants';
 
@@ -23,6 +24,7 @@ export class ListFooterComponent implements OnInit {
   constructor(private listHlpr: ListHelperService,
               private router: Router,
               private session: SessionService,
+              private state: StateService,
               private content: ContentService) {}
 
   public ngOnInit(): void {}
@@ -37,10 +39,12 @@ export class ListFooterComponent implements OnInit {
   }
 
   public becomeAHostClicked()  {
+    this.state.setCurrentView('list');
     this.router.navigateByUrl('/host-signup');
   }
 
   public whatsAHostBtnClicked()  {
+    this.state.setCurrentView('list');
     this.router.navigateByUrl('/whats-a-host');
   }
 
