@@ -45,9 +45,6 @@ export class PinDetailsComponent implements OnInit {
     private pinService: PinService
   ) {
     location.onPopState(() => {
-      console.log('Hit Back Button');
-      state.setCurrentView('list');
-      console.log(this.state.getCurrentView());
       router.navigateByUrl(`map`);
     });
   }
