@@ -38,7 +38,7 @@ export class NeighborsComponent implements OnInit {
           this.setView( this.state.getCurrentView() );
         }
       );
-    }
+    } else { this.setView( this.state.getCurrentView() ); }
   }
 
   setView(mapOrListView): void {
