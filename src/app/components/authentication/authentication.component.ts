@@ -39,7 +39,6 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    debugger;
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
@@ -91,7 +90,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public back(): boolean {
-    // navigate back IF we will provide this option
+    this.redirectService.redirectToTarget('host-signup');
     return false;
   }
 

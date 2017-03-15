@@ -44,6 +44,8 @@
 
       <p class="text-block">Or <a class="text-block__inline-link" routerLink="/register">register for an account</a></p>
       <footer class="page-footer">
+        <input type="button" class="btn btn-gray pull-left" (click)="back()" value="Back">
+
         <input type="submit" class="btn btn-next pull-right" (click)="submitLogin();" value="Sign In">
       </footer>
     </form>
