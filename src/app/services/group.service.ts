@@ -33,4 +33,11 @@ export class GroupService {
   public getGroupRequests(groupId: number): Observable<Inquiry[]> {
     return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/inquiries/${groupId}`);
   }
+
+  public acceptOrDenyRequest(groupId: number, groupTypeId: number, approve: boolean, inquiry: Inquiry) {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/group-tool/group-type/${groupTypeId}/group/${groupId}/inquiry/approve/${approve}`,
+                            inquiry);
+                            // .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
+                            // .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  }
 }
