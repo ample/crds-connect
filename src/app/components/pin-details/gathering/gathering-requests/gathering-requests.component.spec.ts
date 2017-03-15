@@ -87,7 +87,7 @@ describe('GatheringRequestsComponent', () => {
       expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
 
-    fit('should convert inquiry to participant', () => {
+    it('should convert inquiry to participant', () => {
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         let participant = comp.convertToParticipant(inquiry);
         expect(participant.contactId).toBe(1);
