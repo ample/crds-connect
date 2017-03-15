@@ -45,8 +45,8 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = mapOrListView === 'map';
   }
 
-  viewChanged(agreed: boolean) {
-    this.mapViewActive = agreed;
+  viewChanged(isMapViewActive: boolean) {
+    this.mapViewActive = isMapViewActive;
   }
 
   doSearch(searchString: string, lat?: number, lng?: number) {
