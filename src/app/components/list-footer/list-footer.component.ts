@@ -35,6 +35,7 @@ export class ListFooterComponent implements OnInit {
   }
 
   public addMeToTheMapClicked()  {
+    this.state.setCurrentView('list');
     this.router.navigateByUrl('/add-me-to-the-map');
   }
 
