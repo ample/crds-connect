@@ -15,12 +15,12 @@ export class MapFooterComponent {
               private state: StateService) { }
 
   public myPinBtnClicked()  {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView('map');
     this.router.navigateByUrl('/add-me-to-the-map');
   }
 
   public gettingStartedBtnClicked()  {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView('map');
     this.router.navigateByUrl('/getting-started');
   }
 }
