@@ -19,16 +19,10 @@ export class ListViewComponent implements OnInit {
                private api: APIService) {}
 
   public ngOnInit(): void {
-    console.log(this.searchResults);
+    // console.log(this.searchResults);
     if (!this.searchResults) {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
-          // this.api.getPinsAddressSearchResults('placeholder', pos.lat, pos.lng).subscribe(
-          //   pinSearchResults => {
-          //     let results: PinSearchResultsDto = pinSearchResults as PinSearchResultsDto;
-          //     this.searchResults = results;
-          //   }
-          // );
         }
       );
     };
