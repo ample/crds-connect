@@ -1,4 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { ListFooterComponent } from '../list-footer/list-footer.component';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
@@ -18,7 +19,7 @@ export class ListViewComponent implements OnInit {
                private api: APIService) {}
 
   public ngOnInit(): void {
-    console.log(this.searchResults)
+    console.log(this.searchResults);
     if (!this.searchResults) {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {

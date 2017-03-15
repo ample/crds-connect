@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
-import {GeoCoordinates} from "../../models/geo-coordinates";
+import { GeoCoordinates } from '../../models/geo-coordinates';
 
 @Component({
   selector: 'app-map',
@@ -31,6 +31,7 @@ export class MapComponent implements OnInit {
                private mapHlpr: GoogleMapService,
                private state: StateService) {}
 
+  
   public ngOnInit(): void {
 
     let haveResults = !!this.searchResults;
@@ -41,8 +42,6 @@ export class MapComponent implements OnInit {
           this.mapSettings.zoom = 15;
           this.mapSettings.lat = pos.lat;
           this.mapSettings.lng = pos.lng;
-          this.state.setLoading(false);
-          this.mapHlpr.emitRefreshMap(new GeoCoordinates(pos.lat, pos.lng));
         }
       );
     } else {
