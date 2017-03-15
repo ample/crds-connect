@@ -43,14 +43,7 @@ export class PinDetailsComponent implements OnInit {
     private state: StateService,
     private hlpr: AddMeToTheMapHelperService,
     private pinService: PinService
-  ) {
-    location.onPopState(() => {
-      console.log('Hit Back Button');
-      console.log(this.state.getCurrentView());
-      // do we need this?
-      // router.navigateByUrl(`map`);
-    });
-  }
+  ) {}
 
   public ngOnInit() {
     this.state.setLoading(true);
