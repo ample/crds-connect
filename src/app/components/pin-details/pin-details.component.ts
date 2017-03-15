@@ -1,6 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
@@ -23,7 +24,7 @@ export class PinDetailsComponent implements OnInit {
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public buttonText: string = "Update";
+  public buttonText: string = 'Update';
   public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
@@ -35,6 +36,7 @@ export class PinDetailsComponent implements OnInit {
 
   constructor(private api: APIService,
     private content: ContentService,
+    private location: PlatformLocation,
     private router: Router,
     private route: ActivatedRoute,
     private session: SessionService,
@@ -42,6 +44,12 @@ export class PinDetailsComponent implements OnInit {
     private hlpr: AddMeToTheMapHelperService,
     private pinService: PinService
   ) {
+    location.onPopState(() => {
+      console.log('Hit Back Button');
+      state.setCurrentView('list');
+      console.log(this.state.getCurrentView());
+      router.navigateByUrl(`map`);
+    });
   }
 
   public ngOnInit() {

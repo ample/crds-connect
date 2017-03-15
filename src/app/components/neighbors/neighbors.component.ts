@@ -35,9 +35,14 @@ export class NeighborsComponent implements OnInit {
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
           this.doSearch('useLatLng', pos.lat, pos.lng );
+          this.setView( this.state.getCurrentView() );
         }
       );
     }
+  }
+
+  setView(mapOrListView): void {
+    this.mapViewActive = mapOrListView === 'map';
   }
 
   viewChanged(agreed: boolean) {
