@@ -78,7 +78,7 @@ describe('GatheringRequestsComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    fit('should init and filter out placed inquiries', () => {
+    it('should init and filter out placed inquiries', () => {
         (<jasmine.Spy>mockGroupService.getGroupRequests).and.returnValue(Observable.of([ {inquiryId: 1}, {inquiryId: 2}, {inquiryId: 3, placed: true}]));
         (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
       comp.ngOnInit();
@@ -95,7 +95,7 @@ describe('GatheringRequestsComponent', () => {
         expect(participant.nickName).toBe('Joe');
     });
 
-    fit('should accept Invitation', () => {
+    it('should accept Invitation', () => {
          (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.of([{}]));
          (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
@@ -114,7 +114,7 @@ describe('GatheringRequestsComponent', () => {
         expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
 
-    fit('should deny Invitation', () => {
+    it('should deny Invitation', () => {
          (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.of([{}]));
          (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
@@ -133,7 +133,7 @@ describe('GatheringRequestsComponent', () => {
         expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
 
-    fit('accept/deny invitation should handle error', () => {
+    it('accept/deny invitation should handle error', () => {
         (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.throw({ status: 500 }));
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, false);
