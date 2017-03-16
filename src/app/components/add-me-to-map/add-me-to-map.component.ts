@@ -42,6 +42,7 @@ export class AddMeToMapComponent implements OnInit {
 
   public onSubmit(value) {
     if (value) {
+      this.state.setCurrentView('map');
       this.router.navigate(['/now-a-pin']);
     }
   }
