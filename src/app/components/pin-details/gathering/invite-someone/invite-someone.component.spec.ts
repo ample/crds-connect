@@ -18,7 +18,7 @@ import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 
-import { Person } from '../../../../models/Person';
+import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details'
 
 describe('InviteSomeoneComponent', () => {
