@@ -36,7 +36,6 @@ import { Observable } from 'rxjs/Rx';
 describe('SayHiComponent', () => {
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
-    let el;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -74,11 +73,11 @@ describe('SayHiComponent', () => {
         });
     }));
 
-    fit('should create an instance', () => {
+    it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
 
-    fit('should call login redirect if not logged in', inject([LoginRedirectService], (loginRedirectService) => {
+    it('should call login redirect if not logged in', inject([LoginRedirectService], (loginRedirectService) => {
 
         let mockRoute = "mockRoute";
         let sendSayHiFunc = comp.sendSayHi;

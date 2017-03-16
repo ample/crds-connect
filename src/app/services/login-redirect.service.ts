@@ -3,26 +3,27 @@ import { Router, NavigationExtras } from '@angular/router';
 
 @Injectable()
 export class LoginRedirectService {
-  private DefaultAuthenticatedRoute = '/host-signup';
+  private DefaultAuthenticatedRoute = '/map';
   private SigninRoute = '/signin';
 
   private originalTarget: string;
   private originalTargetParms: string;
+  private redirectFunctionParam: any;
   private redirectFunction: any;
 
   constructor(private router: Router) { }
 
-  public redirectToLogin(target = this.DefaultAuthenticatedRoute, redirectFunction = null): void {
+  public redirectToLogin(target = this.DefaultAuthenticatedRoute, redirectFunctionParam = null): void {
     this.originalTarget = target;
-    if (redirectFunction) {
-      this.redirectFunction = redirectFunction;
+    if (redirectFunctionParam) {
+      this.redirectFunction = redirectFunctionParam;
     }
     this.router.navigate([this.SigninRoute]);
   }
 
-  public redirectToTarget(target = this.DefaultAuthenticatedRoute): void {
+  public redirectToTarget(target = this.DefaultAuthenticatedRoute, useRedirectFunction = null): void {
     if (this.originalTarget) {
-      if (this.redirectFunction) {
+      if (useRedirectFunction) {
         this.redirectFunction();
       }
       else {
@@ -32,4 +33,5 @@ export class LoginRedirectService {
       this.router.navigate([target]);
     }
   }
+
 }

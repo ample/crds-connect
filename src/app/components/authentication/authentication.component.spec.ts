@@ -1,8 +1,17 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import { HttpModule, JsonpModule } from '@angular/http';
+
 
 import { APIService } from '../../services/api.service';
+import { PinService } from '../../services/pin.service';
+
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -13,127 +22,77 @@ import { AuthenticationComponent } from './authentication.component';
 
 describe('Component: Authentication', () => {
 
-  let fixture: AuthenticationComponent,
-      router: Router,
-      redirectService: LoginRedirectService,
-      stateService: StateService,
-      store: StoreService,
-      fb: FormBuilder,
-      api: APIService,
-      cookie: CookieService,
-      session: SessionService;
+  let fixture: ComponentFixture<AuthenticationComponent>;
+  let comp: AuthenticationComponent;
+  let api: APIService;
+
+  //api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
 
   beforeEach(() => {
-
-    api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
-    fb = new FormBuilder();
-    router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    stateService = jasmine.createSpyObj<StateService>(
-      'stateService',
-      [
-        'getNextPageToShow',
-        'getPrevPageToShow',
-        'hidePage',
-        'setLoading'
-      ]
-    );
-    store = jasmine.createSpyObj<StoreService>(
-      'store', [
-        'loadUserData',
-        'validateRoute'
-      ]
-    );
-    fixture = new AuthenticationComponent(
-      api,
-      fb,
-      router,
-      redirectService,
-      stateService,
-      store,
-      cookie,
-      session
-    );
-    fixture.ngOnInit();
+    TestBed.configureTestingModule({
+      declarations: [
+        AuthenticationComponent
+      ],
+      providers: [
+        CookieService,
+        SessionService,
+        StateService,
+        LoginRedirectService,
+        APIService,
+        PinService,
+        FormBuilder,
+        StoreService,
+        RouterTestingModule
+      ],
+      imports: [RouterTestingModule.withRoutes([]), HttpModule],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
   });
 
-  function setForm( email, password ) {
-    fixture.form.setValue({ email: email, password: password});
+  beforeEach(async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(AuthenticationComponent);
+      comp = fixture.componentInstance;
+      comp.ngOnInit();
+    });
+  }));
+
+  it('should initialize the component', () => {
+    expect(fixture).toBeTruthy();
+  });
+
+  it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
+    spyOn(loginRedirectService, 'redirectToTarget');
+    comp.back();
+    expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
+  }));
+
+  function setForm(email, password) {
+    comp.form.setValue({ email: email, password: password });
   }
 
-  describe('#ngOnInit', () => {
-    it('should initialize the component', () => {
-      expect(fixture).toBeTruthy();
-    });
+  it('loginException should get set to true', inject([APIService], (api) => {
+    setForm('bad@bad.com', 'reallynotgood');
+    comp.form.markAsDirty();
+    spyOn(api, 'postLogin').and.returnValue(Observable.throw({}));
+    expect(comp.loginException).toBeFalsy();
+    comp.submitLogin();
+    expect(comp.loginException).toBeTruthy();
+  }));
+
+  it('should check to see if field is valid when valid credentials are provided', () => {
+    setForm('s@s.com', 'test');
+    let isInvalid = comp.formInvalid('email');
+    expect(isInvalid).toBe(false);
   });
 
-  describe('#adv', () => {
-    xit('should call the router to move to the next step', () => {
-      fixture.adv();
-      expect(router.navigateByUrl).toHaveBeenCalled();
-    });
+  it('should check to see if field is invalid when invalid credentials are provided', () => {
+    setForm('sm', 'test');
+    let isInvalid = comp.formInvalid('email');
+    expect(isInvalid).toBe(true);
   });
 
-  describe('#back', () => {
-    xit('should call the router to move to the previous step', () => {
-      fixture.back();
-      expect(router.navigateByUrl).toHaveBeenCalled();
-    });
-  });
 
-  describe('#formInvalid(field)', () => {
-    it('should check to see if field is valid when valid credentials are provided', () => {
-      setForm('s@s.com', 'test');
-      let isInvalid = fixture.formInvalid('email');
-      expect(isInvalid).toBe(false);
-    });
-
-    it('should check to see if field is invalid when invalid credentials are provided', () => {
-      setForm('sm', 'test');
-      let isInvalid = fixture.formInvalid('email');
-      expect(isInvalid).toBe(true);
-    });
-  });
-
-  describe('#next', () => {
-    describe('when form is invalid', () => {
-      beforeEach(() => {
-        setForm('good@', 'foobar');
-        fixture.form.markAsDirty();
-      });
-
-      it('#adv should not get called', () => {
-        spyOn(fixture, 'adv');
-
-        fixture.submitLogin();
-        expect(fixture.adv).not.toHaveBeenCalled();
-      });
-
-      it('loginException should get set to true', () => {
-        expect(fixture.loginException).toBeFalsy();
-        fixture.submitLogin();
-        expect(fixture.loginException).toBeTruthy();
-      });
-    });
-
-    describe('when invalid auth credentials are submitted', () => {
-      beforeEach(() => {
-        setForm('bad@bad.com', 'reallynotgood');
-        fixture.form.markAsDirty();
-        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
-      });
-
-      it('#adv should not get called', () => {
-        spyOn(fixture, 'adv');
-        fixture.submitLogin();
-        expect(fixture.adv).not.toHaveBeenCalled();
-      });
-
-      it('loginException should get set to true', () => {
-        expect(fixture.loginException).toBeFalsy();
-        fixture.submitLogin();
-        expect(fixture.loginException).toBeTruthy();
-      });
-    });
-
-  });
 });
+
+
