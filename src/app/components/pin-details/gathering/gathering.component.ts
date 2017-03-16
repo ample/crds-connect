@@ -57,9 +57,9 @@ export class GatheringComponent implements OnInit {
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
           this.blandPageService.setBlandPageDetailsAndGo(new BlandPageDetails(
-            "Return to map",
-            "gatheringJoinRequestSent",
-            "",
+            'Return to map',
+            'gatheringJoinRequestSent',
+            '',
             BlandPageType.ContentBlock,
             BlandPageCause.Success
           ));
@@ -68,15 +68,15 @@ export class GatheringComponent implements OnInit {
           let bpd;
           if (failure.status == 409) {
             bpd = new BlandPageDetails(
-              "back",
-              "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Looks like you have already requested to join this group.</p>",
-              "pin-details/" + this.pin.participantId,
+              'Back',
+              '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
+              'pin-details/' + this.pin.participantId,
               BlandPageType.Text,
               BlandPageCause.Error
             );
             this.blandPageService.setBlandPageDetailsAndGo(bpd);
           } else {
-            this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);
+            this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
           }
         }
       );
