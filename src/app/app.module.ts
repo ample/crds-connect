@@ -32,6 +32,7 @@ import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
@@ -120,6 +121,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapFooterComponent,
     MemberSaidHiComponent,
     NeighborsComponent,
+    NoResultsComponent,
     NowAPinComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,

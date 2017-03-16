@@ -31,7 +31,6 @@ export class MapComponent implements OnInit {
                private mapHlpr: GoogleMapService,
                private state: StateService) {}
 
-  
   public ngOnInit(): void {
 
     let haveResults = !!this.searchResults;
