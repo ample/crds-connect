@@ -71,4 +71,8 @@ export class MapComponent implements OnInit {
     }
   }
 
+  public getLabelName(pin: Pin) {
+    return (pin.firstName);
+  }
+
 }
