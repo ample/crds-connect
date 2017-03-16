@@ -20,6 +20,7 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component'
+import { CanvasMapOverlayComponent } from './components/canvas-map-overlay/canvas-map-overlay.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
@@ -103,6 +104,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
+    CanvasMapOverlayComponent,
     CreditCardFormatDirective,
     CurrencyFormatDirective,
     CvvFormatDirective,

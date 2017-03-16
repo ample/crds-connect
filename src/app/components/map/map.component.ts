@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { crdsOakleyCoords } from '../../shared/constants';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { MapSettings } from '../../models/map-settings';
 import { APIService } from '../../services/api.service';
 import { Address } from '../../models/address';
