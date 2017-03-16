@@ -19,12 +19,11 @@ export class BlandPageComponent implements OnInit {
     constructor(private router: Router,
         private content: ContentService,
         private blandPageService: BlandPageService,
-        private state: StateService) {
-    }
+        private state: StateService) {}
 
     ngOnInit() {
         this.blandPageDetails = this.blandPageService.getBlandPageDetails();
-        if (this.blandPageDetails.blandPageType == BlandPageType.ContentBlock){
+        if (this.blandPageDetails.blandPageType == BlandPageType.ContentBlock) {
             this.contentBlock = true;
         } else {
             this.contentBlock = false;
