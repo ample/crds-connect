@@ -14,7 +14,7 @@ export class ContentService {
 
   constructor(private http: Http) {}
 
-  loadData(categories = Array('common', 'main')): void {
+  loadData(categories = Array('common', 'main', 'finder')): void {
     // call for each type of content block used in the app
      this.getContentBlocks(categories).subscribe(contentBlocks => {
        this.contentBlocks = contentBlocks;
