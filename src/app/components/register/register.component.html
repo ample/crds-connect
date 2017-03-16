@@ -48,7 +48,7 @@
               [(ngModel)]="email">
 
         <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
-          <p class="error help-block" *ngIf="duplicateUser">This email address is already in use. <a (click)="back()">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
+          <p class="error help-block" *ngIf="duplicateUser">This email address is already in use. <a routerLink="/signin">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
 
           <p class="error help-block" *ngIf="!duplicateUser">Email <span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
         </div>
