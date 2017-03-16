@@ -66,10 +66,22 @@ export class NeighborsComponent implements OnInit {
         setTimeout(() => {
           this.isMapHidden = false;
         }, 1);
+
+        // if pinsearchresults is empty then display the bland page
+        if ( this.pinSearchResults.pinSearchResults.length === 0) {
+          this.state.setLoading(false);
+          this.goToNoResultsPage();
+        }
       },
       error => {
         console.log(error);
+        this.state.setLoading(false);
+        this.goToNoResultsPage();
       });
+  }
+
+  private goToNoResultsPage() {
+    this.router.navigateByUrl('/no-results');
   }
 
 }

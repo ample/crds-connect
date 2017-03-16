@@ -4,10 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
@@ -31,11 +33,23 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
-  { path: 'error', component: BlandPageComponent },
-  { path: 'success', component: BlandPageComponent },
+  { path: 'error', 
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard
+    ] 
+  },
+  { path: 'success', 
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard
+    ] 
+  },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'member-said-hi', component: MemberSaidHiComponent },
+  { path: 'neighbors', component: NeighborsComponent },
+  { path: 'no-results', component: NoResultsComponent },
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'getting-started', component: GettingStartedComponent },
   { path: 'host-signup', component: HostApplicationComponent },

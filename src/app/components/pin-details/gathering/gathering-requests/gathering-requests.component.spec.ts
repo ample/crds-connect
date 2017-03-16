@@ -69,7 +69,7 @@ describe('GatheringRequestsComponent', () => {
         (<jasmine.Spy>mockGroupService.getGroupRequests).and.returnValue(Observable.of([ {inquiryId: 1}, {inquiryId: 2}, {inquiryId: 3, placed: true}]));
         (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
       comp.ngOnInit();
-      expect(comp.getInquiries().length).toBe(2);
+      expect(comp['inquiries'].length).toBe(2);
       expect(mockGroupService.getGroupRequests.calls.count()).toBe(1);
       expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
