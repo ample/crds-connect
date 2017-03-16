@@ -8,6 +8,7 @@ import { ContentService } from '../../services/content.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from './list-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 
 describe('Component: List Footer', () => {
@@ -22,10 +23,11 @@ describe('Component: List Footer', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
-        ListHelperService,
-        SessionService,
         CookieService,
-        ContentService
+        ContentService,
+        ListHelperService,
+        StateService,
+        SessionService
       ]
     });
     this.fixture = TestBed.createComponent(ListFooterComponent);

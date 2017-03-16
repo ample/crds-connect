@@ -3,28 +3,31 @@ import { Router } from '@angular/router';
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
 
+import { StateService } from '../../services/state.service';
+
 @Component({
   selector: 'list-entry',
   templateUrl: 'list-entry.component.html',
   styleUrls: ['list-entry.component.css']
 })
 export class ListEntryComponent {
-  @Input() firstName: string = " ";
-  @Input() lastName: string = " ";
-  @Input() siteName: string = "";
+  @Input() firstName: string = '';
+  @Input() lastName: string = '';
+  @Input() siteName: string = '';
   @Input() type: number;
   @Input() proximity: number = 0;
-  @Input() description: string = "";
+  @Input() description: string = '';
   @Input() address: Address = null;
   @Input() participantId: number = 0;
   @Input() participantCount: number = 0;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private state: StateService
   ) {}
 
   public name() {
-    return (this.firstName + " " + this.lastName.charAt(0) + ".").toUpperCase();
+    return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
   }
 
   public isPerson() {
@@ -63,22 +66,24 @@ export class ListEntryComponent {
     } else {
       let addr = this.address.addressLine1;
       if (this.address.addressLine2) {
-        addr += "<br/>" + this.address.addressLine2;
+        addr += '<br/>' + this.address.addressLine2;
       }
-      addr += "<br/>" + this.address.city + ", " + this.address.state + " " + this.address.zip;
+      addr += '<br/>' + this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
       return addr;
     }
   }
 
   public gatheringDescription() {
-    return (this.description === "") ? "This is a sample description to make sure that what needs to happen can happen." : this.description;
+    return (this.description === '') ? 'This is a sample description to make sure that what needs to happen can happen.' : this.description;
   }
 
   public sayHi(id) {
+    this.state.setCurrentView('list');
     this.router.navigate([`pin-details/${id}/`]);
   }
 
   public displayDetails(id) {
+    this.state.setCurrentView('list');
     this.router.navigate([`pin-details/${id}/`]);
   }
 

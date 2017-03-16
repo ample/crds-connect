@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { FormsModule }   from '@angular/forms';
@@ -12,20 +12,22 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
   styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent  {
+  @Input() isMapHidden: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
-  private mapViewActive: boolean = true;
   private searchText: string = '';
   public buttontext: string;
 
-  constructor() {
+  constructor() {}
+
+  public ngOnChanges(): void{
     this.setButtonText();
   }
 
   public toggleView() {
-    this.mapViewActive = !this.mapViewActive;
-    this.viewMap.emit(this.mapViewActive);
+    this.isMapHidden = !this.isMapHidden;
+    this.viewMap.emit(!this.isMapHidden);
 
     if (this.searchText.length > 0) {
       this.onSearch(this.searchText);
@@ -42,7 +44,7 @@ export class SearchBarComponent  {
   }
 
   private setButtonText() {
-    this.buttontext = this.mapViewActive ? 'List' : 'Map';
+    this.buttontext = this.isMapHidden ? 'Map' : 'List';
   }
 
 }
