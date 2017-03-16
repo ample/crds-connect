@@ -29,18 +29,6 @@ import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
 
-class MockError implements Error {
-    public name: any;
-    public message: any;
-    public status: number;
-
-    constructor(name: any, message: any, status: number) {
-        this.name = name;
-        this.message = message;
-        this.status = status;
-    }
-}
-
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
