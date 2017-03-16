@@ -1,3 +1,17 @@
+<div>
+    <p class='pull-right text-left text-block'>
+        <a (click)='closeClick()'>
+            <span class="glyphicon glyphicon-remove"> </span>
+        </a>
+    </p>
+</div>
+<div>
+     <span [innerHTML]="content.getContent('addMeToMapHeader')"></span>
+</div>
+
+<address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
+
+<!--
 <button type="button" class="btn btn-primary" (click)="staticModal.show()">Static modal</button>
 
 <div class="modal fade"
@@ -24,4 +38,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->

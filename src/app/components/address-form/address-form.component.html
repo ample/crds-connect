@@ -1,124 +1,95 @@
 <form novalidate [formGroup]="addressFormGroup" (ngSubmit)="onSubmit(addressFormGroup)">
+  <!--ADDRESS LINE 1-->
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <label class="sr-only" for="addressLine1">Address Line 1</label>
+      <input tabindex="1"
+              type="text"
+              class="form-control"
+              maxlength="75"
+              placeholder="Address Line 1"
+              id = "addressLine1"
+              formControlName="addressLine1"
+              name="addressLine1">
+      <p class="error help-block" *ngIf="addressFormGroup.controls['addressLine1'].touched && !addressFormGroup.controls['addressLine1'].valid">Address Line 1 is required!</p>
+    </div>
+  </div>
 
-    <!--ADDRESS LINE 1-->
-    <div class="row">
-        <div class="form-group">
-            <label class="sr-only" for="addressLine1">Address Line 1</label>
-            <input tabindex="1"
-                   type="text"
-                   class="form-control"
-                   maxlength="75"
-                   placeholder="Address Line 1"
-                   id = "addressLine1"
-                   formControlName="addressLine1"
-                   name="addressLine1">
-        </div>
+  <!--ADDRESS LINE 2-->
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <label class="sr-only" for="addressLine2">Address Line 2</label>
+      <input tabindex="2"
+            type="text"
+            class="form-control"
+            maxlength="75"
+            placeholder="Address Line 2"
+            id = "addressLine2"
+            formControlName="addressLine2"
+            name="addressLine2">
+      <p class="error help-block" *ngIf="formSubmitted && !addressFormGroup.controls['addressLine2'].valid">Address Line 2 is invalid</p>
+    </div>
+  </div>
+
+  <!--CITY-->
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <label class="sr-only" for="city">City2</label>
+      <input tabindex="3"
+              type="text"
+              class="form-control"
+              onlyTheseKeys="[a-zA-Z\-\.]"
+              maxlength="22"
+              placeholder="City"
+              id = "city"
+              formControlName="city"
+              name="city">
+      <p class="error help-block" *ngIf="addressFormGroup.controls['city'].touched && !addressFormGroup.controls['city'].valid">City is required!</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!--STATE-->
+    <div class="form-group col-xs-6">
+      <label class="sr-only" for="state">State</label>
+      <select formControlName="state"
+              class="form-control override-styles-for-dropdown"
+              placeholder="State"
+              tabindex="4"
+              id = "state">
+        <option *ngFor="let state of stateList" [value]="state">{{state}}</option>
+      </select>
     </div>
 
-    <div *ngIf="addressFormGroup.controls['addressLine1'].touched && !addressFormGroup.controls['addressLine1'].valid" class="errors">
-        <div class="alert alert-danger">
-            <p>Address Line 1 is required!</p>
-        </div>
+    <!--ZIP-->
+    <div class="form-group col-xs-6">
+      <label class="sr-only" for="zip">Zip Code</label>
+      <input tabindex="5"
+              type="tel"
+              onlyTheseKeys="[0-9\-]"
+              class="form-control"
+              maxlength="10"
+              placeholder="Zip Code"
+              formControlName="zip"
+              id = "zip"
+              name="zip"
+              pattern="^(\d{5}|\d{5}-\d{4})$">
     </div>
 
-    <!--ADDRESS LINE 2-->
-    <div class="row">
-        <div class="form-group">
-            <label class="sr-only" for="addressLine2">Address Line 2</label>
-            <input tabindex="2"
-                   type="text"
-                   class="form-control"
-                   maxlength="75"
-                   placeholder="Address Line 2"
-                   id = "addressLine2"
-                   formControlName="addressLine2"
-                   name="addressLine2">
-        </div>
-    </div>
-
-    <div *ngIf="formSubmitted && !addressFormGroup.controls['addressLine2'].valid" class="errors">
-        <div class="alert alert-danger">
-            <p>Address Line 2 is invalid</p>
-        </div>
-    </div>
-
-    <!--CITY-->
-    <div class="row">
-        <div class="form-group">
-            <label class="sr-only" for="city">City2</label>
-            <input tabindex="3"
-                   type="text"
-                   class="form-control"
-                   onlyTheseKeys="[a-zA-Z\-\.]"
-                   maxlength="22"
-                   placeholder="City"
-                   id = "city"
-                   formControlName="city"
-                   name="city">
-        </div>
-    </div>
-    <div *ngIf="addressFormGroup.controls['city'].touched && !addressFormGroup.controls['city'].valid" class="errors">
-        <div class="alert alert-danger">
-            <p>City is required!</p>
-        </div>
-    </div>
-
-    <div class="row inline-form">
-
-        <!--STATE-->
-        <div class="form-group inline-form__input">
-            <label class="sr-only" for="state">State</label>
-            <select formControlName="state"
-                    class="form-control override-styles-for-dropdown"
-                    placeholder="State"
-                    tabindex="4"
-                    id = "state">
-                <option *ngFor="let state of stateList" [value]="state">
-                    {{state}}
-                </option>
-            </select>
-        </div>
-
-        <!--ZIP-->
-        <div class="form-group inline-form__input">
-            <label class="sr-only" for="zip">Zip Code</label>
-            <input tabindex="5"
-                   type="tel"
-                   onlyTheseKeys="[0-9\-]"
-                   class="form-control"
-                   maxlength="10"
-                   placeholder="Zip Code"
-                   formControlName="zip"
-                   id = "zip"
-                   name="zip"
-                   pattern="^(\d{5}|\d{5}-\d{4})$">
-        </div>
-    </div>
-
-    <div class="errors" *ngIf="( addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid )
+    <div class="error help-block" *ngIf="( addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid )
         || (addressFormGroup.controls['zip'].touched && !addressFormGroup.controls['zip'].valid)">
-        <div class="alert alert-danger">
-            <ul>
-                <li *ngIf="addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid">
-                    <span>State is required</span>
-                </li>
-                <li *ngIf="addressFormGroup.controls['zip'].touched && !addressFormGroup.controls['zip'].valid">
-                    <span>Zip is required</span>
-                </li>
-            </ul>
-        </div>
+      <ul>
+        <li *ngIf="addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid">State is required.</li>
+        <li *ngIf="addressFormGroup.controls['zip'].touched && !addressFormGroup.controls['zip'].valid">Zip is required.</li>
+      </ul>
     </div>
+  </div>
 
-    <footer class="page-footer">
-        <button type="submit" [disabled]="addressFormGroup.invalid" class="btn btn-secondary btn-block">{{buttonText}}</button>
-    </footer>
+  <footer class="page-footer">
+    <button type="submit" [disabled]="addressFormGroup.invalid" class="btn btn-secondary btn-block">{{buttonText}}</button>
+  </footer>
 
-    <br>
-
-    <div *ngIf="submissionError">
-        <div class="alert alert-danger">
-            <p><span [innerHTML]="content.getContent('generalError')"></span></p>
-        </div>
-    </div>
-
+  <div *ngIf="submissionError" class="alert alert-danger">
+    <p [innerHTML]="content.getContent('generalError')"></p>
+  </div>
 </form>
