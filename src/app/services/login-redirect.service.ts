@@ -19,7 +19,7 @@ export class LoginRedirectService {
     if (this.originalTarget) {
       this.router.navigateByUrl(this.originalTarget, { skipLocationChange: true });
     } else {
-      this.router.navigate([target]);
+      this.router.navigateByUrl(target);
     }
   }
 }
