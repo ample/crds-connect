@@ -12,14 +12,14 @@ export class LoginRedirectService {
 
   public redirectToLogin(target = this.DefaultAuthenticatedRoute): void {
     this.originalTarget = target;
-    this.router.navigateByUrl(this.SigninRoute);
+    this.router.navigate([this.SigninRoute]);
   }
 
   public redirectToTarget(target = this.DefaultAuthenticatedRoute): void {
     if (this.originalTarget) {
-      this.router.navigateByUrl(this.originalTarget, { skipLocationChange: true });
+      this.router.navigate([this.originalTarget], { skipLocationChange: true });
     } else {
-      this.router.navigateByUrl(target);
+      this.router.navigate([target]);
     }
   }
 }
