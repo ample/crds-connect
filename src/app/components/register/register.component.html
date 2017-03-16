@@ -76,7 +76,7 @@
     <hr>
 
     <footer class="page-footer">
-      <crds-content-block id="embedRegisterSignIn"></crds-content-block>
+      <p class="pull-left font-size-small">Already have an account? <a href="#" (click)="back()">Sign In</a>.</p>
       <input type="submit"
              class="btn btn-primary pull-right"
              (click)="store.preSubmit($event);submitRegistration();"
