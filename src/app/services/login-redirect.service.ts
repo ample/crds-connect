@@ -9,7 +9,7 @@ export class LoginRedirectService {
   private originalTarget: string;
   private originalTargetParms: string;
   private redirectFunctionParam: any;
-  private redirectFunction: any;
+  private redirectFunction: Function;
 
   constructor(private router: Router) { }
 
@@ -21,10 +21,12 @@ export class LoginRedirectService {
     this.router.navigate([this.SigninRoute]);
   }
 
-  public redirectToTarget(target = this.DefaultAuthenticatedRoute, useRedirectFunction = null): void {
+  public redirectToTarget(target = this.DefaultAuthenticatedRoute): void {
     if (this.originalTarget) {
-      if (useRedirectFunction) {
-        this.redirectFunction();
+      if (this.redirectFunction) {
+        let tempFunc = this.redirectFunction;
+        this.redirectFunction = null;
+        tempFunc();
       }
       else {
         this.router.navigate([this.originalTarget]);
@@ -32,6 +34,15 @@ export class LoginRedirectService {
     } else {
       this.router.navigate([target]);
     }
+  }
+
+  public cancelRedirect(target = this.DefaultAuthenticatedRoute ): void {
+    if (this.originalTarget) {
+      this.redirectFunction = null;
+      this.router.navigate([this.originalTarget]);
+    } else {
+      this.router.navigate([target]);
+    }    
   }
 
 }
