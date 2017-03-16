@@ -9,6 +9,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AddressFormComponent } from '../../../address-form/address-form.component';
 import { GatheringComponent } from '../../gathering/gathering.component';
+import { GatheringRequestsComponent } from '../../gathering/gathering-requests/gathering-requests.component';
 import { ParticipantCardComponent } from './participant-card.component';
 import { ParticipantsListComponent } from '../participants-list.component';
 import { Participant } from '../../../../models/participant';
@@ -34,6 +35,7 @@ describe('Component: Participant Card component', () => {
         declarations: [
           AddressFormComponent,
           GatheringComponent,
+          GatheringRequestsComponent,
           ParticipantCardComponent,
           ParticipantsListComponent,
           PersonComponent,

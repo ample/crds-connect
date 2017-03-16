@@ -1,0 +1,19 @@
+<div class="row">
+  <hr/>
+  <div *ngIf="isPerson()" class="col-xs-12 person entry" (click)="sayHi(participantId)">
+    <img src="{{getPicByPinType()}}">
+    <h4>{{name()}}</h4>
+    <p class="proximity">{{roundedProximity()}} MI</p>
+  </div>
+  <div *ngIf="isGathering()" class="col-xs-12 gathering entry" (click)="displayDetails(participantId)">
+    <img src="{{getPicByPinType()}}">
+    <h4>{{name()}} <span>HOST</span></h4>
+    <p class="proximity">{{roundedProximity()}} MI <span>JOINED BY {{count()}}</span></p>
+    <p class="description">{{gatheringDescription()}}</p>
+  </div>
+  <div *ngIf="isSite()" class="col-xs-12 site entry">
+    <img src="{{getPicByPinType()}}">
+    <h4>Crossroads {{siteName}}</h4>
+    <p class="site-address" [innerHTML]="siteAddress()"></p>
+  </div>
+</div>

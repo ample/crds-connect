@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
 import { GeoCoordinates } from '../models/geo-coordinates';
+import { GoogleMapService } from '../services/google-map.service';
 import { LocationService } from './location.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
@@ -14,7 +15,8 @@ export class UserLocationService {
   constructor( private api: APIService,
                private location: LocationService,
                private session: SessionService,
-               private pinservice: PinService ) { }
+               private pinservice: PinService,
+               private mapHlpr: GoogleMapService) { }
 
   public GetUserLocation(): Observable<any> {
     let locObs = new Observable( observer => {
@@ -99,10 +101,21 @@ export class UserLocationService {
 
   private getUserLocationFromCurrentLocation(): Observable<any> {
     let locObs = new Observable ( observer => {
+
+      //If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
+      this.mapHlpr.setDidUserAllowGeoLoc(false);
+
+      setTimeout(() => {
+        if(!this.mapHlpr.didUserAllowGeoLoc){
+          observer.error();
+        }
+      }, 15000);
+
       let position: GeoCoordinates;
 
       this.location.getCurrentPosition().subscribe(
         location => {
+          this.mapHlpr.setDidUserAllowGeoLoc(true);
           if (location.lat == null || location.lng == null) {
             observer.error();
           }  else {
@@ -111,10 +124,13 @@ export class UserLocationService {
           }
         },
         error => {
+          this.mapHlpr.setDidUserAllowGeoLoc(true);
           observer.error();
         }
       );
+
     });
+
     return locObs;
   }
 }

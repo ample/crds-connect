@@ -51,14 +51,14 @@ export class PinService {
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
     // Create merge data for this template
     let emailInfo = {
-      "fromEmailAddress": user.email,
-      "toEmailAddress": pin.emailAddress,
-      "subject": "Hi",
-      "body": "Just wanted to say hi",
+      'fromEmailAddress': user.email,
+      'toEmailAddress': pin.emailAddress,
+      'subject': 'Hi',
+      'body': 'Just wanted to say hi',
       'mergeData': this.createTemplateDictionary(user, pin),
-      "templateId": this.SayHiTemplateId 
+      'templateId': this.SayHiTemplateId
     };
-    
+
     this.state.setLoading(true);
 
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
@@ -88,5 +88,9 @@ export class PinService {
     return this.http.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  public requestToJoinGathering(gatheringId: number): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId)
   }
 }

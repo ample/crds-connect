@@ -1,0 +1,14 @@
+<div>
+    <p class='pull-right text-left text-block'> 
+        <a (click)='close()'>
+            <span class="glyphicon glyphicon-remove"> </span>
+        </a>
+    </p>
+</div>
+<div>
+    <span *ngIf="contentBlock" [innerHTML]="content.getContent(blandPageDetails.content)"></span>
+    <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
+</div>
+<br>
+
+<input type="button" class="btn btn-secondary btn-block" (click)="close();" value="{{blandPageDetails.buttonText}}">
