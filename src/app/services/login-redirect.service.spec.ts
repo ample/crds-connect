@@ -30,7 +30,7 @@ describe('LoginRedirectService', () => {
       fixture.redirectToTarget('/dont/go/here');
       expect(router.navigate).toHaveBeenCalledWith(['/some/protected/page']);
     });
- 
+
     it('should navigate to default if no original target or specified target', () => {
       fixture['originalTarget'] = undefined;
       fixture.redirectToTarget();
@@ -42,6 +42,13 @@ describe('LoginRedirectService', () => {
       fixture.redirectToTarget('/go/here');
       expect(router.navigate).toHaveBeenCalledWith(['/go/here']);
     });
+
+    it('should navigate to original target if redirect cancelled', () => {
+      fixture['originalTarget'] = '/hi/there';
+      fixture.cancelRedirect();
+      expect(router.navigate).toHaveBeenCalledWith(['/hi/there']);
+    });
+
 
   });
 });
