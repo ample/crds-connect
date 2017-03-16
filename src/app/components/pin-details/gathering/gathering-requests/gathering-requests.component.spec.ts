@@ -22,6 +22,7 @@ import { PinLoginActionsComponent } from '../../pin-login-actions/pin-login-acti
 import { PersonComponent } from '../../person/person.component';
 import { GroupService } from '../../../../services/group.service';
 import { StateService } from '../../../../services/state.service';
+import { InviteSomeoneComponent } from '../invite-someone/invite-someone.component';
 import { Observable } from 'rxjs/Rx';
 
 
@@ -69,7 +70,8 @@ describe('Component: Gathering Requests Component', () => {
           PinHeaderComponent,
           PinLoginActionsComponent,
           ReadonlyAddressComponent,
-          SayHiComponent
+          SayHiComponent,
+          InviteSomeoneComponent
         ],
         imports: [ ReactiveFormsModule, HttpModule, JsonpModule ],
         providers: [

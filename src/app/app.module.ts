@@ -21,9 +21,10 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component'
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
-import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { HostApplicationComponent } from './components/host-application/host-application.component';
+import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
@@ -71,6 +72,7 @@ import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
 
 import { LoggedInGuard } from './route-guards/logged-in-guard';
+import { BlandPageGuard } from './route-guards/bland-page-guard';
 
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -109,9 +111,10 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ExpiryFormatDirective,
     FormatPaymentNumberDirective,
     GatheringComponent,
-    HostApplicationComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    HostApplicationComponent,
+    InviteSomeoneComponent,
     ListViewComponent,
     ListFooterComponent,
     ListEntryComponent,
@@ -140,6 +143,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   providers: [
     AddMeToTheMapHelperService,
     appRoutingProviders,
+    BlandPageGuard,
     BlandPageService,
     ContentService,
     CookieService,

@@ -29,7 +29,7 @@ import { ParticipantsListComponent } from '../pin-details/participants-list/part
 import { ParticipantCardComponent } from '../pin-details/participants-list/participant-card/participant-card.component';
 import { ReadonlyAddressComponent } from '../pin-details/readonly-address/readonly-address.component';
 import { SayHiComponent } from '../pin-details/say-hi/say-hi.component';
-
+import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someone.component';
 
 import { PinDetailsComponent } from './pin-details.component';
 
@@ -78,6 +78,7 @@ describe('Component: Pin-Details component', () => {
           GatheringComponent,
           GatheringRequestsComponent,
           PinDetailsComponent,
+          InviteSomeoneComponent
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
@@ -221,6 +222,7 @@ describe('Component: Pin-Details component', () => {
           GatheringComponent,
           GatheringRequestsComponent,
           PinDetailsComponent,
+          InviteSomeoneComponent
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule

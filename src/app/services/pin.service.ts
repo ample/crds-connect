@@ -6,7 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { User } from '../models/user';
+import { Person } from '../models/person';
 import { StateService } from '../services/state.service';
+
 
 
 
@@ -92,5 +94,9 @@ export class PinService {
 
   public requestToJoinGathering(gatheringId: number): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId)
+  }
+
+  public inviteToGathering(gatheringId: number, someone: Person): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/inviteToGathering/${gatheringId}`, someone);
   }
 }
