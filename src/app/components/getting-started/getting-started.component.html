@@ -1,7 +1,4 @@
-
-<div>
-    <span [innerHTML]="content?.getContent('gettingStarted')"></span>
+<div class="container">
+  <span [innerHTML]="content?.getContent('gettingStarted')"></span>
+  <input type="button"  class="btn btn-secondary btn-block" (click)="btnClickAddToMap();" value="Add me to map">
 </div>
-<br>
-
-<input type="button"  class="btn btn-secondary btn-block" (click)="btnClickAddToMap();" value="Add me to map">

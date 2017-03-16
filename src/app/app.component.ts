@@ -9,7 +9,7 @@ import { StateService } from './services/state.service';
 @Component({
   selector: 'app-root',
   template: `
-    <div class="container" [ngClass]="{'loading': state.is_loading}">
+    <div [ngClass]="{'loading': state.is_loading}">
       <app-preloader></app-preloader>
       <div class="outlet-wrapper">
         <router-outlet></router-outlet>
