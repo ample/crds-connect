@@ -37,7 +37,7 @@
     <div id="login-exception"
           class="alert alert-danger"
           *ngIf="loginException">
-      <crds-content-block id="embedAuthenticationFailed"></crds-content-block>
+      <crds-content-block id="finderAuthenticationFailed"></crds-content-block>
     </div>
 
     <div class="clearfix">
@@ -52,7 +52,7 @@
     <p class="font-size-smaller">Or <a routerLink="/register">register for an account</a>.</p>
 
     <footer class="page-footer">
-      <a href="#" class="btn btn-gray pull-left" (click)="back()">Back</a>
+      <a routerLink="/" class="btn btn-gray pull-left">Back</a>
       <input type="submit"
               class="btn btn-primary pull-right"
               (click)="submitLogin();"
