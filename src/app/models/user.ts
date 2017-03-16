@@ -1,4 +1,4 @@
-import { Person } from './Person';
+import { Person } from './person';
 
 export class User implements Person {
 
