@@ -25,18 +25,6 @@ import { GroupService } from '../../../../services/group.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 
-class MockError implements Error {
-    public name: any;
-    public message: any;
-    public status: number;
-
-    constructor(name: any, message: any, status: number) {
-        this.name = name;
-        this.message = message;
-        this.status = status;
-    }
-}
-
 describe('GatheringRequestsComponent', () => {
     let fixture: ComponentFixture<GatheringRequestsComponent>;
     let comp: GatheringRequestsComponent;
@@ -69,7 +57,6 @@ describe('GatheringRequestsComponent', () => {
             fixture = TestBed.createComponent(GatheringRequestsComponent);
             comp = fixture.componentInstance;
             comp.pin = MockTestData.getAPin(1);
-            console.log(comp.pin);
             // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
@@ -103,7 +90,7 @@ describe('GatheringRequestsComponent', () => {
 
         let expectedBPD = new BlandPageDetails(
           'Return to my pin',
-          '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div><br/><div class="row text-center"<span>Joe K has been notified</span></div></div>',
+          '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           'pin-details/' + comp.pin.participantId,
           BlandPageType.Text,
           BlandPageCause.Success
@@ -122,7 +109,7 @@ describe('GatheringRequestsComponent', () => {
 
         let expectedBPD = new BlandPageDetails(
           'Return to my pin',
-          '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K has been notified</span></div></div>',
+          '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           'pin-details/' + comp.pin.participantId,
           BlandPageType.Text,
           BlandPageCause.Success

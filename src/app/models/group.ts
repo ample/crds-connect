@@ -31,10 +31,10 @@ export class Group {
     kidsWelcome: boolean;
     proximity: number;
     Participants: Participant[];
-    groupTypeId: number;
+    groupTypeId?: number;
 
 
-   constructor($groupId: number, $groupName: string, $groupDescription: string, $groupTypeName: string, $ministryId: number, $congregationId: number, $congregationName: string, $primaryContactId: number, $primaryContactEmail: number, $startDate: string, $endDate: string, $reasonEndedId: number, $availableOnline: boolean, $remainingCapacity: number, $groupFullInd: boolean, $waitListInd: boolean, $waitListGroupId: number, $childCareInd: boolean, $meetingDayId: number, $meetingDay: string, $meetingTime: string, $meetingFrequency: string, $meetingFrequencyId: number, $address: Address, $targetSize: number, $kidsWelcome: boolean, $proximity: number, $Participants: Participant[], $groupTypeId) {
+   constructor($groupId: number, $groupName: string, $groupDescription: string, $groupTypeName: string, $ministryId: number, $congregationId: number, $congregationName: string, $primaryContactId: number, $primaryContactEmail: number, $startDate: string, $endDate: string, $reasonEndedId: number, $availableOnline: boolean, $remainingCapacity: number, $groupFullInd: boolean, $waitListInd: boolean, $waitListGroupId: number, $childCareInd: boolean, $meetingDayId: number, $meetingDay: string, $meetingTime: string, $meetingFrequency: string, $meetingFrequencyId: number, $address: Address, $targetSize: number, $kidsWelcome: boolean, $proximity: number, $Participants: Participant[], $groupTypeId: number = null) {
 		this.groupId = $groupId;
 		this.groupName = $groupName;
 		this.groupDescription = $groupDescription;

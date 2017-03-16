@@ -37,7 +37,11 @@ export class GatheringRequestsComponent implements OnInit {
         })
         this.state.setLoading(false);
       },
-      err => console.log(err));
+      (error) => {
+        this.state.setLoading(false);
+        console.log(error);
+        this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);
+      });
   }
 
   public convertToParticipant(inquiry: Inquiry): Participant {
@@ -59,7 +63,7 @@ export class GatheringRequestsComponent implements OnInit {
           templateText = '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div>';
         }
         // tslint:disable-next-line:max-line-length
-        templateText += `<br/><div class="row text-center"<span>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)} has been notified</span></div></div>`;
+        templateText += `<br/><div class="row text-center"<span>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified</span></div></div>`;
         bpd = new BlandPageDetails(
           'Return to my pin',
           templateText,
