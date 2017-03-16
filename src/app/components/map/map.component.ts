@@ -31,7 +31,6 @@ export class MapComponent implements OnInit {
                private mapHlpr: GoogleMapService,
                private state: StateService) {}
 
-  
   public ngOnInit(): void {
 
     let haveResults = !!this.searchResults;
@@ -53,6 +52,7 @@ export class MapComponent implements OnInit {
   }
 
   private displayDetails(pin: Pin) {
+    this.state.setCurrentView('map');
     // Both Person Pin and Gathering Pin navigate to pin-details
     // Site Pin stays on map with info-window popup
     if (pin.pinType === pinType.PERSON || pin.pinType === pinType.GATHERING) {

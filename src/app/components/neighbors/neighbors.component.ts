@@ -35,13 +35,18 @@ export class NeighborsComponent implements OnInit {
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
           this.doSearch('useLatLng', pos.lat, pos.lng );
+          this.setView( this.state.getCurrentView() );
         }
       );
-    }
+    } else { this.setView( this.state.getCurrentView() ); }
   }
 
-  viewChanged(agreed: boolean) {
-    this.mapViewActive = agreed;
+  setView(mapOrListView): void {
+    this.mapViewActive = mapOrListView === 'map';
+  }
+
+  viewChanged(isMapViewActive: boolean) {
+    this.mapViewActive = isMapViewActive;
   }
 
   doSearch(searchString: string, lat?: number, lng?: number) {
@@ -51,14 +56,14 @@ export class NeighborsComponent implements OnInit {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.pinSearchResults.pinSearchResults =
           this.pinSearchResults.pinSearchResults.sort(
-            (p1 : Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
+            (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
         this.state.setLoading(false);
         if (this.mapViewActive) {
           this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
         }
 
         this.isMapHidden = true;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.isMapHidden = false;
         }, 1);
       },

@@ -64,7 +64,7 @@ describe('Component: Search Bar', () => {
   });
 
   it('should toggle view', () => {
-    expect(this.component.buttontext).toBe('List');
+    expect(this.component.buttontext).toBe(undefined);
     this.component.toggleView();
     expect(this.component.buttontext).toBe('Map');
   });
