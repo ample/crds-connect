@@ -8,6 +8,7 @@ import { HostApplicationComponent } from './components/host-application/host-app
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
@@ -36,6 +37,8 @@ const appRoutes: Routes = [
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'member-said-hi', component: MemberSaidHiComponent },
+  { path: 'neighbors', component: NeighborsComponent },
+  { path: 'no-results', component: NoResultsComponent },
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'getting-started', component: GettingStartedComponent },
   { path: 'host-signup', component: HostApplicationComponent },
