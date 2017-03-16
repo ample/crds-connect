@@ -6,7 +6,7 @@ import { StateService } from '../../services/state.service';
 @Component({
   selector: 'app-map-footer',
   templateUrl: 'map-footer.component.html',
-  styleUrls: ['map-footer.component.css']
+  styleUrls: ['map-footer.component.scss']
 })
 export class MapFooterComponent {
 
