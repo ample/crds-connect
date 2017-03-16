@@ -37,6 +37,7 @@ const appRoutes: Routes = [
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'member-said-hi', component: MemberSaidHiComponent },
+  { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   { path: 'now-a-pin', component: NowAPinComponent },
   { path: 'getting-started', component: GettingStartedComponent },
