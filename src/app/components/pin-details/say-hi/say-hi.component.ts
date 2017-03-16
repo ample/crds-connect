@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PinService } from '../../../services/pin.service';
+import { ContentService } from '../../../services/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { APIService } from '../../../services/api.service';
 
@@ -26,7 +27,9 @@ export class SayHiComponent {
     private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
     private api: APIService,
-    private router: Router) { }
+    private router: Router,
+    private content: ContentService) { }
+
 
   ngOnInit() {
     this.sendSayHi = this.sendSayHi.bind(this);

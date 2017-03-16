@@ -71,12 +71,12 @@
       </div>
     </div>
 
-    <crds-content-block id="embedRegisterFooter"></crds-content-block>
+    <crds-content-block id="finderRegisterFooter"></crds-content-block>
 
     <hr>
 
     <footer class="page-footer">
-      <crds-content-block id="embedRegisterSignIn"></crds-content-block>
+      <p class="pull-left font-size-small">Already have an account? <a href="#" routerLink="/signin">Sign In</a>.</p>
       <input type="submit"
              class="btn btn-primary pull-right"
              (click)="store.preSubmit($event);submitRegistration();"

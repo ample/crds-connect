@@ -1,3 +1,4 @@
+/* tslint:disable:no-unused-variable */
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -11,8 +12,9 @@ import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../../services/state.service';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { ContentService } from '../../../services/content.service';
 
-/* tslint:disable:no-unused-variable */
+
 import { Angulartics2 } from 'angulartics2';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -33,7 +35,7 @@ import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { APIService } from '../../../services/api.service';
 import { Observable } from 'rxjs/Rx';
 
-describe('SayHiComponent', () => {
+describe('SayHiComponent', () => { 
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
 
@@ -59,7 +61,8 @@ describe('SayHiComponent', () => {
                 StateService,
                 Angulartics2,
                 LoginRedirectService,
-                APIService
+                APIService,
+                ContentService
             ],
             imports: [RouterTestingModule.withRoutes([]), HttpModule],
             schemas: [NO_ERRORS_SCHEMA]
