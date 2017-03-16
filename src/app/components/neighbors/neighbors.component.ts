@@ -64,11 +64,13 @@ export class NeighborsComponent implements OnInit {
 
         // if pinsearchresults is empty then display the bland page
         if ( this.pinSearchResults.pinSearchResults.length === 0) {
+          this.state.setLoading(false);
           this.goToNoResultsPage();
         }
       },
       error => {
         console.log(error);
+        this.state.setLoading(false);
         this.goToNoResultsPage();
       });
   }
