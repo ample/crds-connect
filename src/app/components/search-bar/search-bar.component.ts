@@ -8,8 +8,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
 @Component({
   selector: 'app-search-bar',
-  templateUrl: 'search-bar.component.html',
-  styleUrls: ['search-bar.component.scss']
+  templateUrl: 'search-bar.component.html'
 })
 export class SearchBarComponent  {
   @Input() isMapHidden: boolean;
