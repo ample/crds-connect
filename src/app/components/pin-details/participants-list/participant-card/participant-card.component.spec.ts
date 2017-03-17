@@ -48,7 +48,7 @@ describe('Component: Participant Card component', () => {
           SayHiComponent,
           InviteSomeoneComponent
         ],
-        imports: [ ReactiveFormsModule, HttpModule, JsonpModule, ContentBlockModule.forRoot({ category: ['common'] }) ],
+        imports: [ ReactiveFormsModule, HttpModule, JsonpModule, ContentBlockModule.forRoot({ categories: ['common'] }) ],
         providers: [
           SessionService,
           CookieService,

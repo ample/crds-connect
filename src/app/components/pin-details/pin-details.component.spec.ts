@@ -83,7 +83,7 @@ describe('Component: Pin-Details component', () => {
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
-          ContentBlockModule.forRoot({ category: ['common'] })
+          ContentBlockModule.forRoot({ categories: ['common'] })
         ],
         providers: [
           {
@@ -227,7 +227,7 @@ describe('Component: Pin-Details component', () => {
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
-          ContentBlockModule.forRoot({ category: ['common'] })
+          ContentBlockModule.forRoot({ categories: ['common'] })
         ],
         providers: [
           {
