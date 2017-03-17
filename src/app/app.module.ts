@@ -98,7 +98,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ReactiveFormsModule,
     SelectModule,
     routing,
-    ContentBlockModule.forRoot({ category: 'finder' })
+    ContentBlockModule.forRoot({ categories: Array('finder') })
   ],
   declarations: [
     AddMeToMapComponent,
