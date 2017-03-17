@@ -7,7 +7,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 
 import { APIService } from '../../services/api.service';
-import { ContentService } from '../../services/content.service';
 import { Pin } from '../../models/pin';
 import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
@@ -37,7 +36,6 @@ export class PinDetailsComponent implements OnInit {
   public user: User;
 
   constructor(private api: APIService,
-    private content: ContentService,
     private location: PlatformLocation,
     private router: Router,
     private route: ActivatedRoute,

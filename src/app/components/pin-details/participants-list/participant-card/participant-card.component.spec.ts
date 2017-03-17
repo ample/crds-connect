@@ -20,6 +20,7 @@ import { ReadonlyAddressComponent } from '../../readonly-address/readonly-addres
 import { PinLoginActionsComponent } from '../../pin-login-actions/pin-login-actions.component';
 import { InviteSomeoneComponent } from '../../gathering/invite-someone/invite-someone.component';
 import { PersonComponent } from '../../person/person.component';
+import { ContentBlockModule } from 'crds-ng2-content-block';
 
 
 describe('Component: Participant Card component', () => {
@@ -47,7 +48,7 @@ describe('Component: Participant Card component', () => {
           SayHiComponent,
           InviteSomeoneComponent
         ],
-        imports: [ ReactiveFormsModule, HttpModule, JsonpModule ],
+        imports: [ ReactiveFormsModule, HttpModule, JsonpModule, ContentBlockModule.forRoot({ category: ['common'] }) ],
         providers: [
           SessionService,
           CookieService,
@@ -86,6 +87,3 @@ describe('Component: Participant Card component', () => {
 
 });
 });
-
-
-

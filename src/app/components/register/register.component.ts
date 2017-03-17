@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { LoginRedirectService } from '../../services/login-redirect.service';
 
 import { User } from '../../models/user';
 
@@ -27,7 +28,8 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService
+    private store: StoreService,
+    private redirectService: LoginRedirectService
   ) {
     this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
@@ -46,11 +48,12 @@ export class RegisterComponent implements OnInit {
   }
 
   signin() {
-    this.router.navigate(['signin'])
+    this.router.navigate(['signin']);
   }
 
   adv(): void {
-    // navigate
+   this.state.setLoading(false);
+   this.redirectService.redirectToTarget();
   };
 
   submitRegistration() {
