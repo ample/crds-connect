@@ -81,6 +81,7 @@ export class NeighborsComponent implements OnInit {
   }
 
   private goToNoResultsPage() {
+    this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
   }
 
