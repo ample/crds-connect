@@ -112,7 +112,7 @@ describe('GatheringRequestsComponent', () => {
           '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           'pin-details/' + comp.pin.participantId,
           BlandPageType.Text,
-          BlandPageCause.Success
+          BlandPageCause.Success 
         );
 
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, false, inquiry);

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { PinService } from '../../../services/pin.service';
 import { ContentService } from '../../../services/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
+import { APIService } from '../../../services/api.service';
+
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
@@ -24,14 +26,54 @@ export class SayHiComponent {
   constructor(
     private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
+    private api: APIService,
     private router: Router,
     private content: ContentService) { }
 
+
+  ngOnInit() {
+    this.sendSayHi = this.sendSayHi.bind(this);
+  }
+
   public sayHi() {
     if (!this.isLoggedIn) {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.sendSayHi);
     } else {
-      this.pinService.sendHiEmail(this.user, this.pin).subscribe();
+      this.sendSayHi();
+    }
+  }
+
+  public sendSayHi() {
+    if (!this.user) {
+      this.api.getUserData().subscribe(
+        ret => {
+          this.user = ret;
+          this.pinService.sendHiEmail(this.user, this.pin).subscribe(
+            ret => {
+              this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
+            },
+            err => {
+              // redirect to error page
+            }
+
+          );
+        },
+        err => {
+
+        }
+      );
+
+    }
+    else {
+      this.pinService.sendHiEmail(this.user, this.pin).subscribe(
+        ret => {
+          this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
+        },
+        err => {
+          // redirect to error page
+        }
+
+      );
     }
   }
 

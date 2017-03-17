@@ -13,7 +13,7 @@ describe('LoginRedirectService', () => {
   describe('#redirectToLogin', () => {
     it('should store a default target and navigate to login page', () => {
       fixture.redirectToLogin();
-      expect(fixture['originalTarget']).toEqual('/host-signup');
+      expect(fixture['originalTarget']).toEqual('/map');
       expect(router.navigate).toHaveBeenCalledWith(['/signin']);
     });
 
@@ -28,13 +28,13 @@ describe('LoginRedirectService', () => {
     it('should navigate to original target if there is one', () => {
       fixture['originalTarget'] = '/some/protected/page';
       fixture.redirectToTarget('/dont/go/here');
-      expect(router.navigate).toHaveBeenCalledWith(['/some/protected/page'], { skipLocationChange: true });
+      expect(router.navigate).toHaveBeenCalledWith(['/some/protected/page']);
     });
 
     it('should navigate to default if no original target or specified target', () => {
       fixture['originalTarget'] = undefined;
       fixture.redirectToTarget();
-      expect(router.navigate).toHaveBeenCalledWith(['/host-signup']);
+      expect(router.navigate).toHaveBeenCalledWith(['/map']);
     });
 
     it('should navigate to specified target if no original target', () => {
@@ -42,6 +42,13 @@ describe('LoginRedirectService', () => {
       fixture.redirectToTarget('/go/here');
       expect(router.navigate).toHaveBeenCalledWith(['/go/here']);
     });
+
+    it('should navigate to original target if redirect cancelled', () => {
+      fixture['originalTarget'] = '/hi/there';
+      fixture.cancelRedirect();
+      expect(router.navigate).toHaveBeenCalledWith(['/hi/there']);
+    });
+
 
   });
 });
