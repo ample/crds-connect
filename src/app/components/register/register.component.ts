@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { SessionService } from '../../services/session.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 
 import { User } from '../../models/user';
@@ -29,13 +30,14 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private store: StoreService,
+    private session: SessionService,
     private redirectService: LoginRedirectService
   ) {
     this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
-      lastName:  ['', [<any>Validators.required]],
-      email:     ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
-      password:  ['', [<any>Validators.required, <any>Validators.minLength(8)]]
+      lastName: ['', [<any>Validators.required]],
+      email: ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
+      password: ['', [<any>Validators.required, <any>Validators.minLength(8)]]
     });
   }
 
@@ -52,12 +54,12 @@ export class RegisterComponent implements OnInit {
   }
 
   adv(): void {
-   this.redirectService.redirectToTarget();
+    this.redirectService.redirectToTarget();
   };
 
   submitRegistration() {
     this.submitted = true;
-    if ( this.regForm.valid ) {
+    if (this.regForm.valid) {
       this.state.setLoading(true);
       let newUser = new User(
         this.regForm.get('firstName').value,
@@ -70,7 +72,7 @@ export class RegisterComponent implements OnInit {
           if (!this.api.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);
           }
-          this.adv();
+
         },
         error => {
           if (JSON.parse(error._body).message === 'Duplicate User') {
@@ -93,14 +95,18 @@ export class RegisterComponent implements OnInit {
   loginNewUser(email, password) {
     this.api.postLogin(email, password)
       .subscribe(
-        (user) => this.store.loadUserData(),
-        (error) => this.state.setLoading(false)
+      (user) => {
+        this.session.setContactId(user.userId);
+        this.store.loadUserData();
+        this.adv();
+      },
+      (error) => this.state.setLoading(false)
       );
   }
 
   switchMessage(errors: any): string {
     let ret = `is <em>invalid</em>`;
-    if ( errors.required !==  undefined ) {
+    if (errors.required !== undefined) {
       ret = `is <u>required</u>`;
     }
     return ret;
