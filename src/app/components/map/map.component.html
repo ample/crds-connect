@@ -1,5 +1,7 @@
 <script src="../../scripts/markerclusterer.js"></script>
 
+<canvas-map-overlay></canvas-map-overlay>
+
 <sebm-google-map id="connect"
                  [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
                  [longitude] = "searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
@@ -30,5 +32,3 @@
 </sebm-google-map>
 
 <app-map-footer></app-map-footer>
-
-<canvas-map-overlay></canvas-map-overlay>
