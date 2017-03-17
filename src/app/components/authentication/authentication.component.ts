@@ -64,7 +64,6 @@ export class AuthenticationComponent implements OnInit {
         (user) => {
           this.session.setContactId(user.userId);
           this.store.loadUserData();
-          this.state.setLoading(false);
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();
         },
