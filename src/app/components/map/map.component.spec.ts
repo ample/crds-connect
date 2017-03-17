@@ -25,6 +25,8 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import { crdsOakleyCoords } from '../../shared/constants';
+import { MapSettings } from '../../models/map-settings';
 
 describe('Component: Map', () => {
 
@@ -65,6 +67,23 @@ describe('Component: Map', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should init map with existing results', () => {
+    this.component.haveResults = true;
+    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
+    this.component.ngOnInit();
+    expect(this.component.mapSettings.lat).toBeTruthy();
+    expect(this.component.mapSettings.lng).toBeTruthy();
+  });
+
+  it('should init map and get new results', () => {
+    this.component.haveResults = false;
+    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
+    let haveResults = false;
+    this.component.ngOnInit();
+    expect(this.component.mapSettings.lat).toBeTruthy();
+    expect(this.component.mapSettings.lng).toBeTruthy();
   });
 
 });
