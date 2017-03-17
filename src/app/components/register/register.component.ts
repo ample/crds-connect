@@ -52,7 +52,6 @@ export class RegisterComponent implements OnInit {
   }
 
   adv(): void {
-   this.state.setLoading(false);
    this.redirectService.redirectToTarget();
   };
 
