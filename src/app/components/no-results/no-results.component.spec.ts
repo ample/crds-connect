@@ -26,7 +26,7 @@ describe('Component: NoResults', () => {
       ],
       imports: [ HttpModule,
         RouterTestingModule.withRoutes([]),
-        ContentBlockModule.forRoot({ category: 'common' })
+        ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
         ContentService,
