@@ -28,21 +28,23 @@ export class MapContentComponent implements OnInit {
     this.mapApiWrapper.getNativeMap()
       .then((map)=> {
 
-          var delta = function (a, b) { return Math.abs(a - b) };
+          var delta = function (a, b) { return a - b };
 
           var geoBounds = undefined;
 
-          if( map.getBounds() ) {
+          let bounds = map.getBounds();
 
+          if( bounds ) {
+            let sw = bounds.getSouthWest();
+            let ne = bounds.getNorthEast();
             geoBounds = {
-              left: map.getBounds().getSouthWest().lat().valueOf(),
-              right: map.getBounds().getNorthEast().lat().valueOf(),
-              top: map.getBounds().getNorthEast().lng().valueOf(),
-              bottom: map.getBounds().getSouthWest().lng().valueOf(),
-              height: delta(map.getBounds().getNorthEast().lng().valueOf(), map.getBounds().getSouthWest().lng().valueOf()),
-              width: Math.abs(map.getBounds().getSouthWest().lat().valueOf() - map.getBounds().getNorthEast().lat().valueOf()) //delta(map.getBounds().getSouthWest().lat().valueOf(), map.getBounds().getNorthEast().lat().valueOf())
+              top:    sw.lat().valueOf(),
+              bottom: ne.lat().valueOf(),
+              left:   ne.lng().valueOf(),
+              right:  sw.lng().valueOf(),
+              width:  delta(ne.lng().valueOf(), sw.lng().valueOf()),
+              height: delta(sw.lat().valueOf(), ne.lat().valueOf())
             };
-
           }
 
           var googleMapContent = document.getElementsByClassName("sebm-google-map-content")[0];
@@ -56,9 +58,9 @@ export class MapContentComponent implements OnInit {
               var marker = markerList[i];
               var markerLabel = marker.getAttribute("ng-reflect-label");
               var markerLat = marker.getAttribute("ng-reflect-latitude");
-              var markerLng  = marker.getAttribute("ng-reflect-longitude");
-              var deltaLeftSideOfMapToMarker = delta(geoBounds.left, markerLat);
-              var deltaTopOfMapToMarker = delta(geoBounds.top, markerLng);
+              var markerLng = marker.getAttribute("ng-reflect-longitude");
+              var deltaLeftSideOfMapToMarker = delta(markerLng, geoBounds.right);
+              var deltaTopOfMapToMarker = delta(markerLat, geoBounds.bottom);
               var markerGeoOffsetLatPercentage = deltaLeftSideOfMapToMarker / geoBounds.width;
               var markerGeoOffsetLngPercentage = deltaTopOfMapToMarker / geoBounds.height;
 
@@ -77,14 +79,26 @@ export class MapContentComponent implements OnInit {
 
             var dataForDrawing = {
               geoBounds: geoBounds,
-              markers: [markerArray[4]]//markerArray
+              markers: markerArray
             };
 
-            console.log('MAP WIDTH: ' + geoBounds.width + ' MAP HEIGHT: ' +  geoBounds.height);
-            console.log('Marker distance left: ' +  dataForDrawing.markers[0].markerOffsetX + ' marker distance top: ' + dataForDrawing.markers[0].markerOffsetY);
-
             for(var i = 0; i < dataForDrawing.markers.length; i++) {
-              console.log('Lat offset %: ' + dataForDrawing.markers[i].markerGeoOffsetLatPercentage + ' lang offset %: ' + dataForDrawing.markers[i].markerGeoOffsetLngPercentage);
+              console.log(
+                ' geo delta left: ' + dataForDrawing.markers[0].markerOffsetX);
+              console.log(
+                ' geo width:  ' + geoBounds.width +
+                ' (' + geoBounds.left + ', ' + geoBounds.right + ')');
+              console.log(
+                ' Lng offset ' + dataForDrawing.markers[i].markerLng +
+                ' (' + 100.0 * dataForDrawing.markers[i].markerGeoOffsetLngPercentage + '%)');
+              console.log(
+                ' geo delta top:  ' + dataForDrawing.markers[0].markerOffsetY);
+              console.log(
+                ' geo height: ' + geoBounds.height +
+                ' (' + geoBounds.top + ', ' + geoBounds.bottom + ')');
+              console.log(
+                ' Lat offset ' + dataForDrawing.markers[i].markerLat +
+                ' (' + 100.0 * dataForDrawing.markers[i].markerGeoOffsetLatPercentage + '%)');
             }
 
             this.mapHlpr.emitDataForDrawing(dataForDrawing);

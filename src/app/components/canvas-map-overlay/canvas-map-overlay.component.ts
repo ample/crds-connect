@@ -67,7 +67,9 @@ export class CanvasMapOverlayComponent implements OnInit {
         var marker = testData.markers[i];
 
         ctx.beginPath();
-        ctx.arc(marker.markerGeoOffsetLatPercentage * cWidth, marker.markerGeoOffsetLngPercentage * cHeight, 50, 0, 2*Math.PI);
+        ctx.arc(
+          marker.markerGeoOffsetLatPercentage * cWidth,
+          marker.markerGeoOffsetLngPercentage * cHeight, 50, 0, 2*Math.PI);
         ctx.fillStyle = 'Blue';
         ctx.stroke();
 
@@ -93,4 +95,3 @@ export class CanvasMapOverlayComponent implements OnInit {
   }
 
 }
-
