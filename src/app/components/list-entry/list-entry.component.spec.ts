@@ -45,18 +45,18 @@ describe('ListEntryComponent', () => {
         });
     }));
 
-    fit('should create an instance', () => {
+    it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
 
-    fit('should return proper name format', () => {
+    it('should return proper name format', () => {
         fixture.detectChanges();
         comp.firstName = 'Bob';
         comp.lastName = 'Johnson'
         expect(comp.name()).toBe('BOB J.');
     });
 
-    fit('should return proper count string', () => {
+    it('should return proper count string', () => {
         fixture.detectChanges();
         comp.participantCount = 10;
         expect(comp.count()).toBe('10 OTHERS');
