@@ -1,23 +1,14 @@
-<div>
-    <p class='pull-right text-left text-block'>
-        <a (click)='closeClick()'>
-            <span class="glyphicon glyphicon-remove"> </span>
-        </a>
-    </p>
-</div>
-<div>
-     <span [innerHTML]="content.getContent('addMeToMapHeader')"></span>
-</div>
-
-<address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
-
-<!--
-<button type="button" class="btn btn-primary" (click)="staticModal.show()">Static modal</button>
-
-    <crds-content-block id="finderAddMeToMapText" class="text-center"></crds-content-block>
-
-        <address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
-      </div>
-    </div>
+<div class="fauxdal fauxdal-fullscreen">
+  <div>
+    <a class="pointer" (click)="closeClick()">
+      <svg class="icon" viewBox="0 0 256 256">
+        <use href="/assets/svgs/icons.svg#close"></use>
+      </svg>
+    </a>
   </div>
-</div>-->
+
+  <div>
+    <crds-content-block id="finderAddMeToMapText" class="text-center"></crds-content-block>
+    <address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
+  </div>
+</div>
