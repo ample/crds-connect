@@ -14,7 +14,7 @@ export class GettingStartedComponent {
               private router: Router) { }
 
   public btnClickAddToMap()  {
-    this.router.navigateByUrl('/add-me-to-the-map');
+    this.router.navigate(['/add-me-to-the-map']);
   }
 }
 

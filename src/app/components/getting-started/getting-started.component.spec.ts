@@ -17,7 +17,7 @@ describe('Component: Getting Started', () => {
 
   beforeEach(() => {
     class RouterStub {
-      navigateByUrl(url: string) { return url; }
+      navigate(url: string) { return url; }
     }
 
     TestBed.configureTestingModule({
@@ -47,12 +47,12 @@ describe('Component: Getting Started', () => {
   });
 
   it('should call the router to navigate', inject([Router], (router: Router) => {
-        const spy = spyOn(router, 'navigateByUrl');
+        const spy = spyOn(router, 'navigate');
         element.click();
         const navArgs = spy.calls.first().args[0];
 
         expect(navArgs).toBeTruthy();
-    }));
+  }));
 
 });
 
