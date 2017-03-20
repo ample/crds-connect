@@ -36,7 +36,7 @@ describe('GatheringRequestsComponent', () => {
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['setBlandPageDetailsAndGo', 'goToDefaultError']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['getGroupRequests', 'acceptOrDenyRequest']);
 
         TestBed.configureTestingModule({
@@ -91,13 +91,13 @@ describe('GatheringRequestsComponent', () => {
         let expectedBPD = new BlandPageDetails(
           'Return to my pin',
           '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
-          'pin-details/' + comp.pin.participantId,
           BlandPageType.Text,
-          BlandPageCause.Success
+          BlandPageCause.Success,
+          'pin-details/' + comp.pin.participantId
         );
 
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, true, inquiry);
-        expect(mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
         expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
 
@@ -110,13 +110,13 @@ describe('GatheringRequestsComponent', () => {
         let expectedBPD = new BlandPageDetails(
           'Return to my pin',
           '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
-          'pin-details/' + comp.pin.participantId,
           BlandPageType.Text,
-          BlandPageCause.Success
+          BlandPageCause.Success,
+          'pin-details/' + comp.pin.participantId
         );
 
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, false, inquiry);
-        expect(mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
         expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
 
@@ -124,7 +124,7 @@ describe('GatheringRequestsComponent', () => {
         (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.throw({ status: 500 }));
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, false);
-        expect(mockBlandPageService.setBlandPageDetailsAndGo).not.toHaveBeenCalled();
+        expect(mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith("pin-details/" + comp.pin.participantId)
     });
 });

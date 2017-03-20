@@ -67,12 +67,12 @@ export class GatheringRequestsComponent implements OnInit {
         bpd = new BlandPageDetails(
           'Return to my pin',
           templateText,
-          'pin-details/' + this.pin.participantId,
           BlandPageType.Text,
-          BlandPageCause.Success
+          BlandPageCause.Success,
+          'pin-details/' + this.pin.participantId
         );
         this.state.setLoading(false);
-        this.blandPageService.setBlandPageDetailsAndGo(bpd);
+        this.blandPageService.primeAndGo(bpd);
       }, (error) => {
         this.state.setLoading(false);
         this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);

@@ -55,7 +55,7 @@ describe('BlandPageComponent', () => {
 
     it('should init and is type content block', () => {
         comp.contentBlock = false;
-        let bpd = new BlandPageDetails('','','',BlandPageType.ContentBlock, BlandPageCause.Success);
+        let bpd = new BlandPageDetails('','',BlandPageType.ContentBlock, BlandPageCause.Success,'');
         (<jasmine.Spy>mockBlandPageService.getBlandPageDetails).and.returnValue(bpd);
         comp.ngOnInit();
         expect(mockBlandPageService.getBlandPageDetails).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('BlandPageComponent', () => {
 
     it('should init and is type text', () => {
         comp.contentBlock = true;
-        let bpd = new BlandPageDetails('','','',BlandPageType.Text, BlandPageCause.Success);
+        let bpd = new BlandPageDetails('','',BlandPageType.Text, BlandPageCause.Success, '');
         (<jasmine.Spy>mockBlandPageService.getBlandPageDetails).and.returnValue(bpd);
         comp.ngOnInit();
         expect(mockBlandPageService.getBlandPageDetails).toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('BlandPageComponent', () => {
     });
 
     it('should close', () => {
-        comp['blandPageDetails'] = new BlandPageDetails('','','home',BlandPageType.Text, BlandPageCause.Success);
+        comp['blandPageDetails'] = new BlandPageDetails('','',BlandPageType.Text, BlandPageCause.Success, 'home');
         comp.close();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/home']);
     });

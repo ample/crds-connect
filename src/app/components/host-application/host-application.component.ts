@@ -8,6 +8,7 @@ import { ContentService } from '../../services/content.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class HostApplicationComponent implements OnInit {
               private content: ContentService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
-              private store: StoreService
+              private store: StoreService,
+              private blandPageService: BlandPageService
               ) {
   }
 
@@ -34,8 +36,8 @@ export class HostApplicationComponent implements OnInit {
     }
   }
 
-  public btnClickGettingStarted()  {
-    this.router.navigateByUrl('/getting-started');
+  public btnClickGettingStarted() {
+    this.blandPageService.goToGettingStarted();
   }
 
 }

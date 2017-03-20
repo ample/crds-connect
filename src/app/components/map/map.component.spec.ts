@@ -25,6 +25,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import { BlandPageService } from '../../services/bland-page.service';
 
 describe('Component: Map', () => {
 
@@ -55,7 +56,8 @@ describe('Component: Map', () => {
         CookieService,
         Angulartics2,
         ContentService,
-        LoginRedirectService
+        LoginRedirectService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);

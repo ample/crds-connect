@@ -5,15 +5,14 @@ import { Observable } from 'rxjs/Observable';
 
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
+import { StateService } from '../services/state.service';
+import { BlandPageService } from '../services/bland-page.service';
+import { IFrameParentService } from './iframe-parent.service';
+
+import { Pin } from '../models/pin';
 import { User } from '../models/user';
 import { Person } from '../models/person';
-import { StateService } from '../services/state.service';
-
-
-
-
-import { IFrameParentService } from './iframe-parent.service';
-import { Pin } from '../models/pin';
+import { BlandPageDetails, BlandPageCause, BlandPageType} from '../models/bland-page-details';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -35,12 +34,11 @@ export class PinService {
     authorized: null
   };
 
-
-
   constructor(private http: Http,
     private session: SessionService,
     private router: Router,
-    private state: StateService
+    private state: StateService,
+    private blandPageService: BlandPageService
     ) {
     this.SayHiTemplateId = sayHiTemplateId;
   }
@@ -65,8 +63,15 @@ export class PinService {
 
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
-        this.router.navigate(['/member-said-hi']);
-        this.state.setLoading(false);
+
+        let memberSaidHi = new BlandPageDetails(
+          "Return to map",
+          "<div class='text text-center'>Success!</div>",
+          BlandPageType.Text,
+          BlandPageCause.Success,
+          'map'
+        );
+        this.blandPageService.primeAndGo(memberSaidHi);
         return res;
       })
       .catch((err) => Observable.throw(err.json().error));
