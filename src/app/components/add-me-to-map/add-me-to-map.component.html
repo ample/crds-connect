@@ -14,25 +14,7 @@
 <!--
 <button type="button" class="btn btn-primary" (click)="staticModal.show()">Static modal</button>
 
-<div class="modal fade"
-     bsModal
-     #staticModal="bs-modal"
-     [config]="{backdrop: false}"
-     (onShow)="showBackdrop()"
-     (onHide)="hideBackdrop()"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="mySmallModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <crds-content-block id="addMeToMapHeading"></crds-content-block>
+    <crds-content-block id="finderAddMeToMapText" class="text-center"></crds-content-block>
 
         <address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
       </div>
