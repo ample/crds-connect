@@ -31,18 +31,6 @@ export class MapContentComponent implements OnInit {
           var delta = function (a, b) { return Math.abs(a - b) };
 
           var geoBounds = undefined;
-          var elmBounds = undefined;
-          var geoToElmRatioHeight = undefined;
-          var geoToElmRatioHeight = undefined;
-
-
-          var ngGoogleMap = document.getElementsByClassName("sebm-google-map-container")[0];
-
-
-          elmBounds = ngGoogleMap.getBoundingClientRect();
-          console.log('BOUNDING RECTANGLE: ');
-          console.log(elmBounds);
-
 
           if( map.getBounds() ) {
 
@@ -52,32 +40,54 @@ export class MapContentComponent implements OnInit {
               top: map.getBounds().getNorthEast().lng().valueOf(),
               bottom: map.getBounds().getSouthWest().lng().valueOf(),
               height: delta(map.getBounds().getNorthEast().lng().valueOf(), map.getBounds().getSouthWest().lng().valueOf()),
-              width: delta(map.getBounds().getSouthWest().lat().valueOf(), map.getBounds().getNorthEast().lat().valueOf())
+              width: Math.abs(map.getBounds().getSouthWest().lat().valueOf() - map.getBounds().getNorthEast().lat().valueOf()) //delta(map.getBounds().getSouthWest().lat().valueOf(), map.getBounds().getNorthEast().lat().valueOf())
             };
-
-            geoToElmRatioHeight = geoBounds.height / elmBounds.height;
-            geoToElmRatioHeight = geoBounds.width / elmBounds.width;
-
-            console.log('GEO BOUNDS: ');
-            console.log(geoBounds);
 
           }
 
           var googleMapContent = document.getElementsByClassName("sebm-google-map-content")[0];
-          console.log(googleMapContent);
-
           var markerList = googleMapContent.getElementsByTagName("sebm-google-map-marker");
-          console.log(markerList[0] ? markerList[0] : []);
 
           var markerArray = [];
+
 
           if( markerList.length > 0 ) {
             for (var i = 0; i < markerList.length; i++ ){
               var marker = markerList[i];
               var markerLabel = marker.getAttribute("ng-reflect-label");
-              var markerLat = marker.getAttribute("ng-marker-latitude");
-              var markerLng  = marker.getAttribute("ng-marker-longitude");
+              var markerLat = marker.getAttribute("ng-reflect-latitude");
+              var markerLng  = marker.getAttribute("ng-reflect-longitude");
+              var deltaLeftSideOfMapToMarker = delta(geoBounds.left, markerLat);
+              var deltaTopOfMapToMarker = delta(geoBounds.top, markerLng);
+              var markerGeoOffsetLatPercentage = deltaLeftSideOfMapToMarker / geoBounds.width;
+              var markerGeoOffsetLngPercentage = deltaTopOfMapToMarker / geoBounds.height;
+
+                var markerObj = {
+                markerLabel: markerLabel,
+                markerLat: markerLat,
+                markerLng: markerLng,
+                markerOffsetX: deltaLeftSideOfMapToMarker,
+                markerOffsetY: deltaTopOfMapToMarker,
+                markerGeoOffsetLatPercentage: markerGeoOffsetLatPercentage,
+                markerGeoOffsetLngPercentage: markerGeoOffsetLngPercentage
+              };
+
+              markerArray.push(markerObj);
             }
+
+            var dataForDrawing = {
+              geoBounds: geoBounds,
+              markers: [markerArray[4]]//markerArray
+            };
+
+            console.log('MAP WIDTH: ' + geoBounds.width + ' MAP HEIGHT: ' +  geoBounds.height);
+            console.log('Marker distance left: ' +  dataForDrawing.markers[0].markerOffsetX + ' marker distance top: ' + dataForDrawing.markers[0].markerOffsetY);
+
+            for(var i = 0; i < dataForDrawing.markers.length; i++) {
+              console.log('Lat offset %: ' + dataForDrawing.markers[i].markerGeoOffsetLatPercentage + ' lang offset %: ' + dataForDrawing.markers[i].markerGeoOffsetLngPercentage);
+            }
+
+            this.mapHlpr.emitDataForDrawing(dataForDrawing);
           }
 
         let zoomControlOptions: any = {
