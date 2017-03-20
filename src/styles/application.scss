@@ -22,3 +22,13 @@ app-preloader {
     display: none;
   }
 }
+
+.searchbar {
+  padding: .5rem 1rem;
+
+  .row {
+    div:last-child {
+      z-index: 1;
+    }
+  }
+}
