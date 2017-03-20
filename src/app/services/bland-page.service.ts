@@ -33,6 +33,10 @@ export class BlandPageService {
         this.go();
     }
 
+    public primed() {
+        return (this.blandPageDetails !== null && this.blandPageDetails !== undefined);
+    }
+
     private go() {
         if (this.blandPageDetails.blandPageCause == BlandPageCause.Error) {
             this.router.navigate(['error']);

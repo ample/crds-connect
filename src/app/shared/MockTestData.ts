@@ -94,7 +94,8 @@ export class MockTestData {
             10,
             false,
             23,
-            this.getAParticipantsArray(numParticipantsInGathering)
+            this.getAParticipantsArray(numParticipantsInGathering),
+            30
         );
     }
 }

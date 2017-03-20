@@ -29,7 +29,6 @@ export class AddMeToMapComponent implements OnInit {
               private fb: FormBuilder,
               private hlpr: AddMeToTheMapHelperService,
               private content: ContentService,
-              private locationService: LocationService,
               private router: Router,
               private route: ActivatedRoute,
               private state: StateService) { }

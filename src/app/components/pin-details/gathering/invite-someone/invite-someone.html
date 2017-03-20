@@ -1,0 +1,54 @@
+<div class="row"><h1 class="h1">Invite someone</h1></div>
+<form novalidate [formGroup]="inviteFormGroup" (ngSubmit)="onSubmit(inviteFormGroup)">
+
+    <div class="row">
+        <!--FIRST NAME-->
+        <div class="form-group">
+            <label class="sr-only" for="firstname">First Name</label>
+            <input tabindex="1" type="text" class="form-control" maxlength="30" placeholder="First Name" id="firstname" formControlName="firstname"
+                name="firstname">
+        </div>
+    </div>
+    <div *ngIf="inviteFormGroup.controls['firstname'].touched && !inviteFormGroup.controls['firstname'].valid" class="errors">
+        <div class="alert alert-danger">
+            <p>First Name is required!</p>
+        </div>
+    </div>
+
+    <!--LAST NAME-->
+    <div class="row">
+        <div class="form-group inline-form_input">
+            <label class="sr-only" for="lastname">Last Name</label>
+            <input tabindex="2" type="text" class="form-control" maxlength="30" placeholder="Last Name" id="lastname" formControlName="lastname"
+                name="lastname">
+        </div>
+    </div>
+
+    <div *ngIf="inviteFormGroup.controls['lastname'].touched && !inviteFormGroup.controls['lastname'].valid" class="errors">
+        <div class="alert alert-danger">
+            <p>Last Name is required!</p>
+        </div>
+    </div>
+
+    <!--EMAIL-->
+    <div class="row">
+        <div class="form-group">
+            <label class="sr-only" for="email">Email</label>
+            <input tabindex="3" type="email" class="form-control" maxlength="100" placeholder="Email" id="email" formControlName="email"
+                name="email">
+        </div>
+    </div>
+
+    <div *ngIf="inviteFormGroup.controls['email'].touched && !inviteFormGroup.controls['email'].valid" class="errors">
+        <div class="alert alert-danger">
+            <p>A valid email is required!</p>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <button type="submit" [disabled]="inviteFormGroup.invalid" class="btn btn-secondary btn-block">Send Invite</button>
+    </div>
+    
+    <br>
+</form>

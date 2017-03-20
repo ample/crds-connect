@@ -1,3 +1,2 @@
 <button class="btn primary btn-primary" (click)="sayHi()">{{buttonText}}</button>
-<p *ngIf="!isGathering">Saying, "Hi," is a nice thing to do. This will send an email introduction from you to them. Connecting with and knowing the
-    people in your community is part of what this church thing is all about.</p>
+<crds-content-block *ngIf="!isGathering" id="connectSayHi"></crds-content-block>

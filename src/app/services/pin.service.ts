@@ -6,7 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { User } from '../models/user';
+import { Person } from '../models/person';
 import { StateService } from '../services/state.service';
+
 
 
 
@@ -60,10 +62,8 @@ export class PinService {
     };
 
     this.state.setLoading(true);
-
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
-        this.router.navigate(['/member-said-hi']);
         this.state.setLoading(false);
         return res;
       })
@@ -92,5 +92,9 @@ export class PinService {
 
   public requestToJoinGathering(gatheringId: number): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId)
+  }
+
+  public inviteToGathering(gatheringId: number, someone: Person): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/inviteToGathering/${gatheringId}`, someone);
   }
 }
