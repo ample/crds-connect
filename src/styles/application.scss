@@ -24,28 +24,48 @@ app-preloader {
 }
 
 // Add me to map
+app-add-me-to-map {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .fauxdal {
-  padding: 1rem;
-
   &.fauxdal-fullscreen {
-    background-color: darken($cr-blue, 20);
-    color: $cr-white;
-    display: flex;
-    flex-flow: column nowrap;
-    height: 100vh;
+    .container-fluid {
+      background-color: darken($cr-blue, 20);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
 
-    div:first-child {
-      align-self: flex-end;
-      flex: 0 0 auto;
-    }
+      a {
+        color: $cr-white;
 
-    div:last-child {
+        &:hover {
+          color: darken($cr-white, 20);
+        }
+      }
+
       address-form {
-        margin-top: 1rem;
+        display: block;
+        margin: 0 auto;
+        padding-top: 1rem;
         width: 100%;
       }
 
+      crds-content-block {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+      }
+
       @media (min-width: $screen-xs) {
+        padding: 2rem;
+
         crds-content-block {
           width: 80%;
         }
@@ -56,12 +76,6 @@ app-preloader {
       }
 
       @media (min-width: $screen-sm) {
-        align-items: center;
-        display: flex;
-        flex: 1 1 auto;
-        flex-flow: column nowrap;
-        justify-content: center;
-
         crds-content-block {
           width: 70%;
         }

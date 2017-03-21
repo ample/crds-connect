@@ -1,14 +1,18 @@
 <div class="fauxdal fauxdal-fullscreen">
-  <div>
-    <a class="pointer" (click)="closeClick()">
-      <svg class="icon" viewBox="0 0 256 256">
-        <use href="/assets/svgs/icons.svg#close"></use>
-      </svg>
-    </a>
-  </div>
+  <div class="container-fluid">
+    <div class="pull-right">
+      <a class="pointer" (click)="closeClick()">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use href="/assets/svgs/icons.svg#close"></use>
+        </svg>
+      </a>
+    </div>
 
-  <div>
-    <crds-content-block id="finderAddMeToMapText" class="text-center"></crds-content-block>
-    <address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
+    <br>
+
+    <div>
+      <crds-content-block id="finderAddMeToMapText"></crds-content-block>
+      <address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
+    </div>
   </div>
 </div>
