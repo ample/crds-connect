@@ -32,6 +32,9 @@ import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
+import { GeoCoordinates } from '../../models/geo-coordinates';
+import { Pin } from '../../models/pin';
+import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
 describe('Component: Neighbors', () => {
 
@@ -77,8 +80,21 @@ describe('Component: Neighbors', () => {
 
   });
 
-it('should create an instance', () => {
+  it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should init map with existing results', () => {
+    this.component.haveResults = true;
+    this.component.ngOnInit();
+    expect(this.component.pinSearchResults).toBeTruthy();
+  });
+
+  it('should init map and get new results', () => {
+    this.component.haveResults = false;
+    this.fixture.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(0, 0), new Array<Pin>());
+    this.component.ngOnInit();
+    expect(this.component.pinSearchResults).toBeTruthy();
   });
 
 });

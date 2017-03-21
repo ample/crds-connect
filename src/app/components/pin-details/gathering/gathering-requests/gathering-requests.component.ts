@@ -78,4 +78,8 @@ export class GatheringRequestsComponent implements OnInit {
         this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);
       });
   }
+
+  public getInquiries() {
+    return this.inquiries;
+  }
 }

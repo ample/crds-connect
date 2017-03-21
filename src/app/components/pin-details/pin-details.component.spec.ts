@@ -34,6 +34,7 @@ import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someon
 
 
 import { PinDetailsComponent } from './pin-details.component';
+import { ContentBlockModule } from 'crds-ng2-content-block';
 
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -83,7 +84,8 @@ describe('Component: Pin-Details component', () => {
           InviteSomeoneComponent
         ],
         imports: [
-          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+          ContentBlockModule.forRoot({ categories: ['common'] })
         ],
         providers: [
           {
@@ -98,7 +100,6 @@ describe('Component: Pin-Details component', () => {
           CookieService,
           PinService,
           Angulartics2,
-          ContentService,
           LoginRedirectService,
           AddMeToTheMapHelperService,
           LocationService,
@@ -228,7 +229,8 @@ describe('Component: Pin-Details component', () => {
           InviteSomeoneComponent
         ],
         imports: [
-          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+          ContentBlockModule.forRoot({ categories: ['common'] })
         ],
         providers: [
           {
@@ -243,7 +245,6 @@ describe('Component: Pin-Details component', () => {
           CookieService,
           PinService,
           Angulartics2,
-          ContentService,
           LoginRedirectService,
           AddMeToTheMapHelperService,
           LocationService,

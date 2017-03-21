@@ -52,7 +52,7 @@
     <p class="font-size-smaller">Or <a routerLink="/register">register for an account</a>.</p>
 
     <footer class="page-footer">
-      <a routerLink="/" class="btn btn-gray pull-left">Back</a>
+      <a (click) = "back();" class="btn btn-gray pull-left">Back</a>
       <input type="submit"
               class="btn btn-primary pull-right"
               (click)="submitLogin();"
