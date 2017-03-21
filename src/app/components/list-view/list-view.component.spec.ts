@@ -28,6 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 
 describe('Component: List View', () => {
@@ -61,7 +62,8 @@ describe('Component: List View', () => {
         Angulartics2,
         ContentService,
         LoginRedirectService,
-        GoogleMapService
+        GoogleMapService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);

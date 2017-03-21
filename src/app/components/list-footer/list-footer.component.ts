@@ -7,6 +7,7 @@ import { ContentService } from '../../services/content.service';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { UserState } from '../../shared/constants';
+import { BlandPageService } from '../../services/bland-page.service';
 
 @Component({
   selector: 'list-footer',
@@ -25,7 +26,8 @@ export class ListFooterComponent implements OnInit {
               private router: Router,
               private session: SessionService,
               private state: StateService,
-              private content: ContentService) {}
+              private content: ContentService,
+              private blandPageService: BlandPageService) {}
 
   public ngOnInit(): void {}
 
@@ -46,7 +48,7 @@ export class ListFooterComponent implements OnInit {
 
   public whatsAHostBtnClicked()  {
     this.state.setCurrentView('list');
-    this.router.navigateByUrl('/whats-a-host');
+    this.blandPageService.goToWhatsAHost();
   }
 
 }

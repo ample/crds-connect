@@ -22,7 +22,6 @@ import { AuthenticationComponent } from './components/authentication/authenticat
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
-import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
@@ -34,7 +33,6 @@ import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
-import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
 import { ParticipantCardComponent } from './components/pin-details/participants-list/participant-card/participant-card.component';
@@ -46,7 +44,6 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { WhatsAHostComponent } from  './components/whats-a-host/whats-a-host.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { APIService } from './services/api.service';
@@ -74,10 +71,11 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
+import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { GettingStartedGuard } from './route-guards/getting-started-guard';
 
 import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
-import { MemberSaidHiComponent } from './components/member-said-hi/member-said-hi.component';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
@@ -113,7 +111,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     FormatPaymentNumberDirective,
     GatheringComponent,
     GatheringRequestsComponent,
-    GettingStartedComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
     ListViewComponent,
@@ -122,10 +119,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
-    MemberSaidHiComponent,
     NeighborsComponent,
     NoResultsComponent,
-    NowAPinComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     ParticipantsListComponent,
@@ -138,7 +133,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RegisterComponent,
     SayHiComponent,
     SearchBarComponent,
-    WhatsAHostComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
@@ -153,6 +147,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
+    GettingStartedGuard,
     IFrameParentService,
     ListHelperService,
     LoginRedirectService,
@@ -165,7 +160,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     StateService,
     StoreService,
     UserLocationService,
-    UserDataResolver
+    UserDataResolver,
+    WhatsAHostGuard
   ],
   bootstrap: [AppComponent]
 })

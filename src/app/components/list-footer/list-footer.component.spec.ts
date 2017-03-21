@@ -10,6 +10,7 @@ import { ListFooterComponent } from './list-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 describe('Component: List Footer', () => {
 
@@ -27,7 +28,8 @@ describe('Component: List Footer', () => {
         ContentService,
         ListHelperService,
         StateService,
-        SessionService
+        SessionService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(ListFooterComponent);
