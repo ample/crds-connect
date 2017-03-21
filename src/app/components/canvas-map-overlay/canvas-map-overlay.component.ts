@@ -20,12 +20,23 @@ export class CanvasMapOverlayComponent implements OnInit {
               private router: Router,
               private state: StateService) {
 
+    mapHlpr.mapClearEmitter.subscribe(() => {
+      console.log('CLEAR MAP EVENT RECEIVED');
+
+      let ctx: CanvasRenderingContext2D =
+          this.canvasRef.nativeElement.getContext('2d');
+
+      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    });
+
     mapHlpr.dataForDrawingEmitter.subscribe(testData => {
       console.log('CANVAS GOT TEST DATA: ');
       console.log(testData);
 
       let ctx: CanvasRenderingContext2D =
           this.canvasRef.nativeElement.getContext('2d');
+
+      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
       var geoBounds = testData.geoBounds;
       let canvBounds = this.canvasRef.nativeElement.getBoundingClientRect();

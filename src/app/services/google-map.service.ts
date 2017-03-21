@@ -7,14 +7,14 @@ import { GeoCoordinates } from '../models/geo-coordinates';
 export class GoogleMapService {
 
   public mapUpdatedEmitter: EventEmitter<GeoCoordinates>;
-  //public mapSizeSetEmitter: EventEmitter<string>;
+  public mapClearEmitter: EventEmitter<void>;
   public dataForDrawingEmitter: EventEmitter<any>;
 
   public didUserAllowGeoLoc: boolean;
 
   constructor() {
     this.mapUpdatedEmitter = new EventEmitter<GeoCoordinates>();
-    //this.mapSizeSetEmitter = new EventEmitter<string>();
+    this.mapClearEmitter = new EventEmitter<void>();
     this.dataForDrawingEmitter = new EventEmitter<any>();
   }
 
@@ -22,9 +22,9 @@ export class GoogleMapService {
     this.mapUpdatedEmitter.emit(coords);
   }
 
-  // public emitMapSizeSet(mapSize: string): void {
-  //   this.mapSizeSetEmitter.emit('lol');
-  // }
+  public emitClearMap(): void {
+    this.mapClearEmitter.emit();
+  }
 
   public emitDataForDrawing(data: any): void {
     this.dataForDrawingEmitter.emit(data);

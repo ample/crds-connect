@@ -38,8 +38,8 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         sebmMarker = sebmMarker.value;
         if (sebmMarker.iconUrl.endsWith("PERSON.png") ||
             sebmMarker.iconUrl.endsWith("GATHERING.png")) {
-          let promise = this.markerManager.getNativeMarker(sebmMarker)
-          promises.push(promise)
+          let promise = this.markerManager.getNativeMarker(sebmMarker);
+          promises.push(promise);
           promise.then(marker => {
             markers.push(marker);
           })
@@ -48,6 +48,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       Promise.all(promises).then(() => {
         this.cluster = new MarkerClusterer(map, markers, options);
       })
+
     })
   }
 }
