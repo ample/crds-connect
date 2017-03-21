@@ -31,6 +31,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import { BlandPageService } from '../../services/bland-page.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -70,7 +71,8 @@ describe('Component: Neighbors', () => {
         CookieService,
         Angulartics2,
         ContentService,
-        LoginRedirectService
+        LoginRedirectService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);

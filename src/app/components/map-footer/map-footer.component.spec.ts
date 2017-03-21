@@ -7,6 +7,7 @@ import { ListHelperService } from '../../services/list-helper.service';
 import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../services/state.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 describe('Component: Map Footer', () => {
 
@@ -21,7 +22,8 @@ describe('Component: Map Footer', () => {
       ],
       providers: [
         ListHelperService,
-        StateService
+        StateService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(MapFooterComponent);

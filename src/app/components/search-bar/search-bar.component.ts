@@ -37,7 +37,7 @@ export class SearchBarComponent  {
 
   public onSearch(searchString: string) {
     if (searchString !== null && searchString.length > 0) {
-      this.search.emit(this.searchText);
+      this.search.emit(searchString);
       this.searchText = '';
     }
   }

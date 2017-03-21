@@ -13,6 +13,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../../services/state.service';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ContentService } from '../../../services/content.service';
+import { BlandPageService } from '../../../services/bland-page.service';
 
 
 import { Angulartics2 } from 'angulartics2';
@@ -62,7 +63,8 @@ describe('SayHiComponent', () => {
                 Angulartics2,
                 LoginRedirectService,
                 APIService,
-                ContentService
+                ContentService,
+                BlandPageService
             ],
             imports: [RouterTestingModule.withRoutes([]), HttpModule],
             schemas: [NO_ERRORS_SCHEMA]

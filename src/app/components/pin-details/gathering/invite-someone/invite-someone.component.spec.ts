@@ -33,7 +33,7 @@ describe('InviteSomeoneComponent', () => {
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGathering']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['setBlandPageDetailsAndGo']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
 
 
@@ -82,9 +82,9 @@ describe('InviteSomeoneComponent', () => {
             'Return to my pin',
             '<h1 class="h1 text-center">Invite sent</h1>' +
             `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
-            `pin-details/${participantId}`,
             BlandPageType.Text,
-            BlandPageCause.Success
+            BlandPageCause.Success,
+            `pin-details/${participantId}`
         );
         (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.of({}));
         comp.gatheringId = gatheringId;
@@ -95,7 +95,7 @@ describe('InviteSomeoneComponent', () => {
         
         expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
         expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
-        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(blandPageDetails);
+        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
     it('should fail to submit', () => {
