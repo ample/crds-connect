@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="isFauxModal">
     <p class='pull-right text-left text-block'> 
         <a (click)='close()'>
             <span class="glyphicon glyphicon-remove"> </span>
@@ -11,4 +11,4 @@
 </div>
 <br>
 
-<input type="button" class="btn btn-secondary btn-block" (click)="close();" value="{{blandPageDetails.buttonText}}">
+<input type="button" class="btn btn-secondary btn-block" (click)="go();" value="{{blandPageDetails.buttonText}}">

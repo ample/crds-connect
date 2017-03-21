@@ -18,6 +18,7 @@ import { AddMeToMapComponent } from './add-me-to-map.component';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { PinService } from '../../services/pin.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -43,7 +44,8 @@ describe('Component: Add Me to the Map', () => {
         LocationService,
         ContentService,
         SessionService,
-        StateService
+        StateService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);

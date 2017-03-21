@@ -55,12 +55,12 @@ export class GatheringComponent implements OnInit {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.blandPageService.setBlandPageDetailsAndGo(new BlandPageDetails(
+          this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
             'gatheringJoinRequestSent',
-            '',
             BlandPageType.ContentBlock,
-            BlandPageCause.Success
+            BlandPageCause.Success,
+            ''
           ));
         },
         failure => {
@@ -69,11 +69,11 @@ export class GatheringComponent implements OnInit {
             bpd = new BlandPageDetails(
               'Back',
               '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-              'pin-details/' + this.pin.participantId,
               BlandPageType.Text,
-              BlandPageCause.Error
+              BlandPageCause.Error,
+              'pin-details/' + this.pin.participantId
             );
-            this.blandPageService.setBlandPageDetailsAndGo(bpd);
+            this.blandPageService.primeAndGo(bpd);
           } else {
             this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
           }

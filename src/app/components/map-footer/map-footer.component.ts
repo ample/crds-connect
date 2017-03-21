@@ -2,6 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StateService } from '../../services/state.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 @Component({
   selector: 'app-map-footer',
@@ -12,7 +13,8 @@ export class MapFooterComponent {
 
 
   constructor(private router: Router,
-              private state: StateService) { }
+              private state: StateService,
+              private blandPageService: BlandPageService) { }
 
   public myPinBtnClicked()  {
     this.state.setCurrentView('map');
@@ -21,7 +23,7 @@ export class MapFooterComponent {
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
-    this.router.navigateByUrl('/getting-started');
+    this.blandPageService.goToGettingStarted();
   }
 }
 
