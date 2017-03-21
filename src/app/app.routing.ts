@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { ListViewComponent } from './components/list-view/list-view.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -22,7 +23,14 @@ import { GettingStartedGuard } from './route-guards/getting-started-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
 const appRoutes: Routes = [
-  { path: '', component: NeighborsComponent },
+  {
+    path: '',
+    component: NeighborsComponent,
+    children: [{
+        path: 'list',
+        component: ListViewComponent
+      }]
+  },
   { path: 'add-me-to-the-map',
     component: AddMeToMapComponent,
     canActivate: [
@@ -32,33 +40,33 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
-  { path: 'error', 
+  { path: 'error',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ] 
+    ]
   },
-  { path: 'success', 
+  { path: 'success',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ] 
+    ]
   },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
-  { path: 'getting-started', 
+  { path: 'getting-started',
     component: BlandPageComponent,
     canActivate: [
       GettingStartedGuard
-    ] 
+    ]
   },
-  { path: 'whats-a-host', 
+  { path: 'whats-a-host',
     component: BlandPageComponent,
     canActivate: [
       WhatsAHostGuard
-    ] 
+    ]
   },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },

@@ -10,7 +10,7 @@ import { UserLocationService } from  '../../services/user-location.service';
 
 @Component({
   selector: 'app-listview',
-  templateUrl: 'list-view.component.html'
+  template: 'list-view.component.html'
 })
 export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;

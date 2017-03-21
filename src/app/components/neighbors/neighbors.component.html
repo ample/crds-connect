@@ -6,6 +6,12 @@
 <br>
 <div *ngIf="mapViewActive">
   <div *ngIf="!isMapHidden">
+
+    <div id="something" style="position: absolute; z-index: 10000; background: red; color: #FFF; display: block; width: 20%; height: 300px;">
+      <a routerLink="/list">Show the List</a>
+      <router-outlet></router-outlet>
+    </div>
+
     <app-map [searchResults]="pinSearchResults"></app-map>
   </div>
 </div>
