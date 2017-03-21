@@ -69,5 +69,13 @@ describe('Component: Search Bar', () => {
     expect(this.component.buttontext).toBe('Map');
   });
 
+  it('should emit search event', (done) => {
+    this.component.search.subscribe( g => {
+      expect(g).toEqual('Phil Is Cool!');
+      done();
+    });
+    this.component.onSearch('Phil Is Cool!');
+  });
+
 });
 
