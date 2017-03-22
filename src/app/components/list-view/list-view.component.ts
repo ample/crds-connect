@@ -3,6 +3,7 @@ import { ListFooterComponent } from '../list-footer/list-footer.component';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { APIService } from '../../services/api.service';
+import { StateService } from '../../services/state.service';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -18,13 +19,14 @@ export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
 
   public showing_increment : number = 10;
-  public showing : number = 10;
 
   constructor( private userLocationService: UserLocationService,
                private api: APIService,
-               private neighborsHelperService: NeighborsHelperService) {
+               private neighborsHelperService: NeighborsHelperService,
+               private stateService: StateService) {
+
       neighborsHelperService.changeEmitter.subscribe(() => {
-      this.showing = 10;
+        stateService.setShowingPinCount(10);
     })
   }
 
@@ -38,10 +40,23 @@ export class ListViewComponent implements OnInit {
   }
 
   public pinsToShow(): Pin[] {
-    return this.searchResults.pinSearchResults.filter((item, index) => index < this.showing)
+    let showing : number = this.stateService.getShowingPinCount();
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing)
+  }
+
+  public pinsToShowCountings() {
+    let showing : number = this.stateService.getShowingPinCount();
+    if (this.searchResults && (this.searchResults.pinSearchResults.length < showing)) {
+      showing = this.searchResults.pinSearchResults.length;
+    }
+    if (showing === 1) {
+      return "1 'roadie";
+    } else {
+      return showing+" 'roadies";
+    }
   }
 
   public showMore() {
-    this.showing += this.showing_increment;
+    this.stateService.setShowingPinCount(this.stateService.getShowingPinCount() + this.showing_increment);
   }
 }

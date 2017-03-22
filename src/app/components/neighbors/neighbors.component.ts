@@ -62,9 +62,8 @@ export class NeighborsComponent implements OnInit {
         this.state.setLoading(false);
         if (this.mapViewActive) {
           this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
-        } else {
-          this.neighborsHelper.emitChange()
         }
+        this.neighborsHelper.emitChange();
 
         this.isMapHidden = true;
         setTimeout(() => {

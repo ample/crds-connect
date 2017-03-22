@@ -78,10 +78,6 @@ describe('Component: List View', () => {
   });
 
   describe('paging values', () => {
-    it('should be initialized to show 10', () => {
-      expect(this.component.showing).toEqual(10);
-    });
-
     it('should be set up to increment by 10', () => {
       expect(this.component.showing_increment).toEqual(10);
     });
