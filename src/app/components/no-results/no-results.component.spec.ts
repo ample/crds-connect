@@ -46,11 +46,11 @@ describe('Component: NoResults', () => {
       expect(this.component).toBeTruthy();
   });
 
-  it('should navigate to neighbors on button click', inject([Router], (router: Router) => {
+  it('should navigate to add me to map on button click', inject([Router], (router: Router) => {
     const spy = spyOn(router, 'navigateByUrl');
     element.click();
     const navArgs = spy.calls.first().args[0];
-    expect(navArgs).toMatch('/neighbors');
+    expect(navArgs).toMatch('/add-me-to-the-map');
   }));
 
 });
