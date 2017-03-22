@@ -20,7 +20,7 @@ export class ListHelperService {
     if ( !isUserLoggedIn ) {
       userState = UserState.NotLoggedIn;
     } else if ( !isUserOnMap ) {
-      userState = UserState.LoggedIn_NotOnMap
+      userState = UserState.LoggedIn_NotOnMap;
     } else {
       userState = UserState.LoggedIn_OnMap;
     }

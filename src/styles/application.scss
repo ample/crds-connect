@@ -112,3 +112,12 @@ app-add-me-to-map {
   }
 }
 
+.searchbar {
+  padding: .5rem 1rem;
+
+  .row {
+    div:last-child {
+      z-index: 1;
+    }
+  }
+}

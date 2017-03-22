@@ -39,7 +39,9 @@ export class MockTestData {
                 'state' + designator.toString(),
                 '17272',
                 123123123,
-                123123123
+                123123123,
+                'US',
+                'CountyCounty'
             )
     }
 

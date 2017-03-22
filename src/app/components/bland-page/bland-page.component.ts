@@ -24,8 +24,8 @@ export class BlandPageComponent implements OnInit {
 
     ngOnInit() {
         this.blandPageDetails = this.blandPageService.getBlandPageDetails();
-        this.isFauxModal = this.blandPageDetails.blandPageCause == BlandPageCause.SimpleFauxdal;
-        if (this.blandPageDetails.blandPageType == BlandPageType.ContentBlock) {
+        this.isFauxModal = this.blandPageDetails.blandPageCause === BlandPageCause.SimpleFauxdal;
+        if (this.blandPageDetails.blandPageType === BlandPageType.ContentBlock) {
             this.contentBlock = true;
         } else {
             this.contentBlock = false;
@@ -35,7 +35,6 @@ export class BlandPageComponent implements OnInit {
 
     close() {
         let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
-        
         this.router.navigate(['/' + state]);
     }
 
