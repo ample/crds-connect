@@ -48,6 +48,7 @@ export class InviteSomeoneComponent implements OnInit {
                     let bpd = new BlandPageDetails(
                         'Return to my pin',
                         '<h1 class="h1 text-center">Invite sent</h1>' +
+                        // tslint:disable-next-line:max-line-length
                         `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
                         BlandPageType.Text,
                         BlandPageCause.Success,
@@ -59,7 +60,7 @@ export class InviteSomeoneComponent implements OnInit {
                 failure => {
                     this.state.setLoading(false);
                 }
-            )
+            );
         }
     }
 }

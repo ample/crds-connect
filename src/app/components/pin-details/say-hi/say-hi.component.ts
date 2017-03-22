@@ -19,7 +19,7 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 export class SayHiComponent implements OnInit {
 
   @Input() isGathering: boolean = false;
-  @Input() buttonText: string = "";
+  @Input() buttonText: string = '';
   @Input() user: User;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
@@ -57,7 +57,7 @@ export class SayHiComponent implements OnInit {
         ret => {
           this.user = ret;
           this.pinService.sendHiEmail(this.user, this.pin).subscribe(
-            ret => {
+            out => {
               this.blandPageService.primeAndGo(bpd);
             },
             err => {
@@ -71,8 +71,7 @@ export class SayHiComponent implements OnInit {
         }
       );
 
-    }
-    else {
+    } else {
       this.pinService.sendHiEmail(this.user, this.pin).subscribe(
         ret => {
           this.blandPageService.primeAndGo(bpd);

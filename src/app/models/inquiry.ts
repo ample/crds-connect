@@ -10,7 +10,7 @@ export class Inquiry {
     contactId: number;
     message: string;
 
-    constructor($groupId: number, $email: string, $phoneNumber: string, $firstName: string, $lastName: string, $requestDate: Date, 
+    constructor($groupId: number, $email: string, $phoneNumber: string, $firstName: string, $lastName: string, $requestDate: Date,
                 $placed: boolean, $inquiryId: number, $contactId: number, $message: string) {
             this.groupId = $groupId;
             this.emailAddress = $email;
