@@ -43,9 +43,9 @@ export class ListViewComponent implements OnInit {
       showing = this.searchResults.pinSearchResults.length;
     }
     if (showing === 1) {
-      return "1 'roadie";
+      return "1 result";
     } else {
-      return showing+" 'roadies";
+      return showing+" results";
     }
   }
 
