@@ -12,7 +12,7 @@ export class BlandPageGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     if (!this.blandPageService.primed()) {
-      this.router.navigate(['/map']);
+      this.router.navigate(['']);
       return false;
     } else {
       return true;

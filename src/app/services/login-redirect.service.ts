@@ -3,7 +3,7 @@ import { Router, NavigationExtras } from '@angular/router';
 
 @Injectable()
 export class LoginRedirectService {
-  private DefaultAuthenticatedRoute = '/map';
+  private DefaultAuthenticatedRoute = '';
   private SigninRoute = '/signin';
 
   private originalTarget: string;
