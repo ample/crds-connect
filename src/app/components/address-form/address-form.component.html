@@ -4,14 +4,8 @@
     <div class="row">
         <div class="form-group">
             <label class="sr-only" for="addressLine1">Address Line 1</label>
-            <input tabindex="1"
-                   type="text"
-                   class="form-control"
-                   maxlength="75"
-                   placeholder="Address Line 1"
-                   id = "addressLine1"
-                   formControlName="addressLine1"
-                   name="addressLine1">
+            <input tabindex="1" type="text" class="form-control" maxlength="75" placeholder="Address Line 1" id="addressLine1" formControlName="addressLine1"
+                name="addressLine1">
         </div>
     </div>
 
@@ -25,14 +19,8 @@
     <div class="row">
         <div class="form-group">
             <label class="sr-only" for="addressLine2">Address Line 2</label>
-            <input tabindex="2"
-                   type="text"
-                   class="form-control"
-                   maxlength="75"
-                   placeholder="Address Line 2"
-                   id = "addressLine2"
-                   formControlName="addressLine2"
-                   name="addressLine2">
+            <input tabindex="2" type="text" class="form-control" maxlength="75" placeholder="Address Line 2" id="addressLine2" formControlName="addressLine2"
+                name="addressLine2">
         </div>
     </div>
 
@@ -46,15 +34,8 @@
     <div class="row">
         <div class="form-group">
             <label class="sr-only" for="city">City2</label>
-            <input tabindex="3"
-                   type="text"
-                   class="form-control"
-                   onlyTheseKeys="[a-zA-Z\-\.]"
-                   maxlength="22"
-                   placeholder="City"
-                   id = "city"
-                   formControlName="city"
-                   name="city">
+            <input tabindex="3" type="text" class="form-control" onlyTheseKeys="[a-zA-Z\-\.]" maxlength="22" placeholder="City" id="city"
+                formControlName="city" name="city">
         </div>
     </div>
     <div *ngIf="addressFormGroup.controls['city'].touched && !addressFormGroup.controls['city'].valid" class="errors">
@@ -68,11 +49,7 @@
         <!--STATE-->
         <div class="form-group inline-form__input">
             <label class="sr-only" for="state">State</label>
-            <select formControlName="state"
-                    class="form-control override-styles-for-dropdown"
-                    placeholder="State"
-                    tabindex="4"
-                    id = "state">
+            <select formControlName="state" class="form-control override-styles-for-dropdown" placeholder="State" tabindex="4" id="state">
                 <option *ngFor="let state of stateList" [value]="state">
                     {{state}}
                 </option>
@@ -82,17 +59,37 @@
         <!--ZIP-->
         <div class="form-group inline-form__input">
             <label class="sr-only" for="zip">Zip Code</label>
-            <input tabindex="5"
-                   type="tel"
-                   onlyTheseKeys="[0-9\-]"
-                   class="form-control"
-                   maxlength="10"
-                   placeholder="Zip Code"
-                   formControlName="zip"
-                   id = "zip"
-                   name="zip"
-                   pattern="^(\d{5}|\d{5}-\d{4})$">
+            <input tabindex="5" type="tel" onlyTheseKeys="[0-9\-]" class="form-control" maxlength="10" placeholder="Zip Code" formControlName="zip"
+                id="zip" name="zip" pattern="^(\d{5}|\d{5}-\d{4})$">
         </div>
+    </div>
+
+    <!--Hidden Fields-->
+    <div [hidden]="true">
+        <!--Country-->
+        <div class="row">
+            <div class="form-group">
+                <label class="sr-only" for="foreignCountry">Country</label>
+                <input tabindex="11" type="text" class="form-control" onlyTheseKeys="[a-zA-Z\-\.]" maxlength="22" placeholder="foreignCountry" id="foreignCountry"
+                    formControlName="foreignCountry" name="foreignCountry">
+            </div>
+        </div>
+
+        <!--County-->
+    <div class="row">
+        <div class="form-group">
+            <label class="sr-only" for="county">County</label>
+            <input tabindex="12"
+                   type="text"
+                   class="form-control"
+                   onlyTheseKeys="[a-zA-Z\-\.]"
+                   maxlength="22"
+                   placeholder="County"
+                   id = "county"
+                   formControlName="county"
+                   name="county">
+        </div>
+    </div>
     </div>
 
     <div class="errors" *ngIf="( addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid )
@@ -117,7 +114,9 @@
 
     <div *ngIf="submissionError">
         <div class="alert alert-danger">
-            <p><span [innerHTML]="content.getContent('generalError')"></span></p>
+            <p>
+                <crds-content-block id="generalError"></crds-content-block>
+            </p>
         </div>
     </div>
 

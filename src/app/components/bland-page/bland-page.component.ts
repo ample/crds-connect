@@ -35,7 +35,6 @@ export class BlandPageComponent implements OnInit {
 
     close() {
         let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
-        
         this.router.navigate(['/' + state]);
     }
 
