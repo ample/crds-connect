@@ -28,7 +28,7 @@ export class LoginRedirectService {
         this.redirectFunction = null;
         tempFunc();
       } else {
-        this.router.navigate([this.originalTarget], { skipLocationChange: true });
+        this.router.navigate([this.originalTarget], { skipLocationChange: false });
       }
     } else {
       this.router.navigate([target]);

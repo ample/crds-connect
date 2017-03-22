@@ -28,7 +28,7 @@ describe('LoginRedirectService', () => {
     it('should navigate to original target if there is one', () => {
       fixture['originalTarget'] = '/some/protected/page';
       fixture.redirectToTarget('/dont/go/here');
-      expect(router.navigate).toHaveBeenCalledWith(['/some/protected/page'], { skipLocationChange: true });
+      expect(router.navigate).toHaveBeenCalledWith(['/some/protected/page'], { skipLocationChange: false });
     });
 
     it('should navigate to default if no original target or specified target', () => {

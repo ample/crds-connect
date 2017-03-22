@@ -73,6 +73,7 @@ export class SessionService {
 
     if (this.hasToken()) {
       this.refreshTimeout = Observable.timer(expiration).subscribe(() => {
+        this.clearTokens();
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
       });
     }

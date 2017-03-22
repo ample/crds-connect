@@ -96,6 +96,7 @@ describe('Service: Session', () => {
       });
 
       spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
+      spyOn(service.cookieService, 'remove').and.returnValue(true);
 
       const result = service.get(url);
       result.subscribe(res => {
