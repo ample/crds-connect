@@ -31,14 +31,21 @@ export class NeighborsComponent implements OnInit {
     let haveResults = !!this.pinSearchResults;
     if (!haveResults) {
       this.state.setLoading(true);
+      this.setView( this.state.getCurrentView() );
+console.log('STATE 1');      
+console.log(this.state.getCurrentView());
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-          this.doSearch('useLatLng', pos.lat, pos.lng );
-          this.setView( this.state.getCurrentView() );
+          this.doSearch('useLatLng', pos.lat, pos.lng );    
+console.log('STATE 3');      
+console.log(this.state.getCurrentView());                  
         }
       );
     } else { this.setView( this.state.getCurrentView() ); }
+console.log('STATE 2');      
+console.log(this.state.getCurrentView());          
+   // this.setView(this.state.getCurrentView());
   }
 
   setView(mapOrListView): void {
@@ -47,6 +54,7 @@ export class NeighborsComponent implements OnInit {
 
   viewChanged(isMapViewActive: boolean) {
     this.mapViewActive = isMapViewActive;
+    // set view here? on state
   }
 
   doSearch(searchString: string, lat?: number, lng?: number) {
