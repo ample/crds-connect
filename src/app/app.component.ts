@@ -12,13 +12,7 @@ import { StateService } from './services/state.service';
     <div [ngClass]="{'loading': state.is_loading}">
       <app-preloader></app-preloader>
       <div class="outlet-wrapper">
-        <div class="app-header">
-          <div class="app-logo">
-            <svg viewBox="0 0 75 15">
-              <use xlink:href="/assets/brandbanner-logo-connect.svg#brandbanner-logo-connect"></use>
-            </svg>
-          </div>
-        </div>
+        <app-header></app-header>
         <router-outlet></router-outlet>
       </div>
     </div>`,
