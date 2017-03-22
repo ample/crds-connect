@@ -8,8 +8,6 @@ import { StateService } from '../../services/state.service';
 })
 export class HeaderComponent {
 
-  // Toggle brand bar with this.state.hasBrandBar = true/false;
-
   constructor(private state: StateService) {}
 
 }

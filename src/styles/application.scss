@@ -23,23 +23,16 @@ app-preloader {
   }
 }
 
-.searchbar {
-  padding: .5rem 1rem;
-
-  .row {
-    div:last-child {
-      z-index: 1;
-    }
-  }
-}
-
 .app-header {
   position: relative;
-  height: 2.5rem;
   z-index: 1;
-  background-image: url('/assets/brandbanner-bg.jpg');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
+
+  .brand-bar {
+    height: 2.5rem;
+    background-image: url('/assets/brandbanner-bg.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+  }
 
   .app-logo {
     display: inline-block;
@@ -53,6 +46,21 @@ app-preloader {
       width: 75px;
       height: 15px;
       padding: 0;
+    }
+  }
+
+  .searchbar {
+    background-color: $cr-blue;
+    padding: .5rem 1rem;
+
+    .row {
+      div:last-child {
+        z-index: 1;
+      }
+    }
+
+    .btn-primary {
+      @include crds-button-variant($cr-white, $cr-blue-dark, $cr-blue-dark);
     }
   }
 }
