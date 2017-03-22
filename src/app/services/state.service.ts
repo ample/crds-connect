@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class StateService {
 
+  public hasBrandBar: boolean = true;
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
 
