@@ -30,14 +30,7 @@ export class ListViewComponent implements OnInit {
     })
   }
 
-  public ngOnInit(): void {
-    if (!this.searchResults) {
-      this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-        }
-      );
-    };
-  }
+  public ngOnInit(): void {}
 
   public pinsToShow(): Pin[] {
     let showing : number = this.stateService.getShowingPinCount();
