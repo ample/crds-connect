@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Router } from '@angular/router';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { Observable, Subscription } from 'rxjs';
+import { LoginRedirectService } from './login-redirect.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class SessionService {
@@ -8,10 +12,13 @@ export class SessionService {
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
   private cookieOptions: CookieOptionsArgs;
+  private SessionLengthMilliseconds = 1800000;
+  private refreshTimeout: Subscription;
 
   private readonly contactId: string = 'userId';
 
-  constructor(private http: Http, private cookieService: CookieService) {
+  constructor(private http: Http, private cookieService: CookieService, private router: Router,
+  private loginRedirectService: LoginRedirectService) {
     if (process.env.CRDS_COOKIE_DOMAIN) {
       this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
     }
@@ -33,12 +40,15 @@ export class SessionService {
   }
 
   private extractAuthToken = (res: Response) => {
-    if (res.headers != null && res.headers.get('Authorization')) {
-      this.setAccessToken(res.headers.get('Authorization'));
+    let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
+    this.cookieOptions.expires = expiration;
+
+    if (res.headers != null && res.headers.get('sesssionId')) {
+      this.setAccessToken(res.headers.get('sessionId'));
     }
 
-    if (res.headers != null && res.headers.get('RefreshToken')) {
-      this.setRefreshToken(res.headers.get('RefreshToken'));
+    if (res.headers != null && res.headers.get('refreshToken')) {
+      this.setRefreshToken(res.headers.get('refreshToken'));
     }
 
     let body: any;
@@ -54,6 +64,17 @@ export class SessionService {
     }
     if (body != null && body.refreshToken) {
       this.setRefreshToken(body.refreshToken);
+    }
+
+     if (this.refreshTimeout) {
+      this.refreshTimeout.unsubscribe();
+      this.refreshTimeout = undefined;
+    }
+
+    if (this.hasToken()) {
+      this.refreshTimeout = Observable.timer(expiration).subscribe(() => {
+        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      });
     }
 
     return body || {};
@@ -101,6 +122,7 @@ export class SessionService {
   private createAuthorizationHeader(headers?: Headers) {
     let reqHeaders =  headers || new Headers();
     reqHeaders.set('Authorization', this.getAccessToken());
+    reqHeaders.set('RefreshToken', this.getRefreshToken());
     reqHeaders.set('Content-Type', 'application/json');
     reqHeaders.set('Accept', 'application/json, text/plain, */*');
     return reqHeaders;

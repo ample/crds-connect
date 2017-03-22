@@ -19,8 +19,8 @@ export class ParticipantCardComponent {
   }
 
   public showMeLabel(): boolean {
-      let contactId = this.session.getContactId()
-        return contactId === this.participant.contactId;
+      let contactId = this.session.getContactId();
+      return contactId === this.participant.contactId;
   }
 
   public showHostLabel(): boolean {
