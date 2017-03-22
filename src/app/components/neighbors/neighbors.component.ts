@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { GoogleMapService } from '../../services/google-map.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
 
@@ -23,6 +24,7 @@ export class NeighborsComponent implements OnInit {
 
   constructor(private api: APIService,
               private mapHlpr: GoogleMapService,
+              private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
               private userLocationService: UserLocationService) {}
@@ -60,6 +62,8 @@ export class NeighborsComponent implements OnInit {
         this.state.setLoading(false);
         if (this.mapViewActive) {
           this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
+        } else {
+          this.neighborsHelper.emitChange()
         }
 
         this.isMapHidden = true;

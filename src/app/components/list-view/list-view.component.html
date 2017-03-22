@@ -2,21 +2,29 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <h3>{{searchResults?.pinSearchResults.length}} people</h3>
+      <h3>{{ pinsToShow().length }} people</h3>
     </div>
   </div>
 
-  <list-entry *ngFor="let pin of searchResults?.pinSearchResults"
-    [firstName] = "pin.firstName"
-    [lastName] = "pin.lastName"
-    [siteName] = "pin.siteName"
-    [type] = "pin.pinType"
-    [proximity] = "pin.proximity"
-    [description] = "pin.gathering ? pin.gathering.groupDescription : '' "
-    [participantId] = "pin.participantId"
-    [address] = "pin.address"
-    [participantCount] = "pin.gathering ? pin.gathering.Participants.length : 0 ">
-  </list-entry>
+  <div class="list-container">
+    <list-entry *ngFor="let pin of pinsToShow()"
+      [firstName] = "pin.firstName"
+      [lastName] = "pin.lastName"
+      [siteName] = "pin.siteName"
+      [type] = "pin.pinType"
+      [proximity] = "pin.proximity"
+      [description] = "pin.gathering ? pin.gathering.groupDescription : '' "
+      [participantId] = "pin.participantId"
+      [address] = "pin.address"
+      [participantCount] = "pin.gathering ? pin.gathering.Participants.length : 0 ">
+    </list-entry>
+
+    <div class="show-more col-xs-offset-4 col-xs-4" *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length">
+      <button type="submit" class="btn btn-secondary" (click)="showMore()">
+        More, Please
+      </button>
+    </div>
+  </div>
 
   <list-footer [pins]="searchResults.pinSearchResults" ></list-footer>
 
