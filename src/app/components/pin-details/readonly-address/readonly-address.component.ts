@@ -18,7 +18,7 @@ export class ReadonlyAddressComponent implements OnInit {
   constructor() {}
 
   public ngOnInit() {
-    if ((this.isGathering && this.isInGathering) || (this.isPinOwner)){
+    if ((this.isGathering && this.isInGathering) || (this.isPinOwner)) {
       this.showFullAddress = true;
     }
   }

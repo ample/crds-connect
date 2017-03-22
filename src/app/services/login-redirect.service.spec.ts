@@ -13,7 +13,7 @@ describe('LoginRedirectService', () => {
   describe('#redirectToLogin', () => {
     it('should store a default target and navigate to login page', () => {
       fixture.redirectToLogin();
-      expect(fixture['originalTarget']).toEqual('/map');
+      expect(fixture['originalTarget']).toEqual('');
       expect(router.navigate).toHaveBeenCalledWith(['/signin']);
     });
 
@@ -34,7 +34,7 @@ describe('LoginRedirectService', () => {
     it('should navigate to default if no original target or specified target', () => {
       fixture['originalTarget'] = undefined;
       fixture.redirectToTarget();
-      expect(router.navigate).toHaveBeenCalledWith(['/map']);
+      expect(router.navigate).toHaveBeenCalledWith(['']);
     });
 
     it('should navigate to specified target if no original target', () => {

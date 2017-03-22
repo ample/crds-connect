@@ -5,17 +5,15 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { BlandPageService } from '../services/bland-page.service';
 
 @Injectable()
-export class BlandPageGuard implements CanActivate {
+export class WhatsAHostGuard implements CanActivate {
 
   constructor(private blandPageService: BlandPageService,
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
     if (!this.blandPageService.primed()) {
-      this.router.navigate(['']);
-      return false;
-    } else {
-      return true;
+      this.blandPageService.primeWhatsAHost()
     }
+      return true;
   }
 }

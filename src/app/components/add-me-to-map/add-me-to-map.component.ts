@@ -1,9 +1,9 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ContentService } from '../../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
+import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
@@ -13,6 +13,8 @@ import { Pin } from '../../models/pin';
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 import { Address } from '../../models/address';
 import { usStatesList } from '../../shared/constants';
+import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
+
 
 
 @Component({
@@ -29,10 +31,10 @@ export class AddMeToMapComponent implements OnInit {
   constructor(private api: APIService,
               private fb: FormBuilder,
               private hlpr: AddMeToTheMapHelperService,
-              private content: ContentService,
               private router: Router,
               private route: ActivatedRoute,
-              private state: StateService) { }
+              private state: StateService,
+              private blandPageService: BlandPageService) { }
 
 
   public ngOnInit(): void {
@@ -43,12 +45,19 @@ export class AddMeToMapComponent implements OnInit {
   public onSubmit(value) {
     if (value) {
       this.state.setCurrentView('map');
-      this.router.navigate(['/now-a-pin']);
+      let nowAPin = new BlandPageDetails(
+        'See for yourself',
+        'nowAPin',
+        BlandPageType.ContentBlock,
+        BlandPageCause.Success,
+        'map',
+      );
+      this.blandPageService.primeAndGo(nowAPin);
     }
   }
 
   public closeClick()  {
-    this.router.navigate(['/map']);
+    this.router.navigate(['']);
   }
 
 }

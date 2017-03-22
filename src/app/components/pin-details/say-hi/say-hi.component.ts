@@ -5,19 +5,21 @@ import { Router } from '@angular/router';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { APIService } from '../../../services/api.service';
+import { BlandPageService } from '../../../services/bland-page.service';
 
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
 @Component({
   selector: 'say-hi',
   templateUrl: 'say-hi.html'
 })
-export class SayHiComponent {
+export class SayHiComponent implements OnInit {
 
   @Input() isGathering: boolean = false;
-  @Input() buttonText: string = "";
+  @Input() buttonText: string = '';
   @Input() user: User;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
@@ -26,7 +28,8 @@ export class SayHiComponent {
     private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
     private api: APIService,
-    private router: Router) { }
+    private router: Router,
+    private blandPageService: BlandPageService) { }
 
 
   ngOnInit() {
@@ -42,13 +45,20 @@ export class SayHiComponent {
   }
 
   public sendSayHi() {
+    let bpd = new BlandPageDetails(
+          'Return to map',
+          '<div class="container"><div class="row text-center"><h3>Host contacted</h3></div></div>',
+          BlandPageType.Text,
+          BlandPageCause.Success,
+          ''
+        );
     if (!this.user) {
       this.api.getUserData().subscribe(
         ret => {
           this.user = ret;
           this.pinService.sendHiEmail(this.user, this.pin).subscribe(
-            ret => {
-              this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
+            out => {
+              this.blandPageService.primeAndGo(bpd);
             },
             err => {
               // redirect to error page
@@ -61,11 +71,10 @@ export class SayHiComponent {
         }
       );
 
-    }
-    else {
+    } else {
       this.pinService.sendHiEmail(this.user, this.pin).subscribe(
         ret => {
-          this.router.navigate(['/member-said-hi']); // Change this to generic confirmation page component
+          this.blandPageService.primeAndGo(bpd);
         },
         err => {
           // redirect to error page

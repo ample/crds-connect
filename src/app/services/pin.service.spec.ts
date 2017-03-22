@@ -2,6 +2,7 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { PinService } from './pin.service';
+import { BlandPageService } from './bland-page.service';
 import { SessionService } from './session.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from './state.service';
@@ -30,7 +31,8 @@ describe('Service: PinService', () => {
           useFactory: (backend, options) => new Http(backend, options),
           deps: [MockBackend, BaseRequestOptions]
         },
-        StateService
+        StateService,
+        BlandPageService
       ]
     });
   });

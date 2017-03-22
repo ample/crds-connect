@@ -11,7 +11,7 @@ describe('Service: Add me to the Map Helper', () => {
     const mockContactIdOnMap: number  = 111;
     const mockContactIdNotInPinArray: number   = 333;
     const mockUndefinedContactId: number = undefined;
-    const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0);
+    const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
     const mockPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222,
                             mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
     const mockPinArray: Array<Pin> = [mockPin];

@@ -14,6 +14,7 @@ import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { PinService } from '../../services/pin.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 import { HostApplicationComponent } from './host-application.component';
 
@@ -42,7 +43,8 @@ describe('Component: Host Application', () => {
         Angulartics2,
         ContentService,
         LoginRedirectService,
-        PinService
+        PinService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(HostApplicationComponent);

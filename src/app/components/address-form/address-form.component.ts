@@ -1,12 +1,10 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter  } from '@angular/core';
-import { ContentService } from '../../services/content.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-import { LocationService } from '../../services/location.service';
 import { LookupTable } from '../../models/lookup-table';
 
 import { Pin } from '../../models/pin';
@@ -35,10 +33,6 @@ export class AddressFormComponent implements OnInit {
     constructor(private api: APIService,
         private fb: FormBuilder,
         private hlpr: AddMeToTheMapHelperService,
-        private content: ContentService,
-        private locationService: LocationService,
-        private router: Router,
-        private route: ActivatedRoute,
         private state: StateService) { }
 
 
@@ -51,7 +45,9 @@ export class AddressFormComponent implements OnInit {
             addressLine2: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine2')),
             city: new FormControl(this.hlpr.getStringField(this.userData, 'city'), [Validators.required]),
             state: new FormControl(this.userData.address.state, [Validators.required]),
-            zip: new FormControl(this.hlpr.getStringField(this.userData, 'zip'), [Validators.required])
+            zip: new FormControl(this.hlpr.getStringField(this.userData, 'zip'), [Validators.required]),
+            foreignCountry: new FormControl(this.hlpr.getStringField(this.userData, 'foreignCountry')),
+            county: new FormControl(this.hlpr.getStringField(this.userData, 'county'))
         });
 
     }

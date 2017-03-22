@@ -24,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 describe('Component: Search Bar', () => {
 
@@ -51,7 +52,8 @@ describe('Component: Search Bar', () => {
         CookieService,
         Angulartics2,
         ContentService,
-        LoginRedirectService
+        LoginRedirectService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(SearchBarComponent);
@@ -67,6 +69,14 @@ describe('Component: Search Bar', () => {
     expect(this.component.buttontext).toBe(undefined);
     this.component.toggleView();
     expect(this.component.buttontext).toBe('Map');
+  });
+
+  it('should emit search event', (done) => {
+    this.component.search.subscribe( g => {
+      expect(g).toEqual('Phil Is Cool!');
+      done();
+    });
+    this.component.onSearch('Phil Is Cool!');
   });
 
 });
