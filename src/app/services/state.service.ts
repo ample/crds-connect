@@ -11,7 +11,6 @@ export class StateService {
   }
 
   public setCurrentView(view: string) {
-    console.log('Setting Current View in STATE Service: ' + view);
     this.mapOrListView = view;
   }
 
