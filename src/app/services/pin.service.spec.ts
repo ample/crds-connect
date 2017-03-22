@@ -1,41 +1,40 @@
-/* tslint:disable:no-unused-variable */
+/*
+ * Testing a Service
+ * More info: https://angular.io/docs/ts/latest/guide/testing.html
+ */
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { PinService } from './pin.service';
-import { BlandPageService } from './bland-page.service';
-import { SessionService } from './session.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { StateService } from './state.service';
+
+import {SessionService} from './session.service';
+import {StateService} from './state.service';
+import {BlandPageService} from './bland-page.service';
+
 import { User } from '../models/user';
 import { Pin } from '../models/pin';
 
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { CookieService } from 'angular2-cookie/core';
-
-describe('Service: PinService', () => {
+describe('PinService', () => {
+  let service, mockSessionService, mockStateService, mockBlandPageService;
+  
+  mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post']);
+  mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+  mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([])
-      ],
       providers: [
         PinService,
-        SessionService,
-        MockBackend,
-        BaseRequestOptions,
-        CookieService,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        StateService,
-        BlandPageService
+        { provider: SessionService, useValue: mockSessionService },
+        { provider: StateService, useValue: mockStateService },
+        { provider: BlandPageService, useValue: mockBlandPageService },
       ]
     });
   });
+
+  // you can also wrap inject() with async() for asynchronous tasks
+  // it('...', async(inject([...], (...) => {}));
+
+
 
   it('should create an instance', inject([PinService], (service: PinService) => {
     expect(service).toBeTruthy();
@@ -54,5 +53,4 @@ describe('Service: PinService', () => {
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);
     expect(actual.Community_Member_Email).toBe(expected.Community_Member_Email);
   }));
-
 });

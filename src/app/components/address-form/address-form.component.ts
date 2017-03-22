@@ -2,7 +2,7 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
+import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LookupTable } from '../../models/lookup-table';
@@ -30,7 +30,7 @@ export class AddressFormComponent implements OnInit {
     public submissionError: boolean = false;
 
 
-    constructor(private api: APIService,
+    constructor(private pinService: PinService,
         private fb: FormBuilder,
         private hlpr: AddMeToTheMapHelperService,
         private state: StateService) { }
@@ -58,7 +58,7 @@ export class AddressFormComponent implements OnInit {
 
         let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData);
 
-        this.api.postPin(pinToSubmit).subscribe(
+        this.pinService.postPin(pinToSubmit).subscribe(
             next => {
                 this.save.emit(true);
             },

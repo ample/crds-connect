@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
+import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
@@ -21,7 +21,7 @@ export class NeighborsComponent implements OnInit {
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
 
-  constructor(private api: APIService,
+  constructor(private pinService: PinService,
               private mapHlpr: GoogleMapService,
               private router: Router,
               private state: StateService,
@@ -51,7 +51,7 @@ export class NeighborsComponent implements OnInit {
 
   doSearch(searchString: string, lat?: number, lng?: number) {
     this.state.setLoading(true);
-    this.api.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
+    this.pinService.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.pinSearchResults.pinSearchResults =
