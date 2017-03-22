@@ -9,6 +9,7 @@ export class GoogleMapService {
   public mapUpdatedEmitter: EventEmitter<GeoCoordinates>;
   public mapClearEmitter: EventEmitter<void>;
   public dataForDrawingEmitter: EventEmitter<any>;
+  public clusterMarkersEmitter: EventEmitter<any>;
 
   public didUserAllowGeoLoc: boolean;
 
@@ -16,6 +17,7 @@ export class GoogleMapService {
     this.mapUpdatedEmitter = new EventEmitter<GeoCoordinates>();
     this.mapClearEmitter = new EventEmitter<void>();
     this.dataForDrawingEmitter = new EventEmitter<any>();
+    this.clusterMarkersEmitter = new EventEmitter<any>();
   }
 
   public emitRefreshMap(coords: GeoCoordinates): void {
@@ -28,6 +30,10 @@ export class GoogleMapService {
 
   public emitDataForDrawing(data: any): void {
     this.dataForDrawingEmitter.emit(data);
+  }
+
+  public emitClusterMarkerData(data: any): void {
+    this.clusterMarkersEmitter.emit(data);
   }
 
   public setDidUserAllowGeoLoc(value: boolean): void {
