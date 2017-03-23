@@ -59,10 +59,12 @@ export class PinService {
   //this should probably go on the PinSearchResultsDTO as a function named AddPinToPinSearchResults
   private addPinToCache(pin: Pin): void {
     //adds a new pin to the pin results array
-    if (this.cached){
+    if (this.cached()){
       this.pinsCache.pinSearchResults.push(pin);
     } else {
-      this.pinsCache = new PinSearchResultsDto(new GeoCoordinates(0,0), new Array<Pin>(pin));
+      let pinArray = new Array<Pin>();
+      pinArray.push(pin)
+      this.pinsCache = new PinSearchResultsDto(new GeoCoordinates(0,0),pinArray);
     }
   }
 
@@ -71,7 +73,7 @@ export class PinService {
     let cachedPins: PinSearchResultsDto;
     let pin: Pin;
 
-    if (this.cached) {
+    if (this.cached()) {
       cachedPins = this.getCache();
       pin = cachedPins.pinSearchResults.find(pin => {
         return pin.participantId == participantId;
@@ -81,16 +83,17 @@ export class PinService {
       }
     }
     
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/${participantId}`)
-      .map((res: Response) => this.addPinToCache(res.json()))
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/${participantId}`)      
+      .do((res: Response) => this.addPinToCache(res.json() as Pin))
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error || 'Server error'));
 
   }
 
   public getPinDetailsByContactId(contactId: number): Observable<Pin> {
     return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
       .map((res: Response) => res.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }
 
   public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number)
@@ -127,7 +130,7 @@ export class PinService {
           "<div class='text text-center'>Success!</div>",
           BlandPageType.Text,
           BlandPageCause.Success,
-          'map'
+          ''
         );
         this.blandPageService.primeAndGo(memberSaidHi);
         return res;

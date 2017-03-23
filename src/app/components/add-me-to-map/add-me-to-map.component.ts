@@ -49,7 +49,7 @@ export class AddMeToMapComponent implements OnInit {
         'nowAPin',
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
-        'map',
+        '',
       );
       this.blandPageService.primeAndGo(nowAPin);
     }
