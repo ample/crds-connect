@@ -31,11 +31,11 @@ export class NeighborsComponent implements OnInit {
     let haveResults = !!this.pinSearchResults;
     if (!haveResults) {
       this.state.setLoading(true);
+      this.setView( this.state.getCurrentView() );
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
           this.doSearch('useLatLng', pos.lat, pos.lng );
-          this.setView( this.state.getCurrentView() );
         }
       );
     } else { this.setView( this.state.getCurrentView() ); }
