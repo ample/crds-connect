@@ -21,7 +21,7 @@ export class CanvasMapOverlayComponent implements OnInit {
               private state: StateService) {
 
     mapHlpr.mapClearEmitter.subscribe(() => {
-      console.log('CLEAR MAP EVENT RECEIVED');
+      //console.log('CLEAR MAP EVENT RECEIVED');
 
       let ctx: CanvasRenderingContext2D =
           this.canvasRef.nativeElement.getContext('2d');
@@ -30,8 +30,8 @@ export class CanvasMapOverlayComponent implements OnInit {
     });
 
     mapHlpr.dataForDrawingEmitter.subscribe(testData => {
-      console.log('CANVAS GOT TEST DATA: ');
-      console.log(testData);
+      //console.log('CANVAS GOT TEST DATA: ');
+      //console.log(testData);
 
       let ctx: CanvasRenderingContext2D =
           this.canvasRef.nativeElement.getContext('2d');
@@ -45,8 +45,8 @@ export class CanvasMapOverlayComponent implements OnInit {
       var tenthHeight = cHeight/10;
       var tenthWidth = cWidth/10;
 
-      console.log('Canvas width: ' + canvBounds.width);
-      console.log('Canvas height: ' + canvBounds.height);
+      //console.log('Canvas width: ' + canvBounds.width);
+      //console.log('Canvas height: ' + canvBounds.height);
 
       //Draw grid lines
       for ( var j=1; j<10; j++ ) {

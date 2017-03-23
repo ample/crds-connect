@@ -706,11 +706,85 @@ MarkerClusterer.prototype.repaint = function () {
 };
 
 
+MarkerClusterer.prototype.isMarkerInCluster = function(marker, clusters){
+
+  console.log('---');
+  console.log('IS MARKER IN CLUSTER, MARKER: ');
+  console.log(marker);
+  var isMarkerInCluster = false;
+
+  console.log('CLUSTERS: ');
+  console.log(clusters);
+
+  console.log('Iterating through individual clusters: ');
+  for(var i = 0; i<clusters.length; i++){
+    var indClusterMarkers = clusters[i].markers_;
+
+    console.log('Specific cluster and markers ' + i + ': ');
+    console.log(clusters[i]);
+    console.log(indClusterMarkers);
+
+    var isFalseCluster = indClusterMarkers.length < 2;
+
+    console.log('Markers in cluster length: ' + indClusterMarkers.length + ' continue? ' + isFalseCluster);
+    if( isFalseCluster ) { continue; }
+    console.log('Iterating through markers in cluster');
+
+    for(var j = 0; j<indClusterMarkers.length; j++){
+      var markerInCluster = indClusterMarkers[j];
+      console.log('Marker in cluster to compare: ');
+      console.log(markerInCluster);
+      if(markerInCluster.label == marker.label){
+        console.log('Marker is in cluster!!');
+        isMarkerInCluster = true;
+      }
+    }
+  }
+
+  console.log('Returning isMarkerInCluster: ' + isMarkerInCluster);
+  return isMarkerInCluster;
+};
+
 /**
  * Redraws the clusters.
  */
 MarkerClusterer.prototype.redraw = function () {
+
+
+  if (!this.ready_) {
+    return;
+  }
+
+  var mapBounds = new google.maps.LatLngBounds(this.map_.getBounds().getSouthWest(),
+      this.map_.getBounds().getNorthEast());
+  var bounds = this.getExtendedBounds(mapBounds);
+
+  var markersNotInBounds = [];
+
   this.createClusters_();
+
+  console.log(this.markers_);
+  console.log(this.clusters_);
+
+  for (var i = 0, marker; marker = this.markers_[i]; i++) {
+    if (!this.isMarkerInCluster(marker, this.clusters_)) {
+      markersNotInBounds.push(marker);
+    }
+
+    // if (true/*!this.isMarkerInBounds_(marker, bounds)*/ ) {
+    //   markersNotInBounds.push(marker);
+    // }
+  }
+
+  var event = new CustomEvent('redrawingClusters');
+
+  var evntPayload = {
+    'markersNotInClusters': markersNotInBounds, //this.markers_,
+    'clusters': this.clusters_
+  };
+
+  event.data = evntPayload;
+  document.dispatchEvent(event, {'detail': evntPayload});
 };
 
 
