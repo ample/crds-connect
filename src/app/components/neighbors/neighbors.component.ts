@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
 
@@ -23,6 +24,7 @@ export class NeighborsComponent implements OnInit {
 
   constructor(private pinService: PinService,
               private mapHlpr: GoogleMapService,
+              private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
               private userLocationService: UserLocationService) {}
@@ -31,11 +33,11 @@ export class NeighborsComponent implements OnInit {
     let haveResults = !!this.pinSearchResults;
     if (!haveResults) {
       this.state.setLoading(true);
+      this.setView( this.state.getCurrentView() );
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
           this.doSearch('useLatLng', pos.lat, pos.lng );
-          this.setView( this.state.getCurrentView() );
         }
       );
     } else { this.setView( this.state.getCurrentView() ); }
@@ -61,6 +63,7 @@ export class NeighborsComponent implements OnInit {
         if (this.mapViewActive) {
           this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
         }
+        this.neighborsHelper.emitChange();
 
         this.isMapHidden = true;
         setTimeout(() => {
