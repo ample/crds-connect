@@ -17,6 +17,7 @@ import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { GoogleMapService } from '../../services/google-map.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { ListHelperService } from '../../services/list-helper.service';
@@ -63,6 +64,7 @@ describe('Component: Neighbors', () => {
         PinService,
         IFrameParentService,
         GoogleMapService,
+        NeighborsHelperService,
         StoreService,
         StateService,
         ListHelperService,
