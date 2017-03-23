@@ -27,7 +27,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
   ngAfterContentInit() {
     this.wrapper.getNativeMap().then(map => {
       let clusterStyle = [{
-        url: '/assets/CLUSTER.png',
+        url: '/assets/CLUSTER.svg',
         height: 53,
         width: 53,
         textColor: '#fff'
@@ -35,6 +35,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       let options = {
         averageCenter: true,
         imagePath: '/assets/CLUSTER',
+        imageExtension: 'svg',
         styles: clusterStyle
       };
       let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();
@@ -43,8 +44,8 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       let sebmMarker;
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;
-        if (sebmMarker.iconUrl.endsWith("PERSON.png") ||
-            sebmMarker.iconUrl.endsWith("GATHERING.png")) {
+        if (sebmMarker.iconUrl.endsWith("PERSON.svg") ||
+            sebmMarker.iconUrl.endsWith("GATHERING.svg")) {
           let promise = this.markerManager.getNativeMarker(sebmMarker)
           promises.push(promise)
           promise.then(marker => {

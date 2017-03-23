@@ -63,11 +63,11 @@ export class MapComponent implements OnInit {
   public getStringByPinType(type) {
     switch (type) {
       case pinType.PERSON:
-        return '/assets/PERSON.png';
+        return '/assets/PERSON.svg';
       case pinType.GATHERING:
-        return '/assets/GATHERING.png';
+        return '/assets/GATHERING.svg';
       default:
-        return '/assets/SITE.png';
+        return '/assets/SITE.svg';
     }
   }
 
