@@ -24,10 +24,9 @@ export class ListViewComponent implements OnInit {
                private api: APIService,
                private neighborsHelperService: NeighborsHelperService,
                private stateService: StateService) {
-
-      neighborsHelperService.changeEmitter.subscribe(() => {
-        stateService.setShowingPinCount(10);
-    })
+    neighborsHelperService.changeEmitter.subscribe(() => {
+      stateService.setShowingPinCount(10);
+    });
   }
 
   public ngOnInit(): void {}
@@ -43,9 +42,9 @@ export class ListViewComponent implements OnInit {
       showing = this.searchResults.pinSearchResults.length;
     }
     if (showing === 1) {
-      return "1 result";
+      return '1 result';
     } else {
-      return showing+" results";
+      return showing+' results';
     }
   }
 
