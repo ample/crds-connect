@@ -170,7 +170,6 @@ describe('Service: Session', () => {
     it('should setup timer if logged in',  inject([SessionService], (service: any) => { 
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
-      service['sessionTimeout'] = 1000;
       spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
       spyOn(service.cookieService, 'remove').and.callThrough();
 
@@ -186,7 +185,6 @@ describe('Service: Session', () => {
       service.setRefreshToken('refreshToken');
       let subscription = jasmine.createSpyObj<Subscription>('subscription', ['unsubscribe']);
       service['refreshTimeout'] = subscription;
-      service['sessionTimeout'] = 1000;
       spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
       spyOn(service.cookieService, 'remove').and.callThrough();
 
