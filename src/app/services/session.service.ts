@@ -26,23 +26,20 @@ export class SessionService {
 
   public get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    return this.http.get(url, requestOptions).map(this.extractAuthToken);
+    return this.http.get(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
   public put(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    return this.http.put(url, data, requestOptions).map(this.extractAuthToken);
+    return this.http.put(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
   public post(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    return this.http.post(url, data, requestOptions).map(this.extractAuthToken);
+    return this.http.post(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
-  private extractAuthToken = (res: Response) => {
-    let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
-    this.cookieOptions.expires = expiration;
-
+  private extractAuthTokenAndUnwrapBody = (res: Response) => {
     if (res.headers != null && res.headers.get('sesssionId')) {
       this.setAccessToken(res.headers.get('sessionId'));
     }
@@ -66,7 +63,16 @@ export class SessionService {
       this.setRefreshToken(body.refreshToken);
     }
 
-     if (this.refreshTimeout) {
+    this.setCookieTimeout();
+
+    return body || {};
+  }
+
+  public setCookieTimeout() {
+    let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
+    this.cookieOptions.expires = expiration;
+
+    if (this.refreshTimeout) {
       this.refreshTimeout.unsubscribe();
       this.refreshTimeout = undefined;
     }
@@ -77,8 +83,6 @@ export class SessionService {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
       });
     }
-
-    return body || {};
   }
 
   public hasToken(): boolean {

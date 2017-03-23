@@ -165,4 +165,38 @@ describe('Service: Session', () => {
     expect(contactId).toBe(12345);
   }));
 
+  describe('Service: Session cookie timeouts', () => {
+
+    it('should setup timer if logged in',  inject([SessionService], (service: any) => { 
+      service.setAccessToken('token');
+      service.setRefreshToken('refreshToken');
+      service['sessionTimeout'] = 1000;
+      spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
+      spyOn(service.cookieService, 'remove').and.callThrough();
+
+      expect(service['refreshTimeout']).toBeUndefined();
+      service.setCookieTimeout();
+      expect(service['refreshTimeout']).toBeDefined();
+      expect(service.cookieService.remove.calls.count()).toBe(2);
+      expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
+    }));
+
+    it('should unsubscribe old Observable when creating a new timer',  inject([SessionService], (service: any) => { 
+      service.setAccessToken('token');
+      service.setRefreshToken('refreshToken');
+      let subscription = jasmine.createSpyObj<Subscription>('subscription', ['unsubscribe']);
+      service['refreshTimeout'] = subscription;
+      service['sessionTimeout'] = 1000;
+      spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
+      spyOn(service.cookieService, 'remove').and.callThrough();
+
+      service.setCookieTimeout();
+      expect(service['refreshTimeout']).toBeDefined();
+      expect(service.cookieService.remove.calls.count()).toBe(2);
+      expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
+      expect(subscription.unsubscribe).toHaveBeenCalled();
+    }));
+  });
+
+
 });
