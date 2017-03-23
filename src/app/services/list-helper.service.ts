@@ -13,7 +13,11 @@ export class ListHelperService {
 
     let isUserLoggedIn: boolean = userContactId != null || userContactId != undefined || !isNaN(userContactId);
 
-    let userPinByContactId: Pin = pins.find(pin => pin.contactId === userContactId);
+    let userPinByContactId: Pin;
+
+    if (pins != undefined || pins != null) {
+      userPinByContactId =  pins.find(pin => pin.contactId === userContactId);
+    }
 
     let isUserOnMap: boolean = userPinByContactId != undefined;
 
