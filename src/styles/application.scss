@@ -23,6 +23,95 @@ app-preloader {
   }
 }
 
+// Add me to map
+app-add-me-to-map {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.fauxdal {
+  &.fauxdal-fullscreen {
+    .container-fluid {
+      background-color: darken($cr-blue, 20);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      a {
+        color: $cr-white;
+
+        &:hover {
+          color: darken($cr-white, 20);
+        }
+      }
+
+      address-form {
+        display: block;
+        margin: 0 auto;
+        padding-top: 1rem;
+        width: 100%;
+      }
+
+      crds-content-block {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      @media (min-width: $screen-xs) {
+        padding: 2rem;
+
+        crds-content-block {
+          width: 80%;
+        }
+
+        address-form {
+          width: 60%;
+        }
+      }
+
+      @media (min-width: $screen-sm) {
+        crds-content-block {
+          width: 70%;
+        }
+
+        address-form {
+          width: 50%;
+        }
+      }
+
+      @media (min-width: $screen-md) {
+        crds-content-block {
+          width: 60%;
+        }
+
+        address-form {
+          width: 40%;
+        }
+      }
+
+      @media (min-width: $screen-lg) {
+        crds-content-block {
+          width: 40%;
+        }
+
+        address-form {
+          width: 25%;
+        }
+      }
+    }
+  }
+
+  .title {
+    color: $cr-white;
+  }
+}
+
 .searchbar {
   padding: .5rem 1rem;
 

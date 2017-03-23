@@ -5,6 +5,7 @@ export class StateService {
 
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
+  private showingPinCount: number = 10;
 
   public setLoading(val: boolean) {
     this.is_loading = val;
@@ -16,5 +17,13 @@ export class StateService {
 
   public getCurrentView(): string {
     return this.mapOrListView;
+  }
+
+  public setShowingPinCount(count: number) {
+    this.showingPinCount = count;
+  }
+
+  public getShowingPinCount() {
+    return this.showingPinCount;
   }
 }
