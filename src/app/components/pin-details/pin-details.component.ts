@@ -1,5 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PlatformLocation } from '@angular/common';
@@ -22,6 +22,7 @@ import { User } from '../../models/user';
 })
 export class PinDetailsComponent implements OnInit {
 
+  @Input() pin: Pin;
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
@@ -29,7 +30,6 @@ export class PinDetailsComponent implements OnInit {
   public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
-  public pin: Pin;
   public isGatheringPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
@@ -51,7 +51,6 @@ export class PinDetailsComponent implements OnInit {
 
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
-
 
     if (this.pin.gathering !== null && this.pin.gathering !== undefined) {
       this.isGatheringPin = true;

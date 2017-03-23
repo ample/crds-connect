@@ -61,13 +61,13 @@ export class SayHiComponent implements OnInit {
               this.blandPageService.primeAndGo(bpd);
             },
             err => {
-              // redirect to error page
+              this.sendHiError(err);
             }
 
           );
         },
         err => {
-
+          this.getUserError(err);
         }
       );
 
@@ -77,11 +77,19 @@ export class SayHiComponent implements OnInit {
           this.blandPageService.primeAndGo(bpd);
         },
         err => {
-          // redirect to error page
+          this.sendHiError(err);
         }
 
       );
     }
+  }
+
+  private sendHiError(err) {
+
+  }
+
+  private getUserError(err) {
+
   }
 
 }
