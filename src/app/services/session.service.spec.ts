@@ -8,6 +8,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { Router } from '@angular/router';
 import { LoginRedirectService } from './login-redirect.service';
 import { Observable, Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 describe('Service: Session', () => {
   let mockLoginRedirectService;
@@ -167,7 +168,11 @@ describe('Service: Session', () => {
 
   describe('Service: Session cookie timeouts', () => {
 
-    it('should setup timer if logged in',  inject([SessionService], (service: any) => { 
+    it('should work', inject([SessionService], (service: SessionService) => {
+      service.setCookieTimeout();
+    }));
+
+    it('should setup timer if logged in',  inject([SessionService], (service: any) => {
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
       spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
@@ -180,7 +185,7 @@ describe('Service: Session', () => {
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
     }));
 
-    it('should unsubscribe old Observable when creating a new timer',  inject([SessionService], (service: any) => { 
+    it('should unsubscribe old Observable when creating a new timer',  inject([SessionService], (service: any) => {
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
       let subscription = jasmine.createSpyObj<Subscription>('subscription', ['unsubscribe']);
