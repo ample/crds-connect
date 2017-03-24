@@ -7,6 +7,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { ContentService } from '../../services/content.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from './list-footer.component';
+import { LoginRedirectService } from '../../services/login-redirect.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
@@ -27,6 +28,7 @@ describe('Component: List Footer', () => {
         CookieService,
         ContentService,
         ListHelperService,
+        LoginRedirectService,
         StateService,
         SessionService,
         BlandPageService
