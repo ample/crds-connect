@@ -10,14 +10,16 @@ import { SelectModule } from 'angular2-select';
 
 import { APIService } from '../../services/api.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { ContentService } from '../../services/content.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { LocationService } from '../../services/location.service';
+import { LoginRedirectService } from '../../services/login-redirect.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { PinService } from '../../services/pin.service';
+import { BlandPageService } from '../../services/bland-page.service';
+import { ContentBlockModule } from 'crds-ng2-content-block';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -33,7 +35,8 @@ describe('Component: Add Me to the Map', () => {
         HttpModule,
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
-        SelectModule
+        SelectModule,
+        ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
         APIService,
@@ -41,9 +44,10 @@ describe('Component: Add Me to the Map', () => {
         AddMeToTheMapHelperService,
         CookieService,
         LocationService,
-        ContentService,
+        LoginRedirectService,
         SessionService,
-        StateService
+        StateService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);

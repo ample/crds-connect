@@ -13,14 +13,18 @@ export class ListHelperService {
 
     let isUserLoggedIn: boolean = userContactId != null || userContactId != undefined || !isNaN(userContactId);
 
-    let userPinByContactId: Pin = pins.find(pin => pin.contactId === userContactId);
+    let userPinByContactId: Pin;
+
+    if (pins != undefined || pins != null) {
+      userPinByContactId =  pins.find(pin => pin.contactId === userContactId);
+    }
 
     let isUserOnMap: boolean = userPinByContactId != undefined;
 
     if ( !isUserLoggedIn ) {
       userState = UserState.NotLoggedIn;
     } else if ( !isUserOnMap ) {
-      userState = UserState.LoggedIn_NotOnMap
+      userState = UserState.LoggedIn_NotOnMap;
     } else {
       userState = UserState.LoggedIn_OnMap;
     }

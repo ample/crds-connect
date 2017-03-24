@@ -16,7 +16,7 @@ export class PersonComponent {
   @Input() isLoggedIn: boolean = false;
   @Input() user: User;
 
-  public sayHiButtonText: string = "Say hi!";
+  public sayHiButtonText: string = 'Say hi!';
 
   constructor() {
   }

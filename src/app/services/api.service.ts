@@ -113,7 +113,8 @@ export class APIService {
       return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
         .map((res: Pin) => {
           let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
-            res.address.city, res.address.state, res.address.zip, res.address.longitude, res.address.latitude);
+            res.address.city, res.address.state, res.address.zip, res.address.longitude,
+            res.address.latitude, res.address.foreignCountry, res.address.county);
           let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
             res.firstName, res.lastName, res.emailAddress, userAddress);
           return userData;

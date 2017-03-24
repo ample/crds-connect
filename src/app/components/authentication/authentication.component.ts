@@ -24,14 +24,14 @@ export class AuthenticationComponent implements OnInit {
   public signinOption: string = 'Sign In';
   public emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
-  private forgotPasswordUrl: string;
+  private forgotPasswordUrl: string; 
   private helpUrl: string;
 
   constructor(
     private api: APIService,
     private fb: FormBuilder,
     private router: Router,
-    private redirectService: LoginRedirectService,
+    public redirectService: LoginRedirectService,
     private state: StateService,
     private store: StoreService,
     private cookieService: CookieService,
@@ -64,9 +64,8 @@ export class AuthenticationComponent implements OnInit {
         (user) => {
           this.session.setContactId(user.userId);
           this.store.loadUserData();
-          this.state.setLoading(false);
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
-          this.redirectService.redirectToTarget('host-signup');
+          this.redirectService.redirectToTarget();
         },
         (error) => {
           this.loginException = true;
@@ -82,15 +81,8 @@ export class AuthenticationComponent implements OnInit {
     return false;
   }
 
-// TODO: - currently not used - may be able to delete - using redirectService instead
-  public adv(): boolean {
-    this.state.setLoading(false);
-    this.router.navigateByUrl('host-signup');
-    return false;
-  }
-
   public back(): boolean {
-    // navigate back IF we will provide this option
+    this.redirectService.cancelRedirect();
     return false;
   }
 

@@ -5,20 +5,21 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
-import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
-import { NowAPinComponent } from './components/now-a-pin/now-a-pin.component';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { GettingStartedComponent } from './components/getting-started/getting-started.component';
-import { WhatsAHostComponent } from  './components/whats-a-host/whats-a-host.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
-import { MemberSaidHiComponent } from './components/member-said-hi/member-said-hi.component';
+
+import { BlandPageGuard } from './route-guards/bland-page-guard';
+import { LoggedInGuard } from './route-guards/logged-in-guard';
+import { GettingStartedGuard } from './route-guards/getting-started-guard';
+import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
@@ -31,15 +32,35 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
-  { path: 'error', component: BlandPageComponent },
-  { path: 'success', component: BlandPageComponent },
+  { path: 'error', 
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard
+    ] 
+  },
+  { path: 'success', 
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard
+    ] 
+  },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
-  { path: 'member-said-hi', component: MemberSaidHiComponent },
-  { path: 'now-a-pin', component: NowAPinComponent },
-  { path: 'getting-started', component: GettingStartedComponent },
+  { path: 'neighbors', component: NeighborsComponent },
+  { path: 'no-results', component: NoResultsComponent },
+  { path: 'getting-started', 
+    component: BlandPageComponent,
+    canActivate: [
+      GettingStartedGuard
+    ] 
+  },
+  { path: 'whats-a-host', 
+    component: BlandPageComponent,
+    canActivate: [
+      WhatsAHostGuard
+    ] 
+  },
   { path: 'host-signup', component: HostApplicationComponent },
-  { path: 'whats-a-host', component: WhatsAHostComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'pin-details/:participantId',

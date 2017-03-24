@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../services/location.service';
 import { PinService}  from '../services/pin.service';
+import { BlandPageService } from './bland-page.service';
 
 describe('Service: User-Location', () => {
   beforeEach(() => {
@@ -44,7 +45,8 @@ describe('Service: User-Location', () => {
           CookieService,
           Angulartics2,
           ContentService,
-          LoginRedirectService
+          LoginRedirectService,
+          BlandPageService
         ]
     });
   });
