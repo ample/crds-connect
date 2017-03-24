@@ -64,6 +64,7 @@ export class PinService {
       .map((res: any) => {
         let memberSaidHi = new BlandPageDetails(
           "Return to map",
+          '',
           "<div class='text text-center'>Success!</div>",
           BlandPageType.Text,
           BlandPageCause.Success,

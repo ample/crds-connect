@@ -1,5 +1,5 @@
 <div *ngIf="isFauxModal">
-    <p class='pull-right text-left text-block'> 
+    <p class='pull-right text-left text-block'>
         <a (click)='close()'>
             <span class="glyphicon glyphicon-remove"> </span>
         </a>
@@ -11,4 +11,10 @@
 </div>
 <br>
 
-<input type="button" class="btn btn-secondary btn-block" (click)="go();" value="{{blandPageDetails.buttonText}}">
+<div *ngFor="let butt of blandPageDetails.buttons">
+    <input type="button" class="btn btn-secondary btn-block {{butt.cssClass}}" (click)="{{butt.clickFunction();}}" value="{{butt.buttonText}}">
+</div>
+
+
+<!--<input type="button" class="btn btn-secondary btn-block" (click)="go();" value="{{blandPageDetails.successButtonText}}">
+<input type="button" class="btn btn-secondary btn-block" (click)="retry();" value="{{blandPageDetails.errorButtonText}}">-->

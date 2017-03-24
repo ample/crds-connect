@@ -41,4 +41,8 @@ export class BlandPageComponent implements OnInit {
     go() {
         this.router.navigate(['/' + this.blandPageDetails.goToState]);
     }
+
+    retry() {
+        this.router.navigate(['/' + this.blandPageDetails.goToState]);  
+    }
 }

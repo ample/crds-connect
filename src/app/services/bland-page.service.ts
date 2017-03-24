@@ -25,6 +25,7 @@ export class BlandPageService {
     public goToDefaultError(goToRoute: string) {
         this.blandPageDetails = new BlandPageDetails(
             "back",
+            '',
             "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
             BlandPageType.Text,
             BlandPageCause.Error,
@@ -51,6 +52,7 @@ export class BlandPageService {
     public primeGettingStarted(cancelRoute: string = 'map') {
         this.blandPageDetails = new BlandPageDetails(
             "Add me to map",
+            '',
             "gettingStarted",
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
@@ -66,6 +68,7 @@ export class BlandPageService {
     public primeWhatsAHost(cancelRoute: string = 'map') {
         this.blandPageDetails = new BlandPageDetails(
             "Sign up to host",
+            '',
             "whatsAHost",
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,

@@ -66,6 +66,7 @@ export class GatheringRequestsComponent implements OnInit {
         templateText += `<br/><div class="row text-center"<span>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified</span></div></div>`;
         bpd = new BlandPageDetails(
           'Return to my pin',
+          '',
           templateText,
           BlandPageType.Text,
           BlandPageCause.Success,

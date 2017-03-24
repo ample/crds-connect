@@ -19,7 +19,8 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 export class SayHiComponent implements OnInit {
 
   @Input() isGathering: boolean = false;
-  @Input() buttonText: string = '';
+  @Input() successButtonText: string = '';
+  @Input() errorButtonText: string = '';
   @Input() user: User;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
@@ -47,9 +48,19 @@ export class SayHiComponent implements OnInit {
   public sendSayHi() {
     let bpd = new BlandPageDetails(
           'Return to map',
-          '<div class="container"><div class="row text-center"><h3>Host contacted</h3></div></div>',
+          '',
+          '<div class="container"><div class="row text-center"><h3>Success!</h3></div></div>',
           BlandPageType.Text,
           BlandPageCause.Success,
+          ''
+        );
+    let bpdErr = new BlandPageDetails(
+          'Return to map',
+          'Retry Say Hi',
+          `<div class="container"><div class="row text-center"><h3>Error!</h3></div>
+            <div>An error occurred while we were trying to say hi. You can try again or return to the map.</div></div>`,
+          BlandPageType.Text,
+          BlandPageCause.Error,
           ''
         );
     if (!this.user) {
@@ -67,7 +78,7 @@ export class SayHiComponent implements OnInit {
           );
         },
         err => {
-          this.getUserError(err);
+          this.sendHiError(err);
         }
       );
 
@@ -85,11 +96,8 @@ export class SayHiComponent implements OnInit {
   }
 
   private sendHiError(err) {
-
+    // page: same as success, try again?
   }
 
-  private getUserError(err) {
-
-  }
 
 }

@@ -13,7 +13,7 @@ import { Pin } from '../../models/pin';
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 import { Address } from '../../models/address';
 import { usStatesList } from '../../shared/constants';
-import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
+import { BlandPageDetails, BlandPageCause, BlandPageType, BlandPageButtons } from '../../models/bland-page-details';
 
 
 
@@ -44,12 +44,14 @@ export class AddMeToMapComponent implements OnInit {
   public onSubmit(value) {
     if (value) {
       this.state.setCurrentView('map');
+
       let nowAPin = new BlandPageDetails(
-        'See for yourself',
         'nowAPin',
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
         'map',
+        '',
+        null
       );
       this.blandPageService.primeAndGo(nowAPin);
     }
