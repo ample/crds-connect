@@ -19,9 +19,8 @@ export class SessionService {
 
   constructor(private http: Http, private cookieService: CookieService, private router: Router,
   private loginRedirectService: LoginRedirectService) {
-    if (process.env.CRDS_COOKIE_DOMAIN) {
-      this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
-    }
+  this.cookieOptions = { domain: (process.env.CRDS_COOKIE_DOMAIN != null) ? process.env.CRDS_COOKIE_DOMAIN : '' };
+
   }
 
   public get(url: string, options?: RequestOptions) {

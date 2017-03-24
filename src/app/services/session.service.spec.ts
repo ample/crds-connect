@@ -168,10 +168,6 @@ describe('Service: Session', () => {
 
   describe('Service: Session cookie timeouts', () => {
 
-    it('should work', inject([SessionService], (service: SessionService) => {
-      service.setCookieTimeout();
-    }));
-
     it('should setup timer if logged in',  inject([SessionService], (service: any) => {
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
