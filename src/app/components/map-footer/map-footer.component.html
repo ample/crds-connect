@@ -1,18 +1,12 @@
-<div class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-6">
-        <input type="button"
-              class="btn btn-secondary btn-block"
-              value="Getting Started"
-              (click) = "gettingStartedBtnClicked()">
-      </div>
-      <div class="col-xs-6">
-        <input type="button"
-              class="btn btn-secondary btn-block"
-              value="My Pin"
-              (click) = "myPinBtnClicked()">
-      </div>
-    </div>
+<footer class="container">
+  <div class="btn-group pull-right">
+    <input type="button"
+          class="btn btn-sm btn-secondary"
+          value="Getting Started"
+          (click)="gettingStartedBtnClicked()">
+    <input type="button"
+          class="btn btn-sm btn-secondary"
+          value="My Pin"
+          (click)="myPinBtnClicked()">
   </div>
-</div>
+</footer>

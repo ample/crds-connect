@@ -128,3 +128,11 @@ sebm-google-map {
   height: calc(100vh - 69px);
   width: 100vw;
 }
+
+// Map footer
+app-map-footer {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
+

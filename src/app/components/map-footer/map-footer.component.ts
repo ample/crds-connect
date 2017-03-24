@@ -6,8 +6,7 @@ import { BlandPageService } from '../../services/bland-page.service';
 
 @Component({
   selector: 'app-map-footer',
-  templateUrl: 'map-footer.component.html',
-  styleUrls: ['map-footer.component.scss']
+  templateUrl: 'map-footer.component.html'
 })
 export class MapFooterComponent {
 
