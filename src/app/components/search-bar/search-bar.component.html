@@ -1,23 +1,15 @@
-<div class="container-fluid searchbar">
-  <div class="row">
-    <div class="col-xs-8">
-      <div class="input-group">
-        <input type="text"
-                class="form-control"
-                [(ngModel)]="searchText"
-                (keyup.enter)="onSearch(searchText)"
-                placeholder="Search by zip, city or keyword...">
-          <span class="input-group-btn">
-            <button type="submit" class="btn btn-secondary" (click)="onSearch(searchText)">
-              <svg class="icon icon-1" viewBox="0 0 256 256">
-                <use href="/assets/svgs/icons.svg#search"></use>
-              </svg>
-            </button>
-          </span>
-      </div>
-    </div>
-    <div class="col-xs-4">
-      <button type="button" class="btn btn-primary" (click)="toggleView()">{{buttontext}}</button>
-    </div>
-  </div>
+<div class="input-group">
+  <input type="text"
+          class="form-control"
+          [(ngModel)]="searchText"
+          (keyup.enter)="onSearch(searchText)"
+          placeholder="Search by zip, city or keyword...">
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-secondary" (click)="onSearch(searchText)">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use href="/assets/svgs/icons.svg#search"></use>
+        </svg>
+      </button>
+    </span>
 </div>
+<button type="button" class="btn btn-primary push-left" (click)="toggleView()">{{buttontext}}</button>

@@ -112,12 +112,25 @@ app-add-me-to-map {
   }
 }
 
-.searchbar {
+// Map searchbar
+app-search-bar {
+  background-color: $cr-blue-dark;
+  display: flex;
+  justify-content: flex-start;
   padding: .5rem 1rem;
 
-  .row {
-    div:last-child {
-      z-index: 1;
+  .input-group {
+    display: inherit;
+    flex: 1 1 auto;
+    width: auto;
+
+    .input-group-btn {
+      width: initial;
+    }
+
+    @media (min-width: $screen-xs) {
+      flex-grow: 0;
+      width: 20rem;
     }
   }
 }
