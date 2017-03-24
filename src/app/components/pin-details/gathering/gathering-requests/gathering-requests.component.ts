@@ -20,6 +20,8 @@ export class GatheringRequestsComponent implements OnInit {
 
   @Input() pin: Pin;
   private inquiries: Inquiry[] = [];
+  private errorRetrieving: boolean = false;
+  private errorAcceptingOrDenyingInquiry: boolean = true;
 
   constructor(
     private groupService: GroupService,
@@ -40,7 +42,6 @@ export class GatheringRequestsComponent implements OnInit {
       (error) => {
         this.state.setLoading(false);
         console.log(error);
-        this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId); // in-line alerts style 
       });
   }
 
@@ -84,7 +85,7 @@ export class GatheringRequestsComponent implements OnInit {
         this.blandPageService.primeAndGo(bpd); //NONONONNONNO
       }, (error) => {
         this.state.setLoading(false);
-        this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId); // inline; similar ti invalid with error message
+        this.errorAcceptingOrDenyingInquiry = true;
       });
   }
 

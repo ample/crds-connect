@@ -24,7 +24,7 @@ export class BlandPageService {
 
     public goToDefaultError(goToRoute: string) {
         let succButton = new BlandPageButton(
-            'back',
+            'Back',
             null,
             ''
         );

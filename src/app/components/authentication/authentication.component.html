@@ -3,40 +3,24 @@
 
   <hr class="flush-top">
 
-  <form [formGroup]="form"
-        action="/"
-        (ngSubmit)="submitLogin();"
-        novalidate>
+  <form [formGroup]="form" action="/" (ngSubmit)="submitLogin();" novalidate>
     <div class="form-group">
       <label class="sr-only" for="email">Email</label>
-      <input class="form-control"
-              type="email"
-              placeholder="Email"
-              name="email"
-              [formControl]="form.get('email')">
+      <input class="form-control" type="email" placeholder="Email" name="email" [formControl]="form.get('email')">
 
       <div *ngIf="(formSubmitted) && formInvalid('email')">
-        <p class="error help-block"
-            *ngIf="this.form.controls['email'].errors.required">Email is required.</p>
-        <p class="error help-block"
-            *ngIf="this.form.controls['email'].errors.pattern">Email is invalid.</p>
+        <p class="error help-block" *ngIf="this.form.controls['email'].errors.required">Email is required.</p>
+        <p class="error help-block" *ngIf="this.form.controls['email'].errors.pattern">Email is invalid.</p>
       </div>
     </div>
 
     <div class="form-group">
       <label class="sr-only" for="password">Password</label>
-      <input type="password"
-              class="form-control"
-              placeholder="Password"
-              name="password"
-              [formControl]="form.get('password')">
-      <p class="error help-block"
-          *ngIf="(formSubmitted) && formInvalid('password')">Password is required.</p>
+      <input type="password" class="form-control" placeholder="Password" name="password" [formControl]="form.get('password')">
+      <p class="error help-block" *ngIf="(formSubmitted) && formInvalid('password')">Password is required.</p>
     </div>
 
-    <div id="login-exception"
-          class="alert alert-danger"
-          *ngIf="loginException">
+    <div id="login-exception" class="alert alert-danger" *ngIf="loginException">
       <crds-content-block id="finderAuthenticationFailed"></crds-content-block>
     </div>
 
@@ -52,11 +36,8 @@
     <p class="font-size-smaller">Or <a routerLink="/register">register for an account</a>.</p>
 
     <footer class="page-footer">
-      <a (click) = "back();" class="btn btn-gray pull-left">Back</a>
-      <input type="submit"
-              class="btn btn-primary pull-right"
-              (click)="submitLogin();"
-              value="Sign In">
+      <a (click)="back();" class="btn btn-gray pull-left">Back</a>
+      <input type="submit" class="btn btn-primary pull-right" (click)="submitLogin();" value="Sign In">
     </footer>
   </form>
 </div>

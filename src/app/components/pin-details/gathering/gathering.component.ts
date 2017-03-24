@@ -64,8 +64,8 @@ export class GatheringComponent implements OnInit {
           let buttons = new Array<BlandPageButton>();
           buttons.push(succButton);
           this.blandPageService.primeAndGo(new BlandPageDetails(
-            '', 
-            BlandPageType.ContentBlock, 
+            '',
+            BlandPageType.ContentBlock,
             BlandPageCause.Success,
             '',
             null,
@@ -74,17 +74,24 @@ export class GatheringComponent implements OnInit {
         },
         failure => {
           let bpd;
+          let errButton = new BlandPageButton(
+            'Back',
+            null,
+            ''
+          );
+          let buttons = new Array<BlandPageButton>();
+          buttons.push(errButton);
           if (failure.status === 409) {
-            // bpd = new BlandPageDetails(
-            //   'Back',
-            //   '',
-            //   // tslint:disable-next-line:max-line-length
-            //   '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-            //   BlandPageType.Text,
-            //   BlandPageCause.Error,
-            //   'pin-details/' + this.pin.participantId
-            // );
-            // this.blandPageService.primeAndGo(bpd);
+            bpd = new BlandPageDetails(
+              // tslint:disable-next-line:max-line-length
+              '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
+              BlandPageType.Text,
+              BlandPageCause.Error,
+              'pin-details/' + this.pin.participantId,
+              '',
+              buttons
+            );
+            this.blandPageService.primeAndGo(bpd);
           } else {
             this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
           }
