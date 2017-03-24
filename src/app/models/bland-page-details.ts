@@ -17,7 +17,6 @@ export class BlandPageButton {
 }
 
 export class BlandPageDetails {
-
     content: string;
     goToState: string;
     blandPageType: BlandPageType;
