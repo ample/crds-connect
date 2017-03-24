@@ -68,6 +68,7 @@ describe('Service: Session', () => {
     [SessionService, MockBackend],
     (service, mockBackend) => {
       let url = 'api/url';
+      service['cookieOptions'] = { domain: 'localhost' };
 
       spyOn(service.http, 'get').and.callThrough();
       mockBackend.connections.subscribe(conn => {
@@ -91,6 +92,7 @@ describe('Service: Session', () => {
     [SessionService, MockBackend],
     (service, mockBackend) => {
       let url = 'api/url';
+      service['cookieOptions'] = { domain: 'localhost' };
 
       mockBackend.connections.subscribe(conn => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
@@ -108,6 +110,7 @@ describe('Service: Session', () => {
 
 
   it('should set access token', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'put');
     service.setAccessToken(accessToken);
@@ -122,6 +125,7 @@ describe('Service: Session', () => {
   }));
 
   it('should get access token', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'get');
     service.getAccessToken(accessToken);
@@ -129,6 +133,7 @@ describe('Service: Session', () => {
   }));
 
   it('should get refresh token', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     let refreshToken = 'zxcvbnm97654123';
     spyOn(service.cookieService, 'get');
     service.getRefreshToken(refreshToken);
@@ -136,17 +141,20 @@ describe('Service: Session', () => {
   }));
 
   it('should check if user is logged in', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     let accessToken = 'qwertyuio1234567890';
     spyOn(service.cookieService, 'get').and.returnValue(accessToken);
     expect(service.hasToken()).toBeTruthy();
   }));
 
   it('should check if user is not logged in', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     spyOn(service.cookieService, 'get').and.returnValue(undefined);
     expect(service.hasToken()).toBeFalsy();
   }));
 
   it('should log a user out', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     let accessToken = 'qwertyuio1234567890';
     service.setAccessToken(accessToken);
     service.clearTokens();
@@ -154,12 +162,14 @@ describe('Service: Session', () => {
   }));
 
   it('should set contactId', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     spyOn(service.cookieService, 'put');
     service.setContactId('12345');
     expect(service.cookieService.put).toHaveBeenCalledWith(service.contactId, '12345', service.cookieOptions);
   }));
 
   it ('should get contactId', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
     spyOn(service.cookieService, 'get').and.returnValue('12345');
     let contactId = service.getContactId();
     expect(service.cookieService.get).toHaveBeenCalledWith(service.contactId);
@@ -169,6 +179,7 @@ describe('Service: Session', () => {
   describe('Service: Session cookie timeouts', () => {
 
     it('should setup timer if logged in',  inject([SessionService], (service: any) => {
+      service['cookieOptions'] = { domain: 'localhost' };
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
       spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
@@ -182,6 +193,7 @@ describe('Service: Session', () => {
     }));
 
     it('should unsubscribe old Observable when creating a new timer',  inject([SessionService], (service: any) => {
+      service['cookieOptions'] = { domain: 'localhost' };
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
       let subscription = jasmine.createSpyObj<Subscription>('subscription', ['unsubscribe']);
