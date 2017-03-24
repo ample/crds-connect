@@ -16,8 +16,7 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 
 @Component({
   selector: 'app-map',
-  templateUrl: 'map.component.html',
-  styleUrls: ['map.component.css']
+  templateUrl: 'map.component.html'
 })
 export class MapComponent implements OnInit {
 

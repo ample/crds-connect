@@ -121,3 +121,10 @@ app-add-me-to-map {
     }
   }
 }
+
+// Style map
+sebm-google-map {
+  background-color: $cr-gray-lighter;
+  height: calc(100vh - 69px);
+  width: 100vw;
+}
