@@ -6,14 +6,13 @@ import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
-import { SessionService } from '../../../services/session.service';
 import { APIService } from '../../../services/api.service';
-import { StateService } from '../../../services/state.service';
-import { ContentService } from '../../../services/content.service';
-import { PinService } from '../../../services/pin.service';
-import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { BlandPageService } from '../../../services/bland-page.service';
-
+import { ContentService } from '../../../services/content.service';
+import { LoginRedirectService } from '../../../services/login-redirect.service';
+import { PinService } from '../../../services/pin.service';
+import { SessionService } from '../../../services/session.service';
+import { StateService } from '../../../services/state.service';
 
 
 @Component({
@@ -28,7 +27,7 @@ export class GatheringComponent implements OnInit {
   @Input() isLoggedIn: boolean = false;
 
   public isInGathering: boolean = false;
-  public sayHiButtonText: string = "Contact host";
+  public sayHiButtonText: string = 'Contact host';
 
   constructor(private api: APIService,
     private content: ContentService,
@@ -56,25 +55,26 @@ export class GatheringComponent implements OnInit {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.blandPageService.setBlandPageDetailsAndGo(new BlandPageDetails(
+          this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
             'gatheringJoinRequestSent',
-            '',
             BlandPageType.ContentBlock,
-            BlandPageCause.Success
+            BlandPageCause.Success,
+            ''
           ));
         },
         failure => {
           let bpd;
-          if (failure.status == 409) {
+          if (failure.status === 409) {
             bpd = new BlandPageDetails(
               'Back',
+              // tslint:disable-next-line:max-line-length
               '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-              'pin-details/' + this.pin.participantId,
               BlandPageType.Text,
-              BlandPageCause.Error
+              BlandPageCause.Error,
+              'pin-details/' + this.pin.participantId
             );
-            this.blandPageService.setBlandPageDetailsAndGo(bpd);
+            this.blandPageService.primeAndGo(bpd);
           } else {
             this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
           }

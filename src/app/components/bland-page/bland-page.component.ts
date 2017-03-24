@@ -5,7 +5,7 @@ import { ContentService } from '../../services/content.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
 
-import { BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bland-page-details';
 
 @Component({
     selector: 'bland-page',
@@ -14,17 +14,18 @@ import { BlandPageDetails, BlandPageType } from '../../models/bland-page-details
 export class BlandPageComponent implements OnInit {
 
     private blandPageDetails: BlandPageDetails;
+    private isFauxModal: boolean = false;
     public contentBlock = false;
 
     constructor(private router: Router,
         private content: ContentService,
         private blandPageService: BlandPageService,
-        private state: StateService) {
-    }
+        private state: StateService) {}
 
     ngOnInit() {
         this.blandPageDetails = this.blandPageService.getBlandPageDetails();
-        if (this.blandPageDetails.blandPageType == BlandPageType.ContentBlock){
+        this.isFauxModal = this.blandPageDetails.blandPageCause === BlandPageCause.SimpleFauxdal;
+        if (this.blandPageDetails.blandPageType === BlandPageType.ContentBlock) {
             this.contentBlock = true;
         } else {
             this.contentBlock = false;
@@ -33,6 +34,11 @@ export class BlandPageComponent implements OnInit {
     }
 
     close() {
+        let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
+        this.router.navigate(['/' + state]);
+    }
+
+    go() {
         this.router.navigate(['/' + this.blandPageDetails.goToState]);
     }
 }

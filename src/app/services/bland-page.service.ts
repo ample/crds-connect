@@ -10,7 +10,7 @@ export class BlandPageService {
 
     constructor(private router: Router) { }
 
-    public setBlandPageDetailsAndGo(bpd: BlandPageDetails) {
+    public primeAndGo(bpd: BlandPageDetails) {
         this.blandPageDetails = bpd;
         this.go();
     }
@@ -26,11 +26,58 @@ export class BlandPageService {
         this.blandPageDetails = new BlandPageDetails(
             "back",
             "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
-            goToRoute,
             BlandPageType.Text,
-            BlandPageCause.Error
+            BlandPageCause.Error,
+            goToRoute
         );
         this.go();
+    }
+
+    public goToGettingStarted(cancelRoute?: string) {
+        this.primeGettingStarted(cancelRoute);
+        this.router.navigate(['/getting-started']);
+    }
+
+    public goToWhatsAHost(cancelRoute?: string) {
+        this.primeWhatsAHost(cancelRoute);
+        this.router.navigate(['/whats-a-host']);
+    }
+
+    /**
+     * This will set the blandPageDetails for Getting Started and 
+     * nothing more.  This should only be used by the Getting Started route Guard.
+     * @param cancelRoute route to return to if (x) is clicked
+     */
+    public primeGettingStarted(cancelRoute: string = 'map') {
+        this.blandPageDetails = new BlandPageDetails(
+            "Add me to map",
+            "gettingStarted",
+            BlandPageType.ContentBlock,
+            BlandPageCause.SimpleFauxdal,
+            'add-me-to-the-map',
+            cancelRoute
+        );
+    }
+    /**
+     * This will set the blandPageDetails for Whats a Host and 
+     * nothing more.  This should only be used by the Whats A Host route Guard.
+     * @param cancelRoute route to return to if (x) is clicked
+     */
+    public primeWhatsAHost(cancelRoute: string = 'map') {
+        this.blandPageDetails = new BlandPageDetails(
+            "Sign up to host",
+            "whatsAHost",
+            BlandPageType.ContentBlock,
+            BlandPageCause.SimpleFauxdal,
+            "host-signup",
+            cancelRoute
+        );
+        
+        
+    }
+
+    public primed() {
+        return (this.blandPageDetails !== null && this.blandPageDetails !== undefined);
     }
 
     private go() {

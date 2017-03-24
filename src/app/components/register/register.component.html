@@ -1,4 +1,4 @@
-<div heading="Register">
+<div class="container" heading="Register">
   <header class="component-header">Register An Account</header>
 
   <hr class="flush-top">
@@ -48,7 +48,7 @@
               [(ngModel)]="email">
 
         <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
-          <p class="error help-block" *ngIf="duplicateUser">This email address is already in use. <a (click)="back()">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
+          <p class="error help-block" *ngIf="duplicateUser">This email address is already in use. <a routerLink="/signin">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
 
           <p class="error help-block" *ngIf="!duplicateUser">Email <span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
         </div>
@@ -71,12 +71,12 @@
       </div>
     </div>
 
-    <crds-content-block id="embedRegisterFooter"></crds-content-block>
+    <crds-content-block id="finderRegisterFooter"></crds-content-block>
 
     <hr>
 
     <footer class="page-footer">
-      <crds-content-block id="embedRegisterSignIn"></crds-content-block>
+      <p class="pull-left font-size-small">Already have an account? <a href="#" routerLink="/signin">Sign In</a>.</p>
       <input type="submit"
              class="btn btn-primary pull-right"
              (click)="store.preSubmit($event);submitRegistration();"

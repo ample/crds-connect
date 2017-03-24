@@ -39,7 +39,9 @@ export class MockTestData {
                 'state' + designator.toString(),
                 '17272',
                 123123123,
-                123123123
+                123123123,
+                'US',
+                'CountyCounty'
             )
     }
 
@@ -94,7 +96,8 @@ export class MockTestData {
             10,
             false,
             23,
-            this.getAParticipantsArray(numParticipantsInGathering)
+            this.getAParticipantsArray(numParticipantsInGathering),
+            30
         );
     }
 }

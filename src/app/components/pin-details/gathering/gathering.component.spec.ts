@@ -29,18 +29,6 @@ import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
 
-class MockError implements Error {
-    public name: any;
-    public message: any;
-    public status: number;
-
-    constructor(name: any, message: any, status: number) {
-        this.name = name;
-        this.message = message;
-        this.status = status;
-    }
-}
-
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
@@ -60,7 +48,7 @@ describe('GatheringComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['setBlandPageDetailsAndGo', 'goToDefaultError']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
 
 
@@ -128,9 +116,9 @@ describe('GatheringComponent', () => {
         let expectedBPD = new BlandPageDetails(
             "Return to map",
             "gatheringJoinRequestSent",
-            "",
             BlandPageType.ContentBlock,
-            BlandPageCause.Success
+            BlandPageCause.Success,
+            ""
         );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.of([{}]));
         comp.pin = pin;
@@ -139,7 +127,7 @@ describe('GatheringComponent', () => {
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
     })
 
     it('should fail with 409 (conflict) while requesting to join', () => {
@@ -148,9 +136,9 @@ describe('GatheringComponent', () => {
         let expectedBPD = new BlandPageDetails(
             'Back',
             '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-            'pin-details/' + pin.participantId,
             BlandPageType.Text,
-            BlandPageCause.Error
+            BlandPageCause.Error,            
+            'pin-details/' + pin.participantId,
         );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
@@ -159,7 +147,7 @@ describe('GatheringComponent', () => {
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).toHaveBeenCalledWith(expectedBPD);
+        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
     })
 
     it('should fail with error while requesting to join', () => {
@@ -171,7 +159,7 @@ describe('GatheringComponent', () => {
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(<jasmine.Spy>mockBlandPageService.setBlandPageDetailsAndGo).not.toHaveBeenCalled();
+        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('pin-details/' + pin.participantId)
     })
 });

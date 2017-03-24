@@ -8,8 +8,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
 @Component({
   selector: 'app-search-bar',
-  templateUrl: 'search-bar.component.html',
-  styleUrls: ['search-bar.component.css']
+  templateUrl: 'search-bar.component.html'
 })
 export class SearchBarComponent  {
   @Input() isMapHidden: boolean;
@@ -38,7 +37,7 @@ export class SearchBarComponent  {
 
   public onSearch(searchString: string) {
     if (searchString !== null && searchString.length > 0) {
-      this.search.emit(this.searchText);
+      this.search.emit(searchString);
       this.searchText = '';
     }
   }

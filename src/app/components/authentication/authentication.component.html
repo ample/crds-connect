@@ -1,4 +1,4 @@
-<div heading="Sign In">
+<div heading="Sign In" class="container">
   <header class="component-header">Sign In</header>
 
   <hr class="flush-top">
@@ -37,7 +37,7 @@
     <div id="login-exception"
           class="alert alert-danger"
           *ngIf="loginException">
-      <crds-content-block id="embedAuthenticationFailed"></crds-content-block>
+      <crds-content-block id="finderAuthenticationFailed"></crds-content-block>
     </div>
 
     <div class="clearfix">
@@ -52,7 +52,7 @@
     <p class="font-size-smaller">Or <a routerLink="/register">register for an account</a>.</p>
 
     <footer class="page-footer">
-      <a href="#" class="btn btn-gray pull-left" (click)="back()">Back</a>
+      <a (click) = "back();" class="btn btn-gray pull-left">Back</a>
       <input type="submit"
               class="btn btn-primary pull-right"
               (click)="submitLogin();"

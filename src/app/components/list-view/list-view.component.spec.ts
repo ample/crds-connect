@@ -11,6 +11,7 @@ import { ListEntryComponent } from '../list-entry/list-entry.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { GoogleMapService } from '../../services/google-map.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
+import { BlandPageService } from '../../services/bland-page.service';
 
 
 describe('Component: List View', () => {
@@ -61,7 +63,9 @@ describe('Component: List View', () => {
         Angulartics2,
         ContentService,
         LoginRedirectService,
-        GoogleMapService
+        GoogleMapService,
+        NeighborsHelperService,
+        BlandPageService
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);
@@ -71,6 +75,12 @@ describe('Component: List View', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  describe('paging values', () => {
+    it('should be set up to increment by 10', () => {
+      expect(this.component.showing_increment).toEqual(10);
+    });
   });
 
 });
