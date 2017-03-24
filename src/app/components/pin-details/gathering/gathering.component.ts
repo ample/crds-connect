@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause, BlandPageButton } from '../../../models/bland-page-details';
 
 import { APIService } from '../../../services/api.service';
 import { BlandPageService } from '../../../services/bland-page.service';
@@ -55,28 +55,36 @@ export class GatheringComponent implements OnInit {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.blandPageService.primeAndGo(new BlandPageDetails(
+          let succButton = new BlandPageButton(
             'Return to map',
-            '',
-            'gatheringJoinRequestSent',
-            BlandPageType.ContentBlock,
-            BlandPageCause.Success,
+            null,
             ''
-          ));
+          );
+
+          let buttons = new Array<BlandPageButton>();
+          buttons.push(succButton);
+          this.blandPageService.primeAndGo(new BlandPageDetails(
+            '', 
+            BlandPageType.ContentBlock, 
+            BlandPageCause.Success,
+            '',
+            null,
+            buttons));
+
         },
         failure => {
           let bpd;
           if (failure.status === 409) {
-            bpd = new BlandPageDetails(
-              'Back',
-              '',
-              // tslint:disable-next-line:max-line-length
-              '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-              BlandPageType.Text,
-              BlandPageCause.Error,
-              'pin-details/' + this.pin.participantId
-            );
-            this.blandPageService.primeAndGo(bpd);
+            // bpd = new BlandPageDetails(
+            //   'Back',
+            //   '',
+            //   // tslint:disable-next-line:max-line-length
+            //   '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
+            //   BlandPageType.Text,
+            //   BlandPageCause.Error,
+            //   'pin-details/' + this.pin.participantId
+            // );
+            // this.blandPageService.primeAndGo(bpd);
           } else {
             this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
           }

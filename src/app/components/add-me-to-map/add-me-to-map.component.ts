@@ -47,8 +47,12 @@ export class AddMeToMapComponent implements OnInit {
 
       let succButton = new BlandPageButton(
         'See for yourself',
-
+        null,
+        ''
       );
+
+      let buttons = new Array<BlandPageButton>();
+      buttons.push(succButton);
 
       let nowAPin = new BlandPageDetails(
         'nowAPin',
@@ -56,7 +60,7 @@ export class AddMeToMapComponent implements OnInit {
         BlandPageCause.Success,
         'map',
         '',
-        null
+        buttons
       );
       this.blandPageService.primeAndGo(nowAPin);
     }

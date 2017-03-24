@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
+import { BlandPageDetails, BlandPageCause, BlandPageType, BlandPageButton } from '../models/bland-page-details';
 
 @Injectable()
 export class BlandPageService {
@@ -23,13 +23,21 @@ export class BlandPageService {
     }
 
     public goToDefaultError(goToRoute: string) {
+        let succButton = new BlandPageButton(
+            'back',
+            null,
+            ''
+        );
+
+        let buttons = new Array<BlandPageButton>();
+        buttons.push(succButton);
         this.blandPageDetails = new BlandPageDetails(
-            "back",
-            '',
             "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
             BlandPageType.Text,
             BlandPageCause.Error,
-            goToRoute
+            '',
+            goToRoute,
+            buttons
         );
         this.go();
     }
@@ -50,14 +58,21 @@ export class BlandPageService {
      * @param cancelRoute route to return to if (x) is clicked
      */
     public primeGettingStarted(cancelRoute: string = 'map') {
+        let succButton = new BlandPageButton(
+            'Add me to map',
+            null,
+            ''
+        );
+
+        let buttons = new Array<BlandPageButton>();
+        buttons.push(succButton);
         this.blandPageDetails = new BlandPageDetails(
-            "Add me to map",
             '',
-            "gettingStarted",
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             'add-me-to-the-map',
-            cancelRoute
+            cancelRoute,
+            buttons
         );
     }
     /**
@@ -66,17 +81,24 @@ export class BlandPageService {
      * @param cancelRoute route to return to if (x) is clicked
      */
     public primeWhatsAHost(cancelRoute: string = 'map') {
+        let succButton = new BlandPageButton(
+            'Sign up to host',
+            null,
+            ''
+        );
+
+        let buttons = new Array<BlandPageButton>();
+        buttons.push(succButton);
         this.blandPageDetails = new BlandPageDetails(
-            "Sign up to host",
             '',
-            "whatsAHost",
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             "host-signup",
-            cancelRoute
+            cancelRoute,
+            buttons
         );
-        
-        
+
+
     }
 
     public primed() {

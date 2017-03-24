@@ -5,7 +5,7 @@ import { BlandPageService } from '../../../../services/bland-page.service';
 import { GroupService } from '../../../../services/group.service';
 import { StateService } from '../../../../services/state.service';
 
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause, BlandPageButton } from '../../../../models/bland-page-details';
 import { Inquiry } from '../../../../models/inquiry';
 import { Pin } from '../../../../models/pin';
 import { Participant } from '../../../../models/participant';
@@ -63,14 +63,22 @@ export class GatheringRequestsComponent implements OnInit {
           templateText = '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div>';
         }
         // tslint:disable-next-line:max-line-length
+        let succButton = new BlandPageButton(
+          'Return to my pin',
+          null,
+          ''
+        );
+
+        let buttons = new Array<BlandPageButton>();
+        buttons.push(succButton);
         templateText += `<br/><div class="row text-center"<span>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified</span></div></div>`;
         bpd = new BlandPageDetails(
-          'Return to my pin',
-          '',
           templateText,
           BlandPageType.Text,
           BlandPageCause.Success,
-          'pin-details/' + this.pin.participantId
+          'pin-details/' + this.pin.participantId,
+          null,
+          buttons
         );
         this.state.setLoading(false);
         this.blandPageService.primeAndGo(bpd); //NONONONNONNO

@@ -45,15 +45,23 @@ export class InviteSomeoneComponent implements OnInit {
             this.state.setLoading(true);
             this.pinService.inviteToGathering(this.gatheringId, someone).subscribe(
                 success => {
-                    let bpd = new BlandPageDetails(
+                    let succButton = new BlandPageButton(
                         'Return to my pin',
-                        '',
+                        null,
+                        ''
+                    );
+
+                    let buttons = new Array<BlandPageButton>();
+                    buttons.push(succButton);
+                    let bpd = new BlandPageDetails(
                         '<h1 class="h1 text-center">Invite sent</h1>' +
                         // tslint:disable-next-line:max-line-length
                         `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
                         BlandPageType.Text,
                         BlandPageCause.Success,
-                        `pin-details/${this.participantId}`
+                        `pin-details/${this.participantId}`,
+                        null,
+                        buttons
                     );
 
                     this.blandPageService.primeAndGo(bpd);

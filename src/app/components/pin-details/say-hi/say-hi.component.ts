@@ -10,7 +10,7 @@ import { BlandPageService } from '../../../services/bland-page.service';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause, BlandPageButton } from '../../../models/bland-page-details';
 
 @Component({
   selector: 'say-hi',
@@ -19,8 +19,7 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 export class SayHiComponent implements OnInit {
 
   @Input() isGathering: boolean = false;
-  @Input() successButtonText: string = '';
-  @Input() errorButtonText: string = '';
+  @Input() buttonText: string = '';
   @Input() user: User;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
@@ -46,23 +45,23 @@ export class SayHiComponent implements OnInit {
   }
 
   public sendSayHi() {
+    let succButton = new BlandPageButton(
+      'Return to my pin',
+      null,
+      ''
+    );
+
+    let buttons = new Array<BlandPageButton>();
+    buttons.push(succButton);
     let bpd = new BlandPageDetails(
-          'Return to map',
-          '',
-          '<div class="container"><div class="row text-center"><h3>Success!</h3></div></div>',
-          BlandPageType.Text,
-          BlandPageCause.Success,
-          ''
-        );
-    let bpdErr = new BlandPageDetails(
-          'Return to map',
-          'Retry Say Hi',
-          `<div class="container"><div class="row text-center"><h3>Error!</h3></div>
-            <div>An error occurred while we were trying to say hi. You can try again or return to the map.</div></div>`,
-          BlandPageType.Text,
-          BlandPageCause.Error,
-          ''
-        );
+      '<div class="container"><div class="row text-center"><h3>Success!</h3></div></div>',
+      BlandPageType.Text,
+      BlandPageCause.Success,
+      '',
+      null,
+      buttons
+    );
+
     if (!this.user) {
       this.api.getUserData().subscribe(
         ret => {
@@ -72,13 +71,15 @@ export class SayHiComponent implements OnInit {
               this.blandPageService.primeAndGo(bpd);
             },
             err => {
-              this.sendHiError(err);
+          this.handleError(bpd);
+
             }
 
           );
         },
         err => {
-          this.sendHiError(err);
+          this.handleError(bpd);
+
         }
       );
 
@@ -88,16 +89,17 @@ export class SayHiComponent implements OnInit {
           this.blandPageService.primeAndGo(bpd);
         },
         err => {
-          this.sendHiError(err);
+          this.handleError(bpd);
         }
 
       );
     }
   }
 
-  private sendHiError(err) {
-    // page: same as success, try again?
+  handleError(bpd: BlandPageDetails) {
+    bpd.blandPageCause = BlandPageCause.Error;
+    bpd.content = '<div class="container"><div class="row text-center"><h3>We are unable to send your email at this time.</h3></div></div>';
+    this.blandPageService.primeAndGo(bpd);
   }
-
 
 }

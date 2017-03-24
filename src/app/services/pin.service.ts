@@ -12,7 +12,7 @@ import { IFrameParentService } from './iframe-parent.service';
 import { Pin } from '../models/pin';
 import { User } from '../models/user';
 import { Person } from '../models/person';
-import { BlandPageDetails, BlandPageCause, BlandPageType} from '../models/bland-page-details';
+import { BlandPageDetails, BlandPageCause, BlandPageType, BlandPageButton} from '../models/bland-page-details';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -62,13 +62,21 @@ export class PinService {
     this.state.setLoading(true);
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
+        let succButton = new BlandPageButton(
+            'Return to map',
+            null,
+            ''
+        );
+
+        let buttons = new Array<BlandPageButton>();        
+        buttons.push(succButton);
         let memberSaidHi = new BlandPageDetails(
-          "Return to map",
-          '',
           "<div class='text text-center'>Success!</div>",
           BlandPageType.Text,
           BlandPageCause.Success,
-          'map'
+          'map',
+          null,
+          buttons
         );
         this.blandPageService.primeAndGo(memberSaidHi);
         return res;
