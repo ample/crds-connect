@@ -1,7 +1,7 @@
 export enum BlandPageType { ContentBlock = 1, Text = 2 }
 export enum BlandPageCause { Error = 1, Success = 2, SimpleFauxdal = 3 }
 
-export class BlandPageButtons {
+export class BlandPageButton {
     buttonText: string;
     clickFunction: Function;
     cssClass: string
@@ -23,14 +23,14 @@ export class BlandPageDetails {
     blandPageType: BlandPageType;
     blandPageCause: BlandPageCause;
     cancelState: string;
-    buttons: BlandPageButtons[];
+    buttons: BlandPageButton[];
 
     constructor(content: string, 
                 blandPageType: BlandPageType, 
                 blandPageCause: BlandPageCause, 
                 goToState: string = null, 
                 cancelState: string = null,
-                buttons: BlandPageButtons[] = null) {
+                buttons: BlandPageButton[] = null) {
         this.content = content;
         this.blandPageType = blandPageType;
         this.blandPageCause = blandPageCause;

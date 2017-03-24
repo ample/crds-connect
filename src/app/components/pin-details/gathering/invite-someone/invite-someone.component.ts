@@ -9,7 +9,7 @@ import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 
 import { Person } from '../../../../models/person';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause, BlandPageButton } from '../../../../models/bland-page-details';
 
 @Component({
     selector: 'invite-someone',
