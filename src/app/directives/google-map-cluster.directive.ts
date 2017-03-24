@@ -12,6 +12,11 @@ interface IMarkerManager {
  _markers?: any;
   next(): any;
 }
+
+interface IObjectWithIcon {
+  icon?: any;
+}
+
 //MarkerManager.prototype.markerKeys = function() { return this._markers.keys(); }
 
 // An Attribute Directive that creates a MarkerClusterer in the map once the markers are loaded.
@@ -43,21 +48,31 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       };
       let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();
       let markers = [];
+      let siteMarkers = [];
       let promises = [];
       let sebmMarker;
+
+
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;
-        if (sebmMarker.iconUrl.endsWith("PERSON.svg") ||
-            sebmMarker.iconUrl.endsWith("GATHERING.svg")) {
-          let promise = this.markerManager.getNativeMarker(sebmMarker);
-          promises.push(promise);
-          promise.then(marker => {
+        let promise = this.markerManager.getNativeMarker(sebmMarker);
+        promises.push(promise);
+        promise.then(marker => {
+
+          let markerWithIcon: IObjectWithIcon = marker;
+          let isSiteMarker: boolean = markerWithIcon.icon.endsWith("SITE.svg") || markerWithIcon.icon.endsWith("SITE.png");
+
+          if ( !isSiteMarker ) {
             markers.push(marker);
-          })
-        }
+          } else {
+            siteMarkers.push(marker);
+          }
+        });
       }
+
       Promise.all(promises).then(() => {
         this.cluster = new MarkerClusterer(map, markers, options);
+        this.mapHlpr.setSiteMarkers(siteMarkers);
       })
 
     })

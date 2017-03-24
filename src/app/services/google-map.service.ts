@@ -12,12 +12,21 @@ export class GoogleMapService {
   public clusterMarkersEmitter: EventEmitter<any>;
 
   public didUserAllowGeoLoc: boolean;
+  public siteMarkersOnMap: any = undefined;
 
   constructor() {
     this.mapUpdatedEmitter = new EventEmitter<GeoCoordinates>();
     this.mapClearEmitter = new EventEmitter<void>();
     this.dataForDrawingEmitter = new EventEmitter<any>();
     this.clusterMarkersEmitter = new EventEmitter<any>();
+  }
+
+  public setSiteMarkers(siteMarkersOnMap: any): void {
+    this.siteMarkersOnMap = siteMarkersOnMap;
+  }
+
+  public getSiteMarkersOnMap(): any {
+    return this.siteMarkersOnMap;
   }
 
   public emitRefreshMap(coords: GeoCoordinates): void {

@@ -14,7 +14,7 @@
           *ngFor="let pin of searchResults?.pinSearchResults; let i = index"
           [latitude] = "pin.address.latitude"
           [longitude] = "pin.address.longitude"
-          iconUrl = "{{getStringByPinType(pin.pinType)}}"
+          [iconUrl] = "getStringByPinType(pin)"
           (markerClick) = "displayDetails(pin)"
           [title] = "getLabelName(pin)">
           

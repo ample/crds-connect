@@ -48,7 +48,6 @@ export class CanvasMapOverlayComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log('WINDOW RESIZE EVENT');
     this.canvasWidth = window.innerWidth;
     this.canvasHeight = window.innerHeight;
   }
@@ -109,7 +108,6 @@ export class CanvasMapOverlayComponent implements OnInit {
   }
 
   public getMarkerLabelProps(marker:any): any{
-    console.log(marker);
     let labelStringComponents = marker.markerLabel.split('|');
 
     let labelProps = {
@@ -118,7 +116,6 @@ export class CanvasMapOverlayComponent implements OnInit {
       hostOrMe: labelStringComponents[3] ? labelStringComponents[3] : labelStringComponents[2] || ''
     };
 
-    console.log(labelProps);
     return labelProps;
 
   };

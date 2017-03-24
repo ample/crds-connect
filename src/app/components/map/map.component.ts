@@ -61,20 +61,31 @@ export class MapComponent implements OnInit {
     }
   }
 
-  public getStringByPinType(type) {
+  public getStringByPinType(pin: any) {
+
+    let type = pin.pinType;
+    let imgPath = undefined;
     switch (type) {
       case pinType.PERSON:
-        return '/assets/PERSON.svg';
+        imgPath = 'https://image.ibb.co/ebF9rF/PERSON.png';
+        break;
       case pinType.GATHERING:
-        return '/assets/GATHERING.svg';
+        imgPath = 'https://image.ibb.co/kpYJka/GATHERING.png';
+        break;
       default:
-        return '/assets/SITE.svg';
+        imgPath = 'https://image.ibb.co/di5Lyv/SITE.png';
     }
+
+    return imgPath;
   }
 
   public getLabelName(pin: Pin) {
-    return (pin.firstName + '|' + this.getLastInitial(pin) + '|' +
+    return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
             this.hostOrEmptyString(pin) + '|' + this.isMe(pin) );
+  }
+
+  public getFirstNameOrSiteName(pin: Pin){
+    return pin.firstName || pin.siteName;
   }
 
   public getLastInitial(pin: Pin){
