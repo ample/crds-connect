@@ -6,6 +6,8 @@ export class StateService {
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  private myViewOrWorldView: string = 'world';
 
   public setLoading(val: boolean) {
     this.is_loading = val;
@@ -26,4 +28,14 @@ export class StateService {
   public getShowingPinCount() {
     return this.showingPinCount;
   }
+
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  public setMyViewOrWorldView(view: string) {
+    this.myViewOrWorldView = view;
+  }
+
+  public getMyViewOrWorldView(): string {
+    return this.myViewOrWorldView;
+  }
+
 }
