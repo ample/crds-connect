@@ -5,6 +5,8 @@ export class StateService {
 
   public hasBrandBar: boolean = true;
   public hasSearchBar: boolean = true;
+  public hasPageHeader: boolean = false;
+  public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
@@ -27,5 +29,11 @@ export class StateService {
 
   public getShowingPinCount() {
     return this.showingPinCount;
+  }
+
+  public setPageHeader(title, routerLink) {
+    this.hasPageHeader = true;
+    this.pageHeader['title'] = title;
+    this.pageHeader['routerLink'] = routerLink;
   }
 }

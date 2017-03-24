@@ -52,7 +52,6 @@ export class PinDetailsComponent implements OnInit {
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
 
-
     if (this.pin.gathering !== null && this.pin.gathering !== undefined) {
       this.isGatheringPin = true;
     }

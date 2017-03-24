@@ -14,4 +14,18 @@
                   [isMapHidden] = "!mapViewActive"
                   (viewMap)="viewChanged($event)"
                   (search)="doSearch($event)"></app-search-bar>
+
+  <!-- Page Header -->
+  <div class="page-title bg-blue" *ngIf="state.hasPageHeader">
+    <a *ngIf="state.pageHeader.routerLink"
+       class="pull-left"
+       routerLink="{{state.pageHeader.routerLink}}">
+      <svg class="icon icon-1" viewBox="0 0 256 256">
+        <use href="/assets/svgs/icons.svg#chevron-left"></use>
+      </svg>
+    </a>
+    <h1 *ngIf="state.pageHeader.title" class="text-lowercase">
+      {{ state.pageHeader.title }}
+    </h1>
+  </div>
 </div>
