@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ElementRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GoogleMapService } from '../../services/google-map.service';
@@ -48,6 +48,13 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     });
 
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log('WINDOW RESIZE EVENT');
+    this.canvasWidth = window.innerWidth;
+    this.canvasHeight = window.innerHeight;
   }
 
   ngOnInit() {}

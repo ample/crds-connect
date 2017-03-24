@@ -766,23 +766,16 @@ MarkerClusterer.prototype.redraw = function () {
 
   this.createClusters_();
 
-  //console.log(this.markers_);
-  //console.log(this.clusters_);
-
   for (var i = 0, marker; marker = this.markers_[i]; i++) {
     if (!this.isMarkerInCluster(marker, this.clusters_)) {
       markersNotInBounds.push(marker);
     }
-
-    // if (true/*!this.isMarkerInBounds_(marker, bounds)*/ ) {
-    //   markersNotInBounds.push(marker);
-    // }
   }
 
   var event = new CustomEvent('redrawingClusters');
 
   var evntPayload = {
-    'markersNotInClusters': markersNotInBounds, //this.markers_,
+    'markersNotInClusters': markersNotInBounds,
     'clusters': this.clusters_
   };
 
