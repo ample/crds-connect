@@ -5,9 +5,13 @@ import { SessionService } from './session.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
+import { Router } from '@angular/router';
+import { LoginRedirectService } from './login-redirect.service';
+import { Observable, Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 describe('Service: Session', () => {
-
+  let mockLoginRedirectService;
   const mockResponse = {
     'userToken': 'AAEAAKVu0E-usertoken',
     'userTokenExp': '1800',
@@ -38,6 +42,7 @@ describe('Service: Session', () => {
   };
 
   beforeEach(() => {
+    mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
     TestBed.configureTestingModule({
       providers: [
         SessionService,
@@ -48,7 +53,10 @@ describe('Service: Session', () => {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
           deps: [MockBackend, BaseRequestOptions]
-        }]
+        },
+        { provide: Router, useValue: { routerState: { snapshot: { url: 'www.crossroads.net' } } } },
+        { provide: LoginRedirectService, useValue: mockLoginRedirectService }
+        ]
     });
   });
 
@@ -66,12 +74,13 @@ describe('Service: Session', () => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
 
-      spyOn(service.cookieService, 'get').and.returnValue(mockResponse.userToken);
+      spyOn(service.cookieService, 'get').and.returnValues(mockResponse.userToken, mockResponse.refreshToken);
 
       const result = service.get(url);
       let expectedReqOpts = new RequestOptions();
       let expectedHeaders = new Headers();
       expectedHeaders.set('Authorization', mockResponse.userToken);
+      expectedHeaders.set('RefreshToken', mockResponse.refreshToken);
       expectedHeaders.set('Content-Type', 'application/json');
       expectedHeaders.set('Accept', 'application/json, text/plain, */*');
       expectedReqOpts.headers = expectedHeaders;
@@ -87,12 +96,14 @@ describe('Service: Session', () => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
 
-      spyOn(service.cookieService, 'get').and.returnValue(mockResponse.userToken);
+      spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
+      spyOn(service.cookieService, 'remove').and.returnValue(true);
 
       const result = service.get(url);
       result.subscribe(res => {
         expect(service.getAccessToken()).toBe(mockResponse.userToken);
       });
+
   })));
 
 
@@ -154,5 +165,37 @@ describe('Service: Session', () => {
     expect(service.cookieService.get).toHaveBeenCalledWith(service.contactId);
     expect(contactId).toBe(12345);
   }));
+
+  describe('Service: Session cookie timeouts', () => {
+
+    it('should setup timer if logged in',  inject([SessionService], (service: any) => {
+      service.setAccessToken('token');
+      service.setRefreshToken('refreshToken');
+      spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
+      spyOn(service.cookieService, 'remove').and.callThrough();
+
+      expect(service['refreshTimeout']).toBeUndefined();
+      service.setCookieTimeout();
+      expect(service['refreshTimeout']).toBeDefined();
+      expect(service.cookieService.remove.calls.count()).toBe(2);
+      expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
+    }));
+
+    it('should unsubscribe old Observable when creating a new timer',  inject([SessionService], (service: any) => {
+      service.setAccessToken('token');
+      service.setRefreshToken('refreshToken');
+      let subscription = jasmine.createSpyObj<Subscription>('subscription', ['unsubscribe']);
+      service['refreshTimeout'] = subscription;
+      spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
+      spyOn(service.cookieService, 'remove').and.callThrough();
+
+      service.setCookieTimeout();
+      expect(service['refreshTimeout']).toBeDefined();
+      expect(service.cookieService.remove.calls.count()).toBe(2);
+      expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
+      expect(subscription.unsubscribe).toHaveBeenCalled();
+    }));
+  });
+
 
 });

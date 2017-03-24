@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from './state.service';
 import { User } from '../models/user';
 import { Pin } from '../models/pin';
+import { LoginRedirectService } from './login-redirect.service';
 
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
@@ -32,7 +33,8 @@ describe('Service: PinService', () => {
           deps: [MockBackend, BaseRequestOptions]
         },
         StateService,
-        BlandPageService
+        BlandPageService,
+        LoginRedirectService
       ]
     });
   });
