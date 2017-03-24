@@ -60,7 +60,7 @@ export class MapContentComponent implements OnInit {
         let self = this;
 
         //console.log('DRAW LABELS');
-        self.drawLabels();
+        //self.drawLabels();
         //console.log('//DRAW LABELS');
 
         map.addListener('zoom_changed', function() {

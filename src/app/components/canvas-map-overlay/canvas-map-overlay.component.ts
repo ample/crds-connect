@@ -21,11 +21,7 @@ export class CanvasMapOverlayComponent implements OnInit {
               private state: StateService) {
 
     mapHlpr.mapClearEmitter.subscribe(() => {
-      //console.log('CLEAR MAP EVENT RECEIVED');
-
-      let ctx: CanvasRenderingContext2D =
-          this.canvasRef.nativeElement.getContext('2d');
-
+      let ctx: CanvasRenderingContext2D = this.canvasRef.nativeElement.getContext('2d');
       ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     });
 
@@ -40,7 +36,7 @@ export class CanvasMapOverlayComponent implements OnInit {
       let cWidth = canvBounds.width;
       let cHeight = canvBounds.height;
 
-      this.drawGridLines(ctx, canvBounds, cWidth, cHeight);
+      //this.drawGridLines(ctx, canvBounds, cWidth, cHeight);
 
       //this.drawTestingMarkers(ctx, drawingData, cWidth, cHeight);
 
