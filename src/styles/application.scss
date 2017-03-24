@@ -138,7 +138,7 @@ app-search-bar {
 // Style map
 sebm-google-map {
   background-color: $cr-gray-lighter;
-  height: calc(100vh - 69px);
+  height: calc(100vh - 69px); // 69px is the height of the header/searchbar
   width: 100vw;
 }
 
