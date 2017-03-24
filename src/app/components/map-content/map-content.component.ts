@@ -30,7 +30,7 @@ export class MapContentComponent implements OnInit {
 
         let zoomControlOptions: any = {
           style: google.maps.ControlPosition.small,
-          position: google.maps.ControlPosition.RIGHT_CENTER
+          position: google.maps.ControlPosition.LEFT_TOP
         };
 
         let streetViewControlOptions: any =  {
