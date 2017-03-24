@@ -63,11 +63,12 @@ export class MapContentComponent implements OnInit {
         self.drawLabels();
         //console.log('//DRAW LABELS');
 
-        // map.addListener('zoom_changed', function() {
-        //   //console.log('Zoom changed');
-        //   self.drawLabels();
-        // });
-        //
+        map.addListener('zoom_changed', function() {
+          //console.log('Zoom changed');
+          self.clearCanvas();
+          //self.drawLabels();
+        });
+
         map.addListener('dragstart', function() {
           //console.log('DRAG START');
           self.clearCanvas();
@@ -184,23 +185,19 @@ export class MapContentComponent implements OnInit {
         let bounds = map.getBounds();
 
         if( bounds ) {
-            let sw = bounds.getSouthWest();
-            let ne = bounds.getNorthEast();
-            geoBounds = {
-                top:    sw.lat().valueOf(),
-                bottom: ne.lat().valueOf(),
-                left:   ne.lng().valueOf(),
-                right:  sw.lng().valueOf(),
-                width:  delta(ne.lng().valueOf(), sw.lng().valueOf()),
-                height: delta(sw.lat().valueOf(), ne.lat().valueOf())
-            };
+          let sw = bounds.getSouthWest();
+          let ne = bounds.getNorthEast();
+          geoBounds = {
+            top:    sw.lat().valueOf(),
+            bottom: ne.lat().valueOf(),
+            left:   ne.lng().valueOf(),
+            right:  sw.lng().valueOf(),
+            width:  delta(ne.lng().valueOf(), sw.lng().valueOf()),
+            height: delta(sw.lat().valueOf(), ne.lat().valueOf())
+          };
         }
 
-        let googleMapContent = document.getElementsByClassName("sebm-google-map-content")[0];
-        //let markerList = googleMapContent.getElementsByTagName("sebm-google-map-marker");
-
         let markerArray = [];
-
 
         if( markers.length > 0 ) {
           for (let i = 0; i < markers.length; i++ ){

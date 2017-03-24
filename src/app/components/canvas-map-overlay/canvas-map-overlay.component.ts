@@ -29,66 +29,22 @@ export class CanvasMapOverlayComponent implements OnInit {
       ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     });
 
-    mapHlpr.dataForDrawingEmitter.subscribe(testData => {
-      //console.log('CANVAS GOT TEST DATA: ');
-      //console.log(testData);
+    mapHlpr.dataForDrawingEmitter.subscribe(drawingData => {
 
-      let ctx: CanvasRenderingContext2D =
-          this.canvasRef.nativeElement.getContext('2d');
+      let ctx: CanvasRenderingContext2D = this.canvasRef.nativeElement.getContext('2d');
 
       ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-      var geoBounds = testData.geoBounds;
+      let geoBounds = drawingData.geoBounds;
       let canvBounds = this.canvasRef.nativeElement.getBoundingClientRect();
-      var cWidth = canvBounds.width;
-      var cHeight = canvBounds.height;
-      var tenthHeight = cHeight/10;
-      var tenthWidth = cWidth/10;
+      let cWidth = canvBounds.width;
+      let cHeight = canvBounds.height;
 
-      //console.log('Canvas width: ' + canvBounds.width);
-      //console.log('Canvas height: ' + canvBounds.height);
+      this.drawGridLines(ctx, canvBounds, cWidth, cHeight);
 
-      //Draw grid lines
-      for ( var j=1; j<10; j++ ) {
-        ctx.beginPath();
-        ctx.moveTo(tenthWidth * j,canvBounds.top);
-        ctx.lineTo(tenthWidth * j,canvBounds.bottom);
-        ctx.fillStyle = 'grey';
-        ctx.stroke();
+      //this.drawTestingMarkers(ctx, drawingData, cWidth, cHeight);
 
-        ctx.fillText(tenthWidth * j + ', ' + canvBounds.top,
-            tenthWidth * j,
-            canvBounds.top + 20);
-
-        ctx.fillText(tenthWidth * j + ', ' + canvBounds.bottom,
-            tenthWidth * j,
-            canvBounds.bottom - 20);
-      }
-
-      //draw circle on corners of map
-      ctx.beginPath();
-      ctx.arc(0, 0, 50, 0, 2 * Math.PI);
-      ctx.fillStyle = 'Red';
-      ctx.stroke();
-      //draw circle on corner of map
-
-
-      //draw a circle on the marker
-      for (var i=0; i< testData.markers.length; i++){
-        var marker = testData.markers[i];
-
-        ctx.beginPath();
-        ctx.arc(
-          marker.markerGeoOffsetLatPercentage * cWidth,
-          marker.markerGeoOffsetLngPercentage * cHeight, 50, 0, 2*Math.PI);
-        ctx.fillStyle = 'Blue';
-        ctx.stroke();
-
-        ctx.font = "12px Arial";
-        ctx.fillText(marker.markerLabel + ': ' + (marker.markerGeoOffsetLatPercentage * cWidth).toPrecision(5) + ' ' + (marker.markerGeoOffsetLngPercentage * cHeight).toPrecision(5) + '% ' + marker.markerGeoOffsetLatPercentage,
-            marker.markerGeoOffsetLatPercentage * cWidth,
-            marker.markerGeoOffsetLngPercentage * cHeight);
-      }
+      this.drawMarkerLabels(ctx, drawingData, cWidth, cHeight);
 
     });
 
@@ -102,7 +58,110 @@ export class CanvasMapOverlayComponent implements OnInit {
   //   this.canvasHeight = cHeight;
   // }
 
-  public myPinBtnClicked()  {
+  public myPinBtnClicked(ctx: any)  {
+  }
+
+  public drawMarkerLabels(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
+    for (var i=0; i< drawingData.markers.length; i++){
+      let marker: any = drawingData.markers[i];
+      this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
+    }
+  }
+
+  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth:any, cHeight: any){
+
+    let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
+    let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - 40;
+    let markerLabelProps = this.getMarkerLabelProps(marker);
+    ctx.fillStyle = this.getLabelColor(markerLabelProps);
+    ctx.font = "12px Arial";
+
+    let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
+    ctx.fillText(nameLabel, textX, textY);
+
+    //console.log("Drawing marker - Host label: " + markerLabelProps.hostOrMe);
+    //console.log(!!markerLabelProps.hostOrMe);
+    if( !!markerLabelProps.hostOrMe ){
+      //console.log('Drawing host label');
+      ctx.fillText(markerLabelProps.hostOrMe, textX, textY + 15);
+    }
+  }
+
+  public getLabelColor(markerLabelProps) {
+
+    let labelColor = undefined;
+
+    switch(markerLabelProps.hostOrMe) {
+      case 'ME':
+        labelColor = 'Yellow';
+        break;
+      case 'HOST':
+        labelColor = 'Blue';
+        break;
+      default:
+        labelColor = 'Teal';
+    }
+
+    return labelColor;
+  }
+
+  public getMarkerLabelProps(marker:any): any{
+    console.log(marker);
+    let labelStringComponents = marker.markerLabel.split('|');
+
+    let labelProps = {
+      firstName: labelStringComponents[0],
+      lastInitial: labelStringComponents[1],
+      hostOrMe: labelStringComponents[3] ? labelStringComponents[3] : labelStringComponents[2] || ''
+    };
+
+    console.log(labelProps);
+    return labelProps;
+
+  };
+
+  public selectMarkerLabelColor(marker: any){
+
+  }
+
+  public drawTestingMarkers(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
+    for (var i=0; i< drawingData.markers.length; i++){
+      var marker = drawingData.markers[i];
+
+      ctx.beginPath();
+      ctx.arc(
+          marker.markerGeoOffsetLatPercentage * cWidth,
+          marker.markerGeoOffsetLngPercentage * cHeight, 50, 0, 2*Math.PI
+      );
+      ctx.fillStyle = 'Blue';
+      ctx.stroke();
+
+      ctx.font = "12px Arial";
+      ctx.fillText(marker.markerLabel + ': ' + (marker.markerGeoOffsetLatPercentage * cWidth).toPrecision(5) + ' ' + (marker.markerGeoOffsetLngPercentage * cHeight).toPrecision(5) + '% ' + marker.markerGeoOffsetLatPercentage,
+          marker.markerGeoOffsetLatPercentage * cWidth,
+          marker.markerGeoOffsetLngPercentage * cHeight);
+    }
+  }
+
+  public drawGridLines(ctx: any, canvBounds: any, cWidth: any, cHeight: any): void {
+
+    var tenthWidth = cWidth/10;
+
+    for ( var j=1; j<10; j++ ) {
+      ctx.beginPath();
+      ctx.moveTo(tenthWidth * j,canvBounds.top);
+      ctx.lineTo(tenthWidth * j,canvBounds.bottom);
+      ctx.fillStyle = 'grey';
+      ctx.stroke();
+
+      ctx.fillText(tenthWidth * j + ', ' + canvBounds.top,
+          tenthWidth * j,
+          canvBounds.top + 20);
+
+      ctx.fillText(tenthWidth * j + ', ' + canvBounds.bottom,
+          tenthWidth * j,
+          canvBounds.bottom - 20);
+    }
   }
 
 }
