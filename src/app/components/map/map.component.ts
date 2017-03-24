@@ -73,7 +73,20 @@ export class MapComponent implements OnInit {
   }
 
   public getLabelName(pin: Pin) {
-    return (pin.firstName);
+    return (pin.firstName + '|' + this.getLastInitial(pin) + '|' +
+            this.hostOrEmptyString(pin) + '|' + this.isMe(pin) );
+  }
+
+  public getLastInitial(pin: Pin){
+    return pin.lastName ? (pin.lastName.substring(0, 1) + '.') : '';
+  }
+
+  public hostOrEmptyString(pin: Pin): string {
+    return pin.pinType === pinType.GATHERING ? 'HOST' : '';
+  }
+
+  public isMe(pin: Pin): string {
+    return '';
   }
 
 }
