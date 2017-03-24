@@ -734,7 +734,7 @@ MarkerClusterer.prototype.isMarkerInCluster = function(marker, clusters){
       var markerInCluster = indClusterMarkers[j];
       //console.log('Marker in cluster to compare: ');
       //console.log(markerInCluster);
-      var isMarkerEqualToMarkerInCluster = markerInCluster.label == marker.label &&
+      var isMarkerEqualToMarkerInCluster = markerInCluster.title == marker.title &&
                                            markerInCluster.position.lat() == marker.position.lat() &&
                                            markerInCluster.position.lng() == marker.position.lng();
       if(isMarkerEqualToMarkerInCluster){

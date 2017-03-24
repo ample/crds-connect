@@ -37,6 +37,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       let markers = [];
       let promises = [];
       let sebmMarker;
+
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;
         if (sebmMarker.iconUrl.endsWith("PERSON.png") ||
@@ -44,74 +45,12 @@ export class GoogleMapClusterDirective implements AfterContentInit {
           let promise = this.markerManager.getNativeMarker(sebmMarker);
           promises.push(promise);
           promise.then(marker => {
-            //marker.prop = 'test';
             markers.push(marker);
           })
         }
       }
       Promise.all(promises).then(() => {
-
         this.cluster = new MarkerClusterer(map, markers, options);
-
-
-
-        //console.log('CLUSTERS');
-        //console.log(this.cluster);
-
-        var markerClusters = this.cluster.clusters_;
-
-        setTimeout(()=>{
-          //console.log('CLUSTERS W/ MARKERS');
-          //console.log(markerClusters);
-          //console.log('TEST: ' + markerClusters[0]);
-          //console.log('CLUSTERS W/ MARKERS LENGTH: ' + markerClusters.length);
-
-          var markersInClusters = [];
-
-          for (var k = 0; k < markerClusters.length; k++) {
-
-            //console.log('Iterating throught marker clusters');
-            var mrkrs = markerClusters[k].markers_;
-            //console.log('IND MARKERS: ');
-            //console.log(mrkrs);
-
-            for (var l = 0; l < markers.length; l++) {
-              var mrkr = markers[l];
-              markersInClusters.push(mrkr);
-            }
-
-          }
-
-          //console.log('MARKERS IN CLUSTERS');
-          //console.log(markersInClusters);
-
-          this.mapHlpr.emitClusterMarkerData(markersInClusters);
-        },1);
-
-
-        // console.log('CLUSTERS W/ MARKERS');
-        // console.log(markerClusters);
-        // console.log('TEST: ' + markerClusters[0]);
-        // console.log('CLUSTERS W/ MARKERS LENGTH: ' + markerClusters.length);
-        //
-        // var markersInClusters = [];
-        //
-        // for (var k = 0; k < markerClusters.length; k++) {
-        //
-        //   console.log('Iterating throught marker clusters');
-        //   var mrkrs = markerClusters[k].markers_;
-        //   console.log('IND MARKERS: ');
-        //   console.log(mrkrs);
-        //
-        //   // for (var l = 0; l < markers.length; l++) {
-        //   //   var mrkr = markers[l];
-        //   //   markersInClusters.push(mrkr);
-        //   // }
-        //
-        // }
-        //
-        // console.log('MARKERS IN CLUSTERS');
-        // console.log(markersInClusters);
       })
 
     })

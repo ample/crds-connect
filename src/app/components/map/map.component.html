@@ -16,7 +16,7 @@
           [longitude] = "pin.address.longitude"
           iconUrl = "{{getStringByPinType(pin.pinType)}}"
           (markerClick) = "displayDetails(pin)"
-          [label] = "getLabelName(pin)">
+          [title] = "getLabelName(pin)">
           
         <sebm-google-map-info-window [disableAutoPan]="true" >
             <strong> Welcome to Crossroads! </strong><br>{{pin.address.addressLine1}}<br>{{pin.address.city}}, {{pin.address.state}}  {{pin.address.zip}}

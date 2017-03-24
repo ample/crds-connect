@@ -35,8 +35,6 @@ export class MapContentComponent implements OnInit {
 
   @HostListener('document:redrawingClusters', ['$event'])
   onClusterRedraw(event) {
-    console.log('Clusters being redrawn');
-    console.log(event.data);
     this.drawLabels2(event.data.markersNotInClusters);
   }
 
@@ -175,7 +173,7 @@ export class MapContentComponent implements OnInit {
   }
 
   public drawLabels2(markers: any): void {
-    console.log('Drawing some labels');
+    //console.log('Drawing some labels');
     this.mapApiWrapper.getNativeMap()
       .then((map)=> {
 
@@ -207,7 +205,7 @@ export class MapContentComponent implements OnInit {
         if( markers.length > 0 ) {
           for (let i = 0; i < markers.length; i++ ){
             let marker = markers[i];
-            let markerLabel = marker.label;
+            let markerLabel = marker.title;
             let markerLat = marker.position.lat().valueOf();
             let markerLng = marker.position.lng().valueOf();
             let deltaLeftSideOfMapToMarker = delta(markerLng, geoBounds.right);
@@ -228,9 +226,6 @@ export class MapContentComponent implements OnInit {
 
             markerArray.push(markerObj);
           }
-
-          console.log('MARKERS');
-          console.log(markerArray);
 
           let dataForDrawing = {
             geoBounds: geoBounds,
