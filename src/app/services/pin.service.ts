@@ -1,7 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Response, RequestOptions } from '@angular/http';
+import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
+import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
+
 
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
@@ -9,20 +12,23 @@ import { StateService } from '../services/state.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
 
-import { Pin } from '../models/pin';
+
+import { Pin, pinType } from '../models/pin';
+import { PinIdentifier } from '../models/pin-identifier';
 import { User } from '../models/user';
 import { Person } from '../models/person';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
+import { SearchOptions } from '../models/search-options';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class PinService {
+export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
 
-  private pinsCache: PinSearchResultsDto;
+
   private baseUrl = process.env.CRDS_API_ENDPOINT;
   private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
 
@@ -33,72 +39,67 @@ export class PinService {
   constructor(
     private session: SessionService,
     private state: StateService,
-    private blandPageService: BlandPageService
+    private blandPageService: BlandPageService,
+    private http: Http
   ) {
+    super();
     this.SayHiTemplateId = sayHiTemplateId;
   }
 
-
-  //PRIVATE
-  private cached(): boolean {
-    return this.pinsCache != null;
-  }
-
-  private clearCache(): void {
-    this.pinsCache = null;
-  }
-
-  private setCache(pinSearchResults: PinSearchResultsDto): void {
-    this.pinsCache = pinSearchResults;
-  }
-
-  private getCache(): PinSearchResultsDto {
-    return this.pinsCache;
-  }
-
-  //this should probably go on the PinSearchResultsDTO as a function named AddPinToPinSearchResults
-  private addPinToCache(pin: Pin): void {
-    //adds a new pin to the pin results array
-    if (this.cached()){
-      this.pinsCache.pinSearchResults.push(pin);
-    } else {
-      let pinArray = new Array<Pin>();
-      pinArray.push(pin)
-      this.pinsCache = new PinSearchResultsDto(new GeoCoordinates(0,0),pinArray);
-    }
+  private createPartialCache(pin: Pin): void {
+    let pinArray = new Array<Pin>();
+    pinArray.push(pin)
+    super.setSmartCache(new PinSearchResultsDto(new GeoCoordinates(0, 0), pinArray), CacheLevel.Partial, null);
   }
 
   //GETS
-  public getPinDetails(participantId: number): Observable<Pin> {
+  public getPinDetails(pinIdentifier: PinIdentifier): Observable<Pin> {
     let cachedPins: PinSearchResultsDto;
     let pin: Pin;
+    let url: string;
 
-    if (this.cached()) {
-      cachedPins = this.getCache();
+    if (super.isAtLeastPartialCache()) {
+      cachedPins = super.getCache();
       pin = cachedPins.pinSearchResults.find(pin => {
-        return pin.participantId == participantId;
+        if (pin.pinType == pinIdentifier.type) {
+          if (pinIdentifier.type == pinType.PERSON) {
+            return (pin.participantId == pinIdentifier.id);
+          } else {
+            return (pin.gathering) && (pin.gathering.groupId == pinIdentifier.id);
+          }
+        } else {
+          return false;
+        }
       });
       if (pin != null) {
         return Observable.of<Pin>(pin);
       }
     }
-    
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/${participantId}`)      
-      .do((res: Response) => this.addPinToCache(res.json() as Pin))
-      .map((res: Response) => res.json())
+    url = pinIdentifier.type == pinType.PERSON ?
+      `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
+      `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
+
+    return this.session.get(url)
+      .do((res: Pin) => this.createPartialCache(res))
       .catch((error: any) => Observable.throw(error || 'Server error'));
-
-  }
-
-  public getPinDetailsByContactId(contactId: number): Observable<Pin> {
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
-      .map((res: Response) => res.json())
-      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }
 
   public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number)
     : Observable<PinSearchResultsDto> {
 
+    let searchOptions = new SearchOptions(userSearchAddress, lat, lng);
+
+    //if we have a cache AND that cache came from a full search and 
+    //not just an insert from visiting a detail page off the bat, use that cache
+    if (super.isFullCache()) {
+      //check to see if our search terms have changed -- if so, clear the cache
+      if (super.cacheIsValid(searchOptions)) {
+        return Observable.of(super.getCache());
+      } else {
+        super.clearCache();
+      }
+    }
+    debugger;
     let searchUrl: string = lat && lng ?
       'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
       + '/' + lat.toString().split('.').join('$') + '/'
@@ -106,8 +107,10 @@ export class PinService {
       'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
 
     return this.session.get(this.baseUrl + searchUrl)
-      .map((res: Response) => res.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      //when we get the new results, set them to the cache
+      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions))
+      .catch((error: any) => Observable.throw(error || 'Server error'));
+
   }
 
   //POSTS

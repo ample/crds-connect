@@ -1,17 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { Observable } from 'rxjs/Rx';
+
+import { Address } from '../models/address';
+import { Pin } from '../models/pin';
+import { User } from '../models/user';
+import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
+
+import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
 @Injectable()
-export class SessionService {
+export class SessionService extends SmartCacheableService<User, number> {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
+  private baseUrl = process.env.CRDS_API_ENDPOINT;
   private cookieOptions: CookieOptionsArgs;
+  public defaults = {
+    authorized: null
+  };
 
   private readonly contactId: string = 'userId';
 
   constructor(private http: Http, private cookieService: CookieService) {
+    super();
     if (process.env.CRDS_COOKIE_DOMAIN) {
       this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
     }
@@ -84,7 +97,7 @@ export class SessionService {
     this.cookieService.put(this.refreshToken, value, this.cookieOptions);
   }
 
-  public getRequestOption(options?: RequestOptions):  RequestOptions {
+  public getRequestOption(options?: RequestOptions): RequestOptions {
     let reqOptions = options || new RequestOptions();
     reqOptions.headers = this.createAuthorizationHeader(reqOptions.headers);
     return reqOptions;
@@ -99,11 +112,103 @@ export class SessionService {
   }
 
   private createAuthorizationHeader(headers?: Headers) {
-    let reqHeaders =  headers || new Headers();
+    let reqHeaders = headers || new Headers();
     reqHeaders.set('Authorization', this.getAccessToken());
     reqHeaders.set('Content-Type', 'application/json');
     reqHeaders.set('Accept', 'application/json, text/plain, */*');
     return reqHeaders;
   }
+
+
+  public getAuthentication(): Observable<any> {
+    return this.get(this.baseUrl + 'api/v1.0.0/authenticated')
+      .map((res: Response) => {
+        return res || this.defaults.authorized;
+      })
+      .catch((res: Response) => {
+        return [this.defaults.authorized];
+      });
+  }
+
+  public isLoggedIn(): boolean {
+    return this.hasToken();
+  }
+
+  public logOut(): void {
+    this.clearTokens();
+    return;
+  }
+
+  public getUserData(): Observable<any> {
+    let contactId = this.getContactId();
+
+    if (super.isFullCache()) {
+      if (super.cacheIsValid(contactId)){
+        return Observable.of(super.getCache());
+      } else {
+        super.clearCache();
+      }
+    } else {
+      if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
+        return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
+          .map((res: Pin) => {
+            let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
+              res.address.city, res.address.state, res.address.zip, res.address.longitude,
+              res.address.latitude, res.address.foreignCountry, res.address.county);
+            let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
+              res.firstName, res.lastName, res.emailAddress, userAddress);
+            super.setSmartCache(userData, CacheLevel.Full, contactId);
+            return userData;
+          })
+          .catch((err) => Observable.throw(err.json().error));
+      } else {
+        return null;
+      }
+    }
+  }
+
+  public getUserDetailsByContactId(contactId: number): Observable<User> {
+    if (super.isAtLeastPartialCache()){
+      if (super.cacheIsValid(contactId)){
+        return Observable.of(super.getCache());
+      } else {
+        super.clearCache();
+      }
+    }
+    return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
+      .do((details) => super.setSmartCache(details, CacheLevel.Partial, contactId))
+      .catch((error: any) => Observable.throw(error || 'Server error'));
+  }
+
+  //POSTS
+  public postLogin(email: string, password: string): Observable<any> {
+    let body = {
+      'username': email,
+      'password': password
+    };
+    return this.post(this.baseUrl + 'api/v1.0.0/login', body)
+      .map((res: Response) => {
+        return res || this.defaults.authorized;
+      })
+      .catch(this.handleError);
+  }
+
+  public postUser(user: User): Observable<any> {
+    return this.post(this.baseUrl + 'api/v1.0.0/user', user)
+      .map(this.extractData)
+      .catch(this.handleError);
+  };
+
+  public extractData(res: Response) {
+    let body: any = res;
+    if (typeof res.json === 'function') {
+      body = res.json();
+    }
+    return body;
+  };
+
+  public handleError(err: Response | any) {
+    return Observable.throw(err);
+  };
 
 }

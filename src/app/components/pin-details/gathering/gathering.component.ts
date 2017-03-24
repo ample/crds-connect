@@ -6,7 +6,6 @@ import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
-import { APIService } from '../../../services/api.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { ContentService } from '../../../services/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -29,7 +28,7 @@ export class GatheringComponent implements OnInit {
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
 
-  constructor(private api: APIService,
+  constructor(
     private content: ContentService,
     private session: SessionService,
     private pinService: PinService,
@@ -72,11 +71,11 @@ export class GatheringComponent implements OnInit {
               '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
               BlandPageType.Text,
               BlandPageCause.Error,
-              'pin-details/' + this.pin.participantId
+              'gathering/' + this.pin.gathering.groupId
             );
             this.blandPageService.primeAndGo(bpd);
           } else {
-            this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
+            this.blandPageService.goToDefaultError('gathering/' + this.pin.gathering.groupId);
           }
         }
       );

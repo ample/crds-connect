@@ -138,7 +138,7 @@ describe('GatheringComponent', () => {
             '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
             BlandPageType.Text,
             BlandPageCause.Error,            
-            'pin-details/' + pin.participantId,
+            'gathering/' + pin.gathering.groupId,
         );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
@@ -160,6 +160,6 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('pin-details/' + pin.participantId)
+        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('Gathering/' + pin.gathering.groupId)
     })
 });

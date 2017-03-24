@@ -5,9 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
-
-import { APIService } from '../../services/api.service';
-import { Pin } from '../../models/pin';
+import { Pin, pinType } from '../../models/pin';
 import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
@@ -35,7 +33,7 @@ export class PinDetailsComponent implements OnInit {
   public isInGathering: boolean = false;
   public user: User;
 
-  constructor(private api: APIService,
+  constructor(
     private location: PlatformLocation,
     private router: Router,
     private route: ActivatedRoute,
@@ -53,11 +51,11 @@ export class PinDetailsComponent implements OnInit {
     this.user = this.route.snapshot.data['user'];
 
 
-    if (this.pin.gathering !== null && this.pin.gathering !== undefined) {
+    if (this.pin.pinType == pinType.GATHERING) {
       this.isGatheringPin = true;
     }
 
-    if (this.api.isLoggedIn()) {
+    if (this.session.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isPinOwner = this.doesLoggedInUserOwnPin();
     }

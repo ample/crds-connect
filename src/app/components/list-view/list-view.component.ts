@@ -2,7 +2,6 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core'
 import { ListFooterComponent } from '../list-footer/list-footer.component';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
@@ -21,7 +20,6 @@ export class ListViewComponent implements OnInit {
   public showing_increment : number = 10;
 
   constructor( private userLocationService: UserLocationService,
-               private api: APIService,
                private neighborsHelperService: NeighborsHelperService,
                private stateService: StateService) {
     neighborsHelperService.changeEmitter.subscribe(() => {

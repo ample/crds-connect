@@ -8,7 +8,7 @@ import { TestBed, getTestBed, async, inject } from '@angular/core/testing';
 import { IFrameParentService } from './iframe-parent.service';
 import { StoreService } from './store.service';
 import { SessionService } from './session.service';
-import { APIService } from './api.service';
+import { IPService } from './ip.service';
 import { PinService } from './pin.service';
 import { StateService } from './state.service';
 

@@ -84,7 +84,7 @@ describe('InviteSomeoneComponent', () => {
             `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
             BlandPageType.Text,
             BlandPageCause.Success,
-            `pin-details/${participantId}`
+            `gathering/${gatheringId}`
         );
         (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.of({}));
         comp.gatheringId = gatheringId;

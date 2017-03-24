@@ -46,7 +46,7 @@ import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
-import { APIService } from './services/api.service';
+import { IPService } from './services/ip.service';
 import { ContentService } from './services/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { GoogleMapService } from './services/google-map.service';
@@ -75,7 +75,6 @@ import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { GettingStartedGuard } from './route-guards/getting-started-guard';
 
-import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
@@ -144,7 +143,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
-    APIService,
+    IPService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
@@ -158,7 +157,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PinService,
     PinResolver,
     SessionService,
-    StateListResolver,
     StateService,
     StoreService,
     UserLocationService,
