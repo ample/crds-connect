@@ -44,6 +44,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
           let promise = this.markerManager.getNativeMarker(sebmMarker);
           promises.push(promise);
           promise.then(marker => {
+            //marker.prop = 'test';
             markers.push(marker);
           })
         }

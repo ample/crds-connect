@@ -708,43 +708,43 @@ MarkerClusterer.prototype.repaint = function () {
 
 MarkerClusterer.prototype.isMarkerInCluster = function(marker, clusters){
 
-  console.log('---');
-  console.log('IS MARKER IN CLUSTER, MARKER: ');
-  console.log(marker);
+  // console.log('---');
+  // console.log('IS MARKER IN CLUSTER, MARKER: ');
+  // console.log(marker);
   var isMarkerInCluster = false;
 
-  console.log('CLUSTERS: ');
-  console.log(clusters);
-
-  console.log('Iterating through individual clusters: ');
+  // console.log('CLUSTERS: ');
+  // console.log(clusters);
+  //
+  // console.log('Iterating through individual clusters: ');
   for(var i = 0; i<clusters.length; i++){
     var indClusterMarkers = clusters[i].markers_;
 
-    console.log('Specific cluster and markers ' + i + ': ');
-    console.log(clusters[i]);
-    console.log(indClusterMarkers);
+    // console.log('Specific cluster and markers ' + i + ': ');
+    // console.log(clusters[i]);
+    // console.log(indClusterMarkers);
 
     var isFalseCluster = indClusterMarkers.length < 2;
 
-    console.log('Markers in cluster length: ' + indClusterMarkers.length + ' continue? ' + isFalseCluster);
+    //console.log('Markers in cluster length: ' + indClusterMarkers.length + ' continue? ' + isFalseCluster);
     if( isFalseCluster ) { continue; }
-    console.log('Iterating through markers in cluster');
+    //console.log('Iterating through markers in cluster');
 
     for(var j = 0; j<indClusterMarkers.length; j++){
       var markerInCluster = indClusterMarkers[j];
-      console.log('Marker in cluster to compare: ');
-      console.log(markerInCluster);
+      //console.log('Marker in cluster to compare: ');
+      //console.log(markerInCluster);
       var isMarkerEqualToMarkerInCluster = markerInCluster.label == marker.label &&
                                            markerInCluster.position.lat() == marker.position.lat() &&
                                            markerInCluster.position.lng() == marker.position.lng();
       if(isMarkerEqualToMarkerInCluster){
-        console.log('Marker is in cluster!!');
+        //console.log('Marker is in cluster!!');
         isMarkerInCluster = true;
       }
     }
   }
 
-  console.log('Returning isMarkerInCluster: ' + isMarkerInCluster);
+  //console.log('Returning isMarkerInCluster: ' + isMarkerInCluster);
   return isMarkerInCluster;
 };
 
@@ -766,8 +766,8 @@ MarkerClusterer.prototype.redraw = function () {
 
   this.createClusters_();
 
-  console.log(this.markers_);
-  console.log(this.clusters_);
+  //console.log(this.markers_);
+  //console.log(this.clusters_);
 
   for (var i = 0, marker; marker = this.markers_[i]; i++) {
     if (!this.isMarkerInCluster(marker, this.clusters_)) {
