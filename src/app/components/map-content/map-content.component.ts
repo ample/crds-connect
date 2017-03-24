@@ -40,6 +40,8 @@ export class MapContentComponent implements OnInit {
         map.setOptions(<NativeGoogMapProps>{
           zoomControlOptions: zoomControlOptions,
           streetViewControlOptions: streetViewControlOptions,
+          minZoom: 3,
+          maxZoom: 20,
           styles: [
             {
               "elementType": "geometry",
