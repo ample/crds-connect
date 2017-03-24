@@ -52,7 +52,13 @@ export class MapComponent implements OnInit {
     if (haveResults) {
       let lat = this.searchResults.centerLocation.lat;
       let lng = this.searchResults.centerLocation.lng;
-      this.mapSettings.zoom = this.calculateZoom(15, lat, lng);
+      let zoomToUse = this.state.getUseZoom();
+      if (zoomToUse === -1) {
+        this.mapSettings.zoom = this.calculateZoom(15, lat, lng)
+      } else {
+        this.mapSettings.zoom = zoomToUse;
+        this.state.setUseZoom(-1);
+      }
       this.mapSettings.lat = lat;
       this.mapSettings.lng = lng;
     }

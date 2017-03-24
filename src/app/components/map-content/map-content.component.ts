@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
+import { MapView } from '../../models/map-view';
 
 declare let google: any; //This does need to be 'declare'
 
@@ -18,7 +19,7 @@ interface NativeGoogMapProps {
 export class MapContentComponent implements OnInit {
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
-              private mapHlpr: GoogleMapService ) {
+              private mapHlpr: GoogleMapService) {
     mapHlpr.mapUpdatedEmitter.subscribe(coords => {
       this.refreshMapSize(coords);
     });
@@ -200,6 +201,20 @@ export class MapContentComponent implements OnInit {
               ]
             }
           ]
+        });
+
+        map.addListener("dragend", () => {
+          let center = map.getCenter();
+          let zoom = map.getZoom();
+          let mapViewUpdate = new MapView("dragend", center.lat(), center.lng(), zoom);
+          this.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+        });
+
+        map.addListener("zoom_changed", () => {
+          let center = map.getCenter();
+          let zoom = map.getZoom();
+          let mapViewUpdate = new MapView("zoom_changed", center.lat(), center.lng(), zoom);
+          this.mapHlpr.emitMapViewUpdated(mapViewUpdate);
         });
       });
   }
