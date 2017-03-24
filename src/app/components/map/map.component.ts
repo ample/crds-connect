@@ -34,19 +34,27 @@ export class MapComponent implements OnInit {
   public ngOnInit(): void {
 
     let haveResults = !!this.searchResults;
-    if (!haveResults) {
-      this.state.setLoading(true);
-      this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          this.mapSettings.zoom = 15;
-          this.mapSettings.lat = pos.lat;
-          this.mapSettings.lng = pos.lng;
-        }
-      );
-    } else {
-      this.mapSettings.zoom = 15;
-      this.mapSettings.lat = this.searchResults.centerLocation.lat;
-      this.mapSettings.lng = this.searchResults.centerLocation.lng;
+    ////
+    //// I don't think this code is needed (since it really is driven from the
+    //// neighbors component) but just in case, I'm only commenting it out. If
+    //// it really isn't needed, then it should br removed. - DaveA
+    ////
+    // if (!haveResults) {
+    //   this.state.setLoading(true);
+    //   this.userLocationService.GetUserLocation().subscribe(
+    //     pos => {
+    //       this.mapSettings.zoom = 15;
+    //       this.mapSettings.lat = pos.lat;
+    //       this.mapSettings.lng = pos.lng;
+    //     }
+    //   );
+    // } else
+    if (haveResults) {
+      let lat = this.searchResults.centerLocation.lat;
+      let lng = this.searchResults.centerLocation.lng;
+      this.mapSettings.zoom = this.calculateZoom(15, lat, lng);
+      this.mapSettings.lat = lat;
+      this.mapSettings.lng = lng;
     }
 
   }
@@ -71,4 +79,94 @@ export class MapComponent implements OnInit {
     }
   }
 
+  // get the best zoom level for the map
+  private calculateZoom(zoom: number, lat: number, lng: number): number {
+    let bounds = {
+      width:  document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+      lat:    lat,
+      lng:    lng
+    }
+    return this.calculateBestZoom(bounds, zoom);
+  }
+
+  // zero in on the zoom that's closest to the target pin count without going under
+  private calculateBestZoom(bounds: Object, zoom: number, pops: Object = {}) : number {
+    let popTarget = 10;
+    let pop = this.countPopAtZoom(bounds, zoom, pops);
+    if (pop < popTarget) {
+      return this.calculateBestZoom(bounds, zoom-1, pops);
+    } else if (zoom >= 20) {
+      return 20;
+    } else {
+      let upPop = this.countPopAtZoom(bounds, zoom+1, pops);
+      if (upPop < popTarget) {
+        return zoom;
+      } else {
+        return this.calculateBestZoom(bounds, zoom+1, pops);
+      }
+    }
+  }
+
+  // return the number of pins in a bounded region
+  private countPopAtZoom(bounds: Object, zoom: number, pops: Object) : number {
+    if (pops[zoom] === undefined) {
+      let geoBounds = this.calculateGeoBounds(bounds, zoom);
+      let geoPop = this.countResultsInBounds(geoBounds);
+      pops[zoom] = geoPop;
+    }
+    return pops[zoom];
+  }
+
+  // determine the google lat/lng bounds of a region from a viewport and zoom
+  private calculateGeoBounds(bounds: Object, zoom: number): Object {
+    // at zoom 0,    256px for 180° latitude,  0.703125°/px
+    //               256px for 360° longitude, 1.46025°/px
+    // at zoom 1,    512px for 180° latitude,  0.3515625°/px
+    //               512px for 360° longitude, 0.703125°/px
+    // at zoom 2,   1024px for 180° latitude,  0.17578125°/px
+    //              1024px for 360° longitude, 0.3515625°/px
+    //  ...
+    // at zoom n,  256*Apx for 180° latitude,  0.703125°/Apx, A = 2^n
+    //            1024*Apx for 360° longitude, 1.40625°/Apx
+
+    // vadjust compensates for the local distortion of the Mercator projection.
+
+    let vadjust    = 1.0/Math.cos(Math.PI*bounds['lat']/180);
+    let divisor    = Math.pow(2, zoom);
+    let halfHeight = vadjust*bounds['height']/2;
+    let halfLat    = 0.703125*halfHeight/divisor;
+    let halfWidth  = bounds['width']/2;
+    let halfLng    = 1.406250*halfWidth/divisor
+    return {
+      north: (bounds['lat'] + halfLat),
+      south: (bounds['lat'] - halfLat),
+      east:  (bounds['lng'] + halfLng),
+      west:  (bounds['lng'] - halfLng)
+    };
+  }
+
+  // count the pins in an area lat/lng bounded area
+  private countResultsInBounds(geoBounds: Object): number {
+    let counter = 0;
+    for (let result of this.searchResults.pinSearchResults) {
+      if ((result.address.latitude < geoBounds['north']) &&
+          (result.address.latitude > geoBounds['south']) &&
+          (result.address.longitude < geoBounds['east']) &&
+          (result.address.longitude > geoBounds['west'])) {
+        counter++;
+      }
+    }
+    return counter;
+  }
+
+  // Converting decimal degrees into plotable degrees minutes seconds value
+  private dms(dec: number): String {
+    let decSgn = (dec < 0) ? "-" : "";
+    dec = Math.abs(dec);
+    let decDeg = parseInt(""+dec);
+    let decMin = parseInt(""+(dec-decDeg)*60.0);
+    let decSec = parseInt(""+(dec-decDeg-(decMin/60.0))*3600.0);
+    return `${decSgn}${decDeg}° ${decMin}' ${decSec}"`;
+  }
 }
