@@ -12,6 +12,7 @@ import { Pin } from '../models/pin';
 import { User } from '../models/user';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { MockTestData } from '../shared/MockTestData';
+import { LoginRedirectService } from './login-redirect.service';
 
 describe('Service: Pin', () => {
 

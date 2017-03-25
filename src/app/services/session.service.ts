@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Router } from '@angular/router';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { Address } from '../models/address';
 import { Pin } from '../models/pin';
@@ -9,6 +10,8 @@ import { User } from '../models/user';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
+import { LoginRedirectService } from './login-redirect.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class SessionService extends SmartCacheableService<User, number> {
@@ -17,41 +20,46 @@ export class SessionService extends SmartCacheableService<User, number> {
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
   private baseUrl = process.env.CRDS_API_ENDPOINT;
   private cookieOptions: CookieOptionsArgs;
+  private SessionLengthMilliseconds = 1800000;
+  private refreshTimeout: Subscription;
+  private readonly contactId: string = 'userId';
   public defaults = {
     authorized: null
   };
 
-  private readonly contactId: string = 'userId';
-
-  constructor(private http: Http, private cookieService: CookieService) {
+  constructor(
+    private http: Http,
+    private cookieService: CookieService,
+    private router: Router,
+    private loginRedirectService: LoginRedirectService) {
     super();
     if (process.env.CRDS_COOKIE_DOMAIN) {
-      this.cookieOptions = { domain: process.env.CRDS_COOKIE_DOMAIN };
+      this.cookieOptions = { domain: (process.env.CRDS_COOKIE_DOMAIN != null) ? process.env.CRDS_COOKIE_DOMAIN : '' };
     }
   }
 
   public get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    return this.http.get(url, requestOptions).map(this.extractAuthToken);
+    return this.http.get(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
   public put(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    return this.http.put(url, data, requestOptions).map(this.extractAuthToken);
+    return this.http.put(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
   public post(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    return this.http.post(url, data, requestOptions).map(this.extractAuthToken);
+    return this.http.post(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
-  private extractAuthToken = (res: Response) => {
-    if (res.headers != null && res.headers.get('Authorization')) {
-      this.setAccessToken(res.headers.get('Authorization'));
+  private extractAuthTokenAndUnwrapBody = (res: Response) => {
+    if (res.headers != null && res.headers.get('sesssionId')) {
+      this.setAccessToken(res.headers.get('sessionId'));
     }
 
-    if (res.headers != null && res.headers.get('RefreshToken')) {
-      this.setRefreshToken(res.headers.get('RefreshToken'));
+    if (res.headers != null && res.headers.get('refreshToken')) {
+      this.setRefreshToken(res.headers.get('refreshToken'));
     }
 
     let body: any;
@@ -69,7 +77,26 @@ export class SessionService extends SmartCacheableService<User, number> {
       this.setRefreshToken(body.refreshToken);
     }
 
+    this.setCookieTimeout();
+
     return body || {};
+  }
+
+  public setCookieTimeout() {
+    let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
+    this.cookieOptions.expires = expiration;
+
+    if (this.refreshTimeout) {
+      this.refreshTimeout.unsubscribe();
+      this.refreshTimeout = undefined;
+    }
+
+    if (this.hasToken()) {
+      this.refreshTimeout = Observable.timer(expiration).subscribe(() => {
+        this.clearTokens();
+        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      });
+    }
   }
 
   public hasToken(): boolean {
@@ -114,6 +141,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   private createAuthorizationHeader(headers?: Headers) {
     let reqHeaders = headers || new Headers();
     reqHeaders.set('Authorization', this.getAccessToken());
+    reqHeaders.set('RefreshToken', this.getRefreshToken());
     reqHeaders.set('Content-Type', 'application/json');
     reqHeaders.set('Accept', 'application/json, text/plain, */*');
     return reqHeaders;
