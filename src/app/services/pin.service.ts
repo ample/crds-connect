@@ -72,12 +72,16 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
+
+        console.log("PinService got partial cached PinSearchResultsDto");
         return Observable.of<Pin>(pin);
       }
     }
     url = pinIdentifier.type == pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
+
+    console.log("PinService got partial new PinSearchResultsDto");
 
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
@@ -91,25 +95,24 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     //if we have a cache AND that cache came from a full search and 
     //not just an insert from visiting a detail page off the bat, use that cache
-    if (super.isFullCache()) {
-      //check to see if our search terms have changed -- if so, clear the cache
-      if (super.cacheIsValid(searchOptions)) {
-        return Observable.of(super.getCache());
-      } else {
-        super.clearCache();
-      }
-    }
-    debugger;
-    let searchUrl: string = lat && lng ?
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
-      + '/' + lat.toString().split('.').join('$') + '/'
-      + lng.toString().split('.').join('$') :
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+    if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full)) {
+      
+      console.log("PinService got full cached PinSearchResultsDto");
+      return Observable.of(super.getCache());
+    } else {
+      let searchUrl: string = lat && lng ?
+        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+        + '/' + lat.toString().split('.').join('$') + '/'
+        + lng.toString().split('.').join('$') :
+        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
 
-    return this.session.get(this.baseUrl + searchUrl)
-      //when we get the new results, set them to the cache
-      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
+        
+      console.log("PinService got full new PinSearchResultsDto");
+      return this.session.get(this.baseUrl + searchUrl)
+        //when we get the new results, set them to the cache
+        .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions))
+        .catch((error: any) => Observable.throw(error || 'Server error'));
+    }
 
   }
 

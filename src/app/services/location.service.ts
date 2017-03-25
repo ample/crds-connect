@@ -11,6 +11,7 @@ export class LocationService {
   constructor() { }
 
   public getCurrentPosition(): Observable<any> {
+    debugger;
 
     let isGeoLocationAvailable: boolean = Boolean(navigator.geolocation);
 

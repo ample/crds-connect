@@ -142,12 +142,9 @@ export class SessionService extends SmartCacheableService<User, number> {
   public getUserData(): Observable<any> {
     let contactId = this.getContactId();
 
-    if (super.isFullCache()) {
-      if (super.cacheIsValid(contactId)){
-        return Observable.of(super.getCache());
-      } else {
-        super.clearCache();
-      }
+    if (super.cacheIsReadyAndValid(contactId, CacheLevel.Full)) {
+      console.log("SessionService got full cached User");
+      return Observable.of(super.getCache());
     } else {
       if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
         return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
@@ -158,6 +155,7 @@ export class SessionService extends SmartCacheableService<User, number> {
             let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
               res.firstName, res.lastName, res.emailAddress, userAddress);
             super.setSmartCache(userData, CacheLevel.Full, contactId);
+            console.log("SessionService got new full USER");
             return userData;
           })
           .catch((err) => Observable.throw(err.json().error));
@@ -168,16 +166,15 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   public getUserDetailsByContactId(contactId: number): Observable<User> {
-    if (super.isAtLeastPartialCache()){
-      if (super.cacheIsValid(contactId)){
-        return Observable.of(super.getCache());
-      } else {
-        super.clearCache();
-      }
+    if (super.cacheIsReadyAndValid(contactId, CacheLevel.Partial)) {
+      console.log("SessionService got partial cached USER");
+      return Observable.of(super.getCache());
+    } else {
+      console.log("Session got partial new USER");
+      return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
+        .do((details) => super.setSmartCache(details, CacheLevel.Partial, contactId))
+        .catch((error: any) => Observable.throw(error || 'Server error'));
     }
-    return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
-      .do((details) => super.setSmartCache(details, CacheLevel.Partial, contactId))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
   //POSTS
