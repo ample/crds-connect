@@ -33,14 +33,14 @@ export class MapComponent implements OnInit {
 
     let haveResults = !!this.searchResults;
     if (!haveResults) {
-      this.state.setLoading(true);
-      this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          this.mapSettings.zoom = 15;
-          this.mapSettings.lat = pos.lat;
-          this.mapSettings.lng = pos.lng;
-        }
-      );
+      // this.state.setLoading(true);
+      // this.userLocationService.GetUserLocation().subscribe(
+      //   pos => {
+      //     this.mapSettings.zoom = 15;
+      //     this.mapSettings.lat = pos.lat;
+      //     this.mapSettings.lng = pos.lng;
+      //   }
+      // );
     } else {
       this.mapSettings.zoom = 15;
       this.mapSettings.lat = this.searchResults.centerLocation.lat;
