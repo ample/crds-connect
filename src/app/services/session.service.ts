@@ -54,8 +54,8 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   private extractAuthTokenAndUnwrapBody = (res: Response) => {
-    if (res.headers != null && res.headers.get('sesssionId')) {
-      this.setAccessToken(res.headers.get('sessionId'));
+    if (res.headers != null && res.headers.get('sessionid')) {
+      this.setAccessToken(res.headers.get('sessionid'));
     }
 
     if (res.headers != null && res.headers.get('refreshToken')) {
@@ -104,6 +104,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   public clearTokens(): void {
+    this.cookieOptions.expires = null;
     this.cookieService.remove(this.accessToken, this.cookieOptions);
     this.cookieService.remove(this.refreshToken, this.cookieOptions);
   }
