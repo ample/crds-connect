@@ -18,7 +18,7 @@ import { NeighborsHelperService } from  '../../services/neighbors-helper.service
 export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
 
-  public showing_increment : number = 10;
+  public showing_increment: number = 10;
 
   constructor( private userLocationService: UserLocationService,
                private api: APIService,
@@ -32,19 +32,19 @@ export class ListViewComponent implements OnInit {
   public ngOnInit(): void {}
 
   public pinsToShow(): Pin[] {
-    let showing : number = this.stateService.getShowingPinCount();
-    return this.searchResults.pinSearchResults.filter((item, index) => index < showing)
+    let showing: number = this.stateService.getShowingPinCount();
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing )
   }
 
   public pinsToShowCountings() {
-    let showing : number = this.stateService.getShowingPinCount();
+    let showing: number = this.stateService.getShowingPinCount();
     if (this.searchResults && (this.searchResults.pinSearchResults.length < showing)) {
       showing = this.searchResults.pinSearchResults.length;
     }
     if (showing === 1) {
       return '1 result';
     } else {
-      return showing+' results';
+      return showing + ' results';
     }
   }
 
