@@ -28,8 +28,8 @@ export class GoogleMapClusterDirective implements AfterContentInit {
     this.wrapper.getNativeMap().then(map => {
       let clusterStyle = [{
         url: '/assets/CLUSTER.svg',
-        height: 53,
-        width: 53,
+        height: 50,
+        width: 50,
         textColor: '#fff'
       }];
       let options = {
