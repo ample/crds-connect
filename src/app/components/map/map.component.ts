@@ -10,6 +10,7 @@ import { APIService } from '../../services/api.service';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
@@ -28,6 +29,7 @@ export class MapComponent implements OnInit {
 
   constructor( private userLocationService: UserLocationService,
                private api: APIService,
+               private pinHlpr: PinService,
                private router: Router,
                private mapHlpr: GoogleMapService,
                private state: StateService) {}
@@ -90,7 +92,7 @@ export class MapComponent implements OnInit {
   }
 
   public isMe(pin: Pin): string {
-    return '';
+    return this.pinHlpr.doesLoggedInUserOwnPin(pin) ? 'ME' : '';
   }
 
 }

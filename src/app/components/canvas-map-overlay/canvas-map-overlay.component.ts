@@ -94,7 +94,7 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     switch(markerLabelProps.hostOrMe) {
       case 'ME':
-        labelColor = 'Yellow';
+        labelColor = 'Gold';
         break;
       case 'HOST':
         labelColor = 'Blue';
