@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { crdsOakleyCoords } from '../../shared/constants';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
@@ -63,12 +64,33 @@ export class MapComponent implements OnInit {
   public getStringByPinType(type) {
     switch (type) {
       case pinType.PERSON:
-        return '/assets/PERSON.svg';
+        return 'http://i.imgur.com/12l0PBc.png';
       case pinType.GATHERING:
-        return '/assets/GATHERING.svg';
+        return 'http://i.imgur.com/8Xa3RYb.png';
       default:
-        return '/assets/SITE.svg';
+        return 'http://i.imgur.com/l95VWUN.png';
     }
+  }
+
+  public getLabelName(pin: Pin) {
+    return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
+            this.hostOrEmptyString(pin) + '|' + this.isMe(pin) );
+  }
+
+  public getFirstNameOrSiteName(pin: Pin){
+    return pin.firstName || pin.siteName;
+  }
+
+  public getLastInitial(pin: Pin){
+    return pin.lastName ? (pin.lastName.substring(0, 1) + '.') : '';
+  }
+
+  public hostOrEmptyString(pin: Pin): string {
+    return pin.pinType === pinType.GATHERING ? 'HOST' : '';
+  }
+
+  public isMe(pin: Pin): string {
+    return '';
   }
 
 }

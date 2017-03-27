@@ -3,6 +3,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
@@ -42,6 +43,7 @@ describe('Component: Neighbors', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
+        CanvasMapOverlayComponent,
         NeighborsComponent,
         MapContentComponent,
         MapFooterComponent,

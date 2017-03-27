@@ -85,7 +85,7 @@ module.exports = {
         to: 'fonts/'
       },
       {
-        context: 'src/assets',
+        from: 'src/assets',
         to: 'assets',
       },
       {
