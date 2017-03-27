@@ -34,17 +34,14 @@ export class GoogleMapClusterDirective implements AfterContentInit {
 
   ngAfterContentInit() {
     this.wrapper.getNativeMap().then(map => {
-      let clusterStyle = [{
-        url: 'http://i.imgur.com/Ut4iAtI.png',
-        height: 50,
-        width: 50,
-        textColor: '#fff'
-      }];
       let options = {
         averageCenter: true,
-        imagePath: 'http://i.imgur.com/Ut4iAtI.png',
-        imageExtension: 'png',
-        styles: clusterStyle
+        styles: [{
+          url: '//crds-cms-uploads.s3.amazonaws.com/connect/CLUSTER.svg',
+          height: 50,
+          width: 50,
+          textColor: '#fff'
+        }]
       };
       let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();
       let markers = [];
