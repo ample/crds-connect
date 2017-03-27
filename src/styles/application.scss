@@ -114,7 +114,7 @@ app-add-me-to-map {
 
 // Map searchbar
 app-search-bar {
-  background-color: $cr-blue-dark;
+  background-color: darken(desaturate($cr-blue-dark, 5), 5);
   display: flex;
   justify-content: flex-start;
   padding: .5rem 1rem;
