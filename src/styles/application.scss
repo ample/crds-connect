@@ -119,6 +119,14 @@ app-search-bar {
   justify-content: flex-start;
   padding: .5rem 1rem;
 
+  > button {
+    margin-left: 6px;
+
+    @media (min-width: $screen-xs) {
+      margin-left: 24px;
+    }
+  }
+
   .input-group {
     display: inherit;
     flex: 1 1 auto;
@@ -144,7 +152,9 @@ app-search-bar {
     }
   }
 
-  input[placeholder] { text-overflow: ellipsis;}
+  input[placeholder] {
+    text-overflow: ellipsis;
+  }
 
   // Remove validation
   input.form-control.ng-touched {
