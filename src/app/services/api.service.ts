@@ -73,7 +73,7 @@ export class APIService {
         }, error => {
           observer.error(new Error('Failed to get geolocation from API via IP'));
         }
-      )
+      );
     });
 
     return obs;
@@ -81,7 +81,7 @@ export class APIService {
 
   public getMyPinsSearchResults(lat: number, lng: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findpinsbyaddress/${contactId}/${lat}/${lng}`)
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}/${lat}/${lng}`)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
