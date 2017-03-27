@@ -25,7 +25,7 @@ export class BlandPageService {
     public goToDefaultError(goToRoute: string) {
         this.blandPageDetails = new BlandPageDetails(
             'back',
-            "<h1 class='h1 text-center'>OOPS</h1><p class='text text-center'>Something went wrong.</p>",
+            '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Something went wrong.</p>',
             BlandPageType.Text,
             BlandPageCause.Error,
             goToRoute
@@ -48,30 +48,32 @@ export class BlandPageService {
      * nothing more.  This should only be used by the Getting Started route Guard.
      * @param cancelRoute route to return to if (x) is clicked
      */
-    public primeGettingStarted(cancelRoute: string = 'map') {
+    public primeGettingStarted(cancelRoute: string = '') {
         this.blandPageDetails = new BlandPageDetails(
-            '',
+            'Add me to map',
+            'gettingStarted',
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             'add-me-to-the-map',
             cancelRoute
         );
     }
+
     /**
      * This will set the blandPageDetails for Whats a Host and 
      * nothing more.  This should only be used by the Whats A Host route Guard.
      * @param cancelRoute route to return to if (x) is clicked
      */
-    public primeWhatsAHost(cancelRoute: string = 'map') {
+    public primeWhatsAHost(cancelRoute: string = '') {
         this.blandPageDetails = new BlandPageDetails(
             'Sign up to host',
-            'whatsahost',
+            'whatsAHost',
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             'host-signup',
             cancelRoute
         );
-    };
+    }
 
     public primed() {
         return (this.blandPageDetails !== null && this.blandPageDetails !== undefined);
