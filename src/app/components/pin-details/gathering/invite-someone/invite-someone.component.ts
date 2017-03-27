@@ -9,7 +9,7 @@ import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 
 import { Person } from '../../../../models/person';
-import { BlandPageDetails, BlandPageType, BlandPageCause, BlandPageButton } from '../../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 
 @Component({
     selector: 'invite-someone',
@@ -45,23 +45,14 @@ export class InviteSomeoneComponent implements OnInit {
             this.state.setLoading(true);
             this.pinService.inviteToGathering(this.gatheringId, someone).subscribe(
                 success => {
-                    let succButton = new BlandPageButton(
-                        'Return to my pin',
-                        null,
-                        ''
-                    );
-
-                    let buttons = new Array<BlandPageButton>();
-                    buttons.push(succButton);
                     let bpd = new BlandPageDetails(
+                        'Return to my pin',
                         '<h1 class="h1 text-center">Invite sent</h1>' +
                         // tslint:disable-next-line:max-line-length
                         `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
                         BlandPageType.Text,
                         BlandPageCause.Success,
-                        `pin-details/${this.participantId}`,
-                        null,
-                        buttons
+                        `pin-details/${this.participantId}`
                     );
 
                     this.blandPageService.primeAndGo(bpd);

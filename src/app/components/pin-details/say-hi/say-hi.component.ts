@@ -10,7 +10,7 @@ import { BlandPageService } from '../../../services/bland-page.service';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause, BlandPageButton } from '../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
 @Component({
   selector: 'say-hi',
@@ -45,21 +45,12 @@ export class SayHiComponent implements OnInit {
   }
 
   public sendSayHi() {
-    let succButton = new BlandPageButton(
-      'Return to my pin',
-      null,
-      ''
-    );
-
-    let buttons = new Array<BlandPageButton>();
-    buttons.push(succButton);
     let bpd = new BlandPageDetails(
+      'Return to map',
       '<div class="container"><div class="row text-center"><h3>Success!</h3></div></div>',
       BlandPageType.Text,
       BlandPageCause.Success,
-      '',
-      null,
-      buttons
+      ''
     );
 
     if (!this.user) {
@@ -71,15 +62,13 @@ export class SayHiComponent implements OnInit {
               this.blandPageService.primeAndGo(bpd);
             },
             err => {
-          this.handleError(bpd);
-
+              this.handleError(bpd);
             }
 
           );
         },
         err => {
           this.handleError(bpd);
-
         }
       );
 
@@ -91,7 +80,6 @@ export class SayHiComponent implements OnInit {
         err => {
           this.handleError(bpd);
         }
-
       );
     }
   }
@@ -99,6 +87,8 @@ export class SayHiComponent implements OnInit {
   handleError(bpd: BlandPageDetails) {
     bpd.blandPageCause = BlandPageCause.Error;
     bpd.content = '<div class="container"><div class="row text-center"><h3>We are unable to send your email at this time.</h3></div></div>';
+    bpd.goToState = '';
+    bpd.buttonText = 'Return to pin';
     this.blandPageService.primeAndGo(bpd);
   }
 

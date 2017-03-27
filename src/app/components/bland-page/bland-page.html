@@ -11,6 +11,4 @@
 </div>
 <br>
 
-<div *ngFor="let butt of blandPageDetails.buttons">
-    <input type="button" class="btn btn-secondary btn-block {{butt.cssClass}}" (click)="go();" value="{{butt.buttonText}}">
-</div>
+<input type="button" class="btn btn-secondary btn-block" (click)="go();" value="{{blandPageDetails.buttonText}}">
