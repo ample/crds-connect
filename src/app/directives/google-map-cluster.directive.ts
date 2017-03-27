@@ -35,15 +35,15 @@ export class GoogleMapClusterDirective implements AfterContentInit {
   ngAfterContentInit() {
     this.wrapper.getNativeMap().then(map => {
       let clusterStyle = [{
-        url: '/assets/CLUSTER.svg',
+        url: 'http://i.imgur.com/Ut4iAtI.png',
         height: 53,
         width: 53,
         textColor: '#fff'
       }];
       let options = {
         averageCenter: true,
-        imagePath: '/assets/CLUSTER',
-        imageExtension: 'svg',
+        imagePath: 'http://i.imgur.com/Ut4iAtI.png',
+        imageExtension: 'png',
         styles: clusterStyle
       };
       let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();

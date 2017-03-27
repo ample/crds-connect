@@ -62,11 +62,20 @@ export class CanvasMapOverlayComponent implements OnInit {
 
   }
 
-  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth:any, cHeight: any){
+  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth:any, cHeight: any) {
+
+    let markerLabelProps = this.getMarkerLabelProps(marker);
+
+    let labelHeightAdjustment: number = undefined;
+
+    if( !!markerLabelProps.hostOrMe ){
+      labelHeightAdjustment = 22;
+    } else {
+      labelHeightAdjustment = 12;
+    }
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
-    let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - 40;
-    let markerLabelProps = this.getMarkerLabelProps(marker);
+    let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
     ctx.font = "12px Arial";
 
@@ -109,45 +118,5 @@ export class CanvasMapOverlayComponent implements OnInit {
     return labelProps;
 
   };
-
-  public drawTestingMarkers(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
-    for (let i=0; i< drawingData.markers.length; i++){
-      let marker = drawingData.markers[i];
-
-      ctx.beginPath();
-      ctx.arc(
-          marker.markerGeoOffsetLatPercentage * cWidth,
-          marker.markerGeoOffsetLngPercentage * cHeight, 50, 0, 2*Math.PI
-      );
-      ctx.fillStyle = 'Blue';
-      ctx.stroke();
-
-      ctx.font = "12px Arial";
-      ctx.fillText(marker.markerLabel + ': ' + (marker.markerGeoOffsetLatPercentage * cWidth).toPrecision(5) + ' ' + (marker.markerGeoOffsetLngPercentage * cHeight).toPrecision(5) + '% ' + marker.markerGeoOffsetLatPercentage,
-          marker.markerGeoOffsetLatPercentage * cWidth,
-          marker.markerGeoOffsetLngPercentage * cHeight);
-    }
-  }
-
-  public drawGridLines(ctx: any, canvBounds: any, cWidth: any, cHeight: any): void {
-
-    let tenthWidth = cWidth/10;
-
-    for ( let j=1; j<10; j++ ) {
-      ctx.beginPath();
-      ctx.moveTo(tenthWidth * j,canvBounds.top);
-      ctx.lineTo(tenthWidth * j,canvBounds.bottom);
-      ctx.fillStyle = 'grey';
-      ctx.stroke();
-
-      ctx.fillText(tenthWidth * j + ', ' + canvBounds.top,
-          tenthWidth * j,
-          canvBounds.top + 20);
-
-      ctx.fillText(tenthWidth * j + ', ' + canvBounds.bottom,
-          tenthWidth * j,
-          canvBounds.bottom - 20);
-    }
-  }
 
 }
