@@ -706,11 +706,63 @@ MarkerClusterer.prototype.repaint = function () {
 };
 
 
+MarkerClusterer.prototype.isMarkerInCluster = function(marker, clusters){
+
+  var isMarkerInCluster = false;
+
+  for(var i = 0; i<clusters.length; i++){
+    var indClusterMarkers = clusters[i].markers_;
+    var isFalseCluster = indClusterMarkers.length < 2;
+
+    if( isFalseCluster ) { continue; }
+
+    for(var j = 0; j<indClusterMarkers.length; j++){
+      var markerInCluster = indClusterMarkers[j];
+      var isMarkerEqualToMarkerInCluster = markerInCluster.title == marker.title &&
+                                           markerInCluster.position.lat() == marker.position.lat() &&
+                                           markerInCluster.position.lng() == marker.position.lng();
+      if(isMarkerEqualToMarkerInCluster){
+        isMarkerInCluster = true;
+      }
+    }
+  }
+
+  return isMarkerInCluster;
+};
+
 /**
  * Redraws the clusters.
  */
 MarkerClusterer.prototype.redraw = function () {
+
+
+  if (!this.ready_) {
+    return;
+  }
+
+  var mapBounds = new google.maps.LatLngBounds(this.map_.getBounds().getSouthWest(),
+      this.map_.getBounds().getNorthEast());
+  var bounds = this.getExtendedBounds(mapBounds);
+
+  var markersNotInBounds = [];
+
   this.createClusters_();
+
+  for (var i = 0, marker; marker = this.markers_[i]; i++) {
+    if (!this.isMarkerInCluster(marker, this.clusters_)) {
+      markersNotInBounds.push(marker);
+    }
+  }
+
+  var event = new CustomEvent('redrawingClusters');
+
+  var evntPayload = {
+    'markersNotInClusters': markersNotInBounds,
+    'clusters': this.clusters_
+  };
+
+  event.data = evntPayload;
+  document.dispatchEvent(event, {'detail': evntPayload});
 };
 
 

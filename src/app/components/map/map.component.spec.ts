@@ -2,6 +2,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { APIService } from '../../services/api.service';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
@@ -37,6 +38,7 @@ describe('Component: Map', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
+        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
