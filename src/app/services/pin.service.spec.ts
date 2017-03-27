@@ -1,20 +1,36 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { PinService } from './pin.service';
-import { BlandPageService } from './bland-page.service';
-import { SessionService } from './session.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { StateService } from './state.service';
-import { User } from '../models/user';
-import { Pin } from '../models/pin';
-import { LoginRedirectService } from './login-redirect.service';
 
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
+import { BaseRequestOptions, Http } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { BlandPageService } from './bland-page.service';
+import { LoginRedirectService } from './login-redirect.service';
+import { PinService } from './pin.service';
+import { SessionService } from './session.service';
+import { StateService } from './state.service';
+
+import { Address } from '../models/address';
+import { User } from '../models/user';
+import { Pin, pinType } from '../models/pin';
+
+
+class MockSessiontService {
+  public getContactId(): number {
+    return 222;
+  }
+}
 
 describe('Service: PinService', () => {
+
+  const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
+  const mockPin =
+      new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
+  const mockPinMatchingContactId =
+      new Pin('Bob', 'Smith', 'bobby@bob.com', 222, 222, mockAddress, 0, null, 222, true, '', pinType.PERSON, 0);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +39,7 @@ describe('Service: PinService', () => {
       ],
       providers: [
         PinService,
-        SessionService,
+        {provide: SessionService, useClass: MockSessiontService},
         MockBackend,
         BaseRequestOptions,
         CookieService,
@@ -55,6 +71,16 @@ describe('Service: PinService', () => {
     expect(actual.Community_Member_Name).toBe(expected.Community_Member_Name);
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);
     expect(actual.Community_Member_Email).toBe(expected.Community_Member_Email);
+  }));
+
+  it('should NOT list pin as the user\'s pin', inject([PinService], (service: PinService) => {
+    let doesUserOwnPin = service.doesLoggedInUserOwnPin(mockPin);
+    expect(doesUserOwnPin).toBe(false);
+  }));
+
+  it('should list pin as the user\'s pin', inject([PinService], (service: PinService) => {
+    let doesUserOwnPin: boolean = service.doesLoggedInUserOwnPin(mockPinMatchingContactId);
+    expect(doesUserOwnPin).toBe(true);
   }));
 
 });

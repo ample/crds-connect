@@ -69,8 +69,7 @@ export class PinDetailsComponent implements OnInit {
   }
 
   private doesLoggedInUserOwnPin() {
-    let contactId = this.session.getContactId();
-    return contactId === this.pin.contactId;
+    return this.pinService.doesLoggedInUserOwnPin(this.pin);
   }
 
   public onSubmit(value) {
