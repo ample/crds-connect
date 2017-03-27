@@ -12,8 +12,7 @@ import { NeighborsHelperService } from  '../../services/neighbors-helper.service
 
 @Component({
   selector: 'app-listview',
-  templateUrl: 'list-view.component.html',
-  styleUrls: ['list-view.component.css']
+  templateUrl: 'list-view.component.html'
 })
 export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
