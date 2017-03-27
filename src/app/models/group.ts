@@ -32,6 +32,7 @@ export class Group {
     proximity: number;
     Participants: Participant[];
     groupTypeId?: number;
+    participantCount: number;
 
 
     constructor($groupId: number, $groupName: string, $groupDescription: string, $groupTypeName: string, $ministryId: number,
@@ -40,7 +41,7 @@ export class Group {
     $remainingCapacity: number, $groupFullInd: boolean, $waitListInd: boolean, $waitListGroupId: number,
     $childCareInd: boolean, $meetingDayId: number, $meetingDay: string, $meetingTime: string, $meetingFrequency: string,
     $meetingFrequencyId: number, $address: Address, $targetSize: number, $kidsWelcome: boolean, $proximity: number,
-    $Participants: Participant[], $groupTypeId: number = null) {
+    $Participants: Participant[], $groupTypeId: number = null, $participantCount: number) {
         this.groupId = $groupId;
         this.groupName = $groupName;
         this.groupDescription = $groupDescription;
@@ -70,6 +71,7 @@ export class Group {
         this.proximity = $proximity;
         this.Participants = $Participants;
         this.groupTypeId = $groupTypeId;
+        this.participantCount = $participantCount;
     }
 
 
