@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmailAddressValidator } from '../../../../validators/email-address.validator';
+import { ToastsManager } from 'ng2-toastr';
 
 import { ContentService } from '../../../../services/content.service';
 import { PinService } from '../../../../services/pin.service';
@@ -28,7 +29,8 @@ export class InviteSomeoneComponent implements OnInit {
         private content: ContentService,
         private pinService: PinService,
         private blandPageService: BlandPageService,
-        private state: StateService) { }
+        private state: StateService,
+        private toast: ToastsManager) { }
 
     ngOnInit() {
         this.inviteFormGroup = new FormGroup({
@@ -59,6 +61,7 @@ export class InviteSomeoneComponent implements OnInit {
                 },
                 failure => {
                     this.state.setLoading(false);
+                    this.toast.error('Error sending invite', 'Please try again');
                 }
             );
         }

@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
-
 import { APIService } from '../../services/api.service';
 import { Pin } from '../../models/pin';
 import { PinService } from '../../services/pin.service';
@@ -77,5 +76,4 @@ export class PinDetailsComponent implements OnInit {
       location.reload();
     }
   }
-
 }

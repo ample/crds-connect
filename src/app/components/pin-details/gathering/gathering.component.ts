@@ -1,6 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
@@ -8,7 +9,6 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 
 import { APIService } from '../../../services/api.service';
 import { BlandPageService } from '../../../services/bland-page.service';
-import { ContentService } from '../../../services/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
@@ -30,13 +30,13 @@ export class GatheringComponent implements OnInit {
   public sayHiButtonText: string = 'Contact host';
 
   constructor(private api: APIService,
-    private content: ContentService,
     private session: SessionService,
     private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
-    private state: StateService) { }
+    private state: StateService,
+    private toast: ToastsManager) { }
 
   public ngOnInit() {
     if (this.loggedInUserIsInGathering(this.session.getContactId()) && this.isLoggedIn) {
@@ -62,22 +62,13 @@ export class GatheringComponent implements OnInit {
             BlandPageCause.Success,
             ''
           ));
-
         },
         failure => {
-          let bpd;
+          this.state.setLoading(false);
           if (failure.status === 409) {
-            bpd = new BlandPageDetails(
-              'Back',
-              // tslint:disable-next-line:max-line-length
-              '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-              BlandPageType.Text,
-              BlandPageCause.Error,
-              'pin-details/' + this.pin.participantId
-            );
-            this.blandPageService.primeAndGo(bpd);
+            this.toast.warning('Looks like you have already requested to join this group', 'OOPS');
           } else {
-            this.blandPageService.goToDefaultError('pin-details/' + this.pin.participantId);
+            this.toast.warning('Looks like there was an error. Please fix and try again', 'Oh no!');
           }
         }
       );
