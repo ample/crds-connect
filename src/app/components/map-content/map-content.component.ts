@@ -33,7 +33,6 @@ export class MapContentComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.test();
     this.mapApiWrapper.getNativeMap()
       .then((map)=> {
 

@@ -31,7 +31,6 @@ export class CanvasMapOverlayComponent implements OnInit {
 
       ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-      let geoBounds = drawingData.geoBounds;
       let canvBounds = this.canvasRef.nativeElement.getBoundingClientRect();
       let cWidth = canvBounds.width;
       let cHeight = canvBounds.height;
@@ -51,7 +50,7 @@ export class CanvasMapOverlayComponent implements OnInit {
   ngOnInit() {}
 
   public drawMarkerLabels(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
-    for (var i=0; i< drawingData.markers.length; i++){
+    for (let i=0; i< drawingData.markers.length; i++){
       let marker: any = drawingData.markers[i];
       this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
     }
@@ -106,8 +105,8 @@ export class CanvasMapOverlayComponent implements OnInit {
   };
 
   public drawTestingMarkers(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
-    for (var i=0; i< drawingData.markers.length; i++){
-      var marker = drawingData.markers[i];
+    for (let i=0; i< drawingData.markers.length; i++){
+      let marker = drawingData.markers[i];
 
       ctx.beginPath();
       ctx.arc(
@@ -126,9 +125,9 @@ export class CanvasMapOverlayComponent implements OnInit {
 
   public drawGridLines(ctx: any, canvBounds: any, cWidth: any, cHeight: any): void {
 
-    var tenthWidth = cWidth/10;
+    let tenthWidth = cWidth/10;
 
-    for ( var j=1; j<10; j++ ) {
+    for ( let j=1; j<10; j++ ) {
       ctx.beginPath();
       ctx.moveTo(tenthWidth * j,canvBounds.top);
       ctx.lineTo(tenthWidth * j,canvBounds.bottom);
