@@ -8,11 +8,13 @@ import { PinService } from './pin.service';
 import { Observable } from 'rxjs/Rx';
 import { Response, ResponseOptions } from '@angular/http';
 
-import { Pin } from '../models/pin';
+import { Pin, pinType } from '../models/pin';
 import { User } from '../models/user';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { MockTestData } from '../shared/MockTestData';
 import { LoginRedirectService } from './login-redirect.service';
+import { PinIdentifier } from '../models/pin-identifier';
+import { CacheLevel } from '../services/base-service/cacheable.service';
 
 describe('Service: Pin', () => {
 
@@ -51,54 +53,22 @@ describe('Service: Pin', () => {
   }));
 
   it('should get cached pin details', inject([PinService], (service: PinService) => {
-    let pinsCache: PinSearchResultsDto, results: Pin, designatorStart: number, participantID: number;
+    
+    let pinsCache: PinSearchResultsDto, results: Pin, designatorStart: number, participantID: number, groupId: number;
     designatorStart = 98789;
     participantID = designatorStart;
-    pinsCache = MockTestData.getAPinSearchResults(10, 0, 0, designatorStart, 3, 1, 0);
-    service['pinsCache'] = pinsCache;
+    groupId = designatorStart;
+    pinsCache = MockTestData.getAPinSearchResults(10, 0, 0, designatorStart, 3, pinType.GATHERING, 1);
+    service['cache'] = pinsCache;
+    service['cacheLevel'] = CacheLevel.Full;
 
-    service.getPinDetails(participantID).subscribe(data => {
+    service.getPinDetails(new PinIdentifier(pinType.GATHERING, designatorStart)).subscribe(data => {
       results = data;
     });
 
     expect(results.participantId).toBe(participantID);
     expect(mockSessionService.get).not.toHaveBeenCalled();
-    expect(service['pinsCache'].pinSearchResults.length).toBe(10);
-  }));
-
-  it('should get cached pin details but without pin that is asked for', inject([PinService], (service: PinService) => {
-    let pinsCache: PinSearchResultsDto,
-      results: Pin,
-      designatorStart: number,
-      participantID: number,
-      pin: Pin,
-      res: Response;
-
-    designatorStart = 98789;
-    participantID = 1;
-
-    // this is our fake cache, it has 10 pins
-    pinsCache = MockTestData.getAPinSearchResults(10, 0, 0, designatorStart, 3, 1, 0);
-    // this is the pin our session call will get
-    pin = MockTestData.getAPin(participantID);
-    service['pinsCache'] = pinsCache;
-
-    expect(service['pinsCache'].pinSearchResults.length).toBe(10);
-
-    (<jasmine.Spy>mockSessionService.get).and.returnValue(
-      Observable.of(new Response(new ResponseOptions({ body: pin })))
-    );
-
-
-    service.getPinDetails(participantID).subscribe(data => {
-      results = data;
-    });
-
-    expect(results.participantId).toBe(participantID);
-    expect(mockSessionService.get).toHaveBeenCalled();
-    //pins cache starts with 10 pins, but ends up with 11 because we 
-    //asked for a pin that it didn't have and we had to make a trip to MP to get it.
-    expect(service['pinsCache'].pinSearchResults.length).toBe(11);
+    expect(service['cache'].pinSearchResults.length).toBe(10);
   }));
 
   it('should get pin details, no pins are cached', inject([PinService], (service: PinService) => {
@@ -113,18 +83,18 @@ describe('Service: Pin', () => {
     pin = MockTestData.getAPin(participantID);
 
     (<jasmine.Spy>mockSessionService.get).and.returnValue(
-      Observable.of(new Response(new ResponseOptions({ body: pin })))
+      Observable.of(pin)
     );
 
 
-    service.getPinDetails(participantID).subscribe(data => {
+    service.getPinDetails(new PinIdentifier(pinType.GATHERING, participantID)).subscribe(data => {
       results = data;
     });
     expect(results.participantId).toBe(participantID);
     expect(mockSessionService.get).toHaveBeenCalled();
     //pins cache starts with 10 pins, but ends up with 11 because we 
     //asked for a pin that it didn't have and we had to make a trip to MP to get it.
-    expect(service['pinsCache'].pinSearchResults.length).toBe(1);
+    expect(service['cache'].pinSearchResults.length).toBe(1);
 
   }));
 });

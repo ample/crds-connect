@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Rx';
 import { HttpModule, JsonpModule } from '@angular/http';
 
 
-import { APIService } from '../../services/api.service';
 import { PinService } from '../../services/pin.service';
 
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -25,7 +24,6 @@ describe('Component: Authentication', () => {
 
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
-  let api: APIService;
 
   //api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
 
@@ -39,7 +37,6 @@ describe('Component: Authentication', () => {
         SessionService,
         StateService,
         LoginRedirectService,
-        APIService,
         PinService,
         FormBuilder,
         StoreService,
@@ -73,10 +70,10 @@ describe('Component: Authentication', () => {
     comp.form.setValue({ email: email, password: password });
   }
 
-  it('loginException should get set to true', inject([APIService], (api) => {
+  it('loginException should get set to true', inject([SessionService], (session) => {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
-    spyOn(api, 'postLogin').and.returnValue(Observable.throw({}));
+    spyOn(session, 'postLogin').and.returnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
     expect(comp.loginException).toBeTruthy();

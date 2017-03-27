@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { APIService } from '../../services/api.service';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
@@ -36,6 +35,7 @@ import { BlandPageService } from '../../services/bland-page.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { IPService } from '../../services/ip.service';
 
 describe('Component: Neighbors', () => {
 
@@ -68,13 +68,13 @@ describe('Component: Neighbors', () => {
         StoreService,
         StateService,
         ListHelperService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,
         ContentService,
         LoginRedirectService,
-        BlandPageService
+        BlandPageService,
+        IPService
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);

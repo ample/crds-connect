@@ -20,7 +20,6 @@ import { Pin } from '../../../../models/pin';
 import { Participant } from '../../../../models/participant';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 
-import { APIService } from '../../../../services/api.service';
 import { GroupService } from '../../../../services/group.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';

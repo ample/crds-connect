@@ -21,7 +21,6 @@ import { Group } from '../../../models/group';
 import { Participant } from '../../../models/participant';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
-import { APIService } from '../../../services/api.service';
 import { ContentService } from '../../../services/content.service';
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
@@ -33,7 +32,6 @@ describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
     let el;
-    let mockAPIService;
     let mockContentService;
     let mockSessionService;
     let mockPinService;
@@ -43,7 +41,6 @@ describe('GatheringComponent', () => {
 
 
     beforeEach(() => {
-        mockAPIService = jasmine.createSpyObj<APIService>('api', ['getContactId']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
@@ -59,7 +56,6 @@ describe('GatheringComponent', () => {
             ],
             imports: [],
             providers: [
-                { provide: APIService, useValue: mockAPIService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: SessionService, useValue: mockSessionService },
@@ -160,6 +156,6 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('Gathering/' + pin.gathering.groupId)
+        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('gathering/' + pin.gathering.groupId)
     })
 });

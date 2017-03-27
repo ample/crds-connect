@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { APIService } from '../../services/api.service';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 
@@ -56,7 +55,6 @@ describe('Component: List View', () => {
         IFrameParentService,
         StoreService,
         StateService,
-        APIService,
         ListHelperService,
         SessionService,
         CookieService,

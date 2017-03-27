@@ -85,13 +85,14 @@ module.exports = {
         to: 'fonts/'
       },
       {
-        from: 'src/assets',
-        to: 'assets',
+        context: 'src/assets',
+        from: '**/*',
+        to: 'assets/',
       },
       {
         context: './node_modules/crds-styles/assets/svgs/',
         from: '*.svg',
-        to: 'assets/svgs'
+        to: 'assets/svgs/'
       }
     ], { ignore: ['mock-data/*'] })
   ]

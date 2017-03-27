@@ -16,15 +16,14 @@ import { AddressFormComponent } from './address-form.component';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-import { APIService } from '../../services/api.service';
 import { LocationService } from '../../services/location.service';
 import { StateService } from '../../services/state.service';
+import { PinService } from '../../services/pin.service';
 
 describe('AddressFormComponent', () => {
     let fixture: ComponentFixture<AddressFormComponent>;
     let comp: AddressFormComponent;
     let el;
-    let mockAPIService;
     let mockLocationService;
     let mockSessionService;
     let mockPinService;
@@ -33,8 +32,8 @@ describe('AddressFormComponent', () => {
     let mockStateService;
 
     beforeEach(() => {
-        mockAPIService = jasmine.createSpyObj<APIService>('api', ['postPin']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -46,8 +45,8 @@ describe('AddressFormComponent', () => {
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: { snapshot: { data: {} } } },
-                { provide: APIService, useValue: mockAPIService },
                 { provide: StateService, useValue: mockStateService },
+                { provide: PinService, useValue: mockPinService},
                 AddMeToTheMapHelperService,
                 FormBuilder
             ],
@@ -60,24 +59,25 @@ describe('AddressFormComponent', () => {
             fixture = TestBed.createComponent(AddressFormComponent);
             comp = fixture.componentInstance;
             comp.userData = {
-                'firstname': 'Joe',
-                'lastname': 'Kerstanoff',
-                'email': 'jkerstanoff@callibrity.com',
-                'contactId': 2562378,
-                'participantId': 7537153,
-                'address': {
-                    'addressId': 5272699,
-                    'addressLine1': '8854 Penfield Way',
-                    'addressLine2': null,
-                    'city': 'Maineville',
-                    'state': 'OH',
-                    'zip': '45039-9731',
-                    'foreignCountry': 'United States',
-                    'county': null,
-                    'longitude': null,
-                    'latitude': null
+                firstname: 'Joe',
+                lastname: 'Kerstanoff',
+                email: 'jkerstanoff@callibrity.com',
+                contactId: 2562378,
+                participantId: 7537153,
+                address: {
+                    addressId: 5272699,
+                    addressLine1: '8854 Penfield Way',
+                    addressLine2: null,
+                    city: 'Maineville',
+                    state: 'OH',
+                    zip: '45039-9731',
+                    foreignCountry: 'United States',
+                    county: null,
+                    longitude: null,
+                    latitude: null
                 },
-                'householdId': 21
+                householdId: 21,
+                password: null
             };
 
             // el = fixture.debugElement.query(By.css('h1'));
@@ -102,14 +102,14 @@ describe('AddressFormComponent', () => {
     });
 
     it('should submit', () => {
-        (<jasmine.Spy>mockAPIService.postPin).and.returnValue(Observable.of({}));
+        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of({}));
         spyOn(comp.save, 'emit');
 
         comp.ngOnInit();
         comp.addressFormGroup.setValue({ addressLine1: '123 street', addressLine2: '', city: 'Oakley', zip: '12345',
         state: 'OH', foreignCountry: 'US', county: null});
         comp.onSubmit(comp.addressFormGroup);
-        expect(mockAPIService.postPin).toHaveBeenCalled();
+        expect(mockPinService.postPin).toHaveBeenCalled();
         expect(comp.save.emit).toHaveBeenCalledWith(true);
     });
 });

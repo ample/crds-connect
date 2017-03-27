@@ -124,7 +124,7 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      * and the new params being sent.
      * @param newParams params used in current request
      */
-    protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel): Boolean {
+    protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel): boolean {
         if (this.isNoCache()) {
             console.log('this.isNoCache()')
             return false;
@@ -146,16 +146,22 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
             return false;
         } else {
             if (typeof newParams === 'object' && typeof this.lastParams === 'object') {
-                return this.checkObjsForEquality(this.lastParams, newParams);
+                let areEql = this.checkObjsForEquality(this.lastParams, newParams);
+                if (!areEql){
+                    this.clearCache();
+                }
+                return areEql;
             } else if (Array.isArray(newParams) && Array.isArray(this.lastParams)) {
-                return this.checkArraysForEquality(newParams, this.lastParams);
+                let areEql = this.checkArraysForEquality(newParams, this.lastParams);
+                if (!areEql){
+                    this.clearCache();
+                }
+                return areEql;
             } else {
                 if (newParams === this.lastParams) {
                     return true;
                 } else {
-                    console.log('newParams === this.lastParams = false')
-                    console.log('newParams: ' + newParams);
-                    console.log('lastParams: ' + this.lastParams);
+                    this.clearCache();
                     return false;
                 }
             }
@@ -167,7 +173,12 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      * @param obj1 Object
      * @param obj2 Object
      */
-    private checkObjsForEquality(obj1: Object, obj2: Object): Boolean {
+    private checkObjsForEquality(obj1: Object, obj2: Object): boolean {
+        if (obj1 === undefined || obj2 === undefined ||
+            obj1 === null || obj2 === null ||
+            obj1 === NaN || obj2 === NaN) {
+            return obj1 === obj2;
+        }
         let a = Object.getOwnPropertyNames(obj1);
         let b = Object.getOwnPropertyNames(obj2);
 
@@ -212,6 +223,11 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      * @param arr2 Array
      */
     private checkArraysForEquality(arr1: Array<any>, arr2: Array<any>): boolean {
+        if (arr1 === undefined || arr2 === undefined ||
+            arr1 === null || arr2 === null) {
+            return arr1 === arr2;
+        }
+
         if (arr1.length != arr2.length) {
             console.log('arr1.length != arr2.length = false')
             return false;
@@ -241,8 +257,5 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
         }
 
         return true;
-
     }
-
-
 }

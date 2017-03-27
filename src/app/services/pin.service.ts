@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
@@ -39,8 +39,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   constructor(
     private session: SessionService,
     private state: StateService,
-    private blandPageService: BlandPageService,
-    private http: Http
+    private blandPageService: BlandPageService
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
@@ -72,7 +71,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
-
         console.log("PinService got partial cached PinSearchResultsDto");
         return Observable.of<Pin>(pin);
       }
