@@ -57,8 +57,6 @@ export class MapFooterComponent {
   doSearch(lat: number, lng: number) {
     this.state.setLoading(true);
 
-    console.log(this.api);
-
     this.api.getMyPinsSearchResults(lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;

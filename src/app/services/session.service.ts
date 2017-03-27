@@ -25,8 +25,6 @@ export class SessionService {
 
   public get(url: string, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
-    console.log('REQUEST OPTIONS');
-    console.log(requestOptions);
     return this.http.get(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 

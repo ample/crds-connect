@@ -61,7 +61,7 @@ export class APIService {
     let obs: Observable<any> = new Observable(observer => {
       this.getClientIpFromThirdPartyApi().subscribe(
         ipData => {
-          let corsFriendlyIp = ipData.ip.toString().split('.').join('-');
+          let corsFriendlyIp = ipData.ip.toString().split('.').join('$');
           let geoLocByIpUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip/' + corsFriendlyIp;
           this.session.get(geoLocByIpUrl)
             .map(this.extractData)
@@ -81,8 +81,13 @@ export class APIService {
 
   public getMyPinsSearchResults(lat: number, lng: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}/${lat}/${lng}`)
-      .map((res: Response) => res.json())
+    const geoCodeString = `/${lat}/${lng}`;
+    let corsFriendlyGeoCode = geoCodeString.toString().split('.').join('$');
+
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}`)
+    .map(res => {
+        return res;
+      })
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
