@@ -32,23 +32,7 @@ export class MapComponent implements OnInit {
                private state: StateService) {}
 
   public ngOnInit(): void {
-
     let haveResults = !!this.searchResults;
-    ////
-    //// I don't think this code is needed (since it really is driven from the
-    //// neighbors component) but just in case, I'm only commenting it out. If
-    //// it really isn't needed, then it should br removed. - DaveA
-    ////
-    // if (!haveResults) {
-    //   this.state.setLoading(true);
-    //   this.userLocationService.GetUserLocation().subscribe(
-    //     pos => {
-    //       this.mapSettings.zoom = 15;
-    //       this.mapSettings.lat = pos.lat;
-    //       this.mapSettings.lng = pos.lng;
-    //     }
-    //   );
-    // } else
     if (haveResults) {
       let lat = this.searchResults.centerLocation.lat;
       let lng = this.searchResults.centerLocation.lng;
@@ -62,7 +46,6 @@ export class MapComponent implements OnInit {
       this.mapSettings.lat = lat;
       this.mapSettings.lng = lng;
     }
-
   }
 
   private displayDetails(pin: Pin) {
