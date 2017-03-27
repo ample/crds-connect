@@ -19,7 +19,7 @@ import { CacheLevel } from '../services/base-service/cacheable.service';
 describe('Service: Pin', () => {
 
   let fixture, mockSessionService, mockStateService, mockBlandPageService;
-  mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post']);
+  mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
 
@@ -53,7 +53,7 @@ describe('Service: Pin', () => {
   }));
 
   it('should get cached pin details', inject([PinService], (service: PinService) => {
-    
+    <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(123);
     let pinsCache: PinSearchResultsDto, results: Pin, designatorStart: number, participantID: number, groupId: number;
     designatorStart = 98789;
     participantID = designatorStart;
@@ -61,6 +61,7 @@ describe('Service: Pin', () => {
     pinsCache = MockTestData.getAPinSearchResults(10, 0, 0, designatorStart, 3, pinType.GATHERING, 1);
     service['cache'] = pinsCache;
     service['cacheLevel'] = CacheLevel.Full;
+    service['userIdentifier'] = 123;
 
     service.getPinDetails(new PinIdentifier(pinType.GATHERING, designatorStart)).subscribe(data => {
       results = data;

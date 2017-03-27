@@ -311,14 +311,40 @@ describe('Service: SmartCachableService', () => {
             let cache: number          = null;
             let cacheLevel: CacheLevel = CacheLevel.None;
             let lastParams: number     = null;
+            let lastUserIdentifier     = null;
+            let userIdentifier         = 3;
             let result: boolean;
 
             service['cache'] = cache;
             service['cacheLevel'] = cacheLevel;
             service['lastParams'] = lastParams;
-            result = service['cacheIsReadyAndValid'](newParam, minCache);
+            service['userIdentifier'] = lastUserIdentifier;
+            result = service['cacheIsReadyAndValid'](newParam, minCache, userIdentifier);
 
             expect(result).toBe(false);
+        }));
+
+        it('not cachedForUser for cacheIsReadyAndValid', inject([SmartCacheableService], (service: SmartCacheableService<number,number>) => {
+            let newParam: number       = 123;
+            let minCache: CacheLevel   = CacheLevel.Full;
+            let cache: number          = 123456789;
+            let cacheLevel: CacheLevel = CacheLevel.Partial;
+            let lastParams: number     = 123;
+            let lastUserIdentifier     = 2;
+            let userIdentifier         = 3;
+            let result: boolean;
+
+            service['cache'] = cache;
+            service['cacheLevel'] = cacheLevel;
+            service['lastParams'] = lastParams;
+            service['userIdentifier'] = lastUserIdentifier;
+            result = service['cacheIsReadyAndValid'](newParam, minCache, userIdentifier);
+
+            expect(result).toBe(false);
+            expect(service['cache']).toBe(null);
+            expect(service['lastParams']).toBe(null);
+            expect(service['userIdentifier']).toBe(null);
+            expect(service['cacheLevel']).toBe(CacheLevel.None);
         }));
 
         it('< minimumCacheThreshold for cacheIsReadyAndValid', inject([SmartCacheableService], (service: SmartCacheableService<number,number>) => {
@@ -327,16 +353,20 @@ describe('Service: SmartCachableService', () => {
             let cache: number          = 123456789;
             let cacheLevel: CacheLevel = CacheLevel.Partial;
             let lastParams: number     = 123;
+            let lastUserIdentifier     = 3;
+            let userIdentifier         = 3;
             let result: boolean;
 
             service['cache'] = cache;
             service['cacheLevel'] = cacheLevel;
             service['lastParams'] = lastParams;
-            result = service['cacheIsReadyAndValid'](newParam, minCache);
+            service['userIdentifier'] = lastUserIdentifier;
+            result = service['cacheIsReadyAndValid'](newParam, minCache, userIdentifier);
 
             expect(result).toBe(false);
             expect(service['cache']).toBe(null);
             expect(service['lastParams']).toBe(null);
+            expect(service['userIdentifier']).toBe(null);
             expect(service['cacheLevel']).toBe(CacheLevel.None);
         }));
 
@@ -346,17 +376,21 @@ describe('Service: SmartCachableService', () => {
             let cache: number          = 123456789;
             let cacheLevel: CacheLevel = CacheLevel.Full;
             let lastParams: number     = 123;
+            let lastUserIdentifier     = 3;
+            let userIdentifier         = 3;
             let result: boolean;
 
             service['cache'] = cache;
             service['cacheLevel'] = cacheLevel;
             service['lastParams'] = lastParams;
-            result = service['cacheIsReadyAndValid'](newParam, minCache);
+            service['userIdentifier'] = lastUserIdentifier;
+            result = service['cacheIsReadyAndValid'](newParam, minCache, userIdentifier);
 
-            expect(result).toBe(true);
             expect(service['cache']).toBe(cache);
             expect(service['lastParams']).toBe(lastParams);
             expect(service['cacheLevel']).toBe(cacheLevel);
+            expect(service['userIdentifier']).toBe(userIdentifier);
+            expect(result).toBe(true);
         }));
 
         it('new is null and old is not null for cacheIsReadyAndValid', inject([SmartCacheableService], (service: SmartCacheableService<number,number>) => {

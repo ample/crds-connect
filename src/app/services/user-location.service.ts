@@ -23,7 +23,8 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
   }
 
   public GetUserLocation(): Observable<any> {
-    if (super.isAtLeastPartialCache()) {
+    let contactId = this.session.getContactId();
+    if (super.isCachedForUser(contactId)) {
       console.log('UserLocationSerice got cached GeoCoordiantes')
       return Observable.of(super.getCache());
     }
@@ -77,7 +78,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
         success => {
           position = new GeoCoordinates(success.address.latitude, success.address.longitude);
           console.log('UserLocationSerice got new GeoCoordiantes (getUserLocationFromUserId)')
-          super.setCache(position, CacheLevel.Full);
+          super.setCache(position, CacheLevel.Full, contactId);
           observer.next(position);
         },
         failure => {
@@ -90,6 +91,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
   }
 
   private getUserLocationFromIp(): Observable<any> {
+    let contactId = this.session.getContactId();
     let ipObs = new Observable(observer => {
       let position: GeoCoordinates;
 
@@ -97,7 +99,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
         location => {
           position = new GeoCoordinates(location.latitude, location.longitude);
           console.log('UserLocationSerice got new GeoCoordiantes (getUserLocationFromIp)')
-          super.setCache(position, CacheLevel.Full);
+          super.setCache(position, CacheLevel.Full, contactId);
           observer.next(position);
         },
         error => {
@@ -115,6 +117,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
   }
 
   private getUserLocationFromCurrentLocation(): Observable<any> {
+    let contactId = this.session.getContactId();
     let locObs = new Observable(observer => {
 
       //If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
@@ -136,7 +139,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
           } else {
             position = new GeoCoordinates(location.lat, location.lng);
             console.log('UserLocationSerice got new GeoCoordiantes (getUserLocationFromCurrentLocation)')
-            super.setCache(position, CacheLevel.Full);
+            super.setCache(position, CacheLevel.Full, contactId);
             observer.next(position);
           }
         },

@@ -16,6 +16,8 @@ export class CacheableService<Type> {
      */
     private cacheLevel: CacheLevel = CacheLevel.None;
 
+    private userIdentifier: number = null;
+
     constructor() { }
 
     /**
@@ -30,7 +32,7 @@ export class CacheableService<Type> {
      * Returns a boolean describing if the 
      * cache is not set.
      */
-    protected isNoCache(): Boolean {
+    protected isNoCache(): boolean {
         return this.cacheLevel == CacheLevel.None;
     }
 
@@ -38,7 +40,7 @@ export class CacheableService<Type> {
      * Returns a boolean describing if the 
      * cache is atleast partially set.
      */
-    protected isAtLeastPartialCache(): Boolean {
+    protected isAtLeastPartialCache(): boolean {
         return this.cacheLevel > CacheLevel.None;
     }
 
@@ -46,7 +48,7 @@ export class CacheableService<Type> {
      * Returns a boolean describing if the 
      * cache is fully set.
      */
-    protected isFullCache(): Boolean {
+    protected isFullCache(): boolean {
         return this.cacheLevel == CacheLevel.Full;
     }
 
@@ -57,6 +59,12 @@ export class CacheableService<Type> {
     protected clearCache(): void {
         this.cache = null;
         this.cacheLevel = CacheLevel.None;
+        this.userIdentifier = null;
+    }
+
+    protected isCachedForUser(userIdentifier: number): boolean {
+        return (userIdentifier == this.userIdentifier && 
+                this.isAtLeastPartialCache());
     }
 
     /**
@@ -64,9 +72,10 @@ export class CacheableService<Type> {
      * @param cache data to set for cache
      * @param cacheLevel level of cache being set
      */
-    protected setCache(cache: Type, cacheLevel: CacheLevel): void {
+    protected setCache(cache: Type, cacheLevel: CacheLevel, userIdentifier: number = null): void {
         this.cacheLevel = cacheLevel;
         this.cache = cache;
+        this.userIdentifier = userIdentifier;
     }
 
     /**
@@ -103,8 +112,8 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      * @param cacheLevel level of cache being set
      * @param params params used to generate cache
      */
-    protected setSmartCache(cache: Type, cacheLevel: CacheLevel, params: ParamType): void {
-        super.setCache(cache, cacheLevel);
+    protected setSmartCache(cache: Type, cacheLevel: CacheLevel, params: ParamType, userIdentifier: number = null): void {
+        super.setCache(cache, cacheLevel, userIdentifier);
         this.lastParams = params;
     }
 
@@ -113,8 +122,8 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
     * @param cache data to set for cache
     * @param cacheLevel level of cache being set
     */
-    protected setCache(cache: Type, cacheLevel: CacheLevel): void {
-        super.setCache(cache, cacheLevel);
+    protected setCache(cache: Type, cacheLevel: CacheLevel, userIdentifier: number = null): void {
+        super.setCache(cache, cacheLevel, userIdentifier);
         this.lastParams = null;
     }
 
@@ -124,11 +133,15 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      * and the new params being sent.
      * @param newParams params used in current request
      */
-    protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel): boolean {
+    protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel, currentUserIdentifier: number = null): boolean {
         if (this.isNoCache()) {
             console.log('this.isNoCache()')
             return false;
-        } else if (this.getCacheLevel() < minimumCacheThreshold) {
+        } else if (!super.isCachedForUser(currentUserIdentifier)) { 
+            console.log('!this.isCachedForUser()')
+            this.clearCache();
+            return false;
+        }else if (this.getCacheLevel() < minimumCacheThreshold) {
             console.log('this.getCacheLevel() < minimumCacheThreshold')
             console.log('CacheLevel: ' + this.getCacheLevel());
             console.log('minimumCacheThreshold: ' + minimumCacheThreshold);
