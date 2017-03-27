@@ -80,11 +80,11 @@ export class MapComponent implements OnInit {
   }
 
   public getFirstNameOrSiteName(pin: Pin){
-    return pin.firstName || pin.siteName;
+    return this.capitalizeFirstLetter(pin.firstName) || this.capitalizeFirstLetter(pin.siteName);
   }
 
   public getLastInitial(pin: Pin){
-    return pin.lastName ? (pin.lastName.substring(0, 1) + '.') : '';
+    return pin.lastName ? this.capitalizeFirstLetter((pin.lastName.substring(0, 1)) + '.') : '';
   }
 
   public hostOrEmptyString(pin: Pin): string {
@@ -93,6 +93,17 @@ export class MapComponent implements OnInit {
 
   public isMe(pin: Pin): string {
     return this.pinHlpr.doesLoggedInUserOwnPin(pin) ? 'ME' : '';
+  }
+
+  public capitalizeFirstLetter(string) {
+
+    let isStringEmptyOrNull = string === undefined || string === null || string === '';
+
+    if (isStringEmptyOrNull) {
+      return ''
+    } else {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
   }
 
 }
