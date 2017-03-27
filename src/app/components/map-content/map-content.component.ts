@@ -22,12 +22,6 @@ export class MapContentComponent implements OnInit {
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               private mapHlpr: GoogleMapService ) {
 
-    // document.addEventListener('redrawingClusters', function(event) {
-    //   console.log('Clusters being redrawn');
-    //   console.log(event.data);
-    //   this.test();
-    // });
-
     mapHlpr.mapUpdatedEmitter.subscribe(coords => {
       this.refreshMapSize(coords);
     });
@@ -235,7 +229,6 @@ export class MapContentComponent implements OnInit {
   };
 
   public drawLabels(markers: any): void {
-    //console.log('Drawing some labels');
     this.mapApiWrapper.getNativeMap()
       .then((map)=> {
 

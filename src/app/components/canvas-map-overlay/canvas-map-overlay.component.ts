@@ -36,10 +36,6 @@ export class CanvasMapOverlayComponent implements OnInit {
       let cWidth = canvBounds.width;
       let cHeight = canvBounds.height;
 
-      //this.drawGridLines(ctx, canvBounds, cWidth, cHeight);
-
-      //this.drawTestingMarkers(ctx, drawingData, cWidth, cHeight);
-
       this.drawMarkerLabels(ctx, drawingData, cWidth, cHeight);
 
     });
@@ -53,15 +49,6 @@ export class CanvasMapOverlayComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  // public resizeCanvas (cHeight: number, cWidth: number) {
-  //   console.log('Resizing overlay to height/width: ' + cHeight + ' ' + cWidth);
-  //   this.canvasWidth = cWidth;
-  //   this.canvasHeight = cHeight;
-  // }
-
-  public myPinBtnClicked(ctx: any)  {
-  }
 
   public drawMarkerLabels(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
     for (var i=0; i< drawingData.markers.length; i++){
@@ -81,12 +68,10 @@ export class CanvasMapOverlayComponent implements OnInit {
     let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
     ctx.fillText(nameLabel, textX, textY);
 
-    //console.log("Drawing marker - Host label: " + markerLabelProps.hostOrMe);
-    //console.log(!!markerLabelProps.hostOrMe);
     if( !!markerLabelProps.hostOrMe ){
-      //console.log('Drawing host label');
       ctx.fillText(markerLabelProps.hostOrMe, textX, textY + 15);
     }
+
   }
 
   public getLabelColor(markerLabelProps) {
@@ -119,10 +104,6 @@ export class CanvasMapOverlayComponent implements OnInit {
     return labelProps;
 
   };
-
-  public selectMarkerLabelColor(marker: any){
-
-  }
 
   public drawTestingMarkers(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
     for (var i=0; i< drawingData.markers.length; i++){
