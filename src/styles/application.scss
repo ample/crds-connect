@@ -123,8 +123,23 @@ app-add-me-to-map {
 }
 
 // List view
-.list-container {
-  margin-bottom: 170px;
+app-listview {
+  display: block;
+}
+
+list-footer {
+  @include make-row();
+  display: block;
+
+  > div {
+    @include make-xs-column(12);
+    margin-top: 1rem;
+    padding: 1.5rem 1rem 2rem;
+
+    h4 {
+      color: $cr-gray;
+    }
+  }
 }
 
 .show-more {

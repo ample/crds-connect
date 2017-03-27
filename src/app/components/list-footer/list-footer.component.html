@@ -1,30 +1,19 @@
-<div class="podbar">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
+<!--LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
+<div *ngIf="userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn"
+      class="bg-gray">
+  <crds-content-block id="promptToPutSelfOnMap"></crds-content-block>
+  <button class="btn btn-default"
+          (click)="addMeToTheMapClicked()">Add me to map</button>
+</div>
 
-
-                <!--LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
-                <div *ngIf = "userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn">
-                    <span [innerHTML]="content.getContent('promptToPutSelfOnMap')"></span>
-                    <div>
-                        <input type="button" class="btn btn-primary"
-                               value="Add me to the map"
-                               (click) = "addMeToTheMapClicked()">
-                    </div>
-                </div>
-
-                <!--LOGGED IN, ON MAP AS PARTICIPANT-->
-                <div *ngIf = "userMapState === userMapStateEnum.LoggedIn_OnMap">
-                    <span [innerHTML]="content.getContent('promptToHostGathering')"></span>
-                    <div>
-                        <input type="button" class="btn btn-primary" value="Sign Up" (click) = "becomeAHostClicked()">
-                        <input type="button" class="btn btn-primary" value="What's a Host" (click) = "whatsAHostBtnClicked()">
-                    </div>
-                </div>
-
-                <div>
-            </div>
-        </div>
-    </div>
+<!--LOGGED IN, ON MAP AS PARTICIPANT-->
+<div *ngIf="userMapState === userMapStateEnum.LoggedIn_OnMap"
+      class="bg-gray">
+  <crds-content-block id="finderWantToHost"></crds-content-block>
+  <div class="btn-group">
+    <button class="btn btn-default"
+            (click)="becomeAHostClicked()">Sign up</button>
+    <button class="btn btn-default"
+            (click)="whatsAHostBtnClicked()">What's a host?</button>
+  </div>
 </div>
