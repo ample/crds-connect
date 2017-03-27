@@ -1,20 +1,22 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { PinService } from './pin.service';
-import { BlandPageService } from './bland-page.service';
-import { SessionService } from './session.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { StateService } from './state.service';
-import { User } from '../models/user';
-import { Pin, pinType } from '../models/pin';
-import { LoginRedirectService } from './login-redirect.service';
 
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
+import { BaseRequestOptions, Http } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { BlandPageService } from './bland-page.service';
+import { LoginRedirectService } from './login-redirect.service';
+import { PinService } from './pin.service';
+import { SessionService } from './session.service';
+import { StateService } from './state.service';
 
 import { Address } from '../models/address';
+import { User } from '../models/user';
+import { Pin, pinType } from '../models/pin';
+
 
 class MockSessiontService {
   public getContactId(): number {
