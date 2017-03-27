@@ -21,10 +21,6 @@ export class MapContentComponent implements OnInit {
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               private mapHlpr: GoogleMapService ) {
-
-    mapHlpr.mapUpdatedEmitter.subscribe(coords => {
-      this.refreshMapSize(coords);
-    });
   }
 
   @HostListener('document:redrawingClusters', ['$event'])
@@ -290,15 +286,4 @@ export class MapContentComponent implements OnInit {
     });
   }
 
-
-  public refreshMapSize(coords: GeoCoordinates){
-    this.mapApiWrapper.getNativeMap()
-      .then((map)=> {
-        setTimeout(() => {
-          google.maps.event.trigger(map, "resize");
-          map.setZoom(15);
-          map.setCenter(coords);
-        }, 1);
-      })
-  }
 }

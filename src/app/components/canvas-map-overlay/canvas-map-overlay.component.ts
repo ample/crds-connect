@@ -50,10 +50,16 @@ export class CanvasMapOverlayComponent implements OnInit {
   ngOnInit() {}
 
   public drawMarkerLabels(ctx: any, drawingData: any, cWidth: any, cHeight: any): void {
-    for (let i=0; i< drawingData.markers.length; i++){
-      let marker: any = drawingData.markers[i];
-      this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
+
+    let isMapInitialized: boolean = cWidth !== 0 || cHeight !== 0;
+
+    if(isMapInitialized){
+      for (let i=0; i< drawingData.markers.length; i++){
+        let marker: any = drawingData.markers[i];
+        this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
+      }
     }
+
   }
 
   public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth:any, cHeight: any){
