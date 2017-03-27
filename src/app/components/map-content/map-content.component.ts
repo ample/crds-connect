@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 
@@ -17,11 +17,15 @@ interface NativeGoogMapProps {
 })
 export class MapContentComponent implements OnInit {
 
+  public dataFromEventListener: undefined;
+
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               private mapHlpr: GoogleMapService ) {
-    mapHlpr.mapUpdatedEmitter.subscribe(coords => {
-      this.refreshMapSize(coords);
-    });
+  }
+
+  @HostListener('document:redrawingClusters', ['$event'])
+  onClusterRedraw(event) {
+    this.drawLabels(event.data.markersNotInClusters);
   }
 
   ngOnInit() {
@@ -203,17 +207,85 @@ export class MapContentComponent implements OnInit {
             }
           ]
         });
+
+        let self = this;
+
+        map.addListener('zoom_changed', function() {
+          self.clearCanvas();
+        });
+
+        map.addListener('dragstart', function() {
+          self.clearCanvas();
+        });
+
       });
   }
 
-  public refreshMapSize(coords: GeoCoordinates){
+  public clearCanvas(): void {
+    this.mapHlpr.emitClearMap();
+  };
+
+  public drawLabels(markers: any): void {
     this.mapApiWrapper.getNativeMap()
       .then((map)=> {
-        setTimeout(() => {
-          google.maps.event.trigger(map, "resize");
-          map.setZoom(15);
-          map.setCenter(coords);
-        }, 1);
-      })
+
+        let delta = function (a, b) { return a - b };
+
+        let geoBounds = undefined;
+
+        let bounds = map.getBounds();
+
+        if( bounds ) {
+          let sw = bounds.getSouthWest();
+          let ne = bounds.getNorthEast();
+          geoBounds = {
+            top:    sw.lat().valueOf(),
+            bottom: ne.lat().valueOf(),
+            left:   ne.lng().valueOf(),
+            right:  sw.lng().valueOf(),
+            width:  delta(ne.lng().valueOf(), sw.lng().valueOf()),
+            height: delta(sw.lat().valueOf(), ne.lat().valueOf())
+          };
+        }
+
+        let siteMarkers = this.mapHlpr.getSiteMarkersOnMap();
+        markers.push.apply(markers, siteMarkers);
+
+        let markerArray = [];
+
+        if( markers.length > 0 ) {
+          for (let i = 0; i < markers.length; i++ ){
+            let marker = markers[i];
+            let markerLabel = marker.title;
+            let markerLat = marker.position.lat().valueOf();
+            let markerLng = marker.position.lng().valueOf();
+            let deltaLeftSideOfMapToMarker = delta(markerLng, geoBounds.right);
+            let deltaTopOfMapToMarker = delta(markerLat, geoBounds.bottom);
+            let markerGeoOffsetLatPercentage = deltaLeftSideOfMapToMarker / geoBounds.width;
+            let markerGeoOffsetLngPercentage = deltaTopOfMapToMarker / geoBounds.height;
+
+            let markerObj = {
+              markerLabel: markerLabel,
+              markerLat: markerLat,
+              markerLng: markerLng,
+              markerOffsetX: deltaLeftSideOfMapToMarker,
+              markerOffsetY: deltaTopOfMapToMarker,
+              markerGeoOffsetLatPercentage: markerGeoOffsetLatPercentage,
+              markerGeoOffsetLngPercentage: markerGeoOffsetLngPercentage,
+              icon: marker.icon
+            };
+
+            markerArray.push(markerObj);
+          }
+
+          let dataForDrawing = {
+            geoBounds: geoBounds,
+            markers: markerArray
+          };
+
+          this.mapHlpr.emitDataForDrawing(dataForDrawing);
+        }
+    });
   }
+
 }
