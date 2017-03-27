@@ -176,7 +176,7 @@ describe('Service: Session', () => {
     expect(contactId).toBe(12345);
   }));
 
-  fit ('should get contactId and convert NaN to null', inject([SessionService], (service: any) => {
+  it ('should get contactId and convert NaN to null', inject([SessionService], (service: any) => {
     service['cookieOptions'] = { domain: 'localhost' };
     spyOn(service.cookieService, 'get').and.returnValue(NaN);
     let contactId = service.getContactId();
