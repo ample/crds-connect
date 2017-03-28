@@ -35,7 +35,7 @@ export class MapContentComponent implements OnInit {
 
         let zoomControlOptions: any = {
           style: google.maps.ControlPosition.small,
-          position: google.maps.ControlPosition.RIGHT_CENTER
+          position: google.maps.ControlPosition.LEFT_TOP
         };
 
         let streetViewControlOptions: any =  {
@@ -45,6 +45,8 @@ export class MapContentComponent implements OnInit {
         map.setOptions(<NativeGoogMapProps>{
           zoomControlOptions: zoomControlOptions,
           streetViewControlOptions: streetViewControlOptions,
+          minZoom: 3,
+          maxZoom: 20,
           styles: [
             {
               "elementType": "geometry",

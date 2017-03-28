@@ -15,8 +15,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
 @Component({
   selector: 'app-map-footer',
-  templateUrl: 'map-footer.component.html',
-  styleUrls: ['map-footer.component.scss']
+  templateUrl: 'map-footer.component.html'
 })
 export class MapFooterComponent {
   public isMapHidden = false;
