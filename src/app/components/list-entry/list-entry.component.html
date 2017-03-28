@@ -5,7 +5,7 @@
     <h4>{{name()}}</h4>
     <p class="proximity">{{roundedProximity()}} MI</p>
   </div>
-  <div *ngIf="isGathering()" class="col-xs-12 gathering entry" (click)="displayDetails(participantId)">
+  <div *ngIf="isGathering()" class="col-xs-12 gathering entry" (click)="displayDetails(groupId)">
     <img src="{{getPicByPinType()}}">
     <h4>{{name()}} <span>HOST</span></h4>
     <p class="proximity">{{roundedProximity()}} MI <span>JOINED BY {{count()}}</span></p>

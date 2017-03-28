@@ -1,11 +1,12 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { APIService } from '../../services/api.service';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
-import { MapComponent } from './map.component';
+import { MapComponent } from '../../components/map/map.component';
+import { SearchLocalComponent } from '../search-local/search-local.component'
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
@@ -27,16 +28,22 @@ import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
+import { IPService } from '../../services/ip.service';
+
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { SearchLocalService } from '../../services/search-local.service';
 
 describe('Component: Map', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
+        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
-        GoogleMapClusterDirective
+        GoogleMapClusterDirective,
+        SearchLocalComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
@@ -52,13 +59,15 @@ describe('Component: Map', () => {
         IFrameParentService,
         StoreService,
         StateService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,
         ContentService,
         LoginRedirectService,
-        BlandPageService
+        BlandPageService,
+        IPService,
+        GoogleMapsAPIWrapper,
+        SearchLocalService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);

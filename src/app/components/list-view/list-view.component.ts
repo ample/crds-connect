@@ -1,13 +1,7 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { ListFooterComponent } from '../list-footer/list-footer.component';
-import { Observable } from 'rxjs/Rx';
-import { Router } from '@angular/router';
-import { APIService } from '../../services/api.service';
+import { Component, Input } from '@angular/core';
 import { StateService } from '../../services/state.service';
-import { Address } from '../../models/address';
-import { Pin, pinType } from '../../models/pin';
+import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
-import { UserLocationService } from  '../../services/user-location.service';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 
 @Component({
@@ -15,13 +9,12 @@ import { NeighborsHelperService } from  '../../services/neighbors-helper.service
   templateUrl: 'list-view.component.html',
   styleUrls: ['list-view.component.css']
 })
-export class ListViewComponent implements OnInit {
+export class ListViewComponent {
   @Input() searchResults: PinSearchResultsDto;
 
-  public showing_increment : number = 10;
+  public showing_increment: number = 10;
 
-  constructor( private userLocationService: UserLocationService,
-               private api: APIService,
+  constructor( 
                private neighborsHelperService: NeighborsHelperService,
                private stateService: StateService) {
     neighborsHelperService.changeEmitter.subscribe(() => {
@@ -29,22 +22,20 @@ export class ListViewComponent implements OnInit {
     });
   }
 
-  public ngOnInit(): void {}
-
   public pinsToShow(): Pin[] {
-    let showing : number = this.stateService.getShowingPinCount();
-    return this.searchResults.pinSearchResults.filter((item, index) => index < showing)
+    let showing: number = this.stateService.getShowingPinCount();
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing )
   }
 
   public pinsToShowCountings() {
-    let showing : number = this.stateService.getShowingPinCount();
+    let showing: number = this.stateService.getShowingPinCount();
     if (this.searchResults && (this.searchResults.pinSearchResults.length < showing)) {
       showing = this.searchResults.pinSearchResults.length;
     }
     if (showing === 1) {
       return '1 result';
     } else {
-      return showing+' results';
+      return showing + ' results';
     }
   }
 

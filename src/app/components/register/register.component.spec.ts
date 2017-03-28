@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -17,7 +16,6 @@ describe('Component: Registration', () => {
       router: Router,
       fb: FormBuilder,
       state: StateService,
-      api: APIService,
       store: StoreService,
       session: SessionService,
       redirectService: LoginRedirectService;
@@ -25,6 +23,8 @@ describe('Component: Registration', () => {
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
+    
+    session = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
     state = jasmine.createSpyObj<StateService>(
       'state',
       [
@@ -35,8 +35,7 @@ describe('Component: Registration', () => {
       ]
     );
     fb = new FormBuilder();
-    api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
-    fixture = new RegisterComponent(api, fb, router, state, store, session, redirectService);
+    fixture = new RegisterComponent(fb, router, state, store, session, redirectService);
     fixture.ngOnInit();
   });
 
@@ -105,7 +104,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>session.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {

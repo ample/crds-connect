@@ -7,12 +7,12 @@ import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
-import { APIService } from '../../../services/api.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
+import { ParticipantService } from '../../../services/participant.service';
 
 
 @Component({
@@ -29,19 +29,30 @@ export class GatheringComponent implements OnInit {
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
 
-  constructor(private api: APIService,
-    private session: SessionService,
+  constructor(private session: SessionService,
     private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
     private state: StateService,
+    private participantService: ParticipantService,
     private toast: ToastsManager) { }
 
   public ngOnInit() {
-    if (this.loggedInUserIsInGathering(this.session.getContactId()) && this.isLoggedIn) {
-      this.isInGathering = true;
-    }
+    this.state.setLoading(true);
+    this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
+      success => {
+        this.pin.gathering.Participants = success;
+        if (this.loggedInUserIsInGathering(this.session.getContactId()) && this.isLoggedIn) {
+          this.isInGathering = true;
+        }
+        this.state.setLoading(false);
+      },
+      failure => {
+        //something went wrong!!
+        console.log('Could not get participants');
+        this.blandPageService.goToDefaultError('');
+      })
   }
 
   private loggedInUserIsInGathering(contactId: number) {

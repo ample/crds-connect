@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
-import { APIService } from '../../../services/api.service';
+import { SessionService } from '../../../services/session.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 
 
@@ -27,7 +27,7 @@ export class SayHiComponent implements OnInit {
   constructor(
     private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
-    private api: APIService,
+    private session: SessionService,
     private router: Router,
     private blandPageService: BlandPageService) { }
 
@@ -54,7 +54,7 @@ export class SayHiComponent implements OnInit {
     );
 
     if (!this.user) {
-      this.api.getUserData().subscribe(
+      this.session.getUserData().subscribe(
         ret => {
           this.user = ret;
           this.pinService.sendHiEmail(this.user, this.pin).subscribe(

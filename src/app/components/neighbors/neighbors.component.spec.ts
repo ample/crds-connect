@@ -1,15 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { APIService } from '../../services/api.service';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
 import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
 import { MapComponent } from '../../components/map/map.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { SearchLocalComponent } from '../../components/search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { FormsModule }   from '@angular/forms';
@@ -20,6 +21,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { SearchLocalService } from '../../services/search-local.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -36,12 +38,14 @@ import { BlandPageService } from '../../services/bland-page.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { IPService } from '../../services/ip.service';
 
 describe('Component: Neighbors', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
+        CanvasMapOverlayComponent,
         NeighborsComponent,
         MapContentComponent,
         MapFooterComponent,
@@ -50,6 +54,7 @@ describe('Component: Neighbors', () => {
         ListEntryComponent,
         SearchBarComponent,
         MapComponent,
+        SearchLocalComponent,
         GoogleMapClusterDirective
       ],
       imports: [
@@ -67,14 +72,15 @@ describe('Component: Neighbors', () => {
         NeighborsHelperService,
         StoreService,
         StateService,
+        SearchLocalService,
         ListHelperService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,
         ContentService,
         LoginRedirectService,
-        BlandPageService
+        BlandPageService,
+        IPService
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);
