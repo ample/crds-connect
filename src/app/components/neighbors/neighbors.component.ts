@@ -96,7 +96,7 @@ console.log('NG ON INIT - Results up there! ');
           );
 
         // uniq - algorithm takes advantage of being sorted
-        let lastIndex = null;
+        let lastIndex = -1;
         this.pinSearchResults.pinSearchResults =
           this.pinSearchResults.pinSearchResults.filter(
             (p, index, self) => {
