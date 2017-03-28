@@ -5,7 +5,8 @@ import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/c
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
-import { MapComponent } from './map.component';
+import { MapComponent } from '../../components/map/map.component';
+import { SearchLocalComponent } from '../search-local/search-local.component'
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
@@ -29,6 +30,9 @@ import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
 
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { SearchLocalService } from '../../services/search-local.service';
+
 describe('Component: Map', () => {
 
   beforeEach(() => {
@@ -38,7 +42,8 @@ describe('Component: Map', () => {
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
-        GoogleMapClusterDirective
+        GoogleMapClusterDirective,
+        SearchLocalComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
@@ -60,7 +65,9 @@ describe('Component: Map', () => {
         ContentService,
         LoginRedirectService,
         BlandPageService,
-        IPService
+        IPService,
+        GoogleMapsAPIWrapper,
+        SearchLocalService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);

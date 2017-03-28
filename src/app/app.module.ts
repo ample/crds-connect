@@ -45,6 +45,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchLocalComponent } from './components/search-local/search-local.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
@@ -62,6 +63,7 @@ import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
+import { SearchLocalService } from './services/search-local.service';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 
@@ -136,6 +138,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RegisterComponent,
     SayHiComponent,
     SearchBarComponent,
+    SearchLocalComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
@@ -160,6 +163,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ParticipantService,
     PinService,
     PinResolver,
+    SearchLocalService,
     SessionService,
     StateService,
     StoreService,
