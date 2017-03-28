@@ -3,12 +3,6 @@
                 (search)="doSearch($event)">
 </app-search-bar>
 
-<div *ngIf="mapViewActive">
-  <div *ngIf="!isMapHidden">
-    <app-map [searchResults]="pinSearchResults"></app-map>
-  </div>
-</div>
+<app-map [searchResults]="pinSearchResults" *ngIf="mapViewActive && !isMapHidden"></app-map>
 
-<div *ngIf="!mapViewActive">
-  <app-listview [searchResults]="pinSearchResults"></app-listview>
-</div>
+<app-listview [searchResults]="pinSearchResults" *ngIf="!mapViewActive"></app-listview>

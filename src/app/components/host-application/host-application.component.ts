@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
+import { SessionService } from '../../services/session.service';
 import { ContentService } from '../../services/content.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -21,7 +21,7 @@ export class HostApplicationComponent implements OnInit {
   public submitted: boolean = false;
   public errorMessage: string = '';
 
-  constructor(private api: APIService,
+  constructor(private session: SessionService,
               private content: ContentService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
@@ -31,7 +31,7 @@ export class HostApplicationComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (!this.api.isLoggedIn()) {
+    if (!this.session.isLoggedIn()) {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     }
   }

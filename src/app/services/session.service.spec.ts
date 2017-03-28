@@ -176,6 +176,14 @@ describe('Service: Session', () => {
     expect(contactId).toBe(12345);
   }));
 
+  it ('should get contactId and convert NaN to null', inject([SessionService], (service: any) => {
+    service['cookieOptions'] = { domain: 'localhost' };
+    spyOn(service.cookieService, 'get').and.returnValue(NaN);
+    let contactId = service.getContactId();
+    expect(service.cookieService.get).toHaveBeenCalledWith(service.contactId);
+    expect(contactId).toBe(null);
+  }));
+
   describe('Service: Session cookie timeouts', () => {
 
     it('should setup timer if logged in',  inject([SessionService], (service: any) => {

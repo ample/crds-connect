@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -28,7 +27,6 @@ export class AuthenticationComponent implements OnInit {
   private helpUrl: string;
 
   constructor(
-    private api: APIService,
     private fb: FormBuilder,
     private router: Router,
     public redirectService: LoginRedirectService,
@@ -59,7 +57,7 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
-      this.api.postLogin(this.form.get('email').value, this.form.get('password').value)
+      this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
           this.session.setContactId(user.userId);

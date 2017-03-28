@@ -112,14 +112,83 @@ app-add-me-to-map {
   }
 }
 
-.searchbar {
+// Map searchbar
+app-search-bar {
+  background-color: darken(desaturate($cr-blue-dark, 5), 5);
+  display: flex;
+  justify-content: flex-start;
   padding: .5rem 1rem;
 
-  .row {
-    div:last-child {
-      z-index: 1;
+  > button {
+    margin-left: 6px;
+
+    @media (min-width: $screen-xs) {
+      margin-left: 24px;
     }
   }
+
+  .input-group {
+    display: inherit;
+    flex: 1 1 auto;
+    width: auto;
+
+    .input-group-btn {
+      width: initial;
+    }
+
+    @media (min-width: $screen-xs) {
+      flex-grow: 0;
+      width: 20rem;
+    }
+
+    button.btn {
+      padding-right: 10px;
+      padding-left: 10px;
+
+      @media (min-width: $screen-xs) {
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+    }
+  }
+
+  input[placeholder] {
+    text-overflow: ellipsis;
+  }
+
+  // Remove validation
+  input.form-control.ng-touched {
+    &.ng-valid,
+    &.ng-invalid {
+      border-color: $input-border;
+      box-shadow: inset 0 0 0 1px $input-border;
+
+      &:focus {
+      border-color: $input-border-focus;
+      box-shadow: inset 0 0 0 1px rgba($input-border-focus, 0.5);
+      }
+    }
+  }
+}
+
+// Style map
+sebm-google-map {
+  background-color: $cr-gray-lighter;
+  height: calc(100vh - 69px); // 69px is the height of the header/searchbar
+  width: 100vw;
+
+  @media (min-width: $screen-xs) {
+    .gmnoprint {
+      padding: .5rem;
+    }
+  }
+}
+
+// Map footer
+app-map-footer {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
 }
 
 // List view
@@ -197,15 +266,7 @@ list-footer {
   @extend .control-label;
   color: $cr-gray-light;
 
-  .proximity {
-
-  }
-
   .joined_by {
     margin-left: .5rem;
   }
-}
-
-.entry-description {
-
 }
