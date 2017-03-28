@@ -10,6 +10,7 @@ import { DebugElement } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import { ToastsManager } from 'ng2-toastr';
 
 import { InviteSomeoneComponent } from './invite-someone.component';
 
@@ -26,7 +27,7 @@ describe('InviteSomeoneComponent', () => {
     let comp: InviteSomeoneComponent;
     let el;
 
-    let mockFormBuilder, mockRouter, mockContentService, mockPinService, mockBlandPageService, mockStateService;
+    let mockFormBuilder, mockRouter, mockContentService, mockPinService, mockBlandPageService, mockStateService, mockToast;
 
     beforeEach(() => {
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
@@ -35,7 +36,7 @@ describe('InviteSomeoneComponent', () => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGathering']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -47,7 +48,8 @@ describe('InviteSomeoneComponent', () => {
                 { provide: ContentService, useValue: mockContentService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: StateService, useValue: mockStateService }
+                { provide: StateService, useValue: mockStateService },
+                { provide: ToastsManager, useValue: mockToast }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });

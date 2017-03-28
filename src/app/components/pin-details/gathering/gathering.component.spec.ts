@@ -28,6 +28,7 @@ import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
+import { ToastsManager, Toast } from 'ng2-toastr';
 
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
@@ -40,6 +41,7 @@ describe('GatheringComponent', () => {
     let mockBlandPageService;
     let mockStateService;
     let mockParticipantService;
+    let mockToast;
 
 
     beforeEach(() => {
@@ -50,6 +52,7 @@ describe('GatheringComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning']);
 
 
         TestBed.configureTestingModule({
@@ -65,6 +68,7 @@ describe('GatheringComponent', () => {
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: ParticipantService, useValue: mockParticipantService },
+                { provide: ToastsManager, useValue: mockToast },
                 {
                     provide: Router,
                     useValue: { routerState: { snapshot: { url: 'abc123' } } },
@@ -127,17 +131,17 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = false;
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('abc123');
-    })
+    });
 
     it('should succeed while requesting to join', () => {
         comp.isLoggedIn = true;
         let pin = MockTestData.getAPin(1);
         let expectedBPD = new BlandPageDetails(
-            "Return to map",
-            "gatheringJoinRequestSent",
+            'Return to map',
+            'gatheringJoinRequestSent',
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
-            ""
+            ''
         );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.of([{}]));
         comp.pin = pin;
@@ -147,7 +151,7 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
-    })
+    });
 
     it('should fail with 409 (conflict) while requesting to join', () => {
         comp.isLoggedIn = true;
@@ -156,18 +160,17 @@ describe('GatheringComponent', () => {
             'Back',
             '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
             BlandPageType.Text,
-            BlandPageCause.Error,            
+            BlandPageCause.Error,
             'gathering/' + pin.gathering.groupId,
         );
-        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
+        (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
 
-
         comp.requestToJoin();
-        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
-        expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
-    })
+        expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockToast.warning).toHaveBeenCalledWith('Looks like you have already requested to join this group', 'OOPS');
+    });
 
     it('should fail with error while requesting to join', () => {
         comp.isLoggedIn = true;
@@ -179,7 +182,6 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        
-        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('gathering/' + pin.gathering.groupId)
-    })
+        expect(mockToast.warning).toHaveBeenCalledWith('Looks like there was an error. Please fix and try again', 'Oh no!');
+    });
 });

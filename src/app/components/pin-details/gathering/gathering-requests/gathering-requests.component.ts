@@ -21,7 +21,6 @@ export class GatheringRequestsComponent implements OnInit {
   @Input() pin: Pin;
   private inquiries: Inquiry[] = [];
   private errorRetrieving: boolean = false;
-  private errorAcceptingOrDenyingInquiry: boolean = true;
 
   constructor(
     private groupService: GroupService,
@@ -36,13 +35,12 @@ export class GatheringRequestsComponent implements OnInit {
       .subscribe(inquiryList => {
         this.inquiries = inquiryList.filter((inquiry) => {
           return inquiry.placed == null;
-        })
+        });
         this.state.setLoading(false);
       },
       (error) => {
+        this.errorRetrieving = true;
         this.state.setLoading(false);
-        console.log(error);
-        this.blandPageService.goToDefaultError("gathering/" + this.pin.gathering.groupId);
       });
   }
 
@@ -67,7 +65,7 @@ export class GatheringRequestsComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         templateText += `<br/><div class="row text-center"<span>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified</span></div></div>`;
         bpd = new BlandPageDetails(
-          'Back to my pin',
+          'Return to my pin',
           templateText,
           BlandPageType.Text,
           BlandPageCause.Success,
@@ -77,7 +75,7 @@ export class GatheringRequestsComponent implements OnInit {
         this.blandPageService.primeAndGo(bpd);
       }, (error) => {
         this.state.setLoading(false);
-        this.errorAcceptingOrDenyingInquiry = true;
+        inquiry.error = true;
       });
   }
 
