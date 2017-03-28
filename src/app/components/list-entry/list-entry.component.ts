@@ -65,11 +65,7 @@ export class ListEntryComponent {
     if (this.address === null) {
       return null;
     } else {
-      let addr = this.address.addressLine1;
-      if (this.address.addressLine2) {
-        addr += '<br/>' + this.address.addressLine2;
-      }
-      addr += '<br/>' + this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
+      let addr = this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
       return addr;
     }
   }

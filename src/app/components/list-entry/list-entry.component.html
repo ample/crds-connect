@@ -14,6 +14,7 @@
   <div *ngIf="isSite()" class="col-xs-12 site entry">
     <img src="{{getPicByPinType()}}">
     <h4>Crossroads {{siteName}}</h4>
+    <p class="proximity">{{roundedProximity()}} MI</p>
     <p class="site-address" [innerHTML]="siteAddress()"></p>
   </div>
 </div>
