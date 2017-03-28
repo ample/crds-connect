@@ -169,5 +169,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       })
       .catch((err) => Observable.throw(err.json().error));
   }
+  
+  public doesLoggedInUserOwnPin(pin: Pin) {
+    let contactId = this.session.getContactId();
+    return contactId === pin.contactId;
+  }
 
 }

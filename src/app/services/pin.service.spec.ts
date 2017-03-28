@@ -1,5 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
+
+import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
@@ -12,16 +14,21 @@ import { Pin, pinType } from '../models/pin';
 import { User } from '../models/user';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { MockTestData } from '../shared/MockTestData';
-import { LoginRedirectService } from './login-redirect.service';
 import { PinIdentifier } from '../models/pin-identifier';
 import { CacheLevel } from '../services/base-service/cacheable.service';
+import { Address } from '../models/address';
 
 describe('Service: Pin', () => {
-
   let fixture, mockSessionService, mockStateService, mockBlandPageService;
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+
+  const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
+  const mockPin =
+    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
+  const mockPinMatchingContactId =
+    new Pin('Bob', 'Smith', 'bobby@bob.com', 222, 222, mockAddress, 0, null, 222, true, '', pinType.PERSON, 0);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -98,4 +105,17 @@ describe('Service: Pin', () => {
     expect(service['cache'].pinSearchResults.length).toBe(1);
 
   }));
+
+  it('should NOT list pin as the user\'s pin', inject([PinService], (service: PinService) => {
+    <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(222);
+    let doesUserOwnPin = service.doesLoggedInUserOwnPin(mockPin);
+    expect(doesUserOwnPin).toBe(false);
+  }));
+
+  it('should list pin as the user\'s pin', inject([PinService], (service: PinService) => {
+    <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(222);
+    let doesUserOwnPin: boolean = service.doesLoggedInUserOwnPin(mockPinMatchingContactId);
+    expect(doesUserOwnPin).toBe(true);
+  }));
+
 });
