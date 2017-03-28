@@ -70,7 +70,7 @@ describe('SayHiComponent', () => {
     it('should call login redirect if not logged in', () => {
 
         let mockRoute = "mockRoute";
-        let sendSayHiFunc = comp.sendSayHi;
+        let sendSayHiFunc = comp['sendSayHi'];
         comp.isLoggedIn = false;
         comp.sayHi();
         expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalled();
