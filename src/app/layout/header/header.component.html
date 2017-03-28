@@ -9,12 +9,6 @@
     </div>
   </div>
 
-  <!-- Search Panel -->
-  <app-search-bar  *ngIf="state.hasSearchBar"
-                  [isMapHidden] = "!mapViewActive"
-                  (viewMap)="viewChanged($event)"
-                  (search)="doSearch($event)"></app-search-bar>
-
   <!-- Page Header -->
   <div class="page-title bg-blue" *ngIf="state.hasPageHeader">
     <a *ngIf="state.pageHeader.routerLink"

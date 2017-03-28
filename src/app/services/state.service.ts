@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 export class StateService {
 
   public hasBrandBar: boolean = true;
-  public hasSearchBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
