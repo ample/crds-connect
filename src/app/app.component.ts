@@ -1,7 +1,8 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Angulartics2GoogleTagManager } from 'angulartics2';
+import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { ContentService } from './services/content.service';
 import { StateService } from './services/state.service';
@@ -30,10 +31,13 @@ export class AppComponent implements OnInit {
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private state: StateService,
-    private content: ContentService) {
+    private content: ContentService,
+    public toastr: ToastsManager,
+    vRef: ViewContainerRef) {
 
     if ( this.iFrameResizerCW === undefined ) {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');
+      this.toastr.setRootViewContainerRef(vRef);
     }
   }
 

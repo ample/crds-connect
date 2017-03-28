@@ -52,10 +52,8 @@ export class SayHiComponent implements OnInit {
         this.user = ret;
         if (this.session.getContactId() == this.pin.contactId) {
           if (this.isGathering) {
-            console.log('is gathering and same user');
             this.router.navigate(['/gathering/' + this.pin.gathering.groupId]);
           } else {
-            console.log('is person and same user');
             this.router.navigate(['/person/' + this.pin.participantId]);
           }
         } else {
@@ -63,7 +61,7 @@ export class SayHiComponent implements OnInit {
         }
       },
       err => {
-
+        this.handleError();
       }
     );
   }
@@ -82,9 +80,17 @@ export class SayHiComponent implements OnInit {
         this.blandPageService.primeAndGo(bpd);
       },
       err => {
-        console.log('said hi err');
-        // redirect to error page
+        this.handleError();
       }
     );
+  }
+
+  handleError() {
+    let bpd = new BlandPageDetails();
+    bpd.blandPageCause = BlandPageCause.Error;
+    bpd.content = '<div class="container"><div class="row text-center"><h3>We are unable to send your email at this time.</h3></div></div>';
+    bpd.goToState = '';
+    bpd.buttonText = 'Return to pin';
+    this.blandPageService.primeAndGo(bpd);
   }
 }
