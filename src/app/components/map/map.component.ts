@@ -62,11 +62,11 @@ export class MapComponent implements OnInit {
   public getStringByPinType(type) {
     switch (type) {
       case pinType.PERSON:
-        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
+        return '//crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
       case pinType.GATHERING:
-        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
+        return '//crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
       default:
-        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
+        return '//crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
     }
   }
 
