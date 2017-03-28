@@ -1,11 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
+import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
+import { SessionService } from '../../services/session.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
@@ -21,12 +22,13 @@ export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
 
-  constructor(private api: APIService,
+  constructor(private pin: PinService,
               private mapHlpr: GoogleMapService,
               private loginRedirectService: LoginRedirectService,
               private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
+              private session: SessionService,
               private blandPageService: BlandPageService,
               private userLocationService: UserLocationService) { }
 
@@ -36,7 +38,7 @@ export class MapFooterComponent {
   }
 
   public myStuffBtnClicked()  {
-    if (!this.api.isLoggedIn()) {
+    if (!this.session.isLoggedIn()) {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.myStuffBtnClicked);
     } else {
       this.state.setCurrentView('map');
@@ -54,7 +56,7 @@ export class MapFooterComponent {
   doSearch(lat: number, lng: number) {
     this.state.setLoading(true);
 
-    this.api.getMyPinsSearchResults(lat, lng).subscribe(
+    this.pin.getMyPinsSearchResults(lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;
         this.myPinSearchResults.pinSearchResults =

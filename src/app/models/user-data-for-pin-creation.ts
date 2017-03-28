@@ -1,23 +1,17 @@
 import { Address } from './address';
+import { User } from './user';
 
-export class UserDataForPinCreation {
+export class UserDataForPinCreation extends User {
 
-    contactId: number;
-    participantId: number;
-    householdId: number;
-    firstname: string;
-    lastname: string;
-    email: string;
-    address: Address;
+    public contactId: number;
+    public participantId: number;
+    public householdId: number;
 
     constructor(contactId: number, participantId: number, householdId: number
                 , first_name: string, last_name: string, email: string, address: Address) {
+        super(first_name, last_name, email, null, address);
         this.contactId = contactId;
         this.participantId = participantId;
         this.householdId = householdId;
-        this.firstname = first_name;
-        this.lastname = last_name;
-        this.email = email;
-        this.address = address;
     }
 }

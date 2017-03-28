@@ -20,7 +20,6 @@ import { Pin } from '../../../../models/pin';
 import { Participant } from '../../../../models/participant';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 
-import { APIService } from '../../../../services/api.service';
 import { GroupService } from '../../../../services/group.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
@@ -93,7 +92,7 @@ describe('GatheringRequestsComponent', () => {
           '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           BlandPageType.Text,
           BlandPageCause.Success,
-          'pin-details/' + comp.pin.participantId
+          'gathering/' + comp.pin.gathering.groupId
         );
 
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, true, inquiry);
@@ -112,7 +111,7 @@ describe('GatheringRequestsComponent', () => {
           '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           BlandPageType.Text,
           BlandPageCause.Success,
-          'pin-details/' + comp.pin.participantId
+          'gathering/' + comp.pin.gathering.groupId
         );
 
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, false, inquiry);
@@ -125,6 +124,6 @@ describe('GatheringRequestsComponent', () => {
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, false);
         expect(mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith("pin-details/" + comp.pin.participantId)
+        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith("gathering/" + comp.pin.gathering.groupId)
     });
 });

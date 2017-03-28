@@ -40,7 +40,7 @@ export class GatheringRequestsComponent implements OnInit {
       (error) => {
         this.state.setLoading(false);
         console.log(error);
-        this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);
+        this.blandPageService.goToDefaultError("gathering/" + this.pin.gathering.groupId);
       });
   }
 
@@ -69,13 +69,13 @@ export class GatheringRequestsComponent implements OnInit {
           templateText,
           BlandPageType.Text,
           BlandPageCause.Success,
-          'pin-details/' + this.pin.participantId
+          'gathering/' + this.pin.gathering.groupId
         );
         this.state.setLoading(false);
         this.blandPageService.primeAndGo(bpd);
       }, (error) => {
         this.state.setLoading(false);
-        this.blandPageService.goToDefaultError("pin-details/" + this.pin.participantId);
+        this.blandPageService.goToDefaultError("gathering/" + this.pin.gathering.groupId);
       });
   }
 

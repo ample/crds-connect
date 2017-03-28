@@ -2,13 +2,15 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
+import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
+import { SearchLocalService } from  '../../services/search-local.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
+import { MapView } from '../../models/map-view';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
@@ -22,12 +24,18 @@ export class NeighborsComponent implements OnInit {
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
 
-  constructor(private api: APIService,
+  constructor(private pinService: PinService,
               private mapHlpr: GoogleMapService,
               private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
-              private userLocationService: UserLocationService) {}
+              private userLocationService: UserLocationService,
+              private searchLocalService: SearchLocalService) {
+    searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+      this.state.setUseZoom(mapView.zoom);
+      this.doSearch('searchLocal', mapView.lat, mapView.lng);
+    });
+  }
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
@@ -40,7 +48,9 @@ export class NeighborsComponent implements OnInit {
           this.doSearch('useLatLng', pos.lat, pos.lng );
         }
       );
-    } else { this.setView( this.state.getCurrentView() ); }
+    } else {
+      this.setView( this.state.getCurrentView() );
+    }
   }
 
   setView(mapOrListView): void {
@@ -53,7 +63,7 @@ export class NeighborsComponent implements OnInit {
 
   doSearch(searchString: string, lat?: number, lng?: number) {
     this.state.setLoading(true);
-    this.api.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
+    this.pinService.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.pinSearchResults.pinSearchResults =

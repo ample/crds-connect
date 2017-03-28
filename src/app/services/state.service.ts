@@ -8,6 +8,7 @@ export class StateService {
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
+  private zoomToUse: number = -1;
 
   public setLoading(val: boolean) {
     this.is_loading = val;
@@ -21,6 +22,15 @@ export class StateService {
     return this.mapOrListView;
   }
 
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  public setMyViewOrWorldView(view: string) {
+    this.myViewOrWorldView = view;
+  }
+
+  public getMyViewOrWorldView(): string {
+    return this.myViewOrWorldView;
+  }
+
   public setShowingPinCount(count: number) {
     this.showingPinCount = count;
   }
@@ -29,13 +39,12 @@ export class StateService {
     return this.showingPinCount;
   }
 
-  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
-  public setMyViewOrWorldView(view: string) {
-    this.myViewOrWorldView = view;
+  public setUseZoom(zoom: number) {
+    this.zoomToUse = zoom;
   }
 
-  public getMyViewOrWorldView(): string {
-    return this.myViewOrWorldView;
+  public getUseZoom() {
+    return this.zoomToUse;
   }
 
 }
