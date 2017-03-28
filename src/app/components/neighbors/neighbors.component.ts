@@ -39,6 +39,10 @@ export class NeighborsComponent implements OnInit {
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
+console.log('NG ON INIT - Neighbors - world or my');
+console.log(this.state.getMyViewOrWorldView());
+console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
+console.log(haveResults);
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView( this.state.getCurrentView() );
@@ -63,7 +67,7 @@ export class NeighborsComponent implements OnInit {
 
   doSearch(searchString: string, lat?: number, lng?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
+    this.pinService.getPinSearchResults(searchString, lat, lng).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.pinSearchResults.pinSearchResults =

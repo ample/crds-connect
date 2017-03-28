@@ -36,17 +36,14 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
   public getGroupRequests(groupId: number): Observable<Inquiry[]> {
     let contactId = this.session.getContactId();
     if (super.cacheIsReadyAndValid(groupId, CacheLevel.Full, contactId)) {
-      console.log("GroupService got cached Inquiries");
       return Observable.of(super.getCache());
     } else {
-      console.log("GroupService got new Inquiries");
       return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/inquiries/${groupId}`)
         .do((results) => super.setSmartCache(results, CacheLevel.Full, groupId, contactId));
     }
   }
 
   public acceptOrDenyRequest(groupId: number, groupTypeId: number, approve: boolean, inquiry: Inquiry) {
-    console.log("GroupService cleared Inquiries");
     return this.session.post(`${this.baseUrl}api/v1.0.0/group-tool/group-type/${groupTypeId}/group/${groupId}/inquiry/approve/${approve}`, inquiry)
       .do((results) => super.clearCache());
   }

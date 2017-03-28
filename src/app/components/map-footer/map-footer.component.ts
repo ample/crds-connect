@@ -38,12 +38,13 @@ export class MapFooterComponent {
   }
 
   public myStuffBtnClicked()  {
+    this.state.setLoading(true);
+    this.state.setCurrentView('map');
+    this.state.setMyViewOrWorldView('my');
+
     if (!this.session.isLoggedIn()) {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.myStuffBtnClicked);
     } else {
-      this.state.setCurrentView('map');
-      this.state.setMyViewOrWorldView('my');
-
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
@@ -54,23 +55,22 @@ export class MapFooterComponent {
   }
 
   doSearch(lat: number, lng: number) {
-    this.state.setLoading(true);
+//    this.state.setLoading(true);
 
-    this.pin.getMyPinsSearchResults(lat, lng).subscribe(
+    this.pin.getPinSearchResults('', lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
 
-// TODO: set myPinSearchResults into cache
-
         this.state.setLoading(false);
 
 // TODO: Do I need this??
-        // this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
-// TODO: Do I need this??
-        // this.neighborsHelper.emitChange();
+        if (this.state.getCurrentView() === 'map') {
+          this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
+        }
+        this.neighborsHelper.emitChange();
 
         this.isMapHidden = true;
         setTimeout(() => {

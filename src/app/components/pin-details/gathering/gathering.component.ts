@@ -50,10 +50,9 @@ export class GatheringComponent implements OnInit {
         this.state.setLoading(false);
       },
       failure => {
-        //something went wrong!!
-        console.log('Could not get participants');
+        // something went wrong!!        
         this.blandPageService.goToDefaultError('');
-      })
+      });
   }
 
   private loggedInUserIsInGathering(contactId: number) {
