@@ -2,6 +2,7 @@ import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 import { GeoCoordinates } from '../models/geo-coordinates';
+import { MapView } from '../models/map-view';
 
 @Injectable()
 export class GoogleMapService {
@@ -13,12 +14,14 @@ export class GoogleMapService {
 
   public didUserAllowGeoLoc: boolean;
   public siteMarkersOnMap: any = undefined;
+  public mapViewUpdatedEmitter: EventEmitter<MapView>;
 
   constructor() {
     this.mapUpdatedEmitter = new EventEmitter<GeoCoordinates>();
     this.mapClearEmitter = new EventEmitter<void>();
     this.dataForDrawingEmitter = new EventEmitter<any>();
     this.clusterMarkersEmitter = new EventEmitter<any>();
+    this.mapViewUpdatedEmitter = new EventEmitter<MapView>();
   }
 
   public setSiteMarkers(siteMarkersOnMap: any): void {
@@ -47,6 +50,10 @@ export class GoogleMapService {
 
   public setDidUserAllowGeoLoc(value: boolean): void {
     this.didUserAllowGeoLoc = value;
+  }
+
+  public emitMapViewUpdated(mapView: MapView): void {
+    this.mapViewUpdatedEmitter.emit(mapView);
   }
 
 }
