@@ -11,6 +11,7 @@ import { ListViewComponent } from '../../components/list-view/list-view.componen
 import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
 import { MapComponent } from '../../components/map/map.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { SearchLocalComponent } from '../../components/search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { FormsModule }   from '@angular/forms';
@@ -21,6 +22,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { SearchLocalService } from '../../services/search-local.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -52,6 +54,7 @@ describe('Component: Neighbors', () => {
         ListEntryComponent,
         SearchBarComponent,
         MapComponent,
+        SearchLocalComponent,
         GoogleMapClusterDirective
       ],
       imports: [
@@ -69,6 +72,7 @@ describe('Component: Neighbors', () => {
         NeighborsHelperService,
         StoreService,
         StateService,
+        SearchLocalService,
         ListHelperService,
         APIService,
         SessionService,

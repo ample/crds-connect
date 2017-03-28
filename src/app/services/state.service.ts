@@ -6,6 +6,7 @@ export class StateService {
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
+  private zoomToUse: number = -1;
 
   public setLoading(val: boolean) {
     this.is_loading = val;
@@ -25,5 +26,13 @@ export class StateService {
 
   public getShowingPinCount() {
     return this.showingPinCount;
+  }
+
+  public setUseZoom(zoom: number) {
+    this.zoomToUse = zoom;
+  }
+
+  public getUseZoom() {
+    return this.zoomToUse;
   }
 }
