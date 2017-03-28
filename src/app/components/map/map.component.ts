@@ -180,7 +180,11 @@ export class MapComponent implements OnInit {
   }
 
   public isMe(pin: Pin): string {
-    return this.pinHlpr.doesLoggedInUserOwnPin(pin) ? 'ME' : '';
+    let isPinASite: boolean = pin.pinType === pinType.SITE;
+    let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
+    let shouldHaveMeLabel = !isPinASite && doesUserOwnPin;
+
+    return shouldHaveMeLabel ? 'ME' : '';
   }
 
   public capitalizeFirstLetter(string) {
