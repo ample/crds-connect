@@ -125,6 +125,15 @@ app-add-me-to-map {
 // List view
 app-listview {
   display: block;
+
+  h2 {
+    @extend .font-family-base-light;
+    color: $cr-gray-light;
+    font-size: $font-size-h4;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-transform: lowercase;
+  }
 }
 
 list-footer {
@@ -143,7 +152,10 @@ list-footer {
 }
 
 .entry {
+  border-top: 1px solid $cr-gray-lighter;
   display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .entry-details {
@@ -154,4 +166,32 @@ list-footer {
 .entry-header {
   @extend .component-header;
   color: $cr-cyan;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  .label {
+    color: $cr-gray-dark;
+    font-family: 'Lexia', serif;
+    font-size: $font-size-smaller;
+    border-radius: $border-radius-base;
+    background: $cr-gray-light;
+  }
+}
+
+.entry-subheader {
+  @extend .control-label;
+  color: $cr-gray-light;
+
+  .proximity {
+
+  }
+
+  .joined_by {
+    margin-left: .5rem;
+  }
+}
+
+.entry-description {
+
 }

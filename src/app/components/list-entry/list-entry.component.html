@@ -3,8 +3,10 @@
      (click)="sayHi(participantId)">
   <img src="{{getPicByPinType()}}">
   <div class="entry-details">
-    <p class="entry-header">{{name()}}</p>
-    <p class="">{{roundedProximity()}} MI</p>
+    <h3 class="entry-header">{{name()}}</h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
   </div>
 </div>
 <div *ngIf="isGathering()"
@@ -12,16 +14,20 @@
      (click)="displayDetails(participantId)">
   <img src="{{getPicByPinType()}}">
   <div class="entry-details">
-    <p>{{name()}} <span>HOST</span></p>
-    <p class="proximity">{{roundedProximity()}} MI <span>JOINED BY {{count()}}</span></p>
-    <p class="description">{{gatheringDescription()}}</p>
+    <h3 class="entry-header">{{name()}}
+      <span class="label">HOST</span></h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+      <span class="joined_by">JOINED BY {{count()}}</span>
+    </p>
+    <p class="entry-description">{{gatheringDescription()}}</p>
   </div>
 </div>
 <div *ngIf="isSite()"
      class="entry">
   <img src="{{getPicByPinType()}}">
   <div class="entry-details">
-    <p>Crossroads {{siteName}}</p>
-    <p class="site-address" [innerHTML]="siteAddress()"></p>
+    <h3 class="entry-header">Crossroads {{siteName}}</h3>
+    <p class="entry-description" [innerHTML]="siteAddress()"></p>
   </div>
 </div>
