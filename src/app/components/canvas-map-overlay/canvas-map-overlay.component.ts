@@ -35,7 +35,12 @@ export class CanvasMapOverlayComponent implements OnInit {
       let cWidth = canvBounds.width;
       let cHeight = canvBounds.height;
 
-      this.drawMarkerLabels(ctx, drawingData, cWidth, cHeight);
+      let geoBounds: any = drawingData.geoBounds;
+      let isZoomedEnoughToDisplayPins = Math.abs(geoBounds.width)< 8.5 && Math.abs(geoBounds.height) < 1.8;
+
+      if( isZoomedEnoughToDisplayPins ){
+        this.drawMarkerLabels(ctx, drawingData, cWidth, cHeight);
+      }
 
     });
 
