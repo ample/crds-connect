@@ -67,9 +67,11 @@ export class SayHiComponent implements OnInit {
   }
 
   private doSayHi() {
+    let templateText =  `<div class="container"><div class="row text-center"><h3>${this.isGathering ? 'Host contacted' : 'Success!'}</h3></div></div>`;
+    let notificationText = `<div class="row text-center">${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</div>`;
     let bpd = new BlandPageDetails(
       'Return to map',
-      '<div class="container"><div class="row text-center"><h3>Host contacted</h3></div></div>',
+      templateText + notificationText,
       BlandPageType.Text,
       BlandPageCause.Success,
       ''
