@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 
 import { StateService } from '../../services/state.service';
 
@@ -8,6 +9,17 @@ import { StateService } from '../../services/state.service';
 })
 export class HeaderComponent {
 
-  constructor(private state: StateService) {}
+  constructor(private state: StateService,
+              private router: Router) {
+    this.listenForRouteChange();
+  }
+
+  private listenForRouteChange() {
+    this.router.events.subscribe((val) => {
+        if (val instanceof NavigationStart) {
+          this.state.hasPageHeader = false;
+        }
+    });
+  }
 
 }

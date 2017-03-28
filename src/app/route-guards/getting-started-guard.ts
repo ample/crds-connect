@@ -11,8 +11,9 @@ export class GettingStartedGuard implements CanActivate {
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
+    this.blandPageService.setPageHeader('Getting Started', '/');
     if (!this.blandPageService.primed()) {
-      this.blandPageService.primeGettingStarted()
+      this.blandPageService.primeGettingStarted();
     }
     return true;
   }

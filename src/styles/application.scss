@@ -138,24 +138,10 @@ app-add-me-to-map {
     }
   }
 
-  // .searchbar {
-  //   background-color: $cr-blue;
-  //   padding: .5rem 1rem;
-
-  //   .row {
-  //     div:last-child {
-  //       z-index: 1;
-  //     }
-  //   }
-
-  //   .btn-primary {
-  //     @include crds-button-variant($cr-white, $cr-blue-dark, $cr-blue-dark);
-  //   }
-  // }
-
   .page-title {
     text-align: center;
     padding: 1rem;
+    background-color: darken(desaturate($cr-blue-dark, 5), 5);
 
     * {
       color: $cr-white;
@@ -181,6 +167,12 @@ app-search-bar {
   justify-content: flex-start;
   padding: .5rem 1rem;
 
+  .searchbar-content {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+
   > button {
     margin-left: 6px;
 
@@ -190,9 +182,9 @@ app-search-bar {
   }
 
   .input-group {
-    display: inherit;
-    flex: 1 1 auto;
-    width: auto;
+    display: inline-flex;
+    width: calc(100% - 90px);
+    margin-right: 1rem;
 
     .input-group-btn {
       width: initial;
@@ -200,12 +192,12 @@ app-search-bar {
 
     @media (min-width: $screen-xs) {
       flex-grow: 0;
-      width: 20rem;
     }
 
     button.btn {
       padding-right: 10px;
       padding-left: 10px;
+      width: 70px;
 
       @media (min-width: $screen-xs) {
         padding-right: 20px;

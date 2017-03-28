@@ -2,17 +2,23 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
+import { StateService } from './state.service';
 
 @Injectable()
 export class BlandPageService {
 
     private blandPageDetails: BlandPageDetails;
 
-    constructor(private router: Router) { }
+    constructor(private router: Router,
+                private state: StateService) {}
 
     public primeAndGo(bpd: BlandPageDetails) {
         this.blandPageDetails = bpd;
         this.go();
+    }
+
+    public setPageHeader(title, backLink) {
+      this.state.setPageHeader(title, backLink);
     }
 
     public getBlandPageDetails() {
