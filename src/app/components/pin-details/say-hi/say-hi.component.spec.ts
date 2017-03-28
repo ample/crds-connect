@@ -33,7 +33,6 @@ import { PinLoginActionsComponent } from '../pin-login-actions/pin-login-actions
 import { PersonComponent } from '../person/person.component';
 import { GroupService } from '../../../services/group.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
-import { APIService } from '../../../services/api.service';
 import { Observable } from 'rxjs/Rx';
 
 describe('SayHiComponent', () => { 
@@ -62,7 +61,6 @@ describe('SayHiComponent', () => {
                 StateService,
                 Angulartics2,
                 LoginRedirectService,
-                APIService,
                 ContentService,
                 BlandPageService
             ],
@@ -95,8 +93,4 @@ describe('SayHiComponent', () => {
         expect(loginRedirectService.redirectToLogin).toHaveBeenCalled();
 
     }));
-
-
-
-
 });

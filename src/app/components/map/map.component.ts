@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { crdsOakleyCoords } from '../../shared/constants';
 import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { MapSettings } from '../../models/map-settings';
-import { APIService } from '../../services/api.service';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -28,7 +27,6 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor( private userLocationService: UserLocationService,
-               private api: APIService,
                private pinHlpr: PinService,
                private router: Router,
                private mapHlpr: GoogleMapService,
@@ -55,8 +53,10 @@ export class MapComponent implements OnInit {
     this.state.setCurrentView('map');
     // Both Person Pin and Gathering Pin navigate to pin-details
     // Site Pin stays on map with info-window popup
-    if (pin.pinType === pinType.PERSON || pin.pinType === pinType.GATHERING) {
-      this.router.navigate([`pin-details/${pin.participantId}/`]);
+    if (pin.pinType === pinType.PERSON) {
+      this.router.navigate([`person/${pin.participantId}/`]);
+    } else if (pin.pinType === pinType.GATHERING){
+      this.router.navigate([`gathering/${pin.gathering.groupId}/`]);
     }
   }
 
