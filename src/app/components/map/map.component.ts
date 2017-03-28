@@ -184,7 +184,7 @@ export class MapComponent implements OnInit {
   public isMe(pin: Pin): string {
     let isPinASite: boolean = pin.pinType === pinType.SITE;
     let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
-    let shouldHaveMeLabel = !isPinASite && doesUserOwnPin;
+    let shouldHaveMeLabel: boolean = !isPinASite && doesUserOwnPin;
 
     return shouldHaveMeLabel ? 'ME' : '';
   }
