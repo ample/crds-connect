@@ -102,4 +102,10 @@ export class PinService {
   public inviteToGathering(gatheringId: number, someone: Person): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/inviteToGathering/${gatheringId}`, someone);
   }
+
+  public doesLoggedInUserOwnPin(pin: Pin) {
+    let contactId = this.session.getContactId();
+    return contactId === pin.contactId;
+  }
+
 }

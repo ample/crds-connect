@@ -2,7 +2,6 @@
 
 import { TestBed } from '@angular/core/testing';
 import { APIService } from '../../services/api.service';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
@@ -10,6 +9,7 @@ import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component'
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -33,17 +33,17 @@ import { MapSettings } from '../../models/map-settings';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { SearchLocalService } from '../../services/search-local.service';
 
-describe('Component: Map', () => {
+describe('Component: SearchLocal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
-        SearchLocalComponent
+        SearchLocalComponent,
+        CanvasMapOverlayComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
@@ -73,26 +73,46 @@ describe('Component: Map', () => {
     this.fixture = TestBed.createComponent(MapComponent);
     this.component = this.fixture.componentInstance;
 
-  });
-
-  it('should create an instance', () => {
-    expect(this.component).toBeTruthy();
-  });
-
-  it('should init map with existing results', () => {
     this.component.haveResults = true;
     this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
     this.component.ngOnInit();
-    expect(this.component.mapSettings.lat).toBeTruthy();
-    expect(this.component.mapSettings.lng).toBeTruthy();
   });
 
-  it('should init map and get new results', () => {
-    this.component.haveResults = false;
-    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
-    this.component.ngOnInit();
-    expect(this.component.mapSettings.lat).toBeTruthy();
-    expect(this.component.mapSettings.lng).toBeTruthy();
+
+
+  it('should not be present if mapView is unchanged', () => {
+    let element = document.querySelector(".search-local button");
+    expect(element).toBe(null);
   });
 
+  // leave the following tests xit'ed because getting at the native elements
+  // that need to be adjusted is an unknown for now.
+
+  xit('should be present if mapView is zoomed', () => {
+    // how do you get a handle to the *real* google map in a test?
+    this.component.mapApiWrapper.getNativeMap().then((map) => {
+      map.setZoom(map.getZoom() + 1);
+    });
+    let element = document.querySelector(".search-local button");
+    expect(element).toBeDefined();
+  });
+
+  xit('should be present if mapView is panned', () => {
+    // how do you get a handle to the *real* google map in a test?
+    this.component.mapApiWrapper.getNativeMap().then((map) => {
+      map.panBy(100,200);
+    });
+    let element = document.querySelector(".search-local button");
+    expect(element).toBeDefined();
+  });
+
+  xit('should trigger a search when activated', () => {
+    // ummm... this component is a Map, not a SearchLocal
+    spyOn(this.component, "doLocalSearch")
+    // how do you get a handle to the *real* google map in a test?
+    this.component.mapApiWrapper.getNativeMap().then((map) => {
+      map.panBy(100,200);
+    });
+    expect(this.component.doLocalSearch).toHaveBeenCalled();
+  });
 });

@@ -7,8 +7,10 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
+import { SearchLocalService } from  '../../services/search-local.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
+import { MapView } from '../../models/map-view';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
@@ -27,7 +29,13 @@ export class NeighborsComponent implements OnInit {
               private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
-              private userLocationService: UserLocationService) {}
+              private userLocationService: UserLocationService,
+              private searchLocalService: SearchLocalService) {
+    searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+      this.state.setUseZoom(mapView.zoom);
+      this.doSearch('searchLocal', mapView.lat, mapView.lng);
+    });
+  }
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
@@ -40,7 +48,9 @@ export class NeighborsComponent implements OnInit {
           this.doSearch('useLatLng', pos.lat, pos.lng );
         }
       );
-    } else { this.setView( this.state.getCurrentView() ); }
+    } else {
+      this.setView( this.state.getCurrentView() );
+    }
   }
 
   setView(mapOrListView): void {
