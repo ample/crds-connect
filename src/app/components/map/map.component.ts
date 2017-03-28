@@ -63,11 +63,11 @@ export class MapComponent implements OnInit {
   public getStringByPinType(type) {
     switch (type) {
       case pinType.PERSON:
-        return 'http://i.imgur.com/12l0PBc.png';
+        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
       case pinType.GATHERING:
-        return 'http://i.imgur.com/8Xa3RYb.png';
+        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
       default:
-        return 'http://i.imgur.com/l95VWUN.png';
+        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
     }
   }
 
@@ -78,7 +78,7 @@ export class MapComponent implements OnInit {
       height: document.documentElement.clientHeight,
       lat:    lat,
       lng:    lng
-    }
+    };
     return this.calculateBestZoom(bounds, zoom);
   }
 
