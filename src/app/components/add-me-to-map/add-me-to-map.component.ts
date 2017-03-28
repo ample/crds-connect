@@ -2,7 +2,6 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
@@ -27,8 +26,7 @@ export class AddMeToMapComponent implements OnInit {
   public addMeToMapFormGroup: FormGroup;
   public stateList: Array<string>;
 
-  constructor(private api: APIService,
-              private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private hlpr: AddMeToTheMapHelperService,
               private router: Router,
               private route: ActivatedRoute,
@@ -49,7 +47,7 @@ export class AddMeToMapComponent implements OnInit {
         'nowAPin',
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
-        'map',
+        '',
       );
       this.blandPageService.primeAndGo(nowAPin);
     }

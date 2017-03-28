@@ -17,6 +17,7 @@ export class ListEntryComponent {
   @Input() type: number;
   @Input() proximity: number = 0;
   @Input() description: string = '';
+  @Input() groupId: number = 0;
   @Input() address: Address = null;
   @Input() participantId: number = 0;
   @Input() participantCount: number = 0;
@@ -64,11 +65,7 @@ export class ListEntryComponent {
     if (this.address === null) {
       return null;
     } else {
-      let addr = this.address.addressLine1;
-      if (this.address.addressLine2) {
-        addr += '<br/>' + this.address.addressLine2;
-      }
-      addr += '<br/>' + this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
+      let addr = this.address.city + ', ' + this.address.state + ' ' + this.address.zip;
       return addr;
     }
   }
@@ -79,12 +76,12 @@ export class ListEntryComponent {
 
   public sayHi(id) {
     this.state.setCurrentView('list');
-    this.router.navigate([`pin-details/${id}/`]);
+    this.router.navigate([`person/${id}/`]);
   }
 
   public displayDetails(id) {
     this.state.setCurrentView('list');
-    this.router.navigate([`pin-details/${id}/`]);
+    this.router.navigate([`gathering/${id}/`]);
   }
 
   public roundedProximity() {

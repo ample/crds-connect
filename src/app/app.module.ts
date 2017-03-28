@@ -45,22 +45,25 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchLocalComponent } from './components/search-local/search-local.component';
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
-import { APIService } from './services/api.service';
+import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from './services/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
+import { IPService } from './services/ip.service';
 import { LocationService } from './services/location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
 import { NeighborsHelperService } from './services/neighbors-helper.service';
+import { ParticipantService } from './services/participant.service';
 import { PinService } from './services/pin.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
-import { BlandPageService } from './services/bland-page.service';
+import { SearchLocalService } from './services/search-local.service';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 
@@ -76,7 +79,6 @@ import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { GettingStartedGuard } from './route-guards/getting-started-guard';
 
-import { StateListResolver } from './route-resolvers/state-list-resolver';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
@@ -136,6 +138,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RegisterComponent,
     SayHiComponent,
     SearchBarComponent,
+    SearchLocalComponent,
     FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
@@ -146,7 +149,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
-    APIService,
+    IPService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
@@ -157,10 +160,11 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LocationService,
     LoggedInGuard,
     NeighborsHelperService,
+    ParticipantService,
     PinService,
     PinResolver,
+    SearchLocalService,
     SessionService,
-    StateListResolver,
     StateService,
     StoreService,
     UserLocationService,

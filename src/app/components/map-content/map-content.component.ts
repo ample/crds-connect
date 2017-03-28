@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
+import { MapView } from '../../models/map-view';
 
 declare let google: any; //This does need to be 'declare'
 
@@ -34,7 +35,7 @@ export class MapContentComponent implements OnInit {
 
         let zoomControlOptions: any = {
           style: google.maps.ControlPosition.small,
-          position: google.maps.ControlPosition.RIGHT_CENTER
+          position: google.maps.ControlPosition.LEFT_TOP
         };
 
         let streetViewControlOptions: any =  {
@@ -44,6 +45,8 @@ export class MapContentComponent implements OnInit {
         map.setOptions(<NativeGoogMapProps>{
           zoomControlOptions: zoomControlOptions,
           streetViewControlOptions: streetViewControlOptions,
+          minZoom: 3,
+          maxZoom: 20,
           styles: [
             {
               "elementType": "geometry",
@@ -208,14 +211,25 @@ export class MapContentComponent implements OnInit {
 
         let self = this;
 
-        map.addListener('zoom_changed', function() {
-          self.clearCanvas();
-        });
-
         map.addListener('dragstart', function() {
           self.clearCanvas();
         });
 
+        map.addListener("dragend", () => {
+          let center = map.getCenter();
+          let zoom = map.getZoom();
+          let mapViewUpdate = new MapView("dragend", center.lat(), center.lng(), zoom);
+          self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+        });
+
+        map.addListener("zoom_changed", () => {
+          self.clearCanvas();
+          
+          let center = map.getCenter();
+          let zoom = map.getZoom();
+          let mapViewUpdate = new MapView("zoom_changed", center.lat(), center.lng(), zoom);
+          self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+        });
       });
   }
 
@@ -285,5 +299,4 @@ export class MapContentComponent implements OnInit {
         }
     });
   }
-
 }

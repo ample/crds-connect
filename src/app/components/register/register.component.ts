@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
@@ -25,7 +24,6 @@ export class RegisterComponent implements OnInit {
   private emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
   constructor(
-    private api: APIService,
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
@@ -67,9 +65,9 @@ export class RegisterComponent implements OnInit {
         this.regForm.get('email').value,
         this.regForm.get('password').value
       );
-      this.api.postUser(newUser).subscribe(
+      this.session.postUser(newUser).subscribe(
         user => {
-          if (!this.api.isLoggedIn()) {
+          if (!this.session.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);
           }
 
@@ -93,7 +91,7 @@ export class RegisterComponent implements OnInit {
   }
 
   loginNewUser(email, password) {
-    this.api.postLogin(email, password)
+    this.session.postLogin(email, password)
       .subscribe(
       (user) => {
         this.session.setContactId(user.userId);
