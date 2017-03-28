@@ -160,18 +160,20 @@ app-add-me-to-map {
   }
 }
 
+app-search-bar .searchbar-content,
+.app-header .header-content {
+  @extend .center-block;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
 // Map searchbar
 app-search-bar {
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
   display: flex;
   justify-content: flex-start;
   padding: .5rem 1rem;
-
-  .searchbar-content {
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-  }
 
   > button {
     margin-left: 6px;
