@@ -63,11 +63,11 @@ export class MapComponent implements OnInit {
   public getStringByPinType(type) {
     switch (type) {
       case pinType.PERSON:
-        return 'http://i.imgur.com/12l0PBc.png';
+        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
       case pinType.GATHERING:
-        return 'http://i.imgur.com/8Xa3RYb.png';
+        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
       default:
-        return 'http://i.imgur.com/l95VWUN.png';
+        return 'http://crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
     }
   }
 
@@ -183,7 +183,11 @@ export class MapComponent implements OnInit {
   }
 
   public isMe(pin: Pin): string {
-    return this.pinHlpr.doesLoggedInUserOwnPin(pin) ? 'ME' : '';
+    let isPinASite: boolean = pin.pinType === pinType.SITE;
+    let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
+    let shouldHaveMeLabel = !isPinASite && doesUserOwnPin;
+
+    return shouldHaveMeLabel ? 'ME' : '';
   }
 
   public capitalizeFirstLetter(string) {
