@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { GoogleMapService } from '../../services/google-map.service';
+import { LoginRedirectService } from '../../services/login-redirect.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from  '../../services/user-location.service';
@@ -22,6 +23,7 @@ export class MapFooterComponent {
 
   constructor(private api: APIService,
               private mapHlpr: GoogleMapService,
+              private loginRedirectService: LoginRedirectService,
               private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
@@ -34,14 +36,11 @@ export class MapFooterComponent {
   }
 
   public myStuffBtnClicked()  {
-
-// TODO: Check for authenticated
-    // let contactId = this.session.getContactId();
-    // if null then route to login
-
-
-    this.state.setCurrentView('map');
-    this.state.setMyViewOrWorldView('my');
+    if (!this.api.isLoggedIn()) {
+        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.myStuffBtnClicked);
+    } else {
+      this.state.setCurrentView('map');
+      this.state.setMyViewOrWorldView('my');
 
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
@@ -49,9 +48,7 @@ export class MapFooterComponent {
           this.doSearch(pos.lat, pos.lng );
         }
       );
-
-// TODO: stay on map route - need to do anything??
-    // this.router.navigateByUrl('/');
+    }
   }
 
   doSearch(lat: number, lng: number) {
@@ -63,11 +60,15 @@ export class MapFooterComponent {
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
+
+// TODO: set myPinSearchResults into cache
+
         this.state.setLoading(false);
 
-        this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
-
-        this.neighborsHelper.emitChange();
+// TODO: Do I need this??
+        // this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
+// TODO: Do I need this??
+        // this.neighborsHelper.emitChange();
 
         this.isMapHidden = true;
         setTimeout(() => {
