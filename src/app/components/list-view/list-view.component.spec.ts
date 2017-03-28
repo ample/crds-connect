@@ -29,7 +29,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
-
+import { ContentBlockModule } from 'crds-ng2-content-block';
 
 describe('Component: List View', () => {
 
@@ -44,6 +44,7 @@ describe('Component: List View', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+        ContentBlockModule.forRoot({ category: 'main' }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         })
