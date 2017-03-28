@@ -115,17 +115,27 @@ app-add-me-to-map {
 // Map searchbar
 app-search-bar {
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
-  display: flex;
-  justify-content: flex-start;
+  display: block;
   padding: .5rem 1rem;
 
-  > button {
-    margin-left: 6px;
+  header {
+    display: flex;
+    justify-content: flex-start;
 
-    @media (min-width: $screen-xs) {
-      margin-left: 24px;
+    @media (min-width: $screen-sm) {
+      margin: 0 auto;
+      width: $container-tablet;
+    }
+
+    > button {
+      margin-left: 6px;
+
+      @media (min-width: $screen-xs) {
+        margin-left: 24px;
+      }
     }
   }
+
 
   .input-group {
     display: inherit;
@@ -137,8 +147,8 @@ app-search-bar {
     }
 
     @media (min-width: $screen-xs) {
-      flex-grow: 0;
-      width: 20rem;
+      flex-grow: 100%;
+      // width: 20rem;
     }
 
     button.btn {
