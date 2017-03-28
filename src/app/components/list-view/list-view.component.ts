@@ -4,6 +4,7 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 
+
 @Component({
   selector: 'app-listview',
   templateUrl: 'list-view.component.html'
@@ -13,7 +14,7 @@ export class ListViewComponent {
 
   public showing_increment: number = 10;
 
-  constructor( 
+  constructor(
                private neighborsHelperService: NeighborsHelperService,
                private stateService: StateService) {
     neighborsHelperService.changeEmitter.subscribe(() => {
