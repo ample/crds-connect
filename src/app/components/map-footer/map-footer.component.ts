@@ -64,13 +64,14 @@ export class MapFooterComponent {
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
 
+        this.pin.searchResultsEmitter.emit(this.myPinSearchResults);
         this.state.setLoading(false);
 
 // TODO: Do I need this??
-        if (this.state.getCurrentView() === 'map') {
-          this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
-        }
-        this.neighborsHelper.emitChange();
+        // if (this.state.getCurrentView() === 'map') {
+        //   this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
+        // }
+        // this.neighborsHelper.emitChange();
 
         this.isMapHidden = true;
         setTimeout(() => {
@@ -81,6 +82,8 @@ export class MapFooterComponent {
         if ( this.myPinSearchResults.pinSearchResults.length === 0) {
           this.state.setLoading(false);
           this.router.navigate(['/add-me-to-the-map']);
+        } else {
+          this.router.navigate(['/map']);
         }
       },
       error => {

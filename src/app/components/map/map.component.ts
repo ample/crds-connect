@@ -20,7 +20,7 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
   templateUrl: 'map.component.html',
   styleUrls: ['map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
 
   @Input() searchResults: PinSearchResultsDto;
 
@@ -47,6 +47,10 @@ export class MapComponent implements OnInit {
       this.mapSettings.lat = lat;
       this.mapSettings.lng = lng;
     }
+  }
+
+  public ngOnChanges(): void {
+console.log("CHANGES?!?!");
   }
 
   private displayDetails(pin: Pin) {

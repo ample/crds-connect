@@ -31,6 +31,14 @@ export class NeighborsComponent implements OnInit {
               private state: StateService,
               private userLocationService: UserLocationService,
               private searchLocalService: SearchLocalService) {
+
+
+    this.pinService.searchResultsEmitter.subscribe(searchResults => {
+console.log('Constructor - NEIGHBORS - Pick up Emmitted data!! ');
+console.log(searchResults);
+      this.pinSearchResults = searchResults;
+    });
+
     searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
       this.doSearch('searchLocal', mapView.lat, mapView.lng);
@@ -39,10 +47,10 @@ export class NeighborsComponent implements OnInit {
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
-console.log('NG ON INIT - Neighbors - world or my');
-console.log(this.state.getMyViewOrWorldView());
 console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
 console.log(haveResults);
+console.log(this.pinSearchResults);
+console.log('NG ON INIT - Results up there! ');
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView( this.state.getCurrentView() );

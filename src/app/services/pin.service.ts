@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -35,6 +35,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
+  public searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
 
   constructor(
     private session: SessionService,
@@ -43,6 +44,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
+    this.searchResultsEmitter = new EventEmitter<PinSearchResultsDto>();
   }
 
   private createPartialCache(pin: Pin): void {
