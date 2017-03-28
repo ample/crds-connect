@@ -9,6 +9,11 @@ import { Group } from '../models/group';
 
 @Injectable()
 export class ParticipantService extends CacheableService<Group[]> {
+
+
+    private baseUrl = process.env.CRDS_API_ENDPOINT;
+    private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
+
     constructor(private session: SessionService) {
         super();
     }
@@ -36,6 +41,8 @@ export class ParticipantService extends CacheableService<Group[]> {
             });
 
             if (group != null) {
+
+                console.log("ParticipantService got cached Participants");
                 return Observable.of(group.Participants);
             }
         }
@@ -45,11 +52,14 @@ export class ParticipantService extends CacheableService<Group[]> {
 
     private getParticipantsByGroupFromBackend(groupId: number): Observable<Participant[]> {
         let contactId = this.session.getContactId();
-        return this.session.get('')
+        return this.session.get(`${this.baseUrl}api/v1.0.0/finder/participants/${groupId}`)
             .do((res: Participant[]) => {
                 let cache: Array<Group> = new Array<Group>();
                 if (super.isAtLeastPartialCache() && super.isCachedForUser(contactId)) {
+                    console.log("ParticipantService got new Participants and added them to the cache");
                     cache = super.getCache();
+                } else {
+                    console.log("ParticipantService got new Participants and created a new cache");
                 }
                 cache.push(Group.overload_Constructor_One(groupId, res));
                 super.setCache(cache, CacheLevel.Partial, contactId);
