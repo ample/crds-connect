@@ -11,8 +11,8 @@ import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-import { UserLocationService } from  '../../services/user-location.service';
-import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import { UserLocationService } from '../../services/user-location.service';
+import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 
 @Component({
@@ -24,13 +24,13 @@ export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
-  public mapSettings: MapSettings  = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
+  public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
-  constructor( private userLocationService: UserLocationService,
-               private pinHlpr: PinService,
-               private router: Router,
-               private mapHlpr: GoogleMapService,
-               private state: StateService) {}
+  constructor(private userLocationService: UserLocationService,
+    private pinHlpr: PinService,
+    private router: Router,
+    private mapHlpr: GoogleMapService,
+    private state: StateService) { }
 
   public ngOnInit(): void {
     let haveResults = !!this.searchResults;
@@ -55,7 +55,7 @@ export class MapComponent implements OnInit {
     // Site Pin stays on map with info-window popup
     if (pin.pinType === pinType.PERSON) {
       this.router.navigate([`person/${pin.participantId}/`]);
-    } else if (pin.pinType === pinType.GATHERING){
+    } else if (pin.pinType === pinType.GATHERING) {
       this.router.navigate([`gathering/${pin.gathering.groupId}/`]);
     }
   }
@@ -74,34 +74,37 @@ export class MapComponent implements OnInit {
   // get the best zoom level for the map
   private calculateZoom(zoom: number, lat: number, lng: number): number {
     let bounds = {
-      width:  document.documentElement.clientWidth,
+      width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
-      lat:    lat,
-      lng:    lng
+      lat: lat,
+      lng: lng
     }
     return this.calculateBestZoom(bounds, zoom);
   }
 
   // zero in on the zoom that's closest to the target pin count without going under
-  private calculateBestZoom(bounds: Object, zoom: number, pops: Object = {}) : number {
+  private calculateBestZoom(bounds: Object, zoom: number, pops: Object = {}): number {
     let popTarget = 10;
     let pop = this.countPopAtZoom(bounds, zoom, pops);
     if (pop < popTarget) {
-      return this.calculateBestZoom(bounds, zoom-1, pops);
+      if (zoom <= 8) {
+        return 8;
+      }
+      return this.calculateBestZoom(bounds, zoom - 1, pops);
     } else if (zoom >= 20) {
       return 20;
     } else {
-      let upPop = this.countPopAtZoom(bounds, zoom+1, pops);
+      let upPop = this.countPopAtZoom(bounds, zoom + 1, pops);
       if (upPop < popTarget) {
         return zoom;
       } else {
-        return this.calculateBestZoom(bounds, zoom+1, pops);
+        return this.calculateBestZoom(bounds, zoom + 1, pops);
       }
     }
   }
 
   // return the number of pins in a bounded region
-  private countPopAtZoom(bounds: Object, zoom: number, pops: Object) : number {
+  private countPopAtZoom(bounds: Object, zoom: number, pops: Object): number {
     if (pops[zoom] === undefined) {
       let geoBounds = this.calculateGeoBounds(bounds, zoom);
       let geoPop = this.countResultsInBounds(geoBounds);
@@ -124,17 +127,17 @@ export class MapComponent implements OnInit {
 
     // vadjust compensates for the local distortion of the Mercator projection.
 
-    let vadjust    = 1.0/Math.cos(Math.PI*bounds['lat']/180);
-    let divisor    = Math.pow(2, zoom);
-    let halfHeight = vadjust*bounds['height']/2;
-    let halfLat    = 0.703125*halfHeight/divisor;
-    let halfWidth  = bounds['width']/2;
-    let halfLng    = 1.406250*halfWidth/divisor
+    let vadjust = 1.0 / Math.cos(Math.PI * bounds['lat'] / 180);
+    let divisor = Math.pow(2, zoom);
+    let halfHeight = vadjust * bounds['height'] / 2;
+    let halfLat = 0.703125 * halfHeight / divisor;
+    let halfWidth = bounds['width'] / 2;
+    let halfLng = 1.406250 * halfWidth / divisor
     return {
       north: (bounds['lat'] + halfLat),
       south: (bounds['lat'] - halfLat),
-      east:  (bounds['lng'] + halfLng),
-      west:  (bounds['lng'] - halfLng)
+      east: (bounds['lng'] + halfLng),
+      west: (bounds['lng'] - halfLng)
     };
   }
 
@@ -143,9 +146,9 @@ export class MapComponent implements OnInit {
     let counter = 0;
     for (let result of this.searchResults.pinSearchResults) {
       if ((result.address.latitude < geoBounds['north']) &&
-          (result.address.latitude > geoBounds['south']) &&
-          (result.address.longitude < geoBounds['east']) &&
-          (result.address.longitude > geoBounds['west'])) {
+        (result.address.latitude > geoBounds['south']) &&
+        (result.address.longitude < geoBounds['east']) &&
+        (result.address.longitude > geoBounds['west'])) {
         counter++;
       }
     }
@@ -156,22 +159,22 @@ export class MapComponent implements OnInit {
   private dms(dec: number): String {
     let decSgn = (dec < 0) ? "-" : "";
     dec = Math.abs(dec);
-    let decDeg = parseInt(""+dec);
-    let decMin = parseInt(""+(dec-decDeg)*60.0);
-    let decSec = parseInt(""+(dec-decDeg-(decMin/60.0))*3600.0);
+    let decDeg = parseInt("" + dec);
+    let decMin = parseInt("" + (dec - decDeg) * 60.0);
+    let decSec = parseInt("" + (dec - decDeg - (decMin / 60.0)) * 3600.0);
     return `${decSgn}${decDeg}° ${decMin}' ${decSec}"`;
   }
-   
+
   public getLabelName(pin: Pin) {
     return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
-            this.hostOrEmptyString(pin) + '|' + this.isMe(pin) );
+      this.hostOrEmptyString(pin) + '|' + this.isMe(pin));
   }
 
-  public getFirstNameOrSiteName(pin: Pin){
+  public getFirstNameOrSiteName(pin: Pin) {
     return this.capitalizeFirstLetter(pin.firstName) || this.capitalizeFirstLetter(pin.siteName);
   }
 
-  public getLastInitial(pin: Pin){
+  public getLastInitial(pin: Pin) {
     return pin.lastName ? this.capitalizeFirstLetter((pin.lastName.substring(0, 1)) + '.') : '';
   }
 
@@ -193,5 +196,5 @@ export class MapComponent implements OnInit {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
-   
+
 }
