@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { APIService } from '../../services/api.service';
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
@@ -37,7 +36,6 @@ describe('Component: Host Application', () => {
         IFrameParentService,
         StoreService,
         StateService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,

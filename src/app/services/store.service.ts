@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { APIService } from './api.service';
+import { SessionService } from './session.service';
 import { StateService } from './state.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class StoreService {
 
 
   constructor(
-    private api: APIService,
+    private session: SessionService,
     private route: ActivatedRoute,
     private state: StateService
   ) {
@@ -28,29 +28,19 @@ export class StoreService {
 
 
   public loadUserData(): void {
-    this.api.getAuthentication().subscribe(
+    this.session.getAuthentication().subscribe(
       (info) => {
         if (info !== null) {
           this.email = info.userEmail;
         } else {
-          this.api.logOut();
+          this.session.logOut();
         }
       }
     );
   }
 
-  public loadEmail(): any {
-    this.api.getAuthentication().subscribe((info) => {
-      if (info !== null) {
-        return info.userEmail;
-      }
-    }, () => {
-      return null;
-    });
-  }
-
   public preloadData(): void {
-    if (this.api.isLoggedIn()) {
+    if (this.session.isLoggedIn()) {
       this.loadUserData();
     }
   }

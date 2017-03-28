@@ -7,8 +7,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-
-import { APIService } from '../../services/api.service';
 import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
@@ -36,6 +34,7 @@ import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someon
 import { PinDetailsComponent } from './pin-details.component';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 
+import { pinType } from '../../models/pin';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -66,7 +65,8 @@ describe('Component: Pin-Details component', () => {
           'latitude': null
         },
         'hostStatus': 0,
-        'gathering': null
+        'gathering': null,
+        'pinType': pinType.PERSON
       };
       TestBed.configureTestingModule({
         declarations: [
@@ -95,7 +95,6 @@ describe('Component: Pin-Details component', () => {
           IFrameParentService,
           StoreService,
           StateService,
-          APIService,
           SessionService,
           CookieService,
           PinService,
@@ -130,17 +129,17 @@ describe('Component: Pin-Details component', () => {
       expect(returnValue).toBe(false);
     }));
 
-    it('shouldInit while not logged in', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(false);
+    it('shouldInit while not logged in', inject([SessionService], (session) => {
+      spyOn(session, 'isLoggedIn').and.returnValue(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
       expect(this.component.pin.firstName).toBe('Joe');
-      expect(api.isLoggedIn.calls.count()).toEqual(1);
+      expect(session.isLoggedIn.calls.count()).toEqual(1);
       expect(this.component.isPinOwner).toBe(false);
     }));
 
-    it('shouldInit while logged in', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(true);
+    it('shouldInit while logged in', inject([SessionService], (session) => {
+      spyOn(session, 'isLoggedIn').and.returnValue(true);
       expect(this.component.isGatheringPin).toBe(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(true);
@@ -168,6 +167,7 @@ describe('Component: Pin-Details component', () => {
           'latitude': null
         },
         'hostStatus': 0,
+        'pinType': pinType.GATHERING,
         'gathering': {
           'Participants': [
             {
@@ -240,7 +240,6 @@ describe('Component: Pin-Details component', () => {
           IFrameParentService,
           StoreService,
           StateService,
-          APIService,
           SessionService,
           CookieService,
           PinService,
@@ -275,13 +274,13 @@ describe('Component: Pin-Details component', () => {
       expect(returnValue).toBe(false);
     }));
 
-    it('shouldInit while not logged in', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(false);
+    it('shouldInit while not logged in', inject([SessionService], (session) => {
+      spyOn(session, 'isLoggedIn').and.returnValue(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
       expect(this.component.isGatheringPin).toBe(true);
       expect(this.component.pin.firstName).toBe('Joe');
-      expect(api.isLoggedIn.calls.count()).toEqual(1);
+      expect(session.isLoggedIn.calls.count()).toEqual(1);
       expect(this.component.isPinOwner).toBe(false);
     }));
   });

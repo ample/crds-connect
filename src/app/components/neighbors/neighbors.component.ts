@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
+import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
@@ -24,7 +24,7 @@ export class NeighborsComponent implements OnInit {
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
 
-  constructor(private api: APIService,
+  constructor(private pinService: PinService,
               private mapHlpr: GoogleMapService,
               private neighborsHelper: NeighborsHelperService,
               private router: Router,
@@ -63,12 +63,50 @@ export class NeighborsComponent implements OnInit {
 
   doSearch(searchString: string, lat?: number, lng?: number) {
     this.state.setLoading(true);
-    this.api.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
+    this.pinService.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
+
+        // sort
         this.pinSearchResults.pinSearchResults =
           this.pinSearchResults.pinSearchResults.sort(
-            (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
+            (p1: Pin, p2: Pin) => {
+              if (p1.proximity !== p2.proximity) {
+                return p1.proximity - p2.proximity; // asc
+              } else if (p1.firstName && p2.firstName && (p1.firstName !== p2.firstName)) {
+                return p1.firstName.localeCompare(p2.firstName); // asc
+              } else if (p1.lastName && p2.lastName && (p1.lastName !== p2.lastName)) {
+                return p1.lastName.localeCompare(p2.lastName); // asc
+              } else {
+                return p2.pinType - p1.pinType; // des
+              }
+            }
+          );
+
+        // uniq - algorithm takes advantage of being sorted
+        let lastIndex = null;
+        this.pinSearchResults.pinSearchResults =
+          this.pinSearchResults.pinSearchResults.filter(
+            (p, index, self) => {
+              if (p.pinType === 3) {
+                lastIndex = -1;
+                return true;
+              } else if (lastIndex === -1) {
+                lastIndex = index;
+                return true;
+              } else {
+                let pl = self[lastIndex];
+                let test = (p.proximity !== pl.proximity) ||
+                           (p.firstName !== pl.firstName) ||
+                           (p.lastName  !== pl.lastName );
+                if (test) {
+                  lastIndex = index;
+                }
+                return test;
+              }
+            }
+          );
+
         this.state.setLoading(false);
 
         if (this.mapViewActive) {
