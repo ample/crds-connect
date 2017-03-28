@@ -10,7 +10,7 @@ import { DebugElement } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockTestData } from '../../../../shared/MockTestData'
+import { MockTestData } from '../../../../shared/MockTestData';
 import { Observable } from 'rxjs/Rx';
 
 import { GatheringRequestsComponent } from './gathering-requests.component';
@@ -24,6 +24,7 @@ import { GroupService } from '../../../../services/group.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 
+
 describe('GatheringRequestsComponent', () => {
     let fixture: ComponentFixture<GatheringRequestsComponent>;
     let comp: GatheringRequestsComponent;
@@ -32,6 +33,7 @@ describe('GatheringRequestsComponent', () => {
     let mockGroupService;
     let mockBlandPageService;
     let mockStateService;
+    let mockToast;
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
@@ -65,8 +67,9 @@ describe('GatheringRequestsComponent', () => {
     });
 
     it('should init and filter out placed inquiries', () => {
-        (<jasmine.Spy>mockGroupService.getGroupRequests).and.returnValue(Observable.of([ {inquiryId: 1}, {inquiryId: 2}, {inquiryId: 3, placed: true}]));
-        (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
+      (<jasmine.Spy>mockGroupService.getGroupRequests).and.returnValue(Observable.of([ {inquiryId: 1}, {inquiryId: 2},
+                                                                                       {inquiryId: 3, placed: true }]));
+      (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
       comp.ngOnInit();
       expect(comp['inquiries'].length).toBe(2);
       expect(mockGroupService.getGroupRequests.calls.count()).toBe(1);
@@ -89,13 +92,15 @@ describe('GatheringRequestsComponent', () => {
 
         let expectedBPD = new BlandPageDetails(
           'Return to my pin',
+          // tslint:disable-next-line:max-line-length
           '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           BlandPageType.Text,
           BlandPageCause.Success,
           'gathering/' + comp.pin.gathering.groupId
         );
 
-        expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, true, inquiry);
+        expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId,
+                                                                          comp.pin.gathering.groupTypeId, true, inquiry);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
         expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
@@ -108,13 +113,15 @@ describe('GatheringRequestsComponent', () => {
 
         let expectedBPD = new BlandPageDetails(
           'Return to my pin',
+          // tslint:disable-next-line:max-line-length
           '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
           BlandPageType.Text,
           BlandPageCause.Success,
           'gathering/' + comp.pin.gathering.groupId
         );
 
-        expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId, comp.pin.gathering.groupTypeId, false, inquiry);
+        expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId,
+                                                                          comp.pin.gathering.groupTypeId, false, inquiry);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
         expect(mockStateService.setLoading.calls.count()).toBe(2);
     });
@@ -123,7 +130,9 @@ describe('GatheringRequestsComponent', () => {
         (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.throw({ status: 500 }));
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, false);
+
+        expect(inquiry.error).toBeTruthy();
         expect(mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith("gathering/" + comp.pin.gathering.groupId)
+        expect(mockBlandPageService.goToDefaultError).not.toHaveBeenCalled();
     });
 });
