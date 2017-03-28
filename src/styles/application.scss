@@ -141,3 +141,17 @@ list-footer {
     }
   }
 }
+
+.entry {
+  display: flex;
+}
+
+.entry-details {
+  flex: 1 1 80%;
+  margin-left: 1rem;
+}
+
+.entry-header {
+  @extend .component-header;
+  color: $cr-cyan;
+}

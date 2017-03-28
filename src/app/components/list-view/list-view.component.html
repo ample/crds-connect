@@ -10,7 +10,7 @@
               [description]="pin.gathering ? pin.gathering.groupDescription : ''"
               [participantId]="pin.participantId"
               [address]="pin.address"
-              [participantCount]="pin.gathering ? pin.gathering.Participants.length : 0">
+              [participantCount]="pin.gathering ? pin.gathering.participantCount : 0">
   </list-entry>
 
   <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length"
