@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { APIService } from '../../services/api.service';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 import { AgmCoreModule } from 'angular2-google-maps/core';
@@ -47,7 +46,6 @@ describe('Component: Search Bar', () => {
         IFrameParentService,
         StoreService,
         StateService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,

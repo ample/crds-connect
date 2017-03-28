@@ -2,17 +2,28 @@ import { Pin } from '../models/pin';
 import { Address } from '../models/address';
 import { Group } from '../models/group';
 import { Participant } from '../models/participant';
+import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+import { GeoCoordinates } from '../models/geo-coordinates';
 export class MockTestData {
     constructor() {}
 
-/**
- * 
- * @param designator 
- * @param hostStatus 
- * @param pinType 
- * @param isFormDirty 
- */
-    public static getAPin(designator = 1, hostStatus = 3, pinType = 1, numParticipantsInGathering = 5, isFormDirty = false, proximity = 5): Pin {
+    public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1, hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5, isFormDirty = false, proximity = 5): PinSearchResultsDto {
+        let pins: Pin[];
+        pins = new Array<Pin>();
+
+        for(let pin = 0; pin < numPins; pin++){
+            pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, isFormDirty, proximity))
+        }
+        return new PinSearchResultsDto(
+            new GeoCoordinates(
+                lat,
+                long
+            ),
+            pins
+        );
+    }
+
+    public static getAPin(designator: number = 1, hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5, isFormDirty = false, proximity = 5): Pin {
         return new Pin(
             'firstName' + designator.toString(),
             'lastName' + designator.toString(),
@@ -30,7 +41,7 @@ export class MockTestData {
         )
     }
 
-    public static getAnAddress(designator = 1): Address{
+    public static getAnAddress(designator: number = 1): Address{
         return new Address(
                 designator,
                 'addressline1' + designator.toString(),
@@ -45,8 +56,11 @@ export class MockTestData {
             )
     }
 
-    public static getAParticipantsArray(numOfParticipants = 5): Participant[] {
+    public static getAParticipantsArray(numOfParticipants: number = 5): Participant[] {
         let participants = new Array<Participant>();
+        if (numOfParticipants == 0){
+            return null;
+        }
         for (var index = 0; index < numOfParticipants; index++) {
             let participant = new Participant(
                 'congregation', 
@@ -67,7 +81,7 @@ export class MockTestData {
         return participants;
     }
 
-    public static getAGroup(designator = 1, numParticipantsInGathering = 5): Group {
+    public static getAGroup(designator: number = 1, numParticipantsInGathering: number = 5): Group {
         return new Group(
             designator,
             'groupName' + designator.toString(),

@@ -1,5 +1,7 @@
 <script src="../../scripts/markerclusterer.js"></script>
 
+<canvas-map-overlay></canvas-map-overlay>
+
 <sebm-google-map id="connect"
                  [latitude] = "searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
                  [longitude] = "searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
@@ -8,24 +10,27 @@
                  [zoomControl] = "mapSettings.zoomControl"
                  [streetViewControl] = "false">
 
-        <sebm-google-map-marker 
+        <sebm-google-map-marker
           *ngFor="let pin of searchResults?.pinSearchResults; let i = index"
           [latitude] = "pin.address.latitude"
           [longitude] = "pin.address.longitude"
-          iconUrl = "{{getStringByPinType(pin.pinType)}}"
-          (markerClick) = "displayDetails(pin)" >
+          [iconUrl] = "getStringByPinType(pin.pinType)"
+          (markerClick) = "displayDetails(pin)"
+          [title] = "getLabelName(pin)">
           
         <sebm-google-map-info-window [disableAutoPan]="true" >
             <strong> Welcome to Crossroads! </strong><br>{{pin.address.addressLine1}}<br>{{pin.address.city}}, {{pin.address.state}}  {{pin.address.zip}}
         </sebm-google-map-info-window>
-        
+
       </sebm-google-map-marker>
-   
+
 
     <google-map-cluster *ngIf="searchResults?.pinSearchResults.length > 0"></google-map-cluster>
 
     <app-map-content></app-map-content>
 
 </sebm-google-map>
+
+<search-local></search-local>
 
 <app-map-footer></app-map-footer>
