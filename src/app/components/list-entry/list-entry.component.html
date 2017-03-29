@@ -1,7 +1,9 @@
 <div *ngIf="isPerson()"
      class="entry"
      (click)="sayHi(participantId)">
-  <img src="{{getPicByPinType()}}">
+  <div class="avatar-group avatar-size-4">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
   <div class="entry-details">
     <h3 class="entry-header">{{name()}}</h3>
     <p class="entry-subheader">
@@ -12,7 +14,9 @@
 <div *ngIf="isGathering()"
      class="entry"
      (click)="displayDetails(groupId)">
-  <img src="{{getPicByPinType()}}">
+  <div class="avatar-group avatar-size-5">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
   <div class="entry-details">
     <h3 class="entry-header">{{name()}}
       <span class="label label-host">HOST</span></h3>
@@ -25,7 +29,9 @@
 </div>
 <div *ngIf="isSite()"
      class="entry">
-  <img src="{{getPicByPinType()}}">
+  <div class="avatar-group avatar-size-5">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
   <div class="entry-details">
     <h3 class="entry-header">Crossroads {{siteName}}</h3>
     <p class="entry-subheader">

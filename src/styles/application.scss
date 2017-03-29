@@ -210,12 +210,12 @@ app-map-footer {
 // List view
 app-listview {
   background: $cr-white;
-  box-shadow: 0 0 10px 0 $cr-gray-light;
   display: block;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
   @media (min-width: $screen-sm) {
+    box-shadow: 0 0 10px 0 $cr-gray-light;
     margin: 0 auto;
     padding: 1rem 2rem;
     width: $container-tablet;
@@ -256,15 +256,19 @@ list-footer {
 }
 
 .entry {
-  border-top: 1px solid $cr-gray-lighter;
+  border-top: 1px solid darken($cr-gray-lighter, 10);
   display: flex;
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
 
-.entry-details {
-  flex: 1 1 80%;
-  margin-left: 1rem;
+  div:first-child {
+    min-width: 80px;
+  }
+
+  div:last-child {
+    flex: 1 1 100%;
+    margin-left: 1rem;
+  }
 }
 
 .entry-header {
