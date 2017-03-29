@@ -273,7 +273,9 @@ app-map-footer {
 }
 
 .screen-getting-started {
-  h5, p {
+  .people,
+  h5,
+  p {
     @extend .center-block;
     max-width: 80%;
   }
@@ -353,6 +355,14 @@ list-footer {
   margin-bottom: 0;
   padding-bottom: 0;
 
+}
+
+.label-center {
+  text-align: center;
+  .label {
+    display: inline-block;
+    float: none;
+  }
 }
 
 .label {
