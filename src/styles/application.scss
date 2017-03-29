@@ -114,7 +114,7 @@ app-add-me-to-map {
 
 .app-header {
   position: relative;
-  z-index: 9999;
+  z-index: 5;
 
   .brand-bar {
     height: 2.5rem;
@@ -172,7 +172,7 @@ app-add-me-to-map {
 app-search-bar {
   display: flex;
   position: relative;
-  z-index: 9999;
+  z-index: 5;
   justify-content: flex-start;
   padding: .5rem 1rem;
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
