@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
+import { StateService } from '../../services/state.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -21,7 +22,8 @@ export class MapContentComponent implements OnInit {
   public dataFromEventListener: undefined;
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
-              private mapHlpr: GoogleMapService ) {
+              private mapHlpr: GoogleMapService,
+              private state: StateService ) {
   }
 
   @HostListener('document:redrawingClusters', ['$event'])
@@ -220,6 +222,7 @@ export class MapContentComponent implements OnInit {
           let zoom = map.getZoom();
           let mapViewUpdate = new MapView("dragend", center.lat(), center.lng(), zoom);
           self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+          self.state.setMapView(mapViewUpdate);
         });
 
         map.addListener("zoom_changed", () => {
@@ -229,6 +232,7 @@ export class MapContentComponent implements OnInit {
           let zoom = map.getZoom();
           let mapViewUpdate = new MapView("zoom_changed", center.lat(), center.lng(), zoom);
           self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+          self.state.setMapView(mapViewUpdate);          
         });
       });
   }

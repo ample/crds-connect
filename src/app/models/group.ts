@@ -34,6 +34,10 @@ export class Group {
     groupTypeId?: number;
     participantCount: number;
 
+    public static overload_Constructor_One(groupId: number, participants: Participant[]): Group {
+        return new Group(groupId, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null, null, null, null, null, participants);
+    }
 
     constructor($groupId?: number, $groupName?: string, $groupDescription?: string, $groupTypeName?: string, $ministryId?: number,
     $congregationId?: number, $congregationName?: string, $primaryContactId?: number,
@@ -74,7 +78,4 @@ export class Group {
         this.participantCount = $participantCount;
     }
 
-    public static overload_Constructor_One(groupId: number, participants: Participant[]): Group {
-        return new Group(groupId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, participants);
-    }
 }
