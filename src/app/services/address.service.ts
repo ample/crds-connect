@@ -19,7 +19,7 @@ export class AddressService extends CacheableService<Pin[]> {
         super();
     }
 
-    public getAddress(id: number, addressType: pinType): Observable<Address> {
+    public getFullAddress(id: number, addressType: pinType): Observable<Address> {
         let contactId = this.session.getContactId();
         if (super.isCachedForUser(contactId)) {
             let addressCache = super.getCache();
