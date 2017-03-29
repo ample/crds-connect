@@ -6,8 +6,7 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'canvas-map-overlay',
-  templateUrl: 'canvas-map-overlay.component.html',
-  styleUrls: ['canvas-map-overlay.component.css']
+  templateUrl: 'canvas-map-overlay.component.html'
 })
 export class CanvasMapOverlayComponent implements OnInit {
 
