@@ -49,7 +49,8 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(): void {
-console.log('CHANGES?!?!' + this.searchResults);
+console.log('CHANGES in MAP Component?!?!');
+console.log(this.searchResults);
   }
 
   private displayDetails(pin: Pin) {

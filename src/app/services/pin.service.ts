@@ -92,21 +92,18 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let searchOptions: SearchOptions;
 
     if (this.state.getMyViewOrWorldView() === 'world') {
-console.log('WORLD view - pin service getPinSearchResults');
+// console.log('WORLD view - pin service getPinSearchResults');
       searchOptions = new SearchOptions(userSearchAddress, lat, lng);
-console.log(searchOptions);
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
         } else {
           return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng);
         }
       } else {  // getMyViewOrWorldView = 'my'
-console.log('MY view - pin service getPinSearchResults');
+// console.log('MY view - pin service getPinSearchResults');
         searchOptions = new SearchOptions('myView', lat, lng);
-console.log(searchOptions);
         if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-console.log('have MY cache to use - emit');
-          this.searchResultsEmitter.emit(super.getCache());
+console.log('Already have MY cache skip API call - neighbors component getPinSearchResults - neighbors component');
           return Observable.of(super.getCache());
           } else {
             return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);

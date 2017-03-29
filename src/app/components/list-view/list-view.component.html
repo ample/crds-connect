@@ -1,10 +1,13 @@
 <div class="container">
 
+<!-- add "My Stuff" label when view is MY view, not WORLD view-->
   <div class="row">
     <div class="col-xs-12">
-      <h3>{{ pinsToShowCountings() }}</h3>
+<!-- add "My Stuff" label when view is MY view, not WORLD view-->
     </div>
   </div>
+
+
 
   <div class="list-container">
     <list-entry *ngFor="let pin of pinsToShow()"

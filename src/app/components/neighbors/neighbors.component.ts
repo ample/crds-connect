@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -19,11 +19,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
   templateUrl: 'neighbors.component.html'
 })
 
-// TODO why is my local code SOOOOOO SLOW??
-// pull dev locally and see how it perfoms
-// what did I do???
-
-export class NeighborsComponent implements OnInit {
+export class NeighborsComponent implements OnInit, OnChanges {
   public isMapHidden = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
@@ -38,7 +34,7 @@ export class NeighborsComponent implements OnInit {
 
 
     this.pinService.searchResultsEmitter.subscribe(searchResults => {
-console.log('Constructor - NEIGHBORS - Pick up Emmitted data!! ');
+console.log('NEIGHBORS - Pick up Emmitted data!! ');
 console.log(searchResults);
       this.pinSearchResults = searchResults;
     });
@@ -52,10 +48,11 @@ console.log(searchResults);
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
 // TODO why is this always false?!?!!?
-console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
-console.log(haveResults);
-console.log(this.pinSearchResults);
-console.log('NG ON INIT - Results up there! ');
+// TODO use real cache that Doug implemented (not from component)
+// console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
+// console.log(haveResults);
+// console.log(this.pinSearchResults);
+// console.log('NG ON INIT - Results up there! ');
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView( this.state.getCurrentView() );
@@ -68,6 +65,11 @@ console.log('NG ON INIT - Results up there! ');
     } else {
       this.setView( this.state.getCurrentView() );
     }
+  }
+
+  public ngOnChanges(): void {
+console.log('CHANGES in NEIGHBORS Component?!?!');
+console.log(this.pinSearchResults);
   }
 
   setView(mapOrListView): void {

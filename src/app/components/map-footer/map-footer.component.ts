@@ -61,7 +61,7 @@ export class MapFooterComponent {
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-console.log('Just GOT MY cache - emit');
+console.log('Just WENT AND GOT MY Stuff and put into cache - button press - emit it to the neighbors component');
         this.pin.searchResultsEmitter.emit(this.myPinSearchResults);
         this.state.setLoading(false);
 
@@ -72,12 +72,12 @@ console.log('Just GOT MY cache - emit');
         }
 
         // TODO: TEST if myPinsearchresults is empty then display -- Add me to the map
+        // Getting error in the API call (rest call not happy)
         if ( this.myPinSearchResults.pinSearchResults.length === 0) {
           this.state.setLoading(false);
           this.router.navigate(['/add-me-to-the-map']);
         } else {
-// TODO Why do I need this routing?          
-console.log('routing to the map in footer - my stuff button');
+// TODO Why do I need this routing?
           this.router.navigate(['/map']);
         }
       },

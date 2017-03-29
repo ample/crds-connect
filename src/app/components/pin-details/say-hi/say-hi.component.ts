@@ -78,7 +78,6 @@ export class SayHiComponent implements OnInit {
     );
     this.pinService.sendHiEmail(this.user, this.pin).subscribe(
       ret => {
-        console.log('said hi');
         this.blandPageService.primeAndGo(bpd);
       },
       err => {

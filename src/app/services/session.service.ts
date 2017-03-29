@@ -180,6 +180,8 @@ export class SessionService extends SmartCacheableService<User, number> {
       if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
         return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
           .map((res: Pin) => {
+console.log('Pin in getUserData');
+console.log(res);
             let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
               res.address.city, res.address.state, res.address.zip, res.address.longitude,
               res.address.latitude, res.address.foreignCountry, res.address.county);
@@ -188,7 +190,10 @@ export class SessionService extends SmartCacheableService<User, number> {
             super.setSmartCache(userData, CacheLevel.Full, contactId);
             return userData;
           })
-          .catch((err) => Observable.throw(err.json().error));
+          .catch((err: any) => {
+console.log('ERROR on getUserData');
+            return Observable.throw(err.json().error);
+          });
       } else {
         return null;
       }
