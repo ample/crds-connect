@@ -103,9 +103,6 @@ export class CanvasMapOverlayComponent implements OnInit {
       case 'HOST':
         labelColor = '#006C9E';
         break;
-      case 'SITE':
-        labelColor = '#C05C04';
-        break;
       default:
         labelColor = '#2B5169';
     }
