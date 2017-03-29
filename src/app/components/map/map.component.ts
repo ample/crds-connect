@@ -38,7 +38,7 @@ export class MapComponent implements OnInit, OnChanges {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.calculateZoom(15, lat, lng)
+        this.mapSettings.zoom = this.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults.length);
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -49,7 +49,7 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(): void {
-console.log("CHANGES?!?!");
+console.log('CHANGES?!?!' + this.searchResults);
   }
 
   private displayDetails(pin: Pin) {
@@ -75,25 +75,31 @@ console.log("CHANGES?!?!");
   }
 
   // get the best zoom level for the map
-  private calculateZoom(zoom: number, lat: number, lng: number): number {
+  private calculateZoom(zoom: number, lat: number, lng: number, resultsSize: number): number {
     let bounds = {
       width: document.documentElement.clientWidth,
       height: document.documentElement.clientHeight,
       lat: lat,
       lng: lng
     }
-    return this.calculateBestZoom(bounds, zoom);
+    return this.calculateBestZoom(bounds, zoom, resultsSize);
   }
 
   // zero in on the zoom that's closest to the target pin count without going under
-  private calculateBestZoom(bounds: Object, zoom: number, pops: Object = {}): number {
-    let popTarget = 10;
+  private calculateBestZoom(bounds: Object, zoom: number, resultsSize: number, pops: Object = {}): number {
+    let popTarget;
+    if (this.state.getMyViewOrWorldView() === 'world') {
+      popTarget = 10;
+    } else {
+      popTarget = resultsSize;
+    }
+
     let pop = this.countPopAtZoom(bounds, zoom, pops);
     if (pop < popTarget) {
       if (zoom <= 8) {
         return 8;
       }
-      return this.calculateBestZoom(bounds, zoom - 1, pops);
+      return this.calculateBestZoom(bounds, zoom - 1, resultsSize, pops);
     } else if (zoom >= 20) {
       return 20;
     } else {
@@ -101,7 +107,7 @@ console.log("CHANGES?!?!");
       if (upPop < popTarget) {
         return zoom;
       } else {
-        return this.calculateBestZoom(bounds, zoom + 1, pops);
+        return this.calculateBestZoom(bounds, zoom + 1, resultsSize, pops);
       }
     }
   }
@@ -135,7 +141,7 @@ console.log("CHANGES?!?!");
     let halfHeight = vadjust * bounds['height'] / 2;
     let halfLat = 0.703125 * halfHeight / divisor;
     let halfWidth = bounds['width'] / 2;
-    let halfLng = 1.406250 * halfWidth / divisor
+    let halfLng = 1.406250 * halfWidth / divisor;
     return {
       north: (bounds['lat'] + halfLat),
       south: (bounds['lat'] - halfLat),
@@ -160,7 +166,7 @@ console.log("CHANGES?!?!");
 
   // Converting decimal degrees into plotable degrees minutes seconds value
   private dms(dec: number): String {
-    let decSgn = (dec < 0) ? "-" : "";
+    let decSgn = (dec < 0) ? '-' : '';
     dec = Math.abs(dec);
     let decDeg = parseInt("" + dec);
     let decMin = parseInt("" + (dec - decDeg) * 60.0);
@@ -198,7 +204,7 @@ console.log("CHANGES?!?!");
     let isStringEmptyOrNull = string === undefined || string === null || string === '';
 
     if (isStringEmptyOrNull) {
-      return ''
+      return '';
     } else {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }

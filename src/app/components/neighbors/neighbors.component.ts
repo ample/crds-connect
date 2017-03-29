@@ -19,6 +19,10 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
   templateUrl: 'neighbors.component.html'
 })
 
+// TODO why is my local code SOOOOOO SLOW??
+// pull dev locally and see how it perfoms
+// what did I do???
+
 export class NeighborsComponent implements OnInit {
   public isMapHidden = false;
   public mapViewActive: boolean = true;
@@ -47,6 +51,7 @@ console.log(searchResults);
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
+// TODO why is this always false?!?!!?
 console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
 console.log(haveResults);
 console.log(this.pinSearchResults);

@@ -54,34 +54,29 @@ export class MapFooterComponent {
   }
 
   doSearch(lat: number, lng: number) {
-//    this.state.setLoading(true);
-
     this.pin.getPinSearchResults('', lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-
+console.log('Just GOT MY cache - emit');
         this.pin.searchResultsEmitter.emit(this.myPinSearchResults);
         this.state.setLoading(false);
 
-// TODO: Do I need this??
-        // if (this.state.getCurrentView() === 'map') {
-        //   this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
-        // }
-        // this.neighborsHelper.emitChange();
+// TODO add sort and filter - from neighbors component
 
-        this.isMapHidden = true;
-        setTimeout(() => {
-          this.isMapHidden = false;
-        }, 1);
+        if (this.state.getCurrentView() === 'map') {
+          this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
+        }
 
-        // TODO: if myPinsearchresults is empty then display -- Add me to the map
+        // TODO: TEST if myPinsearchresults is empty then display -- Add me to the map
         if ( this.myPinSearchResults.pinSearchResults.length === 0) {
           this.state.setLoading(false);
           this.router.navigate(['/add-me-to-the-map']);
         } else {
+// TODO Why do I need this routing?          
+console.log('routing to the map in footer - my stuff button');
           this.router.navigate(['/map']);
         }
       },

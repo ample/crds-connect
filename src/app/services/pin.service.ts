@@ -105,6 +105,8 @@ console.log('MY view - pin service getPinSearchResults');
         searchOptions = new SearchOptions('myView', lat, lng);
 console.log(searchOptions);
         if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
+console.log('have MY cache to use - emit');
+          this.searchResultsEmitter.emit(super.getCache());
           return Observable.of(super.getCache());
           } else {
             return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
