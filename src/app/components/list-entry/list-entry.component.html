@@ -1,20 +1,42 @@
-<div class="row">
-  <hr/>
-  <div *ngIf="isPerson()" class="col-xs-12 person entry" (click)="sayHi(participantId)">
-    <img src="{{getPicByPinType()}}">
-    <h4>{{name()}}</h4>
-    <p class="proximity">{{roundedProximity()}} MI</p>
+<div *ngIf="isPerson()"
+     class="entry"
+     (click)="sayHi(participantId)">
+  <div class="avatar-group avatar-size-4">
+    <img src="{{getPicByPinType()}}" class="img-circle">
   </div>
-  <div *ngIf="isGathering()" class="col-xs-12 gathering entry" (click)="displayDetails(groupId)">
-    <img src="{{getPicByPinType()}}">
-    <h4>{{name()}} <span>HOST</span></h4>
-    <p class="proximity">{{roundedProximity()}} MI <span>JOINED BY {{count()}}</span></p>
-    <p class="description">{{gatheringDescription()}}</p>
+  <div class="entry-details">
+    <h3 class="entry-header">{{name()}}</h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
   </div>
-  <div *ngIf="isSite()" class="col-xs-12 site entry">
-    <img src="{{getPicByPinType()}}">
-    <h4>Crossroads {{siteName}}</h4>
-    <p class="proximity">{{roundedProximity()}} MI</p>
-    <p class="site-address" [innerHTML]="siteAddress()"></p>
+</div>
+<div *ngIf="isGathering()"
+     class="entry"
+     (click)="displayDetails(groupId)">
+  <div class="avatar-group avatar-size-5">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
+  <div class="entry-details">
+    <h3 class="entry-header">{{name()}}
+      <span class="label label-host">HOST</span></h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+      <span class="joined_by">JOINED BY {{count()}}</span>
+    </p>
+    <p class="entry-description">{{gatheringDescription()}}</p>
+  </div>
+</div>
+<div *ngIf="isSite()"
+     class="entry">
+  <div class="avatar-group avatar-size-5">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
+  <div class="entry-details">
+    <h3 class="entry-header">Crossroads {{siteName}}</h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
+    <p class="entry-description" [innerHTML]="siteAddress()"></p>
   </div>
 </div>
