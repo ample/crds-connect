@@ -74,21 +74,26 @@ export class CanvasMapOverlayComponent implements OnInit {
     let labelHeightAdjustment: number = undefined;
 
     if( !!markerLabelProps.hostOrMe ){
-      labelHeightAdjustment = 22;
-    } else {
       labelHeightAdjustment = 12;
+    } else {
+      labelHeightAdjustment = 6;
     }
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 3;
     ctx.font = "12px Arial";
 
     let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
+    ctx.strokeText(nameLabel, textX, textY);
     ctx.fillText(nameLabel, textX, textY);
 
     if( !!markerLabelProps.hostOrMe ){
-      ctx.fillText(markerLabelProps.hostOrMe, textX, textY + 15);
+      ctx.font = "10px Arial";
+      ctx.strokeText(markerLabelProps.hostOrMe, textX + 6, textY + 12);
+      ctx.fillText(markerLabelProps.hostOrMe, textX + 6, textY + 12);
     }
 
   }
@@ -102,10 +107,14 @@ export class CanvasMapOverlayComponent implements OnInit {
         labelColor = 'Gold';
         break;
       case 'HOST':
-        labelColor = 'Blue';
+        labelColor = '#0196dc';
         break;
       default:
-        labelColor = 'Teal';
+        if (markerLabelProps.lastInitial === '') {
+          labelColor = '#c05c04';
+        } else {
+          labelColor = '#3b6f91';
+        }
     }
 
     return labelColor;
