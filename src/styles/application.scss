@@ -112,6 +112,13 @@ app-add-me-to-map {
   }
 }
 
+.content-middle {
+  @extend .center-block;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
 // Map searchbar
 app-search-bar {
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
@@ -191,3 +198,13 @@ app-map-footer {
   width: 100%;
 }
 
+.screen-getting-started {
+  h5, p {
+    @extend .center-block;
+    max-width: 80%;
+  }
+  h5 {
+    max-width: 400px;
+    color: $cr-gray;
+  }
+}
