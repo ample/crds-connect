@@ -3,8 +3,8 @@
 <canvas-map-overlay></canvas-map-overlay>
 
 <sebm-google-map id="connect"
-                 [latitude]="searchResults ? searchResults.centerLocation.lat : mapSettings.lat"
-                 [longitude]="searchResults ? searchResults.centerLocation.lng : mapSettings.lng"
+                 [latitude]="mapSettings.lat"
+                 [longitude]="mapSettings.lng"
                  [zoom]="mapSettings.zoom"
                  [disableDefaultUI]="mapSettings.disableDefaultUI"
                  [zoomControl]="mapSettings.zoomControl"
