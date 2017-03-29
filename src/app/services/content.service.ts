@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Http } from '@angular/http';
-import { BodyOutputType } from 'angular2-toaster';
 import { ContentBlock } from '../models/content-block';
 
 @Injectable()

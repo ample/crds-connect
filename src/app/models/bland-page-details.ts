@@ -10,7 +10,8 @@ export class BlandPageDetails {
     blandPageCause: BlandPageCause;
     cancelState: string;
 
-    constructor(buttonText: string, content: string, blandPageType: BlandPageType, blandPageCause: BlandPageCause, goToState: string = null, cancelState: string = null) {
+    constructor(buttonText?: string, content?: string, blandPageType?: BlandPageType,
+    blandPageCause?: BlandPageCause, goToState?: string, cancelState?: string) {
         this.buttonText = buttonText;
         this.content = content;
         this.blandPageType = blandPageType;
@@ -18,4 +19,4 @@ export class BlandPageDetails {
         this.goToState = goToState;
         this.cancelState = cancelState;
     }
-}
+};
