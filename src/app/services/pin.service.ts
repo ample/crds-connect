@@ -12,6 +12,7 @@ import { StateService } from '../services/state.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
 
+import { GoogleMapService } from '../services/google-map.service';
 
 import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
@@ -39,7 +40,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   constructor(
     private session: SessionService,
     private state: StateService,
-    private blandPageService: BlandPageService
+    private blandPageService: BlandPageService,
+    private mapHlpr: GoogleMapService
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
@@ -88,7 +90,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-  public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number)
+  public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number)
     : Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions = new SearchOptions(userSearchAddress, lat, lng);
@@ -100,13 +102,35 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       console.log("PinService got full cached PinSearchResultsDto");
       return Observable.of(super.getCache());
     } else {
-      let searchUrl: string = lat && lng ?
-        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
-        + '/' + lat.toString().split('.').join('$') + '/'
-        + lng.toString().split('.').join('$') :
-        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      let searchUrl: string;
+      if (lat && lng) {
+        if (zoom) {
+          // call to get bounding box
+          let bounds = {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
+            lat: lat,
+            lng: lng
+            };
+          let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom -1); // get extra pins for moving around without new query
+          searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+            + '/' + lat.toString().split('.').join('$') 
+            + '/' + lng.toString().split('.').join('$') 
+            + '/' + ('' + geobounds['north']).split('.').join('$')
+            + '/' + ('' + geobounds['west']).split('.').join('$')
+            + '/' + ('' + geobounds['south']).split('.').join('$')
+            + '/' + ('' + geobounds['east']).split('.').join('$');
+        } else {
+          searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+            + '/' + lat.toString().split('.').join('$') 
+            + '/' + lng.toString().split('.').join('$');
+        }
+      } else {
+        searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      }
 
-        
+
+
       console.log("PinService got full new PinSearchResultsDto");
       return this.session.get(this.baseUrl + searchUrl)
         //when we get the new results, set them to the cache
