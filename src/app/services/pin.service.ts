@@ -131,9 +131,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     this.state.setLoading(true);
     return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
-        let memberSaidHi = new BlandPageDetails(
-          "Return to map",
-          "<div class='text text-center'>Success!</div>",
+
+         let memberSaidHi = new BlandPageDetails(
+          'Return to map',
+          '<div class="text text-center">Success!</div>',
           BlandPageType.Text,
           BlandPageCause.Success,
           ''

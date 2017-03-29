@@ -4,6 +4,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+
+export class CustomOptions extends ToastOptions {
+  animate = 'fade';
+  dismiss = 'auto';
+  showCloseButton = true;
+  newestOnTop = true;
+  // messageClass = '';
+  // titleClass = '';
+}
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
@@ -101,6 +111,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PreloaderModule,
     ReactiveFormsModule,
     SelectModule,
+    ToastModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({ categories: Array('finder', 'main', 'common') })
   ],
@@ -170,6 +181,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SessionService,
     StateService,
     StoreService,
+    { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,
     WhatsAHostGuard

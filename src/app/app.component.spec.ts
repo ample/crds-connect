@@ -12,6 +12,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ContentService } from './services/content.service';
 import { HeaderComponent } from './layout/header/header.component';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
@@ -37,7 +38,9 @@ describe('App: CrdsConnect', () => {
         StateService,
         ContentService,
         Angulartics2,
-        Angulartics2GoogleTagManager
+        Angulartics2GoogleTagManager,
+        ToastsManager,
+        ToastOptions
       ]
     })
       .compileComponents();

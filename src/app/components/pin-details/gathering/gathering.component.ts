@@ -1,13 +1,13 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
 
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
 import { BlandPageService } from '../../../services/bland-page.service';
-import { ContentService } from '../../../services/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
@@ -29,15 +29,14 @@ export class GatheringComponent implements OnInit {
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
 
-  constructor(
-    private content: ContentService,
-    private session: SessionService,
+  constructor(private session: SessionService,
     private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
     private state: StateService,
-    private participantService: ParticipantService) { }
+    private participantService: ParticipantService,
+    private toast: ToastsManager) { }
 
   public ngOnInit() {
     this.state.setLoading(true);
@@ -50,10 +49,10 @@ export class GatheringComponent implements OnInit {
         this.state.setLoading(false);
       },
       failure => {
-        //something went wrong!!
+        // something went wrong!!
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
-      })
+      });
   }
 
   private loggedInUserIsInGathering(contactId: number) {
@@ -67,7 +66,7 @@ export class GatheringComponent implements OnInit {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.blandPageService.primeAndGo(new BlandPageDetails(
+           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
             'gatheringJoinRequestSent',
             BlandPageType.ContentBlock,
@@ -76,19 +75,11 @@ export class GatheringComponent implements OnInit {
           ));
         },
         failure => {
-          let bpd;
+          this.state.setLoading(false);
           if (failure.status === 409) {
-            bpd = new BlandPageDetails(
-              'Back',
-              // tslint:disable-next-line:max-line-length
-              '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
-              BlandPageType.Text,
-              BlandPageCause.Error,
-              'gathering/' + this.pin.gathering.groupId
-            );
-            this.blandPageService.primeAndGo(bpd);
+            this.toast.warning('Looks like you have already requested to join this group', 'OOPS');
           } else {
-            this.blandPageService.goToDefaultError('gathering/' + this.pin.gathering.groupId);
+            this.toast.warning('Looks like there was an error. Please fix and try again', 'Oh no!');
           }
         }
       );
