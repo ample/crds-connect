@@ -201,3 +201,15 @@ app-map-footer {
   z-index: 4;
 }
 
+// Update search results button
+search-local {
+  display: block;
+  position: absolute;
+  top: 75px;
+  left: 50px;
+
+  @media (min-width: $screen-xs) {
+    top: 83px;
+    left: 60px;
+  }
+}
