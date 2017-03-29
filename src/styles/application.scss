@@ -160,8 +160,8 @@ app-add-me-to-map {
   }
 }
 
-app-search-bar .searchbar-content,
-.app-header .header-content {
+// Centers blocks to the middle of the screen.
+.content-middle {
   @extend .center-block;
   width: 100%;
   max-width: 600px;
