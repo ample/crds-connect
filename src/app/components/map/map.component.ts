@@ -14,6 +14,7 @@ import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GeoCoordinates } from '../../models/geo-coordinates';
+import { MapView } from '../../models/map-view';
 
 @Component({
   selector: 'app-map',
@@ -45,6 +46,12 @@ export class MapComponent implements OnInit {
       }
       this.mapSettings.lat = lat;
       this.mapSettings.lng = lng;
+      let priorMapView = this.state.getMapView();
+      if (priorMapView){
+        this.mapSettings.lat  = priorMapView.lat;
+        this.mapSettings.lng  = priorMapView.lng;
+        this.mapSettings.zoom = priorMapView.zoom;
+      }
     }
   }
 
