@@ -36,7 +36,8 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-  public myStuffBtnClicked()  {
+
+  public myStuffBtnClicked = () =>  {
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('my');
