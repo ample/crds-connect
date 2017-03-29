@@ -7,8 +7,7 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'list-entry',
-  templateUrl: 'list-entry.component.html',
-  styleUrls: ['list-entry.component.css']
+  templateUrl: 'list-entry.component.html'
 })
 export class ListEntryComponent {
   @Input() firstName: string = '';

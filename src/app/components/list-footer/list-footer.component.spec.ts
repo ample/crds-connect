@@ -12,6 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { BlandPageService } from '../../services/bland-page.service';
+import { ContentBlockModule } from 'crds-ng2-content-block';
 
 describe('Component: List Footer', () => {
 
@@ -22,7 +23,8 @@ describe('Component: List Footer', () => {
       ],
       imports: [
         HttpModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        ContentBlockModule.forRoot({ category: 'main' })
       ],
       providers: [
         CookieService,
