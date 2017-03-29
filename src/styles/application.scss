@@ -184,6 +184,15 @@ sebm-google-map {
   }
 }
 
+canvas-map-overlay {
+  display: block;
+  height: calc(100vh - 69px);
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+
 // Map footer
 app-map-footer {
   bottom: 0;
