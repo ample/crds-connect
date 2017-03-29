@@ -50,7 +50,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private createPartialCache(pin: Pin): void {
     let contactId = this.session.getContactId();
     let pinArray = new Array<Pin>();
-    pinArray.push(pin)
+    pinArray.push(pin);
     super.setSmartCache(new PinSearchResultsDto(new GeoCoordinates(0, 0), pinArray), CacheLevel.Partial, null, contactId);
   }
 
@@ -63,18 +63,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     if (super.isCachedForUser(contactId)) {
       cachedPins = super.getCache();
-      pin = cachedPins.pinSearchResults.find(pin => {
-        if (pin.pinType === pinIdentifier.type) {
-          if (pinIdentifier.type === pinType.PERSON) {
-            return (pin.participantId === pinIdentifier.id);
+      pin = cachedPins.pinSearchResults.find(aPin => {
+        if (aPin.pinType == pinIdentifier.type) {
+          if (pinIdentifier.type == pinType.PERSON) {
+            return (aPin.participantId == pinIdentifier.id);
           } else {
-            return (pin.gathering) && (pin.gathering.groupId === pinIdentifier.id);
+            return (aPin.gathering) && (aPin.gathering.groupId == pinIdentifier.id);
           }
         } else {
           return false;
         }
       });
       if (pin != null) {
+          console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }
@@ -82,12 +83,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
 
+    console.log('PinService got partial new PinSearchResultsDto');
+
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-  public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number): Observable<PinSearchResultsDto> {
+    public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions: SearchOptions;
 
@@ -177,7 +180,7 @@ console.log('Already have MY cache skip API call - neighbors component getPinSea
   }
 
   public requestToJoinGathering(gatheringId: number): Observable<boolean> {
-    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId)
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId);
   }
 
   public inviteToGathering(gatheringId: number, someone: Person): Observable<boolean> {
@@ -186,9 +189,10 @@ console.log('Already have MY cache skip API call - neighbors component getPinSea
 
   public postPin(pin: Pin) {
     let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
-
     return this.session.post(postPinUrl, pin)
       .map((res: any) => {
+        console.log('PinService cleared Search results cache');
+        super.clearCache();
         return res;
       })
       .catch((err) => Observable.throw(err.json().error));

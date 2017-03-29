@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MapView } from '../models/map-view';
 
 @Injectable()
 export class StateService {
@@ -9,6 +10,15 @@ export class StateService {
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
+  private savedMapView: MapView;
+
+  public setMapView(mv: MapView) {
+    this.savedMapView = mv;
+  }
+
+  public getMapView() {
+    return this.savedMapView;
+  }
 
   public setLoading(val: boolean) {
     this.is_loading = val;
