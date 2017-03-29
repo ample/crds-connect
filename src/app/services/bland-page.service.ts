@@ -34,29 +34,12 @@ export class BlandPageService {
     }
 
     public goToGettingStarted(cancelRoute?: string) {
-        this.primeGettingStarted(cancelRoute);
         this.router.navigate(['/getting-started']);
     }
 
     public goToWhatsAHost(cancelRoute?: string) {
         this.primeWhatsAHost(cancelRoute);
         this.router.navigate(['/whats-a-host']);
-    }
-
-    /**
-     * This will set the blandPageDetails for Getting Started and 
-     * nothing more.  This should only be used by the Getting Started route Guard.
-     * @param cancelRoute route to return to if (x) is clicked
-     */
-    public primeGettingStarted(cancelRoute: string = '') {
-        this.blandPageDetails = new BlandPageDetails(
-            'Add me to map',
-            'gettingStarted',
-            BlandPageType.ContentBlock,
-            BlandPageCause.SimpleFauxdal,
-            'add-me-to-the-map',
-            cancelRoute
-        );
     }
 
     /**
