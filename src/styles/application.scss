@@ -114,7 +114,7 @@ app-add-me-to-map {
 
 .app-header {
   position: relative;
-  z-index: 1;
+  z-index: 9999;
 
   .brand-bar {
     height: 2.5rem;
@@ -170,10 +170,12 @@ app-add-me-to-map {
 
 // Map searchbar
 app-search-bar {
-  background-color: darken(desaturate($cr-blue-dark, 5), 5);
   display: flex;
+  position: relative;
+  z-index: 9999;
   justify-content: flex-start;
   padding: .5rem 1rem;
+  background-color: darken(desaturate($cr-blue-dark, 5), 5);
 
   > button {
     margin-left: 6px;
@@ -229,9 +231,11 @@ app-search-bar {
 
 // Style map
 sebm-google-map {
+  position: absolute;
+  height: calc(100% - 110px);
+  width: 100%;
+  top: 110px; // Height of the app header and search bar
   background-color: $cr-gray-lighter;
-  height: calc(100vh - 69px); // 69px is the height of the header/searchbar
-  width: 100vw;
 
   @media (min-width: $screen-xs) {
     .gmnoprint {
@@ -240,10 +244,13 @@ sebm-google-map {
   }
 }
 
+.sebm-google-map-container-inner {
+  height: 100% !important;
+}
+
 // Map footer
 app-map-footer {
   bottom: 0;
   position: absolute;
   width: 100%;
 }
-
