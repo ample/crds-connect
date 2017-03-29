@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
-import { Pin } from '../../../models/pin';
+import { Pin, pinType } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
@@ -13,6 +13,7 @@ import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
+import { AddressService } from '../../../services/address.service';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class GatheringComponent implements OnInit {
     private blandPageService: BlandPageService,
     private state: StateService,
     private participantService: ParticipantService,
-    private toast: ToastsManager) { }
+    private toast: ToastsManager,
+    private addressService: AddressService) { }
 
   public ngOnInit() {
     this.state.setLoading(true);
@@ -45,8 +47,18 @@ export class GatheringComponent implements OnInit {
         this.pin.gathering.Participants = success;
         if (this.loggedInUserIsInGathering(this.session.getContactId()) && this.isLoggedIn) {
           this.isInGathering = true;
+          this.addressService.getAddress(this.pin.gathering.groupId, pinType.GATHERING).subscribe(
+            success => {
+              this.pin.address = success;
+              this.state.setLoading(false);
+            },
+            error => {
+              this.toast.error('Looks like we were unable to get the full address', 'Oh no!');
+            }
+          );
+        } else {
+          this.state.setLoading(false);
         }
-        this.state.setLoading(false);
       },
       failure => {
         // something went wrong!!
@@ -66,7 +78,7 @@ export class GatheringComponent implements OnInit {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-           this.blandPageService.primeAndGo(new BlandPageDetails(
+          this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
             'gatheringJoinRequestSent',
             BlandPageType.ContentBlock,
