@@ -7,6 +7,7 @@ import { Pin, pinType } from '../../../models/pin';
 import { User } from '../../../models/user';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 import { Participant } from '../../../models/participant';
+import { Address } from '../../../models/address';
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -31,6 +32,7 @@ export class GatheringComponent implements OnInit {
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
+  private address: Address = Address.overload_Constructor_One();
 
   constructor(private session: SessionService,
     private pinService: PinService,
@@ -46,26 +48,23 @@ export class GatheringComponent implements OnInit {
     this.state.setLoading(true);
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       participants => {
-        if (this.loggedInUserIsInGathering(this.session.getContactId(), participants)) {
+        this.pin.gathering.Participants = participants;
+        if (this.loggedInUserIsInGathering(this.session.getContactId())) {
+          this.isInGathering = true;
           this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING).subscribe(
             address => {
-              this.pin.address = address;
-              this.pin.gathering.address = address;
+              this.address = address;
             },
             error => {
               this.toast.error('Looks like we were unable to get the full address', 'Oh no!');
             }, () => {
               this.state.setLoading(false);
               this.ready = true;
-              this.isInGathering = true;
-              this.pin.gathering.Participants = participants;
             }
           );
         } else {
           this.state.setLoading(false);
           this.ready = true;
-          this.isInGathering = false;
-          this.pin.gathering.Participants = participants;
         }
       },
       failure => {
@@ -75,8 +74,8 @@ export class GatheringComponent implements OnInit {
       });
   }
 
-  private loggedInUserIsInGathering(contactId: number, participants: Participant[]) {
-    return participants.find((participant) => {
+  private loggedInUserIsInGathering(contactId: number) {
+    return this.pin.gathering.Participants.find((participant) => {
       return (participant.contactId === contactId);
     });
   }
