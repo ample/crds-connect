@@ -17,7 +17,7 @@ import { StateService } from './services/state.service';
         <router-outlet></router-outlet>
       </div>
     </div>`,
-  styleUrls: ['../styles/application.scss'],
+  styleUrls: ['../styles/application.scss', '../styles/ng2-toastr.scss'],
   encapsulation: ViewEncapsulation.None
 })
 

@@ -44,7 +44,6 @@ export class PinDetailsComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-
     this.state.setLoading(true);
 
     this.pin = this.route.snapshot.data['pin'];
@@ -59,6 +58,9 @@ export class PinDetailsComponent implements OnInit {
       this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
     this.state.setLoading(false);
+
+    this.state.setPageHeader('gathering', '/');
+    return true;
   }
 
   public edit() {

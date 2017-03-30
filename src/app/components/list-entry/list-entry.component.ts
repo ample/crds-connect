@@ -86,4 +86,5 @@ export class ListEntryComponent {
   public roundedProximity() {
     return this.proximity.toFixed(1);
   }
+
 }
