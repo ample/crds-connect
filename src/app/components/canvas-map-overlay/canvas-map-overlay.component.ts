@@ -81,7 +81,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
-    ctx.strokeStyle = 'ffffff'
+    ctx.strokeStyle = '#ffffff'
     ctx.lineWidth = 2.5;
     ctx.font = '12px Arial';
 
