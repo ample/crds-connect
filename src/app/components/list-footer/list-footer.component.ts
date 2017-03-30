@@ -10,8 +10,7 @@ import { BlandPageService } from '../../services/bland-page.service';
 
 @Component({
   selector: 'list-footer',
-  templateUrl: 'list-footer.component.html',
-  styleUrls: ['list-footer.component.css']
+  templateUrl: 'list-footer.component.html'
 })
 export class ListFooterComponent implements OnInit, OnChanges {
 

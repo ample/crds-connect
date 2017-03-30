@@ -40,6 +40,7 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { IPService } from '../../services/ip.service';
+import { ContentBlockModule } from 'crds-ng2-content-block';
 
 describe('Component: Neighbors', () => {
 
@@ -64,6 +65,7 @@ describe('Component: Neighbors', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
+        ContentBlockModule.forRoot({ category: 'main' }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         }),
