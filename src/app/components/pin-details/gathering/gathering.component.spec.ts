@@ -178,6 +178,6 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        expect(mockToast.warning).toHaveBeenCalledWith('Looks like there was an error. Please fix and try again', 'Oh no!');
+        expect(mockToast.error).toHaveBeenCalledWith('Looks like there was an error. Please fix and try again', 'Oh no!');
     });
 });
