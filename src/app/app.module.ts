@@ -35,6 +35,7 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { CanvasMapOverlayComponent } from './components/canvas-map-overlay/canvas-map-overlay.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
@@ -89,7 +90,6 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
-import { GettingStartedGuard } from './route-guards/getting-started-guard';
 
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -129,6 +129,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     FormatPaymentNumberDirective,
     GatheringComponent,
     GatheringRequestsComponent,
+    GettingStartedComponent,
     HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
@@ -167,7 +168,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
-    GettingStartedGuard,
     IFrameParentService,
     ListHelperService,
     LoginRedirectService,
