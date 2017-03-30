@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class NeighborsHelperService {
 
-  public changeEmitter : EventEmitter<null>;
+  public changeEmitter: EventEmitter<null>;
 
   constructor() {
     this.changeEmitter = new EventEmitter<null>();

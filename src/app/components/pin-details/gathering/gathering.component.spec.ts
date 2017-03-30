@@ -21,7 +21,6 @@ import { Group } from '../../../models/group';
 import { Participant } from '../../../models/participant';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
-import { ContentService } from '../../../services/content.service';
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -34,7 +33,6 @@ describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
     let el;
-    let mockContentService;
     let mockSessionService;
     let mockPinService;
     let mockLoginRedirectService;
@@ -45,14 +43,13 @@ describe('GatheringComponent', () => {
 
 
     beforeEach(() => {
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
-        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning']);
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
 
 
         TestBed.configureTestingModule({
@@ -62,7 +59,6 @@ describe('GatheringComponent', () => {
             imports: [],
             providers: [
                 { provide: PinService, useValue: mockPinService },
-                { provide: ContentService, useValue: mockContentService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
@@ -182,6 +178,6 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        expect(mockToast.warning).toHaveBeenCalledWith('Looks like there was an error. Please fix and try again', 'Oh no!');
+        expect(mockToast.error).toHaveBeenCalledWith('Looks like there was an error. Please fix and try again', 'Oh no!');
     });
 });

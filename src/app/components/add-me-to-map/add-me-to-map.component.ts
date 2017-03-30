@@ -42,7 +42,6 @@ export class AddMeToMapComponent implements OnInit {
   public onSubmit(value) {
     if (value) {
       this.state.setCurrentView('map');
-
       let nowAPin = new BlandPageDetails(
         'See for yourself',
         'nowAPin',
