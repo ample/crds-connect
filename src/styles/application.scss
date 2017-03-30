@@ -247,12 +247,16 @@ app-search-bar {
 }
 
 // Style map
+app-map {
+  display: block;
+  height: calc(100vh - 110px);
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+}
+
 sebm-google-map {
-  position: absolute;
-  height: calc(100% - 110px);
-  width: 100%;
-  top: 110px; // Height of the app header and search bar
-  background-color: $cr-gray-lighter;
+  height: calc(100vh - 110px);
 
   @media (min-width: $screen-xs) {
     .gmnoprint {
@@ -261,13 +265,9 @@ sebm-google-map {
   }
 }
 
-.sebm-google-map-container-inner {
-  height: 100% !important;
-}
-
 canvas-map-overlay {
   display: block;
-  height: calc(100vh - 69px);
+  height: calc(100vh - 110px);
   pointer-events: none;
   position: absolute;
   width: 100vw;
@@ -389,12 +389,12 @@ list-footer {
 search-local {
   display: block;
   position: absolute;
-  top: 115px;
+  top: 5px;
   left: 50px;
   z-index: 4;
 
   @media (min-width: $screen-xs) {
-    top: 123px;
+    top: 13px;
     left: 60px;
   }
 }
