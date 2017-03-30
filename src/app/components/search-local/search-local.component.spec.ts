@@ -111,7 +111,7 @@ describe('Component: SearchLocal', () => {
     spyOn(this.component, "doLocalSearch")
     // how do you get a handle to the *real* google map in a test?
     this.component.mapApiWrapper.getNativeMap().then((map) => {
-      map.panBy(100,200);
+      map.panBy(100, 200);
     });
     expect(this.component.doLocalSearch).toHaveBeenCalled();
   });

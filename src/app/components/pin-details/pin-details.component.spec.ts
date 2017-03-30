@@ -19,6 +19,7 @@ import { Observable } from 'rxjs/Rx';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
+import { GoogleMapService } from '../../services/google-map.service';
 import { GatheringComponent } from '../pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from '../pin-details/gathering/gathering-requests/gathering-requests.component';
 import { PersonComponent } from '../pin-details/person/person.component';
@@ -101,6 +102,7 @@ describe('Component: Pin-Details component', () => {
           Angulartics2,
           LoginRedirectService,
           AddMeToTheMapHelperService,
+          GoogleMapService,
           LocationService,
           BlandPageService
         ]
@@ -247,6 +249,7 @@ describe('Component: Pin-Details component', () => {
           LoginRedirectService,
           AddMeToTheMapHelperService,
           LocationService,
+          GoogleMapService,
           BlandPageService
         ]
       });
