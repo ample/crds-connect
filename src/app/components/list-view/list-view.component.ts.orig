@@ -14,8 +14,12 @@ export class ListViewComponent {
 
   public showing_increment: number = 10;
 
+<<<<<<< HEAD
+  constructor( private neighborsHelperService: NeighborsHelperService,
+=======
   constructor(
                private neighborsHelperService: NeighborsHelperService,
+>>>>>>> development
                private stateService: StateService) {
     neighborsHelperService.changeEmitter.subscribe(() => {
       stateService.setShowingPinCount(10);
@@ -24,7 +28,7 @@ export class ListViewComponent {
 
   public pinsToShow(): Pin[] {
     let showing: number = this.stateService.getShowingPinCount();
-    return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing )
   }
 
   public pinsToShowCountings() {

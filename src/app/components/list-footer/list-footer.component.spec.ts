@@ -27,7 +27,7 @@ describe('Component: List Footer', () => {
       imports: [
         HttpModule,
         RouterTestingModule.withRoutes([]),
-        ContentBlockModule.forRoot({ category: 'main' })
+        ContentBlockModule.forRoot({ categories: Array('main') })
       ],
       providers: [
         CookieService,

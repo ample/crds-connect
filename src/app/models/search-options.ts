@@ -6,7 +6,7 @@ export class SearchOptions {
   address: string;
 
   constructor(address: string, lat: number, lng: number) {
-    this.coords = new GeoCoordinates(lat,lng);
+    this.coords = new GeoCoordinates(lat, lng);
     this.address = address;
   }
 

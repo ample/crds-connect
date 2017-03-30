@@ -35,7 +35,7 @@ export class CanvasMapOverlayComponent implements OnInit {
       let cHeight = canvBounds.height;
 
       let geoBounds: any = drawingData.geoBounds;
-      let isZoomedEnoughToDisplayPins = Math.abs(geoBounds.width)< 8.5 && Math.abs(geoBounds.height) < 1.8;
+      let isZoomedEnoughToDisplayPins = Math.abs(geoBounds.width) < 8.5 && Math.abs(geoBounds.height) < 1.8;
 
       if (isZoomedEnoughToDisplayPins) {
         this.drawMarkerLabels(ctx, drawingData, cWidth, cHeight);
@@ -58,7 +58,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     let isMapInitialized: boolean = cWidth !== 0 || cHeight !== 0;
 
     if( isMapInitialized ) {
-      for (let i=0; i < drawingData.markers.length; i++){
+      for (let i = 0; i < drawingData.markers.length; i++){
         let marker: any = drawingData.markers[i];
         this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
       }
@@ -66,7 +66,7 @@ export class CanvasMapOverlayComponent implements OnInit {
 
   }
 
-  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth:any, cHeight: any) {
+  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth: any, cHeight: any) {
 
     let markerLabelProps = this.getMarkerLabelProps(marker);
 
@@ -81,7 +81,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
-    ctx.font = "12px Arial";
+    ctx.font = '12px Arial';
 
     let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
     ctx.fillText(nameLabel, textX, textY);
@@ -110,7 +110,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     return labelColor;
   }
 
-  public getMarkerLabelProps(marker:any): any{
+  public getMarkerLabelProps(marker: any): any {
     let labelStringComponents = marker.markerLabel.split('|');
 
     let labelProps = {

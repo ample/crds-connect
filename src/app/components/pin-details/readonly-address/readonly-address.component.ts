@@ -21,7 +21,7 @@ export class ReadonlyAddressComponent implements OnInit {
     if ((this.isGathering && this.isInGathering) || (this.isPinOwner)) {
       this.showFullAddress = true;
     }
-    if (this.distance != null){
+    if (this.distance != null) {
       this.distString = `(${this.distance.toFixed(2).toString()} mi)`;
     }
   }
