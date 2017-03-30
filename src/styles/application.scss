@@ -117,18 +117,9 @@ app-add-me-to-map {
   }
 }
 
-
-// Centers blocks to the middle of the screen.
-.content-middle {
-  @extend .center-block;
-  width: 100%;
-  max-width: 600px;
-  text-align: center;
-}
-
 .app-header {
   position: relative;
-  z-index: 9999;
+  z-index: 5;
 
   .brand-bar {
     height: 2.5rem;
@@ -174,22 +165,39 @@ app-add-me-to-map {
   }
 }
 
+// Centers blocks to the middle of the screen.
+.content-middle {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $container-tablet;
+  text-align: center;
+  width: 100%;
+}
+
 // Map searchbar
 app-search-bar {
   display: flex;
   position: relative;
-  z-index: 9999;
+  z-index: 5;
   justify-content: flex-start;
   padding: .5rem 1rem;
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
 
-  > button {
-    margin-left: 6px;
+  > div {
+    display: flex;
+    justify-content: flex-start;
 
-    @media (min-width: $screen-xs) {
-      margin-left: 24px;
+    @media (min-width: $screen-sm) {
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: $container-tablet;
+    }
+
+    > button {
+      margin-left: 6px;
     }
   }
+
 
   .input-group {
     display: inline-flex;
@@ -254,24 +262,21 @@ sebm-google-map {
   height: 100% !important;
 }
 
+canvas-map-overlay {
+  display: block;
+  height: calc(100vh - 110px);
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+
 // Map footer
 app-map-footer {
   bottom: 0;
   position: absolute;
   width: 100%;
-}
-
-// Update search results button
-search-local {
-  display: block;
-  position: absolute;
-  top: 75px;
-  left: 50px;
-
-  @media (min-width: $screen-xs) {
-    top: 83px;
-    left: 60px;
-  }
+  z-index: 4;
 }
 
 // List view
@@ -347,42 +352,6 @@ list-footer {
 
 }
 
-app-pin-detail {
-  display: block;
-  background: $cr-gray-lighter;
-
-  .list-details {
-    background: $cr-black;
-    display: block;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-
-    @media (min-width: $screen-sm) {
-      box-shadow: 0 0 10px 0 $cr-gray-light;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      width: $container-tablet;
-    }
-
-    h2 {
-      @extend .font-family-base-light;
-      color: $cr-gray-light;
-      font-size: $font-size-h4;
-      margin-top: 0;
-      margin-bottom: 1rem;
-      text-transform: lowercase;
-    }
-  }  
-}
-
-.label-center {
-  text-align: center;
-  .label {
-    display: inline-block;
-    float: none;
-  }
-}
-
 .label {
   color: $cr-gray-dark;
   border-radius: $border-radius-base;
@@ -410,5 +379,19 @@ app-pin-detail {
 
   .joined_by {
     margin-left: .5rem;
+  }
+}
+
+// Update search results button
+search-local {
+  display: block;
+  position: absolute;
+  top: 115px;
+  left: 50px;
+  z-index: 4;
+
+  @media (min-width: $screen-xs) {
+    top: 123px;
+    left: 60px;
   }
 }
