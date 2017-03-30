@@ -49,7 +49,7 @@ describe('GatheringComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
-        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning']);
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
 
 
         TestBed.configureTestingModule({
