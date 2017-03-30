@@ -8,7 +8,7 @@ import { StateService } from '../../services/state.service';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bland-page-details';
 
 @Component({
-    selector: 'bland-page',
+    selector: 'app-bland-page',
     templateUrl: 'bland-page.html'
 })
 export class BlandPageComponent implements OnInit {
