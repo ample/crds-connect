@@ -26,6 +26,8 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'angular2-select';
 
+import { HeaderComponent } from './layout/header/header.component';
+
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
@@ -127,6 +129,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     FormatPaymentNumberDirective,
     GatheringComponent,
     GatheringRequestsComponent,
+    HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
     ListViewComponent,
