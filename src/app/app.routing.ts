@@ -12,13 +12,13 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
-import { GettingStartedGuard } from './route-guards/getting-started-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
 const appRoutes: Routes = [
@@ -48,11 +48,8 @@ const appRoutes: Routes = [
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
-  { path: 'getting-started', 
-    component: BlandPageComponent,
-    canActivate: [
-      GettingStartedGuard
-    ] 
+  { path: 'getting-started',
+    component: GettingStartedComponent,
   },
   { path: 'whats-a-host', 
     component: BlandPageComponent,

@@ -294,6 +294,18 @@ app-map-footer {
   z-index: 4;
 }
 
+.screen-getting-started {
+  .people,
+  h5,
+  p {
+    @extend .center-block;
+    max-width: 80%;
+  }
+  h5 {
+    color: $cr-gray;
+  }
+}
+
 // List view
 app-listview {
   background: $cr-white;
@@ -344,6 +356,7 @@ list-footer {
 
 .entry {
   border-top: 1px solid darken($cr-gray-lighter, 10);
+  cursor: pointer;
   display: flex;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -365,6 +378,14 @@ list-footer {
   margin-bottom: 0;
   padding-bottom: 0;
 
+}
+
+.label-center {
+  text-align: center;
+  .label {
+    display: inline-block;
+    float: none;
+  }
 }
 
 .label {
