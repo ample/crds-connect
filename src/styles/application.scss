@@ -246,18 +246,34 @@ app-search-bar {
   }
 }
 
+app-map,
+sebm-google-map,
+canvas-map-overlay {
+  height: calc(100vh - 112px); // Height of map minus header height
+}
+
 // Style map
 app-map {
   display: block;
-  height: calc(100vh - 110px);
   overflow: hidden;
   position: relative;
   width: 100vw;
 }
 
-sebm-google-map {
-  height: calc(100vh - 110px);
+/* fix iOS bug not displaying height correctly */
+  /* iphone6+ */
+  @media only screen
+    and (max-device-width: 640px),
+    only screen and (max-device-width: 667px),
+    only screen and (max-width: 480px) {
+    app-map,
+    sebm-google-map,
+    canvas-map-overlay {
+      height: calc(100vh - 180px);
+    }
+  }
 
+sebm-google-map {
   @media (min-width: $screen-xs) {
     .gmnoprint {
       padding: .5rem;
@@ -267,7 +283,6 @@ sebm-google-map {
 
 canvas-map-overlay {
   display: block;
-  height: calc(100vh - 110px);
   pointer-events: none;
   position: absolute;
   width: 100vw;
