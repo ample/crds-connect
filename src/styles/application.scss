@@ -117,11 +117,70 @@ app-add-me-to-map {
   }
 }
 
+.app-header {
+  position: relative;
+  z-index: 5;
+
+  .brand-bar {
+    height: 2.5rem;
+    background-image: url('/assets/brandbanner-bg.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+  }
+
+  .app-logo {
+    display: inline-block;
+    padding: 11.5px;
+    line-height: 1;
+    color: $cr-white;
+    background-image: url('/assets/brandbanner-logo-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    svg {
+      width: 75px;
+      height: 15px;
+      padding: 0;
+    }
+  }
+
+  .page-title {
+    text-align: center;
+    padding: 1rem;
+    background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+    * {
+      color: $cr-white;
+    }
+
+    a {
+      margin-top: 0.25rem;
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 auto;
+      line-height: 1;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Centers blocks to the middle of the screen.
+.content-middle {
+  @extend .center-block;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
 // Map searchbar
 app-search-bar {
-  background-color: darken(desaturate($cr-blue-dark, 5), 5);
-  display: block;
+  display: flex;
+  position: relative;
+  z-index: 5;
+  justify-content: flex-start;
   padding: .5rem 1rem;
+  background-color: darken(desaturate($cr-blue-dark, 5), 5);
 
   header {
     display: flex;
@@ -144,22 +203,22 @@ app-search-bar {
 
 
   .input-group {
-    display: inherit;
-    flex: 1 1 auto;
-    width: auto;
+    display: inline-flex;
+    width: calc(100% - 90px);
+    margin-right: 1rem;
 
     .input-group-btn {
       width: initial;
     }
 
     @media (min-width: $screen-xs) {
-      flex-grow: 100%;
-      // width: 20rem;
+      flex-grow: 0;
     }
 
     button.btn {
       padding-right: 10px;
       padding-left: 10px;
+      width: 70px;
 
       @media (min-width: $screen-xs) {
         padding-right: 20px;
@@ -189,15 +248,21 @@ app-search-bar {
 
 // Style map
 sebm-google-map {
+  position: absolute;
+  height: calc(100% - 110px);
+  width: 100%;
+  top: 110px; // Height of the app header and search bar
   background-color: $cr-gray-lighter;
-  height: calc(100vh - 69px); // 69px is the height of the header/searchbar
-  width: 100vw;
 
   @media (min-width: $screen-xs) {
     .gmnoprint {
       padding: .5rem;
     }
   }
+}
+
+.sebm-google-map-container-inner {
+  height: 100% !important;
 }
 
 canvas-map-overlay {
@@ -324,12 +389,12 @@ list-footer {
 search-local {
   display: block;
   position: absolute;
-  top: 75px;
+  top: 115px;
   left: 50px;
   z-index: 4;
 
   @media (min-width: $screen-xs) {
-    top: 83px;
+    top: 123px;
     left: 60px;
   }
 }
