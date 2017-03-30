@@ -6,8 +6,7 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'canvas-map-overlay',
-  templateUrl: 'canvas-map-overlay.component.html',
-  styleUrls: ['canvas-map-overlay.component.css']
+  templateUrl: 'canvas-map-overlay.component.html'
 })
 export class CanvasMapOverlayComponent implements OnInit {
 
@@ -99,13 +98,13 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     switch(markerLabelProps.hostOrMe) {
       case 'ME':
-        labelColor = 'Gold';
+        labelColor = '#A47403';
         break;
       case 'HOST':
-        labelColor = 'Blue';
+        labelColor = '#006C9E';
         break;
       default:
-        labelColor = 'Teal';
+        labelColor = '#2B5169';
     }
 
     return labelColor;

@@ -23,6 +23,11 @@ app-preloader {
   }
 }
 
+app-neighbors {
+  display: block;
+  background: $cr-gray-lighter;
+}
+
 // Add me to map
 app-add-me-to-map {
   background-color: darken($cr-blue, 20);
@@ -177,13 +182,25 @@ app-search-bar {
   padding: .5rem 1rem;
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
 
-  > button {
-    margin-left: 6px;
+  header {
+    display: flex;
+    justify-content: flex-start;
 
-    @media (min-width: $screen-xs) {
-      margin-left: 24px;
+    @media (min-width: $screen-sm) {
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: $container-tablet;
+    }
+
+    > button {
+      margin-left: 6px;
+
+      @media (min-width: $screen-xs) {
+        margin-left: 24px;
+      }
     }
   }
+
 
   .input-group {
     display: inline-flex;
@@ -248,9 +265,136 @@ sebm-google-map {
   height: 100% !important;
 }
 
+canvas-map-overlay {
+  display: block;
+  height: calc(100vh - 69px);
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+
 // Map footer
 app-map-footer {
   bottom: 0;
   position: absolute;
   width: 100%;
+  z-index: 4;
+}
+
+// List view
+app-listview {
+  background: $cr-white;
+  display: block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @media (min-width: $screen-sm) {
+    box-shadow: 0 0 10px 0 $cr-gray-light;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    width: $container-tablet;
+  }
+
+  h2 {
+    @extend .font-family-base-light;
+    color: $cr-gray-light;
+    font-size: $font-size-h4;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-transform: lowercase;
+  }
+}
+
+list-footer {
+  display: block;
+
+  @media (min-width: $screen-sm) {
+    margin-right: -2rem;
+    margin-left: -2rem;
+    width: $container-tablet;
+  }
+
+  > div {
+    margin-top: 1rem;
+    padding: 1.5rem 1rem 2rem;
+
+    @media (min-width: $screen-sm) {
+      padding-right: 3rem;
+      padding-left: 3rem;
+    }
+
+    h4 {
+      color: $cr-gray;
+    }
+  }
+}
+
+.entry {
+  border-top: 1px solid darken($cr-gray-lighter, 10);
+  display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  div:first-child {
+    min-width: 80px;
+  }
+
+  div:last-child {
+    flex: 1 1 100%;
+    margin-left: 1rem;
+  }
+}
+
+.entry-header {
+  @extend .component-header;
+  color: $cr-cyan;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+}
+
+.label {
+  color: $cr-gray-dark;
+  border-radius: $border-radius-base;
+  float: right;
+  font-family: 'Lexia', serif;
+  font-size: $font-size-smaller;
+  margin-top: 9px;
+  padding: 5px 6px 4px;
+  text-transform: uppercase;
+
+  &.label-default {
+    background: $cr-gray-light;
+  }
+  &.label-host {
+    background: $cr-blue-lighter;
+  }
+  &.label-me {
+    background: $cr-gold-lighter;
+  }
+}
+
+.entry-subheader {
+  @extend .control-label;
+  color: $cr-gray-light;
+
+  .joined_by {
+    margin-left: .5rem;
+  }
+}
+
+// Update search results button
+search-local {
+  display: block;
+  position: absolute;
+  top: 115px;
+  left: 50px;
+  z-index: 4;
+
+  @media (min-width: $screen-xs) {
+    top: 123px;
+    left: 60px;
+  }
 }
