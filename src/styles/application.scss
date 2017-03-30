@@ -167,10 +167,11 @@ app-add-me-to-map {
 
 // Centers blocks to the middle of the screen.
 .content-middle {
-  @extend .center-block;
-  width: 100%;
-  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $container-tablet;
   text-align: center;
+  width: 100%;
 }
 
 // Map searchbar
@@ -182,7 +183,7 @@ app-search-bar {
   padding: .5rem 1rem;
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
 
-  header {
+  > div {
     display: flex;
     justify-content: flex-start;
 
@@ -194,10 +195,6 @@ app-search-bar {
 
     > button {
       margin-left: 6px;
-
-      @media (min-width: $screen-xs) {
-        margin-left: 24px;
-      }
     }
   }
 
@@ -246,14 +243,34 @@ app-search-bar {
   }
 }
 
-// Style map
-sebm-google-map {
-  position: absolute;
-  height: calc(100% - 110px);
-  width: 100%;
-  top: 110px; // Height of the app header and search bar
-  background-color: $cr-gray-lighter;
+app-map,
+sebm-google-map,
+canvas-map-overlay {
+  height: calc(100vh - 112px); // Height of map minus header height
+}
 
+// Style map
+app-map {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+}
+
+/* fix iOS bug not displaying height correctly */
+  /* iphone6+ */
+  @media only screen
+    and (max-device-width: 640px),
+    only screen and (max-device-width: 667px),
+    only screen and (max-width: 480px) {
+    app-map,
+    sebm-google-map,
+    canvas-map-overlay {
+      height: calc(100vh - 180px);
+    }
+  }
+
+sebm-google-map {
   @media (min-width: $screen-xs) {
     .gmnoprint {
       padding: .5rem;
@@ -261,13 +278,8 @@ sebm-google-map {
   }
 }
 
-.sebm-google-map-container-inner {
-  height: 100% !important;
-}
-
 canvas-map-overlay {
   display: block;
-  height: calc(100vh - 110px);
   pointer-events: none;
   position: absolute;
   width: 100vw;
@@ -389,12 +401,12 @@ list-footer {
 search-local {
   display: block;
   position: absolute;
-  top: 115px;
+  top: 5px;
   left: 50px;
   z-index: 4;
 
   @media (min-width: $screen-xs) {
-    top: 123px;
+    top: 13px;
     left: 60px;
   }
 }

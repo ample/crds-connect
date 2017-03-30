@@ -33,7 +33,7 @@ export class NeighborsComponent implements OnInit {
               private searchLocalService: SearchLocalService) {
     searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
-      this.doSearch('searchLocal', mapView.lat, mapView.lng);
+      this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
     });
   }
 
@@ -61,9 +61,9 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = isMapViewActive;
   }
 
-  doSearch(searchString: string, lat?: number, lng?: number) {
+  doSearch(searchString: string,  lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinsAddressSearchResults(searchString, lat, lng).subscribe(
+    this.pinService.getPinsAddressSearchResults(searchString, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
 
