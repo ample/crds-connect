@@ -19,10 +19,15 @@ import { StateService } from '../../services/state.service';
 import { PinService } from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 describe('Component: Add Me to the Map', () => {
 
+  let mockContentService;
+
   beforeEach(() => {
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
     TestBed.configureTestingModule({
       declarations: [
         AddMeToMapComponent, AddressFormComponent
@@ -38,14 +43,15 @@ describe('Component: Add Me to the Map', () => {
         ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
-        PinService,
         AddMeToTheMapHelperService,
+        BlandPageService,
         CookieService,
+        { provide: ContentService, useValue: mockContentService },
+        PinService,
         LocationService,
         LoginRedirectService,
         SessionService,
-        StateService,
-        BlandPageService
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);

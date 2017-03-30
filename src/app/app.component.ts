@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
-import { ContentService } from './services/content.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { StateService } from './services/state.service';
 
 @Component({
@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.content.loadData();
   }
 
 }

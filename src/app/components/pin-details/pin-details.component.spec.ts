@@ -7,7 +7,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -33,6 +32,7 @@ import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someon
 
 import { PinDetailsComponent } from './pin-details.component';
 import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { pinType } from '../../models/pin';
 
@@ -43,9 +43,12 @@ describe('Component: Pin-Details component', () => {
   let component;
   let fixture;
   let pin;
+  let mockContentService;
 
   describe('non gathering', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       this.pin = {
         'firstName': 'Joe',
         'lastName': 'Kerstanoff',
@@ -92,6 +95,7 @@ describe('Component: Pin-Details component', () => {
             provide: ActivatedRoute,
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
+          { provide: ContentService, useValue: mockContentService },
           IFrameParentService,
           StoreService,
           StateService,
@@ -148,6 +152,8 @@ describe('Component: Pin-Details component', () => {
 
   describe('gathering', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       this.pin = {
         'firstName': 'Joe',
         'lastName': 'Kerstanoff',
@@ -237,6 +243,7 @@ describe('Component: Pin-Details component', () => {
             provide: ActivatedRoute,
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
+          { provide: ContentService, useValue: mockContentService },
           IFrameParentService,
           StoreService,
           StateService,
