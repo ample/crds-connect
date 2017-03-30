@@ -1,12 +1,35 @@
 import { Injectable } from '@angular/core';
+import { MapView } from '../models/map-view';
+import { SearchOptions } from '../models/search-options';
 
 @Injectable()
 export class StateService {
 
+  public hasBrandBar: boolean = true;
+  public hasPageHeader: boolean = false;
+  public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
   private zoomToUse: number = -1;
+  private savedMapView: MapView;
+  private lastSearch: SearchOptions;
+
+  public setMapView(mv: MapView) {
+    this.savedMapView = mv;
+  }
+
+  public getMapView() {
+    return this.savedMapView;
+  }
+
+  public getLastSearch() {
+    return this.lastSearch;
+  }
+
+  public setLastSearch(ls: SearchOptions) {
+    this.lastSearch = ls;
+  }
 
   public setLoading(val: boolean) {
     this.is_loading = val;
@@ -26,6 +49,12 @@ export class StateService {
 
   public getShowingPinCount() {
     return this.showingPinCount;
+  }
+
+  public setPageHeader(title, routerLink) {
+    this.hasPageHeader = true;
+    this.pageHeader['title'] = title;
+    this.pageHeader['routerLink'] = routerLink;
   }
 
   public setUseZoom(zoom: number) {

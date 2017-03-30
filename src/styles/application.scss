@@ -23,6 +23,11 @@ app-preloader {
   }
 }
 
+app-neighbors {
+  display: block;
+  background: $cr-gray-lighter;
+}
+
 // Add me to map
 app-add-me-to-map {
   background-color: darken($cr-blue, 20);
@@ -112,25 +117,92 @@ app-add-me-to-map {
   }
 }
 
-// Map searchbar
-app-search-bar {
-  background-color: darken(desaturate($cr-blue-dark, 5), 5);
-  display: flex;
-  justify-content: flex-start;
-  padding: .5rem 1rem;
+.app-header {
+  position: relative;
+  z-index: 5;
 
-  > button {
-    margin-left: 6px;
+  .brand-bar {
+    height: 2.5rem;
+    background-image: url('/assets/brandbanner-bg.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+  }
 
-    @media (min-width: $screen-xs) {
-      margin-left: 24px;
+  .app-logo {
+    display: inline-block;
+    padding: 11.5px;
+    line-height: 1;
+    color: $cr-white;
+    background-image: url('/assets/brandbanner-logo-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    svg {
+      width: 75px;
+      height: 15px;
+      padding: 0;
     }
   }
 
+  .page-title {
+    text-align: center;
+    padding: 1rem;
+    background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+    * {
+      color: $cr-white;
+    }
+
+    a {
+      margin-top: 0.25rem;
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 auto;
+      line-height: 1;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Centers blocks to the middle of the screen.
+.content-middle {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $container-tablet;
+  text-align: center;
+  width: 100%;
+}
+
+// Map searchbar
+app-search-bar {
+  display: flex;
+  position: relative;
+  z-index: 5;
+  justify-content: flex-start;
+  padding: .5rem 1rem;
+  background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+  > div {
+    display: flex;
+    justify-content: flex-start;
+
+    @media (min-width: $screen-sm) {
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: $container-tablet;
+    }
+
+    > button {
+      margin-left: 6px;
+    }
+  }
+
+
   .input-group {
-    display: inherit;
-    flex: 1 1 auto;
-    width: auto;
+    display: inline-flex;
+    width: calc(100% - 90px);
+    margin-right: 1rem;
 
     .input-group-btn {
       width: initial;
@@ -138,12 +210,12 @@ app-search-bar {
 
     @media (min-width: $screen-xs) {
       flex-grow: 0;
-      width: 20rem;
     }
 
     button.btn {
       padding-right: 10px;
       padding-left: 10px;
+      width: 70px;
 
       @media (min-width: $screen-xs) {
         padding-right: 20px;
@@ -171,12 +243,34 @@ app-search-bar {
   }
 }
 
-// Style map
-sebm-google-map {
-  background-color: $cr-gray-lighter;
-  height: calc(100vh - 69px); // 69px is the height of the header/searchbar
-  width: 100vw;
+app-map,
+sebm-google-map,
+canvas-map-overlay {
+  height: calc(100vh - 112px); // Height of map minus header height
+}
 
+// Style map
+app-map {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+}
+
+/* fix iOS bug not displaying height correctly */
+  /* iphone6+ */
+  @media only screen
+    and (max-device-width: 640px),
+    only screen and (max-device-width: 667px),
+    only screen and (max-width: 480px) {
+    app-map,
+    sebm-google-map,
+    canvas-map-overlay {
+      height: calc(100vh - 180px);
+    }
+  }
+
+sebm-google-map {
   @media (min-width: $screen-xs) {
     .gmnoprint {
       padding: .5rem;
@@ -184,10 +278,156 @@ sebm-google-map {
   }
 }
 
+canvas-map-overlay {
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+
 // Map footer
 app-map-footer {
   bottom: 0;
   position: absolute;
   width: 100%;
+  z-index: 4;
 }
 
+.screen-getting-started {
+  .people,
+  h5,
+  p {
+    @extend .center-block;
+    max-width: 80%;
+  }
+  h5 {
+    color: $cr-gray;
+  }
+}
+
+// List view
+app-listview {
+  background: $cr-white;
+  display: block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @media (min-width: $screen-sm) {
+    box-shadow: 0 0 10px 0 $cr-gray-light;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    width: $container-tablet;
+  }
+
+  h2 {
+    @extend .font-family-base-light;
+    color: $cr-gray-light;
+    font-size: $font-size-h4;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-transform: lowercase;
+  }
+}
+
+list-footer {
+  display: block;
+
+  @media (min-width: $screen-sm) {
+    margin-right: -2rem;
+    margin-left: -2rem;
+    width: $container-tablet;
+  }
+
+  > div {
+    margin-top: 1rem;
+    padding: 1.5rem 1rem 2rem;
+
+    @media (min-width: $screen-sm) {
+      padding-right: 3rem;
+      padding-left: 3rem;
+    }
+
+    h4 {
+      color: $cr-gray;
+    }
+  }
+}
+
+.entry {
+  border-top: 1px solid darken($cr-gray-lighter, 10);
+  cursor: pointer;
+  display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  div:first-child {
+    min-width: 80px;
+  }
+
+  div:last-child {
+    flex: 1 1 100%;
+    margin-left: 1rem;
+  }
+}
+
+.entry-header {
+  @extend .component-header;
+  color: $cr-cyan;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+}
+
+.label-center {
+  text-align: center;
+  .label {
+    display: inline-block;
+    float: none;
+  }
+}
+
+.label {
+  color: $cr-gray-dark;
+  border-radius: $border-radius-base;
+  float: right;
+  font-family: 'Lexia', serif;
+  font-size: $font-size-smaller;
+  margin-top: 9px;
+  padding: 5px 6px 4px;
+  text-transform: uppercase;
+
+  &.label-default {
+    background: $cr-gray-light;
+  }
+  &.label-host {
+    background: $cr-blue-lighter;
+  }
+  &.label-me {
+    background: $cr-gold-lighter;
+  }
+}
+
+.entry-subheader {
+  @extend .control-label;
+  color: $cr-gray-light;
+
+  .joined_by {
+    margin-left: .5rem;
+  }
+}
+
+// Update search results button
+search-local {
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 50px;
+  z-index: 4;
+
+  @media (min-width: $screen-xs) {
+    top: 13px;
+    left: 60px;
+  }
+}

@@ -11,6 +11,7 @@ import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
 import { ContentService } from './services/content.service';
+import { HeaderComponent } from './layout/header/header.component';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 describe('App: CrdsConnect', () => {
@@ -19,7 +20,10 @@ describe('App: CrdsConnect', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppComponent ],
+      declarations: [
+        AppComponent,
+        HeaderComponent
+      ],
       imports: [
         PreloaderModule,
         RouterTestingModule.withRoutes([]),

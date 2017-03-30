@@ -12,6 +12,7 @@ import { StateService } from '../services/state.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
 
+import { GoogleMapService } from '../services/google-map.service';
 
 import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
@@ -39,7 +40,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   constructor(
     private session: SessionService,
     private state: StateService,
-    private blandPageService: BlandPageService
+    private blandPageService: BlandPageService,
+    private mapHlpr: GoogleMapService
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
@@ -48,11 +50,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private createPartialCache(pin: Pin): void {
     let contactId = this.session.getContactId();
     let pinArray = new Array<Pin>();
-    pinArray.push(pin)
+    pinArray.push(pin);
     super.setSmartCache(new PinSearchResultsDto(new GeoCoordinates(0, 0), pinArray), CacheLevel.Partial, null, contactId);
   }
 
-  //GETS
+  // GETS
   public getPinDetails(pinIdentifier: PinIdentifier): Observable<Pin> {
     let contactId = this.session.getContactId();
     let cachedPins: PinSearchResultsDto;
@@ -61,19 +63,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     if (super.isCachedForUser(contactId)) {
       cachedPins = super.getCache();
-      pin = cachedPins.pinSearchResults.find(pin => {
-        if (pin.pinType == pinIdentifier.type) {
+      pin = cachedPins.pinSearchResults.find(aPin => {
+        if (aPin.pinType == pinIdentifier.type) {
           if (pinIdentifier.type == pinType.PERSON) {
-            return (pin.participantId == pinIdentifier.id);
+            return (aPin.participantId == pinIdentifier.id);
           } else {
-            return (pin.gathering) && (pin.gathering.groupId == pinIdentifier.id);
+            return (aPin.gathering) && (aPin.gathering.groupId == pinIdentifier.id);
           }
         } else {
           return false;
         }
       });
       if (pin != null) {
-        console.log("PinService got partial cached PinSearchResultsDto");
+        console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }
@@ -88,35 +90,57 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-  public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number)
+  public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number)
     : Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions = new SearchOptions(userSearchAddress, lat, lng);
 
-    //if we have a cache AND that cache came from a full search and 
-    //not just an insert from visiting a detail page off the bat, use that cache
+    // if we have a cache AND that cache came from a full search and
+    // not just an insert from visiting a detail page off the bat, use that cache
     if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-      
-      console.log("PinService got full cached PinSearchResultsDto");
+
+      console.log('PinService got full cached PinSearchResultsDto');
       return Observable.of(super.getCache());
     } else {
-      let searchUrl: string = lat && lng ?
-        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
-        + '/' + lat.toString().split('.').join('$') + '/'
-        + lng.toString().split('.').join('$') :
-        'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      let searchUrl: string;
+      if (lat && lng) {
+        if (zoom) {
+          // call to get bounding box
+          let bounds = {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
+            lat: lat,
+            lng: lng
+            };
+          let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom -1); // get extra pins for moving around without new query
+          searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+            + '/' + lat.toString().split('.').join('$')
+            + '/' + lng.toString().split('.').join('$')
+            + '/' + ('' + geobounds['north']).split('.').join('$')
+            + '/' + ('' + geobounds['west']).split('.').join('$')
+            + '/' + ('' + geobounds['south']).split('.').join('$')
+            + '/' + ('' + geobounds['east']).split('.').join('$');
+        } else {
+          searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+            + '/' + lat.toString().split('.').join('$')
+            + '/' + lng.toString().split('.').join('$');
+        }
+      } else {
+        searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      }
 
-        
+
+
       console.log("PinService got full new PinSearchResultsDto");
       return this.session.get(this.baseUrl + searchUrl)
-        //when we get the new results, set them to the cache
+        // when we get the new results, set them to the cache
         .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
 
   }
 
-  //POSTS
+  // POSTS
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
     // Create merge data for this template
     let emailInfo = {
@@ -154,7 +178,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   public requestToJoinGathering(gatheringId: number): Observable<boolean> {
-    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId)
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId);
   }
 
   public inviteToGathering(gatheringId: number, someone: Person): Observable<boolean> {
@@ -166,6 +190,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     return this.session.post(postPinUrl, pin)
       .map((res: any) => {
+        console.log('PinService cleared Search results cache');
+        super.clearCache();
         return res;
       })
       .catch((err) => Observable.throw(err.json().error));
