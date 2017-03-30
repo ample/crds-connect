@@ -193,8 +193,27 @@ app-search-bar {
       width: $container-tablet;
     }
 
+    .input-group-btn {
+      .btn:focus {
+        background-color: $btn-secondary-bg;
+        border-color: darken($btn-secondary-border, 5);
+        box-shadow: none;
+      }
+    }
+
     > button {
       margin-left: 6px;
+
+      &.btn.btn-primary {
+        &:focus,
+        &:active {
+          &, &:focus {
+            background: $btn-primary-bg;
+            border-color: $btn-primary-border;
+            box-shadow: none;
+          }
+        }
+      }
     }
   }
 
