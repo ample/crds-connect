@@ -119,7 +119,7 @@ app-add-me-to-map {
 
 .app-header {
   position: relative;
-  z-index: 9999;
+  z-index: 5;
 
   .brand-bar {
     height: 2.5rem;
@@ -177,7 +177,7 @@ app-add-me-to-map {
 app-search-bar {
   display: flex;
   position: relative;
-  z-index: 9999;
+  z-index: 5;
   justify-content: flex-start;
   padding: .5rem 1rem;
   background-color: darken(desaturate($cr-blue-dark, 5), 5);
@@ -265,11 +265,21 @@ sebm-google-map {
   height: 100% !important;
 }
 
+canvas-map-overlay {
+  display: block;
+  height: calc(100vh - 110px);
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+
 // Map footer
 app-map-footer {
   bottom: 0;
   position: absolute;
   width: 100%;
+  z-index: 4;
 }
 
 .screen-getting-started {
@@ -392,5 +402,19 @@ list-footer {
 
   .joined_by {
     margin-left: .5rem;
+  }
+}
+
+// Update search results button
+search-local {
+  display: block;
+  position: absolute;
+  top: 115px;
+  left: 50px;
+  z-index: 4;
+
+  @media (min-width: $screen-xs) {
+    top: 123px;
+    left: 60px;
   }
 }

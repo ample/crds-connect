@@ -6,13 +6,12 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'canvas-map-overlay',
-  templateUrl: 'canvas-map-overlay.component.html',
-  styleUrls: ['canvas-map-overlay.component.css']
+  templateUrl: 'canvas-map-overlay.component.html'
 })
 export class CanvasMapOverlayComponent implements OnInit {
 
-  public canvasWidth: number = window.innerWidth;;
-  public canvasHeight: number = window.innerHeight;;
+  public canvasWidth: number = window.innerWidth;
+  public canvasHeight: number = window.innerHeight - 110; // make sure it matches the style value
 
   @ViewChild('myCanvas') canvasRef: ElementRef;
 
@@ -74,21 +73,26 @@ export class CanvasMapOverlayComponent implements OnInit {
     let labelHeightAdjustment: number = undefined;
 
     if( !!markerLabelProps.hostOrMe ){
-      labelHeightAdjustment = 22;
+      labelHeightAdjustment = 11;
     } else {
-      labelHeightAdjustment = 12;
+      labelHeightAdjustment = 4;
     }
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
+    ctx.strokeStyle = "#ffffff"
+    ctx.lineWidth = 2.5;
     ctx.font = "12px Arial";
 
     let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
+    ctx.strokeText(nameLabel, textX, textY);
     ctx.fillText(nameLabel, textX, textY);
 
     if( !!markerLabelProps.hostOrMe ){
-      ctx.fillText(markerLabelProps.hostOrMe, textX, textY + 15);
+      ctx.font = "10px Arial";
+      ctx.strokeText(markerLabelProps.hostOrMe, textX+6, textY + 12);
+      ctx.fillText(markerLabelProps.hostOrMe, textX+6, textY + 12);
     }
 
   }
@@ -99,13 +103,17 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     switch(markerLabelProps.hostOrMe) {
       case 'ME':
-        labelColor = 'Gold';
+        labelColor = '#A47403';
         break;
       case 'HOST':
-        labelColor = 'Blue';
+        labelColor = '#0196dc';
         break;
       default:
-        labelColor = 'Teal';
+        if (markerLabelProps.lastInitial === '') {
+          labelColor = '#c05c04';
+        } else {
+          labelColor = '#3b6f91';
+        }
     }
 
     return labelColor;
