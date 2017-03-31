@@ -62,7 +62,7 @@ import { SearchLocalComponent } from './components/search-local/search-local.com
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
-import { ContentService } from './services/content.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';

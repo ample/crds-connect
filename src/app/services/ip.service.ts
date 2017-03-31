@@ -34,7 +34,7 @@ export class IPService {
     private session: SessionService,
     private pin: PinService) { }
 
-  //GETS
+  // GETS
   public getClientIpFromThirdPartyApi(): Observable<any> {
     let obs: Observable<any> = new Observable(observer => {
       this.http.get('https://api.ipify.org/?format=json').map(this.session.extractData).subscribe(
@@ -61,7 +61,7 @@ export class IPService {
         }, error => {
           observer.error(new Error('Failed to get geolocation from API via IP'));
         }
-      )
+      );
     });
 
     return obs;

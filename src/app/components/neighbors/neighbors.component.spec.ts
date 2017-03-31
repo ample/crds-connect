@@ -14,7 +14,8 @@ import { SearchLocalComponent } from '../../components/search-local/search-local
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { FormsModule }   from '@angular/forms';
-import { ContentService } from '../../services/content.service';
+import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { GoogleMapService } from '../../services/google-map.service';
@@ -39,11 +40,14 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { IPService } from '../../services/ip.service';
-import { ContentBlockModule } from 'crds-ng2-content-block';
 
 describe('Component: Neighbors', () => {
 
+  let mockContentService;
+
   beforeEach(() => {
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
     TestBed.configureTestingModule({
       declarations: [
         CanvasMapOverlayComponent,
@@ -60,10 +64,11 @@ describe('Component: Neighbors', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
-        ContentBlockModule.forRoot({ category: 'main' }),
+        ContentBlockModule.forRoot({ categories: ['main'] }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        })
+        }),
+        ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
         UserLocationService,
@@ -79,7 +84,7 @@ describe('Component: Neighbors', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
+        { provide: ContentService, useValue: mockContentService },
         LoginRedirectService,
         BlandPageService,
         IPService
