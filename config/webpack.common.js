@@ -65,6 +65,12 @@ module.exports = {
       systemvars: true
     }),
 
+    new webpack.DefinePlugin({
+      '__PROCESS__': {
+        'ENV': 'production',
+      }
+    }),
+
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
@@ -78,6 +84,11 @@ module.exports = {
             return process.env[p1];
           });
         }
+      },
+      {
+        context: 'node_modules/crds-shared-header/dist',
+        from: 'bundle.js',
+        to: 'crds-shared-header.js'
       },
       {
         context: 'node_modules/bootstrap-sass/assets/fonts/bootstrap',
