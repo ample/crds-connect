@@ -53,6 +53,19 @@ app-add-me-to-map {
   left: 0;
   z-index: 7;
 
+  .close {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .page-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &.fauxdal-fullscreen {
     display: flex;
     justify-content: center;
@@ -62,14 +75,6 @@ app-add-me-to-map {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
       padding-bottom: 1rem;
-
-      a {
-        color: $cr-white;
-
-        &:hover {
-          color: darken($cr-white, 20);
-        }
-      }
 
       address-form {
         display: block;
@@ -125,18 +130,6 @@ app-add-me-to-map {
           width: 25%;
         }
       }
-    }
-
-    .close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-    }
-
-    .page-footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
   }
 
