@@ -401,7 +401,13 @@ list-footer {
 app-pin-detail {
   display: block;
   background: $cr-gray-lighter;
-  height: calc(100vh - 100px); // Height of map minus header height
+  height: 381px;
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      height: #{$height - 19}px;
+    }
+  }
 
   .pin-details {
     background: $cr-black;
@@ -409,7 +415,12 @@ app-pin-detail {
     display: block;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    height: calc(100vh - 100px); // Height of map minus header height
+    @for $idx from 5 to 30 {
+      $height: $idx * 100;
+      @media screen and ( min-height: #{$height}px ){
+        height: #{$height - 19}px;
+      }
+    }
     
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
