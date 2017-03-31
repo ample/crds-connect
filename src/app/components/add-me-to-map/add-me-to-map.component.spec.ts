@@ -11,6 +11,7 @@ import { SelectModule } from 'angular2-select';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { AddressFormComponent } from '../address-form/address-form.component';
+import { GatheringService } from '../../services/gathering.service';
 import { LocationService } from '../../services/location.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
@@ -48,6 +49,7 @@ describe('Component: Add Me to the Map', () => {
         BlandPageService,
         CookieService,
         { provide: ContentService, useValue: mockContentService },
+        GatheringService,
         PinService,
         LocationService,
         LoginRedirectService,

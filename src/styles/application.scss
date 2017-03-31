@@ -333,18 +333,6 @@ app-map-footer {
   }
 }
 
-.screen-getting-started {
-  .people,
-  h5,
-  p {
-    @extend .center-block;
-    max-width: 80%;
-  }
-  h5 {
-    color: $cr-gray;
-  }
-}
-
 // List view
 app-listview {
   background: $cr-white;
@@ -419,14 +407,6 @@ list-footer {
 
 }
 
-.label-center {
-  text-align: center;
-  .label {
-    display: inline-block;
-    float: none;
-  }
-}
-
 .label {
   color: $cr-gray-dark;
   border-radius: $border-radius-base;
@@ -454,6 +434,129 @@ list-footer {
 
   .joined_by {
     margin-left: .5rem;
+  }
+}
+
+app-pin-detail {
+  display: block;
+  background: $cr-gray-lighter;
+  height: 381px;
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      height: #{$height - 19}px;
+    }
+  }
+
+  .pin-details {
+    background: $cr-black;
+    color: $cr-gray-light;
+    display: block;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    @for $idx from 5 to 30 {
+      $height: $idx * 100;
+      @media screen and ( min-height: #{$height}px ){
+        height: #{$height - 19}px;
+      }
+    }
+    
+    @media (min-width: $screen-sm) {
+      box-shadow: 0 0 10px 0 $cr-gray-light;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      width: $container-tablet;
+    }
+
+    &.is-gathering {
+      border-top: 1px solid $cr-gray-dark;
+      border-bottom: 1px solid $cr-gray-dark;
+    }
+
+    p {
+      color: $cr-gray-light;
+    }
+  }  
+}
+
+.pin-detail-header {
+  display: block;
+  border-top: 1px solid $cr-gray-dark;
+  border-bottom: 1px solid $cr-gray-dark;
+  padding: 20px 0;
+
+  h1 {
+    @extend .component-header;
+    font-size: $font-size-h1;
+    color: $cr-white;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .pin-detail-name {
+    text-align: left;
+
+    .label {
+      float: none;
+      color: $cr-gray;
+      background: $cr-cyan-lighter;
+    }
+  }
+
+  .pin-detail-image {
+    float: left;
+    padding-right: 10px;
+
+    img {
+      border: 2px solid $cr-gray-dark;
+    }
+  }
+}
+
+gathering {
+  p {
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .btn {
+    background: $cr-cyan;
+    color: $cr-white;
+  }
+}
+
+say-hi {
+  display: inline-block;
+
+  p {
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .btn {
+    background: $cr-gray-dark;
+    color: $cr-white;
+  }
+
+  .btn-say-hi {
+    background: $cr-cyan;
+    color: $cr-white;
+  }
+}
+
+readonly-address {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .pin-address-city {
+    margin-bottom: 0;
   }
 }
 

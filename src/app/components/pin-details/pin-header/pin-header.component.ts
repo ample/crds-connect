@@ -12,6 +12,7 @@ export class PinHeaderComponent {
   @Input() isPinOwner: boolean = false;
   @Input() firstName: string = '';
   @Input() lastName: string = '';
+  @Input() userImage: string = 'https://image.ibb.co/gQGf0a/GRAYGUY.png';
 
   constructor() {}
 

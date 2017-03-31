@@ -1,2 +1,2 @@
-<button class="btn primary btn-primary" (click)="sayHi()">{{buttonText}}</button>
 <crds-content-block *ngIf="!isGathering" id="connectSayHi"></crds-content-block>
+<button class="btn primary" [ngClass]="{'btn-say-hi': !isGathering}" (click)="sayHi()">{{buttonText}}</button>
