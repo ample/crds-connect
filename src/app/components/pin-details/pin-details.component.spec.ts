@@ -7,6 +7,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
+import { GatheringService } from '../../services/gathering.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -98,6 +99,7 @@ describe('Component: Pin-Details component', () => {
           },
           { provide: ContentService, useValue: mockContentService },
           IFrameParentService,
+          GatheringService,
           StoreService,
           StateService,
           SessionService,
@@ -135,7 +137,7 @@ describe('Component: Pin-Details component', () => {
       expect(returnValue).toBe(false);
     }));
 
-    it('shouldInit while not logged in', inject([SessionService], (session) => {
+    it('should init while not logged in', inject([SessionService], (session) => {
       spyOn(session, 'isLoggedIn').and.returnValue(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
@@ -246,6 +248,7 @@ describe('Component: Pin-Details component', () => {
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
           { provide: ContentService, useValue: mockContentService },
+          GatheringService,
           IFrameParentService,
           StoreService,
           StateService,

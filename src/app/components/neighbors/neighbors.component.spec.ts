@@ -16,6 +16,7 @@ import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { FormsModule }   from '@angular/forms';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { GatheringService } from '../../services/gathering.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { GoogleMapService } from '../../services/google-map.service';
@@ -71,6 +72,7 @@ describe('Component: Neighbors', () => {
         ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
+        GatheringService,
         UserLocationService,
         LocationService,
         PinService,

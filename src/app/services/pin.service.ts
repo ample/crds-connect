@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
 
+import { GatheringService } from '../services/gathering.service';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { StateService } from '../services/state.service';
@@ -38,6 +39,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public defaults = { authorized: null };
 
   constructor(
+    private gatheringService: GatheringService,
     private session: SessionService,
     private state: StateService,
     private blandPageService: BlandPageService,
@@ -135,6 +137,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return this.session.get(this.baseUrl + searchUrl)
         // when we get the new results, set them to the cache
         .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+        .map(res => this.gatheringService.addAddressesToGatheringPins(res))
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
 
