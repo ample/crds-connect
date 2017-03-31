@@ -42,6 +42,7 @@ describe('SayHiComponent', () => {
                 SayHiComponent
             ],
             providers: [
+                StateService,
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: SessionService, useValue: mockSessionService},
