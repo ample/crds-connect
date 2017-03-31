@@ -1,4 +1,11 @@
-<strong *ngIf="!isPinOwner && !isGathering">Say Hello to</strong>
-<span *ngIf="isPinOwner" class="label label-primary">Me</span>
-<span *ngIf="isGathering" class="label label-primary">Host</span>
-<h1>{{firstName}} {{lastName | slice:0:1}}</h1>
+<div class="pin-detail-image avatar-group avatar-size-6">
+	<img class="img-circle" src="{{userImage}}">
+</div>
+
+<div class="pin-detail-name">
+	<strong *ngIf="!isPinOwner && !isGathering">Say Hello to</strong>
+	<span *ngIf="isPinOwner" class="label label-primary">Me</span>
+	<span *ngIf="isGathering" class="label label-primary">Host</span>
+	<h1>{{firstName}} {{lastName | slice:0:1}}</h1>
+</div>
+
