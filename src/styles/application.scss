@@ -41,7 +41,23 @@ app-add-me-to-map {
 }
 
 .fauxdal {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+
+  // Added so the "modal" sits on top of the header
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
+
   &.fauxdal-fullscreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     .container-fluid {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
@@ -109,6 +125,18 @@ app-add-me-to-map {
           width: 25%;
         }
       }
+    }
+
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .page-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
