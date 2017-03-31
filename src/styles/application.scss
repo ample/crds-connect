@@ -275,10 +275,14 @@ canvas-map-overlay {
 
 // Map footer
 app-map-footer {
-  bottom: 0;
   position: absolute;
-  width: 100%;
+  top: 5px;
+  right: 1rem;
   z-index: 4;
+  input {
+    float: right;
+    clear: both;
+  }
 }
 
 .screen-getting-started {
@@ -409,8 +413,8 @@ list-footer {
 search-local {
   display: block;
   position: absolute;
-  top: 5px;
-  left: 50px;
+  top: 85px;
+  right: 1rem;
   z-index: 4;
 
   @media (min-width: $screen-xs) {
