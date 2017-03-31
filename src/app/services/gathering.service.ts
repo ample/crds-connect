@@ -80,7 +80,6 @@ export class GatheringService {
 
 
   public addAddressesToGatheringPins (srchResults: PinSearchResultsDto): PinSearchResultsDto {
-    console.log('Service hit');
     srchResults.pinSearchResults = this.addAddressesToSitePins(srchResults.pinSearchResults);
     return srchResults;
 
