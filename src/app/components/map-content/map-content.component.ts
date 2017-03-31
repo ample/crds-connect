@@ -49,6 +49,7 @@ export class MapContentComponent implements OnInit {
           streetViewControlOptions: streetViewControlOptions,
           minZoom: 3,
           maxZoom: 20,
+          scrollwheel: false,
           styles: [
             {
               "elementType": "geometry",
@@ -227,12 +228,12 @@ export class MapContentComponent implements OnInit {
 
         map.addListener("zoom_changed", () => {
           self.clearCanvas();
-          
+
           let center = map.getCenter();
           let zoom = map.getZoom();
           let mapViewUpdate = new MapView("zoom_changed", center.lat(), center.lng(), zoom);
           self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
-          self.state.setMapView(mapViewUpdate);          
+          self.state.setMapView(mapViewUpdate);
         });
       });
   }

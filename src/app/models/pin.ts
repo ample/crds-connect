@@ -36,4 +36,8 @@ export class Pin {
         this.pinType = pinType;
         this.proximity = proximity;
     }
+
+    public static overload_Constructor_One(){
+        return new Pin(null, null, null, null, null, null, null, null, null, null, null, null, null);
+    }
 }

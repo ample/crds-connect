@@ -23,4 +23,8 @@ export class Address {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    public static overload_Constructor_One(){
+        return new Address(null,null,null,null,null,null,null,null,null,null);
+    }
 }
