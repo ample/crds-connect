@@ -1,6 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter  } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
