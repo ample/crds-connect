@@ -28,7 +28,8 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ToastsManager, Toast } from 'ng2-toastr';
-
+import { AddressService } from '../../../services/address.service';
+ 
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
@@ -40,6 +41,7 @@ describe('GatheringComponent', () => {
     let mockStateService;
     let mockParticipantService;
     let mockToast;
+    let mockAddressService;
 
 
     beforeEach(() => {
@@ -49,6 +51,7 @@ describe('GatheringComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
+        mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
 
 
@@ -65,6 +68,7 @@ describe('GatheringComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: ParticipantService, useValue: mockParticipantService },
                 { provide: ToastsManager, useValue: mockToast },
+                { provide: AddressService, useValue: mockAddressService },
                 {
                     provide: Router,
                     useValue: { routerState: { snapshot: { url: 'abc123' } } },
@@ -87,14 +91,17 @@ describe('GatheringComponent', () => {
 
     it('should init, get participants and loggedInUser is in gathering', () => {
         let pin = MockTestData.getAPin(1);
+        let addLine1 = '567 street ln.';
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(participants[2].contactId);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (mockAddressService.getFullAddress).and.returnValue(Observable.of(new Address(null, addLine1,null,null,null,null,null,null,null,null)))
         comp.isLoggedIn = true;
         comp.pin = pin;
         comp.ngOnInit();
         expect(comp.isInGathering).toBe(true);
         expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(comp['address'].addressLine1).toBe(addLine1);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
     });
 

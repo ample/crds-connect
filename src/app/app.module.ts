@@ -60,6 +60,7 @@ import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 
+import { AddressService } from './services/address.service';
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
@@ -158,6 +159,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapClusterDirective
   ],
   providers: [
+    AddressService,
     AddMeToTheMapHelperService,
     appRoutingProviders,
     BlandPageGuard,
