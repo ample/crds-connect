@@ -122,14 +122,19 @@ app-add-me-to-map {
   z-index: 5;
 
   .brand-bar {
-    height: 2.5rem;
+    position: relative;
+    height: 40px;
+    overflow: hidden;
     background-image: url('/assets/brandbanner-bg.jpg');
     background-repeat: repeat-x;
     background-size: auto 100%;
   }
 
   .app-logo {
-    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     padding: 11.5px;
     line-height: 1;
     color: $cr-white;
