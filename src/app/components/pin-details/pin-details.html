@@ -1,7 +1,4 @@
-<div class="list-details">
-	<h2>{{ pinsToShowCountings() }}</h2>
-
-	<div>Connect</div>
+<div class="pin-details" [class.is-gathering]="isGatheringPin">
 	<div *ngIf="!editMode" class="container">
 	    <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
 	    <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>

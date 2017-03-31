@@ -40,6 +40,8 @@ export class GatheringComponent implements OnInit {
 
   public ngOnInit() {
     this.state.setLoading(true);
+    this.state.setPageHeader('gathering', '/');
+
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       success => {
         this.pin.gathering.Participants = success;
