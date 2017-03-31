@@ -74,8 +74,8 @@ export class GoogleMapService {
     let popTarget = 10;
     let pop = this.countPopAtZoom(bounds, zoom, pins, pops);
     if (pop < popTarget) {
-      if (zoom <= 8) {
-        return 8;
+      if (zoom <= 3) {
+        return 3;
       }
       return this.calculateBestZoom(bounds, zoom - 1, pins, pops);
     } else if (zoom >= 20) {
