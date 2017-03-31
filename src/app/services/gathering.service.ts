@@ -89,12 +89,10 @@ export class GatheringService {
   public addAddressesToSitePins (pins: Array<Pin>): Array<Pin> {
 
     let thisService = this;
+
     pins.forEach(function(pin) {
       if( pin.pinType === pinType.SITE) {
-        console.log('Adding address to pin: ');
-        console.log(pin);
         pin = thisService.addAddressToGatheringPin(pin);
-        console.log(pin);
       }
     });
 

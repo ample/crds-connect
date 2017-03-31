@@ -22,6 +22,8 @@ describe('Service: Gathering', () => {
   const mockSitePin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, 9999, true, '', pinType.SITE, 0);
   const mockPersonPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
 
+  const mockPinArray: Array<Pin> = [mockSitePin, mockPersonPin];
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -40,6 +42,22 @@ describe('Service: Gathering', () => {
     sitePin.siteName = 'Oakley';
     let changedSitePin: Pin = service.addAddressToGatheringPin(sitePin);
     expect(changedSitePin.address.addressLine1).toEqual(oakleyStreetAddress);
+  }));
+
+  it('should change the address on the site pin', inject([GatheringService], (service: any) => {
+    let pins: Array<Pin> = mockPinArray;
+    pins[0].siteName = 'Oakley';
+    pins[1].siteName = 'Oakley';
+    let modifiedPins: Pin = service.addAddressesToSitePins(pins);
+    expect(modifiedPins[0].address.addressLine1).toEqual(oakleyStreetAddress);
+  }));
+
+  it('should NOT change the address on the person pin', inject([GatheringService], (service: any) => {
+    let pins: Array<Pin> = mockPinArray;
+    pins[0].siteName = 'Oakley';
+    pins[1].siteName = 'Oakley';
+    let modifiedPins: Pin = service.addAddressesToSitePins(pins);
+    expect(modifiedPins[1].address.addressLine1).toEqual(mockPinArray[1].address.addressLine1);
   }));
 
 
