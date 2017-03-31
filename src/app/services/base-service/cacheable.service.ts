@@ -136,7 +136,7 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
     protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel, currentUserIdentifier: number = null): boolean {
         if (this.isNoCache()) {
             return false;
-        } else if (!super.isCachedForUser(currentUserIdentifier)) { 
+        } else if (!super.isCachedForUser(currentUserIdentifier)) {
             this.clearCache();
             return false;
         }else if (this.getCacheLevel() < minimumCacheThreshold) {
@@ -153,13 +153,13 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
         } else {
             if (typeof newParams === 'object' && typeof this.lastParams === 'object') {
                 let areEql = this.checkObjsForEquality(this.lastParams, newParams);
-                if (!areEql){
+                if (!areEql) {
                     this.clearCache();
                 }
                 return areEql;
             } else if (Array.isArray(newParams) && Array.isArray(this.lastParams)) {
                 let areEql = this.checkArraysForEquality(newParams, this.lastParams);
-                if (!areEql){
+                if (!areEql) {
                     this.clearCache();
                 }
                 return areEql;

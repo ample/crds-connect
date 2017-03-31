@@ -75,15 +75,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
-          console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }
     url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
-
-    console.log('PinService got partial new PinSearchResultsDto');
 
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
@@ -95,7 +92,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let searchOptions: SearchOptions;
 
     if (this.state.getMyViewOrWorldView() === 'world') {
-// console.log('WORLD view - pin service getPinSearchResults');
+console.log('WORLD search');
       searchOptions = new SearchOptions(userSearchAddress, lat, lng);
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
@@ -103,12 +100,15 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
           return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng);
         }
       } else {  // getMyViewOrWorldView = 'my'
-// console.log('MY view - pin service getPinSearchResults');
+console.log('MY search');
         searchOptions = new SearchOptions('myView', lat, lng);
         if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-console.log('Already have MY cache skip API call - neighbors component getPinSearchResults - neighbors component');
+console.log('MY search -- FOUND cache for myView');
+// TODO -- this getCache -- just getting the last pin service cache - not using the searchOptions to key off of??? 
+// Need to have 2 instances of PinSearchResultsDto cache
           return Observable.of(super.getCache());
-          } else {
+        } else {
+console.log('MY search -- NOT FOUND cache for myView - Go get again');
             return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
           }
       }
@@ -191,7 +191,6 @@ console.log('Already have MY cache skip API call - neighbors component getPinSea
     let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
     return this.session.post(postPinUrl, pin)
       .map((res: any) => {
-        console.log('PinService cleared Search results cache');
         super.clearCache();
         return res;
       })
@@ -201,6 +200,14 @@ console.log('Already have MY cache skip API call - neighbors component getPinSea
   public doesLoggedInUserOwnPin(pin: Pin) {
     let contactId = this.session.getContactId();
     return contactId === pin.contactId;
+  }
+
+  public getCachedSearchResults(searchString: string, lat: number, lng: number, contactId: number): PinSearchResultsDto {
+    const searchOptions = new SearchOptions(searchString, lat, lng);
+    if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
+      return super.getCache();
+    }
+    return null;
   }
 
 }

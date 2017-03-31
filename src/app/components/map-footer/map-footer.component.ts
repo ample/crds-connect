@@ -36,7 +36,8 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-
+// TODO -- my stuff -- then basic search typing into search box
+// then my stuff again -- failed - did not get my stuff???
   public myStuffBtnClicked = () =>  {
     this.state.setLoading(true);
     this.state.setCurrentView('map');
@@ -61,23 +62,17 @@ export class MapFooterComponent {
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-console.log('Just WENT AND GOT MY Stuff and put into cache - button press - emit it to the neighbors component');
         this.pin.searchResultsEmitter.emit(this.myPinSearchResults);
         this.state.setLoading(false);
-
-// TODO add sort and filter - from neighbors component
 
         if (this.state.getCurrentView() === 'map') {
           this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
         }
 
-        // TODO: TEST if myPinsearchresults is empty then display -- Add me to the map
-        // Getting error in the API call (rest call not happy)
         if ( this.myPinSearchResults.pinSearchResults.length === 0) {
           this.state.setLoading(false);
           this.router.navigate(['/add-me-to-the-map']);
         } else {
-// TODO Why do I need this routing?
           this.router.navigate(['/map']);
         }
       },

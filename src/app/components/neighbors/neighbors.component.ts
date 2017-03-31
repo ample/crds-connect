@@ -34,9 +34,9 @@ export class NeighborsComponent implements OnInit, OnChanges {
 
 
     this.pinService.searchResultsEmitter.subscribe(searchResults => {
-console.log('NEIGHBORS - Pick up Emmitted data!! ');
-console.log(searchResults);
-      this.pinSearchResults = searchResults;
+// console.log('NEIGHBORS - Pick up Emmitted data!! ');
+// console.log(searchResults);
+//       this.pinSearchResults = searchResults;
     });
 
     searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
@@ -47,12 +47,9 @@ console.log(searchResults);
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
-// TODO why is this always false?!?!!?
-// TODO use real cache that Doug implemented (not from component)
-// console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
-// console.log(haveResults);
-// console.log(this.pinSearchResults);
-// console.log('NG ON INIT - Results up there! ');
+console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
+console.log(haveResults);
+console.log(this.pinSearchResults);
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView( this.state.getCurrentView() );
