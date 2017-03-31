@@ -5,6 +5,7 @@ import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
+import { GoogleMapService } from './google-map.service';
 import { BlandPageService } from './bland-page.service';
 import { PinService } from './pin.service';
 import { Observable } from 'rxjs/Rx';
@@ -20,10 +21,11 @@ import { CacheLevel } from '../services/base-service/cacheable.service';
 import { Address } from '../models/address';
 
 describe('Service: Pin', () => {
-  let fixture, mockSessionService, mockStateService, mockBlandPageService;
+  let fixture, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService;
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+  mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googlemapservice', ['get', 'post', 'getContactId']);
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
   const mockPin =
@@ -38,6 +40,7 @@ describe('Service: Pin', () => {
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
         { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: GoogleMapService, useValue: mockGoogleMapService },
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),

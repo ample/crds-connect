@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { EmailAddressValidator } from '../../../../validators/email-address.validator';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from '../../../../services/content.service';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
@@ -26,7 +25,6 @@ export class InviteSomeoneComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
         private router: Router,
-        private content: ContentService,
         private pinService: PinService,
         private blandPageService: BlandPageService,
         private state: StateService,

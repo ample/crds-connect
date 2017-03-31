@@ -24,7 +24,7 @@ export class ListViewComponent {
 
   public pinsToShow(): Pin[] {
     let showing: number = this.stateService.getShowingPinCount();
-    return this.searchResults.pinSearchResults.filter((item, index) => index < showing )
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
   }
 
   public pinsToShowCountings() {

@@ -10,7 +10,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html'
 })
-export class SearchBarComponent  {
+export class SearchBarComponent implements OnChanges  {
   @Input() isMapHidden: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
@@ -20,7 +20,7 @@ export class SearchBarComponent  {
 
   constructor() {}
 
-  public ngOnChanges(): void{
+  public ngOnChanges(): void {
     this.setButtonText();
   }
 

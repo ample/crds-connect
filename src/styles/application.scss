@@ -344,6 +344,7 @@ list-footer {
 
 .entry {
   border-top: 1px solid darken($cr-gray-lighter, 10);
+  cursor: pointer;
   display: flex;
   padding-top: 1rem;
   padding-bottom: 1rem;
