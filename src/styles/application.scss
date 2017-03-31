@@ -400,6 +400,7 @@ list-footer {
 app-pin-detail {
   display: block;
   background: $cr-gray-lighter;
+  height: calc(100vh - 100px); // Height of map minus header height
 
   .pin-details {
     background: $cr-black;
@@ -407,7 +408,8 @@ app-pin-detail {
     display: block;
     padding-top: 1rem;
     padding-bottom: 1rem;
-       
+    height: calc(100vh - 100px); // Height of map minus header height
+    
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
       margin: 0 auto;
@@ -428,19 +430,9 @@ app-pin-detail {
 
 .pin-detail-header {
   display: block;
-  padding: 0;
-
-  pin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  @at-root gathering & {
-    border-top: 1px solid $cr-gray-dark;
-    border-bottom: 1px solid $cr-gray-dark;
-    padding: 20px 0;
-  }
+  border-top: 1px solid $cr-gray-dark;
+  border-bottom: 1px solid $cr-gray-dark;
+  padding: 20px 0;
 
   h1 {
     @extend .component-header;
@@ -452,36 +444,68 @@ app-pin-detail {
   }
 
   .pin-detail-name {
-    @at-root gathering & {
-      order: 2;
+    text-align: left;
+
+    .label {
+      float: none;
+      color: $cr-gray;
+      background: $cr-cyan-lighter;
     }
   }
 
   .pin-detail-image {
-    @at-root gathering & {
-      order: 1;
-    }
+    float: left;
+    padding-right: 10px;
 
     img {
-      border: 2px solid $cr-gray-lighter;
+      border: 2px solid $cr-gray-dark;
     }
+  }
+}
+
+gathering {
+  p {
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .btn {
+    background: $cr-cyan;
+    color: $cr-white;
+  }
+}
+
+say-hi {
+  display: inline-block;
+
+  p {
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .btn {
+    background: $cr-gray-dark;
+    color: $cr-white;
+  }
+
+  .btn-say-hi {
+    background: $cr-cyan;
+    color: $cr-white;
   }
 }
 
 readonly-address {
-  display: block;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
 
   .pin-address-city {
     margin-bottom: 0;
-  }
-}
-
-
-say-hi {
-  display: block;
-
-  .btn {
-    margin: 20px 0;
   }
 }
 
