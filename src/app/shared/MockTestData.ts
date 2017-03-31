@@ -40,7 +40,7 @@ export class MockTestData {
             'site' + designator.toString(),
             pinType,
             proximity
-        )
+        );
     }
 
     public static getAnAddress(designator: number = 1): Address{
@@ -65,9 +65,9 @@ export class MockTestData {
         }
         for (var index = 0; index < numOfParticipants; index++) {
             let participant = new Participant(
-                'congregation', 
-                index, 
-                'displayName' + index.toString(), 
+                'congregation',
+                index,
+                'displayName' + index.toString(),
                 'email' + index.toString() + '@address.com',
                 index,
                 1,

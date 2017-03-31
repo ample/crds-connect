@@ -9,7 +9,7 @@ export const usStatesList: string[] = [
   'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'
 ];
 
-export const sayHiTemplateId: number = 451704;
+export const sayHiTemplateId: number = 2013;
 
 export enum UserState {
   LoggedIn_NotOnMap,
