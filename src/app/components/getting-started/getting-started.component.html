@@ -1,4 +1,33 @@
-<div class="container">
-  <span [innerHTML]="content?.getContent('gettingStarted')"></span>
-  <input type="button"  class="btn btn-secondary btn-block" (click)="btnClickAddToMap();" value="Add me to map">
-</div>
+<div class="container screen-getting-started">
+  <div class="content-middle">
+
+    <!-- Intro Text -->
+    <crds-content-block id="gettingStarted"></crds-content-block>
+
+    <!-- People -->
+    <div class="people push-ends">
+      <div class="row push-ends" *ngFor="let group of pins">
+        <div class="person col-xs-6" *ngFor="let pin of group">
+          <div class="avatar-group avatar-size-6">
+            <img src="{{pin.image}}" class="img-circle">
+          </div>
+          <div class="label-center">
+            <span *ngIf="pin.host" class="label label-host">HOST</span>
+          </div>
+          <h3 class="entry-header">{{pin.name}}</h3>
+          <p class="entry-subheader">
+            <span class="proximity">{{pin.location}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Me To The Map Text/Button -->
+    <crds-content-block id="gettingStartedAddToMap"></crds-content-block>
+    <a routerLink="/add-me-to-the-map" class="btn btn-secondary btn-block">Add me to map</a>
+
+    <!-- Host Text/Buttons -->
+    <crds-content-block id="gettingStartedHost"></crds-content-block>
+    <a routerLink="/host-signup" class="btn btn-secondary btn-block">Sign up</a>
+    <a routerLink="/whats-a-host" class="btn btn-secondary btn-block">What's a host</a>
+  </div>

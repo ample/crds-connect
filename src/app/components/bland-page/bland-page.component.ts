@@ -1,14 +1,13 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ContentService } from '../../services/content.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
 
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bland-page-details';
 
 @Component({
-    selector: 'bland-page',
+    selector: 'app-bland-page',
     templateUrl: 'bland-page.html'
 })
 export class BlandPageComponent implements OnInit {
@@ -18,7 +17,6 @@ export class BlandPageComponent implements OnInit {
     public contentBlock = false;
 
     constructor(private router: Router,
-        private content: ContentService,
         private blandPageService: BlandPageService,
         private state: StateService) {}
 

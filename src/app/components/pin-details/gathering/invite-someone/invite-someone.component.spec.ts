@@ -10,10 +10,10 @@ import { DebugElement } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import { ToastsManager } from 'ng2-toastr';
 
 import { InviteSomeoneComponent } from './invite-someone.component';
 
-import { ContentService } from '../../../../services/content.service';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
@@ -26,16 +26,15 @@ describe('InviteSomeoneComponent', () => {
     let comp: InviteSomeoneComponent;
     let el;
 
-    let mockFormBuilder, mockRouter, mockContentService, mockPinService, mockBlandPageService, mockStateService;
+    let mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast;
 
     beforeEach(() => {
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGathering']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -44,10 +43,10 @@ describe('InviteSomeoneComponent', () => {
             providers: [
                 { provide: Router, useValue: mockRouter },
                 { provide: FormBuilder, useValue: mockFormBuilder },
-                { provide: ContentService, useValue: mockContentService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: StateService, useValue: mockStateService }
+                { provide: StateService, useValue: mockStateService },
+                { provide: ToastsManager, useValue: mockToast }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -81,6 +80,7 @@ describe('InviteSomeoneComponent', () => {
         let blandPageDetails = new BlandPageDetails(
             'Return to my pin',
             '<h1 class="h1 text-center">Invite sent</h1>' +
+            // tslint:disable-next-line:max-line-length
             `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
             BlandPageType.Text,
             BlandPageCause.Success,
@@ -92,7 +92,6 @@ describe('InviteSomeoneComponent', () => {
 
         comp.onSubmit(param);
 
-        
         expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
         expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);

@@ -7,50 +7,36 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-
-import { AddressFormComponent } from './address-form.component';
-import { ContentBlockModule } from 'crds-ng2-content-block';
-
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-import { LocationService } from '../../services/location.service';
-import { StateService } from '../../services/state.service';
 import { PinService } from '../../services/pin.service';
+import { StateService } from '../../services/state.service';
+import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
+import { LookupTable } from '../../models/lookup-table';
+import { AddressFormComponent } from './address-form.component';
+import { Observable } from 'rxjs/Observable';
 
 describe('AddressFormComponent', () => {
     let fixture: ComponentFixture<AddressFormComponent>;
     let comp: AddressFormComponent;
     let el;
-    let mockLocationService;
-    let mockSessionService;
-    let mockPinService;
-    let mockLoginRedirectService;
-    let mockBlandPageService;
-    let mockStateService;
+
+    let mockPinService, mockMapHelper, mockStateService;
 
     beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
-
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         TestBed.configureTestingModule({
             declarations: [
                 AddressFormComponent
             ],
-            imports: [
-                HttpModule,
-                ContentBlockModule.forRoot({ categories: ['common'] })
-            ],
             providers: [
-                { provide: ActivatedRoute, useValue: { snapshot: { data: {} } } },
                 { provide: StateService, useValue: mockStateService },
-                { provide: PinService, useValue: mockPinService},
-                AddMeToTheMapHelperService,
-                FormBuilder
+                { provide: PinService, useValue: mockPinService },
+                FormBuilder,
+                AddMeToTheMapHelperService
             ],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [ NO_ERRORS_SCHEMA ]
         });
     });
 
@@ -58,6 +44,7 @@ describe('AddressFormComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(AddressFormComponent);
             comp = fixture.componentInstance;
+
             comp.userData = {
                 firstname: 'Joe',
                 lastname: 'Kerstanoff',
@@ -84,7 +71,8 @@ describe('AddressFormComponent', () => {
         });
     }));
 
-    it('should create an instance', () => {
+    it('should enter the assertion', () => {
+        fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 

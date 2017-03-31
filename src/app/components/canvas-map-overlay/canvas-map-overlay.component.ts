@@ -6,13 +6,12 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'canvas-map-overlay',
-  templateUrl: 'canvas-map-overlay.component.html',
-  styleUrls: ['canvas-map-overlay.component.css']
+  templateUrl: 'canvas-map-overlay.component.html'
 })
 export class CanvasMapOverlayComponent implements OnInit {
 
-  public canvasWidth: number = window.innerWidth;;
-  public canvasHeight: number = window.innerHeight;;
+  public canvasWidth: number = window.innerWidth;
+  public canvasHeight: number = window.innerHeight - 110; // make sure it matches the style value
 
   @ViewChild('myCanvas') canvasRef: ElementRef;
 
@@ -36,7 +35,7 @@ export class CanvasMapOverlayComponent implements OnInit {
       let cHeight = canvBounds.height;
 
       let geoBounds: any = drawingData.geoBounds;
-      let isZoomedEnoughToDisplayPins = Math.abs(geoBounds.width)< 8.5 && Math.abs(geoBounds.height) < 1.8;
+      let isZoomedEnoughToDisplayPins = Math.abs(geoBounds.width) < 8.5 && Math.abs(geoBounds.height) < 1.8;
 
       if (isZoomedEnoughToDisplayPins) {
         this.drawMarkerLabels(ctx, drawingData, cWidth, cHeight);
@@ -59,7 +58,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     let isMapInitialized: boolean = cWidth !== 0 || cHeight !== 0;
 
     if( isMapInitialized ) {
-      for (let i=0; i < drawingData.markers.length; i++){
+      for (let i = 0; i < drawingData.markers.length; i++){
         let marker: any = drawingData.markers[i];
         this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
       }
@@ -67,28 +66,33 @@ export class CanvasMapOverlayComponent implements OnInit {
 
   }
 
-  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth:any, cHeight: any) {
+  public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth: any, cHeight: any) {
 
     let markerLabelProps = this.getMarkerLabelProps(marker);
 
     let labelHeightAdjustment: number = undefined;
 
     if( !!markerLabelProps.hostOrMe ){
-      labelHeightAdjustment = 22;
+      labelHeightAdjustment = 11;
     } else {
-      labelHeightAdjustment = 12;
+      labelHeightAdjustment = 4;
     }
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
-    ctx.font = "12px Arial";
+    ctx.strokeStyle = '#ffffff'
+    ctx.lineWidth = 2.5;
+    ctx.font = '12px Arial';
 
     let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
+    ctx.strokeText(nameLabel, textX, textY);
     ctx.fillText(nameLabel, textX, textY);
 
     if( !!markerLabelProps.hostOrMe ){
-      ctx.fillText(markerLabelProps.hostOrMe, textX, textY + 15);
+      ctx.font = '10px Arial';
+      ctx.strokeText(markerLabelProps.hostOrMe, textX+6, textY + 12);
+      ctx.fillText(markerLabelProps.hostOrMe, textX+6, textY + 12);
     }
 
   }
@@ -99,19 +103,23 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     switch(markerLabelProps.hostOrMe) {
       case 'ME':
-        labelColor = 'Gold';
+        labelColor = '#A47403';
         break;
       case 'HOST':
-        labelColor = 'Blue';
+        labelColor = '#0196dc';
         break;
       default:
-        labelColor = 'Teal';
+        if (markerLabelProps.lastInitial === '') {
+          labelColor = '#c05c04';
+        } else {
+          labelColor = '#3b6f91';
+        }
     }
 
     return labelColor;
   }
 
-  public getMarkerLabelProps(marker:any): any{
+  public getMarkerLabelProps(marker: any): any {
     let labelStringComponents = marker.markerLabel.split('|');
 
     let labelProps = {

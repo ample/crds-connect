@@ -10,7 +10,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
-import { ContentService } from './services/content.service';
+import { HeaderComponent } from './layout/header/header.component';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
@@ -18,7 +20,10 @@ describe('App: CrdsConnect', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppComponent ],
+      declarations: [
+        AppComponent,
+        HeaderComponent
+      ],
       imports: [
         PreloaderModule,
         RouterTestingModule.withRoutes([]),
@@ -33,7 +38,9 @@ describe('App: CrdsConnect', () => {
         StateService,
         ContentService,
         Angulartics2,
-        Angulartics2GoogleTagManager
+        Angulartics2GoogleTagManager,
+        ToastsManager,
+        ToastOptions
       ]
     })
       .compileComponents();

@@ -12,14 +12,17 @@ export class ReadonlyAddressComponent implements OnInit {
   @Input() isPinOwner: boolean = false;
   @Input() isInGathering: boolean = false;
   @Input() address: Address;
+  @Input() distance: number = null;
 
+  public distString = '';
   public showFullAddress: boolean = false;
-
-  constructor() {}
 
   public ngOnInit() {
     if ((this.isGathering && this.isInGathering) || (this.isPinOwner)) {
       this.showFullAddress = true;
+    }
+    if (this.distance != null) {
+      this.distString = `(${this.distance.toFixed(2).toString()} mi)`;
     }
   }
 

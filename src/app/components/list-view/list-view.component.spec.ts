@@ -1,3 +1,4 @@
+import { MockConnection } from '@angular/http/testing';
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
@@ -12,7 +13,8 @@ import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 
-import { ContentService } from '../../services/content.service';
+import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -30,10 +32,12 @@ import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
 
-
 describe('Component: List View', () => {
+  let mockContentService;
 
   beforeEach(() => {
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
     TestBed.configureTestingModule({
       declarations: [
         ListViewComponent,
@@ -44,11 +48,14 @@ describe('Component: List View', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+        ContentBlockModule.forRoot({ categories: ['main'] }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        })
+        }),
+        ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
+        { provide: ContentService, useValue: mockContentService},
         UserLocationService,
         LocationService,
         PinService,
@@ -59,7 +66,6 @@ describe('Component: List View', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
         LoginRedirectService,
         GoogleMapService,
         NeighborsHelperService,

@@ -21,35 +21,38 @@ import { Group } from '../../../models/group';
 import { Participant } from '../../../models/participant';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
-import { ContentService } from '../../../services/content.service';
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
-
+import { ToastsManager, Toast } from 'ng2-toastr';
+import { AddressService } from '../../../services/address.service';
+ 
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
     let el;
-    let mockContentService;
     let mockSessionService;
     let mockPinService;
     let mockLoginRedirectService;
     let mockBlandPageService;
     let mockStateService;
     let mockParticipantService;
+    let mockToast;
+    let mockAddressService;
 
 
     beforeEach(() => {
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
+        mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
 
 
         TestBed.configureTestingModule({
@@ -59,12 +62,13 @@ describe('GatheringComponent', () => {
             imports: [],
             providers: [
                 { provide: PinService, useValue: mockPinService },
-                { provide: ContentService, useValue: mockContentService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: ParticipantService, useValue: mockParticipantService },
+                { provide: ToastsManager, useValue: mockToast },
+                { provide: AddressService, useValue: mockAddressService },
                 {
                     provide: Router,
                     useValue: { routerState: { snapshot: { url: 'abc123' } } },
@@ -87,14 +91,17 @@ describe('GatheringComponent', () => {
 
     it('should init, get participants and loggedInUser is in gathering', () => {
         let pin = MockTestData.getAPin(1);
+        let addLine1 = '567 street ln.';
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(participants[2].contactId);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (mockAddressService.getFullAddress).and.returnValue(Observable.of(new Address(null, addLine1,null,null,null,null,null,null,null,null)))
         comp.isLoggedIn = true;
         comp.pin = pin;
         comp.ngOnInit();
         expect(comp.isInGathering).toBe(true);
         expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(comp['address'].addressLine1).toBe(addLine1);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
     });
 
@@ -127,17 +134,17 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = false;
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('abc123');
-    })
+    });
 
     it('should succeed while requesting to join', () => {
         comp.isLoggedIn = true;
         let pin = MockTestData.getAPin(1);
         let expectedBPD = new BlandPageDetails(
-            "Return to map",
-            "gatheringJoinRequestSent",
+            'Return to map',
+            'gatheringJoinRequestSent',
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
-            ""
+            ''
         );
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.of([{}]));
         comp.pin = pin;
@@ -147,7 +154,7 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
-    })
+    });
 
     it('should fail with 409 (conflict) while requesting to join', () => {
         comp.isLoggedIn = true;
@@ -156,18 +163,17 @@ describe('GatheringComponent', () => {
             'Back',
             '<h1 class="h1 text-center">OOPS</h1><p class="text text-center">Looks like you have already requested to join this group.</p>',
             BlandPageType.Text,
-            BlandPageCause.Error,            
+            BlandPageCause.Error,
             'gathering/' + pin.gathering.groupId,
         );
-        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
+        (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
 
-
         comp.requestToJoin();
-        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
-        expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
-    })
+        expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockToast.warning).toHaveBeenCalledWith('Looks like you have already requested to join this group', 'OOPS');
+    });
 
     it('should fail with error while requesting to join', () => {
         comp.isLoggedIn = true;
@@ -179,7 +185,6 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
-        
-        expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('gathering/' + pin.gathering.groupId)
-    })
+        expect(mockToast.error).toHaveBeenCalledWith('Looks like there was an error. Please fix and try again', 'Oh no!');
+    });
 });

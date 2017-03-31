@@ -10,7 +10,6 @@ import { SearchLocalComponent } from '../search-local/search-local.component'
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
-import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -32,6 +31,8 @@ import { IPService } from '../../services/ip.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { SearchLocalService } from '../../services/search-local.service';
+
+import { MapView } from '../../models/map-view';
 
 describe('Component: Map', () => {
 
@@ -62,7 +63,6 @@ describe('Component: Map', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
         LoginRedirectService,
         BlandPageService,
         IPService,

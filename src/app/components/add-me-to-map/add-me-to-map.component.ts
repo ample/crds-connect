@@ -48,6 +48,7 @@ export class AddMeToMapComponent implements OnInit {
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
         '',
+        ''
       );
       this.blandPageService.primeAndGo(nowAPin);
     }

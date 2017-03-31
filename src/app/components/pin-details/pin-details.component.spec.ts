@@ -7,7 +7,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -19,6 +18,7 @@ import { Observable } from 'rxjs/Rx';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
+import { GoogleMapService } from '../../services/google-map.service';
 import { GatheringComponent } from '../pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from '../pin-details/gathering/gathering-requests/gathering-requests.component';
 import { PersonComponent } from '../pin-details/person/person.component';
@@ -33,6 +33,7 @@ import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someon
 
 import { PinDetailsComponent } from './pin-details.component';
 import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { pinType } from '../../models/pin';
 
@@ -43,9 +44,12 @@ describe('Component: Pin-Details component', () => {
   let component;
   let fixture;
   let pin;
+  let mockContentService;
 
   describe('non gathering', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       this.pin = {
         'firstName': 'Joe',
         'lastName': 'Kerstanoff',
@@ -92,6 +96,7 @@ describe('Component: Pin-Details component', () => {
             provide: ActivatedRoute,
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
+          { provide: ContentService, useValue: mockContentService },
           IFrameParentService,
           StoreService,
           StateService,
@@ -101,6 +106,7 @@ describe('Component: Pin-Details component', () => {
           Angulartics2,
           LoginRedirectService,
           AddMeToTheMapHelperService,
+          GoogleMapService,
           LocationService,
           BlandPageService
         ]
@@ -148,6 +154,8 @@ describe('Component: Pin-Details component', () => {
 
   describe('gathering', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       this.pin = {
         'firstName': 'Joe',
         'lastName': 'Kerstanoff',
@@ -237,6 +245,7 @@ describe('Component: Pin-Details component', () => {
             provide: ActivatedRoute,
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
+          { provide: ContentService, useValue: mockContentService },
           IFrameParentService,
           StoreService,
           StateService,
@@ -247,6 +256,7 @@ describe('Component: Pin-Details component', () => {
           LoginRedirectService,
           AddMeToTheMapHelperService,
           LocationService,
+          GoogleMapService,
           BlandPageService
         ]
       });

@@ -22,6 +22,7 @@ import { PinLoginActionsComponent } from '../../pin-login-actions/pin-login-acti
 import { InviteSomeoneComponent } from '../../gathering/invite-someone/invite-someone.component';
 import { PersonComponent } from '../../person/person.component';
 import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../../services/login-redirect.service';
 
 
@@ -31,9 +32,12 @@ describe('Component: Participant Card component', () => {
   let fixture;
   let pinParticipantId;
   let participant;
+  let mockContentService;
 
   describe('Participant Card', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff',
        'JoeKer', 123, '1943-02-03');
       TestBed.configureTestingModule({
@@ -57,6 +61,7 @@ describe('Component: Participant Card component', () => {
           CookieService,
           Angulartics2,
           LoginRedirectService,
+          { provide: ContentService, useValue: mockContentService },
           { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } }
         ]
       });
@@ -89,6 +94,5 @@ describe('Component: Participant Card component', () => {
       expect(this.component.showMeLabel()).toBe(false);
     }));
 
-
-});
+  });
 });

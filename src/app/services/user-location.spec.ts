@@ -5,7 +5,6 @@ import { GeoCoordinates } from '../models/geo-coordinates';
 import { SessionService } from './session.service';
 import { UserLocationService } from './user-location.service';
 
-import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
 import { GoogleMapService } from '../services/google-map.service';
 import { StateService } from '../services/state.service';
@@ -43,7 +42,6 @@ describe('Service: User-Location', () => {
           SessionService,
           CookieService,
           Angulartics2,
-          ContentService,
           LoginRedirectService,
           BlandPageService,
           IPService
