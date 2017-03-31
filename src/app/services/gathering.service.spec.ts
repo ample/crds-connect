@@ -2,13 +2,13 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
 import { Address } from '../models/address';
-import { AddMeToTheMapHelperService } from './add-me-to-map-helper.service';
+import { GatheringService } from './gathering.service';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
-import { GatheringService } from '../services/gathering.service';
 import { Pin, pinType } from '../models/pin';
+import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
-describe('Service: Add me to the Map Helper', () => {
+describe('Service: Gathering', () => {
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
   const mockUserData = new UserDataForPinCreation(111, 222, 9999, 'Bob', 'Smith', 'bobby@bob.com', mockAddress);
@@ -23,13 +23,12 @@ describe('Service: Add me to the Map Helper', () => {
       imports: [
         HttpModule
       ],
-      providers: [AddMeToTheMapHelperService, GatheringService]
+      providers: [ GatheringService ]
     });
   });
 
-  it('should create a pin', inject([AddMeToTheMapHelperService], (service: any) => {
-    let pin: Pin = service.createNewPin(mockForm, mockUserData);
-    expect(pin).toEqual(mockPin);
+  it('should create a service instance', inject([GatheringService], (service: any) => {
+    expect(service).toBeTruthy();
   }));
 
 });

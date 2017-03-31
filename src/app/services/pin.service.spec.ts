@@ -3,6 +3,8 @@
 
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
+
+import { GatheringService } from '../services/gathering.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { GoogleMapService } from './google-map.service';
@@ -36,6 +38,7 @@ describe('Service: Pin', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        GatheringService,
         PinService,
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
