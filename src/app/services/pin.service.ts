@@ -142,7 +142,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   // POSTS
   public sendHiEmail(user: User, pin: Pin): Observable<any> {
-    debugger;
     // Create merge data for this template
     let emailInfo = {
       'fromEmailAddress': user.email,
@@ -199,7 +198,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       })
       .catch((err) => Observable.throw(err.json().error));
   }
-  
+
   public doesLoggedInUserOwnPin(pin: Pin) {
     let contactId = this.session.getContactId();
     return contactId === pin.contactId;
