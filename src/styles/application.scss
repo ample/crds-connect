@@ -246,7 +246,7 @@ app-search-bar {
 app-map,
 sebm-google-map,
 canvas-map-overlay {
-  height: calc(100vh - 112px); // Height of map minus header height
+  height: 600px;
 }
 
 // Style map
@@ -256,19 +256,6 @@ app-map {
   position: relative;
   width: 100vw;
 }
-
-/* fix iOS bug not displaying height correctly */
-  /* iphone6+ */
-  @media only screen
-    and (max-device-width: 640px),
-    only screen and (max-device-width: 667px),
-    only screen and (max-width: 480px) {
-    app-map,
-    sebm-google-map,
-    canvas-map-overlay {
-      height: calc(100vh - 180px);
-    }
-  }
 
 sebm-google-map {
   @media (min-width: $screen-xs) {
