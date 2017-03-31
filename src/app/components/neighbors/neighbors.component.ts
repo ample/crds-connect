@@ -39,7 +39,6 @@ export class NeighborsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    debugger;
     let haveResults = !!this.pinSearchResults;
     if (!haveResults) {
       this.state.setLoading(true);
