@@ -248,7 +248,10 @@ sebm-google-map,
 canvas-map-overlay {
   // Calculations are designed such that while the screen is less than 3000px
   // tall, the map is never too short, but also never more than 99px below
-  // the bottom of the screen.
+  // the bottom of the screen directly within Connect.
+  // 
+  // When displayed as a microclient, it may fall another 54px-64px below
+  // the footer, accounting for the global header.
   height: 381px;
   @for $idx from 5 to 30 {
     $height: $idx * 100;
