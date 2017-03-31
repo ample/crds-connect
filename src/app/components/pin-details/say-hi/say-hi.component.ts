@@ -68,8 +68,8 @@ export class SayHiComponent implements OnInit {
 
   private doSayHi() {
     // tslint:disable-next-line:max-line-length
-    let templateText =  `<div class="container"><div class="row text-center"><h3>${this.isGathering ? 'Host contacted' : 'Success!'}</h3></div></div>`;
-    let notificationText = `<div class="row text-center">${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</div>`;
+    let templateText =  `<h1 class="title text-lowercase">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
+    let notificationText = `${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified`;
     let bpd = new BlandPageDetails(
       'Return to map',
       templateText + notificationText,
@@ -79,7 +79,6 @@ export class SayHiComponent implements OnInit {
     );
     this.pinService.sendHiEmail(this.user, this.pin).subscribe(
       ret => {
-        console.log('said hi');
         this.blandPageService.primeAndGo(bpd);
       },
       err => {
@@ -91,7 +90,7 @@ export class SayHiComponent implements OnInit {
   handleError() {
     let bpd = new BlandPageDetails();
     bpd.blandPageCause = BlandPageCause.Error;
-    bpd.content = '<div class="container"><div class="row text-center"><h3>We are unable to send your email at this time.</h3></div></div>';
+    bpd.content = '<h1 class="title text-lowercase">Sorry!</h1>We are unable to send your email at this time.';
     bpd.goToState = '';
     bpd.buttonText = 'Return to pin';
     this.blandPageService.primeAndGo(bpd);
