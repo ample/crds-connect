@@ -67,9 +67,14 @@ app-add-me-to-map {
   }
 
   &.fauxdal-fullscreen {
+    align-items: center;
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding-top: 3rem;
+
+    @media (min-width: $screen-xs) {
+      padding-top: initial;
+    }
 
     .container-fluid {
       background-color: darken($cr-blue, 20);
@@ -275,7 +280,7 @@ canvas-map-overlay {
   // Calculations are designed such that while the screen is less than 3000px
   // tall, the map is never too short, but also never more than 99px below
   // the bottom of the screen directly within Connect.
-  // 
+  //
   // When displayed as a microclient, it may fall another 54px-64px below
   // the footer, accounting for the global header.
   height: 381px;
