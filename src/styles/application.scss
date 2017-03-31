@@ -246,7 +246,16 @@ app-search-bar {
 app-map,
 sebm-google-map,
 canvas-map-overlay {
-  height: 600px;
+  // Calculations are designed such that while the screen is less than 3000px
+  // tall, the map is never too short, but also never more than 99px below
+  // the bottom of the screen.
+  height: 381px;
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      height: #{$height - 19}px;
+    }
+  }
 }
 
 // Style map
