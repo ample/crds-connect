@@ -288,9 +288,14 @@ canvas-map-overlay {
 // Map footer
 app-map-footer {
   position: absolute;
+  width: 0;
+  height: 0;
   top: 5px;
   right: 1rem;
   z-index: 4;
+  @media (min-width: $screen-xs) {
+    top: 13px;
+  }
   input {
     float: right;
     clear: both;
@@ -430,7 +435,6 @@ search-local {
   z-index: 4;
 
   @media (min-width: $screen-xs) {
-    top: 13px;
-    left: 60px;
+    top: 93px;
   }
 }
