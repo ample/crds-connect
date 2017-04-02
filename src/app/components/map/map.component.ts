@@ -39,7 +39,7 @@ export class MapComponent implements OnInit, OnChanges {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults.length);
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults);
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);

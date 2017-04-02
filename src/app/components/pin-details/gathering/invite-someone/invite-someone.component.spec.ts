@@ -14,7 +14,6 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { InviteSomeoneComponent } from './invite-someone.component';
 
-import { ContentService } from '../../../../services/content.service';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
@@ -27,12 +26,11 @@ describe('InviteSomeoneComponent', () => {
     let comp: InviteSomeoneComponent;
     let el;
 
-    let mockFormBuilder, mockRouter, mockContentService, mockPinService, mockBlandPageService, mockStateService, mockToast;
+    let mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast;
 
     beforeEach(() => {
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGathering']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
@@ -45,7 +43,6 @@ describe('InviteSomeoneComponent', () => {
             providers: [
                 { provide: Router, useValue: mockRouter },
                 { provide: FormBuilder, useValue: mockFormBuilder },
-                { provide: ContentService, useValue: mockContentService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },

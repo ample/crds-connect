@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -39,7 +38,6 @@ describe('Component: Host Application', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
         LoginRedirectService,
         PinService,
         BlandPageService

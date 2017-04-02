@@ -37,7 +37,7 @@ export class ParticipantService extends CacheableService<Group[]> {
             let groupParticipantCache = super.getCache();
 
             let group = groupParticipantCache.find(g => {
-                return g.groupId === groupId;
+                return g.groupId == groupId;
             });
 
             if (group != null) {

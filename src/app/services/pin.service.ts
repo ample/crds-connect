@@ -12,6 +12,7 @@ import { StateService } from '../services/state.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
 
+import { GoogleMapService } from '../services/google-map.service';
 
 import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
@@ -40,7 +41,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   constructor(
     private session: SessionService,
     private state: StateService,
-    private blandPageService: BlandPageService
+    private blandPageService: BlandPageService,
+    private mapHlpr: GoogleMapService
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
@@ -78,7 +80,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         return Observable.of<Pin>(pin);
       }
     }
-    url = pinIdentifier.type === pinType.PERSON ?
+    url = pinIdentifier.type == pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
 
@@ -87,7 +89,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-    public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number): Observable<PinSearchResultsDto> {
+    public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions: SearchOptions;
 
@@ -97,14 +99,14 @@ console.log('WORLD search');
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
         } else {
-          return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng);
+          return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
         }
       } else {  // getMyViewOrWorldView = 'my'
 console.log('MY search');
         searchOptions = new SearchOptions('myView', lat, lng);
         if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
 console.log('MY search -- FOUND cache for myView');
-// TODO -- this getCache -- just getting the last pin service cache - not using the searchOptions to key off of??? 
+// TODO -- this getCache -- just getting the last pin service cache - not using the searchOptions to key off of???
 // Need to have 2 instances of PinSearchResultsDto cache
           return Observable.of(super.getCache());
         } else {
@@ -118,16 +120,52 @@ console.log('MY search -- NOT FOUND cache for myView - Go get again');
                                   , contactId: number
                                   , userSearchAddress: string
                                   , lat?: number
-                                  , lng?: number): Observable<PinSearchResultsDto> {
+                                  , lng?: number
+                                  , zoom?: number): Observable<PinSearchResultsDto> {
     let searchUrl: string = lat && lng ?
       'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
       + '/' + lat.toString().split('.').join('$') + '/'
       + lng.toString().split('.').join('$') :
       'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+    // if we have a cache AND that cache came from a full search and
+    // not just an insert from visiting a detail page off the bat, use that cache
+    if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
 
-      return this.session.get(this.baseUrl + searchUrl)
+      console.log('PinService got full cached PinSearchResultsDto');
+      return Observable.of(super.getCache());
+    } else {
+      let searchUrlZoom: string;
+      if (lat && lng) {
+        if (zoom) {
+          // call to get bounding box
+          let bounds = {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
+            lat: lat,
+            lng: lng
+          };
+          // get extra pins for moving around without new query
+          let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom - 1);
+          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+            + '/' + lat.toString().split('.').join('$')
+            + '/' + lng.toString().split('.').join('$')
+            + '/' + ('' + geobounds['north']).split('.').join('$')
+            + '/' + ('' + geobounds['west']).split('.').join('$')
+            + '/' + ('' + geobounds['south']).split('.').join('$')
+            + '/' + ('' + geobounds['east']).split('.').join('$');
+        } else {
+          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+            + '/' + lat.toString().split('.').join('$')
+            + '/' + lng.toString().split('.').join('$');
+        }
+      } else {
+        searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      }
+
+      return this.session.get(this.baseUrl + searchUrlZoom)
       .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
       .catch((error: any) => Observable.throw(error || 'Server error'));
+    }
   }
 
   private getPinSearchResultsMyStuff(searchOptions: SearchOptions
@@ -189,6 +227,7 @@ console.log('MY search -- NOT FOUND cache for myView - Go get again');
 
   public postPin(pin: Pin) {
     let postPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin';
+
     return this.session.post(postPinUrl, pin)
       .map((res: any) => {
         super.clearCache();

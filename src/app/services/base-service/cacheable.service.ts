@@ -196,8 +196,9 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
             var propName = a[i];
 
             if (typeof obj1[propName] === 'object' && typeof obj2[propName] === 'object') {
-                let objsAreEql = this.checkObjsForEquality(obj1[propName], obj2[propName])
+                let objsAreEql = this.checkObjsForEquality(obj1[propName], obj2[propName]);
                 if (!objsAreEql) {
+                    console.log('!objsAreEql')
                     return false;
                 }
             } else if (Array.isArray(obj1[1]) && Array.isArray(obj2[i])) {
@@ -232,13 +233,14 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
 
         for (var i = 0; i < arr1.length; i++) {
             if (typeof arr1[i] === 'object' && typeof arr2[i] === 'object') {
-                let objsAreEql = this.checkObjsForEquality(arr1[i], arr2[i])
+                let objsAreEql = this.checkObjsForEquality(arr1[i], arr2[i]);
                 if (!objsAreEql) {
                     return false;
                 }
             } else if (Array.isArray(arr1[1]) && Array.isArray(arr2[i])) {
-                let arrsAreEql = this.checkArraysForEquality(arr1[i], arr2[i])
+                let arrsAreEql = this.checkArraysForEquality(arr1[i], arr2[i]);
                 if (!arrsAreEql) {
+                    console.log('!arrsAreEql');
                     return false;
                 }
             } else {

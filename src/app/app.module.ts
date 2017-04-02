@@ -26,6 +26,8 @@ import { routing, appRoutingProviders } from './app.routing';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'angular2-select';
 
+import { HeaderComponent } from './layout/header/header.component';
+
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
@@ -33,6 +35,7 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { CanvasMapOverlayComponent } from './components/canvas-map-overlay/canvas-map-overlay.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
@@ -59,7 +62,7 @@ import { SearchLocalComponent } from './components/search-local/search-local.com
 
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
-import { ContentService } from './services/content.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
@@ -87,7 +90,6 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
-import { GettingStartedGuard } from './route-guards/getting-started-guard';
 
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -127,6 +129,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     FormatPaymentNumberDirective,
     GatheringComponent,
     GatheringRequestsComponent,
+    GettingStartedComponent,
+    HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
     ListViewComponent,
@@ -164,7 +168,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
-    GettingStartedGuard,
     IFrameParentService,
     ListHelperService,
     LoginRedirectService,

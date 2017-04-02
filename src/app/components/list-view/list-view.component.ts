@@ -4,17 +4,17 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 
+
 @Component({
   selector: 'app-listview',
-  templateUrl: 'list-view.component.html',
-  styleUrls: ['list-view.component.css']
+  templateUrl: 'list-view.component.html'
 })
 export class ListViewComponent {
   @Input() searchResults: PinSearchResultsDto;
 
   public showing_increment: number = 10;
 
-  constructor( 
+  constructor(
                private neighborsHelperService: NeighborsHelperService,
                private stateService: StateService) {
     neighborsHelperService.changeEmitter.subscribe(() => {
@@ -24,7 +24,7 @@ export class ListViewComponent {
 
   public pinsToShow(): Pin[] {
     let showing: number = this.stateService.getShowingPinCount();
-    return this.searchResults.pinSearchResults.filter((item, index) => index < showing )
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
   }
 
   public pinsToShowCountings() {

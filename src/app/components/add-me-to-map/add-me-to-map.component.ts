@@ -43,7 +43,6 @@ export class AddMeToMapComponent implements OnInit {
     if (value) {
       this.state.setMyViewOrWorldView('world');
       this.state.setCurrentView('map');
-
       let nowAPin = new BlandPageDetails(
         'See for yourself',
         'nowAPin',

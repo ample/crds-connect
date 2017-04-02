@@ -45,6 +45,8 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
   }
 
   public acceptOrDenyRequest(groupId: number, groupTypeId: number, approve: boolean, inquiry: Inquiry) {
+    console.log('GroupService cleared Inquiries');
+    // tslint:disable-next-line:max-line-length
     return this.session.post(`${this.baseUrl}api/v1.0.0/group-tool/group-type/${groupTypeId}/group/${groupId}/inquiry/approve/${approve}`, inquiry)
       .do((results) => {
         super.clearCache();

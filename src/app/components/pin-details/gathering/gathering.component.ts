@@ -78,7 +78,7 @@ export class GatheringComponent implements OnInit {
           if (failure.status === 409) {
             this.toast.warning('Looks like you have already requested to join this group', 'OOPS');
           } else {
-            this.toast.warning('Looks like there was an error. Please fix and try again', 'Oh no!');
+            this.toast.error('Looks like there was an error. Please fix and try again', 'Oh no!');
           }
         }
       );

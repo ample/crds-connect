@@ -21,7 +21,7 @@ export class SearchBarComponent implements OnChanges {
 
   constructor(private state: StateService) {}
 
-  public ngOnChanges(): void{
+  public ngOnChanges(): void {
     this.setButtonText();
   }
 

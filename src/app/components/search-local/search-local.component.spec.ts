@@ -10,7 +10,6 @@ import { MapContentComponent } from '../../components/map-content/map-content.co
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 
-import { ContentService } from '../../services/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -62,7 +61,6 @@ describe('Component: SearchLocal', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
         LoginRedirectService,
         BlandPageService,
         GoogleMapsAPIWrapper,
@@ -111,7 +109,7 @@ describe('Component: SearchLocal', () => {
     spyOn(this.component, "doLocalSearch")
     // how do you get a handle to the *real* google map in a test?
     this.component.mapApiWrapper.getNativeMap().then((map) => {
-      map.panBy(100,200);
+      map.panBy(100, 200);
     });
     expect(this.component.doLocalSearch).toHaveBeenCalled();
   });

@@ -13,19 +13,18 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 export class SearchLocalComponent implements OnInit {
 
   private mapView;
+  public active: boolean;
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               public mapHelper: GoogleMapService,
               public searchLocal: SearchLocalService) {
     mapHelper.mapViewUpdatedEmitter.subscribe((update) => {
-      if ((update.value === "dragend") || (update.value === "zoom_changed")) {
+      if ((update.value === 'dragend') || (update.value === 'zoom_changed')) {
         this.mapView = update;
         this.showButton();
       }
     });
   }
-
-  public active: boolean;
 
   ngOnInit() {
     this.active = false;
