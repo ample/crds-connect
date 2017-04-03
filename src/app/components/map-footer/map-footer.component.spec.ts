@@ -17,6 +17,9 @@ import { BlandPageService } from '../../services/bland-page.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { UserLocationService } from  '../../services/user-location.service';
+import { GeoCoordinates } from '../../models/geo-coordinates';
+import { Pin } from '../../models/pin';
+import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 
 describe('Component: MapFooter', () => {
     let fixture: ComponentFixture<MapFooterComponent>;
@@ -36,7 +39,8 @@ describe('Component: MapFooter', () => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockStateService = jasmine.createSpyObj<StateService>(
+            'state', ['setLoading', 'setPageHeader', 'setCurrentView', 'setMyViewOrWorldView']);
         mockMapHelperService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['setLoading', 'setPageHeader']);
         mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelper', ['setLoading', 'setPageHeader']);
         mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['setLoading', 'setPageHeader']);
@@ -74,5 +78,21 @@ describe('Component: MapFooter', () => {
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
+
+  xit('should emit new search results event', (done) => {
+    this.comp.pin.searchResultsEmitter.subscribe( g => {
+      // pass into the toEqual() results of the mock below - PinSearchResultsDto object
+      // expect(g).toEqual();
+      // done();
+    });
+    // mock out results to be found and emmitted here
+    this.comp.myStuffBtnClicked();
+  });
+
+  xit('should get my stuff and init map', () => {
+    this.fixture.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(0, 0), new Array<Pin>());
+    this.comp.myStuffBtnClicked();
+    expect(this.comp.pinSearchResults).toBeTruthy();
+  });
 
 });
