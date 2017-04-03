@@ -85,7 +85,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
 
-    console.log("PinService got partial new PinSearchResultsDto");
+    console.log('PinService got partial new PinSearchResultsDto');
 
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
@@ -201,7 +201,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       })
       .catch((err) => Observable.throw(err.json().error));
   }
-  
+
   public doesLoggedInUserOwnPin(pin: Pin) {
     let contactId = this.session.getContactId();
     return contactId === pin.contactId;
