@@ -39,7 +39,7 @@ export class MapComponent implements OnInit, OnChanges {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults);
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -80,106 +80,6 @@ console.log(this.searchResults);
       default:
         return '//crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
     }
-  }
-
-  // get the best zoom level for the map
-  private calculateZoom(zoom: number, lat: number, lng: number, resultsSize: number): number {
-    let bounds = {
-      width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight,
-      lat: lat,
-      lng: lng
-    }
-    return this.calculateBestZoom(bounds, zoom, resultsSize);
-  }
-
-  // zero in on the zoom that's closest to the target pin count without going under
-  private calculateBestZoom(bounds: Object, zoom: number, resultsSize: number, pops: Object = {}): number {
-    let popTarget;
-    if (this.state.getMyViewOrWorldView() === 'world') {
-      popTarget = 10;
-    } else {
-      popTarget = resultsSize;
-    }
-
-    let pop = this.countPopAtZoom(bounds, zoom, pops);
-    if (pop < popTarget) {
-      if (zoom <= 8) {
-        return 8;
-      }
-      return this.calculateBestZoom(bounds, zoom - 1, resultsSize, pops);
-    } else if (zoom >= 20) {
-      return 20;
-    } else {
-      let upPop = this.countPopAtZoom(bounds, zoom + 1, pops);
-      if (upPop < popTarget) {
-        return zoom;
-      } else {
-        return this.calculateBestZoom(bounds, zoom + 1, resultsSize, pops);
-      }
-    }
-  }
-
-  // return the number of pins in a bounded region
-  private countPopAtZoom(bounds: Object, zoom: number, pops: Object): number {
-    if (pops[zoom] === undefined) {
-      let geoBounds = this.calculateGeoBounds(bounds, zoom);
-      let geoPop = this.countResultsInBounds(geoBounds);
-      pops[zoom] = geoPop;
-    }
-    return pops[zoom];
-  }
-
-  // determine the google lat/lng bounds of a region from a viewport and zoom
-  private calculateGeoBounds(bounds: Object, zoom: number): Object {
-    // at zoom 0,    256px for 180° latitude,  0.703125°/px
-    //               256px for 360° longitude, 1.46025°/px
-    // at zoom 1,    512px for 180° latitude,  0.3515625°/px
-    //               512px for 360° longitude, 0.703125°/px
-    // at zoom 2,   1024px for 180° latitude,  0.17578125°/px
-    //              1024px for 360° longitude, 0.3515625°/px
-    //  ...
-    // at zoom n,  256*Apx for 180° latitude,  0.703125°/Apx, A = 2^n
-    //            1024*Apx for 360° longitude, 1.40625°/Apx
-
-    // vadjust compensates for the local distortion of the Mercator projection.
-
-    let vadjust = 1.0 / Math.cos(Math.PI * bounds['lat'] / 180);
-    let divisor = Math.pow(2, zoom);
-    let halfHeight = vadjust * bounds['height'] / 2;
-    let halfLat = 0.703125 * halfHeight / divisor;
-    let halfWidth = bounds['width'] / 2;
-    let halfLng = 1.406250 * halfWidth / divisor;
-    return {
-      north: (bounds['lat'] + halfLat),
-      south: (bounds['lat'] - halfLat),
-      east: (bounds['lng'] + halfLng),
-      west: (bounds['lng'] - halfLng)
-    };
-  }
-
-  // count the pins in an area lat/lng bounded area
-  private countResultsInBounds(geoBounds: Object): number {
-    let counter = 0;
-    for (let result of this.searchResults.pinSearchResults) {
-      if ((result.address.latitude < geoBounds['north']) &&
-        (result.address.latitude > geoBounds['south']) &&
-        (result.address.longitude < geoBounds['east']) &&
-        (result.address.longitude > geoBounds['west'])) {
-        counter++;
-      }
-    }
-    return counter;
-  }
-
-  // Converting decimal degrees into plotable degrees minutes seconds value
-  private dms(dec: number): String {
-    let decSgn = (dec < 0) ? '-' : '';
-    dec = Math.abs(dec);
-    let decDeg = parseInt("" + dec);
-    let decMin = parseInt("" + (dec - decDeg) * 60.0);
-    let decSec = parseInt("" + (dec - decDeg - (decMin / 60.0)) * 3600.0);
-    return `${decSgn}${decDeg}° ${decMin}' ${decSec}"`;
   }
 
   public getLabelName(pin: Pin) {
