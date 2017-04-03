@@ -92,8 +92,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-  public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number)
-    : Observable<PinSearchResultsDto> {
+  // tslint:disable-next-line:max-line-length
+  public getPinsAddressSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions = new SearchOptions(userSearchAddress, lat, lng);
 
@@ -114,7 +114,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
             lat: lat,
             lng: lng
             };
-          let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom -1); // get extra pins for moving around without new query
+          let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom - 1); // get extra pins for moving around without new query
           searchUrl = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
             + '/' + lat.toString().split('.').join('$')
             + '/' + lng.toString().split('.').join('$')
@@ -133,7 +133,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
 
 
-      console.log("PinService got full new PinSearchResultsDto");
+      console.log('PinService got full new PinSearchResultsDto');
       return this.session.get(this.baseUrl + searchUrl)
         // when we get the new results, set them to the cache
         .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
