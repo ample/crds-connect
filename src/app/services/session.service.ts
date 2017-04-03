@@ -171,6 +171,10 @@ export class SessionService extends SmartCacheableService<User, number> {
     return;
   }
 
+  public clearCache(): void {
+    super.clearCache();
+  }
+
   public getUserData(): Observable<any> {
     let contactId = this.getContactId();
 
