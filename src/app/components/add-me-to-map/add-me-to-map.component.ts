@@ -14,7 +14,6 @@ import { Address } from '../../models/address';
 import { usStatesList } from '../../shared/constants';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
 import { SessionService } from '../../services/session.service';
-
 import { UserLocationService } from '../../services/user-location.service';
 
 
