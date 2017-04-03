@@ -122,14 +122,19 @@ app-add-me-to-map {
   z-index: 5;
 
   .brand-bar {
-    height: 2.5rem;
+    position: relative;
+    height: 40px;
+    overflow: hidden;
     background-image: url('/assets/brandbanner-bg.jpg');
     background-repeat: repeat-x;
     background-size: auto 100%;
   }
 
   .app-logo {
-    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     padding: 11.5px;
     line-height: 1;
     color: $cr-white;
@@ -246,7 +251,19 @@ app-search-bar {
 app-map,
 sebm-google-map,
 canvas-map-overlay {
-  height: calc(100vh - 112px); // Height of map minus header height
+  // Calculations are designed such that while the screen is less than 3000px
+  // tall, the map is never too short, but also never more than 99px below
+  // the bottom of the screen directly within Connect.
+  // 
+  // When displayed as a microclient, it may fall another 54px-64px below
+  // the footer, accounting for the global header.
+  height: 381px;
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      height: #{$height - 19}px;
+    }
+  }
 }
 
 // Style map
@@ -256,19 +273,6 @@ app-map {
   position: relative;
   width: 100vw;
 }
-
-/* fix iOS bug not displaying height correctly */
-  /* iphone6+ */
-  @media only screen
-    and (max-device-width: 640px),
-    only screen and (max-device-width: 667px),
-    only screen and (max-width: 480px) {
-    app-map,
-    sebm-google-map,
-    canvas-map-overlay {
-      height: calc(100vh - 180px);
-    }
-  }
 
 sebm-google-map {
   @media (min-width: $screen-xs) {
@@ -288,21 +292,18 @@ canvas-map-overlay {
 
 // Map footer
 app-map-footer {
-  bottom: 0;
   position: absolute;
-  width: 100%;
+  width: 0;
+  height: 0;
+  top: 5px;
+  right: 1rem;
   z-index: 4;
-}
-
-.screen-getting-started {
-  .people,
-  h5,
-  p {
-    @extend .center-block;
-    max-width: 80%;
+  @media (min-width: $screen-xs) {
+    top: 13px;
   }
-  h5 {
-    color: $cr-gray;
+  input {
+    float: right;
+    clear: both;
   }
 }
 
@@ -380,14 +381,6 @@ list-footer {
 
 }
 
-.label-center {
-  text-align: center;
-  .label {
-    display: inline-block;
-    float: none;
-  }
-}
-
 .label {
   color: $cr-gray-dark;
   border-radius: $border-radius-base;
@@ -418,16 +411,138 @@ list-footer {
   }
 }
 
+app-pin-detail {
+  display: block;
+  background: $cr-gray-lighter;
+  height: 381px;
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      height: #{$height - 19}px;
+    }
+  }
+
+  .pin-details {
+    background: $cr-black;
+    color: $cr-gray-light;
+    display: block;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    @for $idx from 5 to 30 {
+      $height: $idx * 100;
+      @media screen and ( min-height: #{$height}px ){
+        height: #{$height - 19}px;
+      }
+    }
+    
+    @media (min-width: $screen-sm) {
+      box-shadow: 0 0 10px 0 $cr-gray-light;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      width: $container-tablet;
+    }
+
+    &.is-gathering {
+      border-top: 1px solid $cr-gray-dark;
+      border-bottom: 1px solid $cr-gray-dark;
+    }
+
+    p {
+      color: $cr-gray-light;
+    }
+  }  
+}
+
+.pin-detail-header {
+  display: block;
+  border-top: 1px solid $cr-gray-dark;
+  border-bottom: 1px solid $cr-gray-dark;
+  padding: 20px 0;
+
+  h1 {
+    @extend .component-header;
+    font-size: $font-size-h1;
+    color: $cr-white;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .pin-detail-name {
+    text-align: left;
+
+    .label {
+      float: none;
+      color: $cr-gray;
+      background: $cr-cyan-lighter;
+    }
+  }
+
+  .pin-detail-image {
+    float: left;
+    padding-right: 10px;
+
+    img {
+      border: 2px solid $cr-gray-dark;
+    }
+  }
+}
+
+gathering {
+  p {
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .btn {
+    background: $cr-cyan;
+    color: $cr-white;
+  }
+}
+
+say-hi {
+  display: inline-block;
+
+  p {
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .btn {
+    background: $cr-gray-dark;
+    color: $cr-white;
+  }
+
+  .btn-say-hi {
+    background: $cr-cyan;
+    color: $cr-white;
+  }
+}
+
+readonly-address {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  .pin-address-city {
+    margin-bottom: 0;
+  }
+}
+
 // Update search results button
 search-local {
   display: block;
   position: absolute;
-  top: 5px;
-  left: 50px;
+  top: 85px;
+  right: 1rem;
   z-index: 4;
 
   @media (min-width: $screen-xs) {
-    top: 13px;
-    left: 60px;
+    top: 93px;
   }
 }

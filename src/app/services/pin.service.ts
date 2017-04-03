@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
 
+import { GatheringService } from '../services/gathering.service';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { StateService } from '../services/state.service';
@@ -39,6 +40,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
 
   constructor(
+    private gatheringService: GatheringService,
     private session: SessionService,
     private state: StateService,
     private blandPageService: BlandPageService,
@@ -163,8 +165,10 @@ console.log('MY search -- NOT FOUND cache for myView - Go get again');
       }
 
       return this.session.get(this.baseUrl + searchUrlZoom)
-      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
+        // when we get the new results, set them to the cache
+        .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+        .map(res => this.gatheringService.addAddressesToGatheringPins(res))
+        .catch((error: any) => Observable.throw(error || 'Server error'));
     }
   }
 
@@ -188,7 +192,7 @@ console.log('MY search -- NOT FOUND cache for myView - Go get again');
       'toEmailAddress': pin.emailAddress,
       'subject': 'Hi',
       'body': 'Just wanted to say hi',
-      'mergeData': this.createTemplateDictionary(user, pin),
+      'mergeData': this.createSayHiTemplateDictionary(user, pin),
       'templateId': this.SayHiTemplateId
     };
 
@@ -209,11 +213,13 @@ console.log('MY search -- NOT FOUND cache for myView - Go get again');
       .catch((err) => Observable.throw(err.json().error));
   }
 
-  public createTemplateDictionary(user: User, pin: Pin) {
+  public createSayHiTemplateDictionary(user: User, pin: Pin) {
     return {
       'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
       'Pin_First_Name': pin.firstName,
-      'Community_Member_Email': user.email
+      'Community_Member_Email': user.email,
+      'Community_Member_City': user.address.city,
+      'Community_Member_State': user.address.state
     };
   }
 
