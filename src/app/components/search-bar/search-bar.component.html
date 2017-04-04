@@ -1,17 +1,19 @@
-<div class="content-middle">
-  <div class="input-group">
-    <input type="text"
-            class="form-control"
-            [(ngModel)]="searchText"
-            (keyup.enter)="onSearch(searchText)"
-            placeholder="Search zip or keyword...">
-    <span class="input-group-btn">
-      <button type="submit" class="btn btn-secondary" (click)="onSearch(searchText)">
-        <svg class="icon icon-1" viewBox="0 0 256 256">
-          <use xlink:href="/assets/svgs/icons.svg#search"></use>
-        </svg>
-      </button>
-    </span>
+<div class="connect-search">
+  <div class="content-middle container">
+    <div class="input-group">
+      <input type="text"
+              class="form-control"
+              [(ngModel)]="searchText"
+              (keyup.enter)="onSearch(searchText)"
+              placeholder="Search zip or keyword...">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-secondary" (click)="onSearch(searchText)">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#search"></use>
+          </svg>
+        </button>
+      </span>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="toggleView()">{{buttontext}}</button>
   </div>
-  <button type="button" class="btn btn-primary" (click)="toggleView()">{{buttontext}}</button>
 </div>
