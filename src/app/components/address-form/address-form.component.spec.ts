@@ -74,17 +74,17 @@ describe('AddressFormComponent', () => {
         });
     }));
 
-    fit('should enter the assertion', () => {
+    it('should enter the assertion', () => {
         fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 
-    fit('onInit should load statelist', () => {
+    it('onInit should load statelist', () => {
         comp.ngOnInit();
         expect(comp.stateList.length).toBe(51);
     });
 
-    fit('should setSubmissionErrorWarningTo', () => {
+    it('should setSubmissionErrorWarningTo', () => {
         comp.setSubmissionErrorWarningTo(true);
         expect(comp.submissionError).toBe(true);
 
@@ -92,7 +92,7 @@ describe('AddressFormComponent', () => {
         expect(comp.submissionError).toBe(false);
     });
 
-    fit('should submit', () => {
+    it('should submit', () => {
         (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of({}));
         spyOn(comp.save, 'emit');
 
