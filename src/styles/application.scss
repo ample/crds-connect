@@ -175,7 +175,7 @@ app-add-me-to-map {
   margin-left: auto;
   margin-right: auto;
   max-width: $container-tablet;
-  text-align: center;
+  // text-align: center;
   width: 100%;
 }
 
@@ -254,7 +254,7 @@ canvas-map-overlay {
   // Calculations are designed such that while the screen is less than 3000px
   // tall, the map is never too short, but also never more than 99px below
   // the bottom of the screen directly within Connect.
-  // 
+  //
   // When displayed as a microclient, it may fall another 54px-64px below
   // the footer, accounting for the global header.
   height: 381px;
@@ -434,7 +434,7 @@ app-pin-detail {
         height: #{$height - 19}px;
       }
     }
-    
+
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
       margin: 0 auto;
@@ -450,7 +450,7 @@ app-pin-detail {
     p {
       color: $cr-gray-light;
     }
-  }  
+  }
 }
 
 .pin-detail-header {
