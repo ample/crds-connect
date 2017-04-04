@@ -5,4 +5,5 @@
 <input type="button"
       class="btn btn-sm btn-primary"
       value="My stuff"
+      [ngClass]="{'active': isActive}"
       (click)="myStuffBtnClicked()">

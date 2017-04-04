@@ -20,6 +20,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
+  public isActive = false;
 
   @Output() searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
 
@@ -50,6 +51,7 @@ export class MapFooterComponent {
 
     if (!this.session.isLoggedIn()) {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.myStuffBtnClicked);
+
     } else {
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
@@ -57,6 +59,7 @@ export class MapFooterComponent {
           this.doSearch(pos.lat, pos.lng );
         }
       );
+      this.isActive = !this.isActive;
     }
   }
 
