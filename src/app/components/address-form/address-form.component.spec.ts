@@ -21,11 +21,14 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockStateService;
+    let mockPinService, mockStateService, mockFormBuilder, mockAddMeToTheMapHelperService;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
+        mockAddMeToTheMapHelperService = jasmine.createSpyObj<AddMeToTheMapHelperService>('addMeToTheMapHelperService', ['getStringField', 'createNewPin']);
+
         TestBed.configureTestingModule({
             declarations: [
                 AddressFormComponent
@@ -33,10 +36,10 @@ describe('AddressFormComponent', () => {
             providers: [
                 { provide: StateService, useValue: mockStateService },
                 { provide: PinService, useValue: mockPinService },
-                FormBuilder,
-                AddMeToTheMapHelperService
+                { provide: FormBuilder, useValue: mockFormBuilder },
+                { provide: AddMeToTheMapHelperService, useValue: mockAddMeToTheMapHelperService }
             ],
-            schemas: [ NO_ERRORS_SCHEMA ]
+            schemas: [NO_ERRORS_SCHEMA]
         });
     });
 
@@ -71,17 +74,17 @@ describe('AddressFormComponent', () => {
         });
     }));
 
-    it('should enter the assertion', () => {
+    fit('should enter the assertion', () => {
         fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 
-    it('onInit should load statelist', () => {
+    fit('onInit should load statelist', () => {
         comp.ngOnInit();
         expect(comp.stateList.length).toBe(51);
     });
 
-    it('should setSubmissionErrorWarningTo', () => {
+    fit('should setSubmissionErrorWarningTo', () => {
         comp.setSubmissionErrorWarningTo(true);
         expect(comp.submissionError).toBe(true);
 
@@ -89,13 +92,15 @@ describe('AddressFormComponent', () => {
         expect(comp.submissionError).toBe(false);
     });
 
-    it('should submit', () => {
+    fit('should submit', () => {
         (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of({}));
         spyOn(comp.save, 'emit');
 
         comp.ngOnInit();
-        comp.addressFormGroup.setValue({ addressLine1: '123 street', addressLine2: '', city: 'Oakley', zip: '12345',
-        state: 'OH', foreignCountry: 'US', county: null});
+        comp.addressFormGroup.setValue({
+            addressLine1: '123 street', addressLine2: '', city: 'Oakley', zip: '12345',
+            state: 'OH', foreignCountry: 'US', county: null
+        });
         comp.onSubmit(comp.addressFormGroup);
         expect(mockPinService.postPin).toHaveBeenCalled();
         expect(comp.save.emit).toHaveBeenCalledWith(true);
