@@ -172,10 +172,8 @@ app-add-me-to-map {
 
 // Centers blocks to the middle of the screen.
 .content-middle {
-  margin-left: auto;
-  margin-right: auto;
+  @include container-fixed();
   max-width: $container-tablet;
-  // text-align: center;
   width: 100%;
 }
 
@@ -379,15 +377,19 @@ list-footer {
   margin-bottom: 0;
   padding-bottom: 0;
 
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
 }
 
 .label {
   color: $cr-gray-dark;
   border-radius: $border-radius-base;
-  float: right;
   font-family: 'Lexia', serif;
   font-size: $font-size-smaller;
   margin-top: 9px;
+  margin-left: 1rem;
   padding: 5px 6px 4px;
   text-transform: uppercase;
 
@@ -408,6 +410,32 @@ list-footer {
 
   .joined_by {
     margin-left: .5rem;
+  }
+}
+
+// Getting started layout
+.people {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  margin-top: 1rem;
+
+  @media (min-width: $screen-xs) {
+    flex-direction: row;
+  }
+
+  .person {
+    flex: 1 1 auto;
+    text-align: center;
+
+    &::last-child {
+      padding-top: 1rem;
+    }
+
+    .entry-header {
+      justify-content: center;
+    }
   }
 }
 
