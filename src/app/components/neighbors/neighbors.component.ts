@@ -20,7 +20,7 @@ import { SearchOptions } from '../../models/search-options';
   templateUrl: 'neighbors.component.html'
 })
 
-export class NeighborsComponent implements OnInit, OnChanges {
+export class NeighborsComponent implements OnInit {
   public isMapHidden = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
@@ -33,12 +33,6 @@ export class NeighborsComponent implements OnInit, OnChanges {
     private userLocationService: UserLocationService,
     private searchLocalService: SearchLocalService) {
 
-//     this.pinService.searchResultsEmitter.subscribe(searchResults => {
-// // console.log('NEIGHBORS - Pick up Emmitted data!! ');
-// // console.log(searchResults);
-// //       this.pinSearchResults = searchResults;
-//     });
-
     searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
       this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
@@ -47,9 +41,6 @@ export class NeighborsComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
-console.log('NG ON INIT - Have Results neighbors.pinSearchResults?');
-console.log(haveResults);
-console.log(this.pinSearchResults);
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
@@ -67,11 +58,6 @@ console.log(this.pinSearchResults);
     } else {
       this.setView(this.state.getCurrentView());
     }
-  }
-
-  public ngOnChanges(): void {
-console.log('CHANGES in NEIGHBORS Component?!?!');
-console.log(this.pinSearchResults);
   }
 
   setView(mapOrListView): void {

@@ -37,7 +37,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
-  // public searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
 
   constructor(
     private gatheringService: GatheringService,
@@ -48,7 +47,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
-    // this.searchResultsEmitter = new EventEmitter<PinSearchResultsDto>();
   }
 
   private createPartialCache(pin: Pin): void {
@@ -96,7 +94,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let searchOptions: SearchOptions;
 
     if (this.state.getMyViewOrWorldView() === 'world') {
-console.log('WORLD search');
       searchOptions = new SearchOptions(userSearchAddress, lat, lng);
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
@@ -104,15 +101,10 @@ console.log('WORLD search');
           return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
         }
       } else {  // getMyViewOrWorldView = 'my'
-console.log('MY search');
         searchOptions = new SearchOptions('myView', lat, lng);
         if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-console.log('MY search -- FOUND cache for myView');
-// TODO -- this getCache -- just getting the last pin service cache - not using the searchOptions to key off of???
-// Need to have 2 instances of PinSearchResultsDto cache
           return Observable.of(super.getCache());
         } else {
-console.log('MY search -- NOT FOUND cache for myView - Go get again');
             return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
           }
       }
