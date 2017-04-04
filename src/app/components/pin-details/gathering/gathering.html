@@ -1,40 +1,16 @@
 <div *ngIf="ready">
-  <div class="pin-detail-header">
-    <pin-header [isGathering]="true"
-                [isPinOwner]="isPinOwner"
-                [lastName]="pin.lastName"
-                [firstName]="pin.firstName"></pin-header>
+    <div class="pin-detail-header">
+        <pin-header [isGathering]="true" [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName"></pin-header>
+        <readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="address" [distance]="pin.proximity"></readonly-address>
+    </div>
 
-    <readonly-address [isGathering]="true"
-                      [isPinOwner]="isPinOwner"
-                      [isInGathering]="isInGathering"
-                      [address]="pin.gathering.address"
-                      [distance]="pin.proximity"></readonly-address>
-  </div>
-
-  <p>{{pin.gathering.groupDescription}}</p>
-
-  <div *ngIf="!isInGathering && !isPinOwner">
-    <button class="btn primary"
-            (click)="requestToJoin()">Join gathering</button>
-
-    <say-hi [isGathering]="true"
-            [isLoggedIn]="isLoggedIn"
-            [user]="user" [pin]="pin"
-            [buttonText]="sayHiButtonText"></say-hi>
-  </div>
-
-  <pin-login-actions *ngIf="!isLoggedIn"
-                     [isGathering]="true"></pin-login-actions>
-
-  <gathering-requests *ngIf="isPinOwner"
-                      [pin]="pin"></gathering-requests>
-
-  <participants-list *ngIf="isInGathering"
-                      [participants]="pin.gathering.Participants"
-                      [pinParticipantId]="pin.participantId"></participants-list>
-
-  <invite-someone *ngIf="isPinOwner"
-                  [gatheringId]="pin.gathering.groupId"
-                  [participantId]="pin.participantId"></invite-someone>
+    <p>{{pin.gathering.groupDescription}}</p>
+    <div *ngIf="!isInGathering && !isPinOwner">
+        <button class="btn primary" (click)="requestToJoin()">Join gathering</button>
+        <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
+    </div>
+    <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
+    <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
+    <participants-list *ngIf="isInGathering" [participants]="pin.gathering.Participants" [pinParticipantId]="pin.participantId"></participants-list>
+    <invite-someone *ngIf="isPinOwner" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
 </div>
