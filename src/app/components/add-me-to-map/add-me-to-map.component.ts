@@ -45,6 +45,7 @@ export class AddMeToMapComponent implements OnInit {
 
   public onSubmit(value) {
     if (value) {
+      this.state.setMyViewOrWorldView('world');
       this.state.setLastSearch(null);
       this.session.clearCache();
       this.state.setCurrentView('map');

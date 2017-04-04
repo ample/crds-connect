@@ -29,6 +29,7 @@ import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { SearchLocalService } from '../../services/search-local.service';
@@ -67,7 +68,8 @@ describe('Component: SearchLocal', () => {
         BlandPageService,
         GoogleMapsAPIWrapper,
         SearchLocalService,
-        IPService
+        IPService,
+        NeighborsHelperService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);

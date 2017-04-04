@@ -32,7 +32,7 @@ export class AddMeToTheMapHelperService {
   public getStringField(data: UserDataForPinCreation, fieldName: string): string {
     let prepopulatedAddressValue: string;
 
-    if (data.address !== null && data.address[fieldName]) {
+    if (data != null && data.address !== null && data.address[fieldName]) {
       prepopulatedAddressValue = data.address[fieldName];
     } else {
       prepopulatedAddressValue = '';
