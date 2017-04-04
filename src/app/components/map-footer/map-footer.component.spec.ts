@@ -81,7 +81,7 @@ describe('Component: MapFooter', () => {
         expect(comp).toBeTruthy();
     });
 
-  fit('should get my stuff and init map', () => {
+  it('should get my stuff and init map', () => {
     let searchResults = MockTestData.getAPinSearchResults(3, 0, 0, 98789, 3, pinType.GATHERING, 1);
     let position = new GeoCoordinates(88, 40);
 
