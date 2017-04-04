@@ -3,6 +3,8 @@
 
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
+
+import { GatheringService } from '../services/gathering.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { GoogleMapService } from './google-map.service';
@@ -36,6 +38,7 @@ describe('Service: Pin', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        GatheringService,
         PinService,
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
@@ -58,14 +61,18 @@ describe('Service: Pin', () => {
     let expected = {
       'Community_Member_Name': 'Elmer F.',
       'Pin_First_Name': 'Buggs',
-      'Community_Member_Email': 'efudd@looneytoons.com'
+      'Community_Member_Email': 'efudd@looneytoons.com',
+      'Community_Member_City': 'TesVille',
+      'Community_Member_State': 'ZZ'
     };
-    let testUser = new User('Elmer', 'Fudd', 'efudd@looneytoons.com', 'kwazey wabbit');
+    let testUser = new User('Elmer', 'Fudd', 'efudd@looneytoons.com', 'kwazey wabbit', mockAddress);
     let testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, 1, false, '', 1, 0);
-    let actual = service.createTemplateDictionary(testUser, testPin);
+    let actual = service.createSayHiTemplateDictionary(testUser, testPin);
     expect(actual.Community_Member_Name).toBe(expected.Community_Member_Name);
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);
     expect(actual.Community_Member_Email).toBe(expected.Community_Member_Email);
+    expect(actual.Community_Member_City).toBe(expected.Community_Member_City);
+    expect(actual.Community_Member_State).toBe(expected.Community_Member_State);
   }));
 
   it('should get cached pin details', inject([PinService], (service: PinService) => {

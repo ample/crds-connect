@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MapView } from '../models/map-view';
+import { SearchOptions } from '../models/search-options';
 
 @Injectable()
 export class StateService {
@@ -10,8 +11,11 @@ export class StateService {
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
   private savedMapView: MapView;
+  private lastSearch: SearchOptions;
 
   public setMapView(mv: MapView) {
     this.savedMapView = mv;
@@ -19,6 +23,14 @@ export class StateService {
 
   public getMapView() {
     return this.savedMapView;
+  }
+
+  public getLastSearch() {
+    return this.lastSearch;
+  }
+
+  public setLastSearch(ls: SearchOptions) {
+    this.lastSearch = ls;
   }
 
   public setLoading(val: boolean) {
@@ -31,6 +43,15 @@ export class StateService {
 
   public getCurrentView(): string {
     return this.mapOrListView;
+  }
+
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  public setMyViewOrWorldView(view: string) {
+    this.myViewOrWorldView = view;
+  }
+
+  public getMyViewOrWorldView(): string {
+    return this.myViewOrWorldView;
   }
 
   public setShowingPinCount(count: number) {
@@ -54,4 +75,5 @@ export class StateService {
   public getUseZoom() {
     return this.zoomToUse;
   }
+
 }

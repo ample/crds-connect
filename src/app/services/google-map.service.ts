@@ -59,25 +59,31 @@ export class GoogleMapService {
   }
 
       // get the best zoom level for the map
-    public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[]): number {
+  public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
         let bounds = {
         width: document.documentElement.clientWidth,
         height: document.documentElement.clientHeight,
         lat: lat,
         lng: lng
         };
-        return this.calculateBestZoom(bounds, zoom, pins);
-    }
+        return this.calculateBestZoom(bounds, zoom, pins, '2');
+  }
 
   // zero in on the zoom that's closest to the target pin count without going under
-  private calculateBestZoom(bounds: Object, zoom: number, pins: Pin[], pops: Object = {}): number {
-    let popTarget = 10;
+  private calculateBestZoom(bounds: Object, zoom: number, pins: Pin[], viewtype: string, pops: Object = {}): number {
+    let popTarget;
+    if (viewtype === 'world') {
+      popTarget = 10;
+    } else {
+      popTarget = pins.length;
+    }
+
     let pop = this.countPopAtZoom(bounds, zoom, pins, pops);
     if (pop < popTarget) {
-      if (zoom <= 8) {
-        return 8;
+      if (zoom <= 3) {
+        return 3;
       }
-      return this.calculateBestZoom(bounds, zoom - 1, pins, pops);
+      return this.calculateBestZoom(bounds, zoom - 1, pins, viewtype, pops);
     } else if (zoom >= 20) {
       return 20;
     } else {
@@ -85,7 +91,7 @@ export class GoogleMapService {
       if (upPop < popTarget) {
         return zoom;
       } else {
-        return this.calculateBestZoom(bounds, zoom + 1, pins, pops);
+        return this.calculateBestZoom(bounds, zoom + 1, pins, viewtype, pops);
       }
     }
   }

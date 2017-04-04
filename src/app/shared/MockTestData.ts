@@ -5,14 +5,15 @@ import { Participant } from '../models/participant';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GeoCoordinates } from '../models/geo-coordinates';
 export class MockTestData {
-    constructor() {}
 
-    public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1, hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5, isFormDirty = false, proximity = 5): PinSearchResultsDto {
+    public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
+    hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5,
+    isFormDirty = false, proximity = 5): PinSearchResultsDto {
         let pins: Pin[];
         pins = new Array<Pin>();
 
-        for(let pin = 0; pin < numPins; pin++){
-            pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, isFormDirty, proximity))
+        for (let pin = 0; pin < numPins; pin++) {
+            pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, isFormDirty, proximity));
         }
         return new PinSearchResultsDto(
             new GeoCoordinates(
@@ -23,7 +24,8 @@ export class MockTestData {
         );
     }
 
-    public static getAPin(designator: number = 1, hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5, isFormDirty = false, proximity = 5): Pin {
+    public static getAPin(designator: number = 1, hostStatus: number = 3, pinType: number = 1,
+    numParticipantsInGathering: number = 5, isFormDirty = false, proximity = 5): Pin {
         return new Pin(
             'firstName' + designator.toString(),
             'lastName' + designator.toString(),
@@ -38,7 +40,7 @@ export class MockTestData {
             'site' + designator.toString(),
             pinType,
             proximity
-        )
+        );
     }
 
     public static getAnAddress(designator: number = 1): Address{
@@ -53,19 +55,19 @@ export class MockTestData {
                 123123123,
                 'US',
                 'CountyCounty'
-            )
+            );
     }
 
     public static getAParticipantsArray(numOfParticipants: number = 5): Participant[] {
         let participants = new Array<Participant>();
-        if (numOfParticipants == 0){
+        if (numOfParticipants === 0) {
             return null;
         }
         for (var index = 0; index < numOfParticipants; index++) {
             let participant = new Participant(
-                'congregation', 
-                index, 
-                'displayName' + index.toString(), 
+                'congregation',
+                index,
+                'displayName' + index.toString(),
                 'email' + index.toString() + '@address.com',
                 index,
                 1,
@@ -114,4 +116,6 @@ export class MockTestData {
             30
         );
     }
+
+    constructor() {}
 }

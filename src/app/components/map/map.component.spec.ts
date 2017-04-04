@@ -10,7 +10,7 @@ import { SearchLocalComponent } from '../search-local/search-local.component'
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
-import { ContentService } from '../../services/content.service';
+import { GatheringService } from '../../services/gathering.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -24,6 +24,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -54,6 +55,7 @@ describe('Component: Map', () => {
         })
       ],
       providers: [
+        GatheringService,
         UserLocationService,
         LocationService,
         PinService,
@@ -64,12 +66,12 @@ describe('Component: Map', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
         LoginRedirectService,
         BlandPageService,
         IPService,
         GoogleMapsAPIWrapper,
-        SearchLocalService
+        SearchLocalService,
+        NeighborsHelperService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);

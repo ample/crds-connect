@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { SessionService } from '../../../services/session.service';
+import { StateService } from '../../../services/state.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 
 
@@ -31,6 +32,7 @@ export class SayHiComponent implements OnInit {
     private loginRedirectService: LoginRedirectService,
     private session: SessionService,
     private router: Router,
+    private state: StateService,
     private blandPageService: BlandPageService) { }
 
 
@@ -67,6 +69,7 @@ export class SayHiComponent implements OnInit {
   }
 
   private doSayHi() {
+    // tslint:disable-next-line:max-line-length
     let templateText =  `<div class="container"><div class="row text-center"><h3>${this.isGathering ? 'Host contacted' : 'Success!'}</h3></div></div>`;
     let notificationText = `<div class="row text-center">${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</div>`;
     let bpd = new BlandPageDetails(
@@ -78,7 +81,6 @@ export class SayHiComponent implements OnInit {
     );
     this.pinService.sendHiEmail(this.user, this.pin).subscribe(
       ret => {
-        console.log('said hi');
         this.blandPageService.primeAndGo(bpd);
       },
       err => {
