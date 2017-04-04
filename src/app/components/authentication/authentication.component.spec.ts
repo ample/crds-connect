@@ -25,8 +25,7 @@ describe('Component: Authentication', () => {
     mockStateService,
     mockLoginRedirectService,
     mockFormBuilder,
-    mockStoreService,
-    mockRouterTestingModule;
+    mockStoreService;
 
   beforeEach(() => {
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
@@ -46,7 +45,6 @@ describe('Component: Authentication', () => {
         { provide: CookieService, useValue: mockCookieService },
         { provide: StateService, useValue: mockStateService },
         { provide: StoreService, useValue: mockStoreService },
-        { provide: RouterTestingModule, useValue: mockRouterTestingModule }
       ],
       imports: [RouterTestingModule.withRoutes([]), HttpModule],
       schemas: [NO_ERRORS_SCHEMA]
