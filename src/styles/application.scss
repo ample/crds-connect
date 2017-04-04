@@ -4,11 +4,6 @@
   background: lighten($cr-gray-darker, .75);
 }
 
-.container {
-  margin: 1em auto;
-  width: auto;
-}
-
 app-preloader {
   display: none;
   .loading & {
@@ -271,7 +266,6 @@ app-map {
   display: block;
   overflow: hidden;
   position: relative;
-  width: 100vw;
 }
 
 sebm-google-map {

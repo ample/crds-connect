@@ -72,7 +72,6 @@ export class GatheringComponent implements OnInit {
         }
       },
       failure => {
-        // something went wrong!!
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
       });
