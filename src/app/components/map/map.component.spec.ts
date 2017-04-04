@@ -6,7 +6,7 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from '../../components/map/map.component';
-import { SearchLocalComponent } from '../search-local/search-local.component'
+import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
@@ -19,6 +19,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -57,6 +58,7 @@ describe('Component: Map', () => {
         GatheringService,
         UserLocationService,
         LocationService,
+        PinLabelService,
         PinService,
         GoogleMapService,
         IFrameParentService,

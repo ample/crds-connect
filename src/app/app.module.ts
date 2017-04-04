@@ -73,6 +73,7 @@ import { LocationService } from './services/location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
 import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
+import { PinLabelService } from './services/pin-label.service';
 import { PinService } from './services/pin.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
@@ -179,6 +180,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LoggedInGuard,
     NeighborsHelperService,
     ParticipantService,
+    PinLabelService,
     PinService,
     PinResolver,
     SearchLocalService,

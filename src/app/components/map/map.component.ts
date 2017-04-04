@@ -8,6 +8,7 @@ import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/c
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
+import { PinLabelService } from '../../services/pin-label.service';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
@@ -27,6 +28,7 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
+    private pinLabelService: PinLabelService,
     private pinHlpr: PinService,
     private router: Router,
     private mapHlpr: GoogleMapService,
@@ -77,42 +79,9 @@ export class MapComponent implements OnInit {
     }
   }
 
-
-
   public getLabelName(pin: Pin) {
-    return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
-      this.hostOrEmptyString(pin) + '|' + this.isMe(pin));
+    return this.pinLabelService.createPinLabelDataJsonString(pin);
   }
 
-  public getFirstNameOrSiteName(pin: Pin) {
-    return this.capitalizeFirstLetter(pin.firstName) || this.capitalizeFirstLetter(pin.siteName);
-  }
-
-  public getLastInitial(pin: Pin) {
-    return pin.lastName ? this.capitalizeFirstLetter((pin.lastName.substring(0, 1)) + '.') : '';
-  }
-
-  public hostOrEmptyString(pin: Pin): string {
-    return pin.pinType === pinType.GATHERING ? 'HOST' : '';
-  }
-
-  public isMe(pin: Pin): string {
-    let isPinASite: boolean = pin.pinType === pinType.SITE;
-    let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
-    let shouldHaveMeLabel: boolean = !isPinASite && doesUserOwnPin;
-
-    return shouldHaveMeLabel ? 'ME' : '';
-  }
-
-  public capitalizeFirstLetter(string) {
-
-    let isStringEmptyOrNull = string === undefined || string === null || string === '';
-
-    if (isStringEmptyOrNull) {
-      return '';
-    } else {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-  }
 
 }
