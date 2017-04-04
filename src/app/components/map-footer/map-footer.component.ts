@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PinService } from '../../services/pin.service';
@@ -21,6 +21,8 @@ export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
 
+  @Output() searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
+
   constructor(private pin: PinService,
               private mapHlpr: GoogleMapService,
               private loginRedirectService: LoginRedirectService,
@@ -29,7 +31,10 @@ export class MapFooterComponent {
               private state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
-              private userLocationService: UserLocationService) { }
+              private userLocationService: UserLocationService) {
+
+    this.searchResultsEmitter = new EventEmitter<PinSearchResultsDto>();
+  }
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
@@ -62,7 +67,7 @@ export class MapFooterComponent {
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-        this.pin.searchResultsEmitter.emit(this.myPinSearchResults);
+        this.searchResultsEmitter.emit(this.myPinSearchResults);
         this.state.setLoading(false);
 
         if (this.state.getCurrentView() === 'map') {

@@ -33,11 +33,11 @@ export class NeighborsComponent implements OnInit, OnChanges {
     private userLocationService: UserLocationService,
     private searchLocalService: SearchLocalService) {
 
-    this.pinService.searchResultsEmitter.subscribe(searchResults => {
-// console.log('NEIGHBORS - Pick up Emmitted data!! ');
-// console.log(searchResults);
-//       this.pinSearchResults = searchResults;
-    });
+//     this.pinService.searchResultsEmitter.subscribe(searchResults => {
+// // console.log('NEIGHBORS - Pick up Emmitted data!! ');
+// // console.log(searchResults);
+// //       this.pinSearchResults = searchResults;
+//     });
 
     searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);

@@ -37,7 +37,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
-  public searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
+  // public searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
 
   constructor(
     private gatheringService: GatheringService,
@@ -48,7 +48,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
-    this.searchResultsEmitter = new EventEmitter<PinSearchResultsDto>();
+    // this.searchResultsEmitter = new EventEmitter<PinSearchResultsDto>();
   }
 
   private createPartialCache(pin: Pin): void {
