@@ -21,7 +21,7 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockMapHelper, mockStateService;
+    let mockPinService, mockStateService;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
