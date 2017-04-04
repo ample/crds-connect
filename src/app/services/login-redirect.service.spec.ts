@@ -14,13 +14,13 @@ describe('LoginRedirectService', () => {
     it('should store a default target and navigate to login page', () => {
       fixture.redirectToLogin();
       expect(fixture['originalTarget']).toEqual('');
-      expect(router.navigate).toHaveBeenCalledWith(['/signin'], { skipLocationChange: true });
+      expect(router.navigate).toHaveBeenCalledWith(['/signin']);
     });
 
     it('should store the specified target and navigate to login page', () => {
       fixture.redirectToLogin('/some/protected/page');
       expect(fixture['originalTarget']).toEqual('/some/protected/page');
-      expect(router.navigate).toHaveBeenCalledWith(['/signin'], { skipLocationChange: true });
+      expect(router.navigate).toHaveBeenCalledWith(['/signin']);
     });
   });
 
