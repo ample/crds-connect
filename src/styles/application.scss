@@ -416,10 +416,8 @@ list-footer {
 
 // Getting started layout
 .people {
-  // align-items: center;
   display: flex;
   flex-flow: column nowrap;
-  // justify-content: center;
   margin-top: 1rem;
 
   @media (min-width: $screen-xs) {
