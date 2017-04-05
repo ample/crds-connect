@@ -36,7 +36,11 @@ app-add-me-to-map {
 }
 
 .fauxdal {
+  position: relative;
   &.fauxdal-fullscreen {
+    position: absolute;
+    z-index: 10;
+
     .container-fluid {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
