@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'profile-picture',
   templateUrl: 'profile-picture.html',
-  styleUrls: ['profile-picture.scss']
+  styleUrls: ['profile-picture.css']
 })
 export class ProfilePictureComponent implements OnInit {
 
@@ -15,7 +15,6 @@ export class ProfilePictureComponent implements OnInit {
   @Input() imageClass: string = '';
   private path: string;
   private baseUrl: string = process.env.CRDS_API_ENDPOINT;
-  private DefaultProfileImage: string = '//crossroads-media.imgix.net/images/avatar.svg';
   private ImageBaseURL: string = `${this.baseUrl}api/v1.0.0/image/profile/`;
 
 
