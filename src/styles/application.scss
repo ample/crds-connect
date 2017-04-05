@@ -433,6 +433,10 @@ app-pin-detail {
       }
     }
 
+    .title {
+      color: $cr-white;
+    }
+
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
       margin: 0 auto;
