@@ -18,7 +18,7 @@ export class LoginRedirectService {
     if (redirectFunctionParam) {
       this.redirectFunction = redirectFunctionParam;
     }
-    this.router.navigate([this.SigninRoute], { skipLocationChange: true });
+    this.router.navigate([this.SigninRoute]);
   }
 
   public redirectToTarget(target = this.DefaultAuthenticatedRoute): void {

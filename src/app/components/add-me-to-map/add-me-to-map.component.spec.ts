@@ -15,13 +15,16 @@ import { GatheringService } from '../../services/gathering.service';
 import { LocationService } from '../../services/location.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
+
 import { SessionService } from '../../services/session.service';
 import { GoogleMapService } from '../../services/google-map.service';
+import { IPService } from '../../services/ip.service';
 import { StateService } from '../../services/state.service';
 import { PinService } from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { UserLocationService } from '../../services/user-location.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -49,6 +52,7 @@ describe('Component: Add Me to the Map', () => {
         BlandPageService,
         CookieService,
         { provide: ContentService, useValue: mockContentService },
+        IPService,
         GatheringService,
         PinService,
         LocationService,
@@ -56,7 +60,8 @@ describe('Component: Add Me to the Map', () => {
         SessionService,
         StateService,
         GoogleMapService,
-        BlandPageService
+        BlandPageService,
+        UserLocationService
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);

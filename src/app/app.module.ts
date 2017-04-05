@@ -11,6 +11,7 @@ export class CustomOptions extends ToastOptions {
   dismiss = 'auto';
   showCloseButton = true;
   newestOnTop = true;
+  enableHTML = true;
   // messageClass = '';
   // titleClass = '';
 }
@@ -65,7 +66,7 @@ import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.serv
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
-import { GatheringService } from './services/gathering.service'
+import { GatheringService } from './services/gathering.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
 import { IPService } from './services/ip.service';

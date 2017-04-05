@@ -4,11 +4,6 @@
   background: lighten($cr-gray-darker, .75);
 }
 
-.container {
-  margin: 1em auto;
-  width: auto;
-}
-
 app-preloader {
   display: none;
   .loading & {
@@ -151,7 +146,7 @@ app-add-me-to-map {
     position: relative;
     height: 40px;
     overflow: hidden;
-    background-image: url('/assets/brandbanner-bg.jpg');
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
     background-repeat: repeat-x;
     background-size: auto 100%;
   }
@@ -164,7 +159,7 @@ app-add-me-to-map {
     padding: 11.5px;
     line-height: 1;
     color: $cr-white;
-    background-image: url('/assets/brandbanner-logo-bg.jpg');
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     svg {
@@ -297,7 +292,6 @@ app-map {
   display: block;
   overflow: hidden;
   position: relative;
-  width: 100vw;
 }
 
 sebm-google-map {
@@ -460,7 +454,7 @@ app-pin-detail {
         height: #{$height - 19}px;
       }
     }
-    
+
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
       margin: 0 auto;
@@ -476,7 +470,7 @@ app-pin-detail {
     p {
       color: $cr-gray-light;
     }
-  }  
+  }
 }
 
 .pin-detail-header {

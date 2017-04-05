@@ -2,6 +2,7 @@ import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { StateService } from '../../../services/state.service';
 import { AddressService } from '../../../services/address.service';
 
@@ -22,7 +23,8 @@ export class PersonComponent implements OnInit {
 
   public sayHiButtonText: string = 'Say hi!';
 
-  constructor(private addressService: AddressService, private state: StateService, private toast: ToastsManager) {
+  constructor(private addressService: AddressService, private state: StateService, private toast: ToastsManager,
+  private content: ContentService) {
   }
 
   ngOnInit() {
@@ -31,10 +33,11 @@ export class PersonComponent implements OnInit {
       this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON).subscribe(
         success => {
           this.pin.address = success;
-          this.state.setLoading(false);
         },
         error => {
-          this.toast.error('Looks like we were unable to get the full address', 'Oh no!');
+          this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+        }, () => {
+          this.state.setLoading(false);
         }
       );
     }

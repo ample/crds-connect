@@ -13,6 +13,8 @@ import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation'
 import { Address } from '../../models/address';
 import { usStatesList } from '../../shared/constants';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
+import { SessionService } from '../../services/session.service';
+import { UserLocationService } from '../../services/user-location.service';
 
 
 
@@ -31,7 +33,9 @@ export class AddMeToMapComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private state: StateService,
-              private blandPageService: BlandPageService) { }
+              private blandPageService: BlandPageService,
+              private userLocationService: UserLocationService,
+              private session: SessionService) { }
 
 
   public ngOnInit(): void {
@@ -41,6 +45,9 @@ export class AddMeToMapComponent implements OnInit {
 
   public onSubmit(value) {
     if (value) {
+      this.state.setMyViewOrWorldView('world');
+      this.state.setLastSearch(null);
+      this.session.clearCache();
       this.state.setCurrentView('map');
       let nowAPin = new BlandPageDetails(
         'See for yourself',
