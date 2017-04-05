@@ -71,15 +71,6 @@ module.exports = {
 
     new CopyWebpackPlugin([
       {
-        from: './apache_site.conf',
-        to: 'apache_site.conf',
-        transform: function (content, path) {
-          return content.toString().replace(/\${(.*?)}/g, function(match, p1, offset, string) {
-            return process.env[p1];
-          });
-        }
-      },
-      {
         context: 'node_modules/bootstrap-sass/assets/fonts/bootstrap',
         from: '**/*',
         to: 'fonts/'

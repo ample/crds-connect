@@ -84,6 +84,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
 
+    console.log('PinService got partial new PinSearchResultsDto');
+
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
       .catch((error: any) => Observable.throw(error || 'Server error'));

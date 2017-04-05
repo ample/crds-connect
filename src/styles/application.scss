@@ -36,7 +36,11 @@ app-add-me-to-map {
 }
 
 .fauxdal {
+  position: relative;
   &.fauxdal-fullscreen {
+    position: absolute;
+    z-index: 10;
+
     .container-fluid {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
@@ -120,7 +124,7 @@ app-add-me-to-map {
     position: relative;
     height: 40px;
     overflow: hidden;
-    background-image: url('/assets/brandbanner-bg.jpg');
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
     background-repeat: repeat-x;
     background-size: auto 100%;
   }
@@ -133,7 +137,7 @@ app-add-me-to-map {
     padding: 11.5px;
     line-height: 1;
     color: $cr-white;
-    background-image: url('/assets/brandbanner-logo-bg.jpg');
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     svg {
@@ -268,7 +272,7 @@ canvas-map-overlay {
   // Calculations are designed such that while the screen is less than 3000px
   // tall, the map is never too short, but also never more than 99px below
   // the bottom of the screen directly within Connect.
-  // 
+  //
   // When displayed as a microclient, it may fall another 54px-64px below
   // the footer, accounting for the global header.
   height: 381px;
@@ -447,7 +451,7 @@ app-pin-detail {
         height: #{$height - 19}px;
       }
     }
-    
+
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
       margin: 0 auto;
@@ -463,7 +467,7 @@ app-pin-detail {
     p {
       color: $cr-gray-light;
     }
-  }  
+  }
 }
 
 .pin-detail-header {

@@ -11,6 +11,7 @@ export class CustomOptions extends ToastOptions {
   dismiss = 'auto';
   showCloseButton = true;
   newestOnTop = true;
+  enableHTML = true;
   // messageClass = '';
   // titleClass = '';
 }
