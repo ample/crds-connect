@@ -42,7 +42,6 @@ export class ParticipantService extends CacheableService<Group[]> {
 
             if (group != null) {
 
-                console.log('ParticipantService got cached Participants');
                 return Observable.of(group.Participants);
             }
         }
@@ -56,10 +55,8 @@ export class ParticipantService extends CacheableService<Group[]> {
             .do((res: Participant[]) => {
                 let cache: Array<Group> = new Array<Group>();
                 if (super.isAtLeastPartialCache() && super.isCachedForUser(contactId)) {
-                    console.log('ParticipantService got new Participants and added them to the cache');
                     cache = super.getCache();
                 } else {
-                    console.log('ParticipantService got new Participants and created a new cache');
                 }
                 cache.push(Group.overload_Constructor_One(groupId, res));
                 super.setCache(cache, CacheLevel.Partial, contactId);
