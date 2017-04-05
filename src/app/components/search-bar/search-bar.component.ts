@@ -5,12 +5,13 @@ import { FormsModule }   from '@angular/forms';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html'
 })
-export class SearchBarComponent implements OnChanges  {
+export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
@@ -18,7 +19,7 @@ export class SearchBarComponent implements OnChanges  {
   private searchText: string = '';
   public buttontext: string;
 
-  constructor() {}
+  constructor(private state: StateService) {}
 
   public ngOnChanges(): void {
     this.setButtonText();
@@ -36,6 +37,7 @@ export class SearchBarComponent implements OnChanges  {
   }
 
   public onSearch(searchString: string) {
+    this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
       this.search.emit(searchString);
       this.searchText = '';

@@ -16,6 +16,7 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { AddressService } from '../../../services/address.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class GatheringComponent implements OnInit {
     private state: StateService,
     private participantService: ParticipantService,
     private toast: ToastsManager,
-    private addressService: AddressService) { }
+    private addressService: AddressService,
+    private content: ContentService) { }
 
   public ngOnInit() {
     this.state.setLoading(true);
@@ -58,7 +60,7 @@ export class GatheringComponent implements OnInit {
               this.address = address;
             },
             error => {
-              this.toast.error('Looks like we were unable to get the full address', 'Oh no!');
+              this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
             }, () => {
               this.state.setLoading(false);
               this.ready = true;
@@ -70,7 +72,6 @@ export class GatheringComponent implements OnInit {
         }
       },
       failure => {
-        // something went wrong!!
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
       });
@@ -98,9 +99,9 @@ export class GatheringComponent implements OnInit {
         failure => {
           this.state.setLoading(false);
           if (failure.status === 409) {
-            this.toast.warning('Looks like you have already requested to join this group', 'OOPS');
+            this.toast.warning(this.content.getContent('finderAlreadyRequestedJoin'));
           } else {
-            this.toast.error('Looks like there was an error. Please fix and try again', 'Oh no!');
+            this.toast.error(this.content.getContent('generalError'));
           }
         }
       );

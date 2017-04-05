@@ -14,6 +14,7 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { InviteSomeoneComponent } from './invite-someone.component';
 
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
@@ -26,7 +27,7 @@ describe('InviteSomeoneComponent', () => {
     let comp: InviteSomeoneComponent;
     let el;
 
-    let mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast;
+    let mockContentService, mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast;
 
     beforeEach(() => {
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
@@ -35,6 +36,7 @@ describe('InviteSomeoneComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
+        mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -46,7 +48,8 @@ describe('InviteSomeoneComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
-                { provide: ToastsManager, useValue: mockToast }
+                { provide: ToastsManager, useValue: mockToast },
+                { provide: ContentService, useValue: mockContentService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -98,12 +101,13 @@ describe('InviteSomeoneComponent', () => {
     });
 
     it('should fail to submit', () => {
+        let expectedText = '<p>invite failed</p>';
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
         let gatheringId = 123;
         let participantId = 456;
         let param = { value: someone, valid: isValid };
-
+        mockContentService.getContent.and.returnValue(expectedText);
         (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.throw({}));
         comp.gatheringId = gatheringId;
         comp.participantId = participantId;
@@ -112,6 +116,7 @@ describe('InviteSomeoneComponent', () => {
 
         expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(false);
         expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
+        expect(mockToast.error).toHaveBeenCalledWith(expectedText);
     });
 
 });

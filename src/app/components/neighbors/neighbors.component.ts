@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -32,6 +32,7 @@ export class NeighborsComponent implements OnInit {
     private state: StateService,
     private userLocationService: UserLocationService,
     private searchLocalService: SearchLocalService) {
+
     searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
       this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
@@ -69,7 +70,7 @@ export class NeighborsComponent implements OnInit {
 
   doSearch(searchString: string,  lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinsAddressSearchResults(searchString, lat, lng, zoom).subscribe(
+    this.pinService.getPinSearchResults(searchString, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
 
@@ -132,8 +133,8 @@ export class NeighborsComponent implements OnInit {
           this.goToNoResultsPage();
         } else {
           let lastSearch = this.state.getLastSearch();
-          if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)){
-            // It's a different search, clear the last mapView;
+          if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)) {
+            // its a different search, clear the last mapView;
             this.state.setMapView(null);
           }
           this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
