@@ -20,7 +20,6 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
-  public isActive = false;
 
   @Output() searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
 
@@ -44,7 +43,7 @@ export class MapFooterComponent {
 
 // TODO -- my stuff -- then basic search typing into search box
 // then my stuff again -- failed - did not get my stuff???
-  public myStuffBtnClicked = () =>  {
+  public myStuffBtnClicked = (e) =>  {
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('my');
@@ -53,13 +52,13 @@ export class MapFooterComponent {
         this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.myStuffBtnClicked);
 
     } else {
+      e.target.classList.add('active');
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
           this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
           this.doSearch(pos.lat, pos.lng );
         }
       );
-      this.isActive = !this.isActive;
     }
   }
 
