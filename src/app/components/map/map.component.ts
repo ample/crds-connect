@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults);
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -49,7 +49,7 @@ export class MapComponent implements OnInit {
       this.mapSettings.lat = lat;
       this.mapSettings.lng = lng;
       let priorMapView = this.state.getMapView();
-      if (priorMapView){
+      if (priorMapView) {
         this.mapSettings.lat  = priorMapView.lat;
         this.mapSettings.lng  = priorMapView.lng;
         this.mapSettings.zoom = priorMapView.zoom;

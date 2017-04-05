@@ -12,12 +12,12 @@ export class PinResolver implements Resolve<Pin> {
   constructor(private pinService: PinService) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Pin> {
-    let participantId:number, groupId: number, pinIdentifier: PinIdentifier;
+    let participantId: number, groupId: number, pinIdentifier: PinIdentifier;
 
     participantId = route.params['participantId'];
     groupId = route.params['groupId'];
 
-    if (participantId != null){
+    if (participantId != null) {
       pinIdentifier = new PinIdentifier(pinType.PERSON, participantId)
     } else {
       pinIdentifier = new PinIdentifier(pinType.GATHERING, groupId)

@@ -11,6 +11,8 @@ export class StateService {
   public is_loading: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
   private savedMapView: MapView;
   private lastSearch: SearchOptions;
@@ -43,6 +45,15 @@ export class StateService {
     return this.mapOrListView;
   }
 
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  public setMyViewOrWorldView(view: string) {
+    this.myViewOrWorldView = view;
+  }
+
+  public getMyViewOrWorldView(): string {
+    return this.myViewOrWorldView;
+  }
+
   public setShowingPinCount(count: number) {
     this.showingPinCount = count;
   }
@@ -64,4 +75,5 @@ export class StateService {
   public getUseZoom() {
     return this.zoomToUse;
   }
+
 }
