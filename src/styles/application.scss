@@ -79,6 +79,7 @@ app-add-me-to-map {
       address-form {
         display: block;
         margin: 0 auto;
+        min-width: $screen-xs;
         padding-top: 1rem;
         width: 100%;
       }
