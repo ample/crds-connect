@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { GoogleMapService } from '../../services/google-map.service';
 import { StateService } from '../../services/state.service';
 
+import { PinLabelData, PinLabel } from '../../models/pin-label-data';
+import { Pin, pinType } from '../../models/pin';
+
 @Component({
   selector: 'canvas-map-overlay',
   templateUrl: 'canvas-map-overlay.component.html'
@@ -68,14 +71,18 @@ export class CanvasMapOverlayComponent implements OnInit {
 
   public drawIndividualMarkerLabel(ctx: any, marker: any, cWidth: any, cHeight: any) {
 
-    let markerLabelProps = this.getMarkerLabelProps(marker);
+    let labelData: PinLabelData = JSON.parse(marker.markerLabel);
+
+    let isHostOrMe: boolean = labelData.isHost || labelData.isMe;
+
+    let markerLabelProps = this.getMarkerLabelProps(labelData);
 
     let labelHeightAdjustment: number = undefined;
 
-    if( !!markerLabelProps.hostOrMe ){
-      labelHeightAdjustment = 11;
+    if( isHostOrMe ) {
+      labelHeightAdjustment = -11;
     } else {
-      labelHeightAdjustment = 4;
+      labelHeightAdjustment = -4;
     }
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
@@ -85,14 +92,13 @@ export class CanvasMapOverlayComponent implements OnInit {
     ctx.lineWidth = 2.5;
     ctx.font = '12px Arial';
 
-    let nameLabel: string = markerLabelProps.firstName + ' ' + markerLabelProps.lastInitial;
-    ctx.strokeText(nameLabel, textX, textY);
-    ctx.fillText(nameLabel, textX, textY);
+    ctx.strokeText(markerLabelProps.line1, textX, textY);
+    ctx.fillText(markerLabelProps.line1, textX, textY);
 
-    if( !!markerLabelProps.hostOrMe ){
+    if( isHostOrMe ){
       ctx.font = '10px Arial';
-      ctx.strokeText(markerLabelProps.hostOrMe, textX+6, textY + 12);
-      ctx.fillText(markerLabelProps.hostOrMe, textX+6, textY + 12);
+      ctx.strokeText(markerLabelProps.line2, textX+6, textY + 12);
+      ctx.fillText(markerLabelProps.line2, textX+6, textY + 12);
     }
 
   }
@@ -119,17 +125,9 @@ export class CanvasMapOverlayComponent implements OnInit {
     return labelColor;
   }
 
-  public getMarkerLabelProps(marker: any): any {
-    let labelStringComponents = marker.markerLabel.split('|');
-
-    let labelProps = {
-      firstName: labelStringComponents[0],
-      lastInitial: labelStringComponents[1],
-      hostOrMe: labelStringComponents[3] ? labelStringComponents[3] : labelStringComponents[2] || ''
-    };
-
-    return labelProps;
-
+  public getMarkerLabelProps(labelData: PinLabelData): PinLabel {
+    let label: PinLabel = new PinLabel(labelData);
+    return label;
   };
 
 }
