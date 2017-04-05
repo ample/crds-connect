@@ -49,14 +49,14 @@ export class BlandPageService {
     }
 
     /**
-     * This will set the blandPageDetails for Whats a Host and 
+     * This will set the blandPageDetails for Whats a Host and
      * nothing more.  This should only be used by the Whats A Host route Guard.
      * @param cancelRoute route to return to if (x) is clicked
      */
     public primeWhatsAHost(cancelRoute: string = '') {
         this.blandPageDetails = new BlandPageDetails(
             'Sign up to host',
-            'whatsAHost',
+            'finderWhatsAHost',
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             'host-signup',
