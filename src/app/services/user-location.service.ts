@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { APIService } from './api.service';
+import { CacheableService, CacheLevel } from './base-service/cacheable.service';
+
+import { IPService } from './ip.service';
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { GoogleMapService } from '../services/google-map.service';
 import { LocationService } from './location.service';
@@ -10,17 +12,27 @@ import { StateService } from './state.service';
 import { PinService } from './pin.service';
 
 @Injectable()
-export class UserLocationService {
+export class UserLocationService extends CacheableService<GeoCoordinates> {
 
-  constructor( private api: APIService,
-               private location: LocationService,
-               private session: SessionService,
-               private pinservice: PinService,
-               private mapHlpr: GoogleMapService) { }
+  constructor(private ipService: IPService,
+    private location: LocationService,
+    private session: SessionService,
+    private pinservice: PinService,
+    private mapHlpr: GoogleMapService) {
+    super();
+  }
+
+  public clearCache() {
+    super.clearCache();
+  }
 
   public GetUserLocation(): Observable<any> {
-    let locObs = new Observable( observer => {
-      if (this.api.isLoggedIn()) {
+    let contactId = this.session.getContactId();
+    if (super.isCachedForUser(contactId)) {
+      return Observable.of(super.getCache());
+    }
+    let locObs = new Observable(observer => {
+      if (this.session.isLoggedIn()) {
 
         let contactid: number = this.session.getContactId(); // get contactid from cookie
 
@@ -57,16 +69,18 @@ export class UserLocationService {
         );
       }
     });
+
     return locObs;
   }
 
   private getUserLocationFromUserId(contactId: number): Observable<any> {
-    let profileObs = new Observable ( observer => {
+    let profileObs = new Observable(observer => {
       let position: GeoCoordinates;
 
-      this.pinservice.getPinDetailsByContactId(contactId).subscribe(
+      this.session.getUserDetailsByContactId(contactId).subscribe(
         success => {
           position = new GeoCoordinates(success.address.latitude, success.address.longitude);
+          super.setCache(position, CacheLevel.Full, contactId);
           observer.next(position);
         },
         failure => {
@@ -78,13 +92,15 @@ export class UserLocationService {
     return profileObs;
   }
 
-  public getUserLocationFromIp(): Observable<any> {
-    let ipObs = new Observable ( observer => {
+  private getUserLocationFromIp(): Observable<any> {
+    let contactId = this.session.getContactId();
+    let ipObs = new Observable(observer => {
       let position: GeoCoordinates;
 
-      this.api.getLocationFromIP().subscribe(
+      this.ipService.getLocationFromIP().subscribe(
         location => {
           position = new GeoCoordinates(location.latitude, location.longitude);
+          super.setCache(position, CacheLevel.Full, contactId);
           observer.next(position);
         },
         error => {
@@ -96,17 +112,20 @@ export class UserLocationService {
   }
 
   private getUserLocationFromDefault(): GeoCoordinates {
-    return this.location.getDefaultPosition();
+    let position = this.location.getDefaultPosition();
+    super.setCache(position, CacheLevel.Full);
+    return position;
   }
 
   private getUserLocationFromCurrentLocation(): Observable<any> {
-    let locObs = new Observable ( observer => {
+    let contactId = this.session.getContactId();
+    let locObs = new Observable(observer => {
 
-      //If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
+      // If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
       this.mapHlpr.setDidUserAllowGeoLoc(false);
 
       setTimeout(() => {
-        if(!this.mapHlpr.didUserAllowGeoLoc){
+        if (!this.mapHlpr.didUserAllowGeoLoc) {
           observer.error();
         }
       }, 15000);
@@ -118,8 +137,9 @@ export class UserLocationService {
           this.mapHlpr.setDidUserAllowGeoLoc(true);
           if (location.lat == null || location.lng == null) {
             observer.error();
-          }  else {
+          } else {
             position = new GeoCoordinates(location.lat, location.lng);
+            super.setCache(position, CacheLevel.Full, contactId);
             observer.next(position);
           }
         },

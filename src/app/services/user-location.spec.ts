@@ -5,9 +5,8 @@ import { GeoCoordinates } from '../models/geo-coordinates';
 import { SessionService } from './session.service';
 import { UserLocationService } from './user-location.service';
 
-import { ContentService } from '../services/content.service';
 import { IFrameParentService } from '../services/iframe-parent.service';
-import { APIService } from '../services/api.service';
+import { GatheringService } from '../services/gathering.service';
 import { GoogleMapService } from '../services/google-map.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
@@ -20,6 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../services/location.service';
 import { PinService}  from '../services/pin.service';
+import { BlandPageService } from './bland-page.service';
+import { IPService } from '../services/ip.service';
 
 describe('Service: User-Location', () => {
   beforeEach(() => {
@@ -32,6 +33,7 @@ describe('Service: User-Location', () => {
           AlertModule
         ],
         providers: [
+          GatheringService,
           GoogleMapService,
           UserLocationService,
           LocationService,
@@ -39,12 +41,12 @@ describe('Service: User-Location', () => {
           IFrameParentService,
           StoreService,
           StateService,
-          APIService,
           SessionService,
           CookieService,
           Angulartics2,
-          ContentService,
-          LoginRedirectService
+          LoginRedirectService,
+          BlandPageService,
+          IPService
         ]
     });
   });

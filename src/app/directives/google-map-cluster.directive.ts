@@ -1,7 +1,9 @@
 import { Directive, AfterContentInit, QueryList, Input, ContentChildren } from '@angular/core';
 import { GoogleMapsAPIWrapper, SebmGoogleMap, SebmGoogleMapMarker, MarkerManager } from 'angular2-google-maps/core';
 import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-maps-types';
+
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+import { GoogleMapService } from '../services/google-map.service';
 import '../../scripts/markerclusterer.js'
 
 declare const MarkerClusterer;
@@ -10,6 +12,11 @@ interface IMarkerManager {
  _markers?: any;
   next(): any;
 }
+
+interface IObjectWithIcon {
+  icon?: any;
+}
+
 //MarkerManager.prototype.markerKeys = function() { return this._markers.keys(); }
 
 // An Attribute Directive that creates a MarkerClusterer in the map once the markers are loaded.
@@ -20,6 +27,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
   private cluster;
 
   constructor(
+    private mapHlpr: GoogleMapService,
     private wrapper: GoogleMapsAPIWrapper,
     private markerManager: MarkerManager,
   ) {}
@@ -27,26 +35,43 @@ export class GoogleMapClusterDirective implements AfterContentInit {
   ngAfterContentInit() {
     this.wrapper.getNativeMap().then(map => {
       let options = {
-        imagePath: "https://image.ibb.co/cjEhdv/CLUSTER"
+        averageCenter: true,
+        styles: [{
+          url: '//crds-cms-uploads.s3.amazonaws.com/connect/CLUSTER.svg',
+          height: 50,
+          width: 50,
+          textColor: '#fff'
+        }]
       };
       let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();
       let markers = [];
+      let siteMarkers = [];
       let promises = [];
       let sebmMarker;
+
+
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;
-        if (sebmMarker.iconUrl.endsWith("PERSON.png") ||
-            sebmMarker.iconUrl.endsWith("GATHERING.png")) {
-          let promise = this.markerManager.getNativeMarker(sebmMarker)
-          promises.push(promise)
-          promise.then(marker => {
+        let promise = this.markerManager.getNativeMarker(sebmMarker);
+        promises.push(promise);
+        promise.then(marker => {
+
+          let markerWithIcon: IObjectWithIcon = marker;
+          let isSiteMarker: boolean = markerWithIcon.icon.endsWith("SITE.svg") || markerWithIcon.icon.endsWith("SITE.png");
+
+          if ( !isSiteMarker ) {
             markers.push(marker);
-          })
-        }
+          } else {
+            siteMarkers.push(marker);
+          }
+        });
       }
+
       Promise.all(promises).then(() => {
         this.cluster = new MarkerClusterer(map, markers, options);
+        this.mapHlpr.setSiteMarkers(siteMarkers);
       })
+
     })
   }
 }

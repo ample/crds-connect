@@ -32,7 +32,7 @@ export class AddMeToTheMapHelperService {
   public getStringField(data: UserDataForPinCreation, fieldName: string): string {
     let prepopulatedAddressValue: string;
 
-    if (data.address !== null && data.address[fieldName]) {
+    if (data != null && data.address !== null && data.address[fieldName]) {
       prepopulatedAddressValue = data.address[fieldName];
     } else {
       prepopulatedAddressValue = '';
@@ -45,7 +45,8 @@ export class AddMeToTheMapHelperService {
   public createNewPin (addMeForm: AddMeToMapFormFields, initialUserData: UserDataForPinCreation ): Pin {
 
     let address = new Address(initialUserData.address.addressId, addMeForm.addressLine1, addMeForm.addressLine2,
-        addMeForm.city, addMeForm.state, addMeForm.zip, initialUserData.address.longitude, initialUserData.address.latitude);
+        addMeForm.city, addMeForm.state, addMeForm.zip, initialUserData.address.longitude,
+        initialUserData.address.latitude, initialUserData.address.foreignCountry, initialUserData.address.county);
 
     let pin = new Pin(
       initialUserData.firstname,
@@ -59,7 +60,8 @@ export class AddMeToTheMapHelperService {
       initialUserData.householdId,
       addMeForm.isFormDirty,
       '', // don't need site name to add person
-      pinType.PERSON
+      pinType.PERSON,
+      0
     );
 
     return pin;

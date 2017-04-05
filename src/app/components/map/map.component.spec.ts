@@ -1,15 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { APIService } from '../../services/api.service';
+import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
-import { MapComponent } from './map.component';
+import { MapComponent } from '../../components/map/map.component';
+import { SearchLocalComponent } from '../search-local/search-local.component'
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 
-import { ContentService } from '../../services/content.service';
+import { GatheringService } from '../../services/gathering.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -23,18 +24,29 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
+import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import { BlandPageService } from '../../services/bland-page.service';
+import { MapSettings } from '../../models/map-settings';
+import { IPService } from '../../services/ip.service';
+
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { SearchLocalService } from '../../services/search-local.service';
+
+import { MapView } from '../../models/map-view';
 
 describe('Component: Map', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
+        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
-        GoogleMapClusterDirective
+        GoogleMapClusterDirective,
+        SearchLocalComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
@@ -43,6 +55,7 @@ describe('Component: Map', () => {
         })
       ],
       providers: [
+        GatheringService,
         UserLocationService,
         LocationService,
         PinService,
@@ -50,12 +63,15 @@ describe('Component: Map', () => {
         IFrameParentService,
         StoreService,
         StateService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
-        LoginRedirectService
+        LoginRedirectService,
+        BlandPageService,
+        IPService,
+        GoogleMapsAPIWrapper,
+        SearchLocalService,
+        NeighborsHelperService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);
@@ -65,6 +81,22 @@ describe('Component: Map', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should init map with existing results', () => {
+    this.component.haveResults = true;
+    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
+    this.component.ngOnInit();
+    expect(this.component.mapSettings.lat).toBeTruthy();
+    expect(this.component.mapSettings.lng).toBeTruthy();
+  });
+
+  it('should init map and get new results', () => {
+    this.component.haveResults = false;
+    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
+    this.component.ngOnInit();
+    expect(this.component.mapSettings.lat).toBeTruthy();
+    expect(this.component.mapSettings.lng).toBeTruthy();
   });
 
 });

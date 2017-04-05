@@ -1,9 +1,3 @@
-.searchbar {
-    right: 0;
-    left: 0;
-    top:0;
-    position:fixed;
-    z-index:150;
-    width: 100%;
-    height:60px;
+.mapoverlay{
+    z-index: 150;
 }

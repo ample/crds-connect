@@ -1,20 +1,49 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ContentService } from '../../services/content.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Injectable, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { StateService } from '../../services/state.service';
 
 @Component({
-  selector: 'app-getting-started',
-  templateUrl: 'getting-started.component.html',
-  styleUrls: ['getting-started.component.css']
+  templateUrl: 'getting-started.component.html'
 })
-export class GettingStartedComponent {
+export class GettingStartedComponent implements OnInit {
 
+  public pins: any = [
+    [
+      {
+        name: 'Larry M.',
+        location: 'Washington, D.C.',
+        host: true,
+        image: 'https://api.adorable.io/avatars/200/larry.png'
+      },
+      {
+        name: 'Vinny J.',
+        location: 'Cincinnati, Ohio',
+        host: false,
+        image: 'https://api.adorable.io/avatars/200/vinny.png'
+      },
+    ],
+    [
+      {
+        name: 'Camille B.',
+        location: 'Seattle, Washington',
+        host: false,
+        image: 'https://api.adorable.io/avatars/200/camille.png'
+      },
+      {
+        name: 'Nathan S.',
+        location: 'Paris, France',
+        host: false,
+        image: 'https://api.adorable.io/avatars/200/nathan.png'
+      }
+    ]
+  ];
 
-  constructor(private content: ContentService,
-              private router: Router) { }
+  constructor(private router: Router,
+             private state: StateService) {}
 
-  public btnClickAddToMap()  {
-    this.router.navigateByUrl('/add-me-to-the-map');
+  ngOnInit() {
+    this.state.setPageHeader('Getting Started', '/');
+    return true;
   }
 }
-

@@ -1,8 +1,24 @@
 <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>This is the list view</h2>
-  
-        </div>
-    </div>
+  <h2><crds-content-block id="finderMyStuff"></crds-content-block></h2>
+
+  <list-entry *ngFor="let pin of pinsToShow()"
+              [firstName]="pin.firstName"
+              [lastName]="pin.lastName"
+              [siteName]="pin.siteName"
+              [type]="pin.pinType"
+              [proximity]="pin.proximity"
+              [description]="pin.gathering ? pin.gathering.groupDescription : ''"
+              [groupId]="pin.gathering ? pin.gathering.groupId : 0"
+              [participantId]="pin.participantId"
+              [address]="pin.address"
+              [participantCount]="pin.gathering ? pin.gathering.participantCount : 0">
+  </list-entry>
+
+  <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length"
+          type="submit"
+          class="btn btn-secondary btn-block"
+          (click)="showMore()">Load more</button>
+
 </div>
+
+<list-footer [pins]="searchResults?.pinSearchResults"></list-footer>

@@ -5,6 +5,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SessionService } from '../../../../services/session.service';
+import { Router } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AddressFormComponent } from '../../../address-form/address-form.component';
@@ -18,7 +19,11 @@ import { PinHeaderComponent } from '../../pin-header/pin-header.component';
 import { SayHiComponent } from '../../say-hi/say-hi.component';
 import { ReadonlyAddressComponent } from '../../readonly-address/readonly-address.component';
 import { PinLoginActionsComponent } from '../../pin-login-actions/pin-login-actions.component';
+import { InviteSomeoneComponent } from '../../gathering/invite-someone/invite-someone.component';
 import { PersonComponent } from '../../person/person.component';
+import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { LoginRedirectService } from '../../../../services/login-redirect.service';
 
 
 describe('Component: Participant Card component', () => {
@@ -27,10 +32,14 @@ describe('Component: Participant Card component', () => {
   let fixture;
   let pinParticipantId;
   let participant;
+  let mockContentService;
 
   describe('Participant Card', () => {
     beforeEach(() => {
-      participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff', 'JoeKer', 123, '1943-02-03');
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
+      participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff',
+       'JoeKer', 123, '1943-02-03');
       TestBed.configureTestingModule({
         declarations: [
           AddressFormComponent,
@@ -43,13 +52,17 @@ describe('Component: Participant Card component', () => {
           PinHeaderComponent,
           PinLoginActionsComponent,
           ReadonlyAddressComponent,
-          SayHiComponent
+          SayHiComponent,
+          InviteSomeoneComponent
         ],
-        imports: [ ReactiveFormsModule, HttpModule, JsonpModule ],
+        imports: [ ReactiveFormsModule, HttpModule, JsonpModule, ContentBlockModule.forRoot({ categories: ['common'] }) ],
         providers: [
           SessionService,
           CookieService,
-          Angulartics2
+          Angulartics2,
+          LoginRedirectService,
+          { provide: ContentService, useValue: mockContentService },
+          { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } }
         ]
       });
       this.fixture = TestBed.createComponent(ParticipantCardComponent);
@@ -81,9 +94,5 @@ describe('Component: Participant Card component', () => {
       expect(this.component.showMeLabel()).toBe(false);
     }));
 
-
+  });
 });
-});
-
-
-

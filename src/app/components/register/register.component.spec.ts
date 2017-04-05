@@ -3,9 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { LoginRedirectService } from '../../services/login-redirect.service';
+import { SessionService } from '../../services/session.service';
+
 
 import { RegisterComponent } from './register.component';
 
@@ -14,12 +16,15 @@ describe('Component: Registration', () => {
       router: Router,
       fb: FormBuilder,
       state: StateService,
-      api: APIService,
-      store: StoreService;
+      store: StoreService,
+      session: SessionService,
+      redirectService: LoginRedirectService;
 
   beforeEach(() => {
 
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
+    
+    session = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
     state = jasmine.createSpyObj<StateService>(
       'state',
       [
@@ -30,15 +35,14 @@ describe('Component: Registration', () => {
       ]
     );
     fb = new FormBuilder();
-    api = jasmine.createSpyObj<APIService>('api', ['postLogin', 'postUser']);
-    fixture = new RegisterComponent(api, fb, router, state, store);
+    fixture = new RegisterComponent(fb, router, state, store, session, redirectService);
     fixture.ngOnInit();
   });
 
   function setForm( firstName, lastName, email, password ) {
     fixture.regForm = new FormGroup({
       firstName: new FormControl(firstName, Validators.required),
-      lastname: new FormControl(lastName, Validators.required),
+      lastName: new FormControl(lastName, Validators.required),
       email: new FormControl(email, Validators.required),
       password: new FormControl(password)
     });
@@ -100,7 +104,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (<jasmine.Spy>api.postLogin).and.returnValue(Observable.throw({}));
+        (<jasmine.Spy>session.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {

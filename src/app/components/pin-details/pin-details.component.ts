@@ -1,11 +1,11 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
-import { ContentService } from '../../services/content.service';
-import { Pin } from '../../models/pin';
+import { Pin, pinType } from '../../models/pin';
 import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
@@ -20,43 +20,41 @@ import { User } from '../../models/user';
 })
 export class PinDetailsComponent implements OnInit {
 
+  @Input() pin: Pin;
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
-  public buttonText: string = "Update";
+  public buttonText: string = 'Update';
   public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public editMode: boolean = false;
-  public pin: Pin;
   public isGatheringPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: User;
 
-  constructor(private api: APIService,
-    private content: ContentService,
+  constructor(
+    private location: PlatformLocation,
     private router: Router,
     private route: ActivatedRoute,
     private session: SessionService,
     private state: StateService,
     private hlpr: AddMeToTheMapHelperService,
     private pinService: PinService
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     this.state.setLoading(true);
-    //I think this is bad
-    //We are just appending a bunch of properties to our pin class, not necessarily composing a
-    //new pin via a constructor.  This should be rectified.
+    this.state.setPageHeader('connect', '/');
+
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
 
-    if (this.pin.gathering !== null && this.pin.gathering !== undefined) {
+    if (this.pin.pinType == pinType.GATHERING) {
       this.isGatheringPin = true;
     }
 
-    if (this.api.isLoggedIn()) {
+    if (this.session.isLoggedIn()) {
       this.isLoggedIn = true;
       this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
@@ -68,8 +66,7 @@ export class PinDetailsComponent implements OnInit {
   }
 
   private doesLoggedInUserOwnPin() {
-    let contactId = this.session.getContactId();
-    return contactId === this.pin.contactId;
+    return this.pinService.doesLoggedInUserOwnPin(this.pin);
   }
 
   public onSubmit(value) {
@@ -77,5 +74,4 @@ export class PinDetailsComponent implements OnInit {
       location.reload();
     }
   }
-
 }

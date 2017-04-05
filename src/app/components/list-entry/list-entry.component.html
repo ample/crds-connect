@@ -1,0 +1,42 @@
+<div *ngIf="isPerson()"
+     class="entry"
+     (click)="sayHi(participantId)">
+  <div class="avatar-group avatar-size-4">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
+  <div class="entry-details">
+    <h3 class="entry-header">{{name()}}</h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
+  </div>
+</div>
+<div *ngIf="isGathering()"
+     class="entry"
+     (click)="displayDetails(groupId)">
+  <div class="avatar-group avatar-size-5">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
+  <div class="entry-details">
+    <h3 class="entry-header">{{name()}}
+      <span class="label label-host">HOST</span></h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+      <span class="joined_by">JOINED BY {{count()}}</span>
+    </p>
+    <p class="entry-description">{{gatheringDescription()}}</p>
+  </div>
+</div>
+<div *ngIf="isSite()"
+     class="entry">
+  <div class="avatar-group avatar-size-5">
+    <img src="{{getPicByPinType()}}" class="img-circle">
+  </div>
+  <div class="entry-details">
+    <h3 class="entry-header">Crossroads {{siteName}}</h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
+    <p class="entry-description" [innerHTML]="siteAddress()"></p>
+  </div>
+</div>

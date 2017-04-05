@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { APIService } from '../../services/api.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { SessionService } from '../../services/session.service';
+import { LoginRedirectService } from '../../services/login-redirect.service';
 
 import { User } from '../../models/user';
 
@@ -23,17 +24,18 @@ export class RegisterComponent implements OnInit {
   private emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
   constructor(
-    private api: APIService,
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService
+    private store: StoreService,
+    private session: SessionService,
+    private redirectService: LoginRedirectService
   ) {
     this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
-      lastName:  ['', [<any>Validators.required]],
-      email:     ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
-      password:  ['', [<any>Validators.required, <any>Validators.minLength(8)]]
+      lastName: ['', [<any>Validators.required]],
+      email: ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
+      password: ['', [<any>Validators.required, <any>Validators.minLength(8)]]
     });
   }
 
@@ -45,18 +47,17 @@ export class RegisterComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  back(): boolean {
-    // navigate
-    return false;
+  signin() {
+    this.router.navigate(['signin']);
   }
 
   adv(): void {
-    // navigate
+    this.redirectService.redirectToTarget();
   };
 
   submitRegistration() {
     this.submitted = true;
-    if ( this.regForm.valid ) {
+    if (this.regForm.valid) {
       this.state.setLoading(true);
       let newUser = new User(
         this.regForm.get('firstName').value,
@@ -64,20 +65,25 @@ export class RegisterComponent implements OnInit {
         this.regForm.get('email').value,
         this.regForm.get('password').value
       );
-      this.api.postUser(newUser).subscribe(
+      this.session.postUser(newUser).subscribe(
         user => {
-          if (!this.api.isLoggedIn()) {
+          if (!this.session.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);
           }
-          this.adv();
+
         },
         error => {
-          if (error === 'Duplicate User') {
+          if (JSON.parse(error._body).message === 'Duplicate User') {
             this.state.setLoading(false);
             this.duplicateUser = true;
           }
         }
       );
+    } else {
+      this.regForm.controls['firstName'].markAsTouched();
+      this.regForm.controls['lastName'].markAsTouched();
+      this.regForm.controls['email'].markAsTouched();
+      this.regForm.controls['password'].markAsTouched();
     }
 
     this.submitted = true;
@@ -85,16 +91,20 @@ export class RegisterComponent implements OnInit {
   }
 
   loginNewUser(email, password) {
-    this.api.postLogin(email, password)
+    this.session.postLogin(email, password)
       .subscribe(
-        (user) => this.store.loadUserData(),
-        (error) => this.state.setLoading(false)
+      (user) => {
+        this.session.setContactId(user.userId);
+        this.store.loadUserData();
+        this.adv();
+      },
+      (error) => this.state.setLoading(false)
       );
   }
 
   switchMessage(errors: any): string {
     let ret = `is <em>invalid</em>`;
-    if ( errors.required !==  undefined ) {
+    if (errors.required !== undefined) {
       ret = `is <u>required</u>`;
     }
     return ret;

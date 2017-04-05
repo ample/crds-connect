@@ -1,0 +1,28 @@
+<div class="app-header">
+
+  <!-- Brand Bar -->
+  <div class="brand-bar" *ngIf="state.hasBrandBar">
+    <div class="app-logo">
+      <svg viewBox="0 0 75 15">
+        <use xlink:href="/assets/brandbanner-logo-connect.svg#brandbanner-logo-connect"></use>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-title" *ngIf="state.hasPageHeader">
+    <div class="content-middle">
+      <a *ngIf="state.pageHeader.routerLink"
+        class="pull-left"
+        routerLink="{{state.pageHeader.routerLink}}">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xlink:href="/assets/svgs/icons.svg#chevron-left"></use>
+        </svg>
+      </a>
+      <h1 *ngIf="state.pageHeader.title" class="text-lowercase">
+        {{ state.pageHeader.title }}
+      </h1>
+    </div>
+  </div>
+
+</div>

@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { APIService } from './/api.service';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from './/user-location.service';
@@ -10,7 +9,6 @@ import { MapContentComponent } from '../components/map-content/map-content.compo
 import { MapFooterComponent } from '../components/map-footer/map-footer.component';
 import { GeoCoordinates } from '../models/geo-coordinates';
 
-import { ContentService } from './/content.service';
 import { IFrameParentService } from './/iframe-parent.service';
 import { SessionService } from './/session.service';
 import { StateService } from './/state.service';
@@ -51,11 +49,9 @@ describe('Service: Google Map', () => {
         IFrameParentService,
         StoreService,
         StateService,
-        APIService,
         SessionService,
         CookieService,
         Angulartics2,
-        ContentService,
         LoginRedirectService
       ]
     });

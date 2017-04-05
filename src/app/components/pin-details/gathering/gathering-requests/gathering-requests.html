@@ -1,12 +1,23 @@
-<span class="h3">Pending</span>
+<span class="h2">Pending</span>
 <hr/>
 <div *ngIf="inquiries.length > 0">
-<div class="row" *ngFor="let inquiry of inquiries">
-    <participant-card [participant]="convertToParticipant(inquiry)"></participant-card> 
-    <small class="move-right">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</small>
+    <div class="row" *ngFor="let inquiry of inquiries">
+        <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
+        <small class="move-right">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</small>
+        <div class="row move-right-btn">
+            <button class="btn btn-primary" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
+            <button class="btn btn-secondary" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
+        </div>
+        <div *ngIf="inquiry.error" class="alert alert-danger">
+            <crds-content-block id="finderErrorAcceptDeny"></crds-content-block>
+        </div>
+    </div>
+
 </div>
+<div *ngIf="errorRetrieving" class="alert alert-danger">
+    <crds-content-block id="finderErrorLoadingContent"></crds-content-block>
 </div>
-<div *ngIf="inquiries.length < 1">
+<div *ngIf="inquiries.length < 1 && !errorRetrieving">
     <span>No pending requests or invitations</span>
 </div>
 <br />

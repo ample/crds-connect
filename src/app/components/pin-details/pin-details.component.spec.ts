@@ -7,19 +7,19 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-
-import { APIService } from '../../services/api.service';
-import { ContentService } from '../../services/content.service';
+import { GatheringService } from '../../services/gathering.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
+import { BlandPageService } from '../../services/bland-page.service';
 import { PinService } from '../../services/pin.service';
 import { Observable } from 'rxjs/Rx';
 import { AddressFormComponent } from '../address-form/address-form.component';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LocationService } from '../../services/location.service';
+import { GoogleMapService } from '../../services/google-map.service';
 import { GatheringComponent } from '../pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from '../pin-details/gathering/gathering-requests/gathering-requests.component';
 import { PersonComponent } from '../pin-details/person/person.component';
@@ -29,10 +29,14 @@ import { ParticipantsListComponent } from '../pin-details/participants-list/part
 import { ParticipantCardComponent } from '../pin-details/participants-list/participant-card/participant-card.component';
 import { ReadonlyAddressComponent } from '../pin-details/readonly-address/readonly-address.component';
 import { SayHiComponent } from '../pin-details/say-hi/say-hi.component';
+import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someone.component';
 
 
 import { PinDetailsComponent } from './pin-details.component';
+import { ContentBlockModule } from 'crds-ng2-content-block';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
+import { pinType } from '../../models/pin';
 
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -41,9 +45,12 @@ describe('Component: Pin-Details component', () => {
   let component;
   let fixture;
   let pin;
+  let mockContentService;
 
   describe('non gathering', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       this.pin = {
         'firstName': 'Joe',
         'lastName': 'Kerstanoff',
@@ -63,7 +70,8 @@ describe('Component: Pin-Details component', () => {
           'latitude': null
         },
         'hostStatus': 0,
-        'gathering': null
+        'gathering': null,
+        'pinType': pinType.PERSON
       };
       TestBed.configureTestingModule({
         declarations: [
@@ -78,27 +86,31 @@ describe('Component: Pin-Details component', () => {
           GatheringComponent,
           GatheringRequestsComponent,
           PinDetailsComponent,
+          InviteSomeoneComponent
         ],
         imports: [
-          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+          ContentBlockModule.forRoot({ categories: ['common'] })
         ],
         providers: [
           {
             provide: ActivatedRoute,
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
+          { provide: ContentService, useValue: mockContentService },
           IFrameParentService,
+          GatheringService,
           StoreService,
           StateService,
-          APIService,
           SessionService,
           CookieService,
           PinService,
           Angulartics2,
-          ContentService,
           LoginRedirectService,
           AddMeToTheMapHelperService,
-          LocationService
+          GoogleMapService,
+          LocationService,
+          BlandPageService
         ]
       });
       this.fixture = TestBed.createComponent(PinDetailsComponent);
@@ -125,17 +137,17 @@ describe('Component: Pin-Details component', () => {
       expect(returnValue).toBe(false);
     }));
 
-    it('shouldInit while not logged in', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(false);
+    it('should init while not logged in', inject([SessionService], (session) => {
+      spyOn(session, 'isLoggedIn').and.returnValue(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
       expect(this.component.pin.firstName).toBe('Joe');
-      expect(api.isLoggedIn.calls.count()).toEqual(1);
+      expect(session.isLoggedIn.calls.count()).toEqual(1);
       expect(this.component.isPinOwner).toBe(false);
     }));
 
-    it('shouldInit while logged in', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(true);
+    it('shouldInit while logged in', inject([SessionService], (session) => {
+      spyOn(session, 'isLoggedIn').and.returnValue(true);
       expect(this.component.isGatheringPin).toBe(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(true);
@@ -144,6 +156,8 @@ describe('Component: Pin-Details component', () => {
 
   describe('gathering', () => {
     beforeEach(() => {
+      mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+
       this.pin = {
         'firstName': 'Joe',
         'lastName': 'Kerstanoff',
@@ -163,6 +177,7 @@ describe('Component: Pin-Details component', () => {
           'latitude': null
         },
         'hostStatus': 0,
+        'pinType': pinType.GATHERING,
         'gathering': {
           'Participants': [
             {
@@ -221,27 +236,31 @@ describe('Component: Pin-Details component', () => {
           GatheringComponent,
           GatheringRequestsComponent,
           PinDetailsComponent,
+          InviteSomeoneComponent
         ],
         imports: [
-          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+          RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
+          ContentBlockModule.forRoot({ categories: ['common'] })
         ],
         providers: [
           {
             provide: ActivatedRoute,
             useValue: { snapshot: { data: { pin: this.pin } } },
           },
+          { provide: ContentService, useValue: mockContentService },
+          GatheringService,
           IFrameParentService,
           StoreService,
           StateService,
-          APIService,
           SessionService,
           CookieService,
           PinService,
           Angulartics2,
-          ContentService,
           LoginRedirectService,
           AddMeToTheMapHelperService,
-          LocationService
+          LocationService,
+          GoogleMapService,
+          BlandPageService
         ]
       });
       this.fixture = TestBed.createComponent(PinDetailsComponent);
@@ -268,13 +287,13 @@ describe('Component: Pin-Details component', () => {
       expect(returnValue).toBe(false);
     }));
 
-    it('shouldInit while not logged in', inject([APIService], (api) => {
-      spyOn(api, 'isLoggedIn').and.returnValue(false);
+    it('shouldInit while not logged in', inject([SessionService], (session) => {
+      spyOn(session, 'isLoggedIn').and.returnValue(false);
       this.component.ngOnInit();
       expect(this.component.isLoggedIn).toBe(false);
       expect(this.component.isGatheringPin).toBe(true);
       expect(this.component.pin.firstName).toBe('Joe');
-      expect(api.isLoggedIn.calls.count()).toEqual(1);
+      expect(session.isLoggedIn.calls.count()).toEqual(1);
       expect(this.component.isPinOwner).toBe(false);
     }));
   });

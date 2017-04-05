@@ -9,8 +9,9 @@ export class Inquiry {
     inqueryId: number;
     contactId: number;
     message: string;
+    error: boolean = false;
 
-    constructor($groupId: number, $email: string, $phoneNumber: string, $firstName: string, $lastName: string, $requestDate: Date, 
+    constructor($groupId: number, $email: string, $phoneNumber: string, $firstName: string, $lastName: string, $requestDate: Date,
                 $placed: boolean, $inquiryId: number, $contactId: number, $message: string) {
             this.groupId = $groupId;
             this.emailAddress = $email;
