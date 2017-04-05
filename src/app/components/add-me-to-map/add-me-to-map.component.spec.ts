@@ -24,6 +24,7 @@ import { BlandPageService } from '../../services/bland-page.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { UserLocationService } from '../../services/user-location.service';
+import { LocationService } from '../../services/location.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -36,7 +37,11 @@ describe('Component: Add Me to the Map', () => {
     mockSessionService,
     mockStateService,
     mockContentService,
-    mockGoogleMapService;
+    mockGoogleMapService,
+    mockIPService, 
+    mockUserLocationServicee,
+    mockLocationService;
+
 
   beforeEach(() => {
 
@@ -50,6 +55,7 @@ describe('Component: Add Me to the Map', () => {
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['loadData']);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapService', ['constructor']);
+    mockIPService = jasmine.createSpyObj<GoogleMapService>('IPService', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -75,20 +81,10 @@ describe('Component: Add Me to the Map', () => {
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
         { provide: ContentService, useValue: mockContentService },
-<<<<<<< HEAD
-        { provide: GoogleMapService, useValue: mockGoogleMapService }
-=======
-        IPService,
-        GatheringService,
-        PinService,
-        LocationService,
-        LoginRedirectService,
-        SessionService,
-        StateService,
-        GoogleMapService,
-        BlandPageService,
-        UserLocationService
->>>>>>> development
+        { provide: GoogleMapService, useValue: mockGoogleMapService },
+        { provide: IPService, useValue: mockIPService }, 
+        { provide: UserLocationService, useValue: mockUserLocationServicee }, 
+        { provide: LocationService, useValue: mockLocationService }
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);

@@ -31,7 +31,7 @@ describe('Component: GettingStarted', () => {
       comp = fixture.componentInstance;
     });
   }));
-
+ 
   it('should create an instance', () => {
     expect(comp).toBeTruthy();
   });
