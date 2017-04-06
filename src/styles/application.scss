@@ -552,10 +552,31 @@ search-local {
 .profile-picture {
   position: relative;
 
+  .entry & {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin-right: 1rem;
+    width: 85px;
+  }
+
+  .pin-detail-header & {
+
+  }
+
   .img-circle {
-    border: 2px solid rgba($cr-gray-lighter, .5);
+    border-style: solid;
+    border-width: 2px;
+
+    .entry & {
+      border-color: $cr-gray-lighter;
+    }
+
+    .pin-detail-header & {
+      border-color: $cr-gray;
+    }
   }
 }
+
 
 .profile-picture-default {
   background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
