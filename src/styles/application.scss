@@ -433,6 +433,10 @@ app-pin-detail {
       }
     }
 
+    .title {
+      color: $cr-white;
+    }
+
     @media (min-width: $screen-sm) {
       box-shadow: 0 0 10px 0 $cr-gray-light;
       margin: 0 auto;
@@ -542,5 +546,28 @@ search-local {
 
   @media (min-width: $screen-xs) {
     top: 93px;
+  }
+}
+
+.avatar-group {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  @extend %avatar-dimensions;
+}
+
+$dimensions: 16px;
+
+%avatar-dimensions {
+  @for $i from 1 through 6 {
+    &.avatar-size-#{$i} {
+      div {
+        width: $dimensions * $i;
+        height: $dimensions * $i;
+        background-size: $dimensions * $i;
+        &:not(:first-child) {
+          margin-right: - $dimensions/2 * $i;
+        }
+      }
+    }
   }
 }

@@ -9,6 +9,7 @@ import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
+import { MockComponent } from '../../shared/mock.component';
 
 import { GatheringService } from '../../services/gathering.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -47,7 +48,8 @@ describe('Component: Map', () => {
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
-        SearchLocalComponent
+        SearchLocalComponent,
+        MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
