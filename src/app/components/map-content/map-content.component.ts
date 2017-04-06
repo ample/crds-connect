@@ -271,7 +271,7 @@ export class MapContentComponent implements OnInit {
         let markerArray = [];
 
         if( markers.length > 0 ) {
-          for (let i = 0; i < markers.length; i++ ){
+          for (let i = 0; i < markers.length; i++ ) {
             let marker = markers[i];
             let markerLabel = marker.title;
             let markerLat = marker.position.lat().valueOf();
