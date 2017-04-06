@@ -1,5 +1,5 @@
 <div class="pin-details" [class.is-gathering]="isGatheringPin">
-	<div *ngIf="!editMode" class="container">
+	<div *ngIf="!editMode" class="container-fluid">
 	    <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
 	    <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
 	    <button *ngIf="isPinOwner" class="btn primary btn-primary" (click)="edit()">Edit</button>
