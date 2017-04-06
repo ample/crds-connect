@@ -171,7 +171,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ContentService,
     CookieService,
     IPService,
-    SiteAddessService,
+    SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
