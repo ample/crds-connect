@@ -24,6 +24,7 @@ import { PersonComponent } from '../../person/person.component';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../../services/login-redirect.service';
+import { MockComponent } from '../../../../shared/mock.component';
 
 
 describe('Component: Participant Card component', () => {
@@ -53,7 +54,8 @@ describe('Component: Participant Card component', () => {
           PinLoginActionsComponent,
           ReadonlyAddressComponent,
           SayHiComponent,
-          InviteSomeoneComponent
+          InviteSomeoneComponent,
+          MockComponent({selector: 'profile-picture', inputs:['contactId', 'wrapperClass', 'imageClass']})
         ],
         imports: [ ReactiveFormsModule, HttpModule, JsonpModule, ContentBlockModule.forRoot({ categories: ['common'] }) ],
         providers: [

@@ -30,6 +30,7 @@ import { ParticipantCardComponent } from '../pin-details/participants-list/parti
 import { ReadonlyAddressComponent } from '../pin-details/readonly-address/readonly-address.component';
 import { SayHiComponent } from '../pin-details/say-hi/say-hi.component';
 import { InviteSomeoneComponent } from './gathering/invite-someone/invite-someone.component';
+import { MockComponent } from '../../shared/mock.component';
 
 
 import { PinDetailsComponent } from './pin-details.component';
@@ -86,7 +87,8 @@ describe('Component: Pin-Details component', () => {
           GatheringComponent,
           GatheringRequestsComponent,
           PinDetailsComponent,
-          InviteSomeoneComponent
+          InviteSomeoneComponent,
+          MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
@@ -236,7 +238,8 @@ describe('Component: Pin-Details component', () => {
           GatheringComponent,
           GatheringRequestsComponent,
           PinDetailsComponent,
-          InviteSomeoneComponent
+          InviteSomeoneComponent,
+          MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
         ],
         imports: [
           RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
