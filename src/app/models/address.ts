@@ -10,6 +10,10 @@ export class Address {
     longitude: number;
     latitude: number;
 
+    public static overload_Constructor_One() {
+        return new Address(null, null, null, null, null, null, null, null, null, null);
+    }
+
     constructor(addressId: number, addressLine1: string, addressLine2: string,
                 city: string, state: string, zip: string, longitude: number, latitude: number, foreignCountry: string, county: string) {
         this.addressId = addressId;
@@ -24,7 +28,4 @@ export class Address {
         this.latitude = latitude;
     }
 
-    public static overload_Constructor_One(){
-        return new Address(null,null,null,null,null,null,null,null,null,null);
-    }
 }

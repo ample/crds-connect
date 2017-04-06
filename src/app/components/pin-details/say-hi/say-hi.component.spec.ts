@@ -25,7 +25,7 @@ import { GroupService } from '../../../services/group.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { Observable } from 'rxjs/Rx';
 
-describe('SayHiComponent', () => { 
+describe('SayHiComponent', () => {
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
 
@@ -70,7 +70,7 @@ describe('SayHiComponent', () => {
 
     it('should call login redirect if not logged in', () => {
 
-        let mockRoute = "mockRoute";
+        let mockRoute = 'mockRoute';
         let sendSayHiFunc = comp['sendSayHi'];
         comp.isLoggedIn = false;
         comp.sayHi();

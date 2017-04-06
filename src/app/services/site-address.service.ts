@@ -13,7 +13,7 @@ class BuildingAddress {
 }
 
 @Injectable()
-export class GatheringService {
+export class SiteAddressService {
 
   readonly buildingAddresses: Array<BuildingAddress> = [
     {
@@ -90,7 +90,7 @@ export class GatheringService {
     let thisService = this;
 
     pins.forEach(function(pin) {
-      if( pin.pinType === pinType.SITE) {
+      if (pin.pinType === pinType.SITE) {
         pin = thisService.addAddressToGatheringPin(pin);
       }
     });
@@ -99,10 +99,10 @@ export class GatheringService {
 
   }
 
-  public addAddressToGatheringPin(pin: Pin){
+  public addAddressToGatheringPin(pin: Pin) {
     let buildingAddress: BuildingAddress = this.buildingAddresses.find( add => add.locationName == pin.siteName );
 
-    if (buildingAddress === undefined){
+    if (buildingAddress === undefined) {
       pin.address.addressLine1 = '';
     } else {
       pin.address.addressLine1 = buildingAddress.addressLine1;
@@ -111,6 +111,4 @@ export class GatheringService {
     return pin;
   }
 
-
 }
-

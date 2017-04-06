@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { Address } from '../models/address';
 import { AddMeToTheMapHelperService } from './add-me-to-map-helper.service';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
-import { GatheringService } from '../services/gathering.service';
+import { SiteAddressService } from '../services/site-address.service';
 import { Pin, pinType } from '../models/pin';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
@@ -23,7 +23,7 @@ describe('Service: Add me to the Map Helper', () => {
       imports: [
         HttpModule
       ],
-      providers: [AddMeToTheMapHelperService, GatheringService]
+      providers: [AddMeToTheMapHelperService, SiteAddressService]
     });
   });
 

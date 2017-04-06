@@ -54,7 +54,7 @@ describe('ListEntryComponent', () => {
     it('should return proper name format', () => {
         fixture.detectChanges();
         comp.firstName = 'Bob';
-        comp.lastName = 'Johnson'
+        comp.lastName = 'Johnson';
         expect(comp.name()).toBe('BOB J.');
     });
 

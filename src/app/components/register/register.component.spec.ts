@@ -21,9 +21,7 @@ describe('Component: Registration', () => {
       redirectService: LoginRedirectService;
 
   beforeEach(() => {
-
     router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    
     session = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
     state = jasmine.createSpyObj<StateService>(
       'state',
