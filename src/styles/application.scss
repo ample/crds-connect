@@ -356,18 +356,16 @@ list-footer {
 .entry {
   border-top: 1px solid darken($cr-gray-lighter, 10);
   cursor: pointer;
-  display: flex;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
-  // div:first-child {
-  //   min-width: 80px;
-  // }
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 
-  // div:last-child {
-  //   flex: 1 1 100%;
-  //   margin-left: 1rem;
-  // }
+  div:last-child {
+    flex: 1 1 100%;
+  }
 }
 
 .entry-header {
@@ -549,6 +547,7 @@ search-local {
   }
 }
 
+// Profile picture fix (connect-specific?)
 .profile-picture {
   position: relative;
 
@@ -560,7 +559,8 @@ search-local {
   }
 
   .pin-detail-header & {
-
+    float: left;
+    margin-right: 1rem;
   }
 
   .img-circle {
@@ -577,7 +577,6 @@ search-local {
   }
 }
 
-
 .profile-picture-default {
   background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
   background-size: cover;
@@ -587,6 +586,7 @@ search-local {
   background-size: cover;
   position: absolute;
   top: 0;
+  right: 0;
 }
 
 @for $i from 1 through 6 {
