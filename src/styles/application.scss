@@ -360,14 +360,14 @@ list-footer {
   padding-top: 1rem;
   padding-bottom: 1rem;
 
-  div:first-child {
-    min-width: 80px;
-  }
+  // div:first-child {
+  //   min-width: 80px;
+  // }
 
-  div:last-child {
-    flex: 1 1 100%;
-    margin-left: 1rem;
-  }
+  // div:last-child {
+  //   flex: 1 1 100%;
+  //   margin-left: 1rem;
+  // }
 }
 
 .entry-header {
@@ -549,25 +549,30 @@ search-local {
   }
 }
 
-.avatar-group {
-  display: inline-flex;
-  flex-direction: row-reverse;
-  @extend %avatar-dimensions;
+.profile-picture {
+  position: relative;
+
+  .img-circle {
+    border: 2px solid rgba($cr-gray-lighter, .5);
+  }
 }
 
-$dimensions: 16px;
+.profile-picture-default {
+  background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
+  background-size: cover;
+}
 
-%avatar-dimensions {
-  @for $i from 1 through 6 {
-    &.avatar-size-#{$i} {
-      div {
-        width: $dimensions * $i;
-        height: $dimensions * $i;
-        background-size: $dimensions * $i;
-        &:not(:first-child) {
-          margin-right: - $dimensions/2 * $i;
-        }
-      }
-    }
+.profile-picture-overlay {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+}
+
+@for $i from 1 through 6 {
+  .img-size-#{$i} {
+    $dimensions: 16px;
+
+    height: $dimensions * $i;
+    width: $dimensions * $i;
   }
 }
