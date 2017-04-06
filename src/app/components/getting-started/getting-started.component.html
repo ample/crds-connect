@@ -5,17 +5,26 @@
     <crds-content-block id="finderGettingStarted" class="text-center"></crds-content-block>
 
     <!-- People -->
-    <div class="people" *ngFor="let group of pins">
-      <div class="person" *ngFor="let pin of group">
-        <div class="avatar-group avatar-size-6">
-          <img src="{{pin.image}}" class="img-circle">
+    <!--<div class="people push-ends">
+      <div class="row push-ends" *ngFor="let group of pins">
+        <div class="person col-xs-6" *ngFor="let pin of group">
+          <div class="avatar-group avatar-size-6">
+            <img src="{{pin.image}}" class="img-circle">
+          </div>
+          <div class="label-center">
+            <span *ngIf="pin.host" class="label label-host">HOST</span>
+          </div>
+          <h3 class="entry-header">{{pin.name}}</h3>
+          <p class="entry-subheader">
+            <span class="proximity">{{pin.location}}</span>
+          </p>
         </div>
         <h3 class="entry-header">{{pin.name}} <span *ngIf="pin.host" class="label label-host">HOST</span></h3>
         <p class="entry-subheader">
           <span class="proximity">{{pin.location}}</span>
         </p>
       </div>
-    </div>
+    </div>-->
 
     <!-- Add Me To The Map Text/Button -->
     <crds-content-block id="finderGettingStartedAddToMap" class="text-center"></crds-content-block>

@@ -13,6 +13,7 @@ export class PinHeaderComponent {
   @Input() firstName: string = '';
   @Input() lastName: string = '';
   @Input() userImage: string = 'https://image.ibb.co/gQGf0a/GRAYGUY.png';
+  @Input() contactId: number;
 
   constructor() {}
 

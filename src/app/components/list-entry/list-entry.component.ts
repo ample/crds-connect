@@ -20,6 +20,7 @@ export class ListEntryComponent {
   @Input() address: Address = null;
   @Input() participantId: number = 0;
   @Input() participantCount: number = 0;
+  @Input() contactId: number = 0;
 
   constructor(
     private router: Router,

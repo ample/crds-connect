@@ -30,6 +30,7 @@ import { ParticipantService } from '../../../services/participant.service';
 import { ToastsManager, Toast } from 'ng2-toastr';
 import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { MockComponent } from '../../../shared/mock.component';
 
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
@@ -60,7 +61,8 @@ describe('GatheringComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                GatheringComponent
+                GatheringComponent,
+                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
             ],
             imports: [],
             providers: [
