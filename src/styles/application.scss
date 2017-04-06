@@ -363,8 +363,9 @@ list-footer {
   align-items: flex-start;
   justify-content: space-between;
 
-  div:last-child {
+  > div:last-child {
     flex: 1 1 100%;
+    margin-left: 1rem;
   }
 }
 
@@ -554,7 +555,7 @@ search-local {
   .entry & {
     display: inline-flex;
     flex-direction: row-reverse;
-    margin-right: 1rem;
+    // margin-right: 1rem;
     width: 85px;
   }
 
@@ -579,10 +580,12 @@ search-local {
 
 .profile-picture-default {
   background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
+  background-position: center;
   background-size: cover;
 }
 
 .profile-picture-overlay {
+  background-position: center;
   background-size: cover;
   position: absolute;
   top: 0;
