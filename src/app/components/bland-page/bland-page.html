@@ -1,4 +1,4 @@
-<div class="fauxdal fauxdal-fullscreen fauxdal-center">
+<div class="fauxdal fauxdal-center">
   <div class="container-fluid">
     <div *ngIf="isFauxModal" class="pull-right close">
       <a (click)="close()">
@@ -8,8 +8,9 @@
       </a>
     </div>
 
-    <div class="text-center">
+    <div class="fauxdal-content">
       <crds-content-block *ngIf="contentBlock" id="{{blandPageDetails.content}}"></crds-content-block>
+
       <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
     </div>
 
