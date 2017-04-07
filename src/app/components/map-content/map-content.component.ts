@@ -51,6 +51,7 @@ export class MapContentComponent implements OnInit {
           minZoom: 3,
           maxZoom: 20,
           scrollwheel: false,
+          fullscreenControl: false,
           styles: [
             {
               'elementType': 'geometry',
