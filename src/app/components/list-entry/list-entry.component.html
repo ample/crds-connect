@@ -3,7 +3,10 @@
      (click)="sayHi(participantId)">
   <profile-picture [contactId]="contactId" wrapperClass="pin-detail-image avatar-group avatar-size-4" imageClass="img-circle"></profile-picture>
   <div class="entry-details">
-    <h3 class="entry-header">{{name()}}</h3>
+    <h3 class="entry-header">
+      {{name()}}
+      <span *ngIf="isMe()" class="label label-me">ME</span>
+    </h3>
     <p class="entry-subheader">
       <span class="proximity">{{roundedProximity()}} MI</span>
     </p>
