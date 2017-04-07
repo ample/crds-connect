@@ -9,6 +9,7 @@ import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { BlandPageService } from '../../services/bland-page.service';
+import { SearchService } from '../../services/search.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -21,8 +22,6 @@ export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
 
-  @Output() searchResultsEmitter: EventEmitter<PinSearchResultsDto>;
-
   constructor(private pin: PinService,
               private mapHlpr: GoogleMapService,
               private loginRedirectService: LoginRedirectService,
@@ -31,10 +30,8 @@ export class MapFooterComponent {
               private state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
-              private userLocationService: UserLocationService) {
-
-    this.searchResultsEmitter = new EventEmitter<PinSearchResultsDto>();
-  }
+              private userLocationService: UserLocationService,
+              private search: SearchService) { }
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
@@ -67,7 +64,7 @@ export class MapFooterComponent {
         this.myPinSearchResults.pinSearchResults =
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-        this.searchResultsEmitter.emit(this.myPinSearchResults);
+        this.search.emitMyStuffSearch(this.myPinSearchResults);
         this.state.setLoading(false);
 
         if (this.state.getCurrentView() === 'map') {

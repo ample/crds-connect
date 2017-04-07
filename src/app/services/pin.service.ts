@@ -103,12 +103,13 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
           return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
         }
       } else {  // getMyViewOrWorldView = 'my'
-        searchOptions = new SearchOptions('myView', lat, lng);
-        if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-          return Observable.of(super.getCache());
-        } else {
-            return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
-          }
+        return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
+        // searchOptions = new SearchOptions('myView', lat, lng);
+        // if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
+        //   return Observable.of(super.getCache());
+        // } else {
+        //     return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
+        // }
       }
   }
 

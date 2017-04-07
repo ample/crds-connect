@@ -7,7 +7,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -31,11 +31,17 @@ export class NeighborsComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private userLocationService: UserLocationService,
-    private searchLocalService: SearchLocalService) {
+    private searchService: SearchService) {
 
-    searchLocalService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+    searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
       this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
+    });
+
+    searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
+      console.log('subscribe');
+      console.log(myStuffSearchResults);
+      this.pinSearchResults = myStuffSearchResults;
     });
   }
 
