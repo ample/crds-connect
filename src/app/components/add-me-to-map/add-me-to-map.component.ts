@@ -51,7 +51,7 @@ export class AddMeToMapComponent implements OnInit {
       this.state.setCurrentView('map');
       let nowAPin = new BlandPageDetails(
         'See for yourself',
-        'nowAPin',
+        'finderNowAPin',
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
         '',
