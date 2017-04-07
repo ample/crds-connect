@@ -71,6 +71,17 @@ app-map-footer {
     clear: both;
   }
 }
+search-local {
+  display: block;
+  position: absolute;
+  top: 85px;
+  right: 1rem;
+  z-index: 4;
+
+  @media (min-width: $screen-xs) {
+    top: 93px;
+  }
+}
 
 
 
@@ -403,18 +414,6 @@ readonly-address {
   }
 }
 
-// Update search results button
-search-local {
-  display: block;
-  position: absolute;
-  top: 85px;
-  right: 1rem;
-  z-index: 4;
-
-  @media (min-width: $screen-xs) {
-    top: 93px;
-  }
-}
 
 // Profile picture fix (connect-specific?)
 .profile-picture {
