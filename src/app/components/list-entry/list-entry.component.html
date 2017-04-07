@@ -1,5 +1,5 @@
 <div *ngIf="isPerson()"
-     class="entry"
+     class="entry entry-person"
      (click)="sayHi(participantId)">
   <profile-picture [contactId]="contactId"
                    wrapperClass="profile-picture"
@@ -16,7 +16,7 @@
 </div>
 
 <div *ngIf="isGathering()"
-     class="entry"
+     class="entry entry-gathering"
      (click)="displayDetails(groupId)">
   <profile-picture [contactId]="contactId"
                    wrapperClass="profile-picture"

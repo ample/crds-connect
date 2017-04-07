@@ -375,6 +375,14 @@ list-footer {
     flex: 1 1 100%;
     margin-left: 1rem;
   }
+
+  &.entry-site {
+    cursor: initial;
+
+    .entry-header {
+      color: $cr-gray-dark;
+    }
+  }
 }
 
 .entry-header {
@@ -383,7 +391,6 @@ list-footer {
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 0;
-
 }
 
 .label {
