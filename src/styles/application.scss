@@ -36,16 +36,21 @@ canvas-map-overlay {
 
 app-map {
   display: block;
-  overflow: hidden;
-  position: relative;
-}
+// <<<<<<< HEAD
+//   overflow: hidden;
+//   position: relative;
+// }
 
-sebm-google-map {
-  @media (min-width: $screen-xs) {
-    .gmnoprint {
-      padding: .5rem;
-    }
-  }
+// sebm-google-map {
+//   @media (min-width: $screen-xs) {
+//     .gmnoprint {
+//       padding: .5rem;
+// =======
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 canvas-map-overlay {
@@ -198,6 +203,14 @@ list-footer {
     flex: 1 1 100%;
     margin-left: 1rem;
   }
+
+  &.entry-site {
+    cursor: initial;
+
+    .entry-header {
+      color: $cr-gray-dark;
+    }
+  }
 }
 
 .entry-header {
@@ -206,7 +219,6 @@ list-footer {
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 0;
-
 }
 
 .label {
