@@ -26,7 +26,7 @@ export class ParticipantService extends CacheableService<Group[]> {
                 let filtered = cache.filter((g) => {
                     return g.groupId != groupId;
                 });
-                super.setCache(filtered, CacheLevel.Partial, contactId)
+                super.setCache(filtered, CacheLevel.Partial, contactId);
             }
         }
     }

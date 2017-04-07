@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx';
 import { ListHelperService } from '../../services/list-helper.service';
 import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GatheringService } from '../../services/gathering.service';
+import { SiteAddressService } from '../../services/site-address.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';

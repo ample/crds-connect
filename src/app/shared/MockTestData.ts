@@ -43,7 +43,7 @@ export class MockTestData {
         );
     }
 
-    public static getAnAddress(designator: number = 1): Address{
+    public static getAnAddress(designator: number = 1): Address {
         return new Address(
                 designator,
                 'addressline1' + designator.toString(),
@@ -63,7 +63,7 @@ export class MockTestData {
         if (numOfParticipants === 0) {
             return null;
         }
-        for (var index = 0; index < numOfParticipants; index++) {
+        for (let index = 0; index < numOfParticipants; index++) {
             let participant = new Participant(
                 'congregation',
                 index,
