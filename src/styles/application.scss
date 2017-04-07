@@ -36,21 +36,16 @@ canvas-map-overlay {
 
 app-map {
   display: block;
-// <<<<<<< HEAD
-//   overflow: hidden;
-//   position: relative;
-// }
+  overflow: hidden;
+  position: relative;
+}
 
-// sebm-google-map {
-//   @media (min-width: $screen-xs) {
-//     .gmnoprint {
-//       padding: .5rem;
-// =======
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+sebm-google-map {
+  @media (min-width: $screen-xs) {
+    .gmnoprint {
+      padding: .5rem;
+    }
+  }
 }
 
 canvas-map-overlay {
