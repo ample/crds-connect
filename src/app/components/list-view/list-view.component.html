@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <h2><crds-content-block id="finderMyStuff"></crds-content-block></h2>
 
   <list-entry *ngFor="let pin of pinsToShow()"
@@ -11,7 +11,8 @@
               [groupId]="pin.gathering ? pin.gathering.groupId : 0"
               [participantId]="pin.participantId"
               [address]="pin.address"
-              [participantCount]="pin.gathering ? pin.gathering.participantCount : 0">
+              [participantCount]="pin.gathering ? pin.gathering.participantCount : 0"
+              [contactId]="pin.contactId">
   </list-entry>
 
   <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length"

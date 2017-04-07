@@ -171,10 +171,8 @@ app-add-me-to-map {
 
 // Centers blocks to the middle of the screen.
 .content-middle {
-  margin-left: auto;
-  margin-right: auto;
+  @include container-fixed();
   max-width: $container-tablet;
-  text-align: center;
   width: 100%;
 }
 
@@ -386,6 +384,7 @@ list-footer {
   font-family: 'Lexia', serif;
   font-size: $font-size-smaller;
   margin-top: 9px;
+  margin-left: 1rem;
   padding: 5px 6px 4px;
   text-transform: uppercase;
 
@@ -406,6 +405,35 @@ list-footer {
 
   .joined_by {
     margin-left: .5rem;
+  }
+}
+
+// Getting started layout
+.people {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 1rem;
+
+  @media (min-width: $screen-xs) {
+    flex-direction: row;
+  }
+
+  .person {
+    flex: 1 1 auto;
+    text-align: center;
+
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+
+    &::last-child {
+      padding-top: 1rem;
+    }
+
+    .entry-header {
+      justify-content: center;
+    }
   }
 }
 
@@ -431,6 +459,10 @@ app-pin-detail {
       @media screen and ( min-height: #{$height}px ){
         height: #{$height - 19}px;
       }
+    }
+
+    .title {
+      color: $cr-white;
     }
 
     @media (min-width: $screen-sm) {
@@ -542,5 +574,28 @@ search-local {
 
   @media (min-width: $screen-xs) {
     top: 93px;
+  }
+}
+
+.avatar-group {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  @extend %avatar-dimensions;
+}
+
+$dimensions: 16px;
+
+%avatar-dimensions {
+  @for $i from 1 through 6 {
+    &.avatar-size-#{$i} {
+      div {
+        width: $dimensions * $i;
+        height: $dimensions * $i;
+        background-size: $dimensions * $i;
+        &:not(:first-child) {
+          margin-right: - $dimensions/2 * $i;
+        }
+      }
+    }
   }
 }

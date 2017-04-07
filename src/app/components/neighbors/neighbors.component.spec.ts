@@ -41,6 +41,7 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { IPService } from '../../services/ip.service';
+import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: Neighbors', () => {
 
@@ -61,7 +62,8 @@ describe('Component: Neighbors', () => {
         SearchBarComponent,
         MapComponent,
         SearchLocalComponent,
-        GoogleMapClusterDirective
+        GoogleMapClusterDirective,
+        MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,

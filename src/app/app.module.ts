@@ -55,6 +55,7 @@ import { PersonComponent } from './components/pin-details/person/person.componen
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
+import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
@@ -152,6 +153,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PinDetailsComponent,
     PinHeaderComponent,
     PinLoginActionsComponent,
+    ProfilePictureComponent,
     ReadonlyAddressComponent,
     RegisterComponent,
     SayHiComponent,
