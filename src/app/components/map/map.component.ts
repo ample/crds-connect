@@ -71,7 +71,7 @@ export class MapComponent implements OnInit {
 
   public getStringByPinType(pin) {
     if (this.session.isCurrentPin(pin)) {
-      return '//www.thebankofgreenecounty.com/wp-content/uploads/2016/08/placeholder-small.png';
+      return '//crds-cms-uploads.s3.amazonaws.com/connect/ME.svg';
     }
     switch (pin.pinType) {
       case pinType.PERSON:
