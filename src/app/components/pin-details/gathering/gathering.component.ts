@@ -47,6 +47,7 @@ export class GatheringComponent implements OnInit {
     private content: ContentService) { }
 
   public ngOnInit() {
+    window.scrollTo(0,0);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
 
@@ -90,7 +91,7 @@ export class GatheringComponent implements OnInit {
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
-            'gatheringJoinRequestSent',
+            'finderGatheringJoinRequestSent',
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
             ''

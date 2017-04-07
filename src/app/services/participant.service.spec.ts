@@ -119,7 +119,7 @@ describe('ParticipantService', () => {
                 expect(mockSessionService.get).not.toHaveBeenCalled();
             })
         );
-        
+
         it('should getParticipants from backend - notCachedForUser',
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
@@ -144,7 +144,7 @@ describe('ParticipantService', () => {
                 expect(mockSessionService.get).toHaveBeenCalled();
             })
         );
-        
+
         it('should getParticipants from backend and add it to the cache - groupNotFound',
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
@@ -153,7 +153,7 @@ describe('ParticipantService', () => {
                 <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
                 <jasmine.Spy>(mockSessionService.get).and.returnValue(Observable.of(MockTestData.getAParticipantsArray(3)));
 
-                for (var i = 1; i < 11; i++) {
+                for (let i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
                 }
                 service['cache'] = cache;

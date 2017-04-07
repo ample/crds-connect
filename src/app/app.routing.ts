@@ -23,7 +23,8 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
-  { path: 'add-me-to-the-map',
+  {
+    path: 'add-me-to-the-map',
     component: AddMeToMapComponent,
     canActivate: [
       LoggedInGuard
@@ -32,44 +33,50 @@ const appRoutes: Routes = [
       userData: UserDataResolver
     }
   },
-  { path: 'error', 
+  {
+    path: 'error',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ] 
+    ]
   },
-  { path: 'success', 
+  {
+    path: 'success',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ] 
+    ]
   },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
-  { path: 'getting-started',
+  {
+    path: 'getting-started',
     component: GettingStartedComponent,
   },
-  { path: 'whats-a-host', 
+  {
+    path: 'whats-a-host',
     component: BlandPageComponent,
     canActivate: [
       WhatsAHostGuard
-    ] 
+    ]
   },
   { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'gathering/:groupId',
+  {
+    path: 'gathering/:groupId',
     component: PinDetailsComponent,
-    resolve:  {
+    resolve: {
       pin: PinResolver,
       user: UserDataResolver
     }
-  },  
-  { path: 'person/:participantId',
+  },
+  {
+    path: 'person/:participantId',
     component: PinDetailsComponent,
-    resolve:  {
+    resolve: {
       pin: PinResolver,
       user: UserDataResolver
     }

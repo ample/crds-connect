@@ -28,6 +28,7 @@ export class PersonComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0,0);
     if (this.isPinOwner) {
       this.state.setLoading(true);
       this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON).subscribe(

@@ -10,7 +10,7 @@ describe('Service: CachableService', () => {
             providers: [
                 CacheableService,
             ]
-        })
+        });
     });
 
     it('should create an instance', inject([CacheableService], (service: CacheableService<null>) => {
@@ -18,7 +18,7 @@ describe('Service: CachableService', () => {
     }));
 
     it('should return cacheLevel', inject([CacheableService], (service: CacheableService<null>) => {
-        let cacheLevel = CacheLevel.Full
+        let cacheLevel = CacheLevel.Full;
         service['cacheLevel'] = cacheLevel;
         expect(service['getCacheLevel']()).toBe(cacheLevel);
     }));
@@ -44,7 +44,7 @@ describe('Service: CachableService', () => {
         partial = service['isAtLeastPartialCache']();
         service['cacheLevel'] = CacheLevel.Full;
         full = service['isAtLeastPartialCache']();
-        
+
         expect(none).toBe(false);
         expect(partial).toBe(true);
         expect(full).toBe(true);
@@ -52,23 +52,23 @@ describe('Service: CachableService', () => {
 
     it('isFullCache should return correctly', inject([CacheableService], (service: CacheableService<null>) => {
         let partial: Boolean, full: Boolean, none: Boolean;
-        
+
         service['cacheLevel'] = CacheLevel.Partial;
         partial = service['isFullCache']();
         service['cacheLevel'] = CacheLevel.None;
         none = service['isFullCache']();
         service['cacheLevel'] = CacheLevel.Full;
         full = service['isFullCache']();
-        
+
         expect(none).toBe(false);
         expect(partial).toBe(false);
         expect(full).toBe(true);
     }));
-    
+
     it('should clearCache', inject([CacheableService], (service: CacheableService<number>) => {
         service['cache'] = 123;
         service['cacheLevel'] = CacheLevel.Full;
-        service['userIdentifier'] = 3
+        service['userIdentifier'] = 3;
 
         service['clearCache']();
 
@@ -76,7 +76,7 @@ describe('Service: CachableService', () => {
         expect(service['cacheLevel']).toBe(CacheLevel.None);
         expect(service['userIdentifier']).toBeNull();
     }));
-    
+
     it('should setCache', inject([CacheableService], (service: CacheableService<number>) => {
         let newCache: number = 123;
         let cacheLevel: CacheLevel.Full;
@@ -92,7 +92,7 @@ describe('Service: CachableService', () => {
         expect(service['cacheLevel']).toBe(cacheLevel);
         expect(service['userIdentifier']).toBe(userIdentifier);
     }));
-    
+
     it('should setCache without userIdentifier', inject([CacheableService], (service: CacheableService<number>) => {
         let newCache: number = 123;
         let cacheLevel: CacheLevel.Full;
@@ -106,7 +106,7 @@ describe('Service: CachableService', () => {
         expect(service['cacheLevel']).toBe(cacheLevel);
         expect(service['userIdentifier']).toBeNull();
     }));
-    
+
     it('should getCache', inject([CacheableService], (service: CacheableService<number>) => {
         let cache: number = 123;
         let cacheResult: number;

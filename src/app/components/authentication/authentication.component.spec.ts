@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormBuilder } from '@angular/forms';
@@ -24,8 +25,7 @@ describe('Component: Authentication', () => {
 
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
-
-  //api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+  let location: Location;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -91,7 +91,11 @@ describe('Component: Authentication', () => {
     expect(isInvalid).toBe(true);
   });
 
+  it('should call location.back when the back button is clicked', inject([Location], (location) => {
+    spyOn(location, 'back');
+    comp.back();
+    expect(location.back).toHaveBeenCalled();
+  }));
+
 
 });
-
-

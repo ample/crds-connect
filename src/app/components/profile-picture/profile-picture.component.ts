@@ -1,12 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-
-
 @Component({
   selector: 'profile-picture',
-  templateUrl: 'profile-picture.html',
-  styleUrls: ['profile-picture.css']
+  templateUrl: 'profile-picture.html'
 })
 export class ProfilePictureComponent implements OnInit {
 
@@ -16,7 +13,6 @@ export class ProfilePictureComponent implements OnInit {
   private path: string;
   private baseUrl: string = process.env.CRDS_API_ENDPOINT;
   private ImageBaseURL: string = `${this.baseUrl}api/v1.0.0/image/profile/`;
-
 
   constructor() {
 

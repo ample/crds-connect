@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
 
+import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
 @Component({
@@ -22,10 +23,17 @@ export class ListEntryComponent {
   @Input() participantCount: number = 0;
   @Input() contactId: number = 0;
 
-  constructor(
-    private router: Router,
-    private state: StateService
-  ) {}
+  public currentContactId: number;
+
+  constructor(private session: SessionService,
+              private router: Router,
+              private state: StateService) {
+    this.currentContactId = this.session.getContactId();
+  }
+
+  public isMe() {
+    return this.contactId === this.currentContactId;
+  }
 
   public name() {
     return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
