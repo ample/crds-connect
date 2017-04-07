@@ -79,64 +79,6 @@ app-preloader {
   width: 100%;
 }
 
-app-map,
-sebm-google-map,
-canvas-map-overlay {
-  // Calculations are designed such that while the screen is less than 3000px
-  // tall, the map is never too short, but also never more than 99px below
-  // the bottom of the screen directly within Connect.
-  //
-  // When displayed as a microclient, it may fall another 54px-64px below
-  // the footer, accounting for the global header.
-  height: 381px;
-  @for $idx from 5 to 30 {
-    $height: $idx * 100;
-    @media screen and ( min-height: #{$height}px ){
-      height: #{$height - 19}px;
-    }
-  }
-}
-
-// Style map
-app-map {
-  display: block;
-  overflow: hidden;
-  position: relative;
-}
-
-sebm-google-map {
-  @media (min-width: $screen-xs) {
-    .gmnoprint {
-      padding: .5rem;
-    }
-  }
-}
-
-canvas-map-overlay {
-  display: block;
-  pointer-events: none;
-  position: absolute;
-  width: 100vw;
-  z-index: 1;
-}
-
-// Map footer
-app-map-footer {
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 5px;
-  right: 1rem;
-  z-index: 4;
-  @media (min-width: $screen-xs) {
-    top: 13px;
-  }
-  input {
-    float: right;
-    clear: both;
-  }
-}
-
 // List view
 app-listview {
   background: $cr-white;
