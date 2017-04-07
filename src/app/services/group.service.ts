@@ -18,8 +18,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class GroupService extends SmartCacheableService<Inquiry[], number> {
 
-  private baseUrl = process.env.CRDS_API_ENDPOINT;
-  private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
+  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   public restVerbs = {
     post: 'POST',
