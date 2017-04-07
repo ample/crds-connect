@@ -21,17 +21,19 @@ export class HostApplicationComponent implements OnInit {
   public errorMessage: string = '';
 
   constructor(private session: SessionService,
-              private loginRedirectService: LoginRedirectService,
-              private router: Router,
-              private store: StoreService,
-              private blandPageService: BlandPageService
-              ) {
+    private loginRedirectService: LoginRedirectService,
+    private router: Router,
+    private store: StoreService,
+    private blandPageService: BlandPageService,
+    private stateService: StateService
+  ) {
   }
 
   public ngOnInit() {
     if (!this.session.isLoggedIn()) {
-        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     }
+    this.stateService.setLoading(false);
   }
 
   public btnClickGettingStarted() {
