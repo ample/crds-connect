@@ -77,7 +77,7 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     let markerLabelProps = this.getMarkerLabelProps(labelData);
 
-    let labelHeightAdjustment: number = this.mapHlpr.getLabelHeightAdjustment(marker, isHostOrMe);
+    let labelHeightAdjustment: number = this.mapHlpr.getLabelHeightAdjustment(cHeight, marker, isHostOrMe);
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
@@ -90,8 +90,13 @@ export class CanvasMapOverlayComponent implements OnInit {
     ctx.font = '12px Arial';
 
     ctx.strokeText(markerLabelProps.line1, textX, textY);
-    ctx.fillText(markerLabelProps.line1, textX, textY);
-    //ctx.fillText(markerLabelProps.line1 + ' ' + labelHeightAdjustment + ' ' + marker.markerGeoOffsetLngPercentage + '%', textX, textY);
+    //ctx.fillText(markerLabelProps.line1, textX, textY);
+    ctx.fillText(markerLabelProps.line1 + ' ' + labelHeightAdjustment + ' ' + marker.markerGeoOffsetLngPercentage + '%', textX, textY);
+
+    //TESTING CODE
+    ctx.font = '40px Arial';
+    ctx.fillText('Screen height: ' + cHeight, 50, 50);
+    //TESTING CODE
 
     //draw line 2
     if( isHostOrMe ){
