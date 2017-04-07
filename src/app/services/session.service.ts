@@ -135,7 +135,6 @@ export class SessionService extends SmartCacheableService<User, number> {
     let cID = +this.cookieService.get(this.contactId);
     cID = isNaN(cID) ? null : cID;
     return cID;
-
   }
 
   public setContactId(contactId: string): void {
