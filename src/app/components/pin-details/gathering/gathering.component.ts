@@ -90,7 +90,7 @@ export class GatheringComponent implements OnInit {
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
-            'gatheringJoinRequestSent',
+            'finderGatheringJoinRequestSent',
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
             ''

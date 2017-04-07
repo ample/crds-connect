@@ -1,14 +1,25 @@
-<div *ngIf="isFauxModal">
-    <p class='pull-right text-left text-block'>
-        <a (click)='close()'>
-            <span class="glyphicon glyphicon-remove"> </span>
-        </a>
-    </p>
-</div>
-<div>
-    <crds-content-block *ngIf="contentBlock" id="{{blandPageDetails.content}}"></crds-content-block>
-    <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
-</div>
-<br>
+<div class="fauxdal fauxdal-fullscreen fauxdal-center">
+  <div class="container-fluid">
+    <div *ngIf="isFauxModal" class="pull-right close">
+      <a class="pointer" (click)="close()">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xlink:href="/assets/svgs/icons.svg#close"></use>
+        </svg>
+      </a>
+    </div>
 
-<input type="button" class="btn btn-secondary btn-block" (click)="go();" value="{{blandPageDetails.buttonText}}">
+    <div class="text-center">
+      <crds-content-block *ngIf="contentBlock" id="{{blandPageDetails.content}}"></crds-content-block>
+      <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
+    </div>
+
+    <br>
+
+    <footer class="page-footer">
+      <button type="button"
+              class="btn btn-secondary"
+              (click)="go();">{{blandPageDetails.buttonText}}</button>
+    </footer>
+  </div>
+</div>
+
