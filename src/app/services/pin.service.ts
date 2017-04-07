@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
 
-import { GatheringService } from '../services/gathering.service';
+import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { StateService } from '../services/state.service';
@@ -39,7 +39,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public defaults = { authorized: null };
 
   constructor(
-    private gatheringService: GatheringService,
+    private gatheringService: SiteAddressService,
     private session: SessionService,
     private state: StateService,
     private blandPageService: BlandPageService,
@@ -83,6 +83,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     url = pinIdentifier.type == pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
+
+    console.log('PinService got partial new PinSearchResultsDto');
 
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))

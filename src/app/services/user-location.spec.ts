@@ -6,7 +6,7 @@ import { SessionService } from './session.service';
 import { UserLocationService } from './user-location.service';
 
 import { IFrameParentService } from '../services/iframe-parent.service';
-import { GatheringService } from '../services/gathering.service';
+import { SiteAddressService } from '../services/site-address.service';
 import { GoogleMapService } from '../services/google-map.service';
 import { StateService } from '../services/state.service';
 import { StoreService } from '../services/store.service';
@@ -33,7 +33,7 @@ describe('Service: User-Location', () => {
           AlertModule
         ],
         providers: [
-          GatheringService,
+          SiteAddressService,
           GoogleMapService,
           UserLocationService,
           LocationService,

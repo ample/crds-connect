@@ -1,4 +1,5 @@
-<div *ngIf="isGathering">
-    <a (click)="redirectToLogin()">Already in this gathering?</a><br />
+<div class="font-size-smaller push-top">
+  <a class="pointer" *ngIf="isGathering" (click)="redirectToLogin()">Already in this gathering?<br></a>
+
+  <a class="pointer" (click)="redirectToLogin()">This is me</a>
 </div>
-<a (click)="redirectToLogin()">This is me</a>

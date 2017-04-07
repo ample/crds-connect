@@ -20,7 +20,7 @@ import { MapView } from '../../models/map-view';
   selector: 'app-map',
   templateUrl: 'map.component.html'
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
@@ -39,7 +39,8 @@ export class MapComponent implements OnInit, OnChanges {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng,
+                                                          this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -53,11 +54,6 @@ export class MapComponent implements OnInit, OnChanges {
         this.mapSettings.zoom = priorMapView.zoom;
       }
     }
-  }
-
-  public ngOnChanges(): void {
-console.log('CHANGES in MAP Component?!?!');
-console.log(this.searchResults);
   }
 
   private displayDetails(pin: Pin) {

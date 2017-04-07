@@ -2,7 +2,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
 import { Address } from '../models/address';
-import { GatheringService } from './gathering.service';
+import { SiteAddressService } from './site-address.service';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
 import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
@@ -29,22 +29,22 @@ describe('Service: Gathering', () => {
       imports: [
         HttpModule
       ],
-      providers: [ GatheringService ]
+      providers: [ SiteAddressService ]
     });
   });
 
-  it('should create a service instance', inject([GatheringService], (service: any) => {
+  it('should create a service instance', inject([SiteAddressService], (service: any) => {
     expect(service).toBeTruthy();
   }));
 
-  it('should add address line 1 to a pin', inject([GatheringService], (service: any) => {
+  it('should add address line 1 to a pin', inject([SiteAddressService], (service: any) => {
     let sitePin: Pin = mockSitePin;
     sitePin.siteName = 'Oakley';
     let changedSitePin: Pin = service.addAddressToGatheringPin(sitePin);
     expect(changedSitePin.address.addressLine1).toEqual(oakleyStreetAddress);
   }));
 
-  it('should change the address on the site pin', inject([GatheringService], (service: any) => {
+  it('should change the address on the site pin', inject([SiteAddressService], (service: any) => {
     let pins: Array<Pin> = mockPinArray;
     pins[0].siteName = 'Oakley';
     pins[1].siteName = 'Oakley';
@@ -52,7 +52,7 @@ describe('Service: Gathering', () => {
     expect(modifiedPins[0].address.addressLine1).toEqual(oakleyStreetAddress);
   }));
 
-  it('should NOT change the address on the person pin', inject([GatheringService], (service: any) => {
+  it('should NOT change the address on the person pin', inject([SiteAddressService], (service: any) => {
     let pins: Array<Pin> = mockPinArray;
     pins[0].siteName = 'Oakley';
     pins[1].siteName = 'Oakley';

@@ -25,7 +25,7 @@ describe('Component: Authentication', () => {
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
 
-  //api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+  // api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -91,7 +91,4 @@ describe('Component: Authentication', () => {
     expect(isInvalid).toBe(true);
   });
 
-
 });
-
-

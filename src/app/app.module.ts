@@ -11,6 +11,7 @@ export class CustomOptions extends ToastOptions {
   dismiss = 'auto';
   showCloseButton = true;
   newestOnTop = true;
+  enableHTML = true;
   // messageClass = '';
   // titleClass = '';
 }
@@ -31,7 +32,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
-import { BlandPageComponent } from './components/bland-page/bland-page.component'
+import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { CanvasMapOverlayComponent } from './components/canvas-map-overlay/canvas-map-overlay.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
@@ -54,6 +55,7 @@ import { PersonComponent } from './components/pin-details/person/person.componen
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
+import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
@@ -65,7 +67,7 @@ import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.serv
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from './services/iframe-parent.service';
-import { GatheringService } from './services/gathering.service';
+import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
 import { IPService } from './services/ip.service';
@@ -151,6 +153,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PinDetailsComponent,
     PinHeaderComponent,
     PinLoginActionsComponent,
+    ProfilePictureComponent,
     ReadonlyAddressComponent,
     RegisterComponent,
     SayHiComponent,
@@ -168,7 +171,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ContentService,
     CookieService,
     IPService,
-    GatheringService,
+    SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,

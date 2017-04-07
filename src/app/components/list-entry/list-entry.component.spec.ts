@@ -12,6 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { ListEntryComponent } from './list-entry.component';
 import { StateService } from '../../services/state.service';
+import { MockComponent } from '../../shared/mock.component';
 
 describe('ListEntryComponent', () => {
     let fixture: ComponentFixture<ListEntryComponent>;
@@ -26,7 +27,8 @@ describe('ListEntryComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                ListEntryComponent
+                ListEntryComponent,
+                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
             ],
             providers: [
                 StateService,
@@ -52,7 +54,7 @@ describe('ListEntryComponent', () => {
     it('should return proper name format', () => {
         fixture.detectChanges();
         comp.firstName = 'Bob';
-        comp.lastName = 'Johnson'
+        comp.lastName = 'Johnson';
         expect(comp.name()).toBe('BOB J.');
     });
 
