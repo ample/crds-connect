@@ -62,7 +62,7 @@ const appRoutes: Routes = [
       WhatsAHostGuard
     ]
   },
-  { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
   {
