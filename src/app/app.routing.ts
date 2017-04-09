@@ -47,7 +47,7 @@ const appRoutes: Routes = [
       BlandPageGuard
     ]
   },
-  { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
@@ -62,7 +62,6 @@ const appRoutes: Routes = [
       WhatsAHostGuard
     ]
   },
-  { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
   {

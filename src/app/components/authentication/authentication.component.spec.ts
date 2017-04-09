@@ -64,7 +64,6 @@ describe('Component: Authentication', () => {
   });
 
   it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
-    spyOn(loginRedirectService, 'redirectToTarget');
     comp.back();
     expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
   }));
