@@ -38,9 +38,12 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-// TODO -- my stuff -- then basic search typing into search box
-// then my stuff again -- failed - did not get my stuff???
+  // TODO -- my stuff -- then basic search typing into search box
+  // then my stuff again -- failed - did not get my stuff???
   public myStuffBtnClicked = () =>  {
+
+    this.pin.clearPinCache();
+
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('my');
@@ -55,7 +58,7 @@ export class MapFooterComponent {
         }
       );
     }
-  }
+  };
 
   doSearch(lat: number, lng: number) {
     this.pin.getPinSearchResults('', lat, lng).subscribe(
@@ -65,18 +68,6 @@ export class MapFooterComponent {
           this.myPinSearchResults.pinSearchResults.sort(
             (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
         this.search.emitMyStuffSearch(this.myPinSearchResults);
-        this.state.setLoading(false);
-
-        if (this.state.getCurrentView() === 'map') {
-          this.mapHlpr.emitRefreshMap(this.myPinSearchResults.centerLocation);
-        }
-
-        if ( this.myPinSearchResults.pinSearchResults.length === 0) {
-          this.state.setLoading(false);
-          this.router.navigate(['/add-me-to-the-map']);
-         } else {
-          this.router.navigate(['/map']);
-        }
       },
       error => {
         console.log(error);
@@ -88,3 +79,4 @@ export class MapFooterComponent {
   }
 
 }
+

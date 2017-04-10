@@ -249,8 +249,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return null;
   }
 
-  public getLastCache(): PinSearchResultsDto {
-    return super.getCache();
+  public clearPinCache() {
+    super.clearCache();
   }
 
 }

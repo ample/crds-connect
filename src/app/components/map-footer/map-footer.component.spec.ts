@@ -13,6 +13,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SiteAddressService } from '../../services/site-address.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService } from '../../services/pin.service';
+import { SearchService } from '../../services/search.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { BlandPageService } from '../../services/bland-page.service';
