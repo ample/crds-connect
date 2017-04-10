@@ -32,7 +32,7 @@ import { IPService } from '../../services/ip.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 describe('Component: SearchLocal', () => {
 
@@ -67,7 +67,7 @@ describe('Component: SearchLocal', () => {
         LoginRedirectService,
         BlandPageService,
         GoogleMapsAPIWrapper,
-        SearchLocalService,
+        SearchService,
         IPService,
         NeighborsHelperService
       ]
