@@ -66,7 +66,7 @@ export class PinLabelService {
     let siteName: string = undefined;
 
     if (pin.pinType === pinType.SITE){
-      siteName = this.capitalizeFirstLetter(pin.siteName);
+      siteName = 'Crossroads ' + this.capitalizeFirstLetter(pin.siteName);
     }
 
     return siteName;
