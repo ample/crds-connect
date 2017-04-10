@@ -56,17 +56,19 @@ export class GatheringComponent implements OnInit {
         this.pin.gathering.Participants = participants;
         if (this.loggedInUserIsInGathering(this.session.getContactId())) {
           this.isInGathering = true;
-          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING).subscribe(
+          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+            .finally(() => {
+              this.state.setLoading(false);
+              this.ready = true;
+            })
+            .subscribe(
             address => {
               this.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
-            }, () => {
-              this.state.setLoading(false);
-              this.ready = true;
             }
-          );
+            );
         } else {
           this.state.setLoading(false);
           this.ready = true;
