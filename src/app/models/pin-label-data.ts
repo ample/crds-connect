@@ -42,7 +42,7 @@ export class PinLabel {
   private getLine2 (labelData: PinLabelData) {
     let hostMeOrBlank: string = '';
 
-    if(labelData.isMe){
+    if (labelData.isMe) {
       hostMeOrBlank = 'ME';
     } else if (labelData.isHost) {
       hostMeOrBlank = 'HOST';
