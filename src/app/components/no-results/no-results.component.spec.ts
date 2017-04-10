@@ -6,6 +6,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { StateService } from '../../services/state.service';
 import { NoResultsComponent } from './no-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -28,7 +29,8 @@ describe('Component: NoResults', () => {
         ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
-        { provide: ContentService, useValue: mockContentService},
+        StateService,
+        { provide: ContentService, useValue: mockContentService },
         { provide: Router, useClass: RouterStub }
       ]
     });
