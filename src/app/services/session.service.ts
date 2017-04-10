@@ -241,4 +241,8 @@ export class SessionService extends SmartCacheableService<User, number> {
     return Observable.throw(err);
   };
 
+  public isCurrentPin(pin: Pin) {
+    return pin.contactId === this.getContactId();
+  }
+
 }

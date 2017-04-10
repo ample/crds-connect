@@ -36,23 +36,47 @@ app-add-me-to-map {
 }
 
 .fauxdal {
-  position: relative;
-  &.fauxdal-fullscreen {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+
+  // Added so the "modal" sits on top of the header
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
+
+  .close {
+    cursor: pointer;
     position: absolute;
-    z-index: 10;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .page-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.fauxdal-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+  }
+
+  &.fauxdal-fullscreen {
+    @media (min-width: $screen-xs) {
+      padding-top: initial;
+    }
 
     .container-fluid {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
       padding-bottom: 1rem;
-
-      a {
-        color: $cr-white;
-
-        &:hover {
-          color: darken($cr-white, 20);
-        }
-      }
 
       address-form {
         display: block;
@@ -71,41 +95,27 @@ app-add-me-to-map {
         padding: 2rem;
 
         crds-content-block {
-          width: 80%;
+          width: 450px;
         }
 
         address-form {
-          width: 60%;
+          width: 400px;
         }
       }
 
       @media (min-width: $screen-sm) {
         crds-content-block {
-          width: 70%;
+          width: 475px;
         }
 
         address-form {
-          width: 50%;
+          width: 425px;
         }
       }
 
       @media (min-width: $screen-md) {
         crds-content-block {
-          width: 60%;
-        }
-
-        address-form {
-          width: 40%;
-        }
-      }
-
-      @media (min-width: $screen-lg) {
-        crds-content-block {
-          width: 40%;
-        }
-
-        address-form {
-          width: 25%;
+          width: 500px;
         }
       }
     }
@@ -365,6 +375,14 @@ list-footer {
     flex: 1 1 100%;
     margin-left: 1rem;
   }
+
+  &.entry-site {
+    cursor: initial;
+
+    .entry-header {
+      color: $cr-gray-dark;
+    }
+  }
 }
 
 .entry-header {
@@ -373,7 +391,6 @@ list-footer {
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 0;
-
 }
 
 .label {
@@ -502,8 +519,6 @@ app-pin-detail {
 
     .label {
       float: none;
-      color: $cr-gray;
-      background: $cr-cyan-lighter;
     }
   }
 
