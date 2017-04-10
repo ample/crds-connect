@@ -74,7 +74,7 @@ export class MapFooterComponent {
         if ( this.myPinSearchResults.pinSearchResults.length === 0) {
           this.state.setLoading(false);
           this.router.navigate(['/add-me-to-the-map']);
-        } else {
+         } else {
           this.router.navigate(['/map']);
         }
       },
@@ -88,4 +88,3 @@ export class MapFooterComponent {
   }
 
 }
-

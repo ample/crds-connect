@@ -103,6 +103,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
           return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
         }
       } else {  // getMyViewOrWorldView = 'my'
+        super.clearCache();
         return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
         // searchOptions = new SearchOptions('myView', lat, lng);
         // if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
@@ -248,6 +249,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return super.getCache();
     }
     return null;
+  }
+
+  public getLastCache(): PinSearchResultsDto {
+    return super.getCache();
   }
 
 }

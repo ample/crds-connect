@@ -46,6 +46,7 @@ export class NeighborsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.pinSearchResults = this.pinService.getLastCache();
     let haveResults = !!this.pinSearchResults;
     if (!haveResults) {
       this.state.setLoading(true);
