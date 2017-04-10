@@ -16,14 +16,14 @@ import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { FormsModule }   from '@angular/forms';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { GatheringService } from '../../services/gathering.service';
+import { SiteAddressService } from '../../services/site-address.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -74,7 +74,7 @@ describe('Component: Neighbors', () => {
         ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
-        GatheringService,
+        SiteAddressService,
         UserLocationService,
         LocationService,
         PinService,
@@ -83,7 +83,7 @@ describe('Component: Neighbors', () => {
         NeighborsHelperService,
         StoreService,
         StateService,
-        SearchLocalService,
+        SearchService,
         ListHelperService,
         SessionService,
         CookieService,

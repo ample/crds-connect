@@ -6,7 +6,8 @@ import { StateService } from '../../services/state.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
 
-declare let google: any; //This does need to be 'declare'
+// This does need to be 'declare'
+declare let google: any;
 
 interface NativeGoogMapProps {
     zoomControlOptions?: any;
@@ -33,7 +34,7 @@ export class MapContentComponent implements OnInit {
 
   ngOnInit() {
     this.mapApiWrapper.getNativeMap()
-      .then((map)=> {
+      .then((map) => {
 
         let zoomControlOptions: any = {
           style: google.maps.ControlPosition.small,
@@ -44,7 +45,7 @@ export class MapContentComponent implements OnInit {
           position: google.maps.ControlPosition.RIGHT_CENTER
         };
 
-        map.setOptions(<NativeGoogMapProps>{
+        map.setOptions(<NativeGoogMapProps> {
           zoomControlOptions: zoomControlOptions,
           streetViewControlOptions: streetViewControlOptions,
           minZoom: 3,
@@ -52,160 +53,160 @@ export class MapContentComponent implements OnInit {
           scrollwheel: false,
           styles: [
             {
-              "elementType": "geometry",
-              "stylers": [
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#f5f5f5"
+                  'color': '#f5f5f5'
                 }
               ]
             },
             {
-              "elementType": "labels.icon",
-              "stylers": [
+              'elementType': 'labels.icon',
+              'stylers': [
                 {
-                  "visibility": "off"
+                  'visibility': 'off'
                 }
               ]
             },
             {
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#616161"
+                  'color': '#616161'
                 }
               ]
             },
             {
-              "elementType": "labels.text.stroke",
-              "stylers": [
+              'elementType': 'labels.text.stroke',
+              'stylers': [
                 {
-                  "color": "#f5f5f5"
+                  'color': '#f5f5f5'
                 }
               ]
             },
             {
-              "featureType": "administrative.land_parcel",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'administrative.land_parcel',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#bdbdbd"
+                  'color': '#bdbdbd'
                 }
               ]
             },
             {
-              "featureType": "poi",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'poi',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#eeeeee"
+                  'color': '#eeeeee'
                 }
               ]
             },
             {
-              "featureType": "poi",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'poi',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#757575"
+                  'color': '#757575'
                 }
               ]
             },
             {
-              "featureType": "poi.park",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'poi.park',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#e5e5e5"
+                  'color': '#e5e5e5'
                 }
               ]
             },
             {
-              "featureType": "poi.park",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'poi.park',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#9e9e9e"
+                  'color': '#9e9e9e'
                 }
               ]
             },
             {
-              "featureType": "road",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'road',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#ffffff"
+                  'color': '#ffffff'
                 }
               ]
             },
             {
-              "featureType": "road.arterial",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'road.arterial',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#757575"
+                  'color': '#757575'
                 }
               ]
             },
             {
-              "featureType": "road.highway",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'road.highway',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#dadada"
+                  'color': '#dadada'
                 }
               ]
             },
             {
-              "featureType": "road.highway",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'road.highway',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#616161"
+                  'color': '#616161'
                 }
               ]
             },
             {
-              "featureType": "road.local",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'road.local',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#9e9e9e"
+                  'color': '#9e9e9e'
                 }
               ]
             },
             {
-              "featureType": "transit.line",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'transit.line',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#e5e5e5"
+                  'color': '#e5e5e5'
                 }
               ]
             },
             {
-              "featureType": "transit.station",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'transit.station',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#eeeeee"
+                  'color': '#eeeeee'
                 }
               ]
             },
             {
-              "featureType": "water",
-              "elementType": "geometry",
-              "stylers": [
+              'featureType': 'water',
+              'elementType': 'geometry',
+              'stylers': [
                 {
-                  "color": "#c9c9c9"
+                  'color': '#c9c9c9'
                 }
               ]
             },
             {
-              "featureType": "water",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              'featureType': 'water',
+              'elementType': 'labels.text.fill',
+              'stylers': [
                 {
-                  "color": "#9e9e9e"
+                  'color': '#9e9e9e'
                 }
               ]
             }
@@ -218,20 +219,20 @@ export class MapContentComponent implements OnInit {
           self.clearCanvas();
         });
 
-        map.addListener("dragend", () => {
+        map.addListener('dragend', () => {
           let center = map.getCenter();
           let zoom = map.getZoom();
-          let mapViewUpdate = new MapView("dragend", center.lat(), center.lng(), zoom);
+          let mapViewUpdate = new MapView('dragend', center.lat(), center.lng(), zoom);
           self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
           self.state.setMapView(mapViewUpdate);
         });
 
-        map.addListener("zoom_changed", () => {
+        map.addListener('zoom_changed', () => {
           self.clearCanvas();
 
           let center = map.getCenter();
           let zoom = map.getZoom();
-          let mapViewUpdate = new MapView("zoom_changed", center.lat(), center.lng(), zoom);
+          let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
           self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
           self.state.setMapView(mapViewUpdate);
         });
@@ -244,15 +245,15 @@ export class MapContentComponent implements OnInit {
 
   public drawLabels(markers: any): void {
     this.mapApiWrapper.getNativeMap()
-      .then((map)=> {
+      .then((map) => {
 
-        let delta = function (a, b) { return a - b };
+        let delta = function (a, b) { return a - b; };
 
         let geoBounds = undefined;
 
         let bounds = map.getBounds();
 
-        if( bounds ) {
+        if ( bounds ) {
           let sw = bounds.getSouthWest();
           let ne = bounds.getNorthEast();
           geoBounds = {
@@ -270,7 +271,7 @@ export class MapContentComponent implements OnInit {
 
         let markerArray = [];
 
-        if( markers.length > 0 ) {
+        if (markers.length > 0) {
           for (let i = 0; i < markers.length; i++ ) {
             let marker = markers[i];
             let markerLabel = marker.title;

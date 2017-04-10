@@ -85,8 +85,9 @@
     </div>
   </div>
 
-  <footer class="page-footer">
-    <button type="submit" [disabled]="addressFormGroup.invalid" class="btn btn-secondary btn-block">{{buttonText}}</button>
+  <footer class="page-footer page-footer-vertical">
+    <button type="submit" [disabled]="addressFormGroup.invalid" class="btn btn-secondary">{{buttonText}}</button>
+    <button type="button" routerLink="/getting-started" class="btn btn-link btn-default">Cancel</button>
   </footer>
 
   <div *ngIf="submissionError" class="alert alert-danger">

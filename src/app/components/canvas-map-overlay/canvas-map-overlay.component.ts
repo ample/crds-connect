@@ -60,8 +60,8 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     let isMapInitialized: boolean = cWidth !== 0 || cHeight !== 0;
 
-    if( isMapInitialized ) {
-      for (let i = 0; i < drawingData.markers.length; i++){
+    if (isMapInitialized) {
+      for (let i = 0; i < drawingData.markers.length; i++) {
         let marker: any = drawingData.markers[i];
         this.drawIndividualMarkerLabel(ctx, marker, cWidth, cHeight);
       }
@@ -111,7 +111,7 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     let labelColor = undefined;
 
-    switch(markerLabelProps.hostOrMe) {
+    switch (markerLabelProps.hostOrMe) {
       case 'ME':
         labelColor = '#A47403';
         break;

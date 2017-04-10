@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
 
-import { GatheringService } from '../services/gathering.service';
+import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
 import { StateService } from '../services/state.service';
@@ -39,7 +39,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public defaults = { authorized: null };
 
   constructor(
-    private gatheringService: GatheringService,
+    private gatheringService: SiteAddressService,
     private session: SessionService,
     private state: StateService,
     private blandPageService: BlandPageService,
@@ -88,7 +88,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
+      .catch((error: any) => {
+        this.state.setLoading(false);
+        return Observable.throw(error || 'Server error');
+      });
   }
 
     public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
@@ -247,6 +250,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return super.getCache();
     }
     return null;
+  }
+
+  public clearPinCache() {
+    super.clearCache();
   }
 
 }

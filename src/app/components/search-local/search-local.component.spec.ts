@@ -5,12 +5,12 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from '../../components/map/map.component';
-import { SearchLocalComponent } from '../search-local/search-local.component'
+import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 
-import { GatheringService } from '../../services/gathering.service';
+import { SiteAddressService } from '../../services/site-address.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -33,7 +33,7 @@ import { IPService } from '../../services/ip.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 describe('Component: SearchLocal', () => {
 
@@ -58,7 +58,7 @@ describe('Component: SearchLocal', () => {
         LocationService,
         PinLabelService,
         PinService,
-        GatheringService,
+        SiteAddressService,
         GoogleMapService,
         IFrameParentService,
         StoreService,
@@ -69,7 +69,7 @@ describe('Component: SearchLocal', () => {
         LoginRedirectService,
         BlandPageService,
         GoogleMapsAPIWrapper,
-        SearchLocalService,
+        SearchService,
         IPService,
         NeighborsHelperService
       ]
@@ -85,7 +85,7 @@ describe('Component: SearchLocal', () => {
 
 
   it('should not be present if mapView is unchanged', () => {
-    let element = document.querySelector(".search-local button");
+    let element = document.querySelector('.search-local button');
     expect(element).toBe(null);
   });
 
@@ -97,22 +97,22 @@ describe('Component: SearchLocal', () => {
     this.component.mapApiWrapper.getNativeMap().then((map) => {
       map.setZoom(map.getZoom() + 1);
     });
-    let element = document.querySelector(".search-local button");
+    let element = document.querySelector('.search-local button');
     expect(element).toBeDefined();
   });
 
   xit('should be present if mapView is panned', () => {
     // how do you get a handle to the *real* google map in a test?
     this.component.mapApiWrapper.getNativeMap().then((map) => {
-      map.panBy(100,200);
+      map.panBy(100, 200);
     });
-    let element = document.querySelector(".search-local button");
+    let element = document.querySelector('.search-local button');
     expect(element).toBeDefined();
   });
 
   xit('should trigger a search when activated', () => {
     // ummm... this component is a Map, not a SearchLocal
-    spyOn(this.component, "doLocalSearch");
+    spyOn(this.component, 'doLocalSearch');
     // how do you get a handle to the *real* google map in a test?
     this.component.mapApiWrapper.getNativeMap().then((map) => {
       map.panBy(100, 200);

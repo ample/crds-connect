@@ -165,7 +165,7 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         let expectedBPD = new BlandPageDetails(
             'Return to map',
-            'gatheringJoinRequestSent',
+            'finderGatheringJoinRequestSent',
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
             ''

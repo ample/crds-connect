@@ -10,9 +10,10 @@ import { Observable } from 'rxjs/Rx';
 import { ListHelperService } from '../../services/list-helper.service';
 import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GatheringService } from '../../services/gathering.service';
+import { SiteAddressService } from '../../services/site-address.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService } from '../../services/pin.service';
+import { SearchService } from '../../services/search.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -55,6 +56,7 @@ describe('Component: MapFooter', () => {
             ],
             providers: [
                 { provide: PinService, useValue: mockPinService },
+                SearchService,
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
@@ -80,19 +82,5 @@ describe('Component: MapFooter', () => {
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
-
-  it('should get my stuff and init map', () => {
-    let searchResults = MockTestData.getAPinSearchResults(3, 0, 0, 98789, 3, pinType.GATHERING, 1);
-    let position = new GeoCoordinates(88, 40);
-
-    (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
-    (<jasmine.Spy>mockUserLocationService.GetUserLocation).and.returnValue(Observable.of(position));
-    (<jasmine.Spy>mockPinService.getPinSearchResults).and.returnValue(Observable.of(searchResults));
-
-    spyOn(comp.searchResultsEmitter, 'emit');
-
-    comp.myStuffBtnClicked();
-    expect(comp.myPinSearchResults).toBeTruthy();
-  });
 
 });

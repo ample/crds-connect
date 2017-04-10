@@ -24,10 +24,13 @@ describe('Component: Authentication', () => {
 
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
+  let location: Location;
 
-  //api = jasmine.createSpyObj<APIService>('api', ['getRegisteredUser', 'postLogin']);
+  let mockLoginRedirectService;
 
   beforeEach(() => {
+    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
+
     TestBed.configureTestingModule({
       declarations: [
         AuthenticationComponent
@@ -36,7 +39,7 @@ describe('Component: Authentication', () => {
         CookieService,
         SessionService,
         StateService,
-        LoginRedirectService,
+        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         PinService,
         FormBuilder,
         StoreService,
@@ -61,7 +64,6 @@ describe('Component: Authentication', () => {
   });
 
   it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
-    spyOn(loginRedirectService, 'redirectToTarget');
     comp.back();
     expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
   }));
@@ -91,7 +93,11 @@ describe('Component: Authentication', () => {
     expect(isInvalid).toBe(true);
   });
 
+  it('should call cancelRedirect when the back button is clicked', () => {
+
+    comp.back();
+    expect(mockLoginRedirectService.cancelRedirect).toHaveBeenCalled();
+  });
+
 
 });
-
-

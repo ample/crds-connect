@@ -37,6 +37,7 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 

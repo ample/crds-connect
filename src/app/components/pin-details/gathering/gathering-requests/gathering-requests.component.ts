@@ -13,8 +13,7 @@ import { Participant } from '../../../../models/participant';
 
 @Component({
   selector: 'gathering-requests',
-  templateUrl: 'gathering-requests.html',
-  styleUrls: ['gathering-requests.component.css']
+  templateUrl: 'gathering-requests.html'
 })
 export class GatheringRequestsComponent implements OnInit {
 
