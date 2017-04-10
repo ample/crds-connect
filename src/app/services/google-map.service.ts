@@ -165,58 +165,16 @@ export class GoogleMapService {
 
   public getLabelHeightAdjustment(cHeight: number, marker: MapMarker, isHostOrMe: boolean): number {
 
-    let lngOffsetPercentage: number = marker.markerGeoOffsetLngPercentage * 100;
-
     let heightAdjustment: number = undefined;
 
-    if (cHeight) {
-      heightAdjustment = this.setLabelAdjustmentForLargeScreen(lngOffsetPercentage)
+    if( isHostOrMe ) {
+      heightAdjustment = 11;
     } else {
-      console.log('Default height adjustment');
-      heightAdjustment = -11;
+      heightAdjustment = 4;
     }
-
-
-    // if( isHostOrMe ) {
-    //   heightAdjustment = -11;
-    // } else {
-    //   heightAdjustment = -30;
-    // }
 
     return heightAdjustment;
   }
 
-  setLabelAdjustmentForLargeScreen(lngOffsetPercentage: number): number {
-
-    console.log('Large screen');
-    let heightAdjustment: number = undefined;
-
-    if ( lngOffsetPercentage < 10 ) {
-      heightAdjustment = 3;
-    } else if( lngOffsetPercentage < 20 ) {
-      heightAdjustment = -4;
-    } else if( lngOffsetPercentage < 30 ) {
-      heightAdjustment = -12;
-    } else if( lngOffsetPercentage < 40 ) {
-      heightAdjustment = -17;
-    } else if( lngOffsetPercentage < 50 ) {
-      heightAdjustment = -22;
-    } else if( lngOffsetPercentage < 60 ) {
-      heightAdjustment = -25;
-    } else if( lngOffsetPercentage < 70 ) {
-      heightAdjustment = -30;
-    } else if( lngOffsetPercentage < 80 ) {
-      heightAdjustment = -33;
-    } else if( lngOffsetPercentage < 90 ) {
-      heightAdjustment = -36;
-    } else if( lngOffsetPercentage < 100 ) {
-      heightAdjustment = -39;
-    } else {
-      heightAdjustment = -11;
-    }
-
-    return heightAdjustment;
-
-  }
 
 }

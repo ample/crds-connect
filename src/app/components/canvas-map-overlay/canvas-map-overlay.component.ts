@@ -75,7 +75,7 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     let isHostOrMe: boolean = labelData.isHost || labelData.isMe;
 
-    let markerLabelProps = this.getMarkerLabelProps(labelData);
+    let markerLabelProps: PinLabel = new PinLabel(labelData);
 
     let labelHeightAdjustment: number = this.mapHlpr.getLabelHeightAdjustment(cHeight, marker, isHostOrMe);
 
@@ -86,23 +86,17 @@ export class CanvasMapOverlayComponent implements OnInit {
     // draw line 1
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
     ctx.strokeStyle = '#ffffff';
-    //ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2.5;
     ctx.font = '12px Arial';
 
     ctx.strokeText(markerLabelProps.line1, textX, textY);
-    //ctx.fillText(markerLabelProps.line1, textX, textY);
     ctx.fillText(markerLabelProps.line1 + ' ' + labelHeightAdjustment + ' ' + marker.markerGeoOffsetLngPercentage + '%', textX, textY);
-
-    //TESTING CODE
-    ctx.font = '40px Arial';
-    ctx.fillText('Screen height: ' + cHeight, 50, 50);
-    //TESTING CODE
 
     //draw line 2
     if( isHostOrMe ){
       ctx.font = '10px Arial';
-      ctx.strokeText(markerLabelProps.line2, textX+6, textY + 12);
-      ctx.fillText(markerLabelProps.line2, textX+6, textY + 12);
+      ctx.strokeText(markerLabelProps.line2, textX + 6, textY + 12);
+      ctx.fillText(markerLabelProps.line2, textX + 6, textY + 12);
     }
 
   }
@@ -128,10 +122,5 @@ export class CanvasMapOverlayComponent implements OnInit {
 
     return labelColor;
   }
-
-  public getMarkerLabelProps(labelData: PinLabelData): PinLabel {
-    let label: PinLabel = new PinLabel(labelData);
-    return label;
-  };
 
 }
