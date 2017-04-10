@@ -153,21 +153,17 @@ export class GoogleMapService {
   private dms(dec: number): String {
     let decSgn = (dec < 0) ? '-' : '';
     dec = Math.abs(dec);
-    let decDeg = parseInt('' + dec);
-    let decMin = parseInt('' + (dec - decDeg) * 60.0);
-    let decSec = parseInt('' + (dec - decDeg - (decMin / 60.0)) * 3600.0);
+    let decDeg = parseInt('' + dec, 10);
+    let decMin = parseInt('' + (dec - decDeg) * 60.0, 10);
+    let decSec = parseInt('' + (dec - decDeg - (decMin / 60.0)) * 3600.0, 10);
     return `${decSgn}${decDeg}° ${decMin}' ${decSec}"`;
   }
-
-  //This is a manually calibrated adjustment to the label's distance from its pin - interim solution for NG2 maps
-  //High on the page = high, low on the page = low - problem atm
-  //Higher number = higher on map
 
   public getLabelHeightAdjustment(cHeight: number, marker: MapMarker, isHostOrMe: boolean): number {
 
     let heightAdjustment: number = undefined;
 
-    if( isHostOrMe ) {
+    if ( isHostOrMe ) {
       heightAdjustment = 11;
     } else {
       heightAdjustment = 4;
@@ -175,6 +171,5 @@ export class GoogleMapService {
 
     return heightAdjustment;
   }
-
 
 }

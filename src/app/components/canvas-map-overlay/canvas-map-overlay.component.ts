@@ -83,7 +83,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     let textY = (marker.markerGeoOffsetLngPercentage * cHeight) - labelHeightAdjustment;
 
 
-    // draw line 1
+    // Draw label line 1
     ctx.fillStyle = this.getLabelColor(markerLabelProps);
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 2.5;
@@ -92,8 +92,8 @@ export class CanvasMapOverlayComponent implements OnInit {
     ctx.strokeText(markerLabelProps.line1, textX, textY);
     ctx.fillText(markerLabelProps.line1 + ' ' + labelHeightAdjustment + ' ' + marker.markerGeoOffsetLngPercentage + '%', textX, textY);
 
-    //draw line 2
-    if( isHostOrMe ){
+    // Draw label line 2
+    if (isHostOrMe) {
       ctx.font = '10px Arial';
       ctx.strokeText(markerLabelProps.line2, textX + 6, textY + 12);
       ctx.fillText(markerLabelProps.line2, textX + 6, textY + 12);

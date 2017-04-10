@@ -57,7 +57,7 @@ export class MapFooterComponent {
         );
     }
 
-  };
+  }
 
   doSearch(lat: number, lng: number) {
     this.pin.getPinSearchResults('', lat, lng).subscribe(
