@@ -90,7 +90,7 @@ export class CanvasMapOverlayComponent implements OnInit {
     ctx.font = '12px Arial';
 
     ctx.strokeText(markerLabelProps.line1, textX, textY);
-    ctx.fillText(markerLabelProps.line1 + ' ' + labelHeightAdjustment + ' ' + marker.markerGeoOffsetLngPercentage + '%', textX, textY);
+    ctx.fillText(markerLabelProps.line1, textX, textY);
 
     // Draw label line 2
     if (isHostOrMe) {
