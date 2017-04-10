@@ -56,6 +56,7 @@ describe('Component: MapFooter', () => {
             ],
             providers: [
                 { provide: PinService, useValue: mockPinService },
+                SearchService,
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
@@ -81,19 +82,5 @@ describe('Component: MapFooter', () => {
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
-
-  it('should get my stuff and init map', () => {
-    let searchResults = MockTestData.getAPinSearchResults(3, 0, 0, 98789, 3, pinType.GATHERING, 1);
-    let position = new GeoCoordinates(88, 40);
-
-    (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
-    (<jasmine.Spy>mockUserLocationService.GetUserLocation).and.returnValue(Observable.of(position));
-    (<jasmine.Spy>mockPinService.getPinSearchResults).and.returnValue(Observable.of(searchResults));
-
-    spyOn(comp.searchResultsEmitter, 'emit');
-
-    comp.myStuffBtnClicked();
-    expect(comp.myPinSearchResults).toBeTruthy();
-  });
 
 });
