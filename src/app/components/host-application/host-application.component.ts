@@ -28,7 +28,7 @@ export class HostApplicationComponent implements OnInit {
               ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit() { 
   }
 
   public btnClickGettingStarted() {
