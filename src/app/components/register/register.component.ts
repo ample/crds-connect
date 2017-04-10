@@ -95,7 +95,6 @@ export class RegisterComponent implements OnInit {
     this.session.postLogin(email, password)
       .subscribe(
       (user) => {
-        this.session.setContactId(user.userId);
         this.store.loadUserData();
         this.adv();
       },
