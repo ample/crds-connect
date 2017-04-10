@@ -49,15 +49,9 @@ export class MapFooterComponent {
     this.state.setMyViewOrWorldView('my');
 
     if (!this.session.isLoggedIn()) {
-        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.myStuffBtnClicked);
-    } else {
-      this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-          this.doSearch(pos.lat, pos.lng );
-        }
-      );
+      this.loginRedirectService.redirectToLogin('/neighbors');
     }
+
   };
 
   doSearch(lat: number, lng: number) {
