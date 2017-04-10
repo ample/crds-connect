@@ -67,6 +67,10 @@ app-add-me-to-map {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.page-footer-vertical {
+      flex-direction: column;
+    }
   }
 
   &.fauxdal-center {
