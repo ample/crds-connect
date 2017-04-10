@@ -6,7 +6,7 @@ describe('LoginRedirectService', () => {
   let router: Router;
 
   beforeEach(() => {
-    router = jasmine.createSpyObj<Router>('router', ['navigate']);
+    router = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
     fixture = new LoginRedirectService(router);
   });
 
@@ -43,10 +43,16 @@ describe('LoginRedirectService', () => {
       expect(router.navigate).toHaveBeenCalledWith(['/go/here']);
     });
 
-    it('should navigate to original target if redirect cancelled', () => {
-      fixture['originalTarget'] = '/hi/there';
+    it('should navigate to origin target if redirect cancelled', () => {
+      fixture['origin'] = '/hi/there';
       fixture.cancelRedirect();
-      expect(router.navigate).toHaveBeenCalledWith(['/hi/there']);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/hi/there');
+    });
+
+    it('should navigate to default authenticated route if redirect is cancelled and origin is not set', () => {
+      fixture['DefaultAuthenticatedRoute'] = 'woo';
+      fixture.cancelRedirect();
+      expect(router.navigateByUrl).toHaveBeenCalledWith('woo');
     });
 
 
