@@ -29,11 +29,7 @@ export class HostApplicationComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
-    if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
-    }
-    this.stateService.setLoading(false);
+  public ngOnInit() { 
   }
 
   public btnClickGettingStarted() {
