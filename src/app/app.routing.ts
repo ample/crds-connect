@@ -20,6 +20,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
@@ -82,7 +83,7 @@ const appRoutes: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   { path: 'signin', component: AuthenticationComponent },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', canActivate: [PageNotFoundGuard], component: PageNotFoundComponent }
 ];
 
 export const appRoutingProviders: any[] = [

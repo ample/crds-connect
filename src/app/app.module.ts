@@ -94,6 +94,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -182,6 +183,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LoggedInGuard,
     NeighborsHelperService,
     ParticipantService,
+    PageNotFoundGuard,
     PinService,
     PinResolver,
     SearchLocalService,
