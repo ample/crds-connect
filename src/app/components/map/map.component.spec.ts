@@ -33,7 +33,7 @@ import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 import { MapView } from '../../models/map-view';
 
@@ -72,7 +72,7 @@ describe('Component: Map', () => {
         BlandPageService,
         IPService,
         GoogleMapsAPIWrapper,
-        SearchLocalService,
+        SearchService,
         NeighborsHelperService
       ]
     });
