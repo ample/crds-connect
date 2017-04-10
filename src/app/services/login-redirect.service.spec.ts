@@ -46,13 +46,13 @@ describe('LoginRedirectService', () => {
     it('should navigate to origin target if redirect cancelled', () => {
       fixture['origin'] = '/hi/there';
       fixture.cancelRedirect();
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/hi/there');
+      expect(router.navigate).toHaveBeenCalledWith(['/hi/there']);
     });
 
     it('should navigate to default authenticated route if redirect is cancelled and origin is not set', () => {
       fixture['DefaultAuthenticatedRoute'] = 'woo';
       fixture.cancelRedirect();
-      expect(router.navigateByUrl).toHaveBeenCalledWith('woo');
+      expect(router.navigate).toHaveBeenCalledWith(['woo']);
     });
 
 

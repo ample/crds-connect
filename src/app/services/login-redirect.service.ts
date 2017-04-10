@@ -15,7 +15,7 @@ export class LoginRedirectService {
   constructor(private router: Router) { }
 
   public redirectToLogin(target = this.DefaultAuthenticatedRoute, redirectFunctionParam = null): void {
-    this.origin = window.location.pathname;
+    this.origin = this.router.url;
 
     this.originalTarget = target;
     if (redirectFunctionParam) {
@@ -41,9 +41,9 @@ export class LoginRedirectService {
   public cancelRedirect(): void {
     if (this.origin) {
       this.redirectFunction = null;
-      this.router.navigateByUrl(this.origin);
+      this.router.navigate([this.origin]);
     } else {
-      this.router.navigateByUrl(this.DefaultAuthenticatedRoute);
+      this.router.navigate([this.DefaultAuthenticatedRoute]);
     }
   }
 
