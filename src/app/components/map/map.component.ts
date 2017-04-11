@@ -70,17 +70,17 @@ export class MapComponent implements OnInit {
   }
 
   public getStringByPinType(pin) {
-    if (this.session.isCurrentPin(pin)) {
-      return '//crds-cms-uploads.s3.amazonaws.com/connect/ME.svg';
+    let iconName: string;
+    if (pin.pinType === pinType.SITE) {
+      iconName = 'SITE';
+    } else if (pin.pinType === pinType.GATHERING) {
+      iconName = 'GATHERING';
+    } else if (pin.pinType === pinType.PERSON && this.session.isCurrentPin(pin)) {
+      iconName = 'ME';
+    } else {
+      iconName = 'PERSON';
     }
-    switch (pin.pinType) {
-      case pinType.PERSON:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
-      case pinType.GATHERING:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
-      default:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
-    }
+    return '//crds-cms-uploads.s3.amazonaws.com/connect/' + iconName + '.svg';
   }
 
   public getLabelName(pin: Pin) {
