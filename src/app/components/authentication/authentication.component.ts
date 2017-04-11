@@ -61,7 +61,6 @@ export class AuthenticationComponent implements OnInit {
       this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
-          this.session.setContactId(user.userId);
           this.store.loadUserData();
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();
