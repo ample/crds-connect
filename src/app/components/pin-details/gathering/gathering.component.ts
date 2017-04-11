@@ -50,7 +50,7 @@ export class GatheringComponent implements OnInit {
     window.scrollTo(0, 0);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
-
+    try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       participants => {
         this.pin.gathering.Participants = participants;
@@ -78,6 +78,9 @@ export class GatheringComponent implements OnInit {
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
       });
+    } catch (err) {
+      this.blandPageService.goToDefaultError('');
+    }
   }
 
   private loggedInUserIsInGathering(contactId: number) {
