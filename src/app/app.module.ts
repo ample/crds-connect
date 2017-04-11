@@ -80,7 +80,7 @@ import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
-import { SearchLocalService } from './services/search-local.service';
+import { SearchService } from './services/search.service';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 
@@ -94,6 +94,7 @@ import { FormatPaymentNumberDirective } from './directives/format-payment-number
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -182,9 +183,10 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LoggedInGuard,
     NeighborsHelperService,
     ParticipantService,
+    PageNotFoundGuard,
     PinService,
     PinResolver,
-    SearchLocalService,
+    SearchService,
     SessionService,
     StateService,
     StoreService,

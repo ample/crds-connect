@@ -16,6 +16,255 @@ app-preloader {
 }
 
 // Map styles
+app-neighbors {
+  display: block;
+  background: $cr-gray-lighter;
+}
+
+// Add me to map
+app-add-me-to-map {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.fauxdal {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+
+  // Added so the "modal" sits on top of the header
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
+
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    opacity: 1.0;
+
+    a {
+      color: $cr-white;
+
+      &:hover {
+        color: rgba($cr-white, .5);
+      }
+    }
+  }
+
+  .page-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.page-footer-vertical {
+      flex-direction: column;
+    }
+  }
+
+  &.fauxdal-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+  }
+
+  &.fauxdal-fullscreen {
+    @media (min-width: $screen-xs) {
+      padding-top: initial;
+    }
+
+    .container-fluid {
+      background-color: darken($cr-blue, 20);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      address-form {
+        display: block;
+        margin: 0 auto;
+        padding-top: 1rem;
+        width: 100%;
+      }
+
+      crds-content-block {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      @media (min-width: $screen-xs) {
+        padding: 2rem;
+
+        crds-content-block {
+          width: 450px;
+        }
+
+        address-form {
+          width: 400px;
+        }
+      }
+
+      @media (min-width: $screen-sm) {
+        crds-content-block {
+          width: 475px;
+        }
+
+        address-form {
+          width: 425px;
+        }
+      }
+
+      @media (min-width: $screen-md) {
+        crds-content-block {
+          width: 500px;
+        }
+      }
+    }
+  }
+
+  .title {
+    color: $cr-white;
+  }
+}
+
+.app-header {
+  position: relative;
+  z-index: 5;
+
+  .brand-bar {
+    position: relative;
+    height: 40px;
+    overflow: hidden;
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+  }
+
+  .app-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 11.5px;
+    line-height: 1;
+    color: $cr-white;
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    svg {
+      width: 75px;
+      height: 15px;
+      padding: 0;
+    }
+  }
+
+  .page-title {
+    text-align: center;
+    padding: 1rem;
+    background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+    * {
+      color: $cr-white;
+    }
+
+    a {
+      margin-top: 0.25rem;
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 auto;
+      line-height: 1;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Centers blocks to the middle of the screen.
+.content-middle {
+  @include container-fixed();
+  max-width: $container-tablet;
+  width: 100%;
+}
+
+// Map searchbar
+// app-search-bar {
+//   display: flex;
+//   position: relative;
+//   z-index: 5;
+//   justify-content: flex-start;
+//   padding: .5rem 1rem;
+//   background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+//   > div {
+//     display: flex;
+//     justify-content: flex-start;
+
+//     @media (min-width: $screen-sm) {
+//       margin: 0 auto;
+//       padding: 0 2rem;
+//       width: $container-tablet;
+//     }
+
+//     > button {
+//       margin-left: 6px;
+//     }
+//   }
+
+
+//   .input-group {
+//     display: inline-flex;
+//     width: calc(100% - 90px);
+//     margin-right: 1rem;
+
+//     .input-group-btn {
+//       width: initial;
+//     }
+
+//     @media (min-width: $screen-xs) {
+//       flex-grow: 0;
+//     }
+
+//     button.btn {
+//       padding-right: 10px;
+//       padding-left: 10px;
+//       width: 70px;
+
+//       @media (min-width: $screen-xs) {
+//         padding-right: 20px;
+//         padding-left: 20px;
+//       }
+//     }
+//   }
+
+//   input[placeholder] {
+//     text-overflow: ellipsis;
+//   }
+
+//   // Remove validation
+//   input.form-control.ng-touched {
+//     &.ng-valid,
+//     &.ng-invalid {
+//       border-color: $input-border;
+//       box-shadow: inset 0 0 0 1px $input-border;
+
+//       &:focus {
+//       border-color: $input-border-focus;
+//       box-shadow: inset 0 0 0 1px rgba($input-border-focus, 0.5);
+//       }
+//     }
+//   }
+// }
+
 app-map,
 sebm-google-map,
 canvas-map-overlay {
@@ -140,6 +389,17 @@ search-local {
   }
 }
 
+.label {
+  color: $cr-gray-dark;
+  border-radius: $border-radius-base;
+  float: right;
+  font-family: 'Lexia', serif;
+  font-size: $font-size-smaller;
+  margin-top: 9px;
+  padding: 5px 6px 4px;
+  text-transform: uppercase;
+}
+
 // Centers blocks to the middle of the screen.
 .content-middle {
   @include container-fixed();
@@ -242,8 +502,6 @@ app-pin-detail {
 
     .label {
       float: none;
-      color: $cr-gray;
-      background: $cr-cyan-lighter;
     }
   }
 

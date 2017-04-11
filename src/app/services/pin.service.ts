@@ -88,7 +88,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     return this.session.get(url)
       .do((res: Pin) => this.createPartialCache(res))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
+      .catch((error: any) => {
+        this.state.setLoading(false);
+        return Observable.throw(error || 'Server error');
+      });
   }
 
     public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
@@ -247,6 +250,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return super.getCache();
     }
     return null;
+  }
+
+  public clearPinCache() {
+    super.clearCache();
   }
 
 }
