@@ -1,5 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
@@ -10,13 +10,14 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bl
     selector: 'app-bland-page',
     templateUrl: 'bland-page.html'
 })
-export class BlandPageComponent implements OnInit {
+export class BlandPageComponent implements OnInit, AfterViewInit {
 
     private blandPageDetails: BlandPageDetails;
     private isFauxModal: boolean = false;
     public contentBlock = false;
 
-    constructor(private router: Router,
+    constructor(private route: ActivatedRoute,
+        private router: Router,
         private blandPageService: BlandPageService,
         private state: StateService) {}
 
@@ -29,6 +30,15 @@ export class BlandPageComponent implements OnInit {
             this.contentBlock = false;
         }
         this.state.setLoading(false);
+    }
+
+    ngAfterViewInit() {
+        let data = this.route.snapshot.data;
+        if(data[0] !== undefined && data[0]['isFauxdal']) {
+            // This component is rendered within a fauxdal, so we to need the .modal-open
+            //  selector to the <body> element when this view is initialized.
+            document.querySelector('body').classList.add('modal-open');
+        }
     }
 
     close() {

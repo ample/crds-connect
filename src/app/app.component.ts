@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 
 import { Angulartics2GoogleTagManager } from 'angulartics2';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
@@ -40,6 +40,13 @@ export class AppComponent implements OnInit {
       this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');
       this.toastr.setRootViewContainerRef(vRef);
     }
+
+    router.events.subscribe((val) => {
+      if(val instanceof NavigationStart) {
+        // Remove the .modal-open selector from <body> element whenever the router emits a path change
+        document.querySelector('body').classList.remove('modal-open');
+      }
+    });
   }
 
   ngOnInit() {

@@ -31,6 +31,7 @@ describe('BlandPageComponent', () => {
                 BlandPageComponent
             ],
             providers: [
+                { provide: ActivatedRoute },
                 { provide: Router, useValue: mockRouter },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService }
