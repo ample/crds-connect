@@ -133,13 +133,12 @@ export class SessionService extends SmartCacheableService<User, number> {
 
   public getContactId(): number {
     let cID = +this.cookieService.get(this.contactId);
-    cID = isNaN(cID) ? null: cID;
-    return cID
-
+    cID = isNaN(cID) ? null : cID;
+    return cID;
   }
 
-  public setContactId(contactId: string): void {
-    this.cookieService.put(this.contactId, contactId, this.cookieOptions);
+  public addToCookie(key: string, value: string) {
+    this.cookieService.put(key, value, this.cookieOptions);
   }
 
   private createAuthorizationHeader(headers?: Headers) {
@@ -218,7 +217,9 @@ export class SessionService extends SmartCacheableService<User, number> {
       'password': password
     };
     return this.post(this.baseUrl + 'api/v1.0.0/login', body)
-      .map((res: Response) => {
+      .map((res: any) => {
+        this.addToCookie(this.contactId, res.userId);
+        this.addToCookie('username', res.username);
         return res || this.defaults.authorized;
       })
       .catch(this.handleError);
@@ -241,5 +242,9 @@ export class SessionService extends SmartCacheableService<User, number> {
   public handleError(err: Response | any) {
     return Observable.throw(err);
   };
+
+  public isCurrentPin(pin: Pin) {
+    return pin.contactId === this.getContactId();
+  }
 
 }

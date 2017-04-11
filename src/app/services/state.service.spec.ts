@@ -16,12 +16,12 @@ describe('Service: State', () => {
   }));
 
   it('should get a default current view', inject([StateService], (service: any) => {
-    expect(service.getCurrentView()).toEqual("map");
+    expect(service.getCurrentView()).toEqual('map');
   }));
 
   it('should get a set current view', inject([StateService], (service: any) => {
-    service.setCurrentView("list");
-    expect(service.getCurrentView()).toEqual("list");
+    service.setCurrentView('list');
+    expect(service.getCurrentView()).toEqual('list');
   }));
 
   it('should get a default showing pin count', inject([StateService], (service: any) => {

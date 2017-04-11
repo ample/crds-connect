@@ -19,7 +19,7 @@ import { usStatesList } from '../../shared/constants';
 export class AddressFormComponent implements OnInit {
 
     @Input() userData: UserDataForPinCreation;
-    @Input() buttonText: String = 'Add';
+    @Input() buttonText: String = 'Add me to the map';
     @Output() save: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
     public stateList: Array<string>;

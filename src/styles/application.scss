@@ -36,23 +36,64 @@ app-add-me-to-map {
 }
 
 .fauxdal {
-  position: relative;
-  &.fauxdal-fullscreen {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  height: 100vh;
+  width: 100vw;
+
+  // Added so the "modal" sits on top of the header
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
+
+  .close {
+    opacity: 1.0;
+
     position: absolute;
-    z-index: 10;
+    top: 1rem;
+    right: 1rem;
+
+    a {
+      color: $cr-white;
+
+      display: block;
+      padding: 1rem;
+      margin: -1rem;
+
+      &:hover {
+        color: rgba($cr-white, .5);
+      }
+    }
+  }
+
+  .page-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.page-footer-vertical {
+      flex-direction: column;
+    }
+  }
+
+  &.fauxdal-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+  }
+
+  &.fauxdal-fullscreen {
+    @media (min-width: $screen-xs) {
+      padding-top: initial;
+    }
 
     .container-fluid {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
       padding-bottom: 1rem;
-
-      a {
-        color: $cr-white;
-
-        &:hover {
-          color: darken($cr-white, 20);
-        }
-      }
 
       address-form {
         display: block;
@@ -71,41 +112,27 @@ app-add-me-to-map {
         padding: 2rem;
 
         crds-content-block {
-          width: 80%;
+          width: 450px;
         }
 
         address-form {
-          width: 60%;
+          width: 400px;
         }
       }
 
       @media (min-width: $screen-sm) {
         crds-content-block {
-          width: 70%;
+          width: 475px;
         }
 
         address-form {
-          width: 50%;
+          width: 425px;
         }
       }
 
       @media (min-width: $screen-md) {
         crds-content-block {
-          width: 60%;
-        }
-
-        address-form {
-          width: 40%;
-        }
-      }
-
-      @media (min-width: $screen-lg) {
-        crds-content-block {
-          width: 40%;
-        }
-
-        address-form {
-          width: 25%;
+          width: 500px;
         }
       }
     }
@@ -171,10 +198,8 @@ app-add-me-to-map {
 
 // Centers blocks to the middle of the screen.
 .content-middle {
-  margin-left: auto;
-  margin-right: auto;
+  @include container-fixed();
   max-width: $container-tablet;
-  text-align: center;
   width: 100%;
 }
 
@@ -375,17 +400,24 @@ list-footer {
 .entry {
   border-top: 1px solid darken($cr-gray-lighter, 10);
   cursor: pointer;
-  display: flex;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
-  div:first-child {
-    min-width: 80px;
-  }
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 
-  div:last-child {
+  > div:last-child {
     flex: 1 1 100%;
     margin-left: 1rem;
+  }
+
+  &.entry-site {
+    cursor: initial;
+
+    .entry-header {
+      color: $cr-gray-dark;
+    }
   }
 }
 
@@ -395,7 +427,6 @@ list-footer {
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 0;
-
 }
 
 .label {
@@ -428,6 +459,35 @@ list-footer {
   }
 }
 
+// Getting started layout
+.people {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 1rem;
+
+  @media (min-width: $screen-xs) {
+    flex-direction: row;
+  }
+
+  .person {
+    flex: 1 1 auto;
+    text-align: center;
+
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+
+    &::last-child {
+      padding-top: 1rem;
+    }
+
+    .entry-header {
+      justify-content: center;
+    }
+  }
+}
+
 app-pin-detail {
   display: block;
   background: $cr-gray-lighter;
@@ -450,6 +510,10 @@ app-pin-detail {
       @media screen and ( min-height: #{$height}px ){
         height: #{$height - 19}px;
       }
+    }
+
+    .title {
+      color: $cr-white;
     }
 
     @media (min-width: $screen-sm) {
@@ -490,8 +554,6 @@ app-pin-detail {
 
     .label {
       float: none;
-      color: $cr-gray;
-      background: $cr-cyan-lighter;
     }
   }
 
@@ -561,5 +623,58 @@ search-local {
 
   @media (min-width: $screen-xs) {
     top: 93px;
+  }
+}
+
+// Profile picture fix (connect-specific?)
+.profile-picture {
+  position: relative;
+
+  .entry & {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    // margin-right: 1rem;
+    width: 85px;
+  }
+
+  .pin-detail-header & {
+    float: left;
+    margin-right: 1rem;
+  }
+
+  .img-circle {
+    border-style: solid;
+    border-width: 2px;
+
+    .entry & {
+      border-color: $cr-gray-lighter;
+    }
+
+    .pin-detail-header & {
+      border-color: $cr-gray;
+    }
+  }
+}
+
+.profile-picture-default {
+  background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
+  background-position: center;
+  background-size: cover;
+}
+
+.profile-picture-overlay {
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@for $i from 1 through 6 {
+  .img-size-#{$i} {
+    $dimensions: 16px;
+
+    height: $dimensions * $i;
+    width: $dimensions * $i;
   }
 }

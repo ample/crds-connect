@@ -11,6 +11,7 @@ import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+import { SessionService } from '../../services/session.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GeoCoordinates } from '../../models/geo-coordinates';
@@ -27,10 +28,11 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
-    private pinHlpr: PinService,
-    private router: Router,
-    private mapHlpr: GoogleMapService,
-    private state: StateService) { }
+              private pinHlpr: PinService,
+              private router: Router,
+              private mapHlpr: GoogleMapService,
+              private state: StateService,
+              private session: SessionService) {}
 
   public ngOnInit(): void {
     let haveResults = !!this.searchResults;
@@ -39,7 +41,8 @@ export class MapComponent implements OnInit {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng,
+                                                          this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -66,8 +69,11 @@ export class MapComponent implements OnInit {
     }
   }
 
-  public getStringByPinType(type) {
-    switch (type) {
+  public getStringByPinType(pin) {
+    if (this.session.isCurrentPin(pin)) {
+      return '//crds-cms-uploads.s3.amazonaws.com/connect/ME.svg';
+    }
+    switch (pin.pinType) {
       case pinType.PERSON:
         return '//crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
       case pinType.GATHERING:

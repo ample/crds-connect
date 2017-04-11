@@ -37,6 +37,7 @@ export class AuthenticationComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
@@ -60,7 +61,6 @@ export class AuthenticationComponent implements OnInit {
       this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
-          this.session.setContactId(user.userId);
           this.store.loadUserData();
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();

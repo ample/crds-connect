@@ -47,6 +47,7 @@ export class GatheringComponent implements OnInit {
     private content: ContentService) { }
 
   public ngOnInit() {
+    window.scrollTo(0, 0);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
 
@@ -55,17 +56,19 @@ export class GatheringComponent implements OnInit {
         this.pin.gathering.Participants = participants;
         if (this.loggedInUserIsInGathering(this.session.getContactId())) {
           this.isInGathering = true;
-          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING).subscribe(
+          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+            .finally(() => {
+              this.state.setLoading(false);
+              this.ready = true;
+            })
+            .subscribe(
             address => {
               this.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
-            }, () => {
-              this.state.setLoading(false);
-              this.ready = true;
             }
-          );
+            );
         } else {
           this.state.setLoading(false);
           this.ready = true;
@@ -90,7 +93,7 @@ export class GatheringComponent implements OnInit {
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
-            'gatheringJoinRequestSent',
+            'finderGatheringJoinRequestSent',
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
             ''

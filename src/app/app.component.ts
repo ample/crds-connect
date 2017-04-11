@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.state.setLoading(true);
   }
 
 }
