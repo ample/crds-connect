@@ -38,7 +38,7 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-  public myStuffBtnClicked = () =>  {
+  public myStuffBtnClicked = () => {
 
     this.pin.clearPinCache();
 
@@ -49,12 +49,13 @@ export class MapFooterComponent {
     if (!this.session.isLoggedIn()) {
       this.loginRedirectService.redirectToLogin('/neighbors');
     } else {
-        this.userLocationService.GetUserLocation().subscribe(
-            pos => {
-                this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-                this.doSearch(pos.lat, pos.lng );
-            }
-        );
+      this.state.myStuffActive = true;
+      this.userLocationService.GetUserLocation().subscribe(
+          pos => {
+              this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
+              this.doSearch(pos.lat, pos.lng );
+          }
+      );
     }
 
   }

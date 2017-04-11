@@ -659,3 +659,27 @@ search-local {
     width: $dimensions * $i;
   }
 }
+
+.btn-toggle {
+  &,
+  &:active,
+  &:active:focus,
+  &:focus,
+  &:hover {
+    background-color: $btn-secondary-bg;
+    border-color: darken($btn-secondary-border, 5);
+    box-shadow: none;
+  }
+
+  &.btn-primary {
+    &,
+    &:active,
+    &:active:focus,
+    &:focus,
+    &:hover {
+      background: $btn-primary-bg;
+      border-color: $btn-primary-border;
+      box-shadow: none;
+    }
+  }
+}
