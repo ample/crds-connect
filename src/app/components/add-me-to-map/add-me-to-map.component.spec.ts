@@ -73,6 +73,18 @@ describe('Component: Add Me to the Map', () => {
     expect(this.component).toBeTruthy();
   });
 
+  it('should attach class selector to body element after view init', () => {
+    // Start fresh...
+    document.querySelector('body').classList.remove('modal-open');
+
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
+    this.component.ngAfterViewInit();
+    expect(document.querySelector('body').classList).toContain('modal-open');
+
+    // Cleanup...
+    document.querySelector('body').classList.remove('modal-open');
+  });
+
 });
 
 

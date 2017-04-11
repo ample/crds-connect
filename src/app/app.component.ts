@@ -42,15 +42,19 @@ export class AppComponent implements OnInit {
     }
 
     router.events.subscribe((val) => {
-      if(val instanceof NavigationStart) {
-        // Remove the .modal-open selector from <body> element whenever the router emits a path change
-        document.querySelector('body').classList.remove('modal-open');
-      }
+      this.removeFauxdalClasses(val);
     });
   }
 
   ngOnInit() {
     this.state.setLoading(true);
+  }
+
+  removeFauxdalClasses(val) {
+    if(val.constructor.name == 'NavigationStart') {
+      // Remove the .modal-open selector from <body> element whenever the router emits a path change
+      document.querySelector('body').classList.remove('modal-open');
+    }
   }
 
 }
