@@ -80,6 +80,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public back(): boolean {
+    this.state.navigatedBackFromAuthComponent = true;
     this.redirectService.cancelRedirect();
     return false;
   }
