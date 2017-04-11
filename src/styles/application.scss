@@ -68,16 +68,6 @@ app-add-me-to-map {
     }
   }
 
-  .page-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &.page-footer-vertical {
-      flex-direction: column;
-    }
-  }
-
   &.fauxdal-center {
     align-items: center;
     display: flex;
