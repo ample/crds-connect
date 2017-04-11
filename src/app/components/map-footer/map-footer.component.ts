@@ -49,13 +49,14 @@ export class MapFooterComponent {
     if (!this.session.isLoggedIn()) {
       this.loginRedirectService.redirectToLogin('/neighbors');
     } else {
-      e.target.classList.add('active');
-        this.userLocationService.GetUserLocation().subscribe(
-            pos => {
-                this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-                this.doSearch(pos.lat, pos.lng );
-            }
-        );
+      this.state.myStuffActive = true;
+      // e.target.classList.add('active');
+      this.userLocationService.GetUserLocation().subscribe(
+          pos => {
+              this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
+              this.doSearch(pos.lat, pos.lng );
+          }
+      );
     }
 
   };
