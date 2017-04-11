@@ -24,6 +24,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
+import { PinLabelService } from '../../services/pin-label.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -55,6 +56,7 @@ describe('Component: SearchLocal', () => {
       providers: [
         UserLocationService,
         LocationService,
+        PinLabelService,
         PinService,
         SiteAddressService,
         GoogleMapService,

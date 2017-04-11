@@ -8,6 +8,7 @@ import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/c
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
+import { PinLabelService } from '../../services/pin-label.service';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
@@ -28,6 +29,7 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
+              private pinLabelService: PinLabelService,
               private pinHlpr: PinService,
               private router: Router,
               private mapHlpr: GoogleMapService,
@@ -84,8 +86,7 @@ export class MapComponent implements OnInit {
   }
 
   public getLabelName(pin: Pin) {
-    return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
-      this.hostOrEmptyString(pin) + '|' + this.isMe(pin));
+    return this.pinLabelService.createPinLabelDataJsonString(pin);
   }
 
   public getFirstNameOrSiteName(pin: Pin) {

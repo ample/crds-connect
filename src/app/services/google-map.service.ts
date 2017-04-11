@@ -1,6 +1,7 @@
 import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
+import { MapMarker } from '../models/map-marker';
 import { Pin, pinType } from '../models/pin';
 
 import { GeoCoordinates } from '../models/geo-coordinates';
@@ -58,7 +59,7 @@ export class GoogleMapService {
     this.mapViewUpdatedEmitter.emit(mapView);
   }
 
-      // get the best zoom level for the map
+  // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
         let bounds = {
         width: document.documentElement.clientWidth,
@@ -152,10 +153,23 @@ export class GoogleMapService {
   private dms(dec: number): String {
     let decSgn = (dec < 0) ? '-' : '';
     dec = Math.abs(dec);
-    let decDeg = parseInt('' + dec);
-    let decMin = parseInt('' + (dec - decDeg) * 60.0);
-    let decSec = parseInt('' + (dec - decDeg - (decMin / 60.0)) * 3600.0);
+    let decDeg = parseInt('' + dec, 10);
+    let decMin = parseInt('' + (dec - decDeg) * 60.0, 10);
+    let decSec = parseInt('' + (dec - decDeg - (decMin / 60.0)) * 3600.0, 10);
     return `${decSgn}${decDeg}° ${decMin}' ${decSec}"`;
+  }
+
+  public getLabelHeightAdjustment(cHeight: number, marker: MapMarker, isHostOrMe: boolean): number {
+
+    let heightAdjustment: number = undefined;
+
+    if ( isHostOrMe ) {
+      heightAdjustment = 11;
+    } else {
+      heightAdjustment = 4;
+    }
+
+    return heightAdjustment;
   }
 
 }
