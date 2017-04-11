@@ -39,6 +39,8 @@ import { GoogleMapClusterDirective } from  '../directives/google-map-cluster.dir
 
 describe('Service: Google Map', () => {
 
+  let mockHeightAdjustment = 4;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -81,8 +83,13 @@ describe('Service: Google Map', () => {
 
   });
 
-  it('should create an instance', inject([PinService], (service: PinService) => {
+  it('should create an instance', inject([GoogleMapService], (service: GoogleMapService) => {
     expect(service).toBeTruthy();
+  }));
+
+  it('should get a height adjustment appropriate for a one-line label', inject([GoogleMapService], (service: GoogleMapService) => {
+    let heightAdjustmentInPixels: number = service.getLabelHeightAdjustment(null, null, false);
+    expect(heightAdjustmentInPixels).toEqual(mockHeightAdjustment);
   }));
 
   xit('should emit geo-coordinates', () => {
