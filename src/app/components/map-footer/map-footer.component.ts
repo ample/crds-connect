@@ -38,7 +38,7 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-  public myStuffBtnClicked = (e) => {
+  public myStuffBtnClicked = () => {
 
     this.pin.clearPinCache();
 
@@ -50,7 +50,6 @@ export class MapFooterComponent {
       this.loginRedirectService.redirectToLogin('/neighbors');
     } else {
       this.state.myStuffActive = true;
-      // e.target.classList.add('active');
       this.userLocationService.GetUserLocation().subscribe(
           pos => {
               this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
