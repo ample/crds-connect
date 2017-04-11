@@ -244,7 +244,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   };
 
   public isCurrentPin(pin: Pin) {
-    return pin.contactId === this.getContactId();
+    return pin.contactId === this.getContactId() && pin.pinType !== 3;
   }
 
 }
