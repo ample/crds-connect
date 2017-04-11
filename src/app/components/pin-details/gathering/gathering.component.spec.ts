@@ -214,4 +214,13 @@ describe('GatheringComponent', () => {
         (<jasmine.Spy>mockContentService.getContent).and.returnValue(expectedText);
         comp.isLoggedIn = true;
     });
+
+    it('should redirect to oops page if something  horrible happens', () => {
+        let pin = MockTestData.getAPin(1);
+        pin.gathering = null;
+        comp['pin'] = pin;
+
+        comp.ngOnInit();
+        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
+    });
 });
