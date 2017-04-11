@@ -227,10 +227,7 @@ export class SessionService extends SmartCacheableService<User, number> {
 
   public postUser(user: User): Observable<any> {
     return this.post(this.baseUrl + 'api/v1.0.0/user', user)
-      .map((res: any) => {
-
-        this.extractData(res);
-      })
+      .map(this.extractData)
       .catch(this.handleError);
   };
 
