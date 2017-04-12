@@ -46,23 +46,34 @@ export class NeighborsComponent implements OnInit {
 
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
+
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
       if (lastSearch != null) {
-        this.doSearch(lastSearch.search, lastSearch.coords.lat, lastSearch.coords.lng);
+        if (this.state.navigatedBackFromAuthComponent) {
+          this.state.navigatedBackFromAuthComponent = false;
+          this.state.setMyViewOrWorldView('world');
+          this.runFreshSearch();
+        } else {
+          this.doSearch(lastSearch.search, lastSearch.coords.lat, lastSearch.coords.lng);
+        }
       } else {
-        this.userLocationService.GetUserLocation().subscribe(
-          pos => {
-            this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-            this.doSearch('useLatLng', pos.lat, pos.lng );
-          }
-        );
+        this.runFreshSearch();
       }
     } else {
       this.setView(this.state.getCurrentView());
     }
+  }
+
+  runFreshSearch(){
+    this.userLocationService.GetUserLocation().subscribe (
+      pos => {
+        this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
+        this.doSearch('useLatLng', pos.lat, pos.lng );
+      }
+    );
   }
 
   setView(mapOrListView): void {

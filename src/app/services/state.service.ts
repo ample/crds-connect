@@ -9,6 +9,8 @@ export class StateService {
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
+  public navigatedBackFromAuthComponent: boolean = false;
+
   public myStuffActive: boolean = false;
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
