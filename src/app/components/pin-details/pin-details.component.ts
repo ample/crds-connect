@@ -21,7 +21,6 @@ import { User } from '../../models/user';
 export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
-  public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';
@@ -39,11 +38,11 @@ export class PinDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private state: StateService,
-    private hlpr: AddMeToTheMapHelperService,
     private pinService: PinService
   ) {}
 
   public ngOnInit() {
+    this.cancelEdit = this.cancelEdit.bind(this);
     this.state.setLoading(true);
     this.state.setPageHeader('connect', '/');
 
@@ -73,5 +72,9 @@ export class PinDetailsComponent implements OnInit {
     if (value) {
       location.reload();
     }
+  }
+
+  public cancelEdit() {
+    this.editMode = false;
   }
 }

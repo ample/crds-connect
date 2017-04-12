@@ -8,6 +8,7 @@ import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { NoResultsComponent } from './no-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: NoResults', () => {
   let mockContentService;
@@ -21,11 +22,11 @@ describe('Component: NoResults', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        NoResultsComponent
+        NoResultsComponent,
+        MockComponent({selector: 'crds-content-block', inputs: ['id']})
       ],
       imports: [ HttpModule,
         RouterTestingModule.withRoutes([]),
-        ContentBlockModule.forRoot({ categories: ['common'] })
       ],
       providers: [
         { provide: ContentService, useValue: mockContentService},
