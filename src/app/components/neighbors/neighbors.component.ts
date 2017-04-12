@@ -40,7 +40,7 @@ export class NeighborsComponent implements OnInit {
 
     searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
       this.pinSearchResults = myStuffSearchResults as PinSearchResultsDto;
-      this.processAndDisplaySearchResults(this.pinSearchResults, '', 0, 0, 3);
+      this.processAndDisplaySearchResults('', 0, 0);
     });
   }
 
@@ -67,7 +67,7 @@ export class NeighborsComponent implements OnInit {
     }
   }
 
-  runFreshSearch(){
+  runFreshSearch() {
     this.userLocationService.GetUserLocation().subscribe (
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
@@ -84,7 +84,9 @@ export class NeighborsComponent implements OnInit {
     this.mapViewActive = isMapViewActive;
   }
 
-  processAndDisplaySearchResults(results: PinSearchResultsDto, searchString, lat, lng, zoom) {
+  processAndDisplaySearchResults(searchString, lat, lng): void {
+    // include posted pin if not included in results
+    this.verifyPostedPinExistance();
 
     // sort
     this.pinSearchResults.pinSearchResults =
@@ -161,7 +163,7 @@ export class NeighborsComponent implements OnInit {
     this.pinService.getPinSearchResults(searchString, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
-        this.processAndDisplaySearchResults(this.pinSearchResults, searchString, lat, lng, zoom);
+        this.processAndDisplaySearchResults(searchString, lat, lng);
       },
       error => {
         console.log(error);
@@ -173,6 +175,24 @@ export class NeighborsComponent implements OnInit {
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
+  }
+
+  private foundPinElement = (pinFromResults: Pin): boolean => {
+    let postedPin = this.state.getPostedPin();
+    return (postedPin.participantId === pinFromResults.participantId && postedPin.pinType === pinFromResults.pinType);
+  }
+
+  private verifyPostedPinExistance() {
+    if (this.state.navigatedFromAddToMapComponent) {
+      this.state.navigatedFromAddToMapComponent = false;
+       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+       if (isFound === undefined) {
+         let pin = this.state.getPostedPin();
+         this.pinSearchResults.pinSearchResults.push(pin);
+       } else {
+       }
+       this.state.setPostedPin(null);
+    }
   }
 
 }
