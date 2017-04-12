@@ -150,35 +150,12 @@ export class MapContentComponent implements OnInit {
           USGSOverlay.prototype = new google.maps.OverlayView();
 
 
-          // var swBound = new google.maps.LatLng(40.73660837340877, -74.01852328);
-          // var neBound = new google.maps.LatLng(40.75214181, -73.9966151);
-
-          var swBound = new google.maps.LatLng(35.73660837340877, -79.01852328);
-          var neBound = new google.maps.LatLng(40.75214181, -73.9966151);
-
-
-          var mapBounds = new google.maps.LatLngBounds(swBound, neBound);
-
-          var srcImage = 'https://developer.chrome.com/extensions/examples/api/idle/idle_simple/sample-128.png';
-
-          console.log('Drawing overlay');
-          // overlay = new USGSOverlay(mapBounds, srcImage, map, 'label');
-          // overlay = new USGSOverlay(mapBounds, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'label');
-
           for(var i = 0; i<dataForDrawing.markers.length; i++) {
-            console.log('Drawing individual markers');
             let marker: any = dataForDrawing.markers[i];
-            // var swBound2 = new google.maps.LatLng(35.73660837340877, -79.01852328);
-            // var neBound2 = new google.maps.LatLng(40.75214181, -73.9966151);
-            // let swBound2 = new google.maps.LatLng(34.16382400, -89.45343200);
-            // let neBound2 = new google.maps.LatLng(39.16382400, -84.45343200);
-            console.log(marker.markerLat);
-            console.log(marker.markerLng);
             let neBound2 = new google.maps.LatLng((marker.markerLat +.01), (marker.markerLng+.01));
             let swBound2 = new google.maps.LatLng((marker.markerLat-.01), (marker.markerLng-.01));
             let mapBounds2: any = new google.maps.LatLngBounds(swBound2, neBound2);
-            overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'label');
-            console.log('Drawing overlay');
+            overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'LOL TEST');
           }
 
             /** @constructor */
@@ -205,17 +182,10 @@ export class MapContentComponent implements OnInit {
             USGSOverlay.prototype.onAdd = function() {
 
                 var div = document.createElement('div');
+                div.innerHTML = this.label_;
                 div.style.borderStyle = 'none';
                 div.style.borderWidth = '0px';
                 div.style.position = 'absolute';
-
-                // Create the img element and attach it to the div.
-                var img = document.createElement('img');
-                img.src = this.image_;
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.position = 'absolute';
-                div.appendChild(img);
 
                 this.div_ = div;
 
