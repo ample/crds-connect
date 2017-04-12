@@ -16,6 +16,7 @@ import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.
 import { LookupTable } from '../../models/lookup-table';
 import { AddressFormComponent } from './address-form.component';
 import { Observable } from 'rxjs/Observable';
+import { MockTestData } from '../../shared/MockTestData';
 
 describe('AddressFormComponent', () => {
     let fixture: ComponentFixture<AddressFormComponent>;
@@ -93,15 +94,15 @@ describe('AddressFormComponent', () => {
     });
 
     it('should submit', () => {
-        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of({}));
+        let pin = MockTestData.getAPin(1);
+        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
         spyOn(comp.save, 'emit');
-
         comp.ngOnInit();
         comp.addressFormGroup.setValue({ addressLine1: '123 street', addressLine2: '', city: 'Oakley', zip: '12345',
         state: 'OH', foreignCountry: 'US', county: null});
         comp.onSubmit(comp.addressFormGroup);
         expect(mockPinService.postPin).toHaveBeenCalled();
-        expect(comp.save.emit).toHaveBeenCalledWith(true);
+        expect(comp.save.emit).toHaveBeenCalledWith(pin);
     });
 
     it('should go back if no function is passed in', () => {

@@ -72,18 +72,22 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     document.querySelector('body').classList.add('modal-open');
   }
 
-  public onSubmit(value) {
-    if (value) {
+  public onSubmit(value: Pin) {
+    if (value != null) {
       this.state.setMyViewOrWorldView('world');
+      this.state.setCurrentView('map');
       this.state.setLastSearch(null);
       this.session.clearCache();
-      this.state.setCurrentView('map');
+
+      this.state.navigatedFromAddToMapComponent = true;
+      this.state.postedPin = value;
+
       let nowAPin = new BlandPageDetails(
         'See for yourself',
         'finderNowAPin',
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
-        '',
+        'map',
         ''
       );
       this.blandPageService.primeAndGo(nowAPin);

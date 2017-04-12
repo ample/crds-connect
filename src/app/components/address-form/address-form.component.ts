@@ -22,7 +22,7 @@ export class AddressFormComponent implements OnInit {
     @Input() userData: UserDataForPinCreation;
     @Input() buttonText: String = 'Add me to the map';
     @Input() cancel: Function;
-    @Output() save: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+    @Output() save: EventEmitter<Pin> = new EventEmitter<Pin>();
 
     public stateList: Array<string>;
     public addressFormGroup: FormGroup;
@@ -60,12 +60,12 @@ export class AddressFormComponent implements OnInit {
         let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData);
 
         this.pinService.postPin(pinToSubmit).subscribe(
-            next => {
-                this.save.emit(true);
+            pin => {
+                this.save.emit(pin);
             },
             err => {
                 this.setSubmissionErrorWarningTo(true);
-                this.save.emit(false);
+                this.save.emit(null);
             }
         );
     }
