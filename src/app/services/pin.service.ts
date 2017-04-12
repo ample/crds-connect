@@ -77,6 +77,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
+        console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }

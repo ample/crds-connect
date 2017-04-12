@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export enum CacheLevel { None = 0, Partial = 1, Full = 2 };
 
 export class CacheableService<Type> {
@@ -82,7 +84,7 @@ export class CacheableService<Type> {
      * returns the current cache
      */
     protected getCache(): Type {
-        return this.cache;
+        return _.cloneDeep(this.cache);
     }
 }
 
@@ -135,19 +137,26 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      */
     protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel, currentUserIdentifier: number = null): boolean {
         if (this.isNoCache()) {
+            console.log('this.isNoCache()')
             return false;
         } else if (!super.isCachedForUser(currentUserIdentifier)) {
+            console.log('!this.isCachedForUser()')
             this.clearCache();
             return false;
         }else if (this.getCacheLevel() < minimumCacheThreshold) {
+            console.log('this.getCacheLevel() < minimumCacheThreshold')
+            console.log('CacheLevel: ' + this.getCacheLevel());
+            console.log('minimumCacheThreshold: ' + minimumCacheThreshold);
             this.clearCache();
             return false;
         } else if (newParams == null && this.lastParams == null) {
             return true;
         } else if (newParams == null && this.lastParams != null) {
+            console.log('newParams == null && this.lastParams != null')
             this.clearCache();
             return false;
         } else if (newParams != null && this.lastParams == null) {
+            console.log('newParams != null && this.lastParams == null')
             this.clearCache();
             return false;
         } else {
