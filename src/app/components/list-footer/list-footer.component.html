@@ -1,23 +1,9 @@
 <div class="connect-list-footer">
   <!--LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
-  <div *ngIf="userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn"
-        class="bg-gray">
+  <div *ngIf="userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn" class="bg-gray">
     <crds-content-block id="promptToPutSelfOnMap"></crds-content-block>
-    <button class="btn btn-default"
-            (click)="addMeToTheMapClicked()">Add me to map</button>
+    <button class="btn btn-default" (click)="addMeToTheMapClicked()">Add me to map</button>
   </div>
-
-  <!--LOGGED IN, ON MAP AS PARTICIPANT-->
-  <!--<div *ngIf="userMapState === userMapStateEnum.LoggedIn_OnMap"-->
-        <!--class="bg-gray">-->
-    <!--<crds-content-block id="finderWantToHost"></crds-content-block>-->
-    <!--<div class="btn-group">-->
-      <!--<button class="btn btn-default"-->
-              <!--(click)="becomeAHostClicked()">Sign up</button>-->
-      <!--<button class="btn btn-default"-->
-              <!--(click)="whatsAHostBtnClicked()">What's a host?</button>-->
-    <!--</div>-->
-  <!--</div>-->
 
   <div>
     <p class="text-muted font-size-small">When interacting with others, please be smart. We know you've used the internet before. We're just saying we want you to feel safe and be safe!</p>
