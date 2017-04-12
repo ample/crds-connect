@@ -56,22 +56,6 @@ export class MapContentComponent implements OnInit {
           styles: googleMapStyles
         });
 
-        let overlay;
-        USGSOverlay.prototype = new google.maps.OverlayView();
-
-
-        var swBound = new google.maps.LatLng(40.73660837340877, -74.01852328);
-        var neBound = new google.maps.LatLng(40.75214181, -73.9966151);
-
-        var bounds = new google.maps.LatLngBounds(swBound, neBound);
-
-        var srcImage = 'https://developer.chrome.com/extensions/examples/api/idle/idle_simple/sample-128.png';
-
-        // The custom USGSOverlay object contains the USGS image,
-        // the bounds of the image, and a reference to the map.
-
-        //overlay = new USGSOverlay(bounds, srcImage, map);
-
         let self = this;
 
         map.addListener('dragstart', function() {
@@ -94,72 +78,8 @@ export class MapContentComponent implements OnInit {
           let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
           self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
           self.state.setMapView(mapViewUpdate);
-
-          console.log('Drawing overlay');
-          overlay = new USGSOverlay(bounds, srcImage, map, 'label');
-          overlay = new USGSOverlay(bounds, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'label');
         });
 
-        /** @constructor */
-        function USGSOverlay(bounds, image, map, label) {
-          // Initialize all properties.
-          this.bounds_ = bounds;
-          this.image_ = image;
-          this.map_ = map;
-          this.label_ = label;
-
-          // Define a property to hold the image's div. We'll
-          // actually create this div upon receipt of the onAdd()
-          // method so we'll leave it null for now.
-          this.div_ = null;
-
-          // Explicitly call setMap on this overlay.
-          this.setMap(map);
-        }
-
-        /**
-         * onAdd is called when the map's panes are ready and the overlay has been
-         * added to the map.
-         */
-        USGSOverlay.prototype.onAdd = function() {
-
-          var div = document.createElement('div');
-          div.style.borderStyle = 'none';
-          div.style.borderWidth = '0px';
-          div.style.position = 'absolute';
-
-          // Create the img element and attach it to the div.
-          var img = document.createElement('img');
-          img.src = this.image_;
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.position = 'absolute';
-          div.appendChild(img);
-
-          this.div_ = div;
-
-          // Add the element to the "overlayLayer" pane.
-          var panes = this.getPanes();
-          panes.overlayLayer.appendChild(div);
-        };
-
-        USGSOverlay.prototype.draw = function() {
-          var overlayProjection = this.getProjection();
-          var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
-          var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
-          var div = this.div_;
-          div.style.left = sw.x + 'px';
-          div.style.top = ne.y + 'px';
-          div.style.width = (ne.x - sw.x) + 'px';
-          div.style.height = (sw.y - ne.y) + 'px';
-        };
-
-// The onRemove() method will be called automatically from the API if
-// we ever set the overlay's map property to 'null'.
-        USGSOverlay.prototype.onRemove = function() {
-          this.div_.parentNode.removeChild(this.div_);
-          this.div_ = null;
-        };
       });
   }
 
@@ -224,6 +144,106 @@ export class MapContentComponent implements OnInit {
             geoBounds: geoBounds,
             markers: markerArray
           };
+
+          //------------------------------------------------------------------------------------------------------------
+          let overlay;
+          USGSOverlay.prototype = new google.maps.OverlayView();
+
+
+          // var swBound = new google.maps.LatLng(40.73660837340877, -74.01852328);
+          // var neBound = new google.maps.LatLng(40.75214181, -73.9966151);
+
+          var swBound = new google.maps.LatLng(35.73660837340877, -79.01852328);
+          var neBound = new google.maps.LatLng(40.75214181, -73.9966151);
+
+
+          var mapBounds = new google.maps.LatLngBounds(swBound, neBound);
+
+          var srcImage = 'https://developer.chrome.com/extensions/examples/api/idle/idle_simple/sample-128.png';
+
+          console.log('Drawing overlay');
+          // overlay = new USGSOverlay(mapBounds, srcImage, map, 'label');
+          // overlay = new USGSOverlay(mapBounds, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'label');
+
+          for(var i = 0; i<dataForDrawing.markers.length; i++) {
+            console.log('Drawing individual markers');
+            let marker: any = dataForDrawing.markers[i];
+            // var swBound2 = new google.maps.LatLng(35.73660837340877, -79.01852328);
+            // var neBound2 = new google.maps.LatLng(40.75214181, -73.9966151);
+            // let swBound2 = new google.maps.LatLng(34.16382400, -89.45343200);
+            // let neBound2 = new google.maps.LatLng(39.16382400, -84.45343200);
+            console.log(marker.markerLat);
+            console.log(marker.markerLng);
+            let neBound2 = new google.maps.LatLng((marker.markerLat +.01), (marker.markerLng+.01));
+            let swBound2 = new google.maps.LatLng((marker.markerLat-.01), (marker.markerLng-.01));
+            let mapBounds2: any = new google.maps.LatLngBounds(swBound2, neBound2);
+            overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'label');
+            console.log('Drawing overlay');
+          }
+
+            /** @constructor */
+            function USGSOverlay(bounds, image, map, label) {
+                // Initialize all properties.
+                this.bounds_ = bounds;
+                this.image_ = image;
+                this.map_ = map;
+                this.label_ = label;
+
+                // Define a property to hold the image's div. We'll
+                // actually create this div upon receipt of the onAdd()
+                // method so we'll leave it null for now.
+                this.div_ = null;
+
+                // Explicitly call setMap on this overlay.
+                this.setMap(map);
+            }
+
+            /**
+             * onAdd is called when the map's panes are ready and the overlay has been
+             * added to the map.
+             */
+            USGSOverlay.prototype.onAdd = function() {
+
+                var div = document.createElement('div');
+                div.style.borderStyle = 'none';
+                div.style.borderWidth = '0px';
+                div.style.position = 'absolute';
+
+                // Create the img element and attach it to the div.
+                var img = document.createElement('img');
+                img.src = this.image_;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.position = 'absolute';
+                div.appendChild(img);
+
+                this.div_ = div;
+
+                // Add the element to the "overlayLayer" pane.
+                var panes = this.getPanes();
+                panes.overlayLayer.appendChild(div);
+            };
+
+            USGSOverlay.prototype.draw = function() {
+                var overlayProjection = this.getProjection();
+                var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+                var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+                var div = this.div_;
+                div.style.left = sw.x + 'px';
+                div.style.top = ne.y + 'px';
+                div.style.width = (ne.x - sw.x) + 'px';
+                div.style.height = (sw.y - ne.y) + 'px';
+            };
+
+            // The onRemove() method will be called automatically from the API if
+            // we ever set the overlay's map property to 'null'.
+            USGSOverlay.prototype.onRemove = function() {
+                this.div_.parentNode.removeChild(this.div_);
+                this.div_ = null;
+            };
+
+
+            //------------------------------------------------------------------------------------------------------------
 
           this.mapHlpr.emitDataForDrawing(dataForDrawing);
         }
