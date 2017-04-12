@@ -86,7 +86,7 @@ export class NeighborsComponent implements OnInit {
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
     // include posted pin if not included in results
-    this.verifyPostedPinExistance();
+    this.verifyPostedPinExistence();
 
     // sort
     this.pinSearchResults.pinSearchResults =
@@ -178,20 +178,20 @@ export class NeighborsComponent implements OnInit {
   }
 
   private foundPinElement = (pinFromResults: Pin): boolean => {
-    let postedPin = this.state.getPostedPin();
+    let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId && postedPin.pinType === pinFromResults.pinType);
   }
 
-  private verifyPostedPinExistance() {
+  private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent) {
       this.state.navigatedFromAddToMapComponent = false;
        let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
        if (isFound === undefined) {
-         let pin = this.state.getPostedPin();
+         let pin = this.state.postedPin;
          this.pinSearchResults.pinSearchResults.push(pin);
        } else {
        }
-       this.state.setPostedPin(null);
+       this.state.postedPin = null;
     }
   }
 

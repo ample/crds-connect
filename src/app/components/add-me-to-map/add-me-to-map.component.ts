@@ -51,7 +51,7 @@ export class AddMeToMapComponent implements OnInit {
       this.session.clearCache();
 
       this.state.navigatedFromAddToMapComponent = true;
-      this.state.setPostedPin(value);
+      this.state.postedPin = value;
 
       let nowAPin = new BlandPageDetails(
         'See for yourself',

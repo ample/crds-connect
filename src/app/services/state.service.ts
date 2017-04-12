@@ -82,12 +82,4 @@ export class StateService {
     return this.zoomToUse;
   }
 
-  public setPostedPin(pin: Pin) {
-    this.postedPin = pin;
-  }
-
-  public getPostedPin() {
-    return this.postedPin;
-  }
-
 }
