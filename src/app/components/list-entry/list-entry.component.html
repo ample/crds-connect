@@ -32,11 +32,11 @@
   </div>
 </div>
 
-<div *ngIf="isSite()" class="entry">
+<div *ngIf="isSite()" class="entry entry-site">
   <div class="profile-picture">
-    <div class="img-circle img-size-5">
-      <img src="{{getPicByPinType()}}" class="img-size-5">
-    </div>
+    <div class="profile-picture-default img-circle img-size-5"></div>
+    <div class="profile-picture-overlay img-circle img-size-5"
+         style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
   </div>
   <div class="entry-details">
     <h3 class="entry-header">Crossroads {{siteName}}</h3>

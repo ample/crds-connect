@@ -28,6 +28,7 @@ export class PersonComponent implements OnInit {
   }
 
   ngOnInit() {
+    //what is this here for?
     window.scrollTo(0,0);
     if (this.isPinOwner) {
       this.state.setLoading(true);

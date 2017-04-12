@@ -40,4 +40,9 @@ export class ListViewComponent {
   public showMore() {
     this.stateService.setShowingPinCount(this.stateService.getShowingPinCount() + this.showing_increment);
   }
+
+  public isMyStuffView(): boolean {
+    return this.stateService.getMyViewOrWorldView() === 'my';
+  }
+
 }

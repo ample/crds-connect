@@ -68,6 +68,13 @@ describe('Component: Authentication', () => {
     expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
   }));
 
+  it('should set the "navigatedBackFromAuthComponent" prop on state service',
+      inject([StateService], (stateService) => {
+    stateService.navigatedBackFromAuthComponent = false;
+    comp.back();
+    expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
+  }));
+
   function setForm(email, password) {
     comp.form.setValue({ email: email, password: password });
   }

@@ -100,7 +100,7 @@ export class SiteAddressService {
   }
 
   public addAddressToGatheringPin(pin: Pin) {
-    let buildingAddress: BuildingAddress = this.buildingAddresses.find( add => add.locationName == pin.siteName );
+    let buildingAddress: BuildingAddress = this.buildingAddresses.find( add => add.locationName === pin.siteName );
 
     if (buildingAddress === undefined) {
       pin.address.addressLine1 = '';

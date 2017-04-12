@@ -20,6 +20,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -33,7 +34,7 @@ import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 import { MapView } from '../../models/map-view';
 
@@ -60,6 +61,7 @@ describe('Component: Map', () => {
         SiteAddressService,
         UserLocationService,
         LocationService,
+        PinLabelService,
         PinService,
         GoogleMapService,
         IFrameParentService,
@@ -72,7 +74,7 @@ describe('Component: Map', () => {
         BlandPageService,
         IPService,
         GoogleMapsAPIWrapper,
-        SearchLocalService,
+        SearchService,
         NeighborsHelperService
       ]
     });

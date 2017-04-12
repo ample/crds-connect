@@ -8,6 +8,7 @@ import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/c
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
+import { PinLabelService } from '../../services/pin-label.service';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
@@ -28,6 +29,7 @@ export class MapComponent implements OnInit {
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
+              private pinLabelService: PinLabelService,
               private pinHlpr: PinService,
               private router: Router,
               private mapHlpr: GoogleMapService,
@@ -70,22 +72,21 @@ export class MapComponent implements OnInit {
   }
 
   public getStringByPinType(pin) {
-    if (this.session.isCurrentPin(pin)) {
-      return '//crds-cms-uploads.s3.amazonaws.com/connect/ME.svg';
+    let iconName: string;
+    if (pin.pinType === pinType.SITE) {
+      iconName = 'SITE';
+    } else if (pin.pinType === pinType.GATHERING) {
+      iconName = 'GATHERING';
+    } else if (pin.pinType === pinType.PERSON && this.session.isCurrentPin(pin)) {
+      iconName = 'ME';
+    } else {
+      iconName = 'PERSON';
     }
-    switch (pin.pinType) {
-      case pinType.PERSON:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
-      case pinType.GATHERING:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
-      default:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
-    }
+    return '//crds-cms-uploads.s3.amazonaws.com/connect/' + iconName + '.svg';
   }
 
   public getLabelName(pin: Pin) {
-    return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
-      this.hostOrEmptyString(pin) + '|' + this.isMe(pin));
+    return this.pinLabelService.createPinLabelDataJsonString(pin);
   }
 
   public getFirstNameOrSiteName(pin: Pin) {

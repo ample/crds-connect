@@ -20,6 +20,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
@@ -38,14 +39,20 @@ const appRoutes: Routes = [
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   {
     path: 'success',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'map', component: NeighborsComponent },
@@ -82,7 +89,7 @@ const appRoutes: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   { path: 'signin', component: AuthenticationComponent },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', canActivate: [PageNotFoundGuard], component: PageNotFoundComponent }
 ];
 
 export const appRoutingProviders: any[] = [
