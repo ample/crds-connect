@@ -48,6 +48,7 @@ export class GatheringComponent implements OnInit {
 
   public ngOnInit() {
     window.scrollTo(0, 0);
+    this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
     try {
@@ -90,9 +91,10 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    if (this.isLoggedIn) {
+    if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
+      this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
+      .subscribe(
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
@@ -109,10 +111,11 @@ export class GatheringComponent implements OnInit {
           } else {
             this.toast.error(this.content.getContent('generalError'));
           }
+          this.loginRedirectService.redirectToTarget();
         }
       );
     } else {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
   }
 
