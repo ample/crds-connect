@@ -109,7 +109,7 @@ describe('GatheringComponent', () => {
         comp.ngOnInit();
         expect(comp.isInGathering).toBe(true);
         expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(comp['address'].addressLine1).toBe(addLine1);
+        expect(comp['pin'].address.addressLine1).toBe(addLine1);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
     });
 
