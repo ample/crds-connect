@@ -85,12 +85,7 @@ import { SearchService } from './services/search.service';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 
-import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
-import { CurrencyFormatDirective } from './directives/currency-format.directive';
-import { CvvFormatDirective } from './directives/cvv-format.directive';
-import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
-import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
 
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
@@ -131,11 +126,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AuthenticationComponent,
     BlandPageComponent,
     CanvasMapOverlayComponent,
-    CreditCardFormatDirective,
-    CurrencyFormatDirective,
-    CvvFormatDirective,
-    ExpiryFormatDirective,
-    FormatPaymentNumberDirective,
     GatheringComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
@@ -164,7 +154,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SayHiComponent,
     SearchBarComponent,
     SearchLocalComponent,
-    FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
   providers: [
