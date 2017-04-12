@@ -23,7 +23,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -83,7 +83,7 @@ describe('Component: Neighbors', () => {
         NeighborsHelperService,
         StoreService,
         StateService,
-        SearchLocalService,
+        SearchService,
         ListHelperService,
         SessionService,
         CookieService,

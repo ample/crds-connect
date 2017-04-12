@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Location } from '@angular/common';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -29,7 +28,6 @@ export class AuthenticationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private location: Location,
     private router: Router,
     public redirectService: LoginRedirectService,
     private state: StateService,
@@ -38,8 +36,13 @@ export class AuthenticationComponent implements OnInit {
     private session: SessionService
   ) { }
 
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    this.state.navigatedBackFromAuthComponent = true;
+  }
+
   public ngOnInit(): void {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
@@ -63,7 +66,6 @@ export class AuthenticationComponent implements OnInit {
       this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
-          this.session.setContactId(user.userId);
           this.store.loadUserData();
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();
@@ -83,7 +85,8 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public back(): boolean {
-    this.location.back();
+    this.state.navigatedBackFromAuthComponent = true;
+    this.redirectService.cancelRedirect();
     return false;
   }
 

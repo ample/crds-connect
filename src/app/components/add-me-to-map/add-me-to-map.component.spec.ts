@@ -5,6 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieService } from 'angular2-cookie/core';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 import { SelectModule } from 'angular2-select';
 
@@ -25,6 +26,7 @@ import { BlandPageService } from '../../services/bland-page.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { UserLocationService } from '../../services/user-location.service';
+import { AddressService } from '../../services/address.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -61,7 +63,10 @@ describe('Component: Add Me to the Map', () => {
         StateService,
         GoogleMapService,
         BlandPageService,
-        UserLocationService
+        UserLocationService,
+        AddressService,
+        ToastsManager,
+        ToastOptions
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);
@@ -71,6 +76,18 @@ describe('Component: Add Me to the Map', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should attach class selector to body element after view init', () => {
+    // Start fresh...
+    document.querySelector('body').classList.remove('modal-open');
+
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
+    this.component.ngAfterViewInit();
+    expect(document.querySelector('body').classList).toContain('modal-open');
+
+    // Cleanup...
+    document.querySelector('body').classList.remove('modal-open');
   });
 
 });

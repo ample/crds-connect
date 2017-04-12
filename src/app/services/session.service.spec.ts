@@ -164,7 +164,7 @@ describe('Service: Session', () => {
   it('should set contactId', inject([SessionService], (service: any) => {
     service['cookieOptions'] = { domain: 'localhost' };
     spyOn(service.cookieService, 'put');
-    service.setContactId('12345');
+    service.addToCookie(service['contactId'], '12345');
     expect(service.cookieService.put).toHaveBeenCalledWith(service.contactId, '12345', service.cookieOptions);
   }));
 

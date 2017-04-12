@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormBuilder } from '@angular/forms';
@@ -27,7 +26,11 @@ describe('Component: Authentication', () => {
   let comp: AuthenticationComponent;
   let location: Location;
 
+  let mockLoginRedirectService;
+
   beforeEach(() => {
+    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
+
     TestBed.configureTestingModule({
       declarations: [
         AuthenticationComponent
@@ -36,7 +39,7 @@ describe('Component: Authentication', () => {
         CookieService,
         SessionService,
         StateService,
-        LoginRedirectService,
+        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         PinService,
         FormBuilder,
         StoreService,
@@ -61,9 +64,15 @@ describe('Component: Authentication', () => {
   });
 
   it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
-    spyOn(loginRedirectService, 'redirectToTarget');
     comp.back();
     expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
+  }));
+
+  it('should set the "navigatedBackFromAuthComponent" prop on state service',
+      inject([StateService], (stateService) => {
+    stateService.navigatedBackFromAuthComponent = false;
+    comp.back();
+    expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
   }));
 
   function setForm(email, password) {
@@ -91,11 +100,11 @@ describe('Component: Authentication', () => {
     expect(isInvalid).toBe(true);
   });
 
-  it('should call location.back when the back button is clicked', inject([Location], (location) => {
-    spyOn(location, 'back');
+  it('should call cancelRedirect when the back button is clicked', () => {
+
     comp.back();
-    expect(location.back).toHaveBeenCalled();
-  }));
+    expect(mockLoginRedirectService.cancelRedirect).toHaveBeenCalled();
+  });
 
 
 });

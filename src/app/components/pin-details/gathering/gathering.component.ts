@@ -47,26 +47,29 @@ export class GatheringComponent implements OnInit {
     private content: ContentService) { }
 
   public ngOnInit() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
+    this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
-
+    try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       participants => {
         this.pin.gathering.Participants = participants;
         if (this.loggedInUserIsInGathering(this.session.getContactId())) {
           this.isInGathering = true;
-          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING).subscribe(
+          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+            .finally(() => {
+              this.state.setLoading(false);
+              this.ready = true;
+            })
+            .subscribe(
             address => {
-              this.address = address;
+              this.pin.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
-            }, () => {
-              this.state.setLoading(false);
-              this.ready = true;
             }
-          );
+            );
         } else {
           this.state.setLoading(false);
           this.ready = true;
@@ -76,6 +79,9 @@ export class GatheringComponent implements OnInit {
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
       });
+    } catch (err) {
+      this.blandPageService.goToDefaultError('');
+    }
   }
 
   private loggedInUserIsInGathering(contactId: number) {
@@ -85,9 +91,10 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    if (this.isLoggedIn) {
+    if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
+      this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
+      .subscribe(
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
@@ -104,10 +111,11 @@ export class GatheringComponent implements OnInit {
           } else {
             this.toast.error(this.content.getContent('generalError'));
           }
+          this.loginRedirectService.redirectToTarget();
         }
       );
     } else {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
   }
 

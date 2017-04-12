@@ -50,7 +50,7 @@ export class PinDetailsComponent implements OnInit {
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
 
-    if (this.pin.pinType == pinType.GATHERING) {
+    if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
     }
 

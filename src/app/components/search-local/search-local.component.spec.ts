@@ -24,6 +24,7 @@ import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
+import { PinLabelService } from '../../services/pin-label.service';
 import { PinService}  from '../../services/pin.service';
 import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -32,7 +33,7 @@ import { IPService } from '../../services/ip.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 describe('Component: SearchLocal', () => {
 
@@ -55,6 +56,7 @@ describe('Component: SearchLocal', () => {
       providers: [
         UserLocationService,
         LocationService,
+        PinLabelService,
         PinService,
         SiteAddressService,
         GoogleMapService,
@@ -67,7 +69,7 @@ describe('Component: SearchLocal', () => {
         LoginRedirectService,
         BlandPageService,
         GoogleMapsAPIWrapper,
-        SearchLocalService,
+        SearchService,
         IPService,
         NeighborsHelperService
       ]

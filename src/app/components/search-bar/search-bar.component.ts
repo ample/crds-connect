@@ -37,6 +37,7 @@ export class SearchBarComponent implements OnChanges {
   }
 
   public onSearch(searchString: string) {
+    this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
       this.search.emit(searchString);
