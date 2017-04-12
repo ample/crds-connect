@@ -28,11 +28,12 @@ app-add-me-to-map {
   background-color: darken($cr-blue, 20);
   color: $cr-white;
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 5;
 }
 
 .fauxdal {
@@ -41,6 +42,7 @@ app-add-me-to-map {
   display: block;
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
 
   // Added so the "modal" sits on top of the header
   position: absolute;

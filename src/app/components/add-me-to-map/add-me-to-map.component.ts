@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -22,7 +22,7 @@ import { UserLocationService } from '../../services/user-location.service';
   selector: 'app-add-me-to-map',
   templateUrl: 'add-me-to-map.component.html'
 })
-export class AddMeToMapComponent implements OnInit {
+export class AddMeToMapComponent implements OnInit, AfterViewInit {
 
   public userData: UserDataForPinCreation;
   public addMeToMapFormGroup: FormGroup;
@@ -41,6 +41,12 @@ export class AddMeToMapComponent implements OnInit {
   public ngOnInit(): void {
     this.userData = this.route.snapshot.data['userData'];
     this.state.setLoading(false);
+  }
+
+  public ngAfterViewInit() {
+    // This component is rendered within a fauxdal,
+    // so we need the following selector added to <body> element
+    document.querySelector('body').classList.add('modal-open');
   }
 
   public onSubmit(value) {

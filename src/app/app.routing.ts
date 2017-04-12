@@ -39,14 +39,20 @@ const appRoutes: Routes = [
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   {
     path: 'success',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'map', component: NeighborsComponent },
