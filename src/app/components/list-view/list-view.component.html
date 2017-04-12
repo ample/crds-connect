@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid connect-white-bg">
   <h2 *ngIf="isMyStuffView()"><crds-content-block id="finderMyStuff"></crds-content-block></h2>
 
   <list-entry *ngFor="let pin of pinsToShow()"
@@ -20,6 +20,6 @@
           class="btn btn-secondary btn-block"
           (click)="showMore()">Load more</button>
 
+  <list-footer [pins]="searchResults?.pinSearchResults"></list-footer>
 </div>
 
-<list-footer [pins]="searchResults?.pinSearchResults"></list-footer>
