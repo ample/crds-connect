@@ -48,9 +48,10 @@ describe('GatheringComponent', () => {
 
 
     beforeEach(() => {
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
+        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
+                                   ['redirectToLogin', 'redirectToTarget']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
@@ -156,12 +157,14 @@ describe('GatheringComponent', () => {
 
     it('should redirectToLogin while request(ing)ToJoin', () => {
         comp.isLoggedIn = false;
+        mockSessionService.isLoggedIn.and.returnValue(false);
         comp.requestToJoin();
-        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('abc123');
+        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('abc123', jasmine.any(Function));
     });
 
     it('should succeed while requesting to join', () => {
         comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
         let pin = MockTestData.getAPin(1);
         let expectedBPD = new BlandPageDetails(
             'Return to map',
@@ -184,6 +187,7 @@ describe('GatheringComponent', () => {
         let expectedText = '<p>Looks like you have already requested to join this group.</p>';
         (<jasmine.Spy>mockContentService.getContent).and.returnValue(expectedText);
         comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
         let pin = MockTestData.getAPin(1);
         (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
@@ -192,12 +196,14 @@ describe('GatheringComponent', () => {
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(mockToast.warning).toHaveBeenCalledWith(expectedText);
+        expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     });
 
     it('should fail with error while requesting to join', () => {
         let expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
         (<jasmine.Spy>mockContentService.getContent).and.returnValue(expectedText);
         comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
         let pin = MockTestData.getAPin(1);
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 500 }));
         comp.pin = pin;
@@ -207,6 +213,7 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);
+        expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     });
 
     it('should toast when failing getting address', () => {
@@ -215,7 +222,7 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = true;
     });
 
-    it('should redirect to oops page if something  horrible happens', () => {
+    it('should redirect to oops page if something horrible happens', () => {
         let pin = MockTestData.getAPin(1);
         pin.gathering = null;
         comp['pin'] = pin;
