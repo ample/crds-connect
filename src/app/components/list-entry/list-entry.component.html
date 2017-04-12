@@ -7,7 +7,7 @@
   <div class="entry-details">
     <h3 class="entry-header">
       {{name()}}
-      <span *ngIf="isMe()" class="label label-me">ME</span>
+      <span *ngIf="isMe()" class="label label-warning">ME</span>
     </h3>
     <p class="entry-subheader">
       <span class="proximity">{{roundedProximity()}} MI</span>
@@ -23,7 +23,7 @@
                    imageClass="img-size-5"></profile-picture>
   <div class="entry-details">
     <h3 class="entry-header">{{name()}}
-      <span class="label label-host">HOST</span></h3>
+      <span class="label label-primary">HOST</span></h3>
     <p class="entry-subheader">
       <span class="proximity">{{roundedProximity()}} MI</span>
       <span class="joined_by">JOINED BY {{count()}}</span>
