@@ -615,3 +615,11 @@ search-local {
     }
   }
 }
+
+.no-results {
+  @for $i from 1 to 6 {
+    h#{$i} {
+      text-align: center;
+    }
+  }
+}
