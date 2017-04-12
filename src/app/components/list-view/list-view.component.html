@@ -1,5 +1,5 @@
 <div class="container-fluid connect-white-bg">
-  <h2 *ngIf="isMyStuffView()"><crds-content-block id="finderMyStuff"></crds-content-block></h2>
+  <h2 class="title text-lowercase" *ngIf="isMyStuffView()"><crds-content-block id="finderMyStuff"></crds-content-block></h2>
 
   <list-entry *ngFor="let pin of pinsToShow()"
               [firstName]="pin.firstName"
