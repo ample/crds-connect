@@ -63,15 +63,14 @@ describe('Component: Neighbors', () => {
         MapComponent,
         SearchLocalComponent,
         GoogleMapClusterDirective,
-        MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
+        MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] }),
+        MockComponent({ selector: 'crds-content-block', inputs: ['id']})
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
-        ContentBlockModule.forRoot({ categories: ['main'] }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        }),
-        ContentBlockModule.forRoot({ categories: ['common'] })
+        })
       ],
       providers: [
         SiteAddressService,

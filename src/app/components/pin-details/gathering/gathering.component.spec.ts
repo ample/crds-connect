@@ -51,7 +51,7 @@ describe('GatheringComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
-                                   ['redirectToLogin', 'redirectToTarget']);
+            ['redirectToLogin', 'redirectToTarget']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
@@ -63,7 +63,7 @@ describe('GatheringComponent', () => {
         TestBed.configureTestingModule({
             declarations: [
                 GatheringComponent,
-                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
+                MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] })
             ],
             imports: [],
             providers: [
@@ -129,7 +129,7 @@ describe('GatheringComponent', () => {
     it('should init and fail to get participants then go to error page', () => {
         let pin = MockTestData.getAPin(1);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(8675309);
-        (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.throw({status: 500}));
+        (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.throw({ status: 500 }));
         comp.isLoggedIn = true;
         comp.pin = pin;
         comp.ngOnInit();
@@ -145,7 +145,7 @@ describe('GatheringComponent', () => {
         mockContentService.getContent.and.returnValue(expectedText);
         mockSessionService.getContactId.and.returnValue(participants[2].contactId);
         mockParticipantService.getParticipants.and.returnValue(Observable.of(participants));
-        mockAddressService.getFullAddress.and.returnValue(Observable.throw({status: 500}));
+        mockAddressService.getFullAddress.and.returnValue(Observable.throw({ status: 500 }));
         comp.isLoggedIn = true;
         comp.pin = pin;
         comp.ngOnInit();
@@ -196,6 +196,20 @@ describe('GatheringComponent', () => {
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(mockToast.warning).toHaveBeenCalledWith(expectedText);
+        expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
+    });
+
+    it('should do nothing with 406 (unacceptable) while requesting to join', () => {
+        comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
+        let pin = MockTestData.getAPin(1);
+        (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 406 }));
+        comp.pin = pin;
+
+        comp.requestToJoin();
+        expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockToast.warning).not.toHaveBeenCalled();
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     });
 

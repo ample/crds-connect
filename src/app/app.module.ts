@@ -49,8 +49,7 @@ import { MapFooterComponent } from './components/map-footer/map-footer.component
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
-import { ParticipantCardComponent } from './components/pin-details/participants-list/participant-card/participant-card.component';
+import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
@@ -115,7 +114,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ToastModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
-      endpoint: process.env.CRDS_CMS_ENDPOINT,
+      endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
       categories: Array('finder', 'main', 'common', 'ddk')
     })
   ],
@@ -142,7 +141,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     NoResultsComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
-    ParticipantsListComponent,
     ParticipantCardComponent,
     PersonComponent,
     PinDetailsComponent,
