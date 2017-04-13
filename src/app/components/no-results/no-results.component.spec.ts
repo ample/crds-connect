@@ -45,7 +45,7 @@ describe('Component: NoResults', () => {
       const spy = spyOn(router, 'navigateByUrl');
       this.component.btnClickBack();
       const navArgs = spy.calls.first().args[0];
-      expect(navArgs).toMatch('/neighbors');
+      expect(navArgs).toMatch('/');
   }));
 
   it('should navigate to add me to map on button click', inject([Router], (router: Router) => {

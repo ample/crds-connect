@@ -16,7 +16,7 @@ export class NoResultsComponent implements OnInit {
   }
 
   public btnClickBack()  {
-    this.router.navigateByUrl('/neighbors');
+    this.router.navigateByUrl('/');
   }
 
   public btnClickAddToMap()  {
