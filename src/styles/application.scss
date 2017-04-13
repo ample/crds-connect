@@ -28,11 +28,12 @@ app-add-me-to-map {
   background-color: darken($cr-blue, 20);
   color: $cr-white;
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 5;
 }
 
 .fauxdal {
@@ -41,6 +42,7 @@ app-add-me-to-map {
   display: block;
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
 
   // Added so the "modal" sits on top of the header
   position: absolute;
@@ -657,5 +659,29 @@ search-local {
 
     height: $dimensions * $i;
     width: $dimensions * $i;
+  }
+}
+
+.btn-toggle {
+  &,
+  &:active,
+  &:active:focus,
+  &:focus,
+  &:hover {
+    background-color: $btn-secondary-bg;
+    border-color: darken($btn-secondary-border, 5);
+    box-shadow: none;
+  }
+
+  &.btn-primary {
+    &,
+    &:active,
+    &:active:focus,
+    &:focus,
+    &:hover {
+      background: $btn-primary-bg;
+      border-color: $btn-primary-border;
+      box-shadow: none;
+    }
   }
 }

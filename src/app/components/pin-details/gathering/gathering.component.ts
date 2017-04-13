@@ -48,9 +48,10 @@ export class GatheringComponent implements OnInit {
 
   public ngOnInit() {
     window.scrollTo(0, 0);
+    this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
-
+    try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       participants => {
         this.pin.gathering.Participants = participants;
@@ -63,7 +64,7 @@ export class GatheringComponent implements OnInit {
             })
             .subscribe(
             address => {
-              this.address = address;
+              this.pin.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
@@ -78,6 +79,9 @@ export class GatheringComponent implements OnInit {
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
       });
+    } catch (err) {
+      this.blandPageService.goToDefaultError('');
+    }
   }
 
   private loggedInUserIsInGathering(contactId: number) {
@@ -87,9 +91,10 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    if (this.isLoggedIn) {
+    if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
+      this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
+      .subscribe(
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
@@ -103,13 +108,17 @@ export class GatheringComponent implements OnInit {
           this.state.setLoading(false);
           if (failure.status === 409) {
             this.toast.warning(this.content.getContent('finderAlreadyRequestedJoin'));
-          } else {
+          } else if (failure.status === 406) {
+            // Already in group...do nothing.
+          }
+          else {
             this.toast.error(this.content.getContent('generalError'));
           }
+          this.loginRedirectService.redirectToTarget();
         }
       );
     } else {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
   }
 

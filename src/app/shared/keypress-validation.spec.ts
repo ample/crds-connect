@@ -1,6 +1,6 @@
 import { KeypressValidation } from './keypress-validation';
 
-describe('Shared: Credit Card', () => {
+describe('Shared: Key Press Validation', () => {
 
   beforeEach(() => {
   });

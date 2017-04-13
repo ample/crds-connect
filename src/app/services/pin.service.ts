@@ -31,8 +31,8 @@ import 'rxjs/add/operator/map';
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
 
 
-  private baseUrl = process.env.CRDS_API_ENDPOINT;
-  private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
+  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
@@ -77,6 +77,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
+        console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }
@@ -194,7 +195,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     };
 
     this.state.setLoading(true);
-    return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
+    return this.session.post(this.baseServicesUrl + 'communication/api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
 
          let memberSaidHi = new BlandPageDetails(
