@@ -339,37 +339,37 @@ app-pin-detail {
 }
 
 .pin-detail-header {
-  display: block;
   border-top: 1px solid $cr-gray-dark;
   border-bottom: 1px solid $cr-gray-dark;
   padding: 20px 0;
-
-  h1 {
-    @extend .component-header;
-    font-size: $font-size-h1;
-    color: $cr-white;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .pin-detail-name {
-    text-align: left;
-
-    .label {
-      float: none;
-    }
-  }
-
-  .pin-detail-image {
-    float: left;
-    padding-right: 10px;
-
-    img {
-      border: 2px solid $cr-gray-dark;
-    }
-  }
 }
+
+//   h1 {
+//     @extend .component-header;
+//     font-size: $font-size-h1;
+//     color: $cr-white;
+//     margin-top: 0;
+//     margin-bottom: 0;
+//     padding-bottom: 0;
+//   }
+
+//   .pin-detail-name {
+//     text-align: left;
+
+//     .label {
+//       float: none;
+//     }
+//   }
+
+//   .pin-detail-image {
+//     float: left;
+//     padding-right: 10px;
+
+//     img {
+//       border: 2px solid $cr-gray-dark;
+//     }
+//   }
+// }
 
 gathering {
   p {
