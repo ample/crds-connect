@@ -18,7 +18,7 @@ export class SessionService extends SmartCacheableService<User, number> {
 
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
-  private baseUrl = process.env.CRDS_API_ENDPOINT;
+  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private cookieOptions: CookieOptionsArgs;
   private SessionLengthMilliseconds = 1800000;
   private refreshTimeout: Subscription;
