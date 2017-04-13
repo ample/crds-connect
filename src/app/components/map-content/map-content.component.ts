@@ -139,14 +139,13 @@ export class MapContentComponent implements OnInit {
 
           PinLabelOverlay.prototype = new google.maps.OverlayView();
 
-          let mapRdyAndMarkersReclustered = this.overlay && this.didNonSiteMarkerCountChange(markers.length);
+          let mapRdyAndMarkersReclustered: boolean = this.overlay && this.didNonSiteMarkerCountChange(markers.length);
 
           if (mapRdyAndMarkersReclustered) {
             this.overlay.setMap(null);
           }
 
-
-          for(let i = 0; i < dataForDrawing.markers.length; i++) {
+          for (let i = 0; i < dataForDrawing.markers.length; i++) {
 
             let marker: any = dataForDrawing.markers[i];
             let labelData: PinLabelData = JSON.parse(marker.markerLabel);
@@ -155,8 +154,8 @@ export class MapContentComponent implements OnInit {
 
             labelData.pinLabel = markerLabelProps;
 
-            let neBound = new google.maps.LatLng(marker.markerLat, marker.markerLng);
-            let swBound = new google.maps.LatLng(marker.markerLat, marker.markerLng);
+            let neBound: any = new google.maps.LatLng(marker.markerLat, marker.markerLng);
+            let swBound: any = new google.maps.LatLng(marker.markerLat, marker.markerLng);
             let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
             this.overlay = new PinLabelOverlay(mapBounds, map, labelData);
           }
