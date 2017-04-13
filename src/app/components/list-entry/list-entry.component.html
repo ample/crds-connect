@@ -1,48 +1,48 @@
 <div *ngIf="isPerson()"
-     class="entry entry-person"
+     class="media person"
      (click)="sayHi(participantId)">
   <profile-picture [contactId]="contactId"
-                   wrapperClass="profile-picture"
-                   imageClass="img-size-4"></profile-picture>
-  <div class="entry-details">
-    <h3 class="entry-header">
+                   wrapperClass="media-img"
+                   imageClass="media-object img-size-4"></profile-picture>
+  <div class="media-body">
+    <h3 class="media-heading">
       {{name()}}
       <span *ngIf="isMe()" class="label label-warning">ME</span>
     </h3>
-    <p class="entry-subheader">
+    <p class="media-meta">
       <span class="proximity">{{roundedProximity()}} MI</span>
     </p>
   </div>
 </div>
 
 <div *ngIf="isGathering()"
-     class="entry entry-gathering"
+     class="media gathering"
      (click)="displayDetails(groupId)">
   <profile-picture [contactId]="contactId"
-                   wrapperClass="profile-picture"
-                   imageClass="img-size-5"></profile-picture>
-  <div class="entry-details">
-    <h3 class="entry-header">{{name()}}
+                   wrapperClass="media-img"
+                   imageClass="media-object img-size-5"></profile-picture>
+  <div class="media-body">
+    <h3 class="media-heading">{{name()}}
       <span class="label label-primary">HOST</span></h3>
-    <p class="entry-subheader">
+    <p class="media-meta">
       <span class="proximity">{{roundedProximity()}} MI</span>
       <span class="joined_by">JOINED BY {{count()}}</span>
     </p>
-    <p class="entry-description">{{gatheringDescription()}}</p>
+    <p class="media-description">{{gatheringDescription()}}</p>
   </div>
 </div>
 
-<div *ngIf="isSite()" class="entry entry-site">
-  <div class="profile-picture">
-    <div class="profile-picture-default img-circle img-size-5"></div>
-    <div class="profile-picture-overlay img-circle img-size-5"
+<div *ngIf="isSite()" class="media site">
+  <div class="media-img">
+    <div class=" media-object media-object-default img-circle img-size-5"></div>
+    <div class=" media-object media-object-overlay img-circle img-size-5"
          style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
   </div>
-  <div class="entry-details">
-    <h3 class="entry-header">Crossroads {{siteName}}</h3>
-    <p class="entry-subheader">
+  <div class="media-body">
+    <h3 class="media-heading">Crossroads {{siteName}}</h3>
+    <p class="media-meta">
       <span class="proximity">{{roundedProximity()}} MI</span>
     </p>
-    <p class="entry-description" [innerHTML]="siteAddress()"></p>
+    <p class="media-description" [innerHTML]="siteAddress()"></p>
   </div>
 </div>
