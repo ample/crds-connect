@@ -47,7 +47,7 @@ export class MapFooterComponent {
     this.state.setMyViewOrWorldView('my');
 
     if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin('/neighbors');
+      this.loginRedirectService.redirectToLogin('/');
     } else {
       this.state.myStuffActive = true;
       this.userLocationService.GetUserLocation().subscribe(
