@@ -12,11 +12,13 @@
     </div>
     <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
     <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
-    <span class="h2">Participants</span>
-    <hr/>
-    <div *ngFor="let participant of pin.gathering.Participants">
-        <div class="row">
-            <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
+    <div *ngIf="isInGathering">
+        <span class="h2">Participants</span>
+        <hr/>
+        <div *ngFor="let participant of pin.gathering.Participants">
+            <div class="row">
+                <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
+            </div>
         </div>
     </div>
     <invite-someone *ngIf="isPinOwner" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
