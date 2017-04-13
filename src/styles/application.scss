@@ -116,6 +116,9 @@ app-add-me-to-map {
         crds-content-block {
           width: 450px;
         }
+        .alert crds-content-block {
+          width: auto;
+        }
 
         address-form {
           width: 400px;
@@ -126,6 +129,9 @@ app-add-me-to-map {
         crds-content-block {
           width: 475px;
         }
+        .alert crds-content-block {
+          width: auto;
+        }
 
         address-form {
           width: 425px;
@@ -135,6 +141,9 @@ app-add-me-to-map {
       @media (min-width: $screen-md) {
         crds-content-block {
           width: 500px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
       }
     }
