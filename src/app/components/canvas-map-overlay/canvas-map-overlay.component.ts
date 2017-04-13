@@ -76,7 +76,6 @@ export class CanvasMapOverlayComponent implements OnInit {
     let isHostOrMe: boolean = labelData.isHost || labelData.isMe;
 
     let markerLabelProps: PinLabel = new PinLabel(labelData);
-
     let labelHeightAdjustment: number = this.mapHlpr.getLabelHeightAdjustment(cHeight, marker, isHostOrMe);
 
     let textX = (marker.markerGeoOffsetLatPercentage * cWidth) + 10;

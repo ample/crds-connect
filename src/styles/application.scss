@@ -1,5 +1,10 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+.pin-label{
+  font-size: 12px;
+  color: blue;
+}
+
 .dark-theme {
   background: lighten($cr-gray-darker, .75);
 }

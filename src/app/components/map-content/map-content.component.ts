@@ -6,6 +6,8 @@ import { StateService } from '../../services/state.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
 
+import { PinLabelData, PinLabel } from '../../models/pin-label-data';
+
 import { googleMapStyles } from '../../shared/constants';
 
 // This does need to be 'declare'
@@ -165,11 +167,19 @@ export class MapContentComponent implements OnInit {
 
 
           for(var i = 0; i<dataForDrawing.markers.length; i++) {
+
             let marker: any = dataForDrawing.markers[i];
+            let labelData: PinLabelData = JSON.parse(marker.markerLabel);
+
+            let isHostOrMe: boolean = labelData.isHost || labelData.isMe;
+            let markerLabelProps: PinLabel = new PinLabel(labelData);
+
+            let divText = markerLabelProps.line1 + '\n' + markerLabelProps.line2;
+
             let neBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
             let swBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
             let mapBounds2: any = new google.maps.LatLngBounds(swBound2, neBound2);
-            this.overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'LOL TEST');
+            this.overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, divText);
           }
 
             /** @constructor */
@@ -213,9 +223,11 @@ export class MapContentComponent implements OnInit {
                 var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
                 var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
                 var div = this.div_;
+                div.className = 'pin-label';
+                div.className += ''; //placeholder for pin type
                 div.style.left = sw.x + 20 + 'px';
                 div.style.top = ne.y - 20 + 'px';
-                div.style.width = (ne.x - sw.x) + 'px';
+                div.style.width = ((ne.x - sw.x) + 50) + 'px';
                 div.style.height = (sw.y - ne.y) + 'px';
             };
 
