@@ -60,30 +60,6 @@ export class MapContentComponent implements OnInit {
           styles: googleMapStyles
         });
 
-        //let self = this;
-
-        // map.addListener('dragstart', function() {
-        //   self.clearCanvas();
-        // });
-        //
-        // map.addListener('dragend', () => {
-        //   let center = map.getCenter();
-        //   let zoom = map.getZoom();
-        //   let mapViewUpdate = new MapView('dragend', center.lat(), center.lng(), zoom);
-        //   self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
-        //   self.state.setMapView(mapViewUpdate);
-        // });
-        //
-        // map.addListener('zoom_changed', () => {
-        //   self.clearCanvas();
-        //
-        //   let center = map.getCenter();
-        //   let zoom = map.getZoom();
-        //   let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
-        //   self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
-        //   self.state.setMapView(mapViewUpdate);
-        // });
-
       });
   }
 
@@ -91,8 +67,7 @@ export class MapContentComponent implements OnInit {
     this.mapHlpr.emitClearMap();
   };
 
-  //Note - this marker count does NOT include sites as they do not get clustered
-  public didMarkerCountChange(newMarkerCount: number): boolean {
+  public didNonSiteMarkerCountChange(newMarkerCount: number): boolean {
     let isCountChanged: boolean = newMarkerCount !== this.markersOutsideOfClustersCount;
     this.markersOutsideOfClustersCount = newMarkerCount;
     return isCountChanged;
@@ -159,7 +134,7 @@ export class MapContentComponent implements OnInit {
           //------------------------------------------------------------------------------------------------------------
           USGSOverlay.prototype = new google.maps.OverlayView();
 
-          let mapRdyAndMarkersReclustered = this.overlay && this.didMarkerCountChange(markers.length);
+          let mapRdyAndMarkersReclustered = this.overlay && this.didNonSiteMarkerCountChange(markers.length);
 
           if (mapRdyAndMarkersReclustered) {
             this.overlay.setMap(null);
@@ -176,17 +151,16 @@ export class MapContentComponent implements OnInit {
 
             let divText = markerLabelProps.line1 + '\n' + markerLabelProps.line2;
 
-            let neBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
-            let swBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
-            let mapBounds2: any = new google.maps.LatLngBounds(swBound2, neBound2);
-            this.overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, divText);
+            let neBound = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
+            let swBound = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
+            let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
+            this.overlay = new USGSOverlay(mapBounds, map, divText);
           }
 
             /** @constructor */
-            function USGSOverlay(bounds, image, map, label) {
-                // Initialize all properties.
+            function USGSOverlay(bounds, map, label) {
+
                 this.bounds_ = bounds;
-                this.image_ = image;
                 this.map_ = map;
                 this.label_ = label;
 
