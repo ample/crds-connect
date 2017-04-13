@@ -47,7 +47,7 @@ export class MapFooterComponent {
     this.state.setMyViewOrWorldView('my');
 
     if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin('/');
+      this.loginRedirectService.redirectToLogin('/', this.navigateForMyStuff);
     } else {
       this.state.myStuffActive = true;
       this.userLocationService.GetUserLocation().subscribe(
@@ -57,7 +57,10 @@ export class MapFooterComponent {
           }
       );
     }
+  }
 
+  navigateForMyStuff = () => {
+    this.router.navigate(['/'], { queryParams: { p: 'mystuff'}});
   }
 
   doSearch(lat: number, lng: number) {
