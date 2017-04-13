@@ -152,8 +152,8 @@ export class MapContentComponent implements OnInit {
 
           for(var i = 0; i<dataForDrawing.markers.length; i++) {
             let marker: any = dataForDrawing.markers[i];
-            let neBound2 = new google.maps.LatLng((marker.markerLat +.01), (marker.markerLng+.01));
-            let swBound2 = new google.maps.LatLng((marker.markerLat-.01), (marker.markerLng-.01));
+            let neBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
+            let swBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
             let mapBounds2: any = new google.maps.LatLngBounds(swBound2, neBound2);
             overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'LOL TEST');
           }
@@ -199,8 +199,8 @@ export class MapContentComponent implements OnInit {
                 var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
                 var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
                 var div = this.div_;
-                div.style.left = sw.x + 'px';
-                div.style.top = ne.y + 'px';
+                div.style.left = sw.x + 20 + 'px';
+                div.style.top = ne.y - 20 + 'px';
                 div.style.width = (ne.x - sw.x) + 'px';
                 div.style.height = (sw.y - ne.y) + 'px';
             };
