@@ -13,6 +13,18 @@ import { pinType } from '../../models/pin';
 
 import { googleMapStyles } from '../../shared/constants';
 
+/** @Overlay Constructor */
+function USGSOverlay(bounds, map, labelData) {
+
+    this.bounds_ = bounds;
+    this.map_ = map;
+    this.labelData_ = labelData;
+
+    this.div_ = null;
+
+    this.setMap(map);
+}
+
 // This does need to be 'declare'
 declare let google: any;
 
@@ -155,18 +167,6 @@ export class MapContentComponent implements OnInit {
             let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
             this.overlay = new USGSOverlay(mapBounds, map, labelData);
           }
-
-            /** @constructor */
-            function USGSOverlay(bounds, map, labelData) {
-
-                this.bounds_ = bounds;
-                this.map_ = map;
-                this.labelData_ = labelData;
-
-                this.div_ = null;
-
-                this.setMap(map);
-            }
 
             USGSOverlay.prototype.onAdd = function() {
 
