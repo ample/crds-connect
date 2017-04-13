@@ -60,29 +60,29 @@ export class MapContentComponent implements OnInit {
           styles: googleMapStyles
         });
 
-        let self = this;
+        //let self = this;
 
-        map.addListener('dragstart', function() {
-          self.clearCanvas();
-        });
-
-        map.addListener('dragend', () => {
-          let center = map.getCenter();
-          let zoom = map.getZoom();
-          let mapViewUpdate = new MapView('dragend', center.lat(), center.lng(), zoom);
-          self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
-          self.state.setMapView(mapViewUpdate);
-        });
-
-        map.addListener('zoom_changed', () => {
-          self.clearCanvas();
-
-          let center = map.getCenter();
-          let zoom = map.getZoom();
-          let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
-          self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
-          self.state.setMapView(mapViewUpdate);
-        });
+        // map.addListener('dragstart', function() {
+        //   self.clearCanvas();
+        // });
+        //
+        // map.addListener('dragend', () => {
+        //   let center = map.getCenter();
+        //   let zoom = map.getZoom();
+        //   let mapViewUpdate = new MapView('dragend', center.lat(), center.lng(), zoom);
+        //   self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+        //   self.state.setMapView(mapViewUpdate);
+        // });
+        //
+        // map.addListener('zoom_changed', () => {
+        //   self.clearCanvas();
+        //
+        //   let center = map.getCenter();
+        //   let zoom = map.getZoom();
+        //   let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
+        //   self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+        //   self.state.setMapView(mapViewUpdate);
+        // });
 
       });
   }
@@ -190,19 +190,11 @@ export class MapContentComponent implements OnInit {
                 this.map_ = map;
                 this.label_ = label;
 
-                // Define a property to hold the image's div. We'll
-                // actually create this div upon receipt of the onAdd()
-                // method so we'll leave it null for now.
                 this.div_ = null;
 
-                // Explicitly call setMap on this overlay.
                 this.setMap(map);
             }
 
-            /**
-             * onAdd is called when the map's panes are ready and the overlay has been
-             * added to the map.
-             */
             USGSOverlay.prototype.onAdd = function() {
 
                 var div = document.createElement('div');
@@ -231,16 +223,10 @@ export class MapContentComponent implements OnInit {
                 div.style.height = (sw.y - ne.y) + 'px';
             };
 
-            // The onRemove() method will be called automatically from the API if
-            // we ever set the overlay's map property to 'null'.
             USGSOverlay.prototype.onRemove = function() {
               this.div_.parentNode.innerHTML = '';
             };
 
-
-            //------------------------------------------------------------------------------------------------------------
-
-          this.mapHlpr.emitDataForDrawing(dataForDrawing);
         }
     });
   }
