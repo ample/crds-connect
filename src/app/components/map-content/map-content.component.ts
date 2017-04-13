@@ -23,6 +23,7 @@ interface NativeGoogMapProps {
 export class MapContentComponent implements OnInit {
 
   public dataFromEventListener: undefined;
+  public markersOutsideOfClustersCount: number = undefined;
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               private mapHlpr: GoogleMapService,
@@ -86,6 +87,12 @@ export class MapContentComponent implements OnInit {
   public clearCanvas(): void {
     this.mapHlpr.emitClearMap();
   };
+
+  public didMarkerCountChange(newMarkerCount: number): boolean {
+    let isCountChanged: boolean = newMarkerCount !== this.markersOutsideOfClustersCount;
+    this.markersOutsideOfClustersCount = newMarkerCount;
+    return isCountChanged;
+  }
 
   public drawLabels(markers: any): void {
     this.mapApiWrapper.getNativeMap()
