@@ -108,7 +108,10 @@ export class GatheringComponent implements OnInit {
           this.state.setLoading(false);
           if (failure.status === 409) {
             this.toast.warning(this.content.getContent('finderAlreadyRequestedJoin'));
-          } else {
+          } else if (failure.status === 406) {
+            // Already in group...do nothing.
+          }
+          else {
             this.toast.error(this.content.getContent('generalError'));
           }
           this.loginRedirectService.redirectToTarget();
