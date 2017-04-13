@@ -22,6 +22,7 @@ interface NativeGoogMapProps {
 })
 export class MapContentComponent implements OnInit {
 
+  public overlay: any = undefined;
   public dataFromEventListener: undefined;
   public markersOutsideOfClustersCount: number = undefined;
 
@@ -88,6 +89,7 @@ export class MapContentComponent implements OnInit {
     this.mapHlpr.emitClearMap();
   };
 
+  //Note - this marker count does NOT include sites as they do not get clustered
   public didMarkerCountChange(newMarkerCount: number): boolean {
     let isCountChanged: boolean = newMarkerCount !== this.markersOutsideOfClustersCount;
     this.markersOutsideOfClustersCount = newMarkerCount;
@@ -153,8 +155,13 @@ export class MapContentComponent implements OnInit {
           };
 
           //------------------------------------------------------------------------------------------------------------
-          let overlay;
           USGSOverlay.prototype = new google.maps.OverlayView();
+
+          let mapRdyAndMarkersReclustered = this.overlay && this.didMarkerCountChange(markers.length);
+
+          if (mapRdyAndMarkersReclustered) {
+            this.overlay.setMap(null);
+          }
 
 
           for(var i = 0; i<dataForDrawing.markers.length; i++) {
@@ -162,7 +169,7 @@ export class MapContentComponent implements OnInit {
             let neBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
             let swBound2 = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
             let mapBounds2: any = new google.maps.LatLngBounds(swBound2, neBound2);
-            overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'LOL TEST');
+            this.overlay = new USGSOverlay(mapBounds2, 'http://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png', map, 'LOL TEST');
           }
 
             /** @constructor */
@@ -215,8 +222,7 @@ export class MapContentComponent implements OnInit {
             // The onRemove() method will be called automatically from the API if
             // we ever set the overlay's map property to 'null'.
             USGSOverlay.prototype.onRemove = function() {
-                this.div_.parentNode.removeChild(this.div_);
-                this.div_ = null;
+              this.div_.parentNode.innerHTML = '';
             };
 
 
