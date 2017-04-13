@@ -163,32 +163,32 @@ export class MapContentComponent implements OnInit {
 
             PinLabelOverlay.prototype.onAdd = function() {
 
-                var div = document.createElement('div');
-                div.innerHTML = this.labelData_.pinLabel.allTextWLineBreak;
-                div.style.borderStyle = 'none';
-                div.style.borderWidth = '0px';
-                div.style.position = 'absolute';
+              let div = document.createElement('div');
+              div.innerHTML = this.labelData_.pinLabel.allTextWLineBreak;
+              div.style.borderStyle = 'none';
+              div.style.borderWidth = '0px';
+              div.style.position = 'absolute';
 
-                this.div_ = div;
+              this.div_ = div;
 
-                // Add the element to the "overlayLayer" pane.
-                var panes = this.getPanes();
-                panes.overlayLayer.appendChild(div);
+              // Add the element to the "overlayLayer" pane.
+              let panes = this.getPanes();
+              panes.overlayLayer.appendChild(div);
             };
 
             PinLabelOverlay.prototype.draw = function() {
-                var overlayProjection = this.getProjection();
-                var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
-                var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
-                var div = this.div_;
-                div.className = 'pin-label';
-                div.className += ' ' + pinType[this.labelData_.pinType].toString();
-                if (this.labelData_.isMe) { div.className += ' me'; }
-                if (this.labelData_.isHost) { div.className += ' host'; }
-                div.style.left = sw.x + 20 + 'px';
-                div.style.top = ne.y - 20 + 'px';
-                div.style.width = ((ne.x - sw.x) + 100) + 'px';
-                div.style.height = (sw.y - ne.y) + 'px';
+              let overlayProjection = this.getProjection();
+              let sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+              let ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+              let div = this.div_;
+              div.className = 'pin-label';
+              div.className += ' ' + pinType[this.labelData_.pinType].toString();
+              if (this.labelData_.isMe) { div.className += ' me'; }
+              if (this.labelData_.isHost) { div.className += ' host'; }
+              div.style.left = sw.x + 20 + 'px';
+              div.style.top = ne.y - 20 + 'px';
+              div.style.width = ((ne.x - sw.x) + 100) + 'px';
+              div.style.height = (sw.y - ne.y) + 'px';
             };
 
             PinLabelOverlay.prototype.onRemove = function() {

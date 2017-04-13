@@ -1,5 +1,3 @@
-//Data used for drawing a label on the map
-
 import { pinType } from './pin';
 
 export class PinLabelData {
