@@ -14,7 +14,7 @@ import { pinType } from '../../models/pin';
 import { googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
-function USGSOverlay(bounds, map, labelData) {
+function PinLabelOverlay(bounds, map, labelData) {
 
     this.bounds_ = bounds;
     this.map_ = map;
@@ -77,10 +77,6 @@ export class MapContentComponent implements OnInit {
 
           let self = this;
 
-          map.addListener('dragstart', function() {
-              self.clearCanvas();
-          });
-
           map.addListener('dragend', () => {
               let center = map.getCenter();
               let zoom = map.getZoom();
@@ -90,8 +86,6 @@ export class MapContentComponent implements OnInit {
           });
 
           map.addListener('zoom_changed', () => {
-              self.clearCanvas();
-
               let center = map.getCenter();
               let zoom = map.getZoom();
               let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
@@ -143,8 +137,7 @@ export class MapContentComponent implements OnInit {
             markers: markerArray
           };
 
-          //------------------------------------------------------------------------------------------------------------
-          USGSOverlay.prototype = new google.maps.OverlayView();
+          PinLabelOverlay.prototype = new google.maps.OverlayView();
 
           let mapRdyAndMarkersReclustered = this.overlay && this.didNonSiteMarkerCountChange(markers.length);
 
@@ -165,10 +158,10 @@ export class MapContentComponent implements OnInit {
             let neBound = new google.maps.LatLng(marker.markerLat, marker.markerLng);
             let swBound = new google.maps.LatLng(marker.markerLat, marker.markerLng);
             let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
-            this.overlay = new USGSOverlay(mapBounds, map, labelData);
+            this.overlay = new PinLabelOverlay(mapBounds, map, labelData);
           }
 
-            USGSOverlay.prototype.onAdd = function() {
+            PinLabelOverlay.prototype.onAdd = function() {
 
                 var div = document.createElement('div');
                 div.innerHTML = this.labelData_.pinLabel.allTextWLineBreak;
@@ -183,7 +176,7 @@ export class MapContentComponent implements OnInit {
                 panes.overlayLayer.appendChild(div);
             };
 
-            USGSOverlay.prototype.draw = function() {
+            PinLabelOverlay.prototype.draw = function() {
                 var overlayProjection = this.getProjection();
                 var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
                 var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
@@ -198,7 +191,7 @@ export class MapContentComponent implements OnInit {
                 div.style.height = (sw.y - ne.y) + 'px';
             };
 
-            USGSOverlay.prototype.onRemove = function() {
+            PinLabelOverlay.prototype.onRemove = function() {
               this.div_.parentNode.innerHTML = '';
             };
 
