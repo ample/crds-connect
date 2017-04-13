@@ -9,6 +9,7 @@ import { MapGeoBounds } from '../../models/map-geo-bounds';
 
 import { MapMarker } from '../../models/map-marker';
 import { PinLabelData, PinLabel } from '../../models/pin-label-data';
+import { pinType } from '../../models/pin';
 
 import { googleMapStyles } from '../../shared/constants';
 
@@ -61,6 +62,30 @@ export class MapContentComponent implements OnInit {
           scrollwheel: false,
           styles: googleMapStyles
         });
+
+          let self = this;
+
+          map.addListener('dragstart', function() {
+              self.clearCanvas();
+          });
+
+          map.addListener('dragend', () => {
+              let center = map.getCenter();
+              let zoom = map.getZoom();
+              let mapViewUpdate = new MapView('dragend', center.lat(), center.lng(), zoom);
+              self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+              self.state.setMapView(mapViewUpdate);
+          });
+
+          map.addListener('zoom_changed', () => {
+              self.clearCanvas();
+
+              let center = map.getCenter();
+              let zoom = map.getZoom();
+              let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
+              self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
+              self.state.setMapView(mapViewUpdate);
+          });
 
       });
   }
@@ -121,23 +146,22 @@ export class MapContentComponent implements OnInit {
             let marker: any = dataForDrawing.markers[i];
             let labelData: PinLabelData = JSON.parse(marker.markerLabel);
 
-            let isHostOrMe: boolean = labelData.isHost || labelData.isMe;
             let markerLabelProps: PinLabel = new PinLabel(labelData);
 
-            let divText = markerLabelProps.line1 + '\n' + markerLabelProps.line2;
+            labelData.pinLabel = markerLabelProps;
 
-            let neBound = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
-            let swBound = new google.maps.LatLng((marker.markerLat), (marker.markerLng));
+            let neBound = new google.maps.LatLng(marker.markerLat, marker.markerLng);
+            let swBound = new google.maps.LatLng(marker.markerLat, marker.markerLng);
             let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
-            this.overlay = new USGSOverlay(mapBounds, map, divText);
+            this.overlay = new USGSOverlay(mapBounds, map, labelData);
           }
 
             /** @constructor */
-            function USGSOverlay(bounds, map, label) {
+            function USGSOverlay(bounds, map, labelData) {
 
                 this.bounds_ = bounds;
                 this.map_ = map;
-                this.label_ = label;
+                this.labelData_ = labelData;
 
                 this.div_ = null;
 
@@ -147,7 +171,7 @@ export class MapContentComponent implements OnInit {
             USGSOverlay.prototype.onAdd = function() {
 
                 var div = document.createElement('div');
-                div.innerHTML = this.label_;
+                div.innerHTML = this.labelData_.pinLabel.allTextWLineBreak;
                 div.style.borderStyle = 'none';
                 div.style.borderWidth = '0px';
                 div.style.position = 'absolute';
@@ -165,7 +189,9 @@ export class MapContentComponent implements OnInit {
                 var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
                 var div = this.div_;
                 div.className = 'pin-label';
-                div.className += ''; //placeholder for pin type
+                div.className += ' ' + pinType[this.labelData_.pinType].toString();
+                if (this.labelData_.isMe) { div.className += ' me' }
+                if (this.labelData_.isHost) { div.className += ' host' }
                 div.style.left = sw.x + 20 + 'px';
                 div.style.top = ne.y - 20 + 'px';
                 div.style.width = ((ne.x - sw.x) + 50) + 'px';

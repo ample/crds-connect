@@ -5,6 +5,35 @@
   color: blue;
 }
 
+.pin-label.PERSON {
+
+}
+
+.pin-label.GATHERING {
+
+}
+
+.pin-label.SITE {
+  color: orange;
+}
+
+.pin-label.PERSON.host {
+  color: teal;
+}
+
+.pin-label.GATHERING.host {
+  color: teal;
+}
+
+.pin-label.PERSON.me {
+  color: gold;
+}
+
+.pin-label.GATHERING.me {
+  color: gold;
+}
+
+
 .dark-theme {
   background: lighten($cr-gray-darker, .75);
 }
