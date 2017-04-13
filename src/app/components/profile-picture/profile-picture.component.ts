@@ -11,7 +11,7 @@ export class ProfilePictureComponent implements OnInit {
   @Input() wrapperClass: string = '';
   @Input() imageClass: string = '';
   private path: string;
-  private baseUrl: string = process.env.CRDS_API_ENDPOINT;
+  private baseUrl: string = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private ImageBaseURL: string = `${this.baseUrl}api/v1.0.0/image/profile/`;
 
   constructor() {

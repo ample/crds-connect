@@ -67,7 +67,7 @@ export class GoogleMapService {
         lat: lat,
         lng: lng
         };
-        return this.calculateBestZoom(bounds, zoom, pins, '2');
+        return this.calculateBestZoom(bounds, zoom, pins, viewtype);
   }
 
   // zero in on the zoom that's closest to the target pin count without going under
@@ -82,6 +82,8 @@ export class GoogleMapService {
     let pop = this.countPopAtZoom(bounds, zoom, pins, pops);
     if (pop < popTarget) {
       if (zoom <= 3) {
+        console.log('pop=' + pop + ' popTarget=' + popTarget);
+        console.log(pops);
         return 3;
       }
       return this.calculateBestZoom(bounds, zoom - 1, pins, viewtype, pops);

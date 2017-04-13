@@ -1,54 +1,55 @@
-/* tslint:disable:no-unused-variable */
-
-import { HttpModule } from '@angular/http';
-import { TestBed } from '@angular/core/testing';
-import { CookieService } from 'angular2-cookie/core';
-
-import { ListHelperService } from '../../services/list-helper.service';
-import { ListFooterComponent } from './list-footer.component';
-import { LoginRedirectService } from '../../services/login-redirect.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { StateService } from '../../services/state.service';
-import { SessionService } from '../../services/session.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BlandPageService } from '../../services/bland-page.service';
-import { ContentBlockModule } from 'crds-ng2-content-block';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { ListFooterComponent } from './list-footer.component';
+import { ListHelperService } from '../../services/list-helper.service';
+import { MockComponent } from '../../shared/mock.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SessionService } from '../../services/session.service';
+import { StateService } from '../../services/state.service';
 
-describe('Component: List Footer', () => {
-  let mockContentService;
+describe('ListFooterComponent', () => {
+    let fixture: ComponentFixture<ListFooterComponent>;
+    let comp: ListFooterComponent;
+    let el;
+    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService;
 
-  beforeEach(() => {
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
-
-    TestBed.configureTestingModule({
-      declarations: [
-        ListFooterComponent
-      ],
-      imports: [
-        HttpModule,
-        RouterTestingModule.withRoutes([]),
-        ContentBlockModule.forRoot({ categories: Array('main') })
-      ],
-      providers: [
-        CookieService,
-        { provide: ContentService, useValue: mockContentService},
-        ListHelperService,
-        LoginRedirectService,
-        StateService,
-        SessionService,
-        BlandPageService
-      ]
+    beforeEach(() => {
+      mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
+      mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
+      mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView']);
+      mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['']);
+        TestBed.configureTestingModule({
+            declarations: [
+                ListFooterComponent,
+                MockComponent({selector: 'crds-content-block', inputs: ['id']})
+            ],
+            imports: [
+              RouterTestingModule.withRoutes([])
+            ],
+            providers: [
+              { provide: ListHelperService, useValue: mockListHelperService },
+              { provide: SessionService, useValue: mockSessionService },
+              { provide: StateService, useValue: mockStateService },
+              { provide: BlandPageService, useValue: mockBlandPageService }
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
+        });
     });
-    this.fixture = TestBed.createComponent(ListFooterComponent);
-    this.component = this.fixture.componentInstance;
 
-  });
+    beforeEach(async(() => {
+        TestBed.compileComponents().then(() => {
+            fixture = TestBed.createComponent(ListFooterComponent);
+            comp = fixture.componentInstance;
 
-  it('should create an instance', () => {
-    expect(this.component).toBeTruthy();
-  });
+            // el = fixture.debugElement.query(By.css('h1'));
+        });
+    }));
 
+    it('should create an instance', () => {
+        fixture.detectChanges();
+        expect(comp).toBeTruthy();
+    });
 });
-
-
-

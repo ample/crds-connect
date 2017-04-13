@@ -115,7 +115,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ToastModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
-      endpoint: process.env.CRDS_CMS_ENDPOINT,
+      endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
       categories: Array('finder', 'main', 'common', 'ddk')
     })
   ],

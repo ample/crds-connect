@@ -151,4 +151,21 @@ describe('Service: Pin', () => {
       });
     }));
 
+    it('doesLoggedInUserOwnPin() should return true if contactId matches',
+          inject([PinService], (service: PinService) => {
+      mockSessionService.getContactId.and.returnValue(2562378);
+      let pin = MockTestData.getAPin();
+      pin.contactId = 2562378;
+      let returnValue = service.doesLoggedInUserOwnPin(pin);
+      expect(returnValue).toBe(true);
+    }));
+
+    it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match',
+          inject([PinService], (service: PinService) => {
+      mockSessionService.getContactId.and.returnValue(42);
+      let pin = MockTestData.getAPin();
+      let returnValue = service.doesLoggedInUserOwnPin(pin);
+      expect(returnValue).toBe(false);
+    }));
+
 });
