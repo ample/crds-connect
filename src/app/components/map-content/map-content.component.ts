@@ -5,7 +5,9 @@ import { StateService } from '../../services/state.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
+import { MapGeoBounds } from '../../models/map-geo-bounds';
 
+import { MapMarker } from '../../models/map-marker';
 import { PinLabelData, PinLabel } from '../../models/pin-label-data';
 
 import { googleMapStyles } from '../../shared/constants';
@@ -79,21 +81,12 @@ export class MapContentComponent implements OnInit {
 
         let delta = function (a, b) { return a - b; };
 
-        let geoBounds = undefined;
+        let geoBounds: MapGeoBounds = undefined;
 
         let bounds = map.getBounds();
 
         if ( bounds ) {
-          let sw = bounds.getSouthWest();
-          let ne = bounds.getNorthEast();
-          geoBounds = {
-            top:    sw.lat().valueOf(),
-            bottom: ne.lat().valueOf(),
-            left:   ne.lng().valueOf(),
-            right:  sw.lng().valueOf(),
-            width:  delta(ne.lng().valueOf(), sw.lng().valueOf()),
-            height: delta(sw.lat().valueOf(), ne.lat().valueOf())
-          };
+          geoBounds = new MapGeoBounds(bounds, delta);
         }
 
         let siteMarkers = this.mapHlpr.getSiteMarkersOnMap();
@@ -102,28 +95,10 @@ export class MapContentComponent implements OnInit {
         let markerArray = [];
 
         if (markers.length > 0) {
+
           for (let i = 0; i < markers.length; i++ ) {
-            let marker = markers[i];
-            let markerLabel = marker.title;
-            let markerLat = marker.position.lat().valueOf();
-            let markerLng = marker.position.lng().valueOf();
-            let deltaLeftSideOfMapToMarker = delta(markerLng, geoBounds.right);
-            let deltaTopOfMapToMarker = delta(markerLat, geoBounds.bottom);
-            let markerGeoOffsetLatPercentage = deltaLeftSideOfMapToMarker / geoBounds.width;
-            let markerGeoOffsetLngPercentage = deltaTopOfMapToMarker / geoBounds.height;
-
-            let markerObj = {
-              markerLabel: markerLabel,
-              markerLat: markerLat,
-              markerLng: markerLng,
-              markerOffsetX: deltaLeftSideOfMapToMarker,
-              markerOffsetY: deltaTopOfMapToMarker,
-              markerGeoOffsetLatPercentage: markerGeoOffsetLatPercentage,
-              markerGeoOffsetLngPercentage: markerGeoOffsetLngPercentage,
-              icon: marker.icon
-            };
-
-            markerArray.push(markerObj);
+            let marker: MapMarker = new MapMarker(markers[i], geoBounds, delta);
+            markerArray.push(marker);
           }
 
           let dataForDrawing = {
