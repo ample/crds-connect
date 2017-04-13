@@ -194,7 +194,7 @@ export class MapContentComponent implements OnInit {
                 if (this.labelData_.isHost) { div.className += ' host' }
                 div.style.left = sw.x + 20 + 'px';
                 div.style.top = ne.y - 20 + 'px';
-                div.style.width = ((ne.x - sw.x) + 50) + 'px';
+                div.style.width = ((ne.x - sw.x) + 100) + 'px';
                 div.style.height = (sw.y - ne.y) + 'px';
             };
 

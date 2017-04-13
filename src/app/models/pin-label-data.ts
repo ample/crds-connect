@@ -33,7 +33,7 @@ export class PinLabel {
   constructor (labelData: PinLabelData) {
     this.line1 =  this.getLine1(labelData);
     this.line2 = this.getLine2(labelData);
-    this.allTextWLineBreak = this.line1 + '\n' + this.line2;
+    this.allTextWLineBreak = this.line1 + '<br>' + this.line2;
   }
 
   private getLine1 (labelData: PinLabelData) {
