@@ -7,6 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PinService } from '../../services/pin.service';
@@ -22,11 +23,12 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockMapHelper, mockStateService;
+    let mockPinService, mockMapHelper, mockStateService, mockLocation;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+        mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
         TestBed.configureTestingModule({
             declarations: [
                 AddressFormComponent
@@ -34,6 +36,7 @@ describe('AddressFormComponent', () => {
             providers: [
                 { provide: StateService, useValue: mockStateService },
                 { provide: PinService, useValue: mockPinService },
+                { provide: Location, useValue: mockLocation},
                 FormBuilder,
                 AddMeToTheMapHelperService
             ],
@@ -100,5 +103,17 @@ describe('AddressFormComponent', () => {
         comp.onSubmit(comp.addressFormGroup);
         expect(mockPinService.postPin).toHaveBeenCalled();
         expect(comp.save.emit).toHaveBeenCalledWith(pin);
+    });
+
+    it('should go back if no function is passed in', () => {
+        comp.back();
+        expect(mockLocation.back).toHaveBeenCalled();
+    });
+
+    it('should peform the cancel func if passed in', () => {
+        comp.cancel = jasmine.createSpy('cancel');
+        comp.back();
+        expect(comp.cancel).toHaveBeenCalled();
+        expect(mockLocation.back).not.toHaveBeenCalled();
     });
 });

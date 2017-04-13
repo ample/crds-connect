@@ -55,9 +55,10 @@ describe('Component: Participant Card component', () => {
           ReadonlyAddressComponent,
           SayHiComponent,
           InviteSomeoneComponent,
-          MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
+          MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
+          MockComponent({selector: 'crds-content-block', inputs: ['id']})
         ],
-        imports: [ ReactiveFormsModule, HttpModule, JsonpModule, ContentBlockModule.forRoot({ categories: ['common'] }) ],
+        imports: [ ReactiveFormsModule, HttpModule, JsonpModule],
         providers: [
           SessionService,
           CookieService,

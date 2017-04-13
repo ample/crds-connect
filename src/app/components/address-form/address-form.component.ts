@@ -5,6 +5,7 @@ import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LookupTable } from '../../models/lookup-table';
+import { Location } from '@angular/common';
 
 import { Pin } from '../../models/pin';
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
@@ -20,6 +21,7 @@ export class AddressFormComponent implements OnInit {
 
     @Input() userData: UserDataForPinCreation;
     @Input() buttonText: String = 'Add me to the map';
+    @Input() cancel: Function;
     @Output() save: EventEmitter<Pin> = new EventEmitter<Pin>();
 
     public stateList: Array<string>;
@@ -31,7 +33,8 @@ export class AddressFormComponent implements OnInit {
     constructor(private pinService: PinService,
         private fb: FormBuilder,
         private hlpr: AddMeToTheMapHelperService,
-        private state: StateService) { }
+        private state: StateService,
+        private location: Location) { }
 
 
     public ngOnInit(): void {
@@ -69,6 +72,14 @@ export class AddressFormComponent implements OnInit {
 
     public setSubmissionErrorWarningTo(isErrorActive) {
         this.submissionError = isErrorActive;
+    }
+
+    public back() {
+        if (this.cancel) {
+            this.cancel();
+        } else {
+            this.location.back();
+        }
     }
 
 }

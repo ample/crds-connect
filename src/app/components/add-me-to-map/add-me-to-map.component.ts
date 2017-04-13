@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { ToastsManager } from 'ng2-toastr';
 
 import { BlandPageService } from '../../services/bland-page.service';
@@ -40,7 +41,8 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     private session: SessionService,
     private addressService: AddressService,
     private content: ContentService,
-    private toast: ToastsManager) { }
+    private toast: ToastsManager,
+    private location: Location) { }
 
 
   public ngOnInit(): void {
@@ -93,7 +95,6 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
   }
 
   public closeClick() {
-    this.router.navigate(['']);
+    this.location.back();
   }
 }
-
