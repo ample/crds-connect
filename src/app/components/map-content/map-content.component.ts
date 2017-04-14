@@ -39,9 +39,10 @@ interface NativeGoogMapProps {
 })
 export class MapContentComponent implements OnInit {
 
-  public overlay: any = undefined;
+  public areLabelsInitialized: boolean = false;
   public dataFromEventListener: undefined;
   public markersOutsideOfClustersCount: number = undefined;
+  public overlay: any = undefined;
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               private mapHlpr: GoogleMapService,
@@ -145,54 +146,61 @@ export class MapContentComponent implements OnInit {
             this.overlay.setMap(null);
           }
 
-          for (let i = 0; i < dataForDrawing.markers.length; i++) {
+          let labelsNotDrawnAfterReclusterOrInit: boolean = !this.areLabelsInitialized || mapRdyAndMarkersReclustered;
 
-            let marker: any = dataForDrawing.markers[i];
-            let labelData: PinLabelData = JSON.parse(marker.markerLabel);
+          if (labelsNotDrawnAfterReclusterOrInit) {
+            for (let i = 0; i < dataForDrawing.markers.length; i++) {
 
-            let markerLabelProps: PinLabel = new PinLabel(labelData);
+              let marker: any = dataForDrawing.markers[i];
+              let labelData: PinLabelData = JSON.parse(marker.markerLabel);
 
-            labelData.pinLabel = markerLabelProps;
+              let markerLabelProps: PinLabel = new PinLabel(labelData);
 
-            let neBound: any = new google.maps.LatLng(marker.markerLat, marker.markerLng);
-            let swBound: any = new google.maps.LatLng(marker.markerLat, marker.markerLng);
-            let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
-            this.overlay = new PinLabelOverlay(mapBounds, map, labelData);
+              labelData.pinLabel = markerLabelProps;
+
+              let neBound: any = new google.maps.LatLng(marker.markerLat, marker.markerLng);
+              let swBound: any = new google.maps.LatLng(marker.markerLat, marker.markerLng);
+              let mapBounds: any = new google.maps.LatLngBounds(swBound, neBound);
+              this.overlay = new PinLabelOverlay(mapBounds, map, labelData);
+
+              this.areLabelsInitialized = true;
+            }
           }
 
-            PinLabelOverlay.prototype.onAdd = function() {
+          PinLabelOverlay.prototype.onAdd = function() {
 
-              let div = document.createElement('div');
-              div.innerHTML = this.labelData_.pinLabel.allTextWLineBreak;
-              div.style.borderStyle = 'none';
-              div.style.borderWidth = '0px';
-              div.style.position = 'absolute';
+            let div = document.createElement('div');
+            div.innerHTML = this.labelData_.pinLabel.allTextWLineBreak;
+            div.style.borderStyle = 'none';
+            div.style.borderWidth = '0px';
+            div.style.position = 'absolute';
 
-              this.div_ = div;
+            this.div_ = div;
 
-              // Add the element to the "overlayLayer" pane.
-              let panes = this.getPanes();
-              panes.overlayLayer.appendChild(div);
-            };
+            // Add the element to the "overlayLayer" pane.
+            let panes = this.getPanes();
+            panes.overlayLayer.appendChild(div);
+          };
 
-            PinLabelOverlay.prototype.draw = function() {
-              let overlayProjection = this.getProjection();
-              let sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
-              let ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
-              let div = this.div_;
-              div.className = 'pin-label';
-              div.className += ' ' + pinType[this.labelData_.pinType].toString();
-              if (this.labelData_.isMe) { div.className += ' me'; }
-              if (this.labelData_.isHost) { div.className += ' host'; }
-              div.style.left = sw.x + 20 + 'px';
-              div.style.top = ne.y - 20 + 'px';
-              div.style.width = ((ne.x - sw.x) + 100) + 'px';
-              div.style.height = (sw.y - ne.y) + 'px';
-            };
+          PinLabelOverlay.prototype.draw = function() {
+            console.log('Drawing labels');
+            let overlayProjection = this.getProjection();
+            let sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+            let ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+            let div = this.div_;
+            div.className = 'pin-label';
+            div.className += ' ' + pinType[this.labelData_.pinType].toString();
+            if (this.labelData_.isMe) { div.className += ' me'; }
+            if (this.labelData_.isHost) { div.className += ' host'; }
+            div.style.left = sw.x + 20 + 'px';
+            div.style.top = ne.y - 20 + 'px';
+            div.style.width = ((ne.x - sw.x) + 100) + 'px';
+            div.style.height = (sw.y - ne.y) + 'px';
+          };
 
-            PinLabelOverlay.prototype.onRemove = function() {
-              this.div_.parentNode.innerHTML = '';
-            };
+          PinLabelOverlay.prototype.onRemove = function() {
+            this.div_.parentNode.innerHTML = '';
+          };
 
         }
     });
