@@ -73,7 +73,8 @@ export class MapContentComponent implements OnInit {
           minZoom: 3,
           maxZoom: 20,
           scrollwheel: false,
-          styles: googleMapStyles
+          styles: googleMapStyles,
+          fullscreenControl: false
         });
 
           let self = this;
