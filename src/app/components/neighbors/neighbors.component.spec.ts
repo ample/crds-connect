@@ -41,6 +41,7 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { IPService } from '../../services/ip.service';
 import { MockComponent } from '../../shared/mock.component';
+import { AddressService}  from '../../services/address.service';
 
 describe('Component: Neighbors', () => {
 
@@ -88,7 +89,8 @@ describe('Component: Neighbors', () => {
         { provide: ContentService, useValue: mockContentService },
         LoginRedirectService,
         BlandPageService,
-        IPService
+        IPService,
+        AddressService
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);

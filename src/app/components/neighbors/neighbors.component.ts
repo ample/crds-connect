@@ -185,17 +185,22 @@ export class NeighborsComponent implements OnInit {
          && postedPin.pinType === pinFromResults.pinType);
   }
 
+  private filterFoundPinElement = (pinFromResults: Pin): boolean => {
+    let postedPin = this.state.postedPin;
+    return (postedPin.participantId !== pinFromResults.participantId
+         && postedPin.pinType !== pinFromResults.pinType);
+  }
+
   private verifyPostedPinExistence() {
-console.log('verify posted pin existence');
     if (this.state.navigatedFromAddToMapComponent) {
       this.state.navigatedFromAddToMapComponent = false;
-       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+      let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+      let pin = this.state.postedPin;
        if (isFound === undefined) {
-console.log('MISSING PIN added');
-         let pin = this.state.postedPin;
          this.pinSearchResults.pinSearchResults.push(pin);
-       } else {
-console.log('SKIPPED - PIN replaced');
+       } else { // filter out old pin and replace
+         this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+         this.pinSearchResults.pinSearchResults.push(pin);
        }
        this.addressService.clearCache();
        this.state.postedPin = null;

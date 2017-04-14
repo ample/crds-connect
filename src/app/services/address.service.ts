@@ -29,8 +29,7 @@ export class AddressService extends CacheableService<Pin[]> {
             });
 
             if (pin != null) {
-// HERE
-                console.log('NOOOOOO - AddressService got cached Address');
+                console.log('AddressService got cached Address');
                 return Observable.of(pin.address);
             }
         }
