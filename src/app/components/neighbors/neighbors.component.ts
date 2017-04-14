@@ -2,6 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges } from '@an
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
+import { AddressService } from '../../services/address.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -25,7 +26,8 @@ export class NeighborsComponent implements OnInit {
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
 
-  constructor(private pinService: PinService,
+  constructor(private addressService: AddressService,
+    private pinService: PinService,
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
     private router: Router,
@@ -179,18 +181,28 @@ export class NeighborsComponent implements OnInit {
 
   private foundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
-    return (postedPin.participantId === pinFromResults.participantId && postedPin.pinType === pinFromResults.pinType);
+    return (postedPin.participantId === pinFromResults.participantId
+         && postedPin.pinType === pinFromResults.pinType);
+  }
+
+  private filterFoundPinElement = (pinFromResults: Pin): boolean => {
+    let postedPin = this.state.postedPin;
+    return (postedPin.participantId !== pinFromResults.participantId
+         && postedPin.pinType !== pinFromResults.pinType);
   }
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent) {
       this.state.navigatedFromAddToMapComponent = false;
-       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+      let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+      let pin = this.state.postedPin;
        if (isFound === undefined) {
-         let pin = this.state.postedPin;
          this.pinSearchResults.pinSearchResults.push(pin);
-       } else {
+       } else { // filter out old pin and replace
+         this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+         this.pinSearchResults.pinSearchResults.push(pin);
        }
+       this.addressService.clearCache();
        this.state.postedPin = null;
     }
   }
