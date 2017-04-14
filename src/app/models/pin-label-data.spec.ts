@@ -24,9 +24,4 @@ describe('FancyService without the TestBed', () => {
     expect(pinLabel.line1).toEqual('Some Site');
   });
 
-  it('Should set line 2 to "HOST"', () => {
-    let pinLabel: PinLabel = new PinLabel(gatheringLabelData);
-    expect(pinLabel.line2).toEqual('HOST');
-  });
-
 });
