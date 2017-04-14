@@ -94,8 +94,8 @@ export class SayHiComponent implements OnInit {
     let bpd = new BlandPageDetails();
     bpd.blandPageCause = BlandPageCause.Error;
     bpd.content = '<h1 class="title">Sorry!</h1>We are unable to send your email at this time.';
-    bpd.goToState = '';
-    bpd.buttonText = 'Return to pin';
+    bpd.goToState = this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId;
+    bpd.buttonText = 'Return to details page';
     this.blandPageService.primeAndGo(bpd);
   }
 }
