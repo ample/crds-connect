@@ -8,7 +8,6 @@ import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 
 import { SiteAddressService } from '../../services/site-address.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -44,8 +43,7 @@ describe('Component: SearchLocal', () => {
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
-        SearchLocalComponent,
-        CanvasMapOverlayComponent
+        SearchLocalComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,

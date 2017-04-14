@@ -5,7 +5,6 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { CanvasMapOverlayComponent } from '../components/canvas-map-overlay/canvas-map-overlay.component';
 import { MapComponent } from '../components/map/map.component';
 import { MapContentComponent } from '../components/map-content/map-content.component';
 import { MapFooterComponent } from '../components/map-footer/map-footer.component';
@@ -44,7 +43,6 @@ describe('Service: Google Map', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
