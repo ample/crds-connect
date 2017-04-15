@@ -149,7 +149,8 @@ export class NeighborsComponent implements OnInit {
       this.goToNoResultsPage();
     } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my') {
       this.state.setLoading(false);
-      this.router.navigate(['/add-me-to-the-map']);
+      this.state.setMyViewOrWorldView('world');
+      this.router.navigate(['add-me-to-the-map']);
     } else {
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)) {
