@@ -1,5 +1,5 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AddressService } from '../../services/address.service';
@@ -21,10 +21,11 @@ import { SearchOptions } from '../../models/search-options';
   templateUrl: 'neighbors.component.html'
 })
 
-export class NeighborsComponent implements OnInit {
+export class NeighborsComponent implements OnInit, OnDestroy {
   public isMapHidden = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
+  private mySub: Subscription; // for my MyStuffEmitter
 
   constructor(private addressService: AddressService,
     private pinService: PinService,
@@ -40,10 +41,15 @@ export class NeighborsComponent implements OnInit {
       this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
     });
 
-    searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
+    this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
       this.pinSearchResults = myStuffSearchResults as PinSearchResultsDto;
-      this.processAndDisplaySearchResults('', 0, 0);
+      this.processAndDisplaySearchResults('', this.pinSearchResults.centerLocation.lat, this.pinSearchResults.centerLocation.lng);
     });
+  }
+
+  public ngOnDestroy(): void {
+    // If we don't unsubscribe we will get memory leaks and weird behavior. 
+    this.mySub.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -149,7 +155,8 @@ export class NeighborsComponent implements OnInit {
       this.goToNoResultsPage();
     } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my') {
       this.state.setLoading(false);
-      this.router.navigate(['/add-me-to-the-map']);
+      this.state.setMyViewOrWorldView('world');
+      this.router.navigate(['add-me-to-the-map']);
     } else {
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)) {
