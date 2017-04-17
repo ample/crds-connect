@@ -34,7 +34,7 @@ describe('Service: Pin', () => {
 
   const mockPin =
     new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
-  const mockPin1Updated =
+  const updatedMockPin =
       new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, 9999, true, '', pinType.PERSON, 0);
   const mockPin2 =
       new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null, 9999, true, '', pinType.PERSON, 0);
@@ -179,7 +179,7 @@ describe('Service: Pin', () => {
 
     it('should update the pin with the updated address', inject([PinService], (service: PinService) => {
       let pins: Pin[] = mockPins;
-      let updatedPin = mockPin1Updated;
+      let updatedPin = updatedMockPin;
       let updatedPinOldAddress = mockAddress;
 
       pins = service.replaceAddressOnUpdatedPin(pins, updatedPin, updatedPinOldAddress);
