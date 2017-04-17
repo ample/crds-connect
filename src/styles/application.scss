@@ -144,6 +144,11 @@ app-add-me-to-map {
         text-align: center;
       }
 
+      .alert,
+      .alert crds-content-block {
+        text-align: left;
+      }
+
       @media (min-width: $screen-xs) {
         padding: 2rem;
 
