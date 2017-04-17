@@ -26,34 +26,30 @@ import { GroupService } from '../../../services/group.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 
-
-function fakenext(param: any) {
-            return 1;
+function fakenext(param: any) {            return 1;
         }
 
+class MockEventTrack {
+    next = fakenext;
+}
+
 class MockAngulartic {
-    static eventTrack = class {
-        next = fakenext;
-    };
+    eventTrack = new MockEventTrack();
 };
 
-
-
-fdescribe('SayHiComponent', () => {
+describe('SayHiComponent', () => {
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
 
     let mockPinService, mockLoginRedirectService, mockSessionService, mockBlandPageService;
-    //let mockAngulartics2;
-
-
+    let mockAngulartics2;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['sendHiEmail']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getUserData']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-        //mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
+        mockAngulartics2 = new MockAngulartic();
 
         TestBed.configureTestingModule({
             declarations: [
@@ -64,7 +60,7 @@ fdescribe('SayHiComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: SessionService, useValue: mockSessionService},
-                { provide: Angulartics2, useClass: MockAngulartic },
+                { provide: Angulartics2, useValue: mockAngulartics2 },
                 { provide: BlandPageService, useValue: mockBlandPageService},
                 {
                     provide: Router,
@@ -89,13 +85,10 @@ fdescribe('SayHiComponent', () => {
     });
 
     it('should call login redirect if not logged in', inject([Angulartics2], (angulartics2) => {
-
-//spyOn(Angulartics2, 'eventTrack.next').and.
         let mockRoute = 'mockRoute';
         let sendSayHiFunc = comp['sendSayHi'];
         comp.isLoggedIn = false;
         comp.sayHi();
         expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalled();
-
     }));
 });
