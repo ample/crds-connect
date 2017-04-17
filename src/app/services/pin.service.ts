@@ -15,6 +15,7 @@ import { IFrameParentService } from './iframe-parent.service';
 
 import { GoogleMapService } from '../services/google-map.service';
 
+import { Address } from '../models/address';
 import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
 import { User } from '../models/user';
@@ -251,6 +252,22 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return super.getCache();
     }
     return null;
+  }
+
+  public replaceAddressOnUpdatedPin(pinSearchResults: Pin[], updatedPin: Pin, updatedPinsOldAddress: Address) {
+
+    let indexOfUpdatedPin = pinSearchResults.findIndex(pin =>
+        pin.participantId === updatedPin.participantId
+        && pin.address.addressId === updatedPinsOldAddress.addressId
+    );
+
+    let updatedPinFound: boolean = indexOfUpdatedPin !== -1;
+
+    if (updatedPinFound) {
+      pinSearchResults[indexOfUpdatedPin].address = this.state.updatedPin.address;
+    }
+
+    return pinSearchResults;
   }
 
   public clearPinCache() {

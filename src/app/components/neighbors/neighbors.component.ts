@@ -221,18 +221,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     if (wasPinAddressJustUpdated) {
 
-      let self = this;
-
-      let indexOfUpdatedPin = this.pinSearchResults.pinSearchResults.findIndex(pin =>
-        pin.participantId === self.state.updatedPin.participantId
-        && pin.address.addressId === self.state.updatedPinOldAddress.addressId
+      this.pinSearchResults.pinSearchResults = this.pinService.replaceAddressOnUpdatedPin(
+          this.pinSearchResults.pinSearchResults,
+          this.state.updatedPin,
+          this.state.updatedPinOldAddress
       );
-
-      let updatedPinFound: boolean = indexOfUpdatedPin !== -1;
-
-      if (updatedPinFound) {
-        this.pinSearchResults.pinSearchResults[indexOfUpdatedPin].address = this.state.updatedPin.address;
-      }
 
       this.addressService.clearCache();
 
