@@ -216,25 +216,27 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private ensureUpdatedPinAddressIsDisplayed() {
-    if (this.state.navigatedFromAddToMapComponent && this.state.updatedPin) {
+
+    let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
+
+    if (wasPinAddressJustUpdated) {
 
       let self = this;
+
       let indexOfUpdatedPin = this.pinSearchResults.pinSearchResults.findIndex(pin =>
         pin.participantId === self.state.updatedPin.participantId
         && pin.address.addressId === self.state.updatedPinOldAddress.addressId
       );
 
-      let matchingPinFound: boolean = indexOfUpdatedPin !== -1;
+      let updatedPinFound: boolean = indexOfUpdatedPin !== -1;
 
-      if (matchingPinFound) {
+      if (updatedPinFound) {
         this.pinSearchResults.pinSearchResults[indexOfUpdatedPin].address = this.state.updatedPin.address;
       }
 
       this.addressService.clearCache();
 
-      this.state.navigatedFromAddToMapComponent = false;
-      this.state.updatedPinOldAddress = null;
-      this.state.updatedPin = null;
+      this.state.cleanUpStateAfterPinUpdate();
     }
   }
 

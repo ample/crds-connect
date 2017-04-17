@@ -86,4 +86,10 @@ export class StateService {
     return this.zoomToUse;
   }
 
+  public cleanUpStateAfterPinUpdate() {
+    this.navigatedFromAddToMapComponent = false;
+    this.updatedPinOldAddress = null;
+    this.updatedPin = null;
+  }
+
 }
