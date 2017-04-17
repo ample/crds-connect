@@ -68,9 +68,21 @@ export class PinDetailsComponent implements OnInit {
     return this.pinService.doesLoggedInUserOwnPin(this.pin);
   }
 
-  public onSubmit(value) {
-    if (value) {
-      location.reload();
+  public onSubmit(updatedPin) {
+
+    if (updatedPin) {
+      this.state.updatedPinOldAddress = this.pin.address;
+      this.pin.address = updatedPin.address;
+
+      this.state.setMyViewOrWorldView('world');
+      this.state.setCurrentView('map');
+      this.state.setLastSearch(null);
+      this.session.clearCache();
+
+      this.state.navigatedFromAddToMapComponent = true;
+      this.state.updatedPin = updatedPin;
+
+      this.editMode = false;
     }
   }
 
