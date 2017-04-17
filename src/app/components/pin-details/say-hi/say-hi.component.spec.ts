@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -23,19 +24,36 @@ import { Participant } from '../../../models/participant';
 import { Inquiry } from '../../../models/inquiry';
 import { GroupService } from '../../../services/group.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
 
-describe('SayHiComponent', () => {
+
+function fakenext(param: any) {
+            return 1;
+        }
+
+class MockAngulartic {
+    static eventTrack = class {
+        next = fakenext;
+    };
+};
+
+
+
+fdescribe('SayHiComponent', () => {
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
 
     let mockPinService, mockLoginRedirectService, mockSessionService, mockBlandPageService;
+    //let mockAngulartics2;
+
+
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['sendHiEmail']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getUserData']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+        //mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -46,6 +64,7 @@ describe('SayHiComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: SessionService, useValue: mockSessionService},
+                { provide: Angulartics2, useClass: MockAngulartic },
                 { provide: BlandPageService, useValue: mockBlandPageService},
                 {
                     provide: Router,
@@ -53,6 +72,7 @@ describe('SayHiComponent', () => {
                 }
             ],
             imports: [RouterTestingModule.withRoutes([]), HttpModule],
+
             schemas: [NO_ERRORS_SCHEMA]
         });
     });
@@ -68,13 +88,14 @@ describe('SayHiComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('should call login redirect if not logged in', () => {
+    it('should call login redirect if not logged in', inject([Angulartics2], (angulartics2) => {
 
+//spyOn(Angulartics2, 'eventTrack.next').and.
         let mockRoute = 'mockRoute';
         let sendSayHiFunc = comp['sendSayHi'];
         comp.isLoggedIn = false;
         comp.sayHi();
         expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalled();
 
-    });
+    }));
 });
