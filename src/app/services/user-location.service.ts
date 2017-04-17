@@ -18,7 +18,8 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     private location: LocationService,
     private session: SessionService,
     private pinservice: PinService,
-    private mapHlpr: GoogleMapService) {
+    private mapHlpr: GoogleMapService,
+    private state: StateService) {
     super();
   }
 
@@ -28,12 +29,11 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
 
   public GetUserLocation(): Observable<any> {
     let contactId = this.session.getContactId();
-    if (super.isCachedForUser(contactId)) {
+    if ( !this.state.navigatedFromAddToMapComponent && super.isCachedForUser(contactId)) {
       return Observable.of(super.getCache());
     }
     let locObs = new Observable(observer => {
       if (this.session.isLoggedIn()) {
-
         let contactid: number = this.session.getContactId(); // get contactid from cookie
 
         this.getUserLocationFromUserId(contactid).subscribe(
@@ -152,5 +152,9 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     });
 
     return locObs;
+  }
+
+  public clearUserLocationCache(): void {
+    super.clearCache();
   }
 }

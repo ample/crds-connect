@@ -3,7 +3,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
@@ -42,6 +41,7 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { IPService } from '../../services/ip.service';
 import { MockComponent } from '../../shared/mock.component';
+import { AddressService}  from '../../services/address.service';
 
 describe('Component: Neighbors', () => {
 
@@ -52,7 +52,6 @@ describe('Component: Neighbors', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        CanvasMapOverlayComponent,
         NeighborsComponent,
         MapContentComponent,
         MapFooterComponent,
@@ -90,7 +89,8 @@ describe('Component: Neighbors', () => {
         { provide: ContentService, useValue: mockContentService },
         LoginRedirectService,
         BlandPageService,
-        IPService
+        IPService,
+        AddressService
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);

@@ -33,7 +33,6 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
-import { CanvasMapOverlayComponent } from './components/canvas-map-overlay/canvas-map-overlay.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
@@ -49,8 +48,7 @@ import { MapFooterComponent } from './components/map-footer/map-footer.component
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
-import { ParticipantCardComponent } from './components/pin-details/participants-list/participant-card/participant-card.component';
+import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
@@ -125,7 +123,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
-    CanvasMapOverlayComponent,
     GatheringComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
@@ -142,7 +139,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     NoResultsComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
-    ParticipantsListComponent,
     ParticipantCardComponent,
     PersonComponent,
     PinDetailsComponent,

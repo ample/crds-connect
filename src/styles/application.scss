@@ -1,5 +1,39 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+.pin-label{
+  font-size: 12px;
+  color: blue;
+}
+
+.pin-label.PERSON {
+
+}
+
+.pin-label.GATHERING {
+
+}
+
+.pin-label.SITE {
+  color: orange;
+}
+
+.pin-label.PERSON.host {
+  color: teal;
+}
+
+.pin-label.GATHERING.host {
+  color: teal;
+}
+
+.pin-label.PERSON.me {
+  color: gold;
+}
+
+.pin-label.GATHERING.me {
+  color: gold;
+}
+
+
 .dark-theme {
   background: lighten($cr-gray-darker, .75);
 }
@@ -313,6 +347,11 @@ canvas-map-overlay {
   position: absolute;
   width: 100vw;
   z-index: 1;
+}
+
+// Fix map error overlay
+.gm-style .gm-style-pbc {
+  z-index: 1050 !important;
 }
 
 // Map footer

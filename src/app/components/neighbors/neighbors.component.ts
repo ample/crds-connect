@@ -1,7 +1,8 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
+import { AddressService } from '../../services/address.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -20,12 +21,14 @@ import { SearchOptions } from '../../models/search-options';
   templateUrl: 'neighbors.component.html'
 })
 
-export class NeighborsComponent implements OnInit {
+export class NeighborsComponent implements OnInit, OnDestroy {
   public isMapHidden = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
+  private mySub: Subscription; // for my MyStuffEmitter
 
-  constructor(private pinService: PinService,
+  constructor(private addressService: AddressService,
+    private pinService: PinService,
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
     private router: Router,
@@ -38,10 +41,15 @@ export class NeighborsComponent implements OnInit {
       this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
     });
 
-    searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
+    this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
       this.pinSearchResults = myStuffSearchResults as PinSearchResultsDto;
-      this.processAndDisplaySearchResults('', 0, 0);
+      this.processAndDisplaySearchResults('', this.pinSearchResults.centerLocation.lat, this.pinSearchResults.centerLocation.lng);
     });
+  }
+
+  public ngOnDestroy(): void {
+    // If we don't unsubscribe we will get memory leaks and weird behavior. 
+    this.mySub.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -147,7 +155,8 @@ export class NeighborsComponent implements OnInit {
       this.goToNoResultsPage();
     } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my') {
       this.state.setLoading(false);
-      this.router.navigate(['/add-me-to-the-map']);
+      this.state.setMyViewOrWorldView('world');
+      this.router.navigate(['add-me-to-the-map']);
     } else {
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)) {
@@ -179,18 +188,28 @@ export class NeighborsComponent implements OnInit {
 
   private foundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
-    return (postedPin.participantId === pinFromResults.participantId && postedPin.pinType === pinFromResults.pinType);
+    return (postedPin.participantId === pinFromResults.participantId
+         && postedPin.pinType === pinFromResults.pinType);
+  }
+
+  private filterFoundPinElement = (pinFromResults: Pin): boolean => {
+    let postedPin = this.state.postedPin;
+    return (postedPin.participantId !== pinFromResults.participantId
+         && postedPin.pinType !== pinFromResults.pinType);
   }
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent) {
       this.state.navigatedFromAddToMapComponent = false;
-       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+      let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
+      let pin = this.state.postedPin;
        if (isFound === undefined) {
-         let pin = this.state.postedPin;
          this.pinSearchResults.pinSearchResults.push(pin);
-       } else {
+       } else { // filter out old pin and replace
+         this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+         this.pinSearchResults.pinSearchResults.push(pin);
        }
+       this.addressService.clearCache();
        this.state.postedPin = null;
     }
   }
