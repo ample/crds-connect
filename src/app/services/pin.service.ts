@@ -264,7 +264,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let updatedPinFound: boolean = indexOfUpdatedPin !== -1;
 
     if (updatedPinFound) {
-      pinSearchResults[indexOfUpdatedPin].address = this.state.updatedPin.address;
+      pinSearchResults[indexOfUpdatedPin].address = updatedPin.address;
     }
 
     return pinSearchResults;
