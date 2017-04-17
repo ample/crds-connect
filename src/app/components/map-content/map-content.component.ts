@@ -183,7 +183,6 @@ export class MapContentComponent implements OnInit {
           };
 
           PinLabelOverlay.prototype.draw = function() {
-            console.log('Drawing labels');
             let overlayProjection = this.getProjection();
             let sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
             let ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());

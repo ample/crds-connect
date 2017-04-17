@@ -183,13 +183,13 @@ export class NeighborsComponent implements OnInit {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  }
+  };
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId
          && postedPin.pinType !== pinFromResults.pinType);
-  }
+  };
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent) {
