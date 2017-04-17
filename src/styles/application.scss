@@ -724,3 +724,13 @@ search-local {
     }
   }
 }
+
+
+
+
+// Searchbar text shadow fix for iOS
+.input-group {
+  .form-control {
+    -webkit-appearance: none;
+  }
+}
