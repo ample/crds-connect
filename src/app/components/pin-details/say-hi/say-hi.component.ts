@@ -72,8 +72,8 @@ export class SayHiComponent implements OnInit {
 
   private doSayHi() {
     // tslint:disable-next-line:max-line-length
-    let templateText =  `<h1 class="title text-lowercase">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
-    let notificationText = (this.isGathering) ? `${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified`
+    let templateText =  `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
+    let notificationText = (this.isGathering) ? `${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified` 
                                               : `You just said hi to ${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}.`;
     let bpd = new BlandPageDetails(
       'Return to map',
@@ -95,9 +95,9 @@ export class SayHiComponent implements OnInit {
   handleError() {
     let bpd = new BlandPageDetails();
     bpd.blandPageCause = BlandPageCause.Error;
-    bpd.content = '<h1 class="title text-lowercase">Sorry!</h1>We are unable to send your email at this time.';
-    bpd.goToState = '';
-    bpd.buttonText = 'Return to pin';
+    bpd.content = '<h1 class="title">Sorry!</h1>We are unable to send your email at this time.';
+    bpd.goToState = this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId;
+    bpd.buttonText = 'Return to details page';
     this.blandPageService.primeAndGo(bpd);
   }
 }

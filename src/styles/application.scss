@@ -1,5 +1,49 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+// Map labels
+.pin-label {
+  $map-label-font-size: 13px;
+  $map-label-font-family: $condensed-font-face;
+  $map-label-default-color: $cr-gray;
+  $map-label-me-color: $cr-gold;
+  $map-label-host-color: $cr-cyan;
+  $map-label-person-color: $cr-blue;
+  $map-label-site-color: $cr-orange;
+
+  color: $map-label-default-color;
+  font-size: $map-label-font-size;
+
+  &.person {
+    color: $map-label-person-color;
+  }
+
+  &.person,
+  &.gathering {
+    &.me {
+      color: $map-label-me-color;
+
+      &::after {
+        content: "ME";
+        font-size: 8px;
+      }
+    }
+
+    &.host {
+      color: $map-label-host-color;
+
+      &::after {
+        content: "HOST";
+        font-size: 8px;
+      }
+    }
+  }
+
+  &.site {
+    color: $map-label-site-color;
+  }
+}
+
+
 .dark-theme {
   background: lighten($cr-gray-darker, .75);
 }
@@ -110,11 +154,19 @@ app-add-me-to-map {
         text-align: center;
       }
 
+      .alert,
+      .alert crds-content-block {
+        text-align: left;
+      }
+
       @media (min-width: $screen-xs) {
         padding: 2rem;
 
         crds-content-block {
           width: 450px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
 
         address-form {
@@ -126,6 +178,9 @@ app-add-me-to-map {
         crds-content-block {
           width: 475px;
         }
+        .alert crds-content-block {
+          width: auto;
+        }
 
         address-form {
           width: 425px;
@@ -135,6 +190,9 @@ app-add-me-to-map {
       @media (min-width: $screen-md) {
         crds-content-block {
           width: 500px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
       }
     }
@@ -313,6 +371,11 @@ canvas-map-overlay {
   position: absolute;
   width: 100vw;
   z-index: 1;
+}
+
+// Fix map error overlay
+.gm-style .gm-style-pbc {
+  z-index: 1050 !important;
 }
 
 // Map footer
@@ -684,4 +747,12 @@ search-local {
       box-shadow: none;
     }
   }
+}
+
+
+
+
+// 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
+.btn.btn-primary.active {
+  background: darken($btn-primary-bg, 20);
 }

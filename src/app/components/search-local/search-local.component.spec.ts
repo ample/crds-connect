@@ -8,9 +8,6 @@ import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
-import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
-import { HttpModule, JsonpModule  } from '@angular/http';
 
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -54,8 +51,7 @@ describe('Component: SearchLocal', () => {
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
-        SearchLocalComponent,
-        CanvasMapOverlayComponent
+        SearchLocalComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule,

@@ -203,6 +203,7 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
+        comp['router'].url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -217,6 +218,7 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 406 }));
         comp.pin = pin;
+        comp['router'].url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -225,14 +227,30 @@ describe('GatheringComponent', () => {
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     });
 
+    it('should not redirect if already on the gathering page while failing requesting to join', () => {
+        comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
+        let pin = MockTestData.getAPin(1);
+        (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 406 }));
+        comp.pin = pin;
+        comp['router'].url = '/connect/gathering/1234';
+
+        comp.requestToJoin();
+        expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockToast.warning).not.toHaveBeenCalled();
+        expect(mockLoginRedirectService.redirectToTarget).not.toHaveBeenCalled();
+    });
+
     it('should fail with error while requesting to join', () => {
         let expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
         (<jasmine.Spy>mockContentService.getContent).and.returnValue(expectedText);
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.and.returnValue(true);
         let pin = MockTestData.getAPin(1);
-        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 500 }));
         comp.pin = pin;
+        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 500 }));
+        comp['router'].url = 'test';
 
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
