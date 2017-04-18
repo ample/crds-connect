@@ -24,10 +24,9 @@ import { Participant } from '../../../models/participant';
 import { Inquiry } from '../../../models/inquiry';
 import { GroupService } from '../../../services/group.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
-import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
-function fakenext(param: any) {            return 1;
-        }
+function fakenext(param: any) { return 1; }
 
 class MockEventTrack {
     next = fakenext;
