@@ -79,8 +79,6 @@ export class PinDetailsComponent implements OnInit {
 
       this.pin.address = updatedPin.address;
 
-      this.state.setMyViewOrWorldView('world');
-      this.state.setCurrentView('map');
       this.state.setLastSearch(null);
       this.session.clearCache();
 
