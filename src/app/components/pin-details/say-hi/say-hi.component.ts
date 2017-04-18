@@ -33,7 +33,8 @@ export class SayHiComponent implements OnInit {
     private session: SessionService,
     private router: Router,
     private state: StateService,
-    private blandPageService: BlandPageService) { }
+    private blandPageService: BlandPageService,
+    private angulartics2: Angulartics2) { }
 
 
   ngOnInit() {
@@ -41,6 +42,7 @@ export class SayHiComponent implements OnInit {
   }
 
   public sayHi() {
+    this.angulartics2.eventTrack.next({ action: 'Say Hi Button Click'});
     if (!this.isLoggedIn) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.getUserDetailsThenSayHi);
     } else {
@@ -52,7 +54,7 @@ export class SayHiComponent implements OnInit {
     this.session.getUserData().subscribe(
       ret => {
         this.user = ret;
-        if (this.session.getContactId() == this.pin.contactId) {
+        if (this.session.getContactId() === this.pin.contactId) {
           if (this.isGathering) {
             this.router.navigate(['/gathering/' + this.pin.gathering.groupId]);
           } else {
