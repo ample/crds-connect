@@ -150,7 +150,7 @@ export class NeighborsComponent implements OnInit {
       this.router.navigate(['/add-me-to-the-map']);
     } else {
       let lastSearch = this.state.getLastSearch();
-      if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)) {
+      if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
           // its a different search, clear the last mapView;
           this.state.setMapView(null);
       }
