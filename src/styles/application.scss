@@ -724,3 +724,11 @@ search-local {
     }
   }
 }
+
+
+
+
+// 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
+.btn.btn-primary.active {
+  background: darken($btn-primary-bg, 20);
+}
