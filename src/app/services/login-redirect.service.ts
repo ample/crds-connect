@@ -31,7 +31,7 @@ export class LoginRedirectService {
         this.redirectFunction = null;
         tempFunc();
       } else {
-        this.router.navigate([this.originalTarget]);
+        this.router.navigate([this.originalTarget], { replaceUrl: true });
       }
     } else {
       this.router.navigate([target]);
@@ -39,7 +39,8 @@ export class LoginRedirectService {
   }
 
   public cancelRedirect(): void {
-    if (this.origin) {
+    // Crossroads classic sometimes adds /?resolve=true to the url. Ignore it for this. 
+    if (this.origin && this.origin !== '/?resolve=true') {
       this.redirectFunction = null;
       this.router.navigate([this.origin]);
     } else {

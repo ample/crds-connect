@@ -1,5 +1,48 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+// Map labels
+.pin-label {
+  $map-label-font-size: 13px;
+  $map-label-font-family: $condensed-font-face;
+  $map-label-default-color: $cr-gray;
+  $map-label-me-color: $cr-gold;
+  $map-label-host-color: $cr-cyan;
+  $map-label-person-color: $cr-blue;
+  $map-label-site-color: $cr-orange;
+
+  color: $map-label-default-color;
+  font-size: $map-label-font-size;
+
+  &.person {
+    color: $map-label-person-color;
+  }
+
+  &.person,
+  &.gathering {
+    &.me {
+      color: $map-label-me-color;
+
+      &::after {
+        content: "ME";
+        font-size: 8px;
+      }
+    }
+
+    &.host {
+      color: $map-label-host-color;
+
+      &::after {
+        content: "HOST";
+        font-size: 8px;
+      }
+    }
+  }
+
+  &.site {
+    color: $map-label-site-color;
+  }
+}
+
 app-preloader {
   display: none;
   .loading & {
@@ -26,11 +69,12 @@ app-add-me-to-map {
   background-color: darken($cr-blue, 20);
   color: $cr-white;
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 5;
 }
 
 .fauxdal {
@@ -39,6 +83,7 @@ app-add-me-to-map {
   display: block;
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
 
   // Added so the "modal" sits on top of the header
   position: absolute;
@@ -106,11 +151,19 @@ app-add-me-to-map {
         text-align: center;
       }
 
+      .alert,
+      .alert crds-content-block {
+        text-align: left;
+      }
+
       @media (min-width: $screen-xs) {
         padding: 2rem;
 
         crds-content-block {
           width: 450px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
 
         address-form {
@@ -122,6 +175,9 @@ app-add-me-to-map {
         crds-content-block {
           width: 475px;
         }
+        .alert crds-content-block {
+          width: auto;
+        }
 
         address-form {
           width: 425px;
@@ -131,6 +187,9 @@ app-add-me-to-map {
       @media (min-width: $screen-md) {
         crds-content-block {
           width: 500px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
       }
     }
@@ -240,6 +299,12 @@ canvas-map-overlay {
   width: 100vw;
   z-index: 1;
 }
+
+// Fix map error overlay
+.gm-style .gm-style-pbc {
+  z-index: 1050 !important;
+}
+
 // Map footer
 app-map-footer {
   position: absolute;
@@ -549,4 +614,36 @@ readonly-address {
     height: $dimensions * $i;
     width: $dimensions * $i;
   }
+}
+
+.btn-toggle {
+  &,
+  &:active,
+  &:active:focus,
+  &:focus,
+  &:hover {
+    background-color: $btn-secondary-bg;
+    border-color: darken($btn-secondary-border, 5);
+    box-shadow: none;
+  }
+
+  &.btn-primary {
+    &,
+    &:active,
+    &:active:focus,
+    &:focus,
+    &:hover {
+      background: $btn-primary-bg;
+      border-color: $btn-primary-border;
+      box-shadow: none;
+    }
+  }
+}
+
+
+
+
+// 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
+.btn.btn-primary.active {
+  background: darken($btn-primary-bg, 20);
 }

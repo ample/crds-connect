@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
@@ -20,6 +19,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -42,7 +42,6 @@ describe('Component: Map', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
@@ -60,6 +59,7 @@ describe('Component: Map', () => {
         SiteAddressService,
         UserLocationService,
         LocationService,
+        PinLabelService,
         PinService,
         GoogleMapService,
         IFrameParentService,
