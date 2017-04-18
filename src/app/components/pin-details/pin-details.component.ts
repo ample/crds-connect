@@ -72,6 +72,11 @@ export class PinDetailsComponent implements OnInit {
 
     if (updatedPin) {
       this.state.updatedPinOldAddress = this.pin.address;
+
+      setTimeout(()=>{
+        this.pin.address = updatedPin.address;
+      },1);
+
       this.pin.address = updatedPin.address;
 
       this.state.setMyViewOrWorldView('world');
