@@ -30,8 +30,17 @@ describe('Service: Pin', () => {
   mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googlemapservice', ['get', 'post', 'getContactId']);
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
+  const mockAddress2 = new Address(123, 'Billy St', null, 'BillyVille', 'ZZ', '54321', 0, 0, 'US', 'County');
+
   const mockPin =
     new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
+  const updatedMockPin =
+      new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, 9999, true, '', pinType.PERSON, 0);
+  const mockPin2 =
+      new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null, 9999, true, '', pinType.PERSON, 0);
+
+  const mockPins: Pin[] = [mockPin, mockPin2];
+
   const mockPinMatchingContactId =
     new Pin('Bob', 'Smith', 'bobby@bob.com', 222, 222, mockAddress, 0, null, 222, true, '', pinType.PERSON, 0);
 
@@ -167,5 +176,17 @@ describe('Service: Pin', () => {
       let returnValue = service.doesLoggedInUserOwnPin(pin);
       expect(returnValue).toBe(false);
     }));
+
+    it('should update the pin with the updated address', inject([PinService], (service: PinService) => {
+      let pins: Pin[] = mockPins;
+      let updatedPin = updatedMockPin;
+      let updatedPinOldAddress = mockAddress;
+
+      pins = service.replaceAddressOnUpdatedPin(pins, updatedPin, updatedPinOldAddress);
+
+      expect(pins[0].address).toEqual(mockAddress2);
+    }));
+
+
 
 });

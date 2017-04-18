@@ -54,6 +54,7 @@ export class AddressFormComponent implements OnInit {
     }
 
     public onSubmit({ value, valid }: { value: any, valid: boolean }) {
+
         this.setSubmissionErrorWarningTo(false);
         value.isFormDirty = this.addressFormGroup.dirty;
 

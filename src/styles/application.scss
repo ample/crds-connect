@@ -144,11 +144,19 @@ app-add-me-to-map {
         text-align: center;
       }
 
+      .alert,
+      .alert crds-content-block {
+        text-align: left;
+      }
+
       @media (min-width: $screen-xs) {
         padding: 2rem;
 
         crds-content-block {
           width: 450px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
 
         address-form {
@@ -160,6 +168,9 @@ app-add-me-to-map {
         crds-content-block {
           width: 475px;
         }
+        .alert crds-content-block {
+          width: auto;
+        }
 
         address-form {
           width: 425px;
@@ -169,6 +180,9 @@ app-add-me-to-map {
       @media (min-width: $screen-md) {
         crds-content-block {
           width: 500px;
+        }
+        .alert crds-content-block {
+          width: auto;
         }
       }
     }
@@ -728,9 +742,7 @@ search-local {
 
 
 
-// Searchbar text shadow fix for iOS
-.input-group {
-  .form-control {
-    -webkit-appearance: none;
-  }
+// 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
+.btn.btn-primary.active {
+  background: darken($btn-primary-bg, 20);
 }

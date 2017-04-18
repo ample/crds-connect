@@ -95,6 +95,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   processAndDisplaySearchResults(searchString, lat, lng): void {
     // include posted pin if not included in results
     this.verifyPostedPinExistence();
+    this.ensureUpdatedPinAddressIsDisplayed();
 
     // sort
     this.pinSearchResults.pinSearchResults =
@@ -190,16 +191,16 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  }
+  };
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId
          && postedPin.pinType !== pinFromResults.pinType);
-  }
+  };
 
   private verifyPostedPinExistence() {
-    if (this.state.navigatedFromAddToMapComponent) {
+    if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
       this.state.navigatedFromAddToMapComponent = false;
       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
       let pin = this.state.postedPin;
@@ -211,6 +212,24 @@ export class NeighborsComponent implements OnInit, OnDestroy {
        }
        this.addressService.clearCache();
        this.state.postedPin = null;
+    }
+  }
+
+  private ensureUpdatedPinAddressIsDisplayed() {
+
+    let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
+
+    if (wasPinAddressJustUpdated) {
+
+      this.pinSearchResults.pinSearchResults = this.pinService.replaceAddressOnUpdatedPin(
+          this.pinSearchResults.pinSearchResults,
+          this.state.updatedPin,
+          this.state.updatedPinOldAddress
+      );
+
+      this.addressService.clearCache();
+
+      this.state.cleanUpStateAfterPinUpdate();
     }
   }
 

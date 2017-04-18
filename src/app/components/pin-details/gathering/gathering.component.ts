@@ -113,7 +113,10 @@ export class GatheringComponent implements OnInit {
           }  else {
             this.toast.error(this.content.getContent('generalError'));
           }
-          this.loginRedirectService.redirectToTarget();
+          // If we're at the signin or register page, come back to the gathering details. 
+          if (!this.router.url.includes('gathering')) {
+            this.loginRedirectService.redirectToTarget();
+          }
         }
       );
     } else {
