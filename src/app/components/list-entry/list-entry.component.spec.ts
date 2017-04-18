@@ -11,9 +11,17 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ListEntryComponent } from './list-entry.component';
+import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { MockComponent } from '../../shared/mock.component';
+
+import { MockBackend } from '@angular/http/testing';
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
+import { CookieService } from 'angular2-cookie/core';
+import { LoginRedirectService } from '../../services/login-redirect.service';
 
 describe('ListEntryComponent', () => {
+    let mockLoginRedirectService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
@@ -26,10 +34,21 @@ describe('ListEntryComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                ListEntryComponent
+                ListEntryComponent,
+                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
             ],
             providers: [
                 StateService,
+                SessionService,
+                MockBackend,
+                BaseRequestOptions,
+                CookieService,
+                { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+                {
+                  provide: Http,
+                  useFactory: (backend, options) => new Http(backend, options),
+                  deps: [MockBackend, BaseRequestOptions]
+                },
                 { provide: Router, useClass: RouterStub }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
@@ -52,7 +71,7 @@ describe('ListEntryComponent', () => {
     it('should return proper name format', () => {
         fixture.detectChanges();
         comp.firstName = 'Bob';
-        comp.lastName = 'Johnson'
+        comp.lastName = 'Johnson';
         expect(comp.name()).toBe('BOB J.');
     });
 

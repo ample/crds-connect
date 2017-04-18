@@ -31,7 +31,11 @@ describe('Component: Authentication', () => {
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setLoading']);
     mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
+  });
 
+
+  beforeEach(() => {
+    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
 
 
     TestBed.configureTestingModule({
@@ -39,7 +43,7 @@ describe('Component: Authentication', () => {
         AuthenticationComponent
       ],
       providers: [
-        LoginRedirectService,
+        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         FormBuilder,
         SessionService,
         { provide: CookieService, useValue: mockCookieService },
@@ -64,9 +68,15 @@ describe('Component: Authentication', () => {
   });
 
   it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
-    spyOn(loginRedirectService, 'redirectToTarget');
     comp.back();
     expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
+  }));
+
+  it('should set the "navigatedBackFromAuthComponent" prop on state service',
+      inject([StateService], (stateService) => {
+    stateService.navigatedBackFromAuthComponent = false;
+    comp.back();
+    expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
   }));
 
   function setForm(email, password) {
@@ -94,7 +104,11 @@ describe('Component: Authentication', () => {
     expect(isInvalid).toBe(true);
   });
 
+  it('should call cancelRedirect when the back button is clicked', () => {
 
+    comp.back();
+    expect(mockLoginRedirectService.cancelRedirect).toHaveBeenCalled();
 });
 
 
+});

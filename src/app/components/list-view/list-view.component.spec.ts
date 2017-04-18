@@ -31,6 +31,7 @@ import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { PinService}  from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
+import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: List View', () => {
   let mockContentService;
@@ -44,18 +45,17 @@ describe('Component: List View', () => {
         ListEntryComponent,
         ListFooterComponent,
         MapContentComponent,
-        MapFooterComponent
+        MapFooterComponent,
+        MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
+        MockComponent({selector: 'crds-content-block', inputs: ['id']})
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
-        ContentBlockModule.forRoot({ categories: ['main'] }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        }),
-        ContentBlockModule.forRoot({ categories: ['common'] })
+        })
       ],
       providers: [
-        { provide: ContentService, useValue: mockContentService},
         UserLocationService,
         LocationService,
         PinService,

@@ -20,10 +20,12 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
   { path: '', component: NeighborsComponent },
-  { path: 'add-me-to-the-map',
+  {
+    path: 'add-me-to-the-map',
     component: AddMeToMapComponent,
     canActivate: [
       LoggedInGuard
@@ -31,52 +33,67 @@ const appRoutes: Routes = [
     resolve: {
       userData: UserDataResolver
     }
+  }, {
+    path: 'add',
+    redirectTo: '/add-me-to-the-map',
+    pathMatch: 'full'
   },
-  { path: 'error', 
+  {
+    path: 'error',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ] 
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
-  { path: 'success', 
+  {
+    path: 'success',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ] 
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
-  { path: 'host-signup', component: HostApplicationComponent },
+  { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
-  { path: 'getting-started',
+  {
+    path: 'getting-started',
     component: GettingStartedComponent,
   },
-  { path: 'whats-a-host', 
+  {
+    path: 'whats-a-host',
     component: BlandPageComponent,
     canActivate: [
       WhatsAHostGuard
-    ] 
+    ]
   },
-  { path: 'host-signup', component: HostApplicationComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'gathering/:groupId',
+  {
+    path: 'gathering/:groupId',
     component: PinDetailsComponent,
-    resolve:  {
-      pin: PinResolver,
-      user: UserDataResolver
-    }
-  },  
-  { path: 'person/:participantId',
-    component: PinDetailsComponent,
-    resolve:  {
+    resolve: {
       pin: PinResolver,
       user: UserDataResolver
     }
   },
+  {
+    path: 'person/:participantId',
+    component: PinDetailsComponent,
+    resolve: {
+      pin: PinResolver,
+      user: UserDataResolver
+    }
+  },
   { path: 'register', component: RegisterComponent },
   { path: 'signin', component: AuthenticationComponent },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', canActivate: [PageNotFoundGuard], component: PageNotFoundComponent }
 ];
 
 export const appRoutingProviders: any[] = [

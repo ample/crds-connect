@@ -8,7 +8,7 @@ import { StateService } from '../../services/state.service';
 })
 export class GettingStartedComponent implements OnInit {
 
-  public pins: any = [
+  /*public pins: any = [
     [
       {
         name: 'Larry M.',
@@ -37,13 +37,14 @@ export class GettingStartedComponent implements OnInit {
         image: 'https://api.adorable.io/avatars/200/nathan.png'
       }
     ]
-  ];
+  ];*/
 
   constructor(private router: Router,
              private state: StateService) {}
 
   ngOnInit() {
     this.state.setPageHeader('Getting Started', '/');
+    this.state.setLoading(false);
     return true;
   }
 }

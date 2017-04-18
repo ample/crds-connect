@@ -4,7 +4,7 @@
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 
-import { GatheringService } from '../services/gathering.service';
+import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { GoogleMapService } from './google-map.service';
@@ -30,15 +30,24 @@ describe('Service: Pin', () => {
   mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googlemapservice', ['get', 'post', 'getContactId']);
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
+  const mockAddress2 = new Address(123, 'Billy St', null, 'BillyVille', 'ZZ', '54321', 0, 0, 'US', 'County');
+
   const mockPin =
     new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
+  const updatedMockPin =
+      new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, 9999, true, '', pinType.PERSON, 0);
+  const mockPin2 =
+      new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null, 9999, true, '', pinType.PERSON, 0);
+
+  const mockPins: Pin[] = [mockPin, mockPin2];
+
   const mockPinMatchingContactId =
     new Pin('Bob', 'Smith', 'bobby@bob.com', 222, 222, mockAddress, 0, null, 222, true, '', pinType.PERSON, 0);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        GatheringService,
+        SiteAddressService,
         PinService,
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
@@ -150,5 +159,34 @@ describe('Service: Pin', () => {
       expect(result.contactId).toBe(pin.contactId);
       });
     }));
+
+    it('doesLoggedInUserOwnPin() should return true if contactId matches',
+          inject([PinService], (service: PinService) => {
+      mockSessionService.getContactId.and.returnValue(2562378);
+      let pin = MockTestData.getAPin();
+      pin.contactId = 2562378;
+      let returnValue = service.doesLoggedInUserOwnPin(pin);
+      expect(returnValue).toBe(true);
+    }));
+
+    it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match',
+          inject([PinService], (service: PinService) => {
+      mockSessionService.getContactId.and.returnValue(42);
+      let pin = MockTestData.getAPin();
+      let returnValue = service.doesLoggedInUserOwnPin(pin);
+      expect(returnValue).toBe(false);
+    }));
+
+    it('should update the pin with the updated address', inject([PinService], (service: PinService) => {
+      let pins: Pin[] = mockPins;
+      let updatedPin = updatedMockPin;
+      let updatedPinOldAddress = mockAddress;
+
+      pins = service.replaceAddressOnUpdatedPin(pins, updatedPin, updatedPinOldAddress);
+
+      expect(pins[0].address).toEqual(mockAddress2);
+    }));
+
+
 
 });

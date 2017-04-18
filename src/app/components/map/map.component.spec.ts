@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from '../../components/map/map.component';
-import { SearchLocalComponent } from '../search-local/search-local.component'
+import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
+import { MockComponent } from '../../shared/mock.component';
 
-import { GatheringService } from '../../services/gathering.service';
+import { SiteAddressService } from '../../services/site-address.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -19,6 +19,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,7 +33,7 @@ import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
 
 import { MapView } from '../../models/map-view';
 
@@ -41,12 +42,12 @@ describe('Component: Map', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        CanvasMapOverlayComponent,
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
-        SearchLocalComponent
+        SearchLocalComponent,
+        MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
@@ -55,9 +56,10 @@ describe('Component: Map', () => {
         })
       ],
       providers: [
-        GatheringService,
+        SiteAddressService,
         UserLocationService,
         LocationService,
+        PinLabelService,
         PinService,
         GoogleMapService,
         IFrameParentService,
@@ -70,7 +72,7 @@ describe('Component: Map', () => {
         BlandPageService,
         IPService,
         GoogleMapsAPIWrapper,
-        SearchLocalService,
+        SearchService,
         NeighborsHelperService
       ]
     });

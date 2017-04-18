@@ -3,11 +3,13 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angula
 import { TestBed } from '@angular/core/testing';
 import { FormsModule }   from '@angular/forms';
 import { SearchBarComponent } from './search-bar.component';
+import { StateService } from '../../services/state.service';
 
 
 describe('Component: Search Bar', () => {
-
+  let mockStateService;
   beforeEach(() => {
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setMyViewOrWorldView']);
     TestBed.configureTestingModule({
       declarations: [
         SearchBarComponent
@@ -15,7 +17,9 @@ describe('Component: Search Bar', () => {
       imports: [
         FormsModule
       ],
-      providers: []
+      providers: [
+        { provide: StateService, useValue: mockStateService }
+      ]
     });
     this.fixture = TestBed.createComponent(SearchBarComponent);
     this.component = this.fixture.componentInstance;

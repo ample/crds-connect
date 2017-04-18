@@ -4,7 +4,7 @@ import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-map
 
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GoogleMapService } from '../services/google-map.service';
-import '../../scripts/markerclusterer.js'
+import '../../scripts/markerclusterer.js';
 
 declare const MarkerClusterer;
 
@@ -17,7 +17,7 @@ interface IObjectWithIcon {
   icon?: any;
 }
 
-//MarkerManager.prototype.markerKeys = function() { return this._markers.keys(); }
+// MarkerManager.prototype.markerKeys = function() { return this._markers.keys(); }
 
 // An Attribute Directive that creates a MarkerClusterer in the map once the markers are loaded.
 
@@ -43,7 +43,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
           textColor: '#fff'
         }]
       };
-      let sebmMarkers = <IMarkerManager>this.markerManager["_markers"].keys(); //markerKeys();
+      let sebmMarkers = <IMarkerManager>this.markerManager['_markers'].keys(); // markerKeys();
       let markers = [];
       let siteMarkers = [];
       let promises = [];
@@ -57,7 +57,7 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         promise.then(marker => {
 
           let markerWithIcon: IObjectWithIcon = marker;
-          let isSiteMarker: boolean = markerWithIcon.icon.endsWith("SITE.svg") || markerWithIcon.icon.endsWith("SITE.png");
+          let isSiteMarker: boolean = markerWithIcon.icon.endsWith('SITE.svg') || markerWithIcon.icon.endsWith('SITE.png');
 
           if ( !isSiteMarker ) {
             markers.push(marker);
@@ -70,8 +70,8 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       Promise.all(promises).then(() => {
         this.cluster = new MarkerClusterer(map, markers, options);
         this.mapHlpr.setSiteMarkers(siteMarkers);
-      })
+      });
 
-    })
+    });
   }
 }

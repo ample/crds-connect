@@ -4,7 +4,6 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 
-
 @Component({
   selector: 'app-listview',
   templateUrl: 'list-view.component.html'
@@ -14,9 +13,8 @@ export class ListViewComponent {
 
   public showing_increment: number = 10;
 
-  constructor(
-               private neighborsHelperService: NeighborsHelperService,
-               private stateService: StateService) {
+  constructor(private neighborsHelperService: NeighborsHelperService,
+              private stateService: StateService) {
     neighborsHelperService.changeEmitter.subscribe(() => {
       stateService.setShowingPinCount(10);
     });
@@ -42,4 +40,9 @@ export class ListViewComponent {
   public showMore() {
     this.stateService.setShowingPinCount(this.stateService.getShowingPinCount() + this.showing_increment);
   }
+
+  public isMyStuffView(): boolean {
+    return this.stateService.getMyViewOrWorldView() === 'my';
+  }
+
 }

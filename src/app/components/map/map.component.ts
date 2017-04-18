@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { crdsOakleyCoords } from '../../shared/constants';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
+import { PinLabelService } from '../../services/pin-label.service';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+import { SessionService } from '../../services/session.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GeoCoordinates } from '../../models/geo-coordinates';
@@ -20,17 +21,19 @@ import { MapView } from '../../models/map-view';
   selector: 'app-map',
   templateUrl: 'map.component.html'
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
-    private pinHlpr: PinService,
-    private router: Router,
-    private mapHlpr: GoogleMapService,
-    private state: StateService) { }
+              private pinLabelService: PinLabelService,
+              private pinHlpr: PinService,
+              private router: Router,
+              private mapHlpr: GoogleMapService,
+              private state: StateService,
+              private session: SessionService) {}
 
   public ngOnInit(): void {
     let haveResults = !!this.searchResults;
@@ -39,7 +42,8 @@ export class MapComponent implements OnInit, OnChanges {
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng, this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng,
+                                                          this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -55,11 +59,6 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  public ngOnChanges(): void {
-console.log('CHANGES in MAP Component?!?!');
-console.log(this.searchResults);
-  }
-
   private displayDetails(pin: Pin) {
     this.state.setCurrentView('map');
     // Both Person Pin and Gathering Pin navigate to pin-details
@@ -71,20 +70,22 @@ console.log(this.searchResults);
     }
   }
 
-  public getStringByPinType(type) {
-    switch (type) {
-      case pinType.PERSON:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
-      case pinType.GATHERING:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/GATHERING.svg';
-      default:
-        return '//crds-cms-uploads.s3.amazonaws.com/connect/SITE.svg';
+  public getStringByPinType(pin) {
+    let iconName: string;
+    if (pin.pinType === pinType.SITE) {
+      iconName = 'SITE';
+    } else if (pin.pinType === pinType.GATHERING) {
+      iconName = 'GATHERING';
+    } else if (pin.pinType === pinType.PERSON && this.session.isCurrentPin(pin)) {
+      iconName = 'ME';
+    } else {
+      iconName = 'PERSON';
     }
+    return '//crds-cms-uploads.s3.amazonaws.com/connect/' + iconName + '.svg';
   }
 
   public getLabelName(pin: Pin) {
-    return (this.getFirstNameOrSiteName(pin) + '|' + this.getLastInitial(pin) + '|' +
-      this.hostOrEmptyString(pin) + '|' + this.isMe(pin));
+    return this.pinLabelService.createPinLabelDataJsonString(pin);
   }
 
   public getFirstNameOrSiteName(pin: Pin) {

@@ -1,9 +1,10 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { GoogleMapService } from '../../services/google-map.service';
-import { SearchLocalService } from '../../services/search-local.service';
+import { SearchService } from '../../services/search.service';
+import { StateService } from '../../services/state.service';
 
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 
 @Component({
@@ -15,9 +16,10 @@ export class SearchLocalComponent implements OnInit {
   private mapView;
   public active: boolean;
 
-  constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
-              public mapHelper: GoogleMapService,
-              public searchLocal: SearchLocalService) {
+  constructor(public mapHelper: GoogleMapService,
+              private state: StateService,
+              public search: SearchService,
+              private angulartics2: Angulartics2) {
     mapHelper.mapViewUpdatedEmitter.subscribe((update) => {
       if ((update.value === 'dragend') || (update.value === 'zoom_changed')) {
         this.mapView = update;
@@ -35,6 +37,8 @@ export class SearchLocalComponent implements OnInit {
   }
 
   public doLocalSearch() {
-    this.searchLocal.emitLocalSearch(this.mapView);
+    this.angulartics2.eventTrack.next({ action: 'Update Results Button Click'});
+    this.state.myStuffActive = false;
+    this.search.emitLocalSearch(this.mapView);
   }
 }

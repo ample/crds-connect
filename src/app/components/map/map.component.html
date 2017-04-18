@@ -1,7 +1,5 @@
 <script src="../../scripts/markerclusterer.js"></script>
 
-<canvas-map-overlay></canvas-map-overlay>
-
 <sebm-google-map id="connect"
                  [latitude]="mapSettings.lat"
                  [longitude]="mapSettings.lng"
@@ -13,7 +11,7 @@
   <sebm-google-map-marker *ngFor="let pin of searchResults?.pinSearchResults; let i = index"
                           [latitude]="pin.address.latitude"
                           [longitude]="pin.address.longitude"
-                          [iconUrl] = "getStringByPinType(pin.pinType)"
+                          [iconUrl] = "getStringByPinType(pin)"
                           (markerClick) = "displayDetails(pin)"
                           [title] = "getLabelName(pin)">
 
@@ -28,5 +26,5 @@
 
   <app-map-content></app-map-content>
 </sebm-google-map>
-<app-map-footer (searchResultsEmitter)="myStuffBtnClicked($event)"></app-map-footer>
+<app-map-footer></app-map-footer>
 <search-local></search-local>

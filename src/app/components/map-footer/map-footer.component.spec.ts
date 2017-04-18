@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-
+import { Angulartics2 } from 'angulartics2';
 import { NO_ERRORS_SCHEMA, EventEmitter } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
@@ -10,9 +10,10 @@ import { Observable } from 'rxjs/Rx';
 import { ListHelperService } from '../../services/list-helper.service';
 import { MapFooterComponent } from './map-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GatheringService } from '../../services/gathering.service';
+import { SiteAddressService } from '../../services/site-address.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService } from '../../services/pin.service';
+import { SearchService } from '../../services/search.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -28,7 +29,6 @@ describe('Component: MapFooter', () => {
     let fixture: ComponentFixture<MapFooterComponent>;
     let comp: MapFooterComponent;
     let mockPinService;
-    let mockMapHelperService;
     let mockLoginRedirectService;
     let mockNeighborsHelperService;
     let mockRouter;
@@ -36,18 +36,18 @@ describe('Component: MapFooter', () => {
     let mockSessionService;
     let mockBlandPageService;
     let mockUserLocationService;
+    let mockAngulartics2;
 
     beforeEach(() => {
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>(
             'state', ['setLoading', 'setPageHeader', 'setCurrentView', 'setMyViewOrWorldView', 'getCurrentView']);
-        mockMapHelperService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['setLoading', 'setPageHeader']);
-        mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelper', ['setLoading', 'setPageHeader']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockUserLocationService = jasmine.createSpyObj<UserLocationService>(
             'userLocationService', ['setLoading', 'setPageHeader', 'GetUserLocation']);
+        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -55,13 +55,13 @@ describe('Component: MapFooter', () => {
             ],
             providers: [
                 { provide: PinService, useValue: mockPinService },
-                { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-                { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
-                { provide: GoogleMapService, useValue: mockMapHelperService },
-                { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
-                { provide: UserLocationService, useValue: mockUserLocationService }
+                { provide: SessionService, useValue: mockSessionService },
+                { provide: BlandPageService, useValue: mockBlandPageService },
+                { provide: UserLocationService, useValue: mockUserLocationService },
+                SearchService,
+                { provide: Angulartics2, useValue: mockAngulartics2}
             ],
             imports: [
                 RouterTestingModule.withRoutes([])
@@ -80,19 +80,5 @@ describe('Component: MapFooter', () => {
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
-
-  it('should get my stuff and init map', () => {
-    let searchResults = MockTestData.getAPinSearchResults(3, 0, 0, 98789, 3, pinType.GATHERING, 1);
-    let position = new GeoCoordinates(88, 40);
-
-    (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
-    (<jasmine.Spy>mockUserLocationService.GetUserLocation).and.returnValue(Observable.of(position));
-    (<jasmine.Spy>mockPinService.getPinSearchResults).and.returnValue(Observable.of(searchResults));
-
-    spyOn(comp.searchResultsEmitter, 'emit');
-
-    comp.myStuffBtnClicked();
-    expect(comp.myPinSearchResults).toBeTruthy();
-  });
 
 });

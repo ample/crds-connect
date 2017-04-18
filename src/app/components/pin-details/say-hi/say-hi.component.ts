@@ -33,7 +33,8 @@ export class SayHiComponent implements OnInit {
     private session: SessionService,
     private router: Router,
     private state: StateService,
-    private blandPageService: BlandPageService) { }
+    private blandPageService: BlandPageService,
+    private angulartics2: Angulartics2) { }
 
 
   ngOnInit() {
@@ -41,6 +42,7 @@ export class SayHiComponent implements OnInit {
   }
 
   public sayHi() {
+    this.angulartics2.eventTrack.next({ action: 'Say Hi Button Click'});
     if (!this.isLoggedIn) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.getUserDetailsThenSayHi);
     } else {
@@ -52,7 +54,7 @@ export class SayHiComponent implements OnInit {
     this.session.getUserData().subscribe(
       ret => {
         this.user = ret;
-        if (this.session.getContactId() == this.pin.contactId) {
+        if (this.session.getContactId() === this.pin.contactId) {
           if (this.isGathering) {
             this.router.navigate(['/gathering/' + this.pin.gathering.groupId]);
           } else {
@@ -70,8 +72,9 @@ export class SayHiComponent implements OnInit {
 
   private doSayHi() {
     // tslint:disable-next-line:max-line-length
-    let templateText =  `<div class="container"><div class="row text-center"><h3>${this.isGathering ? 'Host contacted' : 'Success!'}</h3></div></div>`;
-    let notificationText = `<div class="row text-center">${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</div>`;
+    let templateText =  `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
+    let notificationText = (this.isGathering) ? `${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified` 
+                                              : `You just said hi to ${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}.`;
     let bpd = new BlandPageDetails(
       'Return to map',
       templateText + notificationText,
@@ -92,9 +95,9 @@ export class SayHiComponent implements OnInit {
   handleError() {
     let bpd = new BlandPageDetails();
     bpd.blandPageCause = BlandPageCause.Error;
-    bpd.content = '<div class="container"><div class="row text-center"><h3>We are unable to send your email at this time.</h3></div></div>';
-    bpd.goToState = '';
-    bpd.buttonText = 'Return to pin';
+    bpd.content = '<h1 class="title">Sorry!</h1>We are unable to send your email at this time.';
+    bpd.goToState = this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId;
+    bpd.buttonText = 'Return to details page';
     this.blandPageService.primeAndGo(bpd);
   }
 }

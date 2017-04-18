@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export enum CacheLevel { None = 0, Partial = 1, Full = 2 };
 
 export class CacheableService<Type> {
@@ -63,7 +65,7 @@ export class CacheableService<Type> {
     }
 
     protected isCachedForUser(userIdentifier: number): boolean {
-        return (userIdentifier == this.userIdentifier && 
+        return (userIdentifier == this.userIdentifier &&
                 this.isAtLeastPartialCache());
     }
 
@@ -82,7 +84,7 @@ export class CacheableService<Type> {
      * returns the current cache
      */
     protected getCache(): Type {
-        return this.cache;
+        return _.cloneDeep(this.cache);
     }
 }
 
@@ -135,19 +137,26 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
      */
     protected cacheIsReadyAndValid(newParams: ParamType, minimumCacheThreshold: CacheLevel, currentUserIdentifier: number = null): boolean {
         if (this.isNoCache()) {
+            console.log('this.isNoCache()')
             return false;
         } else if (!super.isCachedForUser(currentUserIdentifier)) {
+            console.log('!this.isCachedForUser()')
             this.clearCache();
             return false;
         }else if (this.getCacheLevel() < minimumCacheThreshold) {
+            console.log('this.getCacheLevel() < minimumCacheThreshold')
+            console.log('CacheLevel: ' + this.getCacheLevel());
+            console.log('minimumCacheThreshold: ' + minimumCacheThreshold);
             this.clearCache();
             return false;
         } else if (newParams == null && this.lastParams == null) {
             return true;
         } else if (newParams == null && this.lastParams != null) {
+            console.log('newParams == null && this.lastParams != null')
             this.clearCache();
             return false;
         } else if (newParams != null && this.lastParams == null) {
+            console.log('newParams != null && this.lastParams == null')
             this.clearCache();
             return false;
         } else {
@@ -192,17 +201,17 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
             return false;
         }
 
-        for (var i = 0; i < a.length; i++) {
+        for (let i = 0; i < a.length; i++) {
             var propName = a[i];
 
             if (typeof obj1[propName] === 'object' && typeof obj2[propName] === 'object') {
                 let objsAreEql = this.checkObjsForEquality(obj1[propName], obj2[propName]);
                 if (!objsAreEql) {
-                    console.log('!objsAreEql')
+                    console.log('!objsAreEql');
                     return false;
                 }
             } else if (Array.isArray(obj1[1]) && Array.isArray(obj2[i])) {
-                let arrsAreEql = this.checkArraysForEquality(obj1[i], obj2[i])
+                let arrsAreEql = this.checkArraysForEquality(obj1[i], obj2[i]);
                 if (!arrsAreEql) {
                     return false;
                 }
@@ -231,7 +240,7 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
             return false;
         }
 
-        for (var i = 0; i < arr1.length; i++) {
+        for (let i = 0; i < arr1.length; i++) {
             if (typeof arr1[i] === 'object' && typeof arr2[i] === 'object') {
                 let objsAreEql = this.checkObjsForEquality(arr1[i], arr2[i]);
                 if (!objsAreEql) {

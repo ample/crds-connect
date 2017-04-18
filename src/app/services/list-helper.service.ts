@@ -11,7 +11,7 @@ export class ListHelperService {
 
     let userState: UserState = undefined;
 
-    let isUserLoggedIn: boolean = userContactId != null || userContactId != undefined || !isNaN(userContactId);
+    let isUserLoggedIn: boolean = userContactId != null && userContactId != undefined && !isNaN(userContactId);
 
     let userPinByContactId: Pin;
 
