@@ -189,7 +189,7 @@ export class MapContentComponent implements OnInit {
             let ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
             let div = this.div_;
             div.className = 'pin-label';
-            div.className += ' ' + pinType[this.labelData_.pinType].toString();
+            div.className += ' ' + pinType[this.labelData_.pinType].toLowerCase().toString();
             if (this.labelData_.isMe) { div.className += ' me'; }
             if (this.labelData_.isHost) { div.className += ' host'; }
             div.style.left = sw.x + 20 + 'px';

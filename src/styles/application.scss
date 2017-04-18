@@ -1,36 +1,46 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
-.pin-label{
-  font-size: 12px;
-  color: blue;
-}
+// Map labels
+.pin-label {
+  $map-label-font-size: 13px;
+  $map-label-font-family: $condensed-font-face;
+  $map-label-default-color: $cr-gray;
+  $map-label-me-color: $cr-gold;
+  $map-label-host-color: $cr-cyan;
+  $map-label-person-color: $cr-blue;
+  $map-label-site-color: $cr-orange;
 
-.pin-label.PERSON {
+  color: $map-label-default-color;
+  font-size: $map-label-font-size;
 
-}
+  &.person {
+    color: $map-label-person-color;
+  }
 
-.pin-label.GATHERING {
+  &.person,
+  &.gathering {
+    &.me {
+      color: $map-label-me-color;
 
-}
+      &::after {
+        content: "ME";
+        font-size: 8px;
+      }
+    }
 
-.pin-label.SITE {
-  color: orange;
-}
+    &.host {
+      color: $map-label-host-color;
 
-.pin-label.PERSON.host {
-  color: teal;
-}
+      &::after {
+        content: "HOST";
+        font-size: 8px;
+      }
+    }
+  }
 
-.pin-label.GATHERING.host {
-  color: teal;
-}
-
-.pin-label.PERSON.me {
-  color: gold;
-}
-
-.pin-label.GATHERING.me {
-  color: gold;
+  &.site {
+    color: $map-label-site-color;
+  }
 }
 
 

@@ -30,8 +30,7 @@ export class PinLabel {
 
   constructor (labelData: PinLabelData) {
     this.line1 =  this.getLine1(labelData);
-    this.line2 = this.getLine2(labelData);
-    this.allTextWLineBreak = this.line1 + '<br>' + this.line2;
+    this.allTextWLineBreak = this.line1 + '<br>';
   }
 
   private getLine1 (labelData: PinLabelData) {
@@ -40,18 +39,4 @@ export class PinLabel {
 
     return nameOrTitle;
   }
-
-  private getLine2 (labelData: PinLabelData) {
-    let hostMeOrBlank: string = '';
-
-    if (labelData.isMe) {
-      hostMeOrBlank = 'ME';
-    } else if (labelData.isHost) {
-      hostMeOrBlank = 'HOST';
-    }
-
-    return hostMeOrBlank;
-  }
-
 }
-
