@@ -17,7 +17,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MapSettings } from '../../models/map-settings';
 import { SearchService } from '../../services/search.service';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-
+import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
+import { HttpModule, JsonpModule  } from '@angular/http';
 import { IPService } from '../../services/ip.service';
 import { PinService}  from '../../services/pin.service';
 import { SiteAddressService } from '../../services/site-address.service';
