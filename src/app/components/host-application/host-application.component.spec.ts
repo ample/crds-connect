@@ -1,10 +1,13 @@
 /* tslint:disable:no-unused-variable */
 import { Angulartics2 } from 'angulartics2';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
-import { TestBed, async } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CookieService } from 'angular2-cookie/core';
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
@@ -40,8 +43,11 @@ describe('Component: Host Application', () => {
         Angulartics2,
         LoginRedirectService,
         PinService,
-        BlandPageService
-      ]
+        BlandPageService,
+        ToastsManager,
+        ToastOptions
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
     this.fixture = TestBed.createComponent(HostApplicationComponent);
     this.component = this.fixture.componentInstance;

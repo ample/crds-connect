@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Angulartics2 } from 'angulartics2';
 import { ToastsManager } from 'ng2-toastr';
 
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
@@ -27,7 +26,6 @@ export class HostApplicationComponent implements OnInit {
 
   constructor(
     private blandPageService: BlandPageService,
-    private hlpr: AddMeToTheMapHelperService,
     private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
     private router: Router,
