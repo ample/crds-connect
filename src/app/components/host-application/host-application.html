@@ -1,9 +1,10 @@
 
-
+<!-------------------------------------------------TESTING------------------------------------------------->
 <div>
   User Data From Resolve:
   {{userData | json}}
 </div>
+<!-------------------------------------------------TESTING------------------------------------------------->
 
 <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
 
@@ -21,7 +22,7 @@
   </div>
 </div>
 
-<!--PHONE NUMBER-->
+<!--CONTACT PHONE NUMBER-->
 <div class="row">
   <div class="form-group col-xs-12">
     <label class="sr-only" for="contactNumber">BEST REACHED AT:</label>
@@ -34,6 +35,7 @@
            formControlName="contactNumber"
            name="contactNumber">
     <p class="error help-block" *ngIf="hostForm.controls['contactNumber'].touched && !hostForm.controls['contactNumber'].valid">Contact number is required!</p>
+    <p class="error help-block" *ngIf = "hostForm.controls['contactNumber'].hasError('minlength')">Contact number is too short</p>
   </div>
 </div>
 
@@ -64,4 +66,6 @@
 
 </form>
 
+<!-------------------------------------------------TESTING------------------------------------------------->
 {{hostForm.value | json}}
+<!-------------------------------------------------TESTING------------------------------------------------->

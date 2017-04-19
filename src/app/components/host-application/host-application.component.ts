@@ -40,8 +40,8 @@ export class HostApplicationComponent implements OnInit {
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
-      contactNumber: new FormControl('555-555-5555', [Validators.required]),
-      gatheringDescription: new FormControl('This is your gathering description', [Validators.required])
+      contactNumber: new FormControl('555-555-5555', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]),
+      gatheringDescription: new FormControl('This is your gathering description', [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);
