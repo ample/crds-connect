@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { ToastsManager } from 'ng2-toastr';
 
 import { BlandPageService } from '../../services/bland-page.service';
@@ -40,7 +41,8 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     private session: SessionService,
     private addressService: AddressService,
     private content: ContentService,
-    private toast: ToastsManager) { }
+    private toast: ToastsManager,
+    private location: Location) { }
 
 
   public ngOnInit(): void {
@@ -70,18 +72,22 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     document.querySelector('body').classList.add('modal-open');
   }
 
-  public onSubmit(value) {
-    if (value) {
+  public onSubmit(value: Pin) {
+    if (value != null) {
       this.state.setMyViewOrWorldView('world');
+      this.state.setCurrentView('map');
       this.state.setLastSearch(null);
       this.session.clearCache();
-      this.state.setCurrentView('map');
+
+      this.state.navigatedFromAddToMapComponent = true;
+      this.state.postedPin = value;
+
       let nowAPin = new BlandPageDetails(
         'See for yourself',
         'finderNowAPin',
         BlandPageType.ContentBlock,
         BlandPageCause.Success,
-        '',
+        'map',
         ''
       );
       this.blandPageService.primeAndGo(nowAPin);
@@ -89,7 +95,6 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
   }
 
   public closeClick() {
-    this.router.navigate(['']);
+    this.location.back();
   }
 }
-

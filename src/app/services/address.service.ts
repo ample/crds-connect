@@ -12,8 +12,7 @@ import { Group } from '../models/group';
 export class AddressService extends CacheableService<Pin[]> {
 
 
-    private baseUrl = process.env.CRDS_API_ENDPOINT;
-    private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
+    private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     constructor(private session: SessionService) {
         super();
@@ -30,7 +29,6 @@ export class AddressService extends CacheableService<Pin[]> {
             });
 
             if (pin != null) {
-
                 console.log('AddressService got cached Address');
                 return Observable.of(pin.address);
             }
@@ -68,5 +66,9 @@ export class AddressService extends CacheableService<Pin[]> {
                 super.setCache(cache, CacheLevel.Partial, contactId);
             })
             .catch((error: any) => Observable.throw(error || 'Server exception'));
+    }
+
+    public clearCache(): void {
+        super.clearCache();
     }
 }

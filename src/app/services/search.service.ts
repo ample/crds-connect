@@ -3,12 +3,15 @@ import { Injectable } from '@angular/core';
 
 import { MapView } from '../models/map-view';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SearchService {
 
+  // These should probably both be observables (Subscriptions) and not event emitters. 
+  // See https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service
   public doLocalSearchEmitter: EventEmitter<MapView>;
-  public mySearchResultsEmitter: EventEmitter<PinSearchResultsDto>;
+  public mySearchResultsEmitter: Subject<PinSearchResultsDto> = new Subject<PinSearchResultsDto>();
 
   constructor() {
     this.doLocalSearchEmitter = new EventEmitter<MapView>();
@@ -20,7 +23,7 @@ export class SearchService {
   }
 
   public emitMyStuffSearch(searchResults: PinSearchResultsDto): void {
-    this.mySearchResultsEmitter.emit(searchResults);
+    this.mySearchResultsEmitter.next(searchResults);
   }
 
 }

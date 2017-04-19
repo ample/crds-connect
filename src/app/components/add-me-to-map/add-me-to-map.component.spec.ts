@@ -1,5 +1,4 @@
-/* tslint:disable:no-unused-variable */
-
+import { MockComponent } from '../../shared/mock.component';
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,17 +26,20 @@ import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { AddressService } from '../../services/address.service';
+import { Location } from '@angular/common';
 
 describe('Component: Add Me to the Map', () => {
 
-  let mockContentService;
+  let mockContentService, mockLocation;
 
   beforeEach(() => {
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
+    mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
 
     TestBed.configureTestingModule({
       declarations: [
-        AddMeToMapComponent, AddressFormComponent
+        AddMeToMapComponent, AddressFormComponent,
+        MockComponent({selector: 'crds-content-block', inputs: ['id']})
       ],
       imports: [
         AgmCoreModule.forRoot({
@@ -46,8 +48,7 @@ describe('Component: Add Me to the Map', () => {
         HttpModule,
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
-        SelectModule,
-        ContentBlockModule.forRoot({ categories: ['common'] })
+        SelectModule
       ],
       providers: [
         AddMeToTheMapHelperService,
@@ -58,6 +59,7 @@ describe('Component: Add Me to the Map', () => {
         SiteAddressService,
         PinService,
         LocationService,
+        { provide: Location, useValue: mockLocation },
         LoginRedirectService,
         SessionService,
         StateService,
@@ -90,7 +92,9 @@ describe('Component: Add Me to the Map', () => {
     document.querySelector('body').classList.remove('modal-open');
   });
 
+  it('should go back when x is clicked', () => {
+    this.component.closeClick();
+    expect(mockLocation.back).toHaveBeenCalled();
+  });
+
 });
-
-
-

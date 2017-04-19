@@ -1,11 +1,14 @@
 <div class="pin-details" [class.is-gathering]="isGatheringPin">
+
 	<div *ngIf="!editMode" class="container-fluid">
 	    <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
 	    <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
 	    <button *ngIf="isPinOwner" class="btn primary btn-primary" (click)="edit()">Edit</button>
 	</div>
+
 	<div *ngIf="editMode">
       <h1 class="title text-lowercase text-center">My Info</h1>
-	    <address-form [userData]="pin" [buttonText]="buttonText" (save)="onSubmit($event)"></address-form>
+	    <address-form [userData]="pin" [buttonText]="buttonText" (save)="onSubmit($event)" [cancel]="cancelEdit"></address-form>
 	</div>
+
 </div>
