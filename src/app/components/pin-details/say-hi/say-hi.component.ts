@@ -42,7 +42,7 @@ export class SayHiComponent implements OnInit {
   }
 
   public sayHi() {
-    this.angulartics2.eventTrack.next({ action: 'Say Hi Button Click'});
+    this.angulartics2.eventTrack.next({ action: 'Say Hi Button Click', properties: { category: 'Connect', label: this.buttonText }});
     if (!this.isLoggedIn) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.getUserDetailsThenSayHi);
     } else {
