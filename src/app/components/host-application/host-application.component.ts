@@ -9,13 +9,15 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 
+import { DetailedUserData } from '../../models/detailed-user-data';
+
 @Component({
   selector: 'app-host-application',
   templateUrl: 'host-application.html'
 })
 export class HostApplicationComponent implements OnInit {
 
-  public userData: any;
+  public userData: DetailedUserData;
   public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
