@@ -21,21 +21,16 @@ import { CookieService } from 'angular2-cookie/core';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 
 describe('ListEntryComponent', () => {
+    let mockLoginRedirectService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
     let el;
-    let mockStateService, mockSessionService, mockCookieService, mockLoginRedirectService;
 
     beforeEach(() => {
         class RouterStub {
             navigate(url: string) { return url; }
         }
-
-        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
-        mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -43,11 +38,11 @@ describe('ListEntryComponent', () => {
                 MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
             ],
             providers: [
+                StateService,
+                SessionService,
                 MockBackend,
                 BaseRequestOptions,
-                { provide: StateService, useValue: mockStateService },                
-                { provide: SessionService, useValue: mockSessionService },
-                { provide: CookieService, useValue: mockCookieService },
+                CookieService,
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 {
                   provide: Http,

@@ -24,19 +24,14 @@ describe('Component: Authentication', () => {
     mockSessionService,
     mockStateService,
     mockLoginRedirectService,
-    mockFormBuilder,
     mockStoreService;
 
   beforeEach(() => {
+    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'postLogin']);
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setLoading']);
     mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
-  });
-
-
-  beforeEach(() => {
-    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
-
 
     TestBed.configureTestingModule({
       declarations: [
@@ -45,7 +40,7 @@ describe('Component: Authentication', () => {
       providers: [
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         FormBuilder,
-        SessionService,
+        { provide: SessionService, useValue: mockSessionService },
         { provide: CookieService, useValue: mockCookieService },
         { provide: StateService, useValue: mockStateService },
         { provide: StoreService, useValue: mockStoreService },
@@ -73,24 +68,24 @@ describe('Component: Authentication', () => {
   }));
 
   it('should set the "navigatedBackFromAuthComponent" prop on state service',
-      inject([StateService], (stateService) => {
-    stateService.navigatedBackFromAuthComponent = false;
-    comp.back();
-    expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
-  }));
+    inject([StateService], (stateService) => {
+      stateService.navigatedBackFromAuthComponent = false;
+      comp.back();
+      expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
+    }));
 
   function setForm(email, password) {
     comp.form.setValue({ email: email, password: password });
   }
 
-  it('loginException should get set to true', inject([SessionService], (session) => {
+  it('loginException should get set to true', ()=> {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
-    spyOn(session, 'postLogin').and.returnValue(Observable.throw({}));
+    mockSessionService.postLogin.and.returnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
-    expect(comp.loginException).toBeTruthy();
-  }));
+    expect(comp.loginException).toBeTruthy(); 
+  });
 
   it('should check to see if field is valid when valid credentials are provided', () => {
     setForm('s@s.com', 'test');
@@ -108,7 +103,7 @@ describe('Component: Authentication', () => {
 
     comp.back();
     expect(mockLoginRedirectService.cancelRedirect).toHaveBeenCalled();
-});
+  });
 
 
 });
