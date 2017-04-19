@@ -1,7 +1,9 @@
-import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+
+import { Angulartics2 } from 'angulartics2';
+import { ToastsManager } from 'ng2-toastr';
 
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -24,13 +26,14 @@ export class HostApplicationComponent implements OnInit {
   public errorMessage: string = '';
 
   constructor(
+    private blandPageService: BlandPageService,
     private hlpr: AddMeToTheMapHelperService,
-    private session: SessionService,
     private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
     private router: Router,
+    private session: SessionService,
     private store: StoreService,
-    private blandPageService: BlandPageService,
+    private toast: ToastsManager,
     private state: StateService
   ) {}
 
@@ -48,6 +51,7 @@ export class HostApplicationComponent implements OnInit {
 
   public onSubmit ({ value, valid }: { value: any, valid: boolean }) {
 
+    this.toast.error('Address form submitted! Testing toaster.');
     console.log('Address form submitted');
     console.log(value);
 
