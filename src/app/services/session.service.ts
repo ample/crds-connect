@@ -200,6 +200,30 @@ export class SessionService extends SmartCacheableService<User, number> {
     }
   }
 
+  //----
+  public getDetailedUserData(): Observable<any> {
+    let contactId = this.getContactId();
+
+    if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
+      return this.get(`${this.baseUrl}api/v1.0.0/profile/${contactId}`)
+          .map((res: Pin) => {
+            console.log('USER DATA');
+            console.log(res);
+            // let userAddress = new Address(res.address.addressId, res.address.addressLine1, res.address.addressLine2,
+            //     res.address.city, res.address.state, res.address.zip, res.address.longitude,
+            //     res.address.latitude, res.address.foreignCountry, res.address.county);
+            // let userData: UserDataForPinCreation = new UserDataForPinCreation(res.contactId, res.participantId, res.householdId,
+            //     res.firstName, res.lastName, res.emailAddress, userAddress);
+            return res;
+          })
+          .catch((err: any) => {
+            return Observable.throw(err.json().error);
+          });
+    }
+  }
+
+  //----
+
   public getUserDetailsByContactId(contactId: number): Observable<User> {
     if (super.cacheIsReadyAndValid(contactId, CacheLevel.Partial)) {
       return Observable.of(super.getCache());

@@ -81,7 +81,9 @@ import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
+import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
@@ -90,7 +92,6 @@ import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
-import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
@@ -160,6 +161,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
+    DetailedUserDataResolver,
     IPService,
     SiteAddressService,
     GoogleMapsAPIWrapper,
