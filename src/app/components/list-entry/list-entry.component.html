@@ -2,10 +2,10 @@
      class="media person"
      (click)="sayHi(participantId)">
   <profile-picture [contactId]="contactId"
-                   wrapperClass="media-img"
+                   wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">
+    <h3 class="media-heading media-heading-link">
       {{name()}}
       <span *ngIf="isMe()" class="label label-warning">ME</span>
     </h3>
@@ -19,10 +19,10 @@
      class="media gathering"
      (click)="displayDetails(groupId)">
   <profile-picture [contactId]="contactId"
-                   wrapperClass="media-img"
+                   wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{name()}}
+    <h3 class="media-heading media-heading-link">{{name()}}
       <span class="label label-primary">HOST</span></h3>
     <p class="media-meta">
       <span class="proximity">{{roundedProximity()}} MI</span>
@@ -33,10 +33,10 @@
 </div>
 
 <div *ngIf="isSite()" class="media site">
-  <div class="media-img">
-    <div class=" media-object media-object-default img-circle img-size-5"></div>
-    <div class=" media-object media-object-overlay img-circle img-size-5"
-         style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
+  <div class="media-img-wrapper">
+    <div class="media-object-default img-circle media-object img-size-5">
+    </div>
+    <div class="media-object-overlay img-circle media-object img-size-5" style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
   </div>
   <div class="media-body">
     <h3 class="media-heading">Crossroads {{siteName}}</h3>
