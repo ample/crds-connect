@@ -11,3 +11,64 @@
   User Data From Resolve:
   {{userData | json}}
 </div>
+
+<form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
+
+<!--MEETING AT HOME? -->
+<div class="row">
+  <div class="form-group col-xs-12">
+    <label class="sr-only" for="isHomeAddress">We will meet at my home</label>
+    <input tabindex="1"
+           type="checkbox"
+           class="form-control"
+           id = "isHomeAddress"
+           formControlName="isHomeAddress"
+           name="isHomeAddress">
+    <p class="error help-block" *ngIf="hostForm.controls['isHomeAddress'].touched && !hostForm.controls['isHomeAddress'].valid">Contact number is required!</p>
+  </div>
+</div>
+
+<!--PHONE NUMBER-->
+<div class="row">
+  <div class="form-group col-xs-12">
+    <label class="sr-only" for="contactNumber">BEST REACHED AT:</label>
+    <input tabindex="1"
+           type="text"
+           class="form-control"
+           maxlength="75"
+           placeholder="Contact Number"
+           id = "contactNumber"
+           formControlName="contactNumber"
+           name="contactNumber">
+    <p class="error help-block" *ngIf="hostForm.controls['contactNumber'].touched && !hostForm.controls['contactNumber'].valid">Contact number is required!</p>
+  </div>
+</div>
+
+<!--GATHERING DESCRIPTION-->
+<div class="row">
+  <div class="form-group col-xs-12">
+    <label class="sr-only" for="gatheringDescription">GATHERING DESCRIPTION:</label>
+    <input tabindex="1"
+           type="text"
+           class="form-control"
+           maxlength="75"
+           placeholder="Group Description"
+           id = "gatheringDescription"
+           formControlName="gatheringDescription"
+           name="gatheringDescription">
+    <p class="error help-block" *ngIf="hostForm.controls['gatheringDescription'].touched && !hostForm.controls['gatheringDescription'].valid">Gathering description is required!</p>
+  </div>
+</div>
+
+<footer class="page-footer page-footer-vertical">
+  <button type="submit" [disabled]="hostForm.invalid" class="btn btn-secondary">Submit Form</button>
+  <button type="button" (click)="back()" class="btn btn-link btn-default">Cancel</button>
+</footer>
+
+<div *ngIf="submissionError" class="alert alert-danger">
+  <crds-content-block id="generalError"></crds-content-block>
+</div>
+
+</form>
+
+{{hostForm.value | json}}
