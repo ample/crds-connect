@@ -207,8 +207,10 @@ export class SessionService extends SmartCacheableService<User, number> {
     if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
       return this.get(`${this.baseUrl}api/v1.0.0/profile/${contactId}`)
         .map((res: any) => {
-          let userData: DetailedUserData = new DetailedUserData(contactId, res.firstName, res.lastName,
-                                                                res.homePhone, res.mobilePhone, res.emailAddress);
+          let userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2, res.city, res.state,
+                                        res.postalCode, null, null, res.foreignCountry, res.county);
+          let userData: DetailedUserData = new DetailedUserData(contactId, res.firstName, res.lastName, res.homePhone,
+                                                                res.mobilePhone, res.emailAddress, userAddress);
           return userData;
         })
         .catch((err: any) => {
