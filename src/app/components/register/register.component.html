@@ -1,0 +1,86 @@
+<div class="content-middle" heading="Register">
+  <header class="component-header">Register An Account</header>
+
+  <hr class="flush-top">
+
+  <form [formGroup]="regForm"
+        action="/"
+        (ngSubmit)="store.preSubmit($event);submitRegistration();"
+        novalidate>
+    <div class="form-row">
+      <!-- First Name -->
+      <div class="form-group form-col-2">
+        <input type="text"
+               class="form-control"
+               placeholder="First Name"
+               formControlName="firstName"
+               name="firstName"
+               [(ngModel)]="firstName" >
+
+        <div class="errors" *ngIf="(submitted) && (!regForm.controls['firstName'].valid)">
+          <p class="error help-block">First Name <span [innerHTML]="switchMessage(regForm.controls['firstName'].errors)"></span></p>
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group form-col-2">
+        <input type="text"
+               class="form-control"
+               placeholder="Last Name"
+               formControlName="lastName"
+               name="lastName"
+               [(ngModel)]="lastName">
+
+        <div class="errors" *ngIf="(submitted) && (!regForm.controls['lastName'].valid)">
+          <p class="error help-block">Last Name <span [innerHTML]="switchMessage(regForm.controls['lastName'].errors)"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-row">
+      <div class="form-group form-col-1">
+        <input type="text"
+              class="form-control"
+              placeholder="Email"
+              formControlName="email"
+              name="email"
+              [(ngModel)]="email">
+
+        <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
+          <p class="error help-block" *ngIf="duplicateUser">This email address is already in use. <a routerLink="/signin">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
+
+          <p class="error help-block" *ngIf="!duplicateUser">Email <span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-row">
+      <div class="form-group form-col-1">
+        <input type="password"
+               class="form-control"
+               placeholder="Password"
+               formControlName="password"
+               name="password"
+               [(ngModel)]="password">
+
+        <div class="errors" *ngIf="(submitted) && !regForm.controls['password'].valid">
+          <p class="error help-block">Password <span [innerHTML]="switchMessage(regForm.controls['password'].errors)"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <crds-content-block id="finderRegisterFooter"></crds-content-block>
+
+    <hr>
+
+    <footer class="page-footer">
+      <p class="pull-left font-size-small">Already have an account? <a href="#" routerLink="/signin">Sign In</a>.</p>
+      <input type="submit"
+             class="btn btn-primary pull-right"
+             (click)="store.preSubmit($event);submitRegistration();"
+             value="Register">
+    </footer>
+  </form>
+</div>

@@ -1,64 +1,85 @@
 import { Injectable } from '@angular/core';
-
-export interface PageState {
-  path: string;
-  show: boolean;
-}
+import { MapView } from '../models/map-view';
+import { Pin } from '../models/pin';
+import { SearchOptions } from '../models/search-options';
 
 @Injectable()
 export class StateService {
 
-  public amountIndex: number = 0;
-  public authenticationIndex: number = 2;
-  public billingIndex: number = 4;
-  public confirmationIndex: number = 6;
-  public fundIndex: number = 1;
+  public hasBrandBar: boolean = true;
+  public hasPageHeader: boolean = false;
+  public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
-  public registrationIndex: number = 3;
-  public summaryIndex: number = 5;
-  public watcherInterval: any = undefined;
+  public navigatedBackFromAuthComponent: boolean = false;
+  public navigatedFromAddToMapComponent: boolean = false;
 
-  public paymentState: PageState[] = [
-    { path: '/amount', show: true },
-    { path: '/fund', show: false },
-    { path: '/authentication', show: true },
-    { path: '/registration', show: false },
-    { path: '/billing', show: true },
-    { path: '/summary', show: true },
-    { path: '/confirmation', show: true}
-  ];
+  public myStuffActive: boolean = false;
+  private mapOrListView: string = 'map';
+  public postedPin: Pin;
+  private showingPinCount: number = 10;
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  private myViewOrWorldView: string = 'world';
+  private zoomToUse: number = -1;
+  private savedMapView: MapView;
+  private lastSearch: SearchOptions;
 
-  public getNextPageToShow(currentPage: number): string {
-    let nextPage = currentPage + 1;
-    while (!this.paymentState[nextPage].show && nextPage !== this.confirmationIndex) {
-      nextPage++;
-    }
-    return this.paymentState[nextPage].path;
+  public setMapView(mv: MapView) {
+    this.savedMapView = mv;
   }
 
-  public getPage(pageIndex: number) {
-    this.unhidePage(pageIndex);
-    return this.paymentState[pageIndex].path;
+  public getMapView() {
+    return this.savedMapView;
   }
 
-  public getPrevPageToShow(currentPage: number): string {
-    let prevPage = currentPage - 1;
-    while (!this.paymentState[prevPage].show && prevPage !== this.amountIndex) {
-      prevPage--;
-    }
-    return this.paymentState[prevPage].path;
+  public getLastSearch() {
+    return this.lastSearch;
   }
 
-  public hidePage(pageIndex: number) {
-    this.paymentState[pageIndex].show = false;
-  }
-
-  public unhidePage(pageIndex: number) {
-      this.paymentState[pageIndex].show = true;
+  public setLastSearch(ls: SearchOptions) {
+    this.lastSearch = ls;
   }
 
   public setLoading(val: boolean) {
     this.is_loading = val;
+  }
+
+  public setCurrentView(view: string) {
+    this.mapOrListView = view;
+  }
+
+  public getCurrentView(): string {
+    return this.mapOrListView;
+  }
+
+  // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
+  public setMyViewOrWorldView(view: string) {
+    this.myViewOrWorldView = view;
+  }
+
+  public getMyViewOrWorldView(): string {
+    return this.myViewOrWorldView;
+  }
+
+  public setShowingPinCount(count: number) {
+    this.showingPinCount = count;
+  }
+
+  public getShowingPinCount() {
+    return this.showingPinCount;
+  }
+
+  public setPageHeader(title, routerLink) {
+    this.hasPageHeader = true;
+    this.pageHeader['title'] = title;
+    this.pageHeader['routerLink'] = routerLink;
+  }
+
+  public setUseZoom(zoom: number) {
+    this.zoomToUse = zoom;
+  }
+
+  public getUseZoom() {
+    return this.zoomToUse;
   }
 
 }

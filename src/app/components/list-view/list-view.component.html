@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <h2 *ngIf="isMyStuffView()"><crds-content-block id="finderMyStuff"></crds-content-block></h2>
+
+  <list-entry *ngFor="let pin of pinsToShow()"
+              [firstName]="pin.firstName"
+              [lastName]="pin.lastName"
+              [siteName]="pin.siteName"
+              [type]="pin.pinType"
+              [proximity]="pin.proximity"
+              [description]="pin.gathering ? pin.gathering.groupDescription : ''"
+              [groupId]="pin.gathering ? pin.gathering.groupId : 0"
+              [participantId]="pin.participantId"
+              [address]="pin.address"
+              [participantCount]="pin.gathering ? pin.gathering.participantCount : 0"
+              [contactId]="pin.contactId">
+  </list-entry>
+
+  <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length"
+          type="submit"
+          class="btn btn-secondary btn-block"
+          (click)="showMore()">Load more</button>
+
+</div>
+
+<list-footer [pins]="searchResults?.pinSearchResults"></list-footer>

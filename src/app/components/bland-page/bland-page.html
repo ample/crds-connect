@@ -1,0 +1,25 @@
+<div class="fauxdal fauxdal-fullscreen fauxdal-center">
+  <div class="container-fluid">
+    <div *ngIf="isFauxModal" class="pull-right close">
+      <a class="pointer" (click)="close()">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xlink:href="/assets/svgs/icons.svg#close"></use>
+        </svg>
+      </a>
+    </div>
+
+    <div class="text-center">
+      <crds-content-block *ngIf="contentBlock" id="{{blandPageDetails.content}}"></crds-content-block>
+      <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
+    </div>
+
+    <br>
+
+    <footer class="page-footer">
+      <button type="button"
+              class="btn btn-secondary"
+              (click)="go();">{{blandPageDetails.buttonText}}</button>
+    </footer>
+  </div>
+</div>
+

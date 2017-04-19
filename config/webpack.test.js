@@ -27,9 +27,7 @@ module.exports = function(options) {
           test: /\.js$/,
           loader: 'source-map-loader',
           exclude: [
-            // these packages have problems with their sourcemaps
-            helpers.root('node_modules/rxjs'),
-            helpers.root('node_modules/@angular')
+            helpers.root('node_modules')
           ]
         }
       ],
@@ -64,16 +62,7 @@ module.exports = function(options) {
         }
       ],
 
-      postLoaders: [
-        {
-          test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
-          include: helpers.root('src'),
-          exclude: [
-            // /\.(e2e|spec)\.ts$/,
-            /node_modules/
-          ]
-        }
-      ]
+      postLoaders: []
     },
 
     plugins: [

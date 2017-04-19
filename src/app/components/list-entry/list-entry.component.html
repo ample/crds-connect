@@ -1,0 +1,48 @@
+<div *ngIf="isPerson()"
+     class="entry entry-person"
+     (click)="sayHi(participantId)">
+  <profile-picture [contactId]="contactId"
+                   wrapperClass="profile-picture"
+                   imageClass="img-size-4"></profile-picture>
+  <div class="entry-details">
+    <h3 class="entry-header">
+      {{name()}}
+      <span *ngIf="isMe()" class="label label-me">ME</span>
+    </h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
+  </div>
+</div>
+
+<div *ngIf="isGathering()"
+     class="entry entry-gathering"
+     (click)="displayDetails(groupId)">
+  <profile-picture [contactId]="contactId"
+                   wrapperClass="profile-picture"
+                   imageClass="img-size-5"></profile-picture>
+  <div class="entry-details">
+    <h3 class="entry-header">{{name()}}
+      <span class="label label-host">HOST</span></h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+      <span class="joined_by">JOINED BY {{count()}}</span>
+    </p>
+    <p class="entry-description">{{gatheringDescription()}}</p>
+  </div>
+</div>
+
+<div *ngIf="isSite()" class="entry entry-site">
+  <div class="profile-picture">
+    <div class="profile-picture-default img-circle img-size-5"></div>
+    <div class="profile-picture-overlay img-circle img-size-5"
+         style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
+  </div>
+  <div class="entry-details">
+    <h3 class="entry-header">Crossroads {{siteName}}</h3>
+    <p class="entry-subheader">
+      <span class="proximity">{{roundedProximity()}} MI</span>
+    </p>
+    <p class="entry-description" [innerHTML]="siteAddress()"></p>
+  </div>
+</div>

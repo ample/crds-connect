@@ -27,9 +27,7 @@ export class OnlyTheseKeysDirective {
     if (e.metaKey || e.ctrlKey) {
       return true;
     }
-    if (keypress === 32) {
-      return false;
-    }
+
     if (keypress === 0) {
       return true;
     }

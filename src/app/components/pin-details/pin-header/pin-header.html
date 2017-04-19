@@ -1,0 +1,9 @@
+<profile-picture imageClass="img-size-6" wrapperClass="profile-picture" [contactId]="contactId"></profile-picture>
+
+<div class="pin-detail-name">
+	<strong *ngIf="!isPinOwner && !isGathering">Say Hello to</strong>
+	<span *ngIf="isPinOwner" class="label label-me">Me</span>
+	<span *ngIf="isGathering" class="label label-host">Host</span>
+	<h1>{{firstName}} {{lastName | slice:0:1}}</h1>
+</div>
+
