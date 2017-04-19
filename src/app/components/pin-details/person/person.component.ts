@@ -19,7 +19,7 @@ export class PersonComponent implements OnInit {
   @Input() pin: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
-  @Input() user: User;
+  @Input() user: Pin;
 
   public sayHiButtonText: string = 'Say hi!';
 

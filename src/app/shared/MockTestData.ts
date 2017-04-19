@@ -35,7 +35,6 @@ export class MockTestData {
             this.getAnAddress(designator),
             hostStatus,
             this.getAGroup(designator, numParticipantsInGathering),
-            designator,
             isFormDirty,
             'site' + designator.toString(),
             pinType,

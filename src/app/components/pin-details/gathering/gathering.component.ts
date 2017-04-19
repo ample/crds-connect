@@ -26,7 +26,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 export class GatheringComponent implements OnInit {
 
   @Input() pin: Pin;
-  @Input() user: User;
+  @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
 

@@ -21,7 +21,7 @@ export class SayHiComponent implements OnInit {
 
   @Input() isGathering: boolean = false;
   @Input() buttonText: string = '';
-  @Input() user: User;
+  @Input() user: Pin;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
 

@@ -30,7 +30,7 @@ export class PinDetailsComponent implements OnInit {
   public isGatheringPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
-  public user: User;
+  public user: PinService;
 
   constructor(
     private location: PlatformLocation,
@@ -73,9 +73,9 @@ export class PinDetailsComponent implements OnInit {
     if (updatedPin) {
       this.state.updatedPinOldAddress = this.pin.address;
 
-      setTimeout(()=>{
+      setTimeout(() => {
         this.pin.address = updatedPin.address;
-      },1);
+      }, 1);
 
       this.pin.address = updatedPin.address;
 

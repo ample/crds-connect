@@ -80,11 +80,6 @@ describe('AddressFormComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('onInit should load statelist', () => {
-        comp.ngOnInit();
-        expect(comp.stateList.length).toBe(51);
-    });
-
     it('should setSubmissionErrorWarningTo', () => {
         comp.setSubmissionErrorWarningTo(true);
         expect(comp.submissionError).toBe(true);
