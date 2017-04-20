@@ -1,5 +1,9 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 
+body {
+  -webkit-font-smoothing: initial;
+}
+
 // Map labels
 .pin-label {
   $map-label-font-size: 13px;
