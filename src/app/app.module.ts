@@ -65,6 +65,7 @@ import { AddressService } from './services/address.service';
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
@@ -169,6 +170,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
+    HostApplicationHelperService,
     IFrameParentService,
     ListHelperService,
     LoginRedirectService,
