@@ -27,10 +27,10 @@ describe('Component: Authentication', () => {
     mockStoreService;
 
   beforeEach(() => {
-    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
+    mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('redirectService', ['cancelRedirect', 'redirectToTarget']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'postLogin']);
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setLoading']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor','setLoading']);
     mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
 
     TestBed.configureTestingModule({
@@ -62,17 +62,20 @@ describe('Component: Authentication', () => {
     expect(fixture).toBeTruthy();
   });
 
-  it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
+  it('should call the router to move to the previous step', () => {
     comp.back();
-    expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
-  }));
+    expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
+  });
 
   it('should set the "navigatedBackFromAuthComponent" prop on state service',
-    inject([StateService], (stateService) => {
-      stateService.navigatedBackFromAuthComponent = false;
-      comp.back();
-      expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
-    }));
+    () => {
+      comp.state.navigatedBackFromAuthComponent = false;
+      let ret = comp.back();
+      expect(ret).toEqual(false);
+      expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
+      expect(comp.state.navigatedBackFromAuthComponent).toEqual(true);
+
+    });
 
   function setForm(email, password) {
     comp.form.setValue({ email: email, password: password });
@@ -81,7 +84,7 @@ describe('Component: Authentication', () => {
   it('loginException should get set to true', ()=> {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
-    mockSessionService.postLogin.and.returnValue(Observable.throw({}));
+    (<jasmine.Spy>comp.session.postLogin).and.returnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
     expect(comp.loginException).toBeTruthy(); 
@@ -100,9 +103,8 @@ describe('Component: Authentication', () => {
   });
 
   it('should call cancelRedirect when the back button is clicked', () => {
-
     comp.back();
-    expect(mockLoginRedirectService.cancelRedirect).toHaveBeenCalled();
+    expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
   });
 
 
