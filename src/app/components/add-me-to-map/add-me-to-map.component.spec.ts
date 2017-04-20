@@ -9,7 +9,6 @@ import { SelectModule } from 'angular2-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-import { AddressFormComponent } from '../address-form/address-form.component';
 import { SiteAddressService } from '../../services/site-address.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
 
@@ -42,15 +41,15 @@ describe('Component: Add Me to the Map', () => {
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('BlandPageService', ['constructor']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
-    mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['loadData']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
 
 
     TestBed.configureTestingModule({
       declarations: [
-        AddMeToMapComponent, AddressFormComponent,
-        MockComponent({ selector: 'crds-content-block', inputs: ['id'] })
+        AddMeToMapComponent, 
+        MockComponent({ selector: 'crds-content-block', inputs: ['id'] }),
+        MockComponent({ selector: 'address-form', inputs: ['userData', 'buttonText', 'save'] })
       ],
       imports: [
         AgmCoreModule.forRoot({
@@ -84,7 +83,7 @@ describe('Component: Add Me to the Map', () => {
 
   it('should attach class selector to body element after view init', () => {
     // Start fresh...
-    document.querySelector('body').classList.remove('modal-open');
+    document.querySelector('body').classList.remove('modal-open');//
 
     expect(document.querySelector('body').classList).not.toContain('modal-open');
     this.component.ngAfterViewInit();
@@ -96,7 +95,7 @@ describe('Component: Add Me to the Map', () => {
 
   it('should go back when x is clicked', () => {
     this.component.closeClick();
-    expect(mockLocation.back).toHaveBeenCalled();
+    expect(this.component.location.back).toHaveBeenCalled();
   });
 
 });
