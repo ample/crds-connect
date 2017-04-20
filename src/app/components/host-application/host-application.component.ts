@@ -21,7 +21,7 @@ export class HostApplicationComponent implements OnInit {
 
   public userData: DetailedUserData;
   public hostForm: FormGroup;
-  public submitted: boolean = false;
+  public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
 
   constructor(
@@ -48,6 +48,8 @@ export class HostApplicationComponent implements OnInit {
   }
 
   public onSubmit ({ value, valid }: { value: any, valid: boolean }) {
+
+    this.isFormSubmitted = true;
 
     this.toast.error('Address form submitted! Testing toaster.');
     console.log('Address form submitted');

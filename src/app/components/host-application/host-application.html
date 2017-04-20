@@ -18,7 +18,7 @@
            id = "isHomeAddress"
            formControlName="isHomeAddress"
            name="isHomeAddress">
-    <p class="error help-block" *ngIf="hostForm.controls['isHomeAddress'].touched && !hostForm.controls['isHomeAddress'].valid">Contact number is required!</p>
+    <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['isHomeAddress'].valid">Contact number is invalid!</p>
   </div>
 </div>
 
@@ -34,8 +34,7 @@
            id = "contactNumber"
            formControlName="contactNumber"
            name="contactNumber">
-    <p class="error help-block" *ngIf="hostForm.controls['contactNumber'].touched && !hostForm.controls['contactNumber'].valid">Contact number is required!</p>
-    <p class="error help-block" *ngIf = "hostForm.controls['contactNumber'].hasError('minlength')">Contact number is too short</p>
+    <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['contactNumber'].valid">Contact number is invalid!!</p>
   </div>
 </div>
 
@@ -51,13 +50,12 @@
            id = "gatheringDescription"
            formControlName="gatheringDescription"
            name="gatheringDescription">
-    <p class="error help-block" *ngIf="hostForm.controls['gatheringDescription'].touched && !hostForm.controls['gatheringDescription'].valid">Gathering description is required!</p>
+    <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
   </div>
 </div>
 
 <footer class="page-footer page-footer-vertical">
-  <button type="submit" [disabled]="hostForm.invalid" class="btn btn-secondary">Submit Form</button>
-  <button type="button" (click)="back()" class="btn btn-link btn-default">Cancel</button>
+  <button type="submit" class="btn btn-secondary">Submit</button>
 </footer>
 
 <div *ngIf="submissionError" class="alert alert-danger">
