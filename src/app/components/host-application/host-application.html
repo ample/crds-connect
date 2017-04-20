@@ -27,7 +27,9 @@
 
 
 <!--GROUP ADDRESS-->
-<address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="'groupAddress'"></address-form2>
+<div *ngIf = "!this.hostForm.value.isHomeAddress">
+  <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="'groupAddress'"></address-form2>
+</div>
 
 <!--CONTACT PHONE NUMBER-->
 <div class="row">
