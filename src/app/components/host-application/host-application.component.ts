@@ -60,12 +60,20 @@ export class HostApplicationComponent implements OnInit {
 
     this.isFormSubmitted = true;
 
-    let dto: HostRequestDto = this.hlpr.convertFormToDto(value, this.userData.contactId);
+    //let dto: HostRequestDto = this.hlpr.convertFormToDto(value, this.userData.contactId);
+
+    this.session.postHostApplication(value).subscribe(
+        (success) => {
+          //this.removeFauxdalClasses(val);
+        }, (err)=>{
+
+        }
+    );
 
     this.toast.error('Address form submitted! Testing toaster.');
     console.log('Address form submitted');
     console.log(value);
-    console.log(dto);
+    //console.log(dto);
 
   }
 

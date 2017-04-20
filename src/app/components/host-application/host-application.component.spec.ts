@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { IFrameParentService } from '../../services/iframe-parent.service';
+import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -35,6 +36,7 @@ describe('Component: Host Application', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        HostApplicationHelperService,
         IFrameParentService,
         StoreService,
         StateService,

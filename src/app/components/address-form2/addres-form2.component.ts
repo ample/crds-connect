@@ -13,6 +13,7 @@ export class AddressFormTwoComponent implements OnInit {
   @Input() parentForm: FormGroup;
   @Input() groupName: string;
   @Input() address: Address;
+  @Input() isFormSubmitted;
   private addressFormGroup: FormGroup;
   private formName: string;
   private stateList: Array<string>;

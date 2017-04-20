@@ -12,7 +12,7 @@
                    formControlName="addressLine1"
                    name="addressLine1"
                    [(ngModel)]="address.addressLine1">
-            <p class="error help-block" *ngIf="addressFormGroup.controls['addressLine1'].touched && !addressFormGroup.controls['addressLine1'].valid">Address Line 1 is required!</p>
+            <p class="error help-block" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine1'].valid">Address Line 1 is required!</p>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
                    formControlName="addressLine2"
                    name="addressLine2"
                    [(ngModel)]="address.addressLine2">
-            <p class="error help-block" *ngIf="formSubmitted && !addressFormGroup.controls['addressLine2'].valid">Address Line 2 is invalid</p>
+            <p class="error help-block" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine2'].valid">Address Line 2 is invalid</p>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
                    formControlName="city"
                    name="city"
                    [(ngModel)]="address.city">
-            <p class="error help-block" *ngIf="addressFormGroup.controls['city'].touched && !addressFormGroup.controls['city'].valid">City is required!</p>
+            <p class="error help-block" *ngIf="isFormSubmitted && !addressFormGroup.controls['city'].valid">City is required!</p>
         </div>
     </div>
 
@@ -84,8 +84,8 @@
         <div class="col-xs-12 error help-block" *ngIf="( addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid )
         || (addressFormGroup.controls['zip'].touched && !addressFormGroup.controls['zip'].valid)">
             <ul>
-                <li *ngIf="addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid">State is required.</li>
-                <li *ngIf="addressFormGroup.controls['zip'].touched && !addressFormGroup.controls['zip'].valid">Zip is required.</li>
+                <li *ngIf="isFormSubmitted  && !addressFormGroup.controls['state'].valid">State is required.</li>
+                <li *ngIf="isFormSubmitted && !addressFormGroup.controls['zip'].valid">Zip is required.</li>
             </ul>
         </div>
     </div>
