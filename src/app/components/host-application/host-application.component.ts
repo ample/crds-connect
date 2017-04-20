@@ -23,6 +23,7 @@ export class HostApplicationComponent implements OnInit {
   public userData: DetailedUserData;
   public hostForm: FormGroup;
   public homeAddress: Address;
+  public groupAddress: Address;
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
 
@@ -40,6 +41,7 @@ export class HostApplicationComponent implements OnInit {
   public ngOnInit() {
     this.userData = this.route.snapshot.data['userData'];
     this.homeAddress = this.userData.address;
+    this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),

@@ -9,7 +9,7 @@
 <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
 
 <!--HOME ADDRESS-->
-<address-form2 [parentForm]="hostForm" [address]="homeAddress"></address-form2>
+<address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="'testGroupName'"></address-form2>
 
 <!--MEETING AT HOME? -->
 <div class="row">
@@ -24,6 +24,10 @@
     <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['isHomeAddress'].valid">Contact number is invalid!</p>
   </div>
 </div>
+
+
+<!--GROUP ADDRESS-->
+<!--<address-form2 [parentForm]="hostForm" [address]="groupAddress"></address-form2>-->
 
 <!--CONTACT PHONE NUMBER-->
 <div class="row">
