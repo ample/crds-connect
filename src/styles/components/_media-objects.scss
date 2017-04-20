@@ -1,0 +1,51 @@
+// Used on view list and pin details header
+.media {
+  &.site {
+    cursor: initial;
+  }
+}
+
+.connect-white-bg {
+  background: $cr-white;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @media (min-width: $screen-sm) {
+    box-shadow: 0 0 10px 0 $cr-gray-light;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    width: $container-tablet;
+  }
+}
+
+.connect-list-footer {
+  margin-right: -1rem;
+  margin-left: -1rem;
+
+  @media (min-width: $screen-sm) {
+    margin-right: -2rem;
+    margin-left: -2rem;
+    width: $container-tablet;
+  }
+
+  > div {
+    margin-top: 1rem;
+    padding: 1.5rem 1rem 2rem;
+
+    @media (min-width: $screen-sm) {
+      padding-right: 3rem;
+      padding-left: 3rem;
+    }
+  }
+}
+
+.say-hi {
+  .media-heading &,
+  .media-heading-stacked & {
+    color: $cr-gray-dark;
+    font-family: $base-font-face;
+    font-size: $font-size-base;
+    text-transform: initial;
+    padding-bottom: .5rem;
+  }
+}
