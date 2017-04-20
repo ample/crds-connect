@@ -5,6 +5,7 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { Angulartics2 } from 'angulartics2';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -32,6 +33,16 @@ import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { MockComponent } from '../../../shared/mock.component';
 
+function fakenext(param: any) { return 1; }
+
+class MockEventTrack {
+    next = fakenext;
+}
+
+class MockAngulartic {
+    eventTrack = new MockEventTrack();
+};
+
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
@@ -45,7 +56,7 @@ describe('GatheringComponent', () => {
     let mockToast;
     let mockContentService;
     let mockAddressService;
-
+    let mockAngulartics2;
 
     beforeEach(() => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
@@ -58,7 +69,7 @@ describe('GatheringComponent', () => {
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
-
+        mockAngulartics2 = new MockAngulartic();
 
         TestBed.configureTestingModule({
             declarations: [
@@ -76,6 +87,7 @@ describe('GatheringComponent', () => {
                 { provide: ToastsManager, useValue: mockToast },
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
+                { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
                     provide: Router,
                     useValue: { routerState: { snapshot: { url: 'abc123' } } },

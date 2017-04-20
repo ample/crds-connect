@@ -22,8 +22,12 @@ export class NoResultsComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  public btnClickAddToMap()  {
+  public btnClickAddToMap() {
     this.router.navigateByUrl('/add-me-to-the-map');
+  }
+
+  public btnClickBecomeHost() {
+    this.router.navigateByUrl('/host-signup');
   }
 
   public btnClickFindOnlineGroup()  {
