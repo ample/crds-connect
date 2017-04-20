@@ -9,7 +9,7 @@
 <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
 
 <!--HOME ADDRESS-->
-<address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="'homeAddress'"></address-form2>
+<address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="homeAddress"></address-form2>
 
 <!--MEETING AT HOME? -->
 <div class="row">
@@ -28,7 +28,7 @@
 
 <!--GROUP ADDRESS-->
 <div *ngIf = "!this.hostForm.value.isHomeAddress">
-  <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="'groupAddress'"></address-form2>
+  <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="groupAddress"></address-form2>
 </div>
 
 <!--CONTACT PHONE NUMBER-->
