@@ -33,6 +33,10 @@ const appRoutes: Routes = [
     resolve: {
       userData: UserDataResolver
     }
+  }, {
+    path: 'add',
+    redirectTo: '/add-me-to-the-map',
+    pathMatch: 'full'
   },
   {
     path: 'error',

@@ -21,7 +21,6 @@ import { User } from '../../models/user';
 export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
-  public form: FormGroup;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';
@@ -39,11 +38,11 @@ export class PinDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private state: StateService,
-    private hlpr: AddMeToTheMapHelperService,
     private pinService: PinService
   ) {}
 
   public ngOnInit() {
+    this.cancelEdit = this.cancelEdit.bind(this);
     this.state.setLoading(true);
     this.state.setPageHeader('connect', '/');
 
@@ -69,9 +68,28 @@ export class PinDetailsComponent implements OnInit {
     return this.pinService.doesLoggedInUserOwnPin(this.pin);
   }
 
-  public onSubmit(value) {
-    if (value) {
-      location.reload();
+  public onSubmit(updatedPin) {
+
+    if (updatedPin) {
+      this.state.updatedPinOldAddress = this.pin.address;
+
+      setTimeout(()=>{
+        this.pin.address = updatedPin.address;
+      },1);
+
+      this.pin.address = updatedPin.address;
+
+      this.state.setLastSearch(null);
+      this.session.clearCache();
+
+      this.state.navigatedFromAddToMapComponent = true;
+      this.state.updatedPin = updatedPin;
+
+      this.editMode = false;
     }
+  }
+
+  public cancelEdit() {
+    this.editMode = false;
   }
 }

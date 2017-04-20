@@ -3,7 +3,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { CanvasMapOverlayComponent } from '../../components/canvas-map-overlay/canvas-map-overlay.component';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
@@ -42,6 +41,7 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { IPService } from '../../services/ip.service';
 import { MockComponent } from '../../shared/mock.component';
+import { AddressService}  from '../../services/address.service';
 
 describe('Component: Neighbors', () => {
 
@@ -52,7 +52,6 @@ describe('Component: Neighbors', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        CanvasMapOverlayComponent,
         NeighborsComponent,
         MapContentComponent,
         MapFooterComponent,
@@ -63,15 +62,14 @@ describe('Component: Neighbors', () => {
         MapComponent,
         SearchLocalComponent,
         GoogleMapClusterDirective,
-        MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
+        MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] }),
+        MockComponent({ selector: 'crds-content-block', inputs: ['id']})
       ],
       imports: [
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule, FormsModule,
-        ContentBlockModule.forRoot({ categories: ['main'] }),
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        }),
-        ContentBlockModule.forRoot({ categories: ['common'] })
+        })
       ],
       providers: [
         SiteAddressService,
@@ -91,7 +89,8 @@ describe('Component: Neighbors', () => {
         { provide: ContentService, useValue: mockContentService },
         LoginRedirectService,
         BlandPageService,
-        IPService
+        IPService,
+        AddressService
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);

@@ -5,6 +5,7 @@ import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { LookupTable } from '../../models/lookup-table';
+import { Location } from '@angular/common';
 
 import { Pin } from '../../models/pin';
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
@@ -20,7 +21,8 @@ export class AddressFormComponent implements OnInit {
 
     @Input() userData: UserDataForPinCreation;
     @Input() buttonText: String = 'Add me to the map';
-    @Output() save: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+    @Input() cancel: Function;
+    @Output() save: EventEmitter<Pin> = new EventEmitter<Pin>();
 
     public stateList: Array<string>;
     public addressFormGroup: FormGroup;
@@ -31,7 +33,8 @@ export class AddressFormComponent implements OnInit {
     constructor(private pinService: PinService,
         private fb: FormBuilder,
         private hlpr: AddMeToTheMapHelperService,
-        private state: StateService) { }
+        private state: StateService,
+        private location: Location) { }
 
 
     public ngOnInit(): void {
@@ -51,24 +54,33 @@ export class AddressFormComponent implements OnInit {
     }
 
     public onSubmit({ value, valid }: { value: any, valid: boolean }) {
+
         this.setSubmissionErrorWarningTo(false);
         value.isFormDirty = this.addressFormGroup.dirty;
 
         let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData);
 
         this.pinService.postPin(pinToSubmit).subscribe(
-            next => {
-                this.save.emit(true);
+            pin => {
+                this.save.emit(pin);
             },
             err => {
                 this.setSubmissionErrorWarningTo(true);
-                this.save.emit(false);
+                this.save.emit(null);
             }
         );
     }
 
     public setSubmissionErrorWarningTo(isErrorActive) {
         this.submissionError = isErrorActive;
+    }
+
+    public back() {
+        if (this.cancel) {
+            this.cancel();
+        } else {
+            this.location.back();
+        }
     }
 
 }

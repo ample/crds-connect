@@ -34,7 +34,7 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         let data = this.route.snapshot.data;
-        if(data[0] !== undefined && data[0]['isFauxdal']) {
+        if (data[0] !== undefined && data[0]['isFauxdal']) {
             // This component is rendered within a fauxdal, so we to need the .modal-open
             //  selector to the <body> element when this view is initialized.
             document.querySelector('body').classList.add('modal-open');
