@@ -1,7 +1,7 @@
 <form [formGroup]="parentForm">
     <!--ADDRESS LINE 1-->
     <div class="row">
-        <div class="form-group col-xs-12" formGroupName="addressForm">
+        <div class="form-group col-xs-12" [formGroupName]="groupName">
             <label class="sr-only" for="addressLine1">Address Line 1</label>
             <input tabindex="1"
                    type="text"
@@ -17,7 +17,7 @@
     </div>
 
     <!--ADDRESS LINE 2-->
-    <div class="row" formGroupName="addressForm">
+    <div class="row" [formGroupName]="groupName">
         <div class="form-group col-xs-12">
             <label class="sr-only" for="addressLine2">Address Line 2</label>
             <input tabindex="2"
@@ -34,7 +34,7 @@
     </div>
 
     <!--CITY-->
-    <div class="row" formGroupName="addressForm">
+    <div class="row" [formGroupName]="groupName">
         <div class="form-group col-xs-12">
             <label class="sr-only" for="city">City2</label>
             <input tabindex="3"
@@ -53,7 +53,7 @@
 
     <div class="row">
         <!--STATE-->
-        <div class="form-group col-xs-6" formGroupName="addressForm">
+        <div class="form-group col-xs-6" [formGroupName]="groupName">
             <label class="sr-only" for="state">State</label>
             <select formControlName="state"
                     class="form-control override-styles-for-dropdown"
@@ -66,7 +66,7 @@
         </div>
 
         <!--ZIP-->
-        <div class="form-group col-xs-6" formGroupName="addressForm">
+        <div class="form-group col-xs-6" [formGroupName]="groupName">
             <label class="sr-only" for="zip">Zip Code</label>
             <input tabindex="5"
                    type="tel"

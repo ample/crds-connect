@@ -29,8 +29,6 @@ export class AddressFormTwoComponent implements OnInit {
         zip: new FormControl(this.address.zip, [Validators.required])
     });
 
-    console.log('PASSED IN GROUP NAME: ');
-    console.log(this.groupName);
-    this.parentForm.addControl('addressForm', this.addressFormGroup);
+    this.parentForm.addControl(this.groupName, this.addressFormGroup);
   }
 }
