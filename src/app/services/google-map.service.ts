@@ -67,7 +67,7 @@ export class GoogleMapService {
         lat: lat,
         lng: lng
         };
-        return this.calculateBestZoom(bounds, zoom, pins, '2');
+        return this.calculateBestZoom(bounds, zoom, pins, viewtype);
   }
 
   // zero in on the zoom that's closest to the target pin count without going under

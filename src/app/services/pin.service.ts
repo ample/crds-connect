@@ -15,6 +15,7 @@ import { IFrameParentService } from './iframe-parent.service';
 
 import { GoogleMapService } from '../services/google-map.service';
 
+import { Address } from '../models/address';
 import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
 import { User } from '../models/user';
@@ -31,8 +32,8 @@ import 'rxjs/add/operator/map';
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
 
 
-  private baseUrl = process.env.CRDS_API_ENDPOINT;
-  private baseServicesUrl = process.env.CRDS_API_SERVICES_ENDPOINT;
+  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
@@ -77,6 +78,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
+        console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }
@@ -194,7 +196,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     };
 
     this.state.setLoading(true);
-    return this.session.post(this.baseServicesUrl + 'api/v1.0.0/email/send', emailInfo)
+    return this.session.post(this.baseServicesUrl + 'communication/api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
 
          let memberSaidHi = new BlandPageDetails(
@@ -250,6 +252,22 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return super.getCache();
     }
     return null;
+  }
+
+  public replaceAddressOnUpdatedPin(pinSearchResults: Pin[], updatedPin: Pin, updatedPinsOldAddress: Address) {
+
+    let indexOfUpdatedPin = pinSearchResults.findIndex(pin =>
+        pin.participantId === updatedPin.participantId
+        && pin.address.addressId === updatedPinsOldAddress.addressId
+    );
+
+    let updatedPinFound: boolean = indexOfUpdatedPin !== -1;
+
+    if (updatedPinFound) {
+      pinSearchResults[indexOfUpdatedPin].address = updatedPin.address;
+    }
+
+    return pinSearchResults;
   }
 
   public clearPinCache() {

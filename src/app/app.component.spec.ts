@@ -2,6 +2,7 @@
 import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NavigationStart } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { PreloaderModule } from './preloader/preloader.module';
 import { IFrameParentService } from './services/iframe-parent.service';
@@ -54,6 +55,22 @@ describe('App: CrdsConnect', () => {
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should remove fauxdal body classes', () => {
+    // Start fresh...
+    document.querySelector('body').classList.remove('modal-open');
+
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
+    document.querySelector('body').classList.add('modal-open');
+    expect(document.querySelector('body').classList).toContain('modal-open');
+
+    let obj = new NavigationStart(123, '/something');
+    component.removeFauxdalClasses(obj);
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
+
+    // Cleanup...
+    document.querySelector('body').classList.remove('modal-open');
   });
 
 });

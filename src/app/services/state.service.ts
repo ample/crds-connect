@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+
+import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
+import { Pin } from '../models/pin';
 import { SearchOptions } from '../models/search-options';
 
 @Injectable()
@@ -9,8 +12,14 @@ export class StateService {
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
+  public navigatedBackFromAuthComponent: boolean = false;
+  public navigatedFromAddToMapComponent: boolean = false;
+
   public myStuffActive: boolean = false;
   private mapOrListView: string = 'map';
+  public postedPin: Pin;
+  public updatedPinOldAddress: Address;
+  public updatedPin: Pin;
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
@@ -75,6 +84,12 @@ export class StateService {
 
   public getUseZoom() {
     return this.zoomToUse;
+  }
+
+  public cleanUpStateAfterPinUpdate() {
+    this.navigatedFromAddToMapComponent = false;
+    this.updatedPinOldAddress = null;
+    this.updatedPin = null;
   }
 
 }

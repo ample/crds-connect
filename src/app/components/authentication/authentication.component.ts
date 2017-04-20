@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -35,6 +35,11 @@ export class AuthenticationComponent implements OnInit {
     private cookieService: CookieService,
     private session: SessionService
   ) { }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    this.state.navigatedBackFromAuthComponent = true;
+  }
 
   public ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -80,6 +85,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public back(): boolean {
+    this.state.navigatedBackFromAuthComponent = true;
     this.redirectService.cancelRedirect();
     return false;
   }

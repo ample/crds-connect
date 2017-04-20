@@ -33,20 +33,30 @@ const appRoutes: Routes = [
     resolve: {
       userData: UserDataResolver
     }
+  }, {
+    path: 'add',
+    redirectTo: '/add-me-to-the-map',
+    pathMatch: 'full'
   },
   {
     path: 'error',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   {
     path: 'success',
     component: BlandPageComponent,
     canActivate: [
       BlandPageGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
   { path: 'map', component: NeighborsComponent },

@@ -4,7 +4,7 @@ import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-map
 
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GoogleMapService } from '../services/google-map.service';
-import '../../scripts/markerclusterer.js'
+import '../../scripts/markerclusterer.js';
 
 declare const MarkerClusterer;
 

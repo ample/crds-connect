@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-
+import { Angulartics2 } from 'angulartics2';
 import { NO_ERRORS_SCHEMA, EventEmitter } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
@@ -29,7 +29,6 @@ describe('Component: MapFooter', () => {
     let fixture: ComponentFixture<MapFooterComponent>;
     let comp: MapFooterComponent;
     let mockPinService;
-    let mockMapHelperService;
     let mockLoginRedirectService;
     let mockNeighborsHelperService;
     let mockRouter;
@@ -37,18 +36,18 @@ describe('Component: MapFooter', () => {
     let mockSessionService;
     let mockBlandPageService;
     let mockUserLocationService;
+    let mockAngulartics2;
 
     beforeEach(() => {
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>(
             'state', ['setLoading', 'setPageHeader', 'setCurrentView', 'setMyViewOrWorldView', 'getCurrentView']);
-        mockMapHelperService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['setLoading', 'setPageHeader']);
-        mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelper', ['setLoading', 'setPageHeader']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockUserLocationService = jasmine.createSpyObj<UserLocationService>(
             'userLocationService', ['setLoading', 'setPageHeader', 'GetUserLocation']);
+        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -56,14 +55,13 @@ describe('Component: MapFooter', () => {
             ],
             providers: [
                 { provide: PinService, useValue: mockPinService },
-                SearchService,
-                { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-                { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
-                { provide: GoogleMapService, useValue: mockMapHelperService },
-                { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
-                { provide: UserLocationService, useValue: mockUserLocationService }
+                { provide: SessionService, useValue: mockSessionService },
+                { provide: BlandPageService, useValue: mockBlandPageService },
+                { provide: UserLocationService, useValue: mockUserLocationService },
+                SearchService,
+                { provide: Angulartics2, useValue: mockAngulartics2}
             ],
             imports: [
                 RouterTestingModule.withRoutes([])

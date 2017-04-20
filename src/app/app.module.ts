@@ -33,7 +33,6 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
-import { CanvasMapOverlayComponent } from './components/canvas-map-overlay/canvas-map-overlay.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
@@ -49,8 +48,7 @@ import { MapFooterComponent } from './components/map-footer/map-footer.component
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { ParticipantsListComponent } from './components/pin-details/participants-list/participants-list.component';
-import { ParticipantCardComponent } from './components/pin-details/participants-list/participant-card/participant-card.component';
+import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
@@ -85,12 +83,7 @@ import { SearchService } from './services/search.service';
 
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 
-import { CreditCardFormatDirective } from './directives/credit-card-format.directive';
-import { CurrencyFormatDirective } from './directives/currency-format.directive';
-import { CvvFormatDirective } from './directives/cvv-format.directive';
-import { ExpiryFormatDirective } from './directives/expiry-format.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
-import { FormatPaymentNumberDirective } from './directives/format-payment-number.directive';
 
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
@@ -119,7 +112,10 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SelectModule,
     ToastModule.forRoot(),
     routing,
-    ContentBlockModule.forRoot({ categories: Array('finder', 'main', 'common') })
+    ContentBlockModule.forRoot({
+      endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
+      categories: Array('finder', 'main', 'common', 'ddk')
+    })
   ],
   declarations: [
     AddMeToMapComponent,
@@ -127,12 +123,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
-    CanvasMapOverlayComponent,
-    CreditCardFormatDirective,
-    CurrencyFormatDirective,
-    CvvFormatDirective,
-    ExpiryFormatDirective,
-    FormatPaymentNumberDirective,
     GatheringComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
@@ -149,7 +139,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     NoResultsComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
-    ParticipantsListComponent,
     ParticipantCardComponent,
     PersonComponent,
     PinDetailsComponent,
@@ -161,7 +150,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SayHiComponent,
     SearchBarComponent,
     SearchLocalComponent,
-    FormatPaymentNumberDirective,
     GoogleMapClusterDirective
   ],
   providers: [

@@ -44,10 +44,12 @@ export class GatheringComponent implements OnInit {
     private participantService: ParticipantService,
     private toast: ToastsManager,
     private addressService: AddressService,
-    private content: ContentService) { }
+    private content: ContentService,
+    private angulartics2: Angulartics2) { }
 
   public ngOnInit() {
     window.scrollTo(0, 0);
+    this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
     this.state.setPageHeader('gathering', '/');
     try {
@@ -63,7 +65,7 @@ export class GatheringComponent implements OnInit {
             })
             .subscribe(
             address => {
-              this.address = address;
+              this.pin.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
@@ -90,9 +92,11 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    if (this.isLoggedIn) {
+    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
+    if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
+      this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
+      .subscribe(
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
@@ -106,13 +110,19 @@ export class GatheringComponent implements OnInit {
           this.state.setLoading(false);
           if (failure.status === 409) {
             this.toast.warning(this.content.getContent('finderAlreadyRequestedJoin'));
+          } else if (failure.status === 406) {
+            // Already in group...do nothing.
           } else {
             this.toast.error(this.content.getContent('generalError'));
+          }
+          // If we're at the signin or register page, come back to the gathering details. 
+          if (!this.router.url.includes('gathering')) {
+            this.loginRedirectService.redirectToTarget();
           }
         }
       );
     } else {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
   }
 
