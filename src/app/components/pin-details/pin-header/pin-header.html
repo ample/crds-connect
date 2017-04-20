@@ -1,6 +1,8 @@
-<div class="media-heading media-heading-stacked">
+<div class="media-heading-stacked">
 	<strong *ngIf="!isPinOwner && !isGathering" class="say-hi">Say Hello to</strong>
-	<span *ngIf="isPinOwner" class="label label-warning">Me</span>
-	<span *ngIf="isGathering" class="label label-primary">Host</span>
+	<div>
+		<span *ngIf="isPinOwner" class="label label-warning">Me</span>
+		<span *ngIf="isGathering" class="label label-primary">Host</span>
+	</div>
 	<h1>{{firstName}} {{lastName | slice:0:1}}</h1>
 </div>

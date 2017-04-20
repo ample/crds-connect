@@ -126,6 +126,12 @@ app-add-me-to-map {
     padding-top: 3rem;
   }
 
+  .fauxdal-content {
+    max-width: $container-tablet;
+    margin: 0 auto;
+    text-align: center;
+  }
+
   &.fauxdal-fullscreen {
     @media (min-width: $screen-xs) {
       padding-top: initial;
@@ -374,10 +380,6 @@ app-pin-detail {
       }
     }
 
-    .title {
-      color: $cr-white;
-    }
-
     hr {
       border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
     }
@@ -389,11 +391,6 @@ app-pin-detail {
       width: $container-tablet;
     }
 
-    &.is-gathering {
-      border-top: 1px solid $cr-gray-dark;
-      border-bottom: 1px solid $cr-gray-dark;
-    }
-
     p {
       color: $cr-gray-light;
     }
@@ -402,7 +399,6 @@ app-pin-detail {
 
 gathering {
   p {
-    // border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
     padding: 20px 0;
     margin: 0;
   }
@@ -412,7 +408,6 @@ say-hi {
   display: inline-block;
 
   p {
-    // border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
     padding: 20px 0;
     margin: 0;
   }
@@ -428,21 +423,6 @@ say-hi {
   }
 }
 
-readonly-address {
-  font-weight: bold;
-  font-size: 12px;
-  text-transform: uppercase;
-
-  p {
-    padding: 0;
-    margin: 0;
-  }
-
-  .pin-address-city {
-    margin-bottom: 0;
-  }
-}
-
 // Update search results button
 search-local {
   display: block;
@@ -453,59 +433,6 @@ search-local {
 
   @media (min-width: $screen-xs) {
     top: 93px;
-  }
-}
-
-// Profile picture fix (connect-specific?)
-.profile-picture {
-  position: relative;
-
-  .entry & {
-    display: inline-flex;
-    flex-direction: row-reverse;
-    // margin-right: 1rem;
-    width: 85px;
-  }
-
-  .pin-detail-header & {
-    float: left;
-    margin-right: 1rem;
-  }
-
-  .img-circle {
-    border-style: solid;
-    border-width: 2px;
-
-    .entry & {
-      border-color: $cr-gray-lighter;
-    }
-
-    .pin-detail-header & {
-      border-color: $cr-gray;
-    }
-  }
-}
-
-.profile-picture-default {
-  background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
-  background-position: center;
-  background-size: cover;
-}
-
-.profile-picture-overlay {
-  background-position: center;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-@for $i from 1 through 6 {
-  .img-size-#{$i} {
-    $dimensions: 16px;
-
-    height: $dimensions * $i;
-    width: $dimensions * $i;
   }
 }
 
