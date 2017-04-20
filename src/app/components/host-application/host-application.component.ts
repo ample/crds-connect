@@ -12,6 +12,7 @@ import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 
 import { Address } from '../../models/address';
+import { HostApplicatonForm } from '../../models/host-application-form';
 import { DetailedUserData } from '../../models/detailed-user-data';
 
 @Component({
@@ -52,7 +53,7 @@ export class HostApplicationComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  public onSubmit ({ value, valid }: { value: any, valid: boolean }) {
+  public onSubmit ({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
 
     this.isFormSubmitted = true;
 
