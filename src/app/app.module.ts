@@ -31,6 +31,7 @@ import { HeaderComponent } from './layout/header/header.component';
 
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
+import { AddressFormTwoComponent } from './components/address-form2/addres-form2.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -121,6 +122,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   declarations: [
     AddMeToMapComponent,
     AddressFormComponent,
+    AddressFormTwoComponent,
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,

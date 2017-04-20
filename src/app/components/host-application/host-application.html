@@ -8,6 +8,9 @@
 
 <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
 
+<!--HOME ADDRESS-->
+<address-form2 [parentForm]="hostForm" [address]="homeAddress"></address-form2>
+
 <!--MEETING AT HOME? -->
 <div class="row">
   <div class="form-group col-xs-12">

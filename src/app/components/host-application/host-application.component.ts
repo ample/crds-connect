@@ -11,6 +11,7 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 
+import { Address } from '../../models/address';
 import { DetailedUserData } from '../../models/detailed-user-data';
 
 @Component({
@@ -21,6 +22,7 @@ export class HostApplicationComponent implements OnInit {
 
   public userData: DetailedUserData;
   public hostForm: FormGroup;
+  public homeAddress: Address;
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
 
@@ -37,6 +39,7 @@ export class HostApplicationComponent implements OnInit {
 
   public ngOnInit() {
     this.userData = this.route.snapshot.data['userData'];
+    this.homeAddress = this.userData.address;
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
