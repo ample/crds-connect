@@ -20,7 +20,7 @@ export class HostApplicationHelperService {
       hostForm.isHomeAddress ? hostForm.homeAddress : hostForm.groupAddress,
       hostForm.isHomeAddress,
       hostForm.contactNumber,
-      hostForm.groupDescription
+      hostForm.gatheringDescription
     );
 
     return dto;

@@ -50,7 +50,7 @@ export class HostApplicationComponent implements OnInit {
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl('555-555-5555', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]),
-      gatheringDescription: new FormControl('This is your gathering description', [Validators.required, Validators.maxLength(500)])
+      gatheringDescription: new FormControl('', [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);
@@ -60,23 +60,32 @@ export class HostApplicationComponent implements OnInit {
 
     this.isFormSubmitted = true;
 
-    //let dto: HostRequestDto = this.hlpr.convertFormToDto(value, this.userData.contactId);
+    console.log('Submitted form');
+    console.log(value);
 
-    /*
-    this.session.postHostApplication(value).subscribe(
+    let dto: HostRequestDto = this.hlpr.convertFormToDto(value, this.userData.contactId);
+
+    this.session.postHostApplication(dto).subscribe(
         (success) => {
-          //this.removeFauxdalClasses(val);
+          console.log('Call successful');
+          console.log(success);
         }, (err)=>{
-
+          console.log('Call failed');
+          console.log(err);
+          this.handleError(err);
         }
     );
-    */
 
-    this.toast.error('Address form submitted! Testing toaster.');
-    console.log('Address form submitted');
-    console.log(value);
-    //console.log(dto);
+    console.log('Address form submitted: ');
+    console.log(dto);
 
+  }
+
+  public handleError(err) {
+    let isDuplicateGatheringAddress: boolean = err.status === 406;
+    if(isDuplicateGatheringAddress) {
+      this.toast.error('You cannot host another gathering at the same location. Please change the address and try again!');
+    }
   }
 
 }

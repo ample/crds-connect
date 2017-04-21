@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Address } from '../models/address';
 import { DetailedUserData } from '../models/detailed-user-data';
 import { HostApplicatonForm } from '../models/host-application-form';
+import { HostRequestDto } from '../models/host-request-dto';
 import { Pin } from '../models/pin';
 import { User } from '../models/user';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
@@ -251,8 +252,8 @@ export class SessionService extends SmartCacheableService<User, number> {
       .catch(this.handleError);
   };
 
-  public postHostApplication(hostApplication: HostApplicatonForm): Observable<any> {
-    return this.post(this.baseUrl + 'api/v1.0.0/finder/pin', HostApplicatonForm)
+  public postHostApplication(hostApplication: HostRequestDto): Observable<any> {
+    return this.post(this.baseUrl + 'api/v1.0.0/finder/pin/requesttobehost', hostApplication)
       .map(this.extractData)
       .catch(this.handleError);
   };

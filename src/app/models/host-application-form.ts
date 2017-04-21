@@ -7,16 +7,16 @@ export class HostApplicatonForm {
   public isHomeAddress: boolean;
   public groupAddress: Address;
   public contactNumber: string;
-  public groupDescription: string;
+  public gatheringDescription: string;
 
   constructor(contactId: number, homeAddress: Address, isHomeAddress: boolean,
-              groupAddress: Address, contactNumber: string, groupDescription: string) {
+              groupAddress: Address, contactNumber: string, gatheringDescription: string) {
     this.contactId = contactId;
     this.homeAddress = homeAddress;
     this.isHomeAddress = isHomeAddress;
     this.groupAddress  = groupAddress;
     this.contactNumber = contactNumber;
-    this.groupDescription = groupDescription;
+    this.gatheringDescription = gatheringDescription;
   }
 }
 
