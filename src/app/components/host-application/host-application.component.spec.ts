@@ -22,8 +22,28 @@ describe('Component: Host Application', () => {
 
   let component;
   let fixture;
+  let   mockIFrameParentService,
+        mockStoreService,
+        mockStateService,
+        mockSessionService,
+        mockCookieService,
+        mockAngulartics2,
+        mockLoginRedirectService,
+        mockPinService,
+        mockBlandPageService;
 
   beforeEach(() => {
+        mockIFrameParentService = jasmine.createSpyObj<IFrameParentService>('iFrameParentService', ['constructor', 'getIFrameParentUrl']);
+        mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
+        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
+        mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
+        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angularTics', ['constuctor']);
+        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['constructor']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('BlandPageService', ['constructor']);    
+        
+
     TestBed.configureTestingModule({
       declarations: [
         HostApplicationComponent
@@ -32,15 +52,15 @@ describe('Component: Host Application', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
-        IFrameParentService,
-        StoreService,
-        StateService,
-        SessionService,
-        CookieService,
-        Angulartics2,
-        LoginRedirectService,
-        PinService,
-        BlandPageService
+        { provide: IFrameParentService, useValue: mockIFrameParentService },
+        { provide: StoreService, useValue: mockStoreService },
+        { provide: StateService, useValue: mockStateService },
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: CookieService, useValue: mockCookieService },
+        { provide: Angulartics2, useValue: mockAngulartics2 },
+        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+        { provide: PinService, useValue: mockPinService },
+        { provide: BlandPageService, useValue: mockBlandPageService }
       ]
     });
     this.fixture = TestBed.createComponent(HostApplicationComponent);

@@ -19,7 +19,7 @@ import { BlandPageComponent } from './bland-page.component';
 describe('BlandPageComponent', () => {
     let fixture: ComponentFixture<BlandPageComponent>;
     let comp: BlandPageComponent;
-    let mockBlandPageService, mockStateService, mockRouter, mockRoute;
+    let mockBlandPageService, mockStateService, mockRouter;
 
     beforeEach(() => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['getBlandPageDetails']);
