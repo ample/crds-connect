@@ -30,10 +30,10 @@ export class AuthenticationComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     public redirectService: LoginRedirectService,
-    private state: StateService,
+    public state: StateService,
     private store: StoreService,
     private cookieService: CookieService,
-    private session: SessionService
+    public session: SessionService
   ) { }
 
   @HostListener('window:popstate', ['$event'])

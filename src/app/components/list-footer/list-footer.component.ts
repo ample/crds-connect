@@ -23,7 +23,7 @@ export class ListFooterComponent implements OnInit, OnChanges {
   constructor(private listHlpr: ListHelperService,
               private router: Router,
               private session: SessionService,
-              private state: StateService,
+              public state: StateService,
               private blandPageService: BlandPageService) {}
 
   public ngOnInit(): void {}
