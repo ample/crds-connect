@@ -59,31 +59,39 @@ export class HostApplicationComponent implements OnInit {
   public onSubmit ({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
 
     this.isFormSubmitted = true;
+    if (valid) {
+      console.log('Submitting valid form to API');
+      this.submitFormToApi(value);
+    }
+  }
 
-    console.log('Submitted form');
-    console.log(value);
+  public submitFormToApi(formData: HostApplicatonForm) {
 
-    let dto: HostRequestDto = this.hlpr.convertFormToDto(value, this.userData.contactId);
+    let dto: HostRequestDto = this.hlpr.convertFormToDto(formData, this.userData.contactId);
+    console.log(dto);
 
     this.session.postHostApplication(dto).subscribe(
         (success) => {
           console.log('Call successful');
           console.log(success);
+          //navigate to static page
         }, (err)=>{
           console.log('Call failed');
           console.log(err);
           this.handleError(err);
         }
     );
-
-    console.log('Address form submitted: ');
-    console.log(dto);
-
   }
 
   public handleError(err) {
     let isDuplicateGatheringAddress: boolean = err.status === 406;
+
+    console.log(err);
+    console.log(err.status);
+    console.log(isDuplicateGatheringAddress);
+
     if(isDuplicateGatheringAddress) {
+      console.log('Toasting');
       this.toast.error('You cannot host another gathering at the same location. Please change the address and try again!');
     }
   }
