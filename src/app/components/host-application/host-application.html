@@ -51,8 +51,9 @@
                   <label class="sr-only" for="contactNumber">BEST REACHED AT:</label>
                   <input tabindex="1"
                          type="text"
+                         onlyTheseKeys="[0-9]"
+                         maxlength="10"
                          class="form-control"
-                         maxlength="75"
                          placeholder="Contact Number"
                          id = "contactNumber"
                          formControlName="contactNumber"

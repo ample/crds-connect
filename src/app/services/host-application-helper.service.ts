@@ -19,11 +19,23 @@ export class HostApplicationHelperService {
       contactId,
       hostForm.isHomeAddress ? hostForm.homeAddress : hostForm.groupAddress,
       hostForm.isHomeAddress,
-      hostForm.contactNumber,
+      this.formatPhoneNumber(hostForm.contactNumber),
       hostForm.gatheringDescription
     );
 
     return dto;
   };
 
+  // Format the 10 digit number received from form into xxx-xxx-xxxx format (from xxxxxxxxxx)
+  // Temporary method
+  public formatPhoneNumber(phoneNumber: string) {
+    let areaCode: string = phoneNumber.slice(0,3);
+    let firstThree: string = phoneNumber.slice(4,7);
+    let lastFour: string = phoneNumber.slice(6,10);
+
+    let formattedNumber = areaCode + '-' + firstThree + '-' + lastFour;
+
+    return formattedNumber;
+  }
+A
 }

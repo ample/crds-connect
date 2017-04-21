@@ -44,12 +44,13 @@ export class HostApplicationComponent implements OnInit {
 
   public ngOnInit() {
     this.userData = this.route.snapshot.data['userData'];
+    let mobilePhone: string = (this.userData.mobilePhone).split('-').join('');
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
-      contactNumber: new FormControl('555-555-5555', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]),
+      contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       gatheringDescription: new FormControl('', [Validators.required, Validators.maxLength(500)])
     });
 
