@@ -61,6 +61,7 @@ export class HostApplicationComponent implements OnInit {
 
     this.isFormSubmitted = true;
     if (valid) {
+      this.state.setLoading(true);
       console.log('Submitting valid form to API');
       this.submitFormToApi(value);
     }
@@ -75,10 +76,12 @@ export class HostApplicationComponent implements OnInit {
         (success) => {
           console.log('Call successful');
           console.log(success);
-          //navigate to static page
+          this.state.setLoading(false);
+          //navigate to static page - loader will be disabled on next page
         }, (err)=>{
           console.log('Call failed');
           console.log(err);
+          this.state.setLoading(false);
           this.handleError(err);
         }
     );
