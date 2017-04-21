@@ -36,6 +36,7 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
@@ -85,10 +86,10 @@ import { PinResolver } from './route-resolvers/pin-resolver.service';
 
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
-import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
-import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
+import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -126,6 +127,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GatheringComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    HandleInviteComponent,
     HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,

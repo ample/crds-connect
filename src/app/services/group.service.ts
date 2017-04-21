@@ -52,4 +52,8 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
         this.participantService.clearGroupFromCache(groupId);
       });
   }
+
+  public handleInvite(guid: string, accepted: boolean, groupId: number): Observable<boolean> {
+    return Observable.of(true);
+  }
 }

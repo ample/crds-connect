@@ -48,6 +48,11 @@ export class BlandPageService {
         this.router.navigate(['/whats-a-host']);
     }
 
+    public goToHandledInvite(accepted: boolean, groupId: number) {
+        this.primeHandleInvite(accepted, groupId);
+        this.router.navigate([accepted ? '/invite-accepted' : '/invite-declined']);
+    }
+
     /**
      * This will set the blandPageDetails for Whats a Host and
      * nothing more.  This should only be used by the Whats A Host route Guard.
@@ -61,6 +66,21 @@ export class BlandPageService {
             BlandPageCause.SimpleFauxdal,
             'host-signup',
             cancelRoute
+        );
+    }
+
+    /**
+     * This will set the blandPageDetails for handling an invite and
+     * nothing more.
+     * @param accepted If the invite is being accepted or declined.
+     */
+    public primeHandleInvite(accepted: boolean, groupId: number) {
+        this.blandPageDetails = new BlandPageDetails(
+            accepted === true ? `Check the group out` : 'Go to the map',
+            accepted === true ? 'finderInviteAccepted' : 'finderInviteDeclined',
+            BlandPageType.ContentBlock,
+            BlandPageCause.Success,
+            accepted === true ? `gathering/${groupId}` : ''
         );
     }
 

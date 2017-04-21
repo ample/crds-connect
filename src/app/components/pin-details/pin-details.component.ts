@@ -39,7 +39,7 @@ export class PinDetailsComponent implements OnInit {
     private session: SessionService,
     private state: StateService,
     private pinService: PinService
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.cancelEdit = this.cancelEdit.bind(this);
@@ -73,9 +73,9 @@ export class PinDetailsComponent implements OnInit {
     if (updatedPin) {
       this.state.updatedPinOldAddress = this.pin.address;
 
-      setTimeout(()=>{
+      setTimeout(() => {
         this.pin.address = updatedPin.address;
-      },1);
+      }, 1);
 
       this.pin.address = updatedPin.address;
 
