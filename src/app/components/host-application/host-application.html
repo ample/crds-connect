@@ -4,8 +4,20 @@
       <div class="row">
           <div class="fauxdal-content centered-form-group">
             <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
+
+              <div style="font-size:300%">Host now!</div>
+
+              <br>
+
+              <div>Tell us where you want to meet and what you want to do.</div>
+
+              <br>
+
               <!--HOME ADDRESS-->
+              <div>HOME ADDRESS: </div>
               <address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="homeAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
+
+              <div>Any changes you make to your home adddress will be reflected in your profile on crossroads.net</div>
 
               <!--MEETING AT HOME? -->
                 <div class="row">
@@ -24,27 +36,16 @@
                     </div>
                 </div>
 
-                <!--
-              <div class="row">
-                <div class="form-group col-xs-12">
-                  <label class="sr-only" for="isHomeAddress">We will meet at my home</label>
-                  <input tabindex="1"
-                         type="checkbox"
-                         class="form-control"
-                         id = "isHomeAddress"
-                         formControlName="isHomeAddress"
-                         name="isHomeAddress">
-                  <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['isHomeAddress'].valid">Contact number is invalid!</p>
-                </div>
-              </div>
-                -->
-
-              <!--GROUP ADDRESS-->
+              <!--GATHERING ADDRESS-->
               <div *ngIf = "!this.hostForm.value.isHomeAddress">
+                <br>
+                <div>GATHERING ADDRESS: </div>
                 <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="groupAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
+                <br>
               </div>
 
               <!--CONTACT PHONE NUMBER-->
+              <div>BEST REACHED AT:</div>
               <div class="row">
                 <div class="form-group col-xs-12">
                   <label class="sr-only" for="contactNumber">BEST REACHED AT:</label>
@@ -60,18 +61,22 @@
                 </div>
               </div>
 
+              <br>
+
               <!--GATHERING DESCRIPTION-->
+              <div>GATHERING DESCRIPTION:</div>
               <div class="row">
                 <div class="form-group col-xs-12">
                   <label class="sr-only" for="gatheringDescription">GATHERING DESCRIPTION:</label>
-                  <input tabindex="1"
+                  <textarea tabindex="1"
                          type="text"
                          class="form-control"
+                         rows = "5"
                          maxlength="75"
                          placeholder="Group Description"
                          id = "gatheringDescription"
                          formControlName="gatheringDescription"
-                         name="gatheringDescription">
+                         name="gatheringDescription"></textarea>
                   <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
                 </div>
               </div>
@@ -89,7 +94,3 @@
     </div>
   </div>
 </div>
-
-<!-------------------------------------------------TESTING------------------------------------------------->
-{{hostForm.value | json}}
-<!-------------------------------------------------TESTING------------------------------------------------->
