@@ -12,7 +12,7 @@ import { MapContentComponent } from '../../components/map-content/map-content.co
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
-
+import { Pin } from '../../models/pin';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
@@ -79,6 +79,10 @@ describe('Component: List View', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should return empty array of pins when searchResults undefined' , () => {
+    expect(this.component.pinsToShow()).toEqual(new Array<Pin>());
   });
 
   describe('paging values', () => {
