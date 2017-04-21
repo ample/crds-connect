@@ -39,13 +39,9 @@
   }
 }
 
-.say-hi {
-  .media-heading &,
-  .media-heading-stacked & {
-    color: $cr-gray-dark;
-    font-family: $base-font-face;
-    font-size: $font-size-base;
-    text-transform: initial;
-    padding-bottom: .5rem;
-  }
+.pin-details-greeting {
+  color: $cr-gray;
+  font-family: $base-font-face;
+  font-size: $font-size-base;
+  font-weight: 600;
 }
