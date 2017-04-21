@@ -13,10 +13,13 @@ export class ListViewComponent {
 
   public showing_increment: number = 10;
 
-  constructor(private neighborsHelperService: NeighborsHelperService,
-              private stateService: StateService) {
-    neighborsHelperService.changeEmitter.subscribe(() => {
-      stateService.setShowingPinCount(10);
+  constructor(public neighborsHelperService: NeighborsHelperService,
+              public stateService: StateService) {    
+  }
+
+  public ngOnInit(){
+      this.neighborsHelperService.changeEmitter.subscribe(() => {
+        this.stateService.setShowingPinCount(10);
     });
   }
 
