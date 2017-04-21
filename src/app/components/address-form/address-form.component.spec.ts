@@ -23,11 +23,13 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockMapHelper, mockStateService, mockLocation;
+    let mockPinService, mockStateService, mockFormBuilder, mockAddMeToTheMapHelperService, mockLocation;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
+        mockAddMeToTheMapHelperService = jasmine.createSpyObj<AddMeToTheMapHelperService>('addMeToTheMapHelperService', ['getStringField', 'createNewPin']);
         mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
         TestBed.configureTestingModule({
             declarations: [
@@ -36,11 +38,11 @@ describe('AddressFormComponent', () => {
             providers: [
                 { provide: StateService, useValue: mockStateService },
                 { provide: PinService, useValue: mockPinService },
-                { provide: Location, useValue: mockLocation},
-                FormBuilder,
-                AddMeToTheMapHelperService
+                { provide: FormBuilder, useValue: mockFormBuilder },
+                { provide: AddMeToTheMapHelperService, useValue: mockAddMeToTheMapHelperService },
+                { provide: Location, useValue: mockLocation }
             ],
-            schemas: [ NO_ERRORS_SCHEMA ]
+            schemas: [NO_ERRORS_SCHEMA]
         });
     });
 
@@ -98,8 +100,10 @@ describe('AddressFormComponent', () => {
         (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
         spyOn(comp.save, 'emit');
         comp.ngOnInit();
-        comp.addressFormGroup.setValue({ addressLine1: '123 street', addressLine2: '', city: 'Oakley', zip: '12345',
-        state: 'OH', foreignCountry: 'US', county: null});
+        comp.addressFormGroup.setValue({
+            addressLine1: '123 street', addressLine2: '', city: 'Oakley', zip: '12345',
+            state: 'OH', foreignCountry: 'US', county: null
+        });
         comp.onSubmit(comp.addressFormGroup);
         expect(mockPinService.postPin).toHaveBeenCalled();
         expect(comp.save.emit).toHaveBeenCalledWith(pin);
@@ -115,5 +119,5 @@ describe('AddressFormComponent', () => {
         comp.back();
         expect(comp.cancel).toHaveBeenCalled();
         expect(mockLocation.back).not.toHaveBeenCalled();
-    });
+});
 });
