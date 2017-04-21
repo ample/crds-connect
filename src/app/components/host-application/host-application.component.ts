@@ -62,6 +62,7 @@ export class HostApplicationComponent implements OnInit {
 
     //let dto: HostRequestDto = this.hlpr.convertFormToDto(value, this.userData.contactId);
 
+    /*
     this.session.postHostApplication(value).subscribe(
         (success) => {
           //this.removeFauxdalClasses(val);
@@ -69,6 +70,7 @@ export class HostApplicationComponent implements OnInit {
 
         }
     );
+    */
 
     this.toast.error('Address form submitted! Testing toaster.');
     console.log('Address form submitted');
