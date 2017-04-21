@@ -41,12 +41,6 @@ export class PinDetailsComponent implements OnInit {
     private pinService: PinService
   ) {}
 
-  /*@HostListener('window:popstate', ['$event'])
-  onPopState(event) {
-    console.log(event);
-    this.router.navigateByUrl('/');
-  }*/
-
   public ngOnInit() {
     this.cancelEdit = this.cancelEdit.bind(this);
     this.state.setLoading(true);
