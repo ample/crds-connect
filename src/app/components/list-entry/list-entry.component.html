@@ -5,12 +5,9 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading media-heading-link">
-      {{name()}}
-      <span *ngIf="isMe()" class="label label-warning">ME</span>
-    </h3>
+    <h3 class="media-heading media-heading-link">{{name()}}<span *ngIf="isMe()" class="label label-warning">ME</span></h3>
     <p class="media-meta">
-      <span class="proximity">{{roundedProximity()}} MI</span>
+      <span>{{roundedProximity()}} MI</span>
     </p>
   </div>
 </div>
@@ -22,11 +19,10 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading media-heading-link">{{name()}}
-      <span class="label label-primary">HOST</span></h3>
+    <h3 class="media-heading media-heading-link">{{name()}}<span class="label label-primary">HOST</span></h3>
     <p class="media-meta">
-      <span class="proximity">{{roundedProximity()}} MI</span>
-      <span class="joined_by">JOINED BY {{count()}}</span>
+      <span>{{roundedProximity()}} MI</span>
+      <span>JOINED BY {{count()}}</span>
     </p>
     <p class="media-description">{{gatheringDescription()}}</p>
   </div>
@@ -41,7 +37,7 @@
   <div class="media-body">
     <h3 class="media-heading">Crossroads {{siteName}}</h3>
     <p class="media-meta">
-      <span class="proximity">{{roundedProximity()}} MI</span>
+      <span>{{roundedProximity()}} MI</span>
     </p>
     <p class="media-description" [innerHTML]="siteAddress()"></p>
   </div>
