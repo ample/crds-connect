@@ -1,4 +1,9 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
+@import 'components/media-objects';
+
+body {
+  -webkit-font-smoothing: initial;
+}
 
 // Map labels
 .pin-label {
@@ -109,21 +114,17 @@ app-add-me-to-map {
     }
   }
 
-  .page-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &.page-footer-vertical {
-      flex-direction: column;
-    }
-  }
-
   &.fauxdal-center {
     align-items: center;
     display: flex;
     justify-content: center;
     padding-top: 3rem;
+  }
+
+  .fauxdal-content {
+    max-width: $container-tablet;
+    margin: 0 auto;
+    text-align: center;
   }
 
   &.fauxdal-fullscreen {
@@ -333,116 +334,6 @@ app-map-footer {
   }
 }
 
-// List view
-app-listview {
-  background: $cr-white;
-  display: block;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-
-  @media (min-width: $screen-sm) {
-    box-shadow: 0 0 10px 0 $cr-gray-light;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    width: $container-tablet;
-  }
-
-  h2 {
-    @extend .font-family-base-light;
-    color: $cr-gray-light;
-    font-size: $font-size-h4;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    text-transform: lowercase;
-  }
-}
-
-list-footer {
-  display: block;
-
-  @media (min-width: $screen-sm) {
-    margin-right: -2rem;
-    margin-left: -2rem;
-    width: $container-tablet;
-  }
-
-  > div {
-    margin-top: 1rem;
-    padding: 1.5rem 1rem 2rem;
-
-    @media (min-width: $screen-sm) {
-      padding-right: 3rem;
-      padding-left: 3rem;
-    }
-
-    h4 {
-      color: $cr-gray;
-    }
-  }
-}
-
-.entry {
-  border-top: 1px solid darken($cr-gray-lighter, 10);
-  cursor: pointer;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  > div:last-child {
-    flex: 1 1 100%;
-    margin-left: 1rem;
-  }
-
-  &.entry-site {
-    cursor: initial;
-
-    .entry-header {
-      color: $cr-gray-dark;
-    }
-  }
-}
-
-.entry-header {
-  @extend .component-header;
-  color: $cr-cyan;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.label {
-  color: $cr-gray-dark;
-  border-radius: $border-radius-base;
-  float: right;
-  font-family: 'Lexia', serif;
-  font-size: $font-size-smaller;
-  margin-top: 9px;
-  padding: 5px 6px 4px;
-  text-transform: uppercase;
-
-  &.label-default {
-    background: $cr-gray-light;
-  }
-  &.label-host {
-    background: $cr-blue-lighter;
-  }
-  &.label-me {
-    background: $cr-gold-lighter;
-  }
-}
-
-.entry-subheader {
-  @extend .control-label;
-  color: $cr-gray-light;
-
-  .joined_by {
-    margin-left: .5rem;
-  }
-}
-
 // Getting started layout
 .people {
   display: flex;
@@ -496,8 +387,8 @@ app-pin-detail {
       }
     }
 
-    .title {
-      color: $cr-white;
+    hr {
+      border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
     }
 
     @media (min-width: $screen-sm) {
@@ -507,46 +398,8 @@ app-pin-detail {
       width: $container-tablet;
     }
 
-    &.is-gathering {
-      border-top: 1px solid $cr-gray-dark;
-      border-bottom: 1px solid $cr-gray-dark;
-    }
-
     p {
       color: $cr-gray-light;
-    }
-  }
-}
-
-.pin-detail-header {
-  display: block;
-  border-top: 1px solid $cr-gray-dark;
-  border-bottom: 1px solid $cr-gray-dark;
-  padding: 20px 0;
-
-  h1 {
-    @extend .component-header;
-    font-size: $font-size-h1;
-    color: $cr-white;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .pin-detail-name {
-    text-align: left;
-
-    .label {
-      float: none;
-    }
-  }
-
-  .pin-detail-image {
-    float: left;
-    padding-right: 10px;
-
-    img {
-      border: 2px solid $cr-gray-dark;
     }
   }
 }
@@ -555,11 +408,6 @@ gathering {
   p {
     padding: 20px 0;
     margin: 0;
-  }
-
-  .btn {
-    background: $cr-cyan;
-    color: $cr-white;
   }
 }
 
@@ -582,21 +430,6 @@ say-hi {
   }
 }
 
-readonly-address {
-  font-weight: bold;
-  font-size: 12px;
-  text-transform: uppercase;
-
-  p {
-    padding: 0;
-    margin: 0;
-  }
-
-  .pin-address-city {
-    margin-bottom: 0;
-  }
-}
-
 // Update search results button
 search-local {
   display: block;
@@ -610,60 +443,35 @@ search-local {
   }
 }
 
-// Profile picture fix (connect-specific?)
-.profile-picture {
-  position: relative;
-
-  .entry & {
-    display: inline-flex;
-    flex-direction: row-reverse;
-    // margin-right: 1rem;
-    width: 85px;
-  }
-
-  .pin-detail-header & {
-    float: left;
-    margin-right: 1rem;
-  }
-
-  .img-circle {
-    border-style: solid;
-    border-width: 2px;
-
-    .entry & {
-      border-color: $cr-gray-lighter;
-    }
-
-    .pin-detail-header & {
-      border-color: $cr-gray;
-    }
-  }
-}
-
-.profile-picture-default {
-  background-image: url("//crossroads-media.imgix.net/images/avatar.svg");
-  background-position: center;
-  background-size: cover;
-}
-
-.profile-picture-overlay {
-  background-position: center;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-@for $i from 1 through 6 {
-  .img-size-#{$i} {
-    $dimensions: 16px;
-
-    height: $dimensions * $i;
-    width: $dimensions * $i;
-  }
-}
-
 // 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
 .btn.btn-primary.active {
   background: darken($btn-primary-bg, 20);
+}
+
+
+
+// Single Toggle Button
+.btn-toggle {
+  $btn-toggle-styles: (
+    primary: (bg: $btn-primary-bg, bc: $btn-primary-border),
+    secondary: (bg: $btn-secondary-bg, bc: $btn-secondary-border),
+    gray: (bg: $btn-gray-bg, bc: $btn-gray-border),
+    option: (bg: $btn-option-bg, bc: $btn-option-border),
+    default: (bg: $btn-default-bg, bc: $btn-default-border)
+  );
+
+  @each $style, $map in $btn-toggle-styles {
+    &.btn-#{$style} {
+      &,
+      &:active,
+      &:active:focus,
+      &:focus,
+      &:hover {
+        background: map-get($map, bg);
+        border-color: map-get($map, bc);
+        box-shadow: none;
+      }
+    }
+  }
+
 }
