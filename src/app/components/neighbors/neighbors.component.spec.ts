@@ -63,7 +63,7 @@ describe('Component: Neighbors', () => {
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googleMapService', ['constructor', 'setDidUserAllowGeoLoc']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getLastSearch']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getLastSearch', 'setCurrentView']);
     mockSearchService = jasmine.createSpyObj<SearchService>('searchService', ['']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId', 'get', 'isLoggedIn']);
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['']);
@@ -92,17 +92,17 @@ describe('Component: Neighbors', () => {
         // major refactoring to make it testable. Sad.
         UserLocationService,
         LocationService,
-        PinService,
+        PinService,  
         SearchService,
         SessionService,
         CookieService,
+        IPService,
         { provide: SiteAddressService, useValue: mockSiteAddressService },
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: StateService, useValue: mockStateService },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: BlandPageService, useValue: mockBlandPageService },
-        { provide: IPService, useValue: mockIPService },
         { provide: AddressService, useValue: mockAddressService }
       ]
     });
