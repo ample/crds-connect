@@ -19,7 +19,7 @@ import { DetailedUserData } from '../../models/detailed-user-data';
 
 @Component({
   selector: 'app-host-application',
-  templateUrl: 'host-application.html'
+  templateUrl: 'host-application.component.html'
 })
 export class HostApplicationComponent implements OnInit {
 
