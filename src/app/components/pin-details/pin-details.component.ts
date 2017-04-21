@@ -1,5 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PlatformLocation } from '@angular/common';
@@ -73,9 +73,9 @@ export class PinDetailsComponent implements OnInit {
     if (updatedPin) {
       this.state.updatedPinOldAddress = this.pin.address;
 
-      setTimeout(()=>{
+      setTimeout(() => {
         this.pin.address = updatedPin.address;
-      },1);
+      }, 1);
 
       this.pin.address = updatedPin.address;
 
