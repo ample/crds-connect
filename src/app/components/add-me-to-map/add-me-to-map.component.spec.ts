@@ -83,7 +83,7 @@ describe('Component: Add Me to the Map', () => {
 
   it('should attach class selector to body element after view init', () => {
     // Start fresh...
-    document.querySelector('body').classList.remove('modal-open');//
+    document.querySelector('body').classList.remove('modal-open');
 
     expect(document.querySelector('body').classList).not.toContain('modal-open');
     this.component.ngAfterViewInit();

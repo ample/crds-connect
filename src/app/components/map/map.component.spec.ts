@@ -1,29 +1,24 @@
+import { Observable } from '@angular-cli/ast-tools/node_modules/rxjs/Rx';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { Http, Response, RequestOptions } from '@angular/http';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import 'rxjs/add/observable/of';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { MockComponent } from '../../shared/mock.component';
-
 import { SiteAddressService } from '../../services/site-address.service';
-import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { StoreService } from '../../services/store.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule  } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { LocationService } from '../../services/location.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService}  from '../../services/pin.service';
@@ -31,15 +26,45 @@ import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
-
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { SearchService } from '../../services/search.service';
-
 import { MapView } from '../../models/map-view';
 
 describe('Component: Map', () => {
+      let mockSiteAddressService,
+        mockUserLocationService,
+        mockLocationService,
+        mockPinLabelService,
+        mockPinService,
+        mockGoogleMapService,
+        mockStateService,
+        mockSessionService,
+        mockCookieService,
+        mockAngulartics2,
+        mockLoginRedirectService,
+        mockBlandPageService,
+        mockIPService,
+        mockGoogleMapsAPIWrapper,
+        mockSearchService,
+        mockNeighborsHelperService;
 
   beforeEach(() => {
+        mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['constructor']);
+        mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['constructor']);
+        mockLocationService = jasmine.createSpyObj<LocationService>('locationService', ['constructor']);
+        mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['constructor']);
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['constructor']);
+        mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('sessionService', ['constructor']);
+        mockStateService = jasmine.createSpyObj<StateService>('googleMapService', ['constructor']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
+        mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
+        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['constructor']);
+        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
+        mockIPService = jasmine.createSpyObj<IPService>('ipService', ['constructor']);
+        mockGoogleMapsAPIWrapper = jasmine.createSpyObj<GoogleMapsAPIWrapper>('googleMapsAPIWrapper', ['constructor']);
+        mockSearchService = jasmine.createSpyObj<SearchService>('searchService', ['constructor']);
+        mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['constructor']);
     TestBed.configureTestingModule({
       declarations: [
         MapComponent,
@@ -50,32 +75,29 @@ describe('Component: Map', () => {
         MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
       ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
-        AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        })
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
-        SiteAddressService,
-        UserLocationService,
-        LocationService,
-        PinLabelService,
-        PinService,
-        GoogleMapService,
-        IFrameParentService,
-        StoreService,
-        StateService,
-        SessionService,
-        CookieService,
-        Angulartics2,
-        LoginRedirectService,
-        BlandPageService,
-        IPService,
-        GoogleMapsAPIWrapper,
-        SearchService,
-        NeighborsHelperService
-      ]
+        { provide: SiteAddressService, useValue: mockSiteAddressService },
+        { provide: UserLocationService, useValue: mockUserLocationService },
+        { provide: LocationService, useValue: mockLocationService },
+        { provide: PinLabelService, useValue: mockPinLabelService },
+        { provide: PinService, useValue: mockPinService },
+        { provide: GoogleMapService, useValue: mockGoogleMapService },
+        { provide: StateService, useValue: mockStateService },
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: CookieService, useValue: mockCookieService },
+        { provide: Angulartics2, useValue: mockAngulartics2 },
+        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+        { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: IPService, useValue: mockIPService },
+        { provide: GoogleMapsAPIWrapper, useValue: mockGoogleMapsAPIWrapper },
+        { provide: SearchService, useValue: mockSearchService },
+        { provide: NeighborsHelperService, useValue: mockNeighborsHelperService }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
+    mockGoogleMapService.mapViewUpdatedEmitter = Observable.of(MapView);
     this.fixture = TestBed.createComponent(MapComponent);
     this.component = this.fixture.componentInstance;
 
