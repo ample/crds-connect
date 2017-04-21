@@ -435,3 +435,31 @@ search-local {
 .btn.btn-primary.active {
   background: darken($btn-primary-bg, 20);
 }
+
+
+
+// Single Toggle Button
+.btn-toggle {
+  $btn-toggle-styles: (
+    primary: (bg: $btn-primary-bg, bc: $btn-primary-border),
+    secondary: (bg: $btn-secondary-bg, bc: $btn-secondary-border),
+    gray: (bg: $btn-gray-bg, bc: $btn-gray-border),
+    option: (bg: $btn-option-bg, bc: $btn-option-border),
+    default: (bg: $btn-default-bg, bc: $btn-default-border)
+  );
+
+  @each $style, $map in $btn-toggle-styles {
+    &.btn-#{$style} {
+      &,
+      &:active,
+      &:active:focus,
+      &:focus,
+      &:hover {
+        background: map-get($map, bg);
+        border-color: map-get($map, bc);
+        box-shadow: none;
+      }
+    }
+  }
+
+}
