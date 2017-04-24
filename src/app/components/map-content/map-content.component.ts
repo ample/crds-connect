@@ -122,9 +122,6 @@ export class MapContentComponent implements OnInit {
           geoBounds = new MapGeoBounds(bounds, delta);
         }
 
-        let siteMarkers = this.mapHlpr.getSiteMarkersOnMap();
-        markers.push.apply(markers, siteMarkers);
-
         let markerArray = [];
 
         if (markers.length > 0) {
