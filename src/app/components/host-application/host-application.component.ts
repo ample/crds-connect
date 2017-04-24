@@ -74,9 +74,9 @@ export class HostApplicationComponent implements OnInit {
         (success) => {
           console.log('Navigating to static page!');
           this.toast.success('Host application submitted!', null, {toastLife: 3000});
-          //todo: navigate to static 'Next steps' page (remove toast and logging)
+          // TODO: navigate to static 'Next steps' page (remove toast and logging)
           this.router.navigate(['/']);
-        }, (err)=>{
+        }, (err) => {
           this.state.setLoading(false);
           this.handleError(err);
         }
@@ -87,7 +87,8 @@ export class HostApplicationComponent implements OnInit {
     let isDuplicateGatheringAddress: boolean = err.status === 406;
 
     if (isDuplicateGatheringAddress) {
-      this.toast.error('You cannot host another gathering at the same location. Please change the address and try again!', null, {toastLife: 3000});
+      this.toast.error('You cannot host another gathering at the same location. ' +
+          'Please change the address and try again!', null, {toastLife: 3000});
     } else {
       this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
     }

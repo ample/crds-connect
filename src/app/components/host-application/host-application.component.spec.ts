@@ -6,6 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -80,7 +81,14 @@ describe('Component: Host Application', () => {
     expect(this.component).toBeTruthy();
   });
 
+  it('should initiate with the "use home address for group" checkbox ticked', () => {
+    const isHomeAddressCheckbox = this.fixture.debugElement.query(By.css('#isHomeAddress')).nativeElement;
+    expect(isHomeAddressCheckbox.checked).toBeTruthy();
+  });
+
+  it('should initially hide the second address form', () => {
+    const groupAddressForm = this.fixture.debugElement.query(By.css('#gatheringAddressForm'));
+    expect(groupAddressForm).toBeFalsy();
+  });
+
 });
-
-
-

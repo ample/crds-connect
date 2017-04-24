@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <!--GATHERING ADDRESS-->
-                    <div *ngIf = "!this.hostForm.value.isHomeAddress">
+                    <div *ngIf = "!this.hostForm.value.isHomeAddress" id = "gatheringAddressForm">
                         <br>
                         <div>GATHERING ADDRESS: </div>
                         <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="groupAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
