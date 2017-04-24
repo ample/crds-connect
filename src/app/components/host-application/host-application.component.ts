@@ -74,9 +74,9 @@ export class HostApplicationComponent implements OnInit {
         (success) => {
           console.log('Navigating to static page!');
           this.toast.success('Host application submitted!', null, {toastLife: 3000});
-          //todo: navigate to static 'Next steps' page (remove toast and logging)
+          // todo: navigate to static 'Next steps' page (remove toast and logging)
           this.router.navigate(['/']);
-        }, (err)=>{
+        }, (err) => {
           this.state.setLoading(false);
           this.handleError(err);
         }
