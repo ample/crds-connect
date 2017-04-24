@@ -300,11 +300,6 @@ canvas-map-overlay {
   z-index: 1;
 }
 
-// Fix map error overlay
-.gm-style .gm-style-pbc {
-  z-index: 1050 !important;
-}
-
 // Map footer
 app-map-footer {
   position: absolute;
