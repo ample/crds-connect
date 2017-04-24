@@ -2,13 +2,9 @@
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
  */
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { Angulartics2 } from 'angulartics2';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockTestData } from '../../../shared/MockTestData';
