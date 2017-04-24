@@ -3,14 +3,14 @@
         <div class="row">
             <div class="fauxdal-content centered-form-group">
                 <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
-                    <div style="font-size:300%">Host now!</div>
+                    <div id="host-now-title">Host now!</div>
                     <br>
                     <div>Tell us where you want to meet and what you want to do.</div>
                     <br>
                     <!--HOME ADDRESS-->
                     <div>HOME ADDRESS: </div>
                     <address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="homeAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
-                    <div>Any changes you make to your home adddress will be reflected in your profile on crossroads.net</div>
+                    <div>Any changes you make to your home address will be reflected in your profile on crossroads.net</div>
                     <!--MEETING AT HOME? -->
                     <div class="row">
                         <div class="form-group col-xs-12">
