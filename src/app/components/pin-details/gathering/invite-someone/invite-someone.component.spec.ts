@@ -60,11 +60,11 @@ describe('InviteSomeoneComponent', () => {
         });
     }));
 
-    fit('component should exist', () => {
+    it('component should exist', () => {
         expect(comp).toBeTruthy();
     });
 
-    fit('should init form with formGroup', () => {
+    it('should init form with formGroup', () => {
         comp.ngOnInit();
         expect(comp.inviteFormGroup).toBeTruthy();
         expect(comp.inviteFormGroup.controls['firstname']).toBeTruthy();
@@ -72,7 +72,7 @@ describe('InviteSomeoneComponent', () => {
         expect(comp.inviteFormGroup.controls['email']).toBeTruthy();
     });
 
-    fit('should successfully submit', () => {
+    it('should successfully submit', () => {
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
         let gatheringId = 123;
@@ -98,7 +98,7 @@ describe('InviteSomeoneComponent', () => {
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
-    fit('should fail to submit', () => {
+    it('should fail to submit', () => {
         let expectedText = '<p>invite failed</p>';
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
