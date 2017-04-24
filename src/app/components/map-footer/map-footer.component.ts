@@ -37,17 +37,17 @@ export class MapFooterComponent {
   }
 
   public myStuffBtnClicked = () => {
-    this.angulartics2.eventTrack.next({ action: 'myStuff Button Click'});
+    this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
     this.pin.clearPinCache();
 
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('my');
+    this.state.myStuffActive = true;
 
     if (!this.session.isLoggedIn()) {
       this.loginRedirectService.redirectToLogin('/');
     } else {
-      this.state.myStuffActive = true;
       this.userLocationService.GetUserLocation().subscribe(
           pos => {
               this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());

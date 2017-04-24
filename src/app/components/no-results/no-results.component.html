@@ -1,17 +1,15 @@
 <div class="content-middle text-center">
   <crds-content-block id="noSearchResults"></crds-content-block>
 
-  <input type="submit" id='btnAddToMap' class="btn btn-secondary btn-block"
-         (click)="btnClickAddToMap();" value="Add me to the map">
-
-  <input type="submit" id='becomeAHost'
-         class="btn btn-secondary btn-block"
-         (click)="btnClickBecomeHost();" value="Become a Host">
-
-  <input type="submit" id='btnFindOnlineGroup'
-         class="btn btn-secondary btn-block"
-         (click)="btnClickFindOnlineGroup();" value="Find an online group">
-
-  <input type="submit" id='btnBack' class="btn btn-secondary btn-block"
-         (click)="btnClickBack();" value="Try Again">
+  <div class="btn-group-vertical">
+    <button type="submit" id='btnAddToMap' class="btn btn-secondary"
+            (click)="btnClickAddToMap();">Add me to the map</button>
+    <button type="submit" id='becomeAHost' class="btn btn-secondary"
+          (click)="btnClickBecomeHost();">Become a Host</button>
+    <button type="submit" id='btnFindOnlineGroup'
+            class="btn btn-secondary"
+            (click)="btnClickFindOnlineGroup();">Find an online group</button>
+    <button type="submit" id='btnBack' class="btn btn-secondary"
+            (click)="btnClickBack();">Try Again</button>
+  </div>
 </div>

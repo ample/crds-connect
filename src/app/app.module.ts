@@ -31,6 +31,7 @@ import { HeaderComponent } from './layout/header/header.component';
 
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
+import { AddressFormTwoComponent } from './components/address-form2/addres-form2.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -65,6 +66,7 @@ import { AddressService } from './services/address.service';
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
@@ -82,7 +84,9 @@ import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
+import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
@@ -91,7 +95,6 @@ import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
-import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
@@ -121,6 +124,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   declarations: [
     AddMeToMapComponent,
     AddressFormComponent,
+    AddressFormTwoComponent,
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
@@ -162,11 +166,13 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
+    DetailedUserDataResolver,
     IPService,
     SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupService,
+    HostApplicationHelperService,
     IFrameParentService,
     ListHelperService,
     LoginRedirectService,

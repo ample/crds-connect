@@ -92,7 +92,7 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click'});
+    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
