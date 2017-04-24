@@ -14,6 +14,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 
+import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -59,7 +60,13 @@ const appRoutes: Routes = [
       isFauxdal: true
     }]
   },
-  { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
+  { path: 'host-signup',
+    component: HostApplicationComponent,
+    canActivate: [LoggedInGuard],
+    resolve: {
+      userData: DetailedUserDataResolver
+    }
+  },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
