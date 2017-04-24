@@ -1,0 +1,26 @@
+<div class="pin-detail-header">
+    <pin-header [isGathering]="true" [isPinOwner]="true" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
+</div>
+<div>
+    <form *ngIf="ready" novalidate [formGroup]="editGatheringForm" (ngSubmit)="onSubmit()">
+        <h4>Meets at:</h4>
+        <address-form [parentForm]="editGatheringForm" [address]="pin.gathering.address"></address-form>
+        <!-- Description -->
+        <div class="row">
+            <div class="form-group col-xs-12">
+                <label class="sr-only" for="description">Description</label>
+                <textarea tabindex="6" type="text" class="form-control" maxlength="255" placeholder="Description" id="description" formControlName="description"
+                    name="description" [(ngModel)]='pin.gathering.groupDescription' rows="15" cols="100"> </textarea>
+                <!--<p class="error help-block" *ngIf="editGatheringForm.controls['description'].touched && !editGatheringForm.controls['description'].valid">Description is required!</p>-->
+            </div>
+        </div>
+        <footer class="page-footer page-footer-vertical">
+            <button type="submit" class="btn btn-secondary">Update my gathering</button>
+            <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
+        </footer>
+
+        <!--<div *ngIf="submissionError" class="alert alert-danger">
+            <crds-content-block id="generalError"></crds-content-block>
+        </div>-->
+    </form>
+</div>

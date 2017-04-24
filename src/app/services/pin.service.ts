@@ -183,6 +183,13 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
+  // PUTS
+  public updateGathering(pin: Pin): Observable<Pin> {
+    return this.session.put(`${this.baseUrl}api/v1.0.0/finder/gathering/edit`, pin)
+    .do((res: any) => super.clearCache()) // Maybe update cache for this pin?
+    .catch((error: any) => Observable.throw(error || 'Server error'));
+  }
+
   // POSTS
   public sendHiEmail(user: Pin, pin: Pin): Observable<any> {
     // Create merge data for this template

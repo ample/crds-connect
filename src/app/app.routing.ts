@@ -1,3 +1,4 @@
+import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -82,7 +83,14 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
-  },
+  }, {
+    path: 'gathering/:groupId/edit',
+    component: GatheringEditComponent,
+    resolve: {
+      pin: PinResolver
+    },
+    canActivate: [ LoggedInGuard ]
+   },
   {
     path: 'person/:participantId',
     component: PinDetailsComponent,

@@ -34,6 +34,7 @@ import { AddressFormComponent } from './components/address-form/address-form.com
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
+import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
@@ -124,6 +125,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AuthenticationComponent,
     BlandPageComponent,
     GatheringComponent,
+    GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
     HeaderComponent,

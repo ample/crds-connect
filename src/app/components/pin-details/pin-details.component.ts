@@ -30,7 +30,7 @@ export class PinDetailsComponent implements OnInit {
   public isGatheringPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
-  public user: PinService;
+  public user: Pin;
 
   constructor(
     private location: PlatformLocation,

@@ -4,6 +4,7 @@
         <readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.address"
             [distance]="pin.proximity"></readonly-address>
     </div>
+    <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()"> Edit </button>
 
     <p>{{pin.gathering.groupDescription}}</p>
     <div *ngIf="!isInGathering && !isPinOwner">

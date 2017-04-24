@@ -11,10 +11,8 @@ import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation'
 })
 export class AddressFormComponent implements OnInit {
     @Input() parentForm: FormGroup;
-    @Input() groupName: string;
     @Input() address: Address;
     private addressFormGroup: FormGroup;
-    private formName: string;
     private stateList: Array<string>;
 
     constructor(private fb: FormBuilder, private hlpr: AddMeToTheMapHelperService) { }
