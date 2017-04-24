@@ -44,7 +44,7 @@ export class HostApplicationComponent implements OnInit {
 
   public ngOnInit() {
     this.userData = this.route.snapshot.data['userData'];
-    let mobilePhone: string = (this.userData.mobilePhone).split('-').join('');
+    let mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 

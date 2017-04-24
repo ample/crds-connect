@@ -26,6 +26,21 @@ export class HostApplicationHelperService {
     return dto;
   };
 
+  public formatPhoneForUi(mobilePhone: string): string {
+    if (!mobilePhone) return '';
+
+    let parsedPhone: string;
+
+    try {
+      parsedPhone = mobilePhone.split('-').join('');
+    }
+    catch(err) {
+      parsedPhone = ''
+    }
+
+    return parsedPhone;
+  }
+
   // Format the 10 digit number received from form into xxx-xxx-xxxx format (from xxxxxxxxxx)
   // Temporary method
   public formatPhoneNumber(phoneNumber: string) {
