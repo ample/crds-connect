@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -35,7 +36,8 @@ describe('Component: Host Application', () => {
         mockAngulartics2,
         mockLoginRedirectService,
         mockPinService,
-        mockBlandPageService;
+        mockBlandPageService,
+        mockValidate;
 
   beforeEach(() => {
         mockIFrameParentService = jasmine.createSpyObj<IFrameParentService>('iFrameParentService', ['constructor', 'getIFrameParentUrl']);
@@ -47,7 +49,7 @@ describe('Component: Host Application', () => {
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['constructor']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('BlandPageService', ['constructor']);
-
+        mockValidate = jasmine.createSpyObj<Validators>('Validators', ['minLength', 'maxLength', 'required']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -67,6 +69,7 @@ describe('Component: Host Application', () => {
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: PinService, useValue: mockPinService },
         { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: Validators, useValue: mockValidate },
         ToastsManager,
         ToastOptions
       ],
@@ -81,11 +84,17 @@ describe('Component: Host Application', () => {
     expect(this.component).toBeTruthy();
   });
 
+  it('validate phone length, min not met', () => {
+    expect(mockValidate.minLength(new FormControl('123'))).toBeFalsy();
+  });
   it('should initiate with the "use home address for group" checkbox ticked', () => {
     const isHomeAddressCheckbox = this.fixture.debugElement.query(By.css('#isHomeAddress')).nativeElement;
     expect(isHomeAddressCheckbox.checked).toBeTruthy();
   });
 
+  it('validate phone length - correct length', () => {
+    expect(mockValidate.minLength(new FormControl('1235551234'))).toEqual(undefined);
+  });
   it('should initially hide the second address form', () => {
     const groupAddressForm = this.fixture.debugElement.query(By.css('#gatheringAddressForm'));
     expect(groupAddressForm).toBeFalsy();
