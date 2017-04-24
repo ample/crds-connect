@@ -31,6 +31,16 @@
         <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
       </div>
     </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Email all participants <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">Select all</a></li>
+        <li><a href="#">Select none</a></li>
+      </ul>
+    </div>
   </div>
 
   <invite-someone *ngIf="isPinOwner" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
