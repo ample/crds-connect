@@ -62,7 +62,6 @@ export class HostApplicationComponent implements OnInit {
     this.isFormSubmitted = true;
     if (valid) {
       this.state.setLoading(true);
-      console.log('Submitting valid form to API');
       this.submitFormToApi(value);
     }
   }
@@ -70,12 +69,14 @@ export class HostApplicationComponent implements OnInit {
   public submitFormToApi(formData: HostApplicatonForm) {
 
     let dto: HostRequestDto = this.hlpr.convertFormToDto(formData, this.userData.contactId);
-    console.log(dto);
 
     this.session.postHostApplication(dto).subscribe(
         (success) => {
-          this.state.setLoading(false);
-          //navigate to static page - loader will be disabled on next page
+          //this.state.setLoading(false);
+          console.log('Navigating to static page!');
+          this.toast.success('Host application submitted!', null, {toastLife: 3000});
+          //todo: navigate to static 'Next steps' page (remove toast and logging)
+          this.router.navigate(['/']);
         }, (err)=>{
           this.state.setLoading(false);
           this.handleError(err);
@@ -88,6 +89,8 @@ export class HostApplicationComponent implements OnInit {
 
     if (isDuplicateGatheringAddress) {
       this.toast.error('You cannot host another gathering at the same location. Please change the address and try again!', null, {toastLife: 3000});
+    } else {
+      this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
     }
   }
 }
