@@ -1,4 +1,7 @@
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -8,37 +11,52 @@ import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 
-
 import { RegisterComponent } from './register.component';
 
 describe('Component: Registration', () => {
-  let fixture: RegisterComponent,
-      router: Router,
-      fb: FormBuilder,
-      state: StateService,
-      store: StoreService,
-      session: SessionService,
-      redirectService: LoginRedirectService;
+    let fixture: ComponentFixture<RegisterComponent>;
+    let comp: RegisterComponent;
+    let mockRouter,
+        mockSessionService,
+        mockStateService,
+        mockFormBuilder,
+        mockStoreService,
+        mockLoginRedirectService;
 
   beforeEach(() => {
-    router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-    session = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
-    state = jasmine.createSpyObj<StateService>(
-      'state',
-      [
-        'getNextPageToShow',
-        'getPrevPageToShow',
-        'hidePage',
-        'setLoading'
-      ]
-    );
-    fb = new FormBuilder();
-    fixture = new RegisterComponent(fb, router, state, store, session, redirectService);
-    fixture.ngOnInit();
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['getNextPageToShow','getPrevPageToShow','hidePage','setLoading']);
+        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
+        mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
+        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',['']);
+
+        TestBed.configureTestingModule({
+            declarations: [
+                RegisterComponent
+            ],
+            imports: [],
+            providers: [
+                { provide: SessionService, useValue: mockSessionService },
+                { provide: StateService, useValue: mockStateService },
+                { provide: Router, useValue: mockRouter },
+                { provide: FormBuilder, useValue: mockFormBuilder },
+                { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+                { provide: StoreService, useValue: mockStoreService }
+            ],
+            schemas: [NO_ERRORS_SCHEMA]
+        });
   });
 
+      beforeEach(async(() => {
+        TestBed.compileComponents().then(() => {
+          fixture = TestBed.createComponent(RegisterComponent);
+          comp = fixture.componentInstance;
+       });
+    }));
+
   function setForm( firstName, lastName, email, password ) {
-    fixture.regForm = new FormGroup({
+    comp.regForm = new FormGroup({
       firstName: new FormControl(firstName, Validators.required),
       lastName: new FormControl(lastName, Validators.required),
       email: new FormControl(email, Validators.required),
@@ -48,41 +66,43 @@ describe('Component: Registration', () => {
 
   describe('#ngOnInit', () => {
     it('initializes the component', () => {
-      expect(fixture).toBeTruthy();
+      expect(comp).toBeTruthy();
     });
   });
 
   describe('#adv', () => {
     xit('should call the router to move to the next step', () => {
-      fixture.adv();
-      expect(router.navigateByUrl).toHaveBeenCalled();
+      comp.adv();
+      expect(mockRouter.navigateByUrl).toHaveBeenCalled();
     });
   });
 
 
   describe('#submit User', () => {
-
+      beforeEach(() => {
+        setForm('Bob', '', 'good@g.com', 'foobar');
+      });
     it('should not process if form is invalid', () => {
-      let didSubmit = fixture.submitRegistration();
+      let didSubmit = comp.submitRegistration();
       expect(didSubmit).toBe(false);
     });
   });
 
 
   describe('#formatErrorMessage', () => {
-    it('should return <u>required</u> when errors.required !== undefined', () => {
+   it('should return <u>required</u> when errors.required !== undefined', () => {
       let errors = { required: true };
 
-      let res = fixture.switchMessage(errors);
+      let res = comp.switchMessage(errors);
       expect(res).toBe('is <u>required</u>');
     });
 
     it('should return <em>invalid</em> when errors.required === undefined', () => {
       let errors = { require: undefined };
 
-      let res = fixture.switchMessage(errors);
+      let res = comp.switchMessage(errors);
       expect(res).toBe('is <em>invalid</em>');
-    });
+    }); 
   });
 
   describe('#next', () => {
@@ -92,21 +112,21 @@ describe('Component: Registration', () => {
       });
 
       it('should not call #adv', () => {
-        spyOn(fixture, 'adv');
+        spyOn(comp, 'adv');
 
-        fixture.submitRegistration();
-        expect(fixture.adv).not.toHaveBeenCalled();
+        comp.submitRegistration();
+        expect(comp.adv).not.toHaveBeenCalled();
       });
     });
 
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (<jasmine.Spy>session.postLogin).and.returnValue(Observable.throw({}));
+        (mockSessionService.postLogin).and.returnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {
-        spyOn(fixture, 'adv');
+        spyOn(comp, 'adv');
       });
     });
 
