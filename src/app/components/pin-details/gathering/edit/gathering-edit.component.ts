@@ -23,7 +23,8 @@ export class GatheringEditComponent implements OnInit {
     private submissionError: boolean = false;
     public editGatheringForm: FormGroup;
 
-    constructor(private route: ActivatedRoute, private session: SessionService,
+    constructor(private route: ActivatedRoute,
+                private session: SessionService,
                 private blandPageService: BlandPageService,
                 private state: StateService,
                 private addressService: AddressService,
