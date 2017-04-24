@@ -5,8 +5,6 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -62,11 +60,11 @@ describe('InviteSomeoneComponent', () => {
         });
     }));
 
-    it('component should exist', () => {
+    fit('component should exist', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('should init form with formGroup', () => {
+    fit('should init form with formGroup', () => {
         comp.ngOnInit();
         expect(comp.inviteFormGroup).toBeTruthy();
         expect(comp.inviteFormGroup.controls['firstname']).toBeTruthy();
@@ -74,7 +72,7 @@ describe('InviteSomeoneComponent', () => {
         expect(comp.inviteFormGroup.controls['email']).toBeTruthy();
     });
 
-    it('should successfully submit', () => {
+    fit('should successfully submit', () => {
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
         let gatheringId = 123;
@@ -100,7 +98,7 @@ describe('InviteSomeoneComponent', () => {
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
-    it('should fail to submit', () => {
+    fit('should fail to submit', () => {
         let expectedText = '<p>invite failed</p>';
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
