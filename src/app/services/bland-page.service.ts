@@ -48,6 +48,10 @@ export class BlandPageService {
         this.router.navigate(['/whats-a-host']);
     }
 
+    public goToHostNextSteps(cancelRoute?: string) {
+        this.primeWhatsAHost(cancelRoute);
+        this.router.navigate(['/host-next-steps']);
+    }
     /**
      * This will set the blandPageDetails for Whats a Host and
      * nothing more.  This should only be used by the Whats A Host route Guard.
@@ -60,6 +64,17 @@ export class BlandPageService {
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             'host-signup',
+            cancelRoute
+        );
+    }
+
+    public primeHostNextSteps(cancelRoute: string = '') {
+        this.blandPageDetails = new BlandPageDetails(
+            'Got it',
+            'finderHostNextSteps',
+            BlandPageType.ContentBlock,
+            BlandPageCause.SimpleFauxdal,
+            '/',
             cancelRoute
         );
     }

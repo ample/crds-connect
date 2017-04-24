@@ -6,6 +6,7 @@ import { ListEntryComponent } from '../list-entry/list-entry.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
+import { Pin } from '../../models/pin';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -56,6 +57,10 @@ describe('Component: List View', () => {
 
   it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should return empty array of pins when searchResults undefined' , () => {
+    expect(this.component.pinsToShow()).toEqual(new Array<Pin>());
   });
 
   describe('paging values', () => {
