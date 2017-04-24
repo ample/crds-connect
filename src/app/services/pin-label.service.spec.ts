@@ -20,7 +20,7 @@ describe('Service: Pin Label', () => {
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
   const mockPin =
-    new Pin('bob', 'smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
+    new Pin('bob', 'smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, '', pinType.PERSON, 0);
 
   const mockLowerCaseName: string = 'bob';
   const mockUpperCaseName: string = 'Bob';

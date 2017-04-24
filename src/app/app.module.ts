@@ -62,7 +62,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 
 import { AddressService } from './services/address.service';
-import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -158,7 +157,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   ],
   providers: [
     AddressService,
-    AddMeToTheMapHelperService,
     appRoutingProviders,
     BlandPageGuard,
     BlandPageService,

@@ -192,7 +192,7 @@ export class SessionService extends SmartCacheableService<User, number> {
         return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}/false`)
           .map((res: Pin) => {
             return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId, res.participantId,
-                           res.address, res.hostStatus, res.gathering, res.isFormDirty, res.siteName, res.pinType,
+                           res.address, res.hostStatus, res.gathering, res.siteName, res.pinType,
                            res.proximity);
           })
           .catch((err: any) => {

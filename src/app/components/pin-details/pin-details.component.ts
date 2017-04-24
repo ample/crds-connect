@@ -11,7 +11,6 @@ import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { User } from '../../models/user';
 
 @Component({

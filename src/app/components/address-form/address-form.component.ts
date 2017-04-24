@@ -1,7 +1,6 @@
 import { Address } from '../../models/address';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { usStatesList } from '../../shared/constants';
 import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 
@@ -18,7 +17,7 @@ export class AddressFormComponent implements OnInit {
   private formName: string;
   private stateList: Array<string>;
 
-  constructor(private fb: FormBuilder, private hlpr: AddMeToTheMapHelperService) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.stateList = usStatesList;

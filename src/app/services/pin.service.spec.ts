@@ -33,16 +33,16 @@ describe('Service: Pin', () => {
   const mockAddress2 = new Address(123, 'Billy St', null, 'BillyVille', 'ZZ', '54321', 0, 0, 'US', 'County');
 
   const mockPin =
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, 9999, true, '', pinType.PERSON, 0);
+    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, '', pinType.PERSON, 0);
   const updatedMockPin =
-      new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, 9999, true, '', pinType.PERSON, 0);
+      new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, '', pinType.PERSON, 0);
   const mockPin2 =
-      new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null, 9999, true, '', pinType.PERSON, 0);
+      new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null,  '', pinType.PERSON, 0);
 
   const mockPins: Pin[] = [mockPin, mockPin2];
 
   const mockPinMatchingContactId =
-    new Pin('Bob', 'Smith', 'bobby@bob.com', 222, 222, mockAddress, 0, null, 222, true, '', pinType.PERSON, 0);
+    new Pin('Bob', 'Smith', 'bobby@bob.com', 222, 222, mockAddress, 0, null, '', pinType.PERSON, 0);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,8 +74,8 @@ describe('Service: Pin', () => {
       'Community_Member_City': 'TesVille',
       'Community_Member_State': 'ZZ'
     };
-    let testUser = new User('Elmer', 'Fudd', 'efudd@looneytoons.com', 'kwazey wabbit', mockAddress);
-    let testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, 1, false, '', 1, 0);
+    let testUser = new Pin('Elmer', 'Fudd', 'efudd@looneytoons.com', 1, 1, mockAddress, 0, null, '', 1, 0);
+    let testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, '', 1, 0);
     let actual = service.createSayHiTemplateDictionary(testUser, testPin);
     expect(actual.Community_Member_Name).toBe(expected.Community_Member_Name);
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);

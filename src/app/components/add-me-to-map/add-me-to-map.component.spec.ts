@@ -1,14 +1,16 @@
+import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
+import { PinService } from '../../services/pin.service';
 import { MockComponent } from '../../shared/mock.component';
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable } from 'rxjs/Observable';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 import { SelectModule } from 'angular2-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { SiteAddressService } from '../../services/site-address.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
 
@@ -19,37 +21,39 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { UserLocationService } from '../../services/user-location.service';
 import { AddressService } from '../../services/address.service';
 import { Location } from '@angular/common';
+import { MockTestData } from '../../shared/MockTestData';
 
-describe('Component: Add Me to the Map', () => {
+
+describe('this.componentonent: Add Me to the Map', () => {
 
   let mockLocation,
-    mockAddMeToTheMapHelperService,
     mockBlandPageService,
     mockSessionService,
     mockStateService,
     mockContentService,
     mockUserLocationServicee,
     mockAddressService,
-    mockToastsManager;
+    mockToastsManager,
+    mockPinService;
 
 
   beforeEach(() => {
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
     mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
-    mockAddMeToTheMapHelperService = jasmine.createSpyObj<AddMeToTheMapHelperService>('AddMeToTheMapHelperService', ['constructor']);
-    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('BlandPageService', ['constructor']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['clearCache']);
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['setMyViewOrWorldView', 'setCurrentView', 'setLoading']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
 
 
     TestBed.configureTestingModule({
       declarations: [
-        AddMeToMapComponent, 
+        AddMeToMapComponent,
         MockComponent({ selector: 'crds-content-block', inputs: ['id'] }),
-        MockComponent({ selector: 'address-form', inputs: ['userData', 'buttonText', 'save'] })
+        MockComponent({ selector: 'address-form', inputs: ['address', 'parentForm', 'group', 'isFormSubmitted'] })
       ],
       imports: [
         AgmCoreModule.forRoot({
@@ -59,9 +63,8 @@ describe('Component: Add Me to the Map', () => {
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         SelectModule
-      ], 
+      ],
       providers: [
-        { provide: AddMeToTheMapHelperService, useValue: mockAddMeToTheMapHelperService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
@@ -69,7 +72,8 @@ describe('Component: Add Me to the Map', () => {
         { provide: Location, useValue: mockLocation },
         { provide: AddressService, useValue: mockAddressService },
         { provide: ToastsManager, useValue: mockToastsManager },
-        { provide: UserLocationService, useValue: mockUserLocationServicee }
+        { provide: UserLocationService, useValue: mockUserLocationServicee },
+        { provide: PinService, useValue: mockPinService }
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);
@@ -83,7 +87,7 @@ describe('Component: Add Me to the Map', () => {
 
   it('should attach class selector to body element after view init', () => {
     // Start fresh...
-    document.querySelector('body').classList.remove('modal-open');//
+    document.querySelector('body').classList.remove('modal-open');
 
     expect(document.querySelector('body').classList).not.toContain('modal-open');
     this.component.ngAfterViewInit();
@@ -97,5 +101,35 @@ describe('Component: Add Me to the Map', () => {
     this.component.closeClick();
     expect(this.component.location.back).toHaveBeenCalled();
   });
+
+  it('should setSubmissionErrorWarningTo', () => {
+    this.component.setSubmissionErrorWarningTo(true);
+    expect(this.component.submissionError).toBe(true);
+
+    this.component.setSubmissionErrorWarningTo(false);
+    expect(this.component.submissionError).toBe(false);
+  });
+
+  it('should submit', () => {
+        let pin = MockTestData.getAPin(1);
+        let expectedBpd = new BlandPageDetails(
+          'See for yourself',
+          'finderNowAPin',
+          BlandPageType.ContentBlock,
+          BlandPageCause.Success,
+          '',
+          ''
+        );
+
+        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
+        this.component.onSubmit(this.component.addressFormGroup);
+        expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
+        expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+        expect(mockStateService.setCurrentView).toHaveBeenCalledWith('map');
+        expect(mockStateService.setLastSearch).toHaveBeenCalledWith(null);
+        expect(mockSessionService.clearCache).toHaveBeenCalled();
+
+    });
 
 });
