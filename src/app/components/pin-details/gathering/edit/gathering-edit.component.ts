@@ -39,7 +39,7 @@ export class GatheringEditComponent implements OnInit {
         this.editGatheringForm = new FormGroup({
             description: new FormControl(this.pin.gathering.groupDescription, [Validators.required])
         });
-
+        this.checkPinOwner(this.pin);
         this.state.setPageHeader('gathering', ['gathering', this.pin.gathering.groupId]);
         this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
             .finally(() => {
@@ -54,9 +54,10 @@ export class GatheringEditComponent implements OnInit {
               this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
             }
             );
+    }
 
-
-        if (this.pin.contactId !== this.session.getContactId()) {
+    public checkPinOwner(pin) {
+        if (pin.contactId !== this.session.getContactId()) {
             let bpd = new BlandPageDetails(
                 'Return to map',
                 'Sorry you do not own the pin being edited',
