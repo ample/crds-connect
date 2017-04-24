@@ -88,6 +88,7 @@ import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
@@ -183,7 +184,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,
-    WhatsAHostGuard
+    WhatsAHostGuard,
+    HostNextStepsGuard,
   ],
   bootstrap: [AppComponent]
 })
