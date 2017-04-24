@@ -20,6 +20,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'gathering',
   templateUrl: 'gathering.html'
 })
