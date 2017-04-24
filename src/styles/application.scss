@@ -5,6 +5,14 @@ body {
   -webkit-font-smoothing: initial;
 }
 
+#toast-container {
+  z-index: 10;
+}
+
+#host-now-title{
+  font-size: 300%;
+}
+
 // Map labels
 .pin-label {
   $map-label-font-size: 13px;
@@ -144,6 +152,13 @@ app-add-me-to-map {
         width: 100%;
       }
 
+      .centered-form-group {
+        display: block;
+        margin: 0 auto;
+        padding-top: 1rem;
+        width: 100%;
+      }
+
       crds-content-block {
         display: block;
         margin: 0 auto;
@@ -165,9 +180,10 @@ app-add-me-to-map {
           width: auto;
         }
 
-        address-form {
+        .centered-form-group {
           width: 400px;
         }
+
       }
 
       @media (min-width: $screen-sm) {
@@ -179,6 +195,10 @@ app-add-me-to-map {
         }
 
         address-form {
+          width: 425px;
+        }
+
+        .centered-form-group {
           width: 425px;
         }
       }
