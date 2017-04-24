@@ -74,13 +74,9 @@ export class HostApplicationComponent implements OnInit {
 
     this.session.postHostApplication(dto).subscribe(
         (success) => {
-          console.log('Call successful');
-          console.log(success);
           this.state.setLoading(false);
           //navigate to static page - loader will be disabled on next page
         }, (err)=>{
-          console.log('Call failed');
-          console.log(err);
           this.state.setLoading(false);
           this.handleError(err);
         }
@@ -90,14 +86,8 @@ export class HostApplicationComponent implements OnInit {
   public handleError(err) {
     let isDuplicateGatheringAddress: boolean = err.status === 406;
 
-    console.log(err);
-    console.log(err.status);
-    console.log(isDuplicateGatheringAddress);
-
-    if(isDuplicateGatheringAddress) {
-      console.log('Toasting');
-      this.toast.error('You cannot host another gathering at the same location. Please change the address and try again!');
+    if (isDuplicateGatheringAddress) {
+      this.toast.error('You cannot host another gathering at the same location. Please change the address and try again!', null, {toastLife: 3000});
     }
   }
-
 }

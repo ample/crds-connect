@@ -5,6 +5,10 @@ body {
   -webkit-font-smoothing: initial;
 }
 
+#toast-container {
+  z-index: 10;
+}
+
 // Map labels
 .pin-label {
   $map-label-font-size: 13px;
