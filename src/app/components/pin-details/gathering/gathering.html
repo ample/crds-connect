@@ -18,6 +18,7 @@
       <button class="btn btn-secondary" (click)="requestToJoin()">Join gathering</button>
       <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
     </div>
+    <button *ngIf="isPinOwner" class="btn primary btn-primary" (click)="edit()">Edit</button>
   </div>
 
   <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
