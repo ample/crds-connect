@@ -4,7 +4,29 @@
   margin: 0 -2rem 1rem;
   padding: 2rem;
 
-  hr {
-    border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
+  hr,
+  .border-top,
+  .border-bottom,
+  .border-ends,
+  .border-sides {
+    border-color: rgba(darken($cr-gray-lighter, 10), .4);
+  }
+
+  &.person,
+  &.host_plain {
+    height: 100vh;
+    margin-bottom: 0;
+  }
+}
+
+.gathering-description {
+  padding-top: 1rem;
+}
+
+participant-card {
+  .media {
+    .media-img-wrapper {
+      width: auto;
+    }
   }
 }
