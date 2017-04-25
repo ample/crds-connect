@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { Address } from '../../models/address';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';

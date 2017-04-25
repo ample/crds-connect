@@ -17,10 +17,14 @@ export class SearchLocalComponent implements OnInit {
   public active: boolean;
 
   constructor(public mapHelper: GoogleMapService,
-              private state: StateService,
-              public search: SearchService,
-              private angulartics2: Angulartics2) {
-    mapHelper.mapViewUpdatedEmitter.subscribe((update) => {
+    private state: StateService,
+    public search: SearchService,
+    private angulartics2: Angulartics2) {
+  }
+
+  ngOnInit() {
+    this.active = false;
+    this.mapHelper.mapViewUpdatedEmitter.subscribe((update) => {
       if ((update.value === 'dragend') || (update.value === 'zoom_changed')) {
         this.mapView = update;
         this.showButton();
@@ -28,16 +32,12 @@ export class SearchLocalComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.active = false;
-  }
-
   public showButton() {
     this.active = true;
   }
 
   public doLocalSearch() {
-    this.angulartics2.eventTrack.next({ action: 'Update Results Button Click', properties: { category: 'Connect' }});
+    this.angulartics2.eventTrack.next({ action: 'Update Results Button Click', properties: { category: 'Connect' } });
     this.state.myStuffActive = false;
     this.search.emitLocalSearch(this.mapView);
   }

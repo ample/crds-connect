@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Pin, pinType } from '../../models/pin';

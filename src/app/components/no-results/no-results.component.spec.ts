@@ -12,14 +12,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: NoResults', () => {
-  let mockContentService;
+  let mockContentService, 
+      mockStateService, 
+      mockRouter;
 
   beforeEach(() => {
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
-
-    class RouterStub {
-      navigateByUrl(url: string) { return url; }
-    }
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['']);
+    mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -30,32 +30,28 @@ describe('Component: NoResults', () => {
         RouterTestingModule.withRoutes([]),
       ],
       providers: [
-        StateService,
+        { provide: StateService, useValue: mockStateService },
         { provide: ContentService, useValue: mockContentService },
-        { provide: Router, useClass: RouterStub }
+        { provide: Router, useValue: mockRouter }
       ]
     });
 
     this.fixture = TestBed.createComponent(NoResultsComponent);
     this.component = this.fixture.componentInstance;
   });
-
+ 
   it('should create an instance', () => {
       expect(this.component).toBeTruthy();
   });
 
-  it('should navigate to neighbors on button click', inject([Router], (router: Router) => {
-      const spy = spyOn(router, 'navigateByUrl');
+  it('should navigate to neighbors on button click', () => {
       this.component.btnClickBack();
-      const navArgs = spy.calls.first().args[0];
-      expect(navArgs).toMatch('/');
-  }));
+      expect(this.component.router.navigateByUrl).toHaveBeenCalledWith('/');
+  });
 
-  it('should navigate to add me to map on button click', inject([Router], (router: Router) => {
-      const spy = spyOn(router, 'navigateByUrl');
+  it('should navigate to add me to map on button click', () => {
       this.component.btnClickAddToMap();
-      const navArgs = spy.calls.first().args[0];
-      expect(navArgs).toMatch('/add-me-to-the-map');
-  }));
+      expect(this.component.router.navigateByUrl).toHaveBeenCalledWith('/add-me-to-the-map');
+  });
 
 });

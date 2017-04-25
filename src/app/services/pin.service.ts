@@ -96,7 +96,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       });
   }
 
-    public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
+  public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions: SearchOptions;
 
@@ -104,25 +104,25 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       searchOptions = new SearchOptions(userSearchAddress, lat, lng);
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
-        } else {
-          return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
-        }
-      } else {  // getMyViewOrWorldView = 'my'
-        searchOptions = new SearchOptions('myView', lat, lng);
-        if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-          return Observable.of(super.getCache());
-        } else {
-            return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
-          }
+      } else {
+        return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
       }
+    } else {  // getMyViewOrWorldView = 'my'
+      searchOptions = new SearchOptions('myView', lat, lng);
+      if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
+        return Observable.of(super.getCache());
+      } else {
+        return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
+      }
+    }
   }
 
   private getPinSearchResultsWorld(searchOptions: SearchOptions
-                                  , contactId: number
-                                  , userSearchAddress: string
-                                  , lat?: number
-                                  , lng?: number
-                                  , zoom?: number): Observable<PinSearchResultsDto> {
+    , contactId: number
+    , userSearchAddress: string
+    , lat?: number
+    , lng?: number
+    , zoom?: number): Observable<PinSearchResultsDto> {
     let searchUrl: string = lat && lng ?
       'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
       + '/' + lat.toString().split('.').join('$') + '/'
@@ -172,15 +172,15 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private getPinSearchResultsMyStuff(searchOptions: SearchOptions
-                                  , contactId: number
-                                  , lat?: number
-                                  , lng?: number): Observable<PinSearchResultsDto> {
+    , contactId: number
+    , lat?: number
+    , lng?: number): Observable<PinSearchResultsDto> {
     const geoCodeString = `/${lat}/${lng}`;
     let corsFriendlyGeoCode = geoCodeString.toString().split('.').join('$');
 
     return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}`)
-    .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
-    .catch((error: any) => Observable.throw(error || 'Server error'));
+      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+      .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
   // PUTS
@@ -206,7 +206,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(this.baseServicesUrl + 'communication/api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
 
-         let memberSaidHi = new BlandPageDetails(
+        let memberSaidHi = new BlandPageDetails(
           'Return to map',
           '<div class="text text-center">Success!</div>',
           BlandPageType.Text,
@@ -264,8 +264,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public replaceAddressOnUpdatedPin(pinSearchResults: Pin[], updatedPin: Pin, updatedPinsOldAddress: Address) {
 
     let indexOfUpdatedPin = pinSearchResults.findIndex(pin =>
-        pin.participantId === updatedPin.participantId
-        && pin.address.addressId === updatedPinsOldAddress.addressId
+      pin.participantId === updatedPin.participantId
+      && pin.address.addressId === updatedPinsOldAddress.addressId
     );
 
     let updatedPinFound: boolean = indexOfUpdatedPin !== -1;
