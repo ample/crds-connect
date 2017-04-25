@@ -18,7 +18,7 @@ export class CustomOptions extends ToastOptions {
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -105,6 +105,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
+    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -170,6 +171,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
+    Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,
     IFrameParentService,

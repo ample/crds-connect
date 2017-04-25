@@ -10,7 +10,7 @@ import { StateService } from './services/state.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { HeaderComponent } from './layout/header/header.component';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
@@ -40,8 +40,9 @@ describe('App: CrdsConnect', () => {
         ContentService,
         Angulartics2,
         Angulartics2GoogleTagManager,
+        Angulartics2GoogleAnalytics,
         ToastsManager,
-        ToastOptions
+        ToastOptions,
       ]
     })
       .compileComponents();
