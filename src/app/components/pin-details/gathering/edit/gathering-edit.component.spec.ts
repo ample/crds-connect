@@ -157,4 +157,9 @@ describe('GatheringEditComponent', () => {
         expect(mockToastr.error).toHaveBeenCalledWith(expectedToast);
         expect(comp['submissionError']).toBe(true);
     });
+
+    it('should cancel', () => {
+        comp.cancel();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId]);
+    });
 });
