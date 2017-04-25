@@ -195,8 +195,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
-    return (postedPin.participantId !== pinFromResults.participantId
-         && postedPin.pinType !== pinFromResults.pinType);
+    return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
   }
 
   private verifyPostedPinExistence() {
@@ -207,7 +206,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
        if (isFound === undefined) {
          this.pinSearchResults.pinSearchResults.push(pin);
        } else { // filter out old pin and replace
-         this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+         this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
          this.pinSearchResults.pinSearchResults.push(pin);
        }
        this.addressService.clearCache();
