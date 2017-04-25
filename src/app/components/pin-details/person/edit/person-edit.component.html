@@ -1,17 +1,30 @@
-<div class="pin-detail-header">
-    <pin-header [isGathering]="false" [isPinOwner]="true" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
-</div>
-<div>
+<div class="container-fluid connect-container connect-black-bg">
+  <div class="media">
+    <profile-picture imageClass="media-object img-size-6"
+                     wrapperClass="media-img-wrapper"
+                     [contactId]="pin.contactId"></profile-picture>
+
+    <div class="media-body">
+      <pin-header [isGathering]="true" [isPinOwner]="isPinOwner"
+                  [lastName]="pin.lastName" [firstName]="pin.firstName"
+                  [contactId]="pin.contactId"></pin-header>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
     <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
-        <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
+      <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
 
-        <footer class="page-footer page-footer-vertical">
-            <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
-            <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
-        </footer>
+      <footer class="page-footer page-footer-vertical">
+        <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
+        <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
+      </footer>
 
-        <div *ngIf="submissionError" class="alert alert-danger">
-            <crds-content-block id="generalError"></crds-content-block>
-        </div>
+      <div *ngIf="submissionError" class="alert alert-danger">
+        <crds-content-block id="generalError"></crds-content-block>
+      </div>
     </form>
+  </div>
 </div>
