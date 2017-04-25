@@ -77,12 +77,12 @@ export class PersonEditComponent implements OnInit {
         .subscribe(
             (pin) => {
                 this.addressService.clearCache();
-                this.toastr.success('Successfully updated details');
+                this.toastr.success(this.content.getContent('personSavedSuccess'));
                 this.pin = pin;
                 this.router.navigate(['/person', this.pin.participantId]);
             },
             (error) => {
-                this.toastr.error('Error updating details');
+                this.toastr.error(this.content.getContent('personSavedError'));
                 this.submissionError = true;
                 console.log(error);
             }

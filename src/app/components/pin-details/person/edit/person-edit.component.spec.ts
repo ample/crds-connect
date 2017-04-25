@@ -127,26 +127,30 @@ describe('PersonEditComponent', () => {
     });
 
     it('should submit', () => {
+        let expectedToast = 'Yay we did it';
         let newPin = MockTestData.getAPin(1);
 
         newPin.address = MockTestData.getAnAddress(42);
         mockPinService.postPin.and.returnValue(Observable.of(newPin));
+        mockContentService.getContent.and.returnValue(expectedToast);
         expect(comp.pin.address.addressId).toBe(1);
 
         comp.onSubmit();
         expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
         expect(comp.pin.address.addressId).toBe(42);
-        expect(mockToastr.success).toHaveBeenCalled();
+        expect(mockToastr.success).toHaveBeenCalledWith(expectedToast);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/person', pin.participantId]);
         expect(mockAddressService.clearCache).toHaveBeenCalled();
         expect(comp['submitting']).toBe(false);
     });
 
     it('should fail to submit gracefully', () => {
+        let expectedToast = 'Something error happens';
+        mockContentService.getContent.and.returnValue(expectedToast);
         mockPinService.postPin.and.returnValue(Observable.throw({}));
         comp.onSubmit();
         expect(comp['submitting']).toBe(false);
-        expect(mockToastr.error).toHaveBeenCalled();
+        expect(mockToastr.error).toHaveBeenCalledWith(expectedToast);
         expect(comp['submissionError']).toBe(true);
 
     });

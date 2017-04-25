@@ -131,28 +131,30 @@ describe('GatheringEditComponent', () => {
     });
 
     it('should submit', () => {
-
+        let expectedToast = '#Winning';
         let newPin = MockTestData.getAPin(1);
 
         newPin.gathering.address = MockTestData.getAnAddress(42);
         mockPinService.updateGathering.and.returnValue(Observable.of(newPin));
+        mockContentService.getContent.and.returnValue(expectedToast);
         expect(comp.pin.gathering.address.addressId).toBe(1);
 
         comp.onSubmit();
         expect(mockPinService.updateGathering).toHaveBeenCalledWith(pin);
         expect(comp.pin.gathering.address.addressId).toBe(42);
-        expect(mockToastr.success).toHaveBeenCalled();
+        expect(mockToastr.success).toHaveBeenCalledWith(expectedToast);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId]);
         expect(mockAddressService.clearCache).toHaveBeenCalled();
         expect(comp['submitting']).toBe(false);
     });
 
     it('should fail to submit gracefully', () => {
+        let expectedToast = 'Hey this guy has an error';
         mockPinService.updateGathering.and.returnValue(Observable.throw({}));
+        mockContentService.getContent.and.returnValue(expectedToast);
         comp.onSubmit();
         expect(comp['submitting']).toBe(false);
-        expect(mockToastr.error).toHaveBeenCalled();
+        expect(mockToastr.error).toHaveBeenCalledWith(expectedToast);
         expect(comp['submissionError']).toBe(true);
-
     });
 });

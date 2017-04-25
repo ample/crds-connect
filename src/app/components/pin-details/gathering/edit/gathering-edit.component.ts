@@ -79,12 +79,12 @@ export class GatheringEditComponent implements OnInit {
         .subscribe(
             (pin) => {
                 this.addressService.clearCache();
-                this.toastr.success('Successfully updated gathering');
+                this.toastr.success(this.content.getContent('gatheringSavedSuccessfully'));
                 this.pin = pin;
                 this.router.navigate(['/gathering', this.pin.gathering.groupId]);
             },
             (error) => {
-                this.toastr.error('Error updating gathering');
+                this.toastr.error(this.content.getContent('gatheringSavedError'));
                 this.submissionError = true;
                 console.log(error);
             }
