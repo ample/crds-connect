@@ -1,5 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -57,6 +57,12 @@ export class HostApplicationComponent implements OnInit {
     });
 
     this.state.setLoading(false);
+  }
+
+  public ngAfterViewInit() {
+    // This component is rendered within a fauxdal,
+    // so we need the following selector added to <body> element
+    document.querySelector('body').classList.add('modal-open');
   }
 
   public onSubmit ({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
