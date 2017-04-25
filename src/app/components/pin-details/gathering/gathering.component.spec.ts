@@ -52,7 +52,6 @@ describe('GatheringComponent', () => {
     let mockToast;
     let mockContentService;
     let mockAddressService;
-    let mockRouter;
     let mockAngulartics2;
 
     beforeEach(() => {
@@ -67,7 +66,6 @@ describe('GatheringComponent', () => {
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
         mockAngulartics2 = new MockAngulartic();
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
         TestBed.configureTestingModule({
             declarations: [

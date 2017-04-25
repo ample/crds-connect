@@ -30,7 +30,7 @@ describe('PersonComponent', () => {
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigatge']);
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
         TestBed.configureTestingModule({
             declarations: [
