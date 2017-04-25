@@ -18,7 +18,7 @@ export class CustomOptions extends ToastOptions {
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -31,10 +31,10 @@ import { HeaderComponent } from './layout/header/header.component';
 
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
-import { AddressFormTwoComponent } from './components/address-form2/addres-form2.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
+import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
@@ -51,6 +51,7 @@ import { NoResultsComponent } from './components/no-results/no-results.component
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
+import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
@@ -62,7 +63,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 
 import { AddressService } from './services/address.service';
-import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -105,6 +105,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
+    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -124,11 +125,11 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   declarations: [
     AddMeToMapComponent,
     AddressFormComponent,
-    AddressFormTwoComponent,
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
     GatheringComponent,
+    GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
     HeaderComponent,
@@ -146,6 +147,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PageNotFoundComponent,
     ParticipantCardComponent,
     PersonComponent,
+    PersonEditComponent,
     PinDetailsComponent,
     PinHeaderComponent,
     PinLoginActionsComponent,
@@ -159,7 +161,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   ],
   providers: [
     AddressService,
-    AddMeToTheMapHelperService,
     appRoutingProviders,
     BlandPageGuard,
     BlandPageService,
@@ -170,6 +171,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
+    Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,
     IFrameParentService,

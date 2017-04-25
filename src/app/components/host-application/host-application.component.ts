@@ -1,8 +1,8 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Angulartics2 } from 'angulartics2';
 import { ToastsManager } from 'ng2-toastr';
 
 import { BlandPageService } from '../../services/bland-page.service';

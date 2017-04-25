@@ -1,0 +1,17 @@
+<div class="pin-detail-header">
+    <pin-header [isGathering]="false" [isPinOwner]="true" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
+</div>
+<div>
+    <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
+        <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
+
+        <footer class="page-footer page-footer-vertical">
+            <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
+            <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
+        </footer>
+
+        <div *ngIf="submissionError" class="alert alert-danger">
+            <crds-content-block id="generalError"></crds-content-block>
+        </div>
+    </form>
+</div>
