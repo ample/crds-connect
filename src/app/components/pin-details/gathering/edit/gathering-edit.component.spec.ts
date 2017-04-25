@@ -130,10 +130,28 @@ describe('GatheringEditComponent', () => {
     });
 
     it('should submit', () => {
-        pending();
+
+        let newPin = MockTestData.getAPin(1);
+
+        newPin.gathering.address = MockTestData.getAnAddress(42);
+        mockPinService.updateGathering.and.returnValue(Observable.of(newPin));
+        expect(comp.pin.gathering.address.addressId).toBe(1);
+
+        comp.onSubmit();
+        expect(mockPinService.updateGathering).toHaveBeenCalledWith(pin);
+        expect(comp.pin.gathering.address.addressId).toBe(42);
+        expect(mockToastr.success).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId]);
+        expect(mockAddressService.clearCache).toHaveBeenCalled();
+        expect(comp['submitting']).toBe(false);
     });
 
     it('should fail to submit gracefully', () => {
-        pending();
+        mockPinService.updateGathering.and.returnValue(Observable.throw({}));
+        comp.onSubmit();
+        expect(comp['submitting']).toBe(false);
+        expect(mockToastr.error).toHaveBeenCalled();
+        expect(comp['submissionError']).toBe(true);
+
     });
 });
