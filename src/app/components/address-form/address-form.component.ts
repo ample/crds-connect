@@ -2,7 +2,6 @@ import { Address } from '../../models/address';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { usStatesList } from '../../shared/constants';
-import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 
 @Component({
   selector: 'address-form',
