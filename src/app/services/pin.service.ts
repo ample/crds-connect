@@ -183,11 +183,18 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
+  // PUTS
+  public updateGathering(pin: Pin): Observable<Pin> {
+    return this.session.put(`${this.baseUrl}api/v1.0.0/finder/gathering/edit`, pin)
+    .do((res: any) => super.clearCache()) // Maybe update cache for this pin?
+    .catch((error: any) => Observable.throw(error || 'Server error'));
+  }
+
   // POSTS
-  public sendHiEmail(user: User, pin: Pin): Observable<any> {
+  public sendHiEmail(user: Pin, pin: Pin): Observable<any> {
     // Create merge data for this template
     let emailInfo = {
-      'fromEmailAddress': user.email,
+      'fromEmailAddress': user.emailAddress,
       'toEmailAddress': pin.emailAddress,
       'subject': 'Hi',
       'body': 'Just wanted to say hi',
@@ -212,11 +219,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((err) => Observable.throw(err.json().error));
   }
 
-  public createSayHiTemplateDictionary(user: User, pin: Pin) {
+  public createSayHiTemplateDictionary(user: Pin, pin: Pin) {
     return {
-      'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
+      'Community_Member_Name': user.firstName + ' ' + user.lastName.charAt(0) + '.',
       'Pin_First_Name': pin.firstName,
-      'Community_Member_Email': user.email,
+      'Community_Member_Email': user.emailAddress,
       'Community_Member_City': user.address.city,
       'Community_Member_State': user.address.state
     };

@@ -11,7 +11,6 @@ import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
 import { User } from '../../models/user';
 
 @Component({
@@ -30,7 +29,7 @@ export class PinDetailsComponent implements OnInit {
   public isGatheringPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
-  public user: User;
+  public user: Pin;
 
   constructor(
     private location: PlatformLocation,

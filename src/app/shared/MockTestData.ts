@@ -8,12 +8,12 @@ export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
     hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5,
-    isFormDirty = false, proximity = 5): PinSearchResultsDto {
+    proximity = 5): PinSearchResultsDto {
         let pins: Pin[];
         pins = new Array<Pin>();
 
         for (let pin = 0; pin < numPins; pin++) {
-            pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, isFormDirty, proximity));
+            pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, proximity));
         }
         return new PinSearchResultsDto(
             new GeoCoordinates(
@@ -25,7 +25,7 @@ export class MockTestData {
     }
 
     public static getAPin(designator: number = 1, hostStatus: number = 3, pinType: number = 1,
-    numParticipantsInGathering: number = 5, isFormDirty = false, proximity = 5): Pin {
+    numParticipantsInGathering: number = 5, proximity = 5): Pin {
         return new Pin(
             'firstName' + designator.toString(),
             'lastName' + designator.toString(),
@@ -35,8 +35,6 @@ export class MockTestData {
             this.getAnAddress(designator),
             hostStatus,
             this.getAGroup(designator, numParticipantsInGathering),
-            designator,
-            isFormDirty,
             'site' + designator.toString(),
             pinType,
             proximity

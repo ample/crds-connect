@@ -86,7 +86,7 @@ describe('GatheringComponent', () => {
                 { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
                     provide: Router,
-                    useValue: { routerState: { snapshot: { url: 'abc123' } } },
+                    useValue: { routerState: { snapshot: { url: 'abc123' }}, navigate: jasmine.createSpy('navigate') },
                 },
             ],
             schemas: [NO_ERRORS_SCHEMA]
@@ -269,5 +269,12 @@ describe('GatheringComponent', () => {
 
         comp.ngOnInit();
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
+    });
+
+    it('should edit', () => {
+        let pin = MockTestData.getAPin(1);
+        comp['pin'] = pin;
+        comp.edit();
+        expect(comp['router'].navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId, 'edit']);
     });
 });

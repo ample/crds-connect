@@ -126,16 +126,16 @@ describe('Component: SearchLocal', () => {
     });
   }));
 
-  fit('should create an instance', () => {
+  it('should create an instance', () => {
     expect(comp).toBeTruthy();
   });
 
-  fit('should not be present if mapView is unchanged', () => {
+  it('should not be present if mapView is unchanged', () => {
     let element = document.querySelector('.search-local button');
     expect(element).toBe(null);
   });
 
-  fit('should call ngOnInit without exploding', () => {
+  it('should call ngOnInit without exploding', () => {
     comp.mapHelper.mapViewUpdatedEmitter = mockEventEmitter;
     comp.ngOnInit();
     expect(comp.active).toBe(false);

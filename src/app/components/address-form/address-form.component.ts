@@ -1,88 +1,34 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter  } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-
-import { PinService } from '../../services/pin.service';
-import { StateService } from '../../services/state.service';
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-import { LookupTable } from '../../models/lookup-table';
-import { Location } from '@angular/common';
-
-import { Pin } from '../../models/pin';
-import { UserDataForPinCreation } from '../../models/user-data-for-pin-creation';
 import { Address } from '../../models/address';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { usStatesList } from '../../shared/constants';
 
-
 @Component({
-    selector: 'address-form',
-    templateUrl: 'address-form.component.html'
+  selector: 'address-form',
+  templateUrl: 'address-form.component.html'
 })
 export class AddressFormComponent implements OnInit {
+  @Input() parentForm: FormGroup;
+  @Input() groupName: string;
+  @Input() address: Address;
+  @Input() isFormSubmitted;
+  private addressFormGroup: FormGroup;
+  private formName: string;
+  private stateList: Array<string>;
 
-    @Input() userData: UserDataForPinCreation;
-    @Input() buttonText: String = 'Add me to the map';
-    @Input() cancel: Function;
-    @Output() save: EventEmitter<Pin> = new EventEmitter<Pin>();
+  constructor(private fb: FormBuilder) { }
 
-    public stateList: Array<string>;
-    public addressFormGroup: FormGroup;
-    public stateListForSelect: Array<any>;
-    public submissionError: boolean = false;
+  ngOnInit() {
+    this.stateList = usStatesList;
+    this.addressFormGroup = new FormGroup({
+        addressLine1: new FormControl(this.address.addressLine1, [Validators.required]),
+        addressLine2: new FormControl(this.address.addressLine2),
+        city: new FormControl(this.address.city, [Validators.required]),
+        state: new FormControl(this.address.state, [Validators.required]),
+        zip: new FormControl(this.address.zip, [Validators.required])
+    });
 
-
-    constructor(private pinService: PinService,
-        private fb: FormBuilder,
-        private hlpr: AddMeToTheMapHelperService,
-        private state: StateService,
-        private location: Location) { }
-
-
-    public ngOnInit(): void {
-        this.stateList = usStatesList;
-        this.state.setLoading(false);
-
-        this.addressFormGroup = new FormGroup({
-            addressLine1: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine1'), [Validators.required]),
-            addressLine2: new FormControl(this.hlpr.getStringField(this.userData, 'addressLine2')),
-            city: new FormControl(this.hlpr.getStringField(this.userData, 'city'), [Validators.required]),
-            state: new FormControl(this.userData.address.state, [Validators.required]),
-            zip: new FormControl(this.hlpr.getStringField(this.userData, 'zip'), [Validators.required]),
-            foreignCountry: new FormControl(this.hlpr.getStringField(this.userData, 'foreignCountry')),
-            county: new FormControl(this.hlpr.getStringField(this.userData, 'county'))
-        });
-
-    }
-
-    public onSubmit({ value, valid }: { value: any, valid: boolean }) {
-
-        this.setSubmissionErrorWarningTo(false);
-        value.isFormDirty = this.addressFormGroup.dirty;
-
-        let pinToSubmit: Pin = this.hlpr.createNewPin(value, this.userData);
-
-        this.pinService.postPin(pinToSubmit).subscribe(
-            pin => {
-                this.save.emit(pin);
-            },
-            err => {
-                this.setSubmissionErrorWarningTo(true);
-                this.save.emit(null);
-            }
-        );
-    }
-
-    public setSubmissionErrorWarningTo(isErrorActive) {
-        this.submissionError = isErrorActive;
-    }
-
-    public back() {
-        if (this.cancel) {
-            this.cancel();
-        } else {
-            this.location.back();
-        }
-    }
-
+    this.parentForm.addControl(this.groupName, this.addressFormGroup);
+  }
 }
-

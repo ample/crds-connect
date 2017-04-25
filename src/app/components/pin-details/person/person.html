@@ -7,6 +7,9 @@
 		<div class="media-meta">
 			<readonly-address [isPinOwner]="isPinOwner" [address]="pin.address" [distance]="pin.proximity"></readonly-address>
 		</div>
+		<div>
+			<button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()"> Edit </button>
+		</div>
 	</div>
 
 </div>

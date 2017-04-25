@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
@@ -19,12 +20,12 @@ export class PersonComponent implements OnInit {
   @Input() pin: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
-  @Input() user: User;
+  @Input() user: Pin;
 
   public sayHiButtonText: string = 'Say hi!';
 
   constructor(private addressService: AddressService, private state: StateService, private toast: ToastsManager,
-  private content: ContentService) {
+  private content: ContentService, private router: Router) {
   }
 
   ngOnInit() {
@@ -43,5 +44,9 @@ export class PersonComponent implements OnInit {
         }
       );
     }
+  }
+
+  public edit() {
+    this.router.navigate(['/person', this.pin.participantId, 'edit']);
   }
 }
