@@ -95,6 +95,7 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
+import { RouterModule, Routes } from '@angular/router';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
@@ -104,6 +105,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
+    RouterModule.forRoot(appRoutingProviders),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     BrowserModule,
