@@ -1,4 +1,4 @@
-<div class="container-fluid connect-container">
+<div class="container-fluid connect-container connect-black-bg">
   <div class="media">
     <profile-picture imageClass="media-object img-size-6"
                      wrapperClass="media-img-wrapper"
@@ -16,7 +16,7 @@
   <div>
     <form *ngIf="ready" novalidate [formGroup]="editGatheringForm"
           (ngSubmit)="onSubmit()">
-      <h4>Meets at:</h4>
+      <h4 class="dark-theme">Meets at:</h4>
       <address-form [parentForm]="editGatheringForm"
                     [address]="pin.gathering.address"
                     [isFormSubmitted]="submissionError"

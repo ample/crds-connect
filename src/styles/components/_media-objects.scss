@@ -7,14 +7,14 @@
 
 .connect-container {
   background: $cr-white;
-  height: 381px;
+  min-height: 381px;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
   @for $idx from 5 to 30 {
     $height: $idx * 100;
     @media screen and ( min-height: #{$height}px ){
-      height: #{$height - 19}px;
+      min-height: #{$height - 19}px;
     }
   }
 
