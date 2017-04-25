@@ -5,8 +5,6 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { ReadonlyAddressComponent } from './readonly-address.component';
 
@@ -34,7 +32,7 @@ describe('ReadonlyAddressComponent', () => {
         });
     }));
 
-    it('should init the component', () => {
+   it('should init the component', () => {
         expect(comp).toBeTruthy();
     });
 
