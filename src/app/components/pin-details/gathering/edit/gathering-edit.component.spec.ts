@@ -46,7 +46,8 @@ describe('GatheringEditComponent', () => {
         TestBed.configureTestingModule({
             declarations: [
                 GatheringEditComponent,
-                MockComponent({ selector: 'address-form', inputs: ['parentForm', 'isFormSubmitted', 'groupName', 'address'] })
+                MockComponent({ selector: 'address-form', inputs: ['parentForm', 'isFormSubmitted', 'groupName', 'address'] }),
+                MockComponent({ selector: 'crds-content-block', inputs: ['id']})
             ],
             imports: [
                 RouterTestingModule.withRoutes([]),

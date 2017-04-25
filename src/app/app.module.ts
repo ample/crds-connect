@@ -51,6 +51,7 @@ import { NoResultsComponent } from './components/no-results/no-results.component
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
+import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { PinHeaderComponent } from './components/pin-details/pin-header/pin-header.component';
 import { PinLoginActionsComponent } from './components/pin-details/pin-login-actions/pin-login-actions.component';
@@ -144,6 +145,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PageNotFoundComponent,
     ParticipantCardComponent,
     PersonComponent,
+    PersonEditComponent,
     PinDetailsComponent,
     PinHeaderComponent,
     PinLoginActionsComponent,

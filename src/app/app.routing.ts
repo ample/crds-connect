@@ -1,4 +1,3 @@
-import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -14,6 +13,8 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
+import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
@@ -104,6 +105,12 @@ const appRoutes: Routes = [
     resolve: {
       pin: PinResolver,
       user: UserDataResolver
+    }
+  }, {
+    path: 'person/:participantId/edit',
+    component: PersonEditComponent,
+    resolve: {
+      pin: PinResolver
     }
   },
   { path: 'register', component: RegisterComponent },

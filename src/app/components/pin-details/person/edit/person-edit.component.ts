@@ -13,15 +13,15 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 @Component({
-    selector: 'gathering-edit',
-    templateUrl: './gathering-edit.component.html'
+    selector: 'person-edit',
+    templateUrl: './person-edit.component.html'
 })
-export class GatheringEditComponent implements OnInit {
+export class PersonEditComponent implements OnInit {
     @Input() pin: Pin;
     private submitting: boolean = false;
     private ready: boolean = false;
     private submissionError: boolean = false;
-    public editGatheringForm: FormGroup;
+    public editPersonForm: FormGroup;
 
     constructor(private route: ActivatedRoute,
                 private session: SessionService,
@@ -36,11 +36,9 @@ export class GatheringEditComponent implements OnInit {
     ngOnInit() {
         this.state.setLoading(true);
         this.pin = this.route.snapshot.data['pin'];
-        this.editGatheringForm = new FormGroup({
-            description: new FormControl(this.pin.gathering.groupDescription, [Validators.required])
-        });
+        this.editPersonForm = new FormGroup({});
         this.checkPinOwner(this.pin);
-        this.state.setPageHeader('gathering', ['/gathering', this.pin.gathering.groupId]);
+        this.state.setPageHeader('Details', ['/person', this.pin.participantId]);
         this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
             .finally(() => {
               this.ready = true;
@@ -48,7 +46,7 @@ export class GatheringEditComponent implements OnInit {
             })
             .subscribe(
             address => {
-              this.pin.gathering.address = address;
+              this.pin.address = address;
             },
             error => {
               this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
@@ -72,19 +70,19 @@ export class GatheringEditComponent implements OnInit {
 
     public onSubmit() {
         this.submitting = true;
-        this.pinService.updateGathering(this.pin)
+        this.pinService.postPin(this.pin)
         .finally(() => {
             this.submitting = false;
         })
         .subscribe(
             (pin) => {
                 this.addressService.clearCache();
-                this.toastr.success('Successfully updated gathering');
+                this.toastr.success('Successfully updated details');
                 this.pin = pin;
-                this.router.navigate(['/gathering', this.pin.gathering.groupId]);
+                this.router.navigate(['/person', this.pin.participantId]);
             },
             (error) => {
-                this.toastr.error('Error updating gathering');
+                this.toastr.error('Error updating details');
                 this.submissionError = true;
                 console.log(error);
             }
