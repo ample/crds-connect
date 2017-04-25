@@ -30,8 +30,8 @@
   <div *ngIf="isInGathering">
     <h3 class="title font-size-h5">Participants</h3>
     <hr>
-    <div class="container-fluid" *ngFor="let participant of pin.gathering.Participants">
-      <div class="row">
+    <div class="container-fluid">
+      <div class="row" *ngFor="let participant of pin.gathering.Participants">
         <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
       </div>
     </div>

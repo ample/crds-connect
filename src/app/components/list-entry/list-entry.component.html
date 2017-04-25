@@ -1,11 +1,11 @@
 <div *ngIf="isPerson()"
-     class="media border-bottom person"
+     class="media media-link border-bottom person"
      (click)="sayHi(participantId)">
   <profile-picture [contactId]="contactId"
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading media-heading-link">{{name()}}<span class="media-label">
+    <h3 class="media-heading">{{name()}}<span class="media-label">
         <span *ngIf="isMe()" class="label label-warning">ME</span>
       </span></h3>
     <p class="media-meta">
@@ -15,13 +15,13 @@
 </div>
 
 <div *ngIf="isGathering()"
-     class="media border-bottom gathering"
+     class="media media-link border-bottom gathering"
      (click)="displayDetails(groupId)">
   <profile-picture [contactId]="contactId"
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading media-heading-link">{{name()}}<span class="media-label"><span class="label label-primary">HOST</span></span></h3>
+    <h3 class="media-heading">{{name()}}<span class="media-label"><span class="label label-primary">HOST</span></span></h3>
     <p class="media-meta">
       <span>{{roundedProximity()}} MI</span>
       <span>JOINED BY {{count()}}</span>

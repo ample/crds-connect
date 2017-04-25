@@ -1,7 +1,4 @@
-<div class="content-middle" [class.is-gathering]="isGatheringPin">
-
-	<div class="container-fluid">
-	    <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
-	    <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
-	</div>
+<div class="connect-white-bg" [class.is-gathering]="isGatheringPin">
+  <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
+  <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
 </div>

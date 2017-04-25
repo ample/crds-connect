@@ -1,7 +1,7 @@
 .pin-details-dark {
   background: rgba($cr-black, .9);
   color: $cr-gray-light;
-  margin: 0 -2rem 1rem;
+  margin: -1rem -2rem 0;
   padding: 2rem;
 
   hr,
@@ -15,7 +15,7 @@
   &.person,
   &.host_plain {
     height: 100vh;
-    margin-bottom: 0;
+    margin-bottom: -1rem;
   }
 }
 
