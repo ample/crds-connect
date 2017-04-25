@@ -39,7 +39,7 @@ export class PersonEditComponent implements OnInit {
         this.editPersonForm = new FormGroup({});
         this.checkPinOwner(this.pin);
         this.state.setPageHeader('Details', ['/person', this.pin.participantId]);
-        this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+        this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON)
             .finally(() => {
               this.ready = true;
               this.state.setLoading(false);
