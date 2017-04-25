@@ -5,6 +5,9 @@ import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { Address } from '../models/address';
+import { DetailedUserData } from '../models/detailed-user-data';
+import { HostApplicatonForm } from '../models/host-application-form';
+import { HostRequestDto } from '../models/host-request-dto';
 import { Pin } from '../models/pin';
 import { User } from '../models/user';
 import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
@@ -80,7 +83,7 @@ export class SessionService extends SmartCacheableService<User, number> {
     this.setCookieTimeout();
 
     return body || {};
-  }
+  };
 
   public setCookieTimeout() {
     let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
@@ -200,6 +203,24 @@ export class SessionService extends SmartCacheableService<User, number> {
     }
   }
 
+  public getDetailedUserData(): Observable<any> {
+    let contactId = this.getContactId();
+
+    if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
+      return this.get(`${this.baseUrl}api/v1.0.0/profile/${contactId}`)
+        .map((res: any) => {
+          let userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2, res.city, res.state,
+                                        res.postalCode, null, null, res.foreignCountry, res.county);
+          let userData: DetailedUserData = new DetailedUserData(contactId, res.firstName, res.lastName, res.homePhone,
+                                                                res.mobilePhone, res.emailAddress, userAddress);
+          return userData;
+        })
+        .catch((err: any) => {
+          return Observable.throw(err.json().error);
+        });
+    }
+  }
+
   public getUserDetailsByContactId(contactId: number): Observable<User> {
     if (super.cacheIsReadyAndValid(contactId, CacheLevel.Partial)) {
       return Observable.of(super.getCache());
@@ -227,6 +248,12 @@ export class SessionService extends SmartCacheableService<User, number> {
 
   public postUser(user: User): Observable<any> {
     return this.post(this.baseUrl + 'api/v1.0.0/user', user)
+      .map(this.extractData)
+      .catch(this.handleError);
+  };
+
+  public postHostApplication(hostApplication: HostRequestDto): Observable<any> {
+    return this.post(this.baseUrl + 'api/v1.0.0/finder/pin/requesttobehost', hostApplication)
       .map(this.extractData)
       .catch(this.handleError);
   };

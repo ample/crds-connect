@@ -17,25 +17,25 @@ describe('ListFooterComponent', () => {
     let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService;
 
     beforeEach(() => {
-      mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
-      mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
-      mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView']);
-      mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['']);
+        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView', 'getCurrentView']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToWhatsAHost']);
         TestBed.configureTestingModule({
             declarations: [
                 ListFooterComponent,
-                MockComponent({selector: 'crds-content-block', inputs: ['id']})
+                MockComponent({ selector: 'crds-content-block', inputs: ['id'] })
             ],
             imports: [
-              RouterTestingModule.withRoutes([])
+                RouterTestingModule.withRoutes([])
             ],
             providers: [
-              { provide: ListHelperService, useValue: mockListHelperService },
-              { provide: SessionService, useValue: mockSessionService },
-              { provide: StateService, useValue: mockStateService },
-              { provide: BlandPageService, useValue: mockBlandPageService }
+                { provide: ListHelperService, useValue: mockListHelperService },
+                { provide: SessionService, useValue: mockSessionService },
+                { provide: StateService, useValue: mockStateService },
+                { provide: BlandPageService, useValue: mockBlandPageService }
             ],
-            schemas: [ NO_ERRORS_SCHEMA ]
+            schemas: [NO_ERRORS_SCHEMA]
         });
     });
 
@@ -43,13 +43,10 @@ describe('ListFooterComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(ListFooterComponent);
             comp = fixture.componentInstance;
-
-            // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
 
     it('should create an instance', () => {
-        fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 });

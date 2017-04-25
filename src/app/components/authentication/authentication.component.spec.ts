@@ -8,14 +8,10 @@ import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { HttpModule, JsonpModule } from '@angular/http';
 
-
-import { PinService } from '../../services/pin.service';
-
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { BlandPageService } from '../../services/bland-page.service';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 import { AuthenticationComponent } from './authentication.component';
@@ -24,27 +20,30 @@ describe('Component: Authentication', () => {
 
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
-  let location: Location;
-
-  let mockLoginRedirectService;
+  let mockCookieService,
+    mockSessionService,
+    mockStateService,
+    mockLoginRedirectService,
+    mockStoreService;
 
   beforeEach(() => {
-    mockLoginRedirectService = jasmine.createSpyObj('redirectService', ['cancelRedirect', 'redirectToTarget']);
+    mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('redirectService', ['cancelRedirect', 'redirectToTarget']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'postLogin']);
+    mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor','setLoading']);
+    mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
         AuthenticationComponent
       ],
       providers: [
-        CookieService,
-        SessionService,
-        StateService,
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-        PinService,
         FormBuilder,
-        StoreService,
-        RouterTestingModule,
-        BlandPageService
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: CookieService, useValue: mockCookieService },
+        { provide: StateService, useValue: mockStateService },
+        { provide: StoreService, useValue: mockStoreService },
       ],
       imports: [RouterTestingModule.withRoutes([]), HttpModule],
       schemas: [NO_ERRORS_SCHEMA]
@@ -63,30 +62,33 @@ describe('Component: Authentication', () => {
     expect(fixture).toBeTruthy();
   });
 
-  it('should call the router to move to the previous step', inject([LoginRedirectService], (loginRedirectService) => {
+  it('should call the router to move to the previous step', () => {
     comp.back();
-    expect((loginRedirectService.redirectToTarget).toHaveBeenCalled);
-  }));
+    expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
+  });
 
   it('should set the "navigatedBackFromAuthComponent" prop on state service',
-      inject([StateService], (stateService) => {
-    stateService.navigatedBackFromAuthComponent = false;
-    comp.back();
-    expect(stateService.navigatedBackFromAuthComponent).toEqual(true);
-  }));
+    () => {
+      comp.state.navigatedBackFromAuthComponent = false;
+      let ret = comp.back();
+      expect(ret).toEqual(false);
+      expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
+      expect(comp.state.navigatedBackFromAuthComponent).toEqual(true);
+
+    });
 
   function setForm(email, password) {
     comp.form.setValue({ email: email, password: password });
   }
 
-  it('loginException should get set to true', inject([SessionService], (session) => {
+  it('loginException should get set to true', ()=> {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
-    spyOn(session, 'postLogin').and.returnValue(Observable.throw({}));
+    (<jasmine.Spy>comp.session.postLogin).and.returnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
-    expect(comp.loginException).toBeTruthy();
-  }));
+    expect(comp.loginException).toBeTruthy(); 
+  });
 
   it('should check to see if field is valid when valid credentials are provided', () => {
     setForm('s@s.com', 'test');
@@ -101,9 +103,8 @@ describe('Component: Authentication', () => {
   });
 
   it('should call cancelRedirect when the back button is clicked', () => {
-
     comp.back();
-    expect(mockLoginRedirectService.cancelRedirect).toHaveBeenCalled();
+    expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
   });
 
 

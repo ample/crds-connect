@@ -1,9 +1,3 @@
-<p *ngIf="showFullAddress" class="pin-address-street">
-	{{showFullAddress ? address.addressLine1 : ""}}
-	{{showFullAddress ? address.addressLine2 : ""}}	
-</p>
+<span *ngIf="showFullAddress"> {{showFullAddress ? address.addressLine1 : ""}} {{showFullAddress ? address.addressLine2 : ""}}<br></span>
 
-<p class="pin-address-city">
-	{{address.city}}, {{address.state}}
-	{{address.zip}} {{this.distString}}
-</p>
+<span>{{address.city}}, {{address.state}} {{address.zip}} {{this.distString}}</span>

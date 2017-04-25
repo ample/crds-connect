@@ -55,21 +55,12 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         let promise = this.markerManager.getNativeMarker(sebmMarker);
         promises.push(promise);
         promise.then(marker => {
-
-          let markerWithIcon: IObjectWithIcon = marker;
-          let isSiteMarker: boolean = markerWithIcon.icon.endsWith('SITE.svg') || markerWithIcon.icon.endsWith('SITE.png');
-
-          if ( !isSiteMarker ) {
-            markers.push(marker);
-          } else {
-            siteMarkers.push(marker);
-          }
+          markers.push(marker);
         });
       }
 
       Promise.all(promises).then(() => {
         this.cluster = new MarkerClusterer(map, markers, options);
-        this.mapHlpr.setSiteMarkers(siteMarkers);
       });
 
     });
