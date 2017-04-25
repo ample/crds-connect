@@ -1,5 +1,5 @@
 <div *ngIf="ready">
-  <div class="pin-details-dark">
+  <div class="pin-details-dark" [ngClass]="{ host_plain: !isInGathering && !isPinOwner }">
     <div class="media media-dark">
       <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 
@@ -12,28 +12,29 @@
       </div>
     </div>
 
-    <p>{{pin.gathering.groupDescription}}</p>
+    <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
 
     <div *ngIf="!isInGathering && !isPinOwner">
       <button class="btn btn-secondary" (click)="requestToJoin()">Join gathering</button>
       <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
     </div>
     <button *ngIf="isPinOwner" class="btn primary btn-primary" (click)="edit()">Edit</button>
-  </div>
 
-  <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
+    <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
+  </div>
 
   <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
 
   <div *ngIf="isInGathering">
-    <h3>Participants</h3>
-    <div *ngFor="let participant of pin.gathering.Participants">
+    <h3 class="title font-size-h5">Participants</h3>
+    <hr>
+    <div class="container-fluid" *ngFor="let participant of pin.gathering.Participants">
       <div class="row">
         <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
       </div>
     </div>
 
-    <div class="btn-group">
+    <div class="btn-group push-half-top">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Email all participants <span class="caret"></span>
       </button>
