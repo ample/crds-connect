@@ -27,14 +27,6 @@ export class GoogleMapService {
     this.mapViewUpdatedEmitter = new EventEmitter<MapView>();
   }
 
-  public setSiteMarkers(siteMarkersOnMap: any): void {
-    this.siteMarkersOnMap = siteMarkersOnMap;
-  }
-
-  public getSiteMarkersOnMap(): any {
-    return this.siteMarkersOnMap;
-  }
-
   public emitRefreshMap(coords: GeoCoordinates): void {
     this.mapUpdatedEmitter.emit(coords);
   }

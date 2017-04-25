@@ -3,8 +3,8 @@ import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 import { SelectModule } from 'angular2-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';

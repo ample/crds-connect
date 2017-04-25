@@ -14,12 +14,14 @@ import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 
+import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
@@ -58,13 +60,26 @@ const appRoutes: Routes = [
       isFauxdal: true
     }]
   },
-  { path: 'host-signup', component: HostApplicationComponent, canActivate: [LoggedInGuard] },
+  { path: 'host-signup',
+    component: HostApplicationComponent,
+    canActivate: [LoggedInGuard],
+    resolve: {
+      userData: DetailedUserDataResolver
+    }
+  },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
     path: 'getting-started',
     component: GettingStartedComponent,
+  },
+  {
+    path: 'host-next-steps',
+    component: BlandPageComponent,
+    canActivate: [
+      HostNextStepsGuard
+    ]
   },
   {
     path: 'whats-a-host',

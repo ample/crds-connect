@@ -1,0 +1,82 @@
+<div class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="fauxdal-content centered-form-group">
+                <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
+                    <div id="host-now-title">Host now!</div>
+                    <br>
+                    <div>Tell us where you want to meet and what you want to do.</div>
+                    <br>
+                    <!--HOME ADDRESS-->
+                    <div>HOME ADDRESS: </div>
+                    <address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="homeAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
+                    <div>Any changes you make to your home address will be reflected in your profile on crossroads.net</div>
+                    <!--MEETING AT HOME? -->
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <div class="checkbox">
+                                <label for="isHomeAddress">
+                                    <input checked=""
+                                           type="checkbox"
+                                           value=""
+                                           id = "isHomeAddress"
+                                           formControlName="isHomeAddress"
+                                           name="isHomeAddress">
+                                    We will meet at my home
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--GATHERING ADDRESS-->
+                    <div *ngIf = "!this.hostForm.value.isHomeAddress" id = "gatheringAddressForm">
+                        <br>
+                        <div>GATHERING ADDRESS: </div>
+                        <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="groupAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
+                        <br>
+                    </div>
+                    <!--CONTACT PHONE NUMBER-->
+                    <div>BEST REACHED AT:</div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <label class="sr-only" for="contactNumber">BEST REACHED AT:</label>
+                            <input tabindex="1"
+                                   type="text"
+                                   onlyTheseKeys="[0-9]"
+                                   maxlength="10"
+                                   class="form-control"
+                                   placeholder="Contact Number"
+                                   id = "contactNumber"
+                                   formControlName="contactNumber"
+                                   name="contactNumber">
+                            <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['contactNumber'].valid">Contact number is invalid!!</p>
+                        </div>
+                    </div>
+                    <br>
+                    <!--GATHERING DESCRIPTION-->
+                    <div>GATHERING DESCRIPTION:</div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <label class="sr-only" for="gatheringDescription">GATHERING DESCRIPTION:</label>
+                            <textarea tabindex="1"
+                                      type="text"
+                                      class="form-control"
+                                      rows = "5"
+                                      maxlength="75"
+                                      placeholder="Group Description"
+                                      id = "gatheringDescription"
+                                      formControlName="gatheringDescription"
+                                      name="gatheringDescription"></textarea>
+                            <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
+                        </div>
+                    </div>
+                    <footer class="page-footer page-footer-vertical">
+                        <button type="submit" class="btn btn-secondary">Submit</button>
+                    </footer>
+                    <div *ngIf="submissionError" class="alert alert-danger">
+                        <crds-content-block id="generalError"></crds-content-block>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
