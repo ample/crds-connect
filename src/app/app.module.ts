@@ -95,7 +95,7 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
