@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { BlandPageService } from '../../services/bland-page.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
@@ -32,6 +33,7 @@ export class HostApplicationComponent implements OnInit {
 
   constructor(
     private blandPageService: BlandPageService,
+    private content: ContentService,
     private hlpr: HostApplicationHelperService,
     private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
@@ -51,7 +53,7 @@ export class HostApplicationComponent implements OnInit {
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      gatheringDescription: new FormControl('', [Validators.required, Validators.maxLength(500)])
+      gatheringDescription: new FormControl(this.content.getContent('defaultGatheringDesc'), [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);
