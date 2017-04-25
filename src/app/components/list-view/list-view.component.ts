@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, Input } from '@angular/core';
 import { StateService } from '../../services/state.service';
 import { Pin } from '../../models/pin';
