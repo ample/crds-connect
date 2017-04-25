@@ -6,7 +6,6 @@ import { SiteAddressService } from './site-address.service';
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
 import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 import { MockTestData } from '../shared/MockTestData';
 

@@ -17,7 +17,6 @@ import { HostRequestDto } from '../models/host-request-dto';
 import { Pin } from '../models/pin';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 
 
