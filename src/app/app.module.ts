@@ -18,7 +18,7 @@ export class CustomOptions extends ToastOptions {
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -31,6 +31,7 @@ import { HeaderComponent } from './layout/header/header.component';
 
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
+import { AddressFormTwoComponent } from './components/address-form2/addres-form2.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -65,6 +66,7 @@ import { AddressService } from './services/address.service';
 import { AddMeToTheMapHelperService } from './services/add-me-to-map-helper.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
@@ -82,16 +84,18 @@ import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
+import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
+import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
+import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
-import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
@@ -102,6 +106,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
+    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     BrowserModule,
     ButtonsModule,
     CollapseModule,
@@ -121,6 +126,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   declarations: [
     AddMeToMapComponent,
     AddressFormComponent,
+    AddressFormTwoComponent,
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
@@ -162,11 +168,14 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
+    DetailedUserDataResolver,
     IPService,
     SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
+    Angulartics2GoogleAnalytics,
     GroupService,
+    HostApplicationHelperService,
     IFrameParentService,
     ListHelperService,
     LoginRedirectService,
@@ -185,7 +194,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,
-    WhatsAHostGuard
+    WhatsAHostGuard,
+    HostNextStepsGuard,
   ],
   bootstrap: [AppComponent]
 })
