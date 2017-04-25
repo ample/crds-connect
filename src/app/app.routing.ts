@@ -23,6 +23,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
@@ -74,6 +75,13 @@ const appRoutes: Routes = [
   {
     path: 'getting-started',
     component: GettingStartedComponent,
+  },
+  {
+    path: 'host-next-steps',
+    component: BlandPageComponent,
+    canActivate: [
+      HostNextStepsGuard
+    ]
   },
   {
     path: 'whats-a-host',
