@@ -1,14 +1,13 @@
-<div class="row top-buffer">
-    <div class="row">
-        <div class="col-md-1">
-            <profile-picture [contactId]="participant.contactId" wrapperClass="pin-detail-image avatar-group avatar-size-3" imageClass="img-circle"></profile-picture>
-        </div>
-        <div class="col-md-8">
-            <span class="h4">{{participant.nickName}} {{participant.lastName | slice:0:1}} </span>
-            <span *ngIf="showMeLabel()" class="label label-me">Me</span>
-            <span *ngIf="showHostLabel()" class="label label-host">Host</span>
-            <br />
-            <a class="small" href="mailto:{{participant.email}}">{{participant.email}}</a>
-        </div>
-    </div>
+<div class="media">
+  <profile-picture [contactId]="participant.contactId" wrapperClass="media-img-wrapper" imageClass="media-object img-size-5"></profile-picture>
+  <div class="media-body">
+    <h4 class="media-heading">{{participant.nickName}} {{participant.lastName | slice:0:1}}
+      <span class="media-label">
+        <span *ngIf="showMeLabel()" class="label label-warning">Me</span>
+        <span *ngIf="showHostLabel()" class="label label-primary">Host</span>
+      </span>
+    </h4>
+
+    <a class="pointer" href="mailto:{{participant.email}}">{{participant.email}}</a>
+  </div>
 </div>
