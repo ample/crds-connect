@@ -91,4 +91,8 @@ export class GatheringEditComponent implements OnInit {
         );
     }
 
+    public cancel() {
+        this.router.navigate(['/gathering', this.pin.gathering.groupId]);
+    }
+
 }
