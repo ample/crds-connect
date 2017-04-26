@@ -10,12 +10,8 @@
             <button type="button" (click)="cancel()" class="btn btn-link btn-default">Cancel</button>
         </footer>
 
-        <div>
-            <a class="pointer" (click)="removePersonPin()">Remove me from the map</a>
-        </div>
-
         <div *ngIf="submissionError" class="alert alert-danger">
-            <crds-content-block id="generalError"></crds-content-block> 
+            <crds-content-block id="generalError"></crds-content-block>
         </div>
     </form>
 </div>

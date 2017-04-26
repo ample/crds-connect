@@ -15,6 +15,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
+import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
@@ -24,6 +25,8 @@ import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
+
+
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
@@ -72,6 +75,7 @@ const appRoutes: Routes = [
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
+  { path: 'remove-person-pin', component: RemovePersonPinComponent },
   {
     path: 'getting-started',
     component: GettingStartedComponent,
