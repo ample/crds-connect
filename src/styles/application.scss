@@ -159,10 +159,24 @@ app-add-me-to-map {
         width: 100%;
       }
 
+      .centered-form-group crds-content-block {
+        max-width: 100%;
+      }
+
       crds-content-block {
         display: block;
         margin: 0 auto;
         text-align: center;
+      }
+
+      crds-content-block ul {
+        padding: 0;
+        list-style-type: none;
+        li:before {
+          display: inline-block;
+          margin-right: 8px;
+          content: '•';
+        }
       }
 
       .alert,
