@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
@@ -59,7 +60,8 @@ describe('Component: Host Application', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
-       HostApplicationHelperService,
+        ContentService,
+        HostApplicationHelperService,
         { provide: IFrameParentService, useValue: mockIFrameParentService },
         { provide: StoreService, useValue: mockStoreService },
         { provide: StateService, useValue: mockStateService },

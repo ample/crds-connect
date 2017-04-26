@@ -89,4 +89,8 @@ export class PersonEditComponent implements OnInit {
         );
     }
 
+    public cancel() {
+        this.router.navigate(['/person', this.pin.participantId]);
+    }
+
 }

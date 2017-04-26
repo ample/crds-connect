@@ -152,6 +152,10 @@ describe('PersonEditComponent', () => {
         expect(comp['submitting']).toBe(false);
         expect(mockToastr.error).toHaveBeenCalledWith(expectedToast);
         expect(comp['submissionError']).toBe(true);
+    });
 
+     it('should cancel', () => {
+        comp.cancel();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/person', pin.participantId]);
     });
 });

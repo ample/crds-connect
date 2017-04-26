@@ -81,8 +81,8 @@
                    [(ngModel)]="address.zip">
         </div>
 
-        <div class="col-xs-12 error help-block" *ngIf="( addressFormGroup.controls['state'].touched && !addressFormGroup.controls['state'].valid )
-        || (addressFormGroup.controls['zip'].touched && !addressFormGroup.controls['zip'].valid)">
+        <div class="col-xs-12 error help-block" *ngIf="(isFormSubmitted && !addressFormGroup.controls['state'].valid )
+        || (isFormSubmitted && !addressFormGroup.controls['zip'].valid)">
             <ul>
                 <li *ngIf="isFormSubmitted  && !addressFormGroup.controls['state'].valid">State is required.</li>
                 <li *ngIf="isFormSubmitted && !addressFormGroup.controls['zip'].valid">Zip is required.</li>
