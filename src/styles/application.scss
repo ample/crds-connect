@@ -133,6 +133,9 @@ app-add-me-to-map {
     max-width: $container-tablet;
     margin: 0 auto;
     text-align: center;
+    &.text-left {
+      text-align: left;
+    }
   }
 
   &.fauxdal-fullscreen {
@@ -169,14 +172,8 @@ app-add-me-to-map {
         text-align: center;
       }
 
-      crds-content-block ul {
-        padding: 0;
-        list-style-type: none;
-        li:before {
-          display: inline-block;
-          margin-right: 8px;
-          content: '•';
-        }
+      .fauxdal-content.text-left crds-content-block {
+        text-align: left;
       }
 
       .alert,
@@ -228,7 +225,8 @@ app-add-me-to-map {
     }
   }
 
-  .title {
+  .title,
+  .control-label {
     color: $cr-white;
   }
 }
