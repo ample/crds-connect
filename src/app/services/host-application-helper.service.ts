@@ -51,4 +51,9 @@ export class HostApplicationHelperService {
     return formattedNumber;
   }
 
+  public stripHtmlFromString (textWithHtml: string): string {
+    let sanitizedString: string = textWithHtml.replace(/<(?:.|\n)*?>/gm, '');
+    return sanitizedString;
+  }
+
 }
