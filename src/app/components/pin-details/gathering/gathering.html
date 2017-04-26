@@ -31,7 +31,9 @@
     <hr>
     <div class="container-fluid">
       <div class="row" *ngFor="let participant of pin.gathering.Participants">
-        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
+        <div class="border-bottom soft-quarter-bottom">
+          <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
+        </div>
       </div>
     </div>
 
