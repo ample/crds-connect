@@ -3,7 +3,7 @@ import { PinService } from '../../../../services/pin.service';
 import { ToastsManager } from 'ng2-toastr';
 import { AddressService } from '../../../../services/address.service';
 import { StateService } from '../../../../services/state.service';
-import { BlandPageDetails, BlandPageType, BlandPageCause, Pin, pinType, Address } from '../../../../models';
+import { BlandPageDetails, BlandPageType, BlandPageCause, Pin, pinType } from '../../../../models';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { SessionService } from '../../../../services/session.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -56,7 +56,7 @@ export class GatheringEditComponent implements OnInit {
                 addresses => {
                     this.pin.gathering.address = addresses[0];
                     this.pin.address = addresses[1];
-                    this.pin.updateHomeAddress = this.doPinAndGatheringHaveSameAddress(this.pin.address, this.pin.gathering.address);
+                    this.pin.updateHomeAddress = this.doPinAndGatheringHaveSameAddress(this.pin);
                 },
                 error => {
                     this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
@@ -78,11 +78,11 @@ export class GatheringEditComponent implements OnInit {
         }
     }
 
-    public doPinAndGatheringHaveSameAddress(pinAddress: Address, gatheringAddress: Address): boolean {
-        return (pinAddress.addressLine1 === gatheringAddress.addressLine1
-                && pinAddress.addressLine2 === gatheringAddress.addressLine2
-                && pinAddress.city === gatheringAddress.city
-                && pinAddress.state === gatheringAddress.state);
+    public doPinAndGatheringHaveSameAddress(pin: Pin): boolean {
+        return (pin.address.addressLine1 === pin.gathering.address.addressLine1
+                && pin.address.addressLine2 === pin.gathering.address.addressLine2
+                && pin.address.city === pin.gathering.address.city
+                && pin.address.state === pin.gathering.address.state);
     }
 
     public onSubmit() {
