@@ -37,7 +37,7 @@ export class PinDetailsComponent implements OnInit {
     private session: SessionService,
     private state: StateService,
     private pinService: PinService
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.state.setLoading(true);

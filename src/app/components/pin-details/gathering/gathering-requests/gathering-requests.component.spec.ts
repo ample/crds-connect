@@ -88,7 +88,7 @@ describe('GatheringRequestsComponent', () => {
         let expectedBPD = new BlandPageDetails(
             'Return to my pin',
             // tslint:disable-next-line:max-line-length
-            '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
+            '<h1 class="title text-lowercase">Request accepted</h1><p>Joe K. has been notified.</p>',
             BlandPageType.Text,
             BlandPageCause.Success,
             'gathering/' + comp.pin.gathering.groupId
@@ -109,7 +109,7 @@ describe('GatheringRequestsComponent', () => {
         let expectedBPD = new BlandPageDetails(
             'Return to my pin',
             // tslint:disable-next-line:max-line-length
-            '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div><br/><div class="row text-center"<span>Joe K. has been notified</span></div></div>',
+            '<h1 class="title text-lowercase">Request Denied</h1><p>Joe K. has been notified.</p>',
             BlandPageType.Text,
             BlandPageCause.Success,
             'gathering/' + comp.pin.gathering.groupId
