@@ -26,7 +26,7 @@ export class HostApplicationHelperService {
   };
 
   public formatPhoneForUi(mobilePhone: string): string {
-    if (!mobilePhone) { return ''; };
+    if (!mobilePhone) { return ''; }
 
     let parsedPhone: string;
 
