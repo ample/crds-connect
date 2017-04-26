@@ -14,14 +14,14 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 export class RemovePersonPinComponent implements OnInit {
 
   constructor(private router: Router,
-              private state: StateService,
-                      private content: ContentService,
-        private pinService: PinService,) {}
+    private state: StateService,
+    private content: ContentService,
+    private pinService: PinService, ) { }
 
   public ngOnInit(): void {
   }
 
-  public removePersonPin()  {
+  public removePersonPin() {
     this.router.navigateByUrl('/');
   }
 
