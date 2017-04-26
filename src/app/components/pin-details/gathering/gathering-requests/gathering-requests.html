@@ -1,23 +1,27 @@
-<h3 class="title font-size-h5">Pending</h3>
+<h3 class="title font-size-h5 soft-top">Pending</h3>
 <hr>
 <div *ngIf="inquiries.length > 0" class="container-fluid">
   <div class="row" *ngFor="let inquiry of inquiries">
-    <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
+    <div class="border-bottom soft-half-bottom">
+      <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
 
-    <small class="move-right">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</small>
+      <div class="pending-requests">
+        <p class="text-muted font-size-smaller">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</p>
 
-    <div class="row move-right-btn">
-      <button class="btn btn-primary" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
-      <button class="btn btn-secondary" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
-    </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
+          <button class="btn btn-default btn-outline" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
+        </div>
 
-    <div *ngIf="inquiry.error" class="alert alert-danger">
-      <crds-content-block id="finderErrorAcceptDeny"></crds-content-block>
+        <div *ngIf="inquiry.error" class="error help-block">
+          <crds-content-block id="finderErrorAcceptDeny"></crds-content-block>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="errorRetrieving" class="alert alert-danger">
+<div *ngIf="errorRetrieving" class="alert alert-danger push-top">
   <crds-content-block id="finderErrorLoadingContent"></crds-content-block>
 </div>
 
