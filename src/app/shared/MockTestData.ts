@@ -37,7 +37,8 @@ export class MockTestData {
             this.getAGroup(designator, numParticipantsInGathering),
             'site' + designator.toString(),
             pinType,
-            proximity
+            proximity,
+            designator
         );
     }
 

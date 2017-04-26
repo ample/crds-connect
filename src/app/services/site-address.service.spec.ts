@@ -17,8 +17,8 @@ describe('Service: Gathering', () => {
   const mockModifiedAddress = new Address(mockAddress.addressId, mockForm.addressLine1, mockForm.addressLine2,
     mockForm.city, mockForm.state, mockForm.zip, 0, 0, 'US', 'County');
 
-  const mockSitePin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2222, mockModifiedAddress, 0, null, '', pinType.SITE, 0);
-  const mockPersonPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, '', pinType.PERSON, 0);
+  const mockSitePin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2222, mockModifiedAddress, 0, null, '', pinType.SITE, 0, 999);
+  const mockPersonPin = new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 222, mockModifiedAddress, 0, null, '', pinType.PERSON, 0, 999);
 
   const mockPinArray: Array<Pin> = [mockSitePin, mockPersonPin];
 
