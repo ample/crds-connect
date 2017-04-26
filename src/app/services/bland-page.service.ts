@@ -1,3 +1,4 @@
+import { Address } from '../models/address';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,7 +11,7 @@ export class BlandPageService {
     private blandPageDetails: BlandPageDetails;
 
     constructor(private router: Router,
-                private state: StateService) {}
+        private state: StateService) { }
 
     public primeAndGo(bpd: BlandPageDetails) {
         this.blandPageDetails = bpd;
@@ -18,7 +19,7 @@ export class BlandPageService {
     }
 
     public setPageHeader(title, backLink) {
-      this.state.setPageHeader(title, backLink);
+        this.state.setPageHeader(title, backLink);
     }
 
     public getBlandPageDetails() {
@@ -48,8 +49,8 @@ export class BlandPageService {
         this.router.navigate(['/whats-a-host']);
     }
 
-    public goToHandledInvite(accepted: boolean, groupId: number) {
-        this.primeHandleInvite(accepted, groupId);
+    public goToHandledInvite(accepted: boolean, groupId: number, address: Address, name: string) {
+        this.primeHandleInvite(accepted, groupId, address, name);
         this.router.navigate([accepted ? '/invite-accepted' : '/invite-declined']);
     }
 
@@ -78,11 +79,23 @@ export class BlandPageService {
      * nothing more.
      * @param accepted If the invite is being accepted or declined.
      */
-    public primeHandleInvite(accepted: boolean, groupId: number) {
+    public primeHandleInvite(accepted: boolean, groupId: number, address: Address, name: string) {
+        let text: string;
+
+        if (accepted) {
+            text = '<strong>Nice.</strong><br /><br />' +
+                   `You've accepted an invitation to attend ${name}'s gathering ` +
+                   `in ${address.city}, ${address.state}.`;
+        } else {
+            text = '<strong>Invitation declined</strong><br /><br />' +
+                   `You declined an invitation to attend ${name}'s gathering ` +
+                   `in ${address.city}, ${address.state}.`;
+        }
+
         this.blandPageDetails = new BlandPageDetails(
             accepted === true ? `Check the group out` : 'Go to the map',
-            accepted === true ? 'finderInviteAccepted' : 'finderInviteDeclined',
-            BlandPageType.ContentBlock,
+            text,
+            BlandPageType.Text,
             BlandPageCause.Success,
             accepted === true ? `gathering/${groupId}` : ''
         );
