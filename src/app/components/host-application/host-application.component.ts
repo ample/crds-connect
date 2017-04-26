@@ -52,10 +52,12 @@ export class HostApplicationComponent implements OnInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
+    let gatheringContent = this.stripHTML(this.content.getContent('defaultGatheringDesc'));
+
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      gatheringDescription: new FormControl(this.content.getContent('defaultGatheringDesc'), [Validators.required, Validators.maxLength(500)])
+      gatheringDescription: new FormControl(gatheringContent, [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);
@@ -103,5 +105,11 @@ export class HostApplicationComponent implements OnInit {
 
   public closeClick() {
     this.location.back();
+  }
+
+  private stripHTML(html: string) {
+    let div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
   }
 }
