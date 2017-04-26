@@ -12,7 +12,7 @@ export class WhatsAHostGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     if (!this.blandPageService.primed()) {
-      this.blandPageService.primeWhatsAHost()
+      this.blandPageService.primeWhatsAHost('useDefaultBrowserBackFunctionality');
     }
       return true;
   }
