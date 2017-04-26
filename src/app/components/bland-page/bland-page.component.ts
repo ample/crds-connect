@@ -42,8 +42,12 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
     }
 
     close() {
-        let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
-        this.router.navigate(['/' + state]);
+        if (this.blandPageDetails.cancelState === 'useDefaultBrowserBackFunctionality' ) {
+            window.history.go(-1);
+        } else {
+            let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
+            this.router.navigate(['/' + state]);
+        }
     }
 
     go() {
