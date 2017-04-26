@@ -194,7 +194,7 @@ export class SessionService extends SmartCacheableService<User, number> {
           .map((res: Pin) => {
             return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId, res.participantId,
                            res.address, res.hostStatus, res.gathering, res.siteName, res.pinType,
-                           res.proximity);
+                           res.proximity, res.householdId);
           })
           .catch((err: any) => {
             return Observable.throw(err.json().error);
