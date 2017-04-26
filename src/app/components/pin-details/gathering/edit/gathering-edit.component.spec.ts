@@ -99,6 +99,7 @@ describe('GatheringEditComponent', () => {
         expect(comp['ready']).toBe(true);
         expect(comp['pin'].gathering.address).toBe(address);
         expect(mockSessionService.getContactId).toHaveBeenCalledTimes(1);
+        expect(mockAddressService.getFullAddress).toHaveBeenCalledTimes(2);
     });
 
     it('should init with getFullAddress failure', () => {

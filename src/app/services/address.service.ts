@@ -30,7 +30,11 @@ export class AddressService extends CacheableService<Pin[]> {
 
             if (pin != null) {
                 console.log('AddressService got cached Address');
-                return Observable.of(pin.address);
+                if (addressType === pinType.PERSON) {
+                    return Observable.of(pin.address);
+                } else {
+                    return Observable.of(pin.gathering.address);
+                }
             }
         }
 
@@ -52,8 +56,10 @@ export class AddressService extends CacheableService<Pin[]> {
                 }
                 let pin = Pin.overload_Constructor_One();
                 pin.pinType = addressType;
-                pin.address = res;
-                if (addressType == pinType.GATHERING) {
+                if (addressType === pinType.PERSON) {
+                    pin.address = res;
+                }
+                if (addressType === pinType.GATHERING) {
                     console.log('AddressService added new GroupAddress');
                     pin.gathering = new Group();
                     pin.gathering.address = res;
