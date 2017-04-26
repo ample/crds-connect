@@ -5,7 +5,6 @@ import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
 import { LookupTable } from '../models/lookup-table';
 import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 class BuildingAddress {
   addressLine1: string;

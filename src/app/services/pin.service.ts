@@ -96,7 +96,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       });
   }
 
-    public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
+  public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions: SearchOptions;
 
@@ -104,25 +104,25 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       searchOptions = new SearchOptions(userSearchAddress, lat, lng);
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
-        } else {
-          return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
-        }
-      } else {  // getMyViewOrWorldView = 'my'
-        searchOptions = new SearchOptions('myView', lat, lng);
-        if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-          return Observable.of(super.getCache());
-        } else {
-            return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
-          }
+      } else {
+        return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
       }
+    } else {  // getMyViewOrWorldView = 'my'
+      searchOptions = new SearchOptions('myView', lat, lng);
+      if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
+        return Observable.of(super.getCache());
+      } else {
+        return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
+      }
+    }
   }
 
   private getPinSearchResultsWorld(searchOptions: SearchOptions
-                                  , contactId: number
-                                  , userSearchAddress: string
-                                  , lat?: number
-                                  , lng?: number
-                                  , zoom?: number): Observable<PinSearchResultsDto> {
+    , contactId: number
+    , userSearchAddress: string
+    , lat?: number
+    , lng?: number
+    , zoom?: number): Observable<PinSearchResultsDto> {
     let searchUrl: string = lat && lng ?
       'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
       + '/' + lat.toString().split('.').join('$') + '/'
@@ -172,22 +172,29 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private getPinSearchResultsMyStuff(searchOptions: SearchOptions
-                                  , contactId: number
-                                  , lat?: number
-                                  , lng?: number): Observable<PinSearchResultsDto> {
+    , contactId: number
+    , lat?: number
+    , lng?: number): Observable<PinSearchResultsDto> {
     const geoCodeString = `/${lat}/${lng}`;
     let corsFriendlyGeoCode = geoCodeString.toString().split('.').join('$');
 
     return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}`)
-    .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+      .catch((error: any) => Observable.throw(error || 'Server error'));
+  }
+
+  // PUTS
+  public updateGathering(pin: Pin): Observable<Pin> {
+    return this.session.put(`${this.baseUrl}api/v1.0.0/finder/gathering/edit`, pin)
+    .do((res: any) => super.clearCache()) // Maybe update cache for this pin?
     .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
   // POSTS
-  public sendHiEmail(user: User, pin: Pin): Observable<any> {
+  public sendHiEmail(user: Pin, pin: Pin): Observable<any> {
     // Create merge data for this template
     let emailInfo = {
-      'fromEmailAddress': user.email,
+      'fromEmailAddress': user.emailAddress,
       'toEmailAddress': pin.emailAddress,
       'subject': 'Hi',
       'body': 'Just wanted to say hi',
@@ -199,7 +206,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(this.baseServicesUrl + 'communication/api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
 
-         let memberSaidHi = new BlandPageDetails(
+        let memberSaidHi = new BlandPageDetails(
           'Return to map',
           '<div class="text text-center">Success!</div>',
           BlandPageType.Text,
@@ -212,11 +219,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((err) => Observable.throw(err.json().error));
   }
 
-  public createSayHiTemplateDictionary(user: User, pin: Pin) {
+  public createSayHiTemplateDictionary(user: Pin, pin: Pin) {
     return {
-      'Community_Member_Name': user.firstname + ' ' + user.lastname.charAt(0) + '.',
+      'Community_Member_Name': user.firstName + ' ' + user.lastName.charAt(0) + '.',
       'Pin_First_Name': pin.firstName,
-      'Community_Member_Email': user.email,
+      'Community_Member_Email': user.emailAddress,
       'Community_Member_City': user.address.city,
       'Community_Member_State': user.address.state
     };
@@ -257,8 +264,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public replaceAddressOnUpdatedPin(pinSearchResults: Pin[], updatedPin: Pin, updatedPinsOldAddress: Address) {
 
     let indexOfUpdatedPin = pinSearchResults.findIndex(pin =>
-        pin.participantId === updatedPin.participantId
-        && pin.address.addressId === updatedPinsOldAddress.addressId
+      pin.participantId === updatedPin.participantId
+      && pin.address.addressId === updatedPinsOldAddress.addressId
     );
 
     let updatedPinFound: boolean = indexOfUpdatedPin !== -1;

@@ -12,7 +12,17 @@
 
     <div class="fauxdal-content">
       <crds-content-block id="finderAddMeToMapText"></crds-content-block>
-      <address-form class="push-top" [userData]="userData" (save)="onSubmit($event)"></address-form>
+      <form novalidate [formGroup]="addMeToMapForm" (ngSubmit)="onSubmit(addMeToMapForm)">
+        <address-form class="push-top" [parentForm]="addMeToMapForm" groupName="addressForm" [isFormSubmitted]="submissionError" [address]="userData.address"></address-form>
+        <footer class="page-footer page-footer-vertical">
+          <button type="submit" [disabled]="addMeToMapForm.invalid || submitting" class="btn btn-secondary">Add me to the map</button>
+          <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
+        </footer>
+
+        <div *ngIf="submissionError" class="alert alert-danger">
+          <crds-content-block id="generalError"></crds-content-block>
+        </div>
+      </form>
     </div>
   </div>
 </div>

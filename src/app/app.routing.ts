@@ -14,6 +14,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
+import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
+import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
@@ -128,13 +130,26 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
-  },
+  }, {
+    path: 'gathering/:groupId/edit',
+    component: GatheringEditComponent,
+    resolve: {
+      pin: PinResolver
+    },
+    canActivate: [ LoggedInGuard ]
+   },
   {
     path: 'person/:participantId',
     component: PinDetailsComponent,
     resolve: {
       pin: PinResolver,
       user: UserDataResolver
+    }
+  }, {
+    path: 'person/:participantId/edit',
+    component: PersonEditComponent,
+    resolve: {
+      pin: PinResolver
     }
   },
   { path: 'register', component: RegisterComponent },

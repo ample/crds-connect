@@ -9,7 +9,7 @@
                     <br>
                     <!--HOME ADDRESS-->
                     <div>HOME ADDRESS: </div>
-                    <address-form2 [parentForm]="hostForm" [address]="homeAddress" groupName="homeAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
+                    <address-form [parentForm]="hostForm" [address]="homeAddress" groupName="homeAddress" [isFormSubmitted] = "isFormSubmitted"></address-form>
                     <div>Any changes you make to your home address will be reflected in your profile on crossroads.net</div>
                     <!--MEETING AT HOME? -->
                     <div class="row">
@@ -31,7 +31,7 @@
                     <div *ngIf = "!this.hostForm.value.isHomeAddress" id = "gatheringAddressForm">
                         <br>
                         <div>GATHERING ADDRESS: </div>
-                        <address-form2 [parentForm]="hostForm" [address]="groupAddress" groupName="groupAddress" [isFormSubmitted] = "isFormSubmitted"></address-form2>
+                        <address-form [parentForm]="hostForm" [address]="groupAddress" groupName="groupAddress" [isFormSubmitted] = "isFormSubmitted"></address-form>
                         <br>
                     </div>
                     <!--CONTACT PHONE NUMBER-->
@@ -54,6 +54,9 @@
                     <br>
                     <!--GATHERING DESCRIPTION-->
                     <div>GATHERING DESCRIPTION:</div>
+
+                    <crds-content-block id="hintsForGatheringDesc"></crds-content-block>
+
                     <div class="row">
                         <div class="form-group col-xs-12">
                             <label class="sr-only" for="gatheringDescription">GATHERING DESCRIPTION:</label>
