@@ -26,7 +26,7 @@ export class HostApplicationHelperService {
   };
 
   public formatPhoneForUi(mobilePhone: string): string {
-    if (!mobilePhone) { return ''; };
+    if (!mobilePhone) { return ''; }
 
     let parsedPhone: string;
 
@@ -49,6 +49,11 @@ export class HostApplicationHelperService {
     let formattedNumber = areaCode + '-' + firstThree + '-' + lastFour;
 
     return formattedNumber;
+  }
+
+  public stripHtmlFromString (textWithHtml: string): string {
+    let sanitizedString: string = textWithHtml.replace(/<(?:.|\n)*?>/gm, '');
+    return sanitizedString;
   }
 
 }
