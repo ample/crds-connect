@@ -3,14 +3,14 @@ import { PinService } from '../../../../services/pin.service';
 import { ToastsManager } from 'ng2-toastr';
 import { AddressService } from '../../../../services/address.service';
 import { StateService } from '../../../../services/state.service';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
+import { BlandPageDetails, BlandPageType, BlandPageCause, Pin, pinType } from '../../../../models';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { SessionService } from '../../../../services/session.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Pin, pinType } from '../../../../models/pin';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'gathering-edit',
@@ -35,24 +35,31 @@ export class GatheringEditComponent implements OnInit {
 
     ngOnInit() {
         this.state.setLoading(true);
+
         this.pin = this.route.snapshot.data['pin'];
+
         this.editGatheringForm = new FormGroup({
-            description: new FormControl(this.pin.gathering.groupDescription, [Validators.required])
+            description: new FormControl(this.pin.gathering.groupDescription, [Validators.required]),
+            updateHomeAddress: new FormControl(this.pin.updateHomeAddress)
         });
         this.checkPinOwner(this.pin);
         this.state.setPageHeader('gathering', ['/gathering', this.pin.gathering.groupId]);
-        this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+        Observable.forkJoin(
+            this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING),
+            this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON))
             .finally(() => {
-              this.ready = true;
-              this.state.setLoading(false);
+                this.ready = true;
+                this.state.setLoading(false);
             })
             .subscribe(
-            address => {
-              this.pin.gathering.address = address;
-            },
-            error => {
-              this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
-            }
+                addresses => {
+                    this.pin.gathering.address = addresses[0];
+                    this.pin.address = addresses[1];
+                    this.pin.updateHomeAddress = this.doPinAndGatheringHaveSameAddress(this.pin);
+                },
+                error => {
+                    this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
+                }
             );
     }
 
@@ -68,6 +75,13 @@ export class GatheringEditComponent implements OnInit {
             );
             this.blandPageService.primeAndGo(bpd);
         }
+    }
+
+    public doPinAndGatheringHaveSameAddress(pin: Pin): boolean {
+        return (pin.address.addressLine1 === pin.gathering.address.addressLine1
+                && pin.address.addressLine2 === pin.gathering.address.addressLine2
+                && pin.address.city === pin.gathering.address.city
+                && pin.address.state === pin.gathering.address.state);
     }
 
     public onSubmit() {

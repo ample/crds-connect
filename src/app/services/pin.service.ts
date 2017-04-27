@@ -82,13 +82,15 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         return Observable.of<Pin>(pin);
       }
     }
-    url = pinIdentifier.type == pinType.PERSON ?
+    url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
 
     console.log('PinService got partial new PinSearchResultsDto');
 
     return this.session.get(url)
+      .map((res: Pin) => { return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId,
+      res.participantId, res.address, res.hostStatus, res.gathering, res.siteName, res.pinType, res.proximity, res.householdId); })
       .do((res: Pin) => this.createPartialCache(res))
       .catch((error: any) => {
         this.state.setLoading(false);
@@ -203,6 +205,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     };
 
     this.state.setLoading(true);
+    this.logSayHi(user.contactId, pin.contactId).subscribe();
     return this.session.post(this.baseServicesUrl + 'communication/api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
 
@@ -227,6 +230,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       'Community_Member_City': user.address.city,
       'Community_Member_State': user.address.state
     };
+  }
+
+  public logSayHi(fromId: number, toId: number): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/sayhi/${fromId}/${toId}`, null);
   }
 
   public requestToJoinGathering(gatheringId: number): Observable<boolean> {

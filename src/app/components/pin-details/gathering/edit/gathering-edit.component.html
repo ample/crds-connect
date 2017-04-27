@@ -5,7 +5,7 @@
                      [contactId]="pin.contactId"></profile-picture>
 
     <div class="media-body">
-      <pin-header [isGathering]="true" [isPinOwner]="isPinOwner"
+      <pin-header [isGathering]="true" [isPinOwner]="true"
                   [lastName]="pin.lastName" [firstName]="pin.firstName"
                   [contactId]="pin.contactId"></pin-header>
     </div>
@@ -27,7 +27,8 @@
           <label class="sr-only" for="description">Description</label>
           <textarea tabindex="6" type="text" class="form-control"
                     maxlength="255" placeholder="Description" id="description"
-                    formControlName="description" name="description"
+                    formControlName="description"
+                    name="description"
                     [(ngModel)]='pin.gathering.groupDescription' rows="15"
                     cols="100"></textarea>
           <p class="error help-block"
@@ -36,16 +37,31 @@
           </p>
         </div>
       </div>
+      <!--Update home address? -->
+      <div class="row">
+        <div class="form-group col-xs-12">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"
+                     tabindex="7"
+                     [(ngModel)]="pin.updateHomeAddress"
+                     name="updateHomeAddress"
+                     formControlName="updateHomeAddress">
+              This is my home address
+            </label>
+          </div>
+        </div>
+      </div>
       <footer class="page-footer page-footer-vertical">
-        <button type="submit"
-                [disabled]="submitting || editGatheringForm.invalid"
-                class="btn btn-secondary">Update my gathering</button>
-        <button type="button" (click)="cancel()"
-                class="btn btn-link btn-default">Cancel</button>
+          <button type="submit"
+                  [disabled]="submitting || editGatheringForm.invalid"
+                  class="btn btn-secondary">Update my gathering</button>
+          <button type="button" (click)="cancel()"
+                  class="btn btn-link btn-default">Cancel</button>
       </footer>
 
       <div *ngIf="submissionError" class="alert alert-danger">
-        <crds-content-block id="generalError"></crds-content-block>
+          <crds-content-block id="generalError"></crds-content-block>
       </div>
     </form>
   </div>

@@ -66,7 +66,7 @@ export class GatheringComponent implements OnInit {
             })
             .subscribe(
             address => {
-              this.pin.address = address;
+              this.pin.gathering.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
