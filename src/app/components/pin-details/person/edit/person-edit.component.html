@@ -1,4 +1,4 @@
-<div class="container-fluid connect-container connect-black-bg">
+<div class="container-fluid connect-container dark-theme">
   <div class="media">
     <profile-picture imageClass="media-object img-size-6"
                      wrapperClass="media-img-wrapper"
@@ -17,7 +17,7 @@
     <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
       <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
 
-      <footer class="page-footer page-footer-vertical">
+      <footer class="btn-group-vertical">
         <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
         <button type="button" (click)="cancel()" class="btn btn-link btn-default">Cancel</button>
       </footer>
