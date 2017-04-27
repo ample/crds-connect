@@ -25,16 +25,17 @@ describe('Component: List View', () => {
     mockSessionService;
 
   beforeEach(() => {
-    mockStateService= jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
-    mockListHelperService= jasmine.createSpyObj<ListHelperService>('listHelperService', ['constructor']);
-    mockNeighborsHelperService= jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
-    mockBlandPageService= jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
-    mockSessionService= jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
+    mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelperService', ['constructor']);
+    mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
         ListViewComponent,
-        ListEntryComponent,
+        MockComponent({selector: 'list-entry', inputs: ['firstName', 'lastName', 'siteName', 'type',
+                      'proximity', 'description', 'groupId', 'address', 'participantId', 'participantCount', 'contactId']}),
         ListFooterComponent,
         MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
         MockComponent({selector: 'crds-content-block', inputs: ['id']})
