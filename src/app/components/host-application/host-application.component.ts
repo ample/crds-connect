@@ -107,10 +107,4 @@ export class HostApplicationComponent implements OnInit {
   public closeClick() {
     this.location.back();
   }
-
-  private stripHTML(html: string) {
-    let div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  }
 }
