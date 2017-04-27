@@ -205,6 +205,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     };
 
     this.state.setLoading(true);
+    this.logSayHi(user.contactId, pin.contactId).subscribe();
     return this.session.post(this.baseServicesUrl + 'communication/api/v1.0.0/email/send', emailInfo)
       .map((res: any) => {
 
@@ -229,6 +230,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       'Community_Member_City': user.address.city,
       'Community_Member_State': user.address.state
     };
+  }
+
+  public logSayHi(fromId: number, toId: number): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/sayhi/${fromId}/${toId}`, null);
   }
 
   public requestToJoinGathering(gatheringId: number): Observable<boolean> {
