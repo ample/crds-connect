@@ -14,12 +14,11 @@ import { BlandPageService } from '../../../../services/bland-page.service';
 
 @Component({
   selector: 'remove-person-pin',
-  templateUrl: 'remove-person-pin.component.html'
+  templateUrl: './remove-person-pin.component.html'
 })
 
 export class RemovePersonPinComponent implements OnInit {
   @Input() pin: Pin;
-
   constructor(private router: Router,
     private state: StateService,
     private session: SessionService,
