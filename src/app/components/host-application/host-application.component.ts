@@ -1,6 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
@@ -41,7 +42,8 @@ export class HostApplicationComponent implements OnInit {
     private session: SessionService,
     private store: StoreService,
     private toast: ToastsManager,
-    private state: StateService
+    private state: StateService,
+    private location: Location
   ) {}
 
   public ngOnInit() {
@@ -100,5 +102,9 @@ export class HostApplicationComponent implements OnInit {
     } else {
       this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
     }
+  }
+
+  public closeClick() {
+    this.location.back();
   }
 }
