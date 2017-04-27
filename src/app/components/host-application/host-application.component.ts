@@ -52,12 +52,13 @@ export class HostApplicationComponent implements OnInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
-    let gatheringContent = this.stripHTML(this.content.getContent('defaultGatheringDesc'));
+    let gatheringDescriptionPlaceholder: string =
+        this.hlpr.stripHtmlFromString(this.content.getContent('defaultGatheringDesc'));
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      gatheringDescription: new FormControl(gatheringContent, [Validators.required, Validators.maxLength(500)])
+      gatheringDescription: new FormControl(gatheringDescriptionPlaceholder, [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);

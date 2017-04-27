@@ -1,20 +1,18 @@
-<div class="media media-dark">
-	<profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
+<div class="pin-details-dark person">
+	<div class="media media-dark border-bottom soft-bottom push-bottom">
+		<profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 
-	<div class="media-body">
-		<pin-header [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
+		<div class="media-body">
+			<pin-header [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
 
-		<div class="media-meta">
-			<readonly-address [isPinOwner]="isPinOwner" [address]="pin.address" [distance]="pin.proximity"></readonly-address>
-		</div>
-		<div>
-			<button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()"> Edit </button>
+			<div class="media-meta">
+				<readonly-address [isPinOwner]="isPinOwner" [address]="pin.address" [distance]="pin.proximity"></readonly-address>
+			</div>
 		</div>
 	</div>
 
+	<button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
+
+	<say-hi *ngIf="!isPinOwner" [isLoggedIn]="isLoggedIn" [pin]="pin" [user]="user" [isGathering]="false" [buttonText]="sayHiButtonText"></say-hi>
+	<pin-login-actions *ngIf="!isLoggedIn"></pin-login-actions>
 </div>
-
-<hr>
-
-<say-hi *ngIf="!isPinOwner" [isLoggedIn]="isLoggedIn" [pin]="pin" [user]="user" [isGathering]="false" [buttonText]="sayHiButtonText"></say-hi>
-<pin-login-actions *ngIf="!isLoggedIn"></pin-login-actions>
