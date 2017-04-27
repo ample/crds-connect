@@ -82,13 +82,15 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         return Observable.of<Pin>(pin);
       }
     }
-    url = pinIdentifier.type == pinType.PERSON ?
+    url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
 
     console.log('PinService got partial new PinSearchResultsDto');
 
     return this.session.get(url)
+      .map((res: Pin) => { return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId,
+      res.participantId, res.address, res.hostStatus, res.gathering, res.siteName, res.pinType, res.proximity, res.householdId); })
       .do((res: Pin) => this.createPartialCache(res))
       .catch((error: any) => {
         this.state.setLoading(false);
