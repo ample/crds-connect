@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
 @Component({
