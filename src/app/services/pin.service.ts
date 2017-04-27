@@ -208,7 +208,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
         let memberSaidHi = new BlandPageDetails(
           'Return to map',
-          '<h1 class="title text-lowercase">Success!</h1>',
+          '<h1 class="title">Success!</h1>',
           BlandPageType.Text,
           BlandPageCause.Success,
           ''

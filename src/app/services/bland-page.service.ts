@@ -32,7 +32,7 @@ export class BlandPageService {
     public goToDefaultError(goToRoute: string) {
         this.blandPageDetails = new BlandPageDetails(
             'back',
-            '<h1 class="title text-lowercase">OOPS</h1><p>Something went wrong.</p>',
+            '<h1 class="title">OOPS</h1><p>Something went wrong.</p>',
             BlandPageType.Text,
             BlandPageCause.Error,
             goToRoute
