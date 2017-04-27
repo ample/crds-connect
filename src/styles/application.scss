@@ -383,13 +383,9 @@ app-map-footer {
 search-local {
   display: block;
   position: absolute;
-  top: 85px;
-  right: 1rem;
+  bottom: 60px;
+  left: calc(50% - 66px); // half screen width minus half of the button width
   z-index: 4;
-
-  @media (min-width: $screen-xs) {
-    top: 93px;
-  }
 }
 
 // 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
