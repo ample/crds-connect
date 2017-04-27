@@ -4,6 +4,8 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StateService } from '../../../../services/state.service';
+import { SessionService } from '../../../../services/session.service';
+
 import { PinService } from '../../../../services/pin.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
@@ -15,6 +17,7 @@ export class RemovePersonPinComponent implements OnInit {
 
   constructor(private router: Router,
     private state: StateService,
+    private session: SessionService,
     private content: ContentService,
     private pinService: PinService, ) { }
 
@@ -22,11 +25,25 @@ export class RemovePersonPinComponent implements OnInit {
   }
 
   public removePersonPin() {
-    this.router.navigateByUrl('/');
+    // this.pinService.postPin(this.userData).subscribe(
+    //   pin => {
+    //     this.state.setMyViewOrWorldView('world');
+    //     this.state.setCurrentView('map');
+    //     this.state.setLastSearch(null);
+
+
+
+    //   },
+    //   err => {
+
+    //   }
+    // );  
   }
 
   public cancel() {
-
+        let contactId = this.session.getContactId();
+        this.state.setCurrentView('map');
+        this.router.navigate(['/person/', contactId]);
   }
 
 
