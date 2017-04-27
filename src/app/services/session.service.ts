@@ -87,7 +87,7 @@ export class SessionService extends SmartCacheableService<User, number> {
     this.setCookieTimeout();
 
     return body || {};
-  };
+  }
 
   public setCookieTimeout() {
     let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
@@ -114,6 +114,8 @@ export class SessionService extends SmartCacheableService<User, number> {
     this.cookieOptions.expires = null;
     this.cookieService.remove(this.accessToken, this.cookieOptions);
     this.cookieService.remove(this.refreshToken, this.cookieOptions);
+    this.cookieService.remove('username', this.cookieOptions);
+    this.cookieService.remove('userId', this.cookieOptions);
   }
 
   public getAccessToken(): string {
