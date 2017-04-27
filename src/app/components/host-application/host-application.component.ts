@@ -1,6 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
@@ -41,7 +42,8 @@ export class HostApplicationComponent implements OnInit {
     private session: SessionService,
     private store: StoreService,
     private toast: ToastsManager,
-    private state: StateService
+    private state: StateService,
+    private location: Location
   ) {}
 
   public ngOnInit() {
@@ -50,10 +52,13 @@ export class HostApplicationComponent implements OnInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
+    let gatheringDescriptionPlaceholder: string =
+        this.hlpr.stripHtmlFromString(this.content.getContent('defaultGatheringDesc'));
+
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      gatheringDescription: new FormControl(this.content.getContent('defaultGatheringDesc'), [Validators.required, Validators.maxLength(500)])
+      gatheringDescription: new FormControl(gatheringDescriptionPlaceholder, [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);
@@ -97,5 +102,9 @@ export class HostApplicationComponent implements OnInit {
     } else {
       this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
     }
+  }
+
+  public closeClick() {
+    this.location.back();
   }
 }

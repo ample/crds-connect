@@ -13,6 +13,7 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
@@ -40,6 +41,36 @@ const appRoutes: Routes = [
     resolve: {
       userData: UserDataResolver
     }
+  }, {
+    path: 'accept-invite/:groupId/:guid',
+    component: HandleInviteComponent,
+    canActivate: [
+      LoggedInGuard,
+    ],
+    data: [{
+      accept: true
+    }]
+  }, {
+    path: 'decline-invite/:groupId/:guid',
+    component: HandleInviteComponent,
+    canActivate: [
+      LoggedInGuard,
+    ],
+    data: [{
+      accept: false
+    }]
+  }, {
+    path: 'invite-declined',
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard
+    ]
+  }, {
+    path: 'invite-accepted',
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard,
+    ]
   }, {
     path: 'add',
     redirectTo: '/add-me-to-the-map',

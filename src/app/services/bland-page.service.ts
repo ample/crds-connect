@@ -1,3 +1,4 @@
+import { Address } from '../models/address';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -48,6 +49,11 @@ export class BlandPageService {
         this.router.navigate(['/whats-a-host']);
     }
 
+    public goToHandledInvite(accepted: boolean, groupId: number, address: Address, name: string) {
+        this.primeHandleInvite(accepted, groupId, address, name);
+        this.router.navigate([accepted ? '/invite-accepted' : '/invite-declined']);
+    }
+
     public goToHostNextSteps(cancelRoute?: string) {
         this.primeWhatsAHost(cancelRoute);
         this.router.navigate(['/host-next-steps']);
@@ -71,6 +77,33 @@ export class BlandPageService {
             BlandPageCause.SimpleFauxdal,
             'host-signup',
             cancelRoute
+        );
+    }
+
+    /**
+     * This will set the blandPageDetails for handling an invite and
+     * nothing more.
+     * @param accepted If the invite is being accepted or declined.
+     */
+    public primeHandleInvite(accepted: boolean, groupId: number, address: Address, name: string) {
+        let text: string;
+
+        if (accepted) {
+            text = '<strong>Nice.</strong><br /><br />' +
+                   `You've accepted an invitation to attend ${name}'s gathering ` +
+                   `in ${address.city}, ${address.state}.`;
+        } else {
+            text = '<strong>Invitation declined</strong><br /><br />' +
+                   `You declined an invitation to attend ${name}'s gathering ` +
+                   `in ${address.city}, ${address.state}.`;
+        }
+
+        this.blandPageDetails = new BlandPageDetails(
+            accepted === true ? `Check the group out` : 'Go to the map',
+            text,
+            BlandPageType.Text,
+            BlandPageCause.Success,
+            accepted === true ? `gathering/${groupId}` : ''
         );
     }
 

@@ -1,5 +1,6 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
 @import 'components/media-objects';
+@import 'pages/pin-details';
 
 body {
   -webkit-font-smoothing: initial;
@@ -133,6 +134,9 @@ app-add-me-to-map {
     max-width: $container-tablet;
     margin: 0 auto;
     text-align: center;
+    &.text-left {
+      text-align: left;
+    }
   }
 
   &.fauxdal-fullscreen {
@@ -159,10 +163,18 @@ app-add-me-to-map {
         width: 100%;
       }
 
+      .centered-form-group crds-content-block {
+        max-width: 100%;
+      }
+
       crds-content-block {
         display: block;
         margin: 0 auto;
         text-align: center;
+      }
+
+      .fauxdal-content.text-left crds-content-block {
+        text-align: left;
       }
 
       .alert,
@@ -214,7 +226,8 @@ app-add-me-to-map {
     }
   }
 
-  .title {
+  .title,
+  .control-label {
     color: $cr-white;
   }
 }
@@ -366,73 +379,6 @@ app-map-footer {
   }
 }
 
-app-pin-detail {
-  display: block;
-  background: $cr-gray-lighter;
-  height: 381px;
-  @for $idx from 5 to 30 {
-    $height: $idx * 100;
-    @media screen and ( min-height: #{$height}px ){
-      height: #{$height - 19}px;
-    }
-  }
-
-  .pin-details {
-    background: $cr-black;
-    color: $cr-gray-light;
-    display: block;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    @for $idx from 5 to 30 {
-      $height: $idx * 100;
-      @media screen and ( min-height: #{$height}px ){
-        height: #{$height - 19}px;
-      }
-    }
-
-    hr {
-      border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
-    }
-
-    @media (min-width: $screen-sm) {
-      box-shadow: 0 0 10px 0 $cr-gray-light;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      width: $container-tablet;
-    }
-
-    p {
-      color: $cr-gray-light;
-    }
-  }
-}
-
-gathering {
-  p {
-    padding: 20px 0;
-    margin: 0;
-  }
-}
-
-say-hi {
-  display: inline-block;
-
-  p {
-    padding: 20px 0;
-    margin: 0;
-  }
-
-  .btn {
-    background: $cr-gray-dark;
-    color: $cr-white;
-  }
-
-  .btn-say-hi {
-    background: $cr-cyan;
-    color: $cr-white;
-  }
-}
-
 // Update search results button
 search-local {
   display: block;
@@ -476,5 +422,4 @@ search-local {
       }
     }
   }
-
 }

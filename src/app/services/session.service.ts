@@ -87,7 +87,7 @@ export class SessionService extends SmartCacheableService<User, number> {
     this.setCookieTimeout();
 
     return body || {};
-  };
+  }
 
   public setCookieTimeout() {
     let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
@@ -114,6 +114,8 @@ export class SessionService extends SmartCacheableService<User, number> {
     this.cookieOptions.expires = null;
     this.cookieService.remove(this.accessToken, this.cookieOptions);
     this.cookieService.remove(this.refreshToken, this.cookieOptions);
+    this.cookieService.remove('username', this.cookieOptions);
+    this.cookieService.remove('userId', this.cookieOptions);
   }
 
   public getAccessToken(): string {
@@ -192,7 +194,7 @@ export class SessionService extends SmartCacheableService<User, number> {
           .map((res: Pin) => {
             return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId, res.participantId,
                            res.address, res.hostStatus, res.gathering, res.siteName, res.pinType,
-                           res.proximity);
+                           res.proximity, res.householdId);
           })
           .catch((err: any) => {
             return Observable.throw(err.json().error);

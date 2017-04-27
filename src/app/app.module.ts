@@ -37,6 +37,7 @@ import { GatheringComponent } from './components/pin-details/gathering/gathering
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
@@ -90,11 +91,11 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
-import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { BlandPageGuard } from './route-guards/bland-page-guard';
-import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
+import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
 import { RouterModule } from '@angular/router';
 
@@ -135,6 +136,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    HandleInviteComponent,
     HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
