@@ -52,13 +52,8 @@ export class HostApplicationComponent implements OnInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
-    let content: string = '';
-    this.content.getContent('defaultGatheringDesc').subscribe(x => {
-       content = x.content;
-    });
-
     let gatheringDescriptionPlaceholder: string =
-        this.hlpr.stripHtmlFromString(content);
+        this.hlpr.stripHtmlFromString(this.content.getContent('defaultGatheringDesc'));
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
