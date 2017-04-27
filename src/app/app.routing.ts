@@ -96,7 +96,8 @@ const appRoutes: Routes = [
       isFauxdal: true
     }]
   },
-  { path: 'host-signup',
+  {
+    path: 'host-signup',
     component: HostApplicationComponent,
     canActivate: [LoggedInGuard],
     resolve: {
@@ -106,7 +107,13 @@ const appRoutes: Routes = [
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
-  { path: 'remove-person-pin', component: RemovePersonPinComponent },
+  {
+    path: 'remove-person-pin/:participantId',
+    component: RemovePersonPinComponent,
+    resolve: {
+      pin: PinResolver
+    }
+  },
   {
     path: 'getting-started',
     component: GettingStartedComponent,
@@ -140,8 +147,8 @@ const appRoutes: Routes = [
     resolve: {
       pin: PinResolver
     },
-    canActivate: [ LoggedInGuard ]
-   },
+    canActivate: [LoggedInGuard]
+  },
   {
     path: 'person/:participantId',
     component: PinDetailsComponent,

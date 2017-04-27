@@ -90,8 +90,9 @@ export class PersonEditComponent implements OnInit {
     }
 
     public removePersonPin() {
+        debugger;
         this.state.setCurrentView('map');
-        this.router.navigate(['/remove-person-pin']);
+        this.router.navigate(['/remove-person-pin', this.pin.participantId]);
     }
 
     public cancel() {
