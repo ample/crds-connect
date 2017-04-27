@@ -252,6 +252,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public removePersonPin(participantId: number) {
     let removePersonPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin/removeFromMap';
+    super.clearCache();
+    this.pin.clearCache();
     
     return this.session.post(removePersonPinUrl, participantId);
 

@@ -2,6 +2,8 @@ import { Angulartics2 } from 'angulartics2';
 
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
 
 import { StateService } from '../../../../services/state.service';
 import { SessionService } from '../../../../services/session.service';
@@ -20,18 +22,24 @@ import { BlandPageService } from '../../../../services/bland-page.service';
 export class RemovePersonPinComponent implements OnInit {
   @Input() pin: Pin;
   constructor(private router: Router,
+    private route: ActivatedRoute,
+
     private state: StateService,
     private session: SessionService,
+
     private content: ContentService,
     private blandPageService: BlandPageService,
     private pinService: PinService, ) { }
 
   public ngOnInit(): void {
+    this.pin = this.route.snapshot.data['pin'];
   }
 
   public removePersonPin() {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {
+        this.state.cleanUpStateAfterPinUpdate();
+        this.session.clearCache();
         this.state.setMyViewOrWorldView('world');
         this.state.setCurrentView('map');
         this.state.setLastSearch(null);
