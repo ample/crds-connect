@@ -3,8 +3,7 @@
     <div class="row">
         <div class="form-group col-xs-12" [formGroupName]="groupName">
             <label class="sr-only" for="addressLine1">Address Line 1</label>
-            <input tabindex="1"
-                   type="text"
+            <input type="text"
                    class="form-control"
                    maxlength="75"
                    placeholder="Address Line 1"
@@ -20,8 +19,7 @@
     <div class="row" [formGroupName]="groupName">
         <div class="form-group col-xs-12">
             <label class="sr-only" for="addressLine2">Address Line 2</label>
-            <input tabindex="2"
-                   type="text"
+            <input type="text"
                    class="form-control"
                    maxlength="75"
                    placeholder="Address Line 2"
@@ -37,8 +35,7 @@
     <div class="row" [formGroupName]="groupName">
         <div class="form-group col-xs-12">
             <label class="sr-only" for="city">City2</label>
-            <input tabindex="3"
-                   type="text"
+            <input type="text"
                    class="form-control"
                    onlyTheseKeys="[a-zA-Z\-\.]"
                    maxlength="22"
@@ -58,7 +55,6 @@
             <select formControlName="state"
                     class="form-control override-styles-for-dropdown"
                     placeholder="State"
-                    tabindex="4"
                     id = "state"
                     [(ngModel)]="address.state">
                 <option *ngFor="let state of stateList" [value]="state">{{state}}</option>
@@ -68,8 +64,7 @@
         <!--ZIP-->
         <div class="form-group col-xs-6" [formGroupName]="groupName">
             <label class="sr-only" for="zip">Zip Code</label>
-            <input tabindex="5"
-                   type="tel"
+            <input type="tel"
                    onlyTheseKeys="[0-9\-]"
                    class="form-control"
                    maxlength="10"
