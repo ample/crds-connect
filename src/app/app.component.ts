@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ViewContainerRef, ElementRef } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics} from 'angulartics2';
 
@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
     private content: ContentService,
     public toastr: ToastsManager,
     public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private element: ElementRef,
     vRef: ViewContainerRef) {
 
     if ( this.iFrameResizerCW === undefined ) {
@@ -45,7 +44,7 @@ export class AppComponent implements OnInit {
 
     router.events.subscribe((val) => {
       this.removeFauxdalClasses(val);
-      element.nativeElement.scrollIntoView();
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
     });
   }
 
