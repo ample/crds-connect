@@ -200,7 +200,7 @@ export class SessionService extends SmartCacheableService<User, number> {
             return Observable.throw(err.json().error);
           });
       } else {
-        return null;
+        return Observable.of(null);
       }
     }
   }
