@@ -95,7 +95,7 @@ app-neighbors {
 }
 
 .fauxdal {
-  // Added so the "modal" sits on top of the header
+  @include size(100vw, 100vh);
   position: absolute;
   top: 0;
   left: 0;
