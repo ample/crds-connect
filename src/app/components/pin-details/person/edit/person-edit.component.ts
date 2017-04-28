@@ -18,6 +18,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 })
 export class PersonEditComponent implements OnInit {
     @Input() pin: Pin;
+    @Input() isPinOwner: boolean = true;
     private submitting: boolean = false;
     private ready: boolean = false;
     private submissionError: boolean = false;
