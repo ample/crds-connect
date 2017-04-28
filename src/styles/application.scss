@@ -92,6 +92,7 @@ app-neighbors {
   left: 0;
   z-index: 5;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .fauxdal {
