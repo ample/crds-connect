@@ -1,6 +1,16 @@
 <div class="fauxdal-wrapper">
   <div class="fauxdal fauxdal-fullscreen">
     <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="closeClick()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
+
+      <br>
+
       <div class="fauxdal-content">
         <form novalidate [formGroup]="hostForm" (ngSubmit)="onSubmit(hostForm)">
           <h1 class="title">Host now!</h1>
