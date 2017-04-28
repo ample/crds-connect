@@ -76,8 +76,12 @@ app-neighbors {
   background: $cr-gray-lighter;
 }
 
-// Add me to map
-app-add-me-to-map {
+.fauxdal-open {
+  @extend .modal-open;
+  position: fixed;
+}
+
+.fauxdal-wrapper {
   background-color: darken($cr-blue, 20);
   color: $cr-white;
   display: block;
@@ -87,16 +91,10 @@ app-add-me-to-map {
   bottom: 0;
   left: 0;
   z-index: 5;
+  overflow-y: scroll;
 }
 
 .fauxdal {
-  background-color: darken($cr-blue, 20);
-  color: $cr-white;
-  display: block;
-  height: 100vh;
-  width: 100vw;
-  overflow: scroll;
-
   // Added so the "modal" sits on top of the header
   position: absolute;
   top: 0;
