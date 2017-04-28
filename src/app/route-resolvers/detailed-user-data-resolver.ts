@@ -1,5 +1,5 @@
 import { BlandPageService } from '../services/bland-page.service';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
