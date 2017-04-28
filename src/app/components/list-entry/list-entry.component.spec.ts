@@ -33,7 +33,8 @@ describe('ListEntryComponent', () => {
         TestBed.configureTestingModule({
             declarations: [
                 ListEntryComponent,
-                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
+                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
+                MockComponent({selector: 'readonly-address', inputs: ['isPinOwner', 'address', 'distance']})
             ],
             providers: [
                 { provide: StateService, useValue: mockStateService },

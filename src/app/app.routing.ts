@@ -119,7 +119,10 @@ const appRoutes: Routes = [
     component: BlandPageComponent,
     canActivate: [
       WhatsAHostGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },

@@ -167,8 +167,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
       return this.session.get(this.baseUrl + searchUrlZoom)
         // when we get the new results, set them to the cache
-        .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
         .map(res => this.gatheringService.addAddressesToGatheringPins(res))
+        .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
   }

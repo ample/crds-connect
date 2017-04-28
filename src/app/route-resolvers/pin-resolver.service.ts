@@ -23,9 +23,9 @@ export class PinResolver implements Resolve<Pin> {
     groupId = route.params['groupId'];
 
     if (participantId != null) {
-      pinIdentifier = new PinIdentifier(pinType.PERSON, participantId)
+      pinIdentifier = new PinIdentifier(pinType.PERSON, participantId);
     } else {
-      pinIdentifier = new PinIdentifier(pinType.GATHERING, groupId)
+      pinIdentifier = new PinIdentifier(pinType.GATHERING, groupId);
     }
 
     return this.pinService.getPinDetails(pinIdentifier)

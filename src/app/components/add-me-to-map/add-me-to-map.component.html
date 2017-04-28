@@ -1,28 +1,31 @@
-<div *ngIf="ready" class="fauxdal fauxdal-fullscreen">
-  <div class="container-fluid">
-    <div class="pull-right close">
-      <a (click)="closeClick()">
-        <svg class="icon icon-1" viewBox="0 0 256 256">
-          <use xlink:href="/assets/svgs/icons.svg#close"></use>
-        </svg>
-      </a>
-    </div>
+<div class="fauxdal-wrapper">
+  <div *ngIf="ready" class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="closeClick()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
 
-    <br>
+      <br>
 
-    <div class="fauxdal-content">
-      <crds-content-block id="finderAddMeToMapText"></crds-content-block>
-      <form novalidate [formGroup]="addMeToMapForm" (ngSubmit)="onSubmit(addMeToMapForm)">
-        <address-form class="push-top" [parentForm]="addMeToMapForm" groupName="addressForm" [isFormSubmitted]="submissionError" [address]="userData.address"></address-form>
-        <footer class="push-top btn-group-vertical">
-          <button type="submit" [disabled]="addMeToMapForm.invalid || submitting" class="btn btn-secondary">Add me to the map</button>
-          <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
-        </footer>
+      <div class="fauxdal-content">
+        <crds-content-block id="finderAddMeToMapText"></crds-content-block>
+        <form novalidate [formGroup]="addMeToMapForm" (ngSubmit)="onSubmit(addMeToMapForm)">
+          <address-form class="push-top" [parentForm]="addMeToMapForm" groupName="addressForm" [isFormSubmitted]="submissionError"
+            [address]="userData.address"></address-form>
+          <footer class="push-top btn-group-vertical">
+            <button type="submit" [disabled]="addMeToMapForm.invalid || submitting" class="btn btn-secondary">Add me to the map</button>
+            <button type="button" (click)="closeClick()" class="btn btn-link btn-default">Cancel</button>
+          </footer>
 
-        <div *ngIf="submissionError" class="alert alert-danger">
-          <crds-content-block id="generalError"></crds-content-block>
-        </div>
-      </form>
+          <div *ngIf="submissionError" class="alert alert-danger">
+            <crds-content-block id="generalError"></crds-content-block>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

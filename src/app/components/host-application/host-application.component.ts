@@ -52,13 +52,8 @@ export class HostApplicationComponent implements OnInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
-    let content: string = '';
-    this.content.getContent('defaultGatheringDesc').subscribe(x => {
-       content = x.content;
-    });
-
     let gatheringDescriptionPlaceholder: string =
-        this.hlpr.stripHtmlFromString(content);
+        this.hlpr.stripHtmlFromString(this.content.getContent('defaultGatheringDesc'));
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
@@ -72,7 +67,7 @@ export class HostApplicationComponent implements OnInit {
   public ngAfterViewInit() {
     // This component is rendered within a fauxdal,
     // so we need the following selector added to <body> element
-    document.querySelector('body').classList.add('modal-open');
+    document.querySelector('body').classList.add('fauxdal-open');
   }
 
   public onSubmit ({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {

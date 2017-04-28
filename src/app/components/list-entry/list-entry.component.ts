@@ -29,7 +29,8 @@ export class ListEntryComponent {
   constructor(private session: SessionService,
               private router: Router,
               private state: StateService) {
-    this.currentContactId = this.session.getContactId();
+              // ngOnInit()?
+              this.currentContactId = this.session.getContactId();
   }
 
   public isMe() {

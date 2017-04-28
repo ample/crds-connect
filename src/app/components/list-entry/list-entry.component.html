@@ -38,9 +38,6 @@
   </div>
   <div class="media-body">
     <h3 class="media-heading">Crossroads {{siteName}}</h3>
-    <p class="media-meta">
-      <span>{{roundedProximity()}} MI</span>
-    </p>
-    <p class="media-description" [innerHTML]="siteAddress()"></p>
+    <readonly-address [isPinOwner]="true" [address]="address" [distance]="proximity"></readonly-address>
   </div>
 </div>
