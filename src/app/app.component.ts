@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
 
     router.events.subscribe((val) => {
       this.removeFauxdalClasses(val);
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
     });
   }
 
