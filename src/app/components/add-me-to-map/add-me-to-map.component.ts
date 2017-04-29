@@ -75,7 +75,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     document.querySelector('body').classList.add('fauxdal-open');
   }
 
-  public onSubmit(value) {
+  public onSubmit() {
     this.submitting = true;
     this.setSubmissionErrorWarningTo(false);
     this.pinService.postPin(this.userData).subscribe(
@@ -86,7 +86,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
         this.session.clearCache();
 
         this.state.navigatedFromAddToMapComponent = true;
-        this.state.postedPin = this.userData;
+        this.state.postedPin = pin;
 
         let nowAPin = new BlandPageDetails(
           'See for yourself',
@@ -103,9 +103,6 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
         this.submitting = false;
       }
     );
-    if (value != null) {
-
-    }
   }
 
   public closeClick() {
