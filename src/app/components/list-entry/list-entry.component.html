@@ -21,7 +21,12 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{name()}}<span class="media-label"><span class="label label-primary">HOST</span></span></h3>
+    <h3 class="media-heading">{{name()}}
+      <span class="media-label">
+        <span *ngIf="!isMyGathering()" class="label label-primary">HOST-PHIL</span>
+        <span *ngIf="isMyGathering()" class="label label-primary">ME</span>
+      </span>
+    </h3>
     <p class="media-meta">
       <span>{{roundedProximity()}} MI</span>
       <!--This functionality is being removed due to DE3433 and will be completed in USUS7759
