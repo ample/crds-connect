@@ -1,45 +1,59 @@
+import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
+import { PinService } from '../../services/pin.service';
 import { MockComponent } from '../../shared/mock.component';
 import { HttpModule } from '@angular/http';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService } from 'angular2-cookie/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 import { SelectModule } from 'angular2-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { AddMeToTheMapHelperService } from '../../services/add-me-to-map-helper.service';
-import { AddressFormComponent } from '../address-form/address-form.component';
 import { SiteAddressService } from '../../services/site-address.service';
-import { LocationService } from '../../services/location.service';
-import { LoginRedirectService } from '../../services/login-redirect.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
 
 import { SessionService } from '../../services/session.service';
-import { GoogleMapService } from '../../services/google-map.service';
-import { IPService } from '../../services/ip.service';
 import { StateService } from '../../services/state.service';
-import { PinService } from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
-import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { AddressService } from '../../services/address.service';
 import { Location } from '@angular/common';
+import { MockTestData } from '../../shared/MockTestData';
+
 
 describe('Component: Add Me to the Map', () => {
 
-  let mockContentService, mockLocation;
+  let mockLocation,
+    mockBlandPageService,
+    mockSessionService,
+    mockState,
+    mockContentService,
+    mockUserLocationServicee,
+    mockAddressService,
+    mockToastsManager,
+    mockPinService;
+
 
   beforeEach(() => {
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
     mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['clearCache']);
+    mockState = jasmine.createSpyObj<StateService>('state', ['setMyViewOrWorldView', 'setCurrentView', 'setLoading', 'setLastSearch']);
+    mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
+    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
+
 
     TestBed.configureTestingModule({
       declarations: [
-        AddMeToMapComponent, AddressFormComponent,
-        MockComponent({selector: 'crds-content-block', inputs: ['id']})
+        AddMeToMapComponent,
+        MockComponent({ selector: 'crds-content-block', inputs: ['id'] }),
+        MockComponent({ selector: 'address-form', inputs: ['address', 'parentForm', 'group', 'isFormSubmitted'] })
       ],
       imports: [
         AgmCoreModule.forRoot({
@@ -51,24 +65,15 @@ describe('Component: Add Me to the Map', () => {
         SelectModule
       ],
       providers: [
-        AddMeToTheMapHelperService,
-        BlandPageService,
-        CookieService,
+        { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: StateService, useValue: mockState },
         { provide: ContentService, useValue: mockContentService },
-        IPService,
-        SiteAddressService,
-        PinService,
-        LocationService,
         { provide: Location, useValue: mockLocation },
-        LoginRedirectService,
-        SessionService,
-        StateService,
-        GoogleMapService,
-        BlandPageService,
-        UserLocationService,
-        AddressService,
-        ToastsManager,
-        ToastOptions
+        { provide: AddressService, useValue: mockAddressService },
+        { provide: ToastsManager, useValue: mockToastsManager },
+        { provide: UserLocationService, useValue: mockUserLocationServicee },
+        { provide: PinService, useValue: mockPinService }
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);
@@ -82,19 +87,50 @@ describe('Component: Add Me to the Map', () => {
 
   it('should attach class selector to body element after view init', () => {
     // Start fresh...
-    document.querySelector('body').classList.remove('modal-open');
+    document.querySelector('body').classList.remove('fauxdal-open');
 
-    expect(document.querySelector('body').classList).not.toContain('modal-open');
+    expect(document.querySelector('body').classList).not.toContain('fauxdal-open');
     this.component.ngAfterViewInit();
-    expect(document.querySelector('body').classList).toContain('modal-open');
+    expect(document.querySelector('body').classList).toContain('fauxdal-open');
 
     // Cleanup...
-    document.querySelector('body').classList.remove('modal-open');
+    document.querySelector('body').classList.remove('fauxdal-open');
   });
 
   it('should go back when x is clicked', () => {
     this.component.closeClick();
-    expect(mockLocation.back).toHaveBeenCalled();
+    expect(this.component.location.back).toHaveBeenCalled();
   });
+
+  it('should setSubmissionErrorWarningTo', () => {
+    this.component.setSubmissionErrorWarningTo(true);
+    expect(this.component.submissionError).toBe(true);
+
+    this.component.setSubmissionErrorWarningTo(false);
+    expect(this.component.submissionError).toBe(false);
+  });
+
+  it('should submit', () => {
+        let pin = MockTestData.getAPin(1);
+        this.component['userData'] = pin;
+        let expectedBpd = new BlandPageDetails(
+          'See for yourself',
+          'finderNowAPin',
+          BlandPageType.ContentBlock,
+          BlandPageCause.Success,
+          '',
+          ''
+        );
+
+        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
+        this.component.onSubmit(this.component.addressFormGroup);
+        expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
+        expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+        expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
+        expect(mockState.setLastSearch).toHaveBeenCalledWith(null);
+        expect(mockSessionService.clearCache).toHaveBeenCalled();
+
+    });
 
 });

@@ -1,10 +1,9 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PinService } from '../../services/pin.service';
-import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
-import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { UserLocationService } from  '../../services/user-location.service';
@@ -23,15 +22,14 @@ export class MapFooterComponent {
   public myPinSearchResults: PinSearchResultsDto;
 
   constructor(private pin: PinService,
-              private mapHlpr: GoogleMapService,
               private loginRedirectService: LoginRedirectService,
-              private neighborsHelper: NeighborsHelperService,
               private router: Router,
               private state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
               private userLocationService: UserLocationService,
-              private search: SearchService) { }
+              private search: SearchService,
+              private angulartics2: Angulartics2) { }
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
@@ -39,17 +37,17 @@ export class MapFooterComponent {
   }
 
   public myStuffBtnClicked = () => {
-
+    this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
     this.pin.clearPinCache();
 
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('my');
+    this.state.myStuffActive = true;
 
     if (!this.session.isLoggedIn()) {
       this.loginRedirectService.redirectToLogin('/');
     } else {
-      this.state.myStuffActive = true;
       this.userLocationService.GetUserLocation().subscribe(
           pos => {
               this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
@@ -57,7 +55,6 @@ export class MapFooterComponent {
           }
       );
     }
-
   }
 
   doSearch(lat: number, lng: number) {

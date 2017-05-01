@@ -8,20 +8,14 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-
 import { ListEntryComponent } from './list-entry.component';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { MockComponent } from '../../shared/mock.component';
-
 import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { CookieService } from 'angular2-cookie/core';
-import { LoginRedirectService } from '../../services/login-redirect.service';
 
 describe('ListEntryComponent', () => {
-    let mockLoginRedirectService;
+    let mockStateService, mockSessionService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
@@ -32,23 +26,19 @@ describe('ListEntryComponent', () => {
             navigate(url: string) { return url; }
         }
 
+        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'getContactId']);
+
+
         TestBed.configureTestingModule({
             declarations: [
                 ListEntryComponent,
-                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
+                MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
+                MockComponent({selector: 'readonly-address', inputs: ['isPinOwner', 'address', 'distance']})
             ],
             providers: [
-                StateService,
-                SessionService,
-                MockBackend,
-                BaseRequestOptions,
-                CookieService,
-                { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-                {
-                  provide: Http,
-                  useFactory: (backend, options) => new Http(backend, options),
-                  deps: [MockBackend, BaseRequestOptions]
-                },
+                { provide: StateService, useValue: mockStateService },
+                { provide: SessionService, useValue: mockSessionService },
                 { provide: Router, useClass: RouterStub }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
@@ -59,8 +49,6 @@ describe('ListEntryComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(ListEntryComponent);
             comp = fixture.componentInstance;
-
-            // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
 

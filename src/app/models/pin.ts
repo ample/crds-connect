@@ -13,18 +13,18 @@ export class Pin {
     hostStatus: number;
     gathering: Group;
     address: Address;
-    householdId: number;
-    isFormDirty: boolean;
     pinType: pinType;
     proximity: number;
+    householdId: number;
+    updateHomeAddress: boolean = false;
 
     public static overload_Constructor_One() {
-        return new Pin(null, null, null, null, null, null, null, null, null, null, null, null, null);
+        return new Pin(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     constructor(first_name: string, last_name: string, email: string, contactId: number, participantId: number,
-                address: Address, hostStatus: number, gathering: Group, householdId: number, isFormDirty: boolean,
-                siteName: string, pinType: pinType, proximity: number ) {
+                address: Address, hostStatus: number, gathering: Group,
+                siteName: string, pinType: pinType, proximity: number, householdId: number ) {
 
         this.firstName = first_name;
         this.lastName = last_name;
@@ -35,9 +35,8 @@ export class Pin {
         this.address =  address;
         this.hostStatus = hostStatus;
         this.gathering = gathering;
-        this.householdId = householdId;
-        this.isFormDirty = isFormDirty;
         this.pinType = pinType;
         this.proximity = proximity;
+        this.householdId = householdId;
     }
 }

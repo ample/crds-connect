@@ -34,16 +34,23 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         let data = this.route.snapshot.data;
-        if (data[0] !== undefined && data[0]['isFauxdal']) {
-            // This component is rendered within a fauxdal, so we to need the .modal-open
+
+        let isFauxdal: boolean = (data[0] !== undefined && data[0]['isFauxdal']) || this.isFauxModal;
+
+        if (isFauxdal) {
+            // This component is rendered within a fauxdal, so we to need the .fauxdal-open
             //  selector to the <body> element when this view is initialized.
-            document.querySelector('body').classList.add('modal-open');
+            document.querySelector('body').classList.add('fauxdal-open');
         }
     }
 
     close() {
-        let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
-        this.router.navigate(['/' + state]);
+        if (this.blandPageDetails.cancelState === 'useDefaultBrowserBackFunctionality' ) {
+            window.history.go(-1);
+        } else {
+            let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
+            this.router.navigate(['/' + state]);
+        }
     }
 
     go() {

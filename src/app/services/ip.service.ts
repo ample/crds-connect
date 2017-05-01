@@ -10,7 +10,6 @@ import { LookupTable } from '../models/lookup-table';
 import { Pin } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { User } from '../models/user';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 import { Address } from '../models/address';
 
 import 'rxjs/add/operator/catch';

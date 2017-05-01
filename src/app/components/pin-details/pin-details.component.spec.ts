@@ -1,7 +1,3 @@
-import { PlatformLocation } from '@angular/common';
-import { SessionService } from '../../services/session.service';
-import { StateService } from '../../services/state.service';
-import { PinService } from '../../services/pin.service';
 /*
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
@@ -14,6 +10,11 @@ import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 
+import { PlatformLocation } from '@angular/common';
+import { SessionService } from '../../services/session.service';
+import { StateService } from '../../services/state.service';
+import { PinService } from '../../services/pin.service';
+
 import { PinDetailsComponent } from './pin-details.component';
 import { MockComponent } from '../../shared/mock.component';
 import { MockTestData } from '../../shared/MockTestData';
@@ -24,7 +25,7 @@ describe('PinDetailsComponent', () => {
   let comp: PinDetailsComponent;
   let el;
   let pin;
-  let mockPlatformLocation, mockSession, mockState, mockAddMeToMapHelper, mockPinService;
+  let mockPlatformLocation, mockSession, mockState, mockPinService;
 
   beforeEach(() => {
     pin = MockTestData.getAPin();
@@ -60,7 +61,6 @@ describe('PinDetailsComponent', () => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(PinDetailsComponent);
       comp = fixture.componentInstance;
-      // el = fixture.debugElement.query(By.css('h1'));
     });
   }));
 

@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -22,8 +24,12 @@ export class NoResultsComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  public btnClickAddToMap()  {
+  public btnClickAddToMap() {
     this.router.navigateByUrl('/add-me-to-the-map');
+  }
+
+  public btnClickBecomeHost() {
+    this.router.navigateByUrl('/host-signup');
   }
 
   public btnClickFindOnlineGroup()  {
