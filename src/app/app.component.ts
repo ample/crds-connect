@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
 
     router.events.subscribe((val) => {
       this.removeFauxdalClasses(val);
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
     });
   }
 
@@ -53,8 +54,8 @@ export class AppComponent implements OnInit {
 
   removeFauxdalClasses(val) {
     if (val.constructor.name === 'NavigationStart') {
-      // Remove the .modal-open selector from <body> element whenever the router emits a path change
-      document.querySelector('body').classList.remove('modal-open');
+      // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
+      document.querySelector('body').classList.remove('fauxdal-open');
     }
   }
 

@@ -5,16 +5,28 @@
   }
 }
 
-.connect-white-bg {
+.connect-container {
   background: $cr-white;
+  min-height: 381px;
   padding-top: 1rem;
   padding-bottom: 1rem;
+
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      min-height: #{$height - 19}px;
+    }
+  }
 
   @media (min-width: $screen-sm) {
     box-shadow: 0 0 10px 0 $cr-gray-light;
     margin: 0 auto;
     padding: 1rem 2rem;
     width: $container-tablet;
+  }
+
+  &.dark-theme {
+    background: $cr-black;
   }
 }
 

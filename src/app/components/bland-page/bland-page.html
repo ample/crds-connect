@@ -1,26 +1,27 @@
-<div class="fauxdal fauxdal-center">
-  <div class="container-fluid">
-    <div *ngIf="isFauxModal" class="pull-right close">
-      <a (click)="close()">
-        <svg class="icon icon-1" viewBox="0 0 256 256">
-          <use xlink:href="/assets/svgs/icons.svg#close"></use>
-        </svg>
-      </a>
+<div class="fauxdal-wrapper">
+  <div class="fauxdal fauxdal-center">
+    <div class="container-fluid">
+      <div *ngIf="isFauxModal" class="pull-right close">
+        <a (click)="close()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
+
+      <div class="fauxdal-content">
+        <crds-content-block *ngIf="contentBlock" id="{{blandPageDetails.content}}"></crds-content-block>
+
+        <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
+      </div>
+
+      <br>
+
+      <footer class="page-footer btn-group-vertical">
+        <button type="button"
+                class="btn btn-secondary"
+                (click)="go();">{{blandPageDetails.buttonText}}</button>
+      </footer>
     </div>
-
-    <div class="fauxdal-content">
-      <crds-content-block *ngIf="contentBlock" id="{{blandPageDetails.content}}"></crds-content-block>
-
-      <span *ngIf="!contentBlock" [innerHTML]="blandPageDetails.content"></span>
-    </div>
-
-    <br>
-
-    <footer class="page-footer btn-group-vertical">
-      <button type="button"
-              class="btn btn-secondary"
-              (click)="go();">{{blandPageDetails.buttonText}}</button>
-    </footer>
   </div>
 </div>
-

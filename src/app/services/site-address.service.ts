@@ -77,13 +77,14 @@ export class SiteAddressService {
 
   constructor() { }
 
-
+  // Why Does this exist? This is not what is happening. 
   public addAddressesToGatheringPins (srchResults: PinSearchResultsDto): PinSearchResultsDto {
     srchResults.pinSearchResults = this.addAddressesToSitePins(srchResults.pinSearchResults);
     return srchResults;
 
   }
 
+  // This is what is happening.
   public addAddressesToSitePins (pins: Array<Pin>): Array<Pin> {
 
     let thisService = this;

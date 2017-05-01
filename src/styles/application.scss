@@ -10,10 +10,6 @@ body {
   z-index: 10;
 }
 
-#host-now-title{
-  font-size: 300%;
-}
-
 // Map labels
 .pin-label {
   $map-label-font-size: 13px;
@@ -76,8 +72,12 @@ app-neighbors {
   background: $cr-gray-lighter;
 }
 
-// Add me to map
-app-add-me-to-map {
+.fauxdal-open {
+  @extend .modal-open;
+  position: fixed;
+}
+
+.fauxdal-wrapper {
   background-color: darken($cr-blue, 20);
   color: $cr-white;
   display: block;
@@ -87,17 +87,12 @@ app-add-me-to-map {
   bottom: 0;
   left: 0;
   z-index: 5;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .fauxdal {
-  background-color: darken($cr-blue, 20);
-  color: $cr-white;
-  display: block;
-  height: 100vh;
-  width: 100vw;
-  overflow: scroll;
-
-  // Added so the "modal" sits on top of the header
+  @include size(100vw, 100vh);
   position: absolute;
   top: 0;
   left: 0;
@@ -134,9 +129,6 @@ app-add-me-to-map {
     max-width: $container-tablet;
     margin: 0 auto;
     text-align: center;
-    &.text-left {
-      text-align: left;
-    }
   }
 
   &.fauxdal-fullscreen {
@@ -148,81 +140,6 @@ app-add-me-to-map {
       background-color: darken($cr-blue, 20);
       padding-top: 1rem;
       padding-bottom: 1rem;
-
-      address-form {
-        display: block;
-        margin: 0 auto;
-        padding-top: 1rem;
-        width: 100%;
-      }
-
-      .centered-form-group {
-        display: block;
-        margin: 0 auto;
-        padding-top: 1rem;
-        width: 100%;
-      }
-
-      .centered-form-group crds-content-block {
-        max-width: 100%;
-      }
-
-      crds-content-block {
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      .fauxdal-content.text-left crds-content-block {
-        text-align: left;
-      }
-
-      .alert,
-      .alert crds-content-block {
-        text-align: left;
-      }
-
-      @media (min-width: $screen-xs) {
-        padding: 2rem;
-
-        crds-content-block {
-          width: 450px;
-        }
-        .alert crds-content-block {
-          width: auto;
-        }
-
-        .centered-form-group {
-          width: 400px;
-        }
-
-      }
-
-      @media (min-width: $screen-sm) {
-        crds-content-block {
-          width: 475px;
-        }
-        .alert crds-content-block {
-          width: auto;
-        }
-
-        address-form {
-          width: 425px;
-        }
-
-        .centered-form-group {
-          width: 425px;
-        }
-      }
-
-      @media (min-width: $screen-md) {
-        crds-content-block {
-          width: 500px;
-        }
-        .alert crds-content-block {
-          width: auto;
-        }
-      }
     }
   }
 
