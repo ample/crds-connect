@@ -1,3 +1,4 @@
+import { pinType } from '../../models';
 /*
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
@@ -67,5 +68,21 @@ describe('ListEntryComponent', () => {
         fixture.detectChanges();
         comp.participantCount = 10;
         expect(comp.count()).toBe('10 OTHERS');
+    });
+
+    fit('should call isMyGathering and return true', () => {
+        fixture.detectChanges();
+        comp.contactId = 1;
+        comp.currentContactId = 1;
+        comp.type = pinType.GATHERING;
+        expect(comp.isMyGathering()).toBe(true);
+    });
+
+    fit('should call isMyGathering and return false', () => {
+        fixture.detectChanges();
+        comp.contactId = 1;
+        comp.currentContactId = 2;
+        comp.type = pinType.GATHERING;
+        expect(comp.isMyGathering()).toBe(false);
     });
 });
