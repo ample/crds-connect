@@ -70,7 +70,7 @@ describe('ListEntryComponent', () => {
         expect(comp.count()).toBe('10 OTHERS');
     });
 
-    fit('should call isMyGathering and return true', () => {
+    it('should call isMyGathering and return true', () => {
         fixture.detectChanges();
         comp.contactId = 1;
         comp.currentContactId = 1;
@@ -78,7 +78,7 @@ describe('ListEntryComponent', () => {
         expect(comp.isMyGathering()).toBe(true);
     });
 
-    fit('should call isMyGathering and return false', () => {
+    it('should call isMyGathering and return false', () => {
         fixture.detectChanges();
         comp.contactId = 1;
         comp.currentContactId = 2;
