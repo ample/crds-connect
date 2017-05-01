@@ -55,11 +55,13 @@
           <!--GATHERING DESCRIPTION-->
           <div class="row push-top text-left soft-half-top">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+
+              <label class="control-label push-half-bottom" for="gatheringDescription">GATHERING DESCRIPTION:</label>
+
               <div class="font-family-base-light font-size-smaller">
                 <crds-content-block id="hintsForGatheringDesc"></crds-content-block>
               </div>
 
-              <label class="control-label push-half-bottom" for="gatheringDescription">GATHERING DESCRIPTION:</label>
               <textarea tabindex="1" type="text" class="form-control" rows="5" maxlength="300" placeholder="Group Description" id="gatheringDescription"
                 formControlName="gatheringDescription" name="gatheringDescription"></textarea>
               <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
