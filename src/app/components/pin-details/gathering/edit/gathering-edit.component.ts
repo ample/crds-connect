@@ -43,7 +43,7 @@ export class GatheringEditComponent implements OnInit {
             updateHomeAddress: new FormControl(this.pin.updateHomeAddress)
         });
         this.checkPinOwner(this.pin);
-        this.state.setPageHeader('gathering', ['/gathering', this.pin.gathering.groupId]);
+        this.state.setPageHeader('gathering', `/gathering/${this.pin.gathering.groupId}`);
         Observable.forkJoin(
             this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING),
             this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON))
