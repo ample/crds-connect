@@ -37,6 +37,10 @@ export class ListEntryComponent {
     return this.contactId === this.currentContactId;
   }
 
+  public isMyGathering() {
+    return this.type === pinType.GATHERING && this.contactId === this.currentContactId;
+  }
+
   public name() {
     return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
   }
