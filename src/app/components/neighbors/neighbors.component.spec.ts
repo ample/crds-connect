@@ -2,9 +2,8 @@
 
 import { TestBed } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
-import { Observable } from '@angular-cli/ast-tools/node_modules/rxjs/Rx';
 import { MapView } from '../../models/map-view';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';

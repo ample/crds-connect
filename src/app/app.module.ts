@@ -16,16 +16,16 @@ export class CustomOptions extends ToastOptions {
   // titleClass = '';
 }
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
 import { PreloaderModule } from './preloader/preloader.module';
-import { SelectModule } from 'angular2-select';
+import { SelectModule } from 'ng-select';
 
 import { HeaderComponent } from './layout/header/header.component';
 

@@ -1,4 +1,4 @@
-import { Observable } from '@angular-cli/ast-tools/node_modules/rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 /* tslint:disable:no-unused-variable */
 
@@ -26,7 +26,7 @@ import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper } from '@agm/core';
 import { SearchService } from '../../services/search.service';
 import { MapView } from '../../models/map-view';
 
