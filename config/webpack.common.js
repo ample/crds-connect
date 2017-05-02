@@ -7,13 +7,13 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    'polyfills': ['./src/polyfills.ts'],
-    'vendor': ['./src/vendor.ts'],
-    'app': ['./src/main.ts']
+    'polyfills': './src/polyfills.ts',
+    'vendor': './src/vendor.ts',
+    'app': './src/main.ts'
   },
 
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['*', '.ts', '.js']
   },
 
   module: {
@@ -24,7 +24,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: 'html'
+        loader: 'html-loader'
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -41,12 +41,12 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
-        loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+        loader: ExtractTextPlugin.extract({fallback: 'style', use: 'css?sourceMap'})
       },
       {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
-        loader: 'raw'
+        loader: 'raw-loader'
       },
       {
         test: /\.scss$/,
