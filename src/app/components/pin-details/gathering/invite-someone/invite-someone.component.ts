@@ -49,9 +49,9 @@ export class InviteSomeoneComponent implements OnInit {
                 success => {
                     let bpd = new BlandPageDetails(
                         'Return to my pin',
-                        '<h1 class="h1 text-center">Invite sent</h1>' +
+                        '<h1 class="title">Invitation Sent</h1>' +
                         // tslint:disable-next-line:max-line-length
-                        `<p class="text text-center">${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
+                        `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
                         BlandPageType.Text,
                         BlandPageCause.Success,
                         `gathering/${this.gatheringId}`

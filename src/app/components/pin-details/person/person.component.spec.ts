@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 /*
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
@@ -5,7 +6,6 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
@@ -23,13 +23,14 @@ describe('PersonComponent', () => {
     let comp: PersonComponent;
     let el;
 
-    let mockContentService, mockToast, mockStateService, mockAddressService;
+    let mockContentService, mockToast, mockStateService, mockAddressService, mockRouter;
 
     beforeEach(() => {
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -39,7 +40,8 @@ describe('PersonComponent', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: StateService, useValue: mockStateService },
-                { provide: ToastsManager, useValue: mockToast }
+                { provide: ToastsManager, useValue: mockToast },
+                { provide: Router, useValue: mockRouter }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });

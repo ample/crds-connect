@@ -1,11 +1,13 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Angulartics2 } from 'angulartics2';
+import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Angulartics2 } from 'angulartics2';
 import { ToastsManager } from 'ng2-toastr';
 
 import { BlandPageService } from '../../services/bland-page.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
@@ -32,6 +34,7 @@ export class HostApplicationComponent implements OnInit {
 
   constructor(
     private blandPageService: BlandPageService,
+    private content: ContentService,
     private hlpr: HostApplicationHelperService,
     private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
@@ -39,7 +42,8 @@ export class HostApplicationComponent implements OnInit {
     private session: SessionService,
     private store: StoreService,
     private toast: ToastsManager,
-    private state: StateService
+    private state: StateService,
+    private location: Location
   ) {}
 
   public ngOnInit() {
@@ -48,13 +52,22 @@ export class HostApplicationComponent implements OnInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
+    let gatheringDescriptionPlaceholder: string =
+        this.hlpr.stripHtmlFromString(this.content.getContent('defaultGatheringDesc'));
+
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      gatheringDescription: new FormControl('', [Validators.required, Validators.maxLength(500)])
+      gatheringDescription: new FormControl(gatheringDescriptionPlaceholder, [Validators.required, Validators.maxLength(500)])
     });
 
     this.state.setLoading(false);
+  }
+
+  public ngAfterViewInit() {
+    // This component is rendered within a fauxdal,
+    // so we need the following selector added to <body> element
+    document.querySelector('body').classList.add('fauxdal-open');
   }
 
   public onSubmit ({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
@@ -89,5 +102,9 @@ export class HostApplicationComponent implements OnInit {
     } else {
       this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
     }
+  }
+
+  public closeClick() {
+    this.location.back();
   }
 }

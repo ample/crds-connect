@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Angulartics2 } from 'angulartics2';
+
+import { Component, Input, OnInit } from '@angular/core';
 import { StateService } from '../../services/state.service';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -8,16 +10,16 @@ import { NeighborsHelperService } from  '../../services/neighbors-helper.service
   selector: 'app-listview',
   templateUrl: 'list-view.component.html'
 })
-export class ListViewComponent {
+export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
 
   public showing_increment: number = 10;
 
   constructor(public neighborsHelperService: NeighborsHelperService,
-              public stateService: StateService) {    
+              public stateService: StateService) {
   }
 
-  public ngOnInit(){
+  public ngOnInit() {
       this.neighborsHelperService.changeEmitter.subscribe(() => {
         this.stateService.setShowingPinCount(10);
     });

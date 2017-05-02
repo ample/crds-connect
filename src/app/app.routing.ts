@@ -13,6 +13,9 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
+import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
+import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
@@ -35,6 +38,36 @@ const appRoutes: Routes = [
     resolve: {
       userData: UserDataResolver
     }
+  }, {
+    path: 'accept-invite/:groupId/:guid',
+    component: HandleInviteComponent,
+    canActivate: [
+      LoggedInGuard,
+    ],
+    data: [{
+      accept: true
+    }]
+  }, {
+    path: 'decline-invite/:groupId/:guid',
+    component: HandleInviteComponent,
+    canActivate: [
+      LoggedInGuard,
+    ],
+    data: [{
+      accept: false
+    }]
+  }, {
+    path: 'invite-declined',
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard
+    ]
+  }, {
+    path: 'invite-accepted',
+    component: BlandPageComponent,
+    canActivate: [
+      BlandPageGuard,
+    ]
   }, {
     path: 'add',
     redirectTo: '/add-me-to-the-map',
@@ -86,7 +119,10 @@ const appRoutes: Routes = [
     component: BlandPageComponent,
     canActivate: [
       WhatsAHostGuard
-    ]
+    ],
+    data: [{
+      isFauxdal: true
+    }]
   },
   { path: 'signin', component: AuthenticationComponent },
   { path: 'register', component: RegisterComponent },
@@ -97,13 +133,26 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
-  },
+  }, {
+    path: 'gathering/:groupId/edit',
+    component: GatheringEditComponent,
+    resolve: {
+      pin: PinResolver
+    },
+    canActivate: [ LoggedInGuard ]
+   },
   {
     path: 'person/:participantId',
     component: PinDetailsComponent,
     resolve: {
       pin: PinResolver,
       user: UserDataResolver
+    }
+  }, {
+    path: 'person/:participantId/edit',
+    component: PersonEditComponent,
+    resolve: {
+      pin: PinResolver
     }
   },
   { path: 'register', component: RegisterComponent },

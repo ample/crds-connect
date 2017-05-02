@@ -30,7 +30,7 @@ describe('Component: Authentication', () => {
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('redirectService', ['cancelRedirect', 'redirectToTarget']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'postLogin']);
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor','setLoading']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setLoading']);
     mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
 
     TestBed.configureTestingModule({
@@ -81,13 +81,13 @@ describe('Component: Authentication', () => {
     comp.form.setValue({ email: email, password: password });
   }
 
-  it('loginException should get set to true', ()=> {
+  it('loginException should get set to true', () => {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
     (<jasmine.Spy>comp.session.postLogin).and.returnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
-    expect(comp.loginException).toBeTruthy(); 
+    expect(comp.loginException).toBeTruthy();
   });
 
   it('should check to see if field is valid when valid credentials are provided', () => {

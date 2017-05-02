@@ -20,13 +20,14 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'gathering',
   templateUrl: 'gathering.html'
 })
 export class GatheringComponent implements OnInit {
 
   @Input() pin: Pin;
-  @Input() user: User;
+  @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
 
@@ -65,7 +66,7 @@ export class GatheringComponent implements OnInit {
             })
             .subscribe(
             address => {
-              this.pin.address = address;
+              this.pin.gathering.address = address;
             },
             error => {
               this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
@@ -124,6 +125,10 @@ export class GatheringComponent implements OnInit {
     } else {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
+  }
+
+  public edit() {
+    this.router.navigate(['/gathering', this.pin.gathering.groupId, 'edit']);
   }
 
 }

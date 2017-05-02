@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -191,13 +193,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  };
+  }
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
-    return (postedPin.participantId !== pinFromResults.participantId
-         && postedPin.pinType !== pinFromResults.pinType);
-  };
+    return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
+  }
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
@@ -207,7 +208,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
        if (isFound === undefined) {
          this.pinSearchResults.pinSearchResults.push(pin);
        } else { // filter out old pin and replace
-         this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+         this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
          this.pinSearchResults.pinSearchResults.push(pin);
        }
        this.addressService.clearCache();

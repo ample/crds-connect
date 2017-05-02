@@ -57,12 +57,12 @@ export class GatheringRequestsComponent implements OnInit {
         let templateText;
         let bpd;
         if (approve) {
-          templateText = '<div class="container"><div class="row text-center"><h3>Request accepted</h3></div>';
+          templateText = '<h1 class="title">Request accepted</h1>';
         } else {
-          templateText = '<div class="container"><div class="row text-center"><h3>Request Denied</h3></div>';
+          templateText = '<h1 class="title">Request Denied</h1>';
         }
         // tslint:disable-next-line:max-line-length
-        templateText += `<br/><div class="row text-center"<span>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified</span></div></div>`;
+        templateText += `<p>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified.</p>`;
         bpd = new BlandPageDetails(
           'Return to my pin',
           templateText,

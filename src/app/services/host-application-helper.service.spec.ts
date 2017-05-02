@@ -6,7 +6,6 @@ import { HostApplicationHelperService } from './host-application-helper.service'
 import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
 import { SiteAddressService } from '../services/site-address.service';
 import { Pin, pinType } from '../models/pin';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 describe('Service: Add me to the Map Helper', () => {
 

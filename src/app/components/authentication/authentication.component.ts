@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,8 +11,7 @@ import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 @Component({
   selector: 'app-authentication',
-  templateUrl: 'authentication.component.html',
-  styleUrls: ['authentication.component.css']
+  templateUrl: 'authentication.component.html'
 })
 export class AuthenticationComponent implements OnInit {
   public buttonText: string = 'Next';

@@ -6,7 +6,6 @@ import { HostRequestDto } from '../models/host-request-dto';
 import { HostApplicatonForm } from '../models/host-application-form';
 import { LookupTable } from '../models/lookup-table';
 import { Pin, pinType } from '../models/pin';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 @Injectable()
 export class HostApplicationHelperService {
@@ -27,15 +26,14 @@ export class HostApplicationHelperService {
   };
 
   public formatPhoneForUi(mobilePhone: string): string {
-    if (!mobilePhone) return '';
+    if (!mobilePhone) { return ''; }
 
     let parsedPhone: string;
 
     try {
       parsedPhone = mobilePhone.split('-').join('');
-    }
-    catch(err) {
-      parsedPhone = ''
+    } catch (err) {
+      parsedPhone = '';
     }
 
     return parsedPhone;
@@ -51,6 +49,11 @@ export class HostApplicationHelperService {
     let formattedNumber = areaCode + '-' + firstThree + '-' + lastFour;
 
     return formattedNumber;
+  }
+
+  public stripHtmlFromString (textWithHtml: string): string {
+    let sanitizedString: string = textWithHtml.replace(/<(?:.|\n)*?>/gm, '');
+    return sanitizedString;
   }
 
 }

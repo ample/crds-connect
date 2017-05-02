@@ -1,482 +1,363 @@
-#crds-connect {
-  @import '~crds-styles/assets/stylesheets/bootstrap';
-  @import 'components/media-objects';
+@import '~crds-styles/assets/stylesheets/bootstrap';
+@import 'components/media-objects';
+@import 'pages/pin-details';
 
-  body {
-    -webkit-font-smoothing: initial;
+body {
+  -webkit-font-smoothing: initial;
+  background: $cr-gray-lighter;
+}
+
+#toast-container {
+  z-index: 10;
+}
+
+// Map labels
+.pin-label {
+  $map-label-font-size: 13px;
+  $map-label-font-family: $condensed-font-face;
+  $map-label-default-color: $cr-gray;
+  $map-label-me-color: $cr-gold;
+  $map-label-host-color: $cr-cyan;
+  $map-label-person-color: $cr-blue;
+  $map-label-site-color: $cr-orange;
+
+  color: $map-label-default-color;
+  font-size: $map-label-font-size;
+
+  &.person {
+    color: $map-label-person-color;
   }
 
-  #toast-container {
-    z-index: 10;
-  }
+  &.person,
+  &.gathering {
+    &.me {
+      color: $map-label-me-color;
 
-  #host-now-title{
-    font-size: 300%;
-  }
-
-  // Map labels
-  .pin-label {
-    $map-label-font-size: 13px;
-    $map-label-font-family: $condensed-font-face;
-    $map-label-default-color: $cr-gray;
-    $map-label-me-color: $cr-gold;
-    $map-label-host-color: $cr-cyan;
-    $map-label-person-color: $cr-blue;
-    $map-label-site-color: $cr-orange;
-
-    color: $map-label-default-color;
-    font-size: $map-label-font-size;
-
-    &.person {
-      color: $map-label-person-color;
-    }
-
-    &.person,
-    &.gathering {
-      &.me {
-        color: $map-label-me-color;
-
-        &::after {
-          content: "ME";
-          font-size: 8px;
-        }
-      }
-
-      &.host {
-        color: $map-label-host-color;
-
-        &::after {
-          content: "HOST";
-          font-size: 8px;
-        }
+      &::after {
+        content: "ME";
+        font-size: 8px;
       }
     }
 
-    &.site {
-      color: $map-label-site-color;
+    &.host {
+      color: $map-label-host-color;
+
+      &::after {
+        content: "HOST";
+        font-size: 8px;
+      }
     }
   }
 
-  app-preloader {
+  &.site {
+    color: $map-label-site-color;
+  }
+}
+
+app-preloader {
+  display: none;
+  .loading & {
+    display: block;
+  }
+}
+
+.outlet-wrapper {
+  display: block;
+  .loading & {
     display: none;
-    .loading & {
-      display: block;
-    }
   }
+}
 
-  .outlet-wrapper {
-    display: block;
-    .loading & {
-      display: none;
-    }
-  }
+app-neighbors {
+  display: block;
+  background: $cr-gray-lighter;
+}
 
-  app-neighbors {
-    display: block;
-    background: $cr-gray-lighter;
-  }
+.fauxdal-open {
+  @extend .modal-open;
+  position: fixed;
+}
 
-  // Add me to map
-  app-add-me-to-map {
-    background-color: darken($cr-blue, 20);
-    color: $cr-white;
-    display: block;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 5;
-  }
+.fauxdal-wrapper {
+  background-color: darken($cr-blue, 20);
+  color: $cr-white;
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
 
-  .fauxdal {
-    background-color: darken($cr-blue, 20);
-    color: $cr-white;
-    display: block;
-    height: 100vh;
-    width: 100vw;
-    overflow: scroll;
+.fauxdal {
+  @include size(100vw, 100vh);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
 
-    // Added so the "modal" sits on top of the header
+  .close {
+    opacity: 1.0;
+
     position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 7;
-
-    .close {
-      opacity: 1.0;
-
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-
-      a {
-        color: $cr-white;
-
-        display: block;
-        padding: 1rem;
-        margin: -1rem;
-
-        &:hover {
-          color: rgba($cr-white, .5);
-        }
-      }
-    }
-
-    &.fauxdal-center {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      padding-top: 3rem;
-    }
-
-    .fauxdal-content {
-      max-width: $container-tablet;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    &.fauxdal-fullscreen {
-      @media (min-width: $screen-xs) {
-        padding-top: initial;
-      }
-
-      .container-fluid {
-        background-color: darken($cr-blue, 20);
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-
-        address-form {
-          display: block;
-          margin: 0 auto;
-          padding-top: 1rem;
-          width: 100%;
-        }
-
-        .centered-form-group {
-          display: block;
-          margin: 0 auto;
-          padding-top: 1rem;
-          width: 100%;
-        }
-
-        crds-content-block {
-          display: block;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .alert,
-        .alert crds-content-block {
-          text-align: left;
-        }
-
-        @media (min-width: $screen-xs) {
-          padding: 2rem;
-
-          crds-content-block {
-            width: 450px;
-          }
-          .alert crds-content-block {
-            width: auto;
-          }
-
-          .centered-form-group {
-            width: 400px;
-          }
-
-        }
-
-        @media (min-width: $screen-sm) {
-          crds-content-block {
-            width: 475px;
-          }
-          .alert crds-content-block {
-            width: auto;
-          }
-
-          address-form {
-            width: 425px;
-          }
-
-          .centered-form-group {
-            width: 425px;
-          }
-        }
-
-        @media (min-width: $screen-md) {
-          crds-content-block {
-            width: 500px;
-          }
-          .alert crds-content-block {
-            width: auto;
-          }
-        }
-      }
-    }
-
-    .title {
-      color: $cr-white;
-    }
-  }
-
-  .app-header {
-    position: relative;
-    z-index: 5;
-
-    .brand-bar {
-      position: relative;
-      height: 40px;
-      overflow: hidden;
-      background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
-      background-repeat: repeat-x;
-      background-size: auto 100%;
-    }
-
-    .app-logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      padding: 11.5px;
-      line-height: 1;
-      color: $cr-white;
-      background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      svg {
-        width: 75px;
-        height: 15px;
-        padding: 0;
-      }
-    }
-
-    .page-title {
-      text-align: center;
-      padding: 1rem;
-      background-color: darken(desaturate($cr-blue-dark, 5), 5);
-
-      * {
-        color: $cr-white;
-      }
-
-      a {
-        margin-top: 0.25rem;
-      }
-
-      h1 {
-        display: inline-block;
-        margin: 0 auto;
-        line-height: 1;
-        font-size: 1.5rem;
-      }
-    }
-  }
-
-  // Centers blocks to the middle of the screen.
-  .content-middle {
-    @include container-fixed();
-    max-width: $container-tablet;
-    width: 100%;
-  }
-
-  app-map,
-  sebm-google-map,
-  canvas-map-overlay {
-    // Calculations are designed such that while the screen is less than 3000px
-    // tall, the map is never too short, but also never more than 99px below
-    // the bottom of the screen directly within Connect.
-    //
-    // When displayed as a microclient, it may fall another 54px-64px below
-    // the footer, accounting for the global header.
-    height: 381px;
-    @for $idx from 5 to 30 {
-      $height: $idx * 100;
-      @media screen and ( min-height: #{$height}px ){
-        height: #{$height - 19}px;
-      }
-    }
-  }
-
-  // Style map
-  app-map {
-    display: block;
-    overflow: hidden;
-    position: relative;
-  }
-
-  sebm-google-map {
-    @media (min-width: $screen-xs) {
-      .gmnoprint {
-        padding: .5rem;
-      }
-    }
-  }
-
-  canvas-map-overlay {
-    display: block;
-    pointer-events: none;
-    position: absolute;
-    width: 100vw;
-    z-index: 1;
-  }
-
-  // Map footer
-  app-map-footer {
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 5px;
+    top: 1rem;
     right: 1rem;
-    z-index: 4;
-    @media (min-width: $screen-xs) {
-      top: 13px;
-    }
-    input {
-      float: right;
-      clear: both;
-    }
-  }
 
-  // Getting started layout
-  .people {
-    display: flex;
-    flex-flow: column nowrap;
-    margin-top: 1rem;
+    a {
+      color: $cr-white;
 
-    @media (min-width: $screen-xs) {
-      flex-direction: row;
-    }
-
-    .person {
-      flex: 1 1 auto;
-      text-align: center;
-
-      align-items: center;
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: center;
-
-      &::last-child {
-        padding-top: 1rem;
-      }
-
-      .entry-header {
-        justify-content: center;
-      }
-    }
-  }
-
-  app-pin-detail {
-    display: block;
-    background: $cr-gray-lighter;
-    height: 381px;
-    @for $idx from 5 to 30 {
-      $height: $idx * 100;
-      @media screen and ( min-height: #{$height}px ){
-        height: #{$height - 19}px;
-      }
-    }
-
-    .pin-details {
-      background: $cr-black;
-      color: $cr-gray-light;
       display: block;
+      padding: 1rem;
+      margin: -1rem;
+
+      &:hover {
+        color: rgba($cr-white, .5);
+      }
+    }
+  }
+
+  &.fauxdal-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .fauxdal-content {
+    max-width: $container-tablet;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &.fauxdal-fullscreen {
+    @media (min-width: $screen-xs) {
+      padding-top: initial;
+    }
+
+    .container-fluid {
+      background-color: darken($cr-blue, 20);
       padding-top: 1rem;
       padding-bottom: 1rem;
-      @for $idx from 5 to 30 {
-        $height: $idx * 100;
-        @media screen and ( min-height: #{$height}px ){
-          height: #{$height - 19}px;
-        }
-      }
-
-      hr {
-        border-top: 1px solid rgba(darken($cr-gray-lighter, 10), .4);
-      }
-
-      @media (min-width: $screen-sm) {
-        box-shadow: 0 0 10px 0 $cr-gray-light;
-        margin: 0 auto;
-        padding: 1rem 2rem;
-        width: $container-tablet;
-      }
-
-      p {
-        color: $cr-gray-light;
-      }
     }
   }
 
-  gathering {
-    p {
-      padding: 20px 0;
-      margin: 0;
-    }
+  .title,
+  .control-label {
+    color: $cr-white;
+  }
+}
+
+.app-header {
+  position: relative;
+  z-index: 5;
+
+  .brand-bar {
+    position: relative;
+    height: 40px;
+    overflow: hidden;
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
   }
 
-  say-hi {
-    display: inline-block;
-
-    p {
-      padding: 20px 0;
-      margin: 0;
-    }
-
-    .btn {
-      background: $cr-gray-dark;
-      color: $cr-white;
-    }
-
-    .btn-say-hi {
-      background: $cr-cyan;
-      color: $cr-white;
-    }
-  }
-
-  // Update search results button
-  search-local {
-    display: block;
+  .app-logo {
     position: absolute;
-    top: 85px;
-    right: 1rem;
-    z-index: 4;
-
-    @media (min-width: $screen-xs) {
-      top: 93px;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 11.5px;
+    line-height: 1;
+    color: $cr-white;
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    svg {
+      width: 75px;
+      height: 15px;
+      padding: 0;
     }
   }
 
-  // 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
-  .btn.btn-primary.active {
-    background: darken($btn-primary-bg, 20);
+  .page-title {
+    text-align: center;
+    padding: 1rem;
+    background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+    * {
+      color: $cr-white;
+    }
+
+    a {
+      margin-top: 0.25rem;
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 auto;
+      line-height: 1;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Centers blocks to the middle of the screen.
+.content-middle {
+  @include container-fixed();
+  max-width: $container-tablet;
+  width: 100%;
+}
+
+app-map,
+sebm-google-map,
+canvas-map-overlay {
+  // Calculations are designed such that while the screen is less than 3000px
+  // tall, the map is never too short, but also never more than 99px below
+  // the bottom of the screen directly within Connect.
+  //
+  // When displayed as a microclient, it may fall another 54px-64px below
+  // the footer, accounting for the global header.
+  height: 381px;
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      height: #{$height - 19}px;
+    }
+  }
+}
+
+// Style map
+app-map {
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+sebm-google-map {
+  @media (min-width: $screen-xs) {
+    .gmnoprint {
+      padding: .5rem;
+    }
+  }
+}
+
+canvas-map-overlay {
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+
+// Map footer
+app-map-footer {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 5px;
+  right: 1rem;
+  z-index: 4;
+  @media (min-width: $screen-xs) {
+    top: 13px;
+  }
+  input {
+    float: right;
+    clear: both;
+  }
+}
+
+// Getting started layout
+.people {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 1rem;
+
+  @media (min-width: $screen-xs) {
+    flex-direction: row;
   }
 
+  .person {
+    flex: 1 1 auto;
+    text-align: center;
+
+    align-items: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+
+    &::last-child {
+      padding-top: 1rem;
+    }
+
+    .entry-header {
+      justify-content: center;
+    }
+  }
+}
+
+// Update search results button
+search-local {
+  display: block;
+  position: absolute;
+  bottom: 60px;
+  left: calc(50% - 66px); // half screen width minus half of the button width
+  z-index: 4;
+}
+
+// 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
+.btn.btn-primary.active {
+  background: darken($btn-primary-bg, 20);
+}
 
 
-  // Single Toggle Button
-  .btn-toggle {
-    $btn-toggle-styles: (
-      primary: (bg: $btn-primary-bg, bc: $btn-primary-border),
-      secondary: (bg: $btn-secondary-bg, bc: $btn-secondary-border),
-      gray: (bg: $btn-gray-bg, bc: $btn-gray-border),
-      option: (bg: $btn-option-bg, bc: $btn-option-border),
-      default: (bg: $btn-default-bg, bc: $btn-default-border)
-    );
 
-    @each $style, $map in $btn-toggle-styles {
-      &.btn-#{$style} {
-        &,
-        &:active,
-        &:active:focus,
-        &:focus,
-        &:hover {
-          background: map-get($map, bg);
-          border-color: map-get($map, bc);
-          box-shadow: none;
-        }
+// Single Toggle Button
+.btn-toggle {
+  $btn-toggle-styles: (
+    primary: (bg: $btn-primary-bg, bc: $btn-primary-border),
+    secondary: (bg: $btn-secondary-bg, bc: $btn-secondary-border),
+    gray: (bg: $btn-gray-bg, bc: $btn-gray-border),
+    option: (bg: $btn-option-bg, bc: $btn-option-border),
+    default: (bg: $btn-default-bg, bc: $btn-default-border)
+  );
+
+  @each $style, $map in $btn-toggle-styles {
+    &.btn-#{$style} {
+      &,
+      &:active,
+      &:active:focus,
+      &:focus,
+      &:hover {
+        background: map-get($map, bg);
+        border-color: map-get($map, bc);
+        box-shadow: none;
       }
     }
+  }
+}
 
+.connect-container {
+  background: $cr-white;
+  min-height: 381px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @for $idx from 5 to 30 {
+    $height: $idx * 100;
+    @media screen and ( min-height: #{$height}px ){
+      min-height: #{$height - 19}px;
+    }
+  }
+
+  @media (min-width: $screen-sm) {
+    box-shadow: 0 0 10px 0 $cr-gray-light;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    width: $container-tablet;
+  }
+
+  &.dark-theme {
+    background: $cr-black;
   }
 }

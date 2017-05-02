@@ -5,7 +5,6 @@ import { AddMeToMapFormFields } from '../models/add-me-to-map-form-fields';
 import { LookupTable } from '../models/lookup-table';
 import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { UserDataForPinCreation } from '../models/user-data-for-pin-creation';
 
 class BuildingAddress {
   addressLine1: string;
@@ -78,13 +77,14 @@ export class SiteAddressService {
 
   constructor() { }
 
-
+  // Why Does this exist? This is not what is happening. 
   public addAddressesToGatheringPins (srchResults: PinSearchResultsDto): PinSearchResultsDto {
     srchResults.pinSearchResults = this.addAddressesToSitePins(srchResults.pinSearchResults);
     return srchResults;
 
   }
 
+  // This is what is happening.
   public addAddressesToSitePins (pins: Array<Pin>): Array<Pin> {
 
     let thisService = this;

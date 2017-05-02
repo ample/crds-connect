@@ -2,13 +2,9 @@
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
  */
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { Angulartics2 } from 'angulartics2';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockTestData } from '../../../shared/MockTestData';
@@ -90,7 +86,7 @@ describe('GatheringComponent', () => {
                 { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
                     provide: Router,
-                    useValue: { routerState: { snapshot: { url: 'abc123' } } },
+                    useValue: { routerState: { snapshot: { url: 'abc123' }}, navigate: jasmine.createSpy('navigate') },
                 },
             ],
             schemas: [NO_ERRORS_SCHEMA]
@@ -121,7 +117,7 @@ describe('GatheringComponent', () => {
         comp.ngOnInit();
         expect(comp.isInGathering).toBe(true);
         expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(comp['pin'].address.addressLine1).toBe(addLine1);
+        expect(comp['pin'].gathering.address.addressLine1).toBe(addLine1);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
     });
 
@@ -273,5 +269,12 @@ describe('GatheringComponent', () => {
 
         comp.ngOnInit();
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
+    });
+
+    it('should edit', () => {
+        let pin = MockTestData.getAPin(1);
+        comp['pin'] = pin;
+        comp.edit();
+        expect(comp['router'].navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId, 'edit']);
     });
 });
