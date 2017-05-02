@@ -93,7 +93,7 @@ export class BlandPageService {
         }
 
         this.blandPageDetails = new BlandPageDetails(
-            accepted === true ? `Check the group out` : 'Go to the map',
+            accepted === true ? `Check out the group` : 'Go to the map',
             text,
             BlandPageType.Text,
             BlandPageCause.Success,

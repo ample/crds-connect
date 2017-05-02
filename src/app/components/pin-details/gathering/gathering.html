@@ -17,7 +17,7 @@
     <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
 
     <div *ngIf="!isInGathering && !isPinOwner">
-      <button class="btn btn-secondary" (click)="requestToJoin()">Join gathering</button>
+      <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
       <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
     </div>
 
