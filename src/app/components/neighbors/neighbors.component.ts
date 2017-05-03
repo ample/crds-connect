@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -95,6 +97,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   processAndDisplaySearchResults(searchString, lat, lng): void {
     // include posted pin if not included in results
     this.verifyPostedPinExistence();
+    this.ensureUpdatedPinAddressIsDisplayed();
 
     // sort
     this.pinSearchResults.pinSearchResults =
@@ -159,7 +162,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.router.navigate(['add-me-to-the-map']);
     } else {
       let lastSearch = this.state.getLastSearch();
-      if (!(lastSearch && lastSearch.search == searchString && lastSearch.coords.lat == lat && lastSearch.coords.lng == lng)) {
+      if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
           // its a different search, clear the last mapView;
           this.state.setMapView(null);
       }
@@ -194,23 +197,40 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
-    return (postedPin.participantId !== pinFromResults.participantId
-         && postedPin.pinType !== pinFromResults.pinType);
+    return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
   }
 
   private verifyPostedPinExistence() {
-    if (this.state.navigatedFromAddToMapComponent) {
+    if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
       this.state.navigatedFromAddToMapComponent = false;
       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
       let pin = this.state.postedPin;
        if (isFound === undefined) {
          this.pinSearchResults.pinSearchResults.push(pin);
        } else { // filter out old pin and replace
-         this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+         this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
          this.pinSearchResults.pinSearchResults.push(pin);
        }
        this.addressService.clearCache();
        this.state.postedPin = null;
+    }
+  }
+
+  private ensureUpdatedPinAddressIsDisplayed() {
+
+    let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
+
+    if (wasPinAddressJustUpdated) {
+
+      this.pinSearchResults.pinSearchResults = this.pinService.replaceAddressOnUpdatedPin(
+          this.pinSearchResults.pinSearchResults,
+          this.state.updatedPin,
+          this.state.updatedPinOldAddress
+      );
+
+      this.addressService.clearCache();
+
+      this.state.cleanUpStateAfterPinUpdate();
     }
   }
 

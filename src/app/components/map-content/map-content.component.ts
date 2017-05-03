@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
@@ -122,9 +124,6 @@ export class MapContentComponent implements OnInit {
           geoBounds = new MapGeoBounds(bounds, delta);
         }
 
-        let siteMarkers = this.mapHlpr.getSiteMarkersOnMap();
-        markers.push.apply(markers, siteMarkers);
-
         let markerArray = [];
 
         if (markers.length > 0) {
@@ -184,13 +183,12 @@ export class MapContentComponent implements OnInit {
           };
 
           PinLabelOverlay.prototype.draw = function() {
-            console.log('Drawing labels');
             let overlayProjection = this.getProjection();
             let sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
             let ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
             let div = this.div_;
             div.className = 'pin-label';
-            div.className += ' ' + pinType[this.labelData_.pinType].toString();
+            div.className += ' ' + pinType[this.labelData_.pinType].toLowerCase().toString();
             if (this.labelData_.isMe) { div.className += ' me'; }
             if (this.labelData_.isHost) { div.className += ' host'; }
             div.style.left = sw.x + 20 + 'px';

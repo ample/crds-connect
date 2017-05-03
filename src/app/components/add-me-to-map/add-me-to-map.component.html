@@ -1,18 +1,40 @@
-<div *ngIf="ready" class="fauxdal fauxdal-fullscreen">
-  <div class="container-fluid">
-    <div class="pull-right close">
-      <a class="pointer" (click)="closeClick()">
-        <svg class="icon icon-1" viewBox="0 0 256 256">
-          <use xlink:href="/assets/svgs/icons.svg#close"></use>
-        </svg>
-      </a>
-    </div>
+<div class="fauxdal-wrapper">
+  <div *ngIf="ready" class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="closeClick()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
 
-    <br>
+      <br>
 
-    <div>
-      <crds-content-block id="finderAddMeToMapText"></crds-content-block>
-      <address-form [userData]="userData" (save)="onSubmit($event)"></address-form>
+      <div class="fauxdal-content">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <crds-content-block id="finderAddMeToMapText"></crds-content-block>
+          </div>
+        </div>
+
+        <form novalidate [formGroup]="addMeToMapForm" (ngSubmit)="onSubmit(addMeToMapForm)">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
+              <address-form [parentForm]="addMeToMapForm" groupName="addressForm" [isFormSubmitted]="submissionError" [address]="userData.address"></address-form>
+            </div>
+          </div>
+
+          <footer class="btn-group">
+            <button type="submit" [disabled]="addMeToMapForm.invalid || submitting" class="btn btn-secondary">Add me to the map</button>
+            <button type="button" (click)="closeClick()" class="btn btn-outline btn-default">Cancel</button>
+          </footer>
+
+          <div *ngIf="submissionError" class="alert alert-danger">
+            <crds-content-block id="generalError"></crds-content-block>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

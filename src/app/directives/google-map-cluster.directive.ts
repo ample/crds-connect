@@ -4,7 +4,7 @@ import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-map
 
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GoogleMapService } from '../services/google-map.service';
-import '../../scripts/markerclusterer.js'
+import '../../scripts/markerclusterer.js';
 
 declare const MarkerClusterer;
 
@@ -55,21 +55,12 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         let promise = this.markerManager.getNativeMarker(sebmMarker);
         promises.push(promise);
         promise.then(marker => {
-
-          let markerWithIcon: IObjectWithIcon = marker;
-          let isSiteMarker: boolean = markerWithIcon.icon.endsWith('SITE.svg') || markerWithIcon.icon.endsWith('SITE.png');
-
-          if ( !isSiteMarker ) {
-            markers.push(marker);
-          } else {
-            siteMarkers.push(marker);
-          }
+          markers.push(marker);
         });
       }
 
       Promise.all(promises).then(() => {
         this.cluster = new MarkerClusterer(map, markers, options);
-        this.mapHlpr.setSiteMarkers(siteMarkers);
       });
 
     });

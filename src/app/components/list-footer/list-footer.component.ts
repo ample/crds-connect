@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, OnInit, OnChanges, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -23,7 +25,7 @@ export class ListFooterComponent implements OnInit, OnChanges {
   constructor(private listHlpr: ListHelperService,
               private router: Router,
               private session: SessionService,
-              private state: StateService,
+              public state: StateService,
               private blandPageService: BlandPageService) {}
 
   public ngOnInit(): void {}

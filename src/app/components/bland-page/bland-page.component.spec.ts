@@ -19,7 +19,7 @@ import { BlandPageComponent } from './bland-page.component';
 describe('BlandPageComponent', () => {
     let fixture: ComponentFixture<BlandPageComponent>;
     let comp: BlandPageComponent;
-    let mockBlandPageService, mockStateService, mockRouter, mockRoute;
+    let mockBlandPageService, mockStateService, mockRouter;
 
     beforeEach(() => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['getBlandPageDetails']);
@@ -79,13 +79,13 @@ describe('BlandPageComponent', () => {
 
     it('should attach class selector to body element after view init', () => {
         // Start fresh...
-        document.querySelector('body').classList.remove('modal-open');
+        document.querySelector('body').classList.remove('fauxdal-open');
 
-        expect(document.querySelector('body').classList).not.toContain('modal-open');
+        expect(document.querySelector('body').classList).not.toContain('fauxdal-open');
         comp.ngAfterViewInit();
-        expect(document.querySelector('body').classList).toContain('modal-open');
+        expect(document.querySelector('body').classList).toContain('fauxdal-open');
 
         // Cleanup...
-        document.querySelector('body').classList.remove('modal-open');
+        document.querySelector('body').classList.remove('fauxdal-open');
     });
 });

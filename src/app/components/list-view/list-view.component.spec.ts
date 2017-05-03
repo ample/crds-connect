@@ -1,75 +1,54 @@
-import { MockConnection } from '@angular/http/testing';
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { Http, Response, RequestOptions } from '@angular/http';
-import { AgmCoreModule } from 'angular2-google-maps/core';
-
-import { UserLocationService } from '../../services/user-location.service';
 import { ListViewComponent } from './list-view.component';
 import { ListEntryComponent } from '../list-entry/list-entry.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
-import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
-
+import { Pin } from '../../models/pin';
 import { ContentBlockModule } from 'crds-ng2-content-block';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { IFrameParentService } from '../../services/iframe-parent.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { StoreService } from '../../services/store.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
-import { LoginRedirectService } from '../../services/login-redirect.service';
-import { Angulartics2 } from 'angulartics2';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule  } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { LocationService } from '../../services/location.service';
-import { PinService}  from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: List View', () => {
-  let mockContentService;
+  let mockStateService,
+    mockListHelperService,
+    mockCookieService,
+    mockNeighborsHelperService,
+    mockBlandPageService,
+    mockSessionService;
 
   beforeEach(() => {
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
+    mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelperService', ['constructor']);
+    mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
         ListViewComponent,
-        ListEntryComponent,
+        MockComponent({selector: 'list-entry', inputs: ['firstName', 'lastName', 'siteName', 'type',
+                      'proximity', 'description', 'groupId', 'address', 'participantId', 'participantCount', 'contactId']}),
         ListFooterComponent,
-        MapContentComponent,
-        MapFooterComponent,
         MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
         MockComponent({selector: 'crds-content-block', inputs: ['id']})
       ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
-        AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        })
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
-        UserLocationService,
-        LocationService,
-        PinService,
-        IFrameParentService,
-        StoreService,
-        StateService,
-        ListHelperService,
-        SessionService,
-        CookieService,
-        Angulartics2,
-        LoginRedirectService,
-        GoogleMapService,
-        NeighborsHelperService,
-        BlandPageService
+        { provide: StateService, useValue: mockStateService },
+        { provide: ListHelperService, useValue: mockListHelperService },
+        { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
+        { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: SessionService, useValue: mockSessionService }
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);
@@ -81,10 +60,14 @@ describe('Component: List View', () => {
     expect(this.component).toBeTruthy();
   });
 
+  it('should return empty array of pins when searchResults undefined' , () => {
+    expect(this.component.pinsToShow()).toEqual(new Array<Pin>());
+  });
+
   describe('paging values', () => {
     it('should be set up to increment by 10', () => {
       expect(this.component.showing_increment).toEqual(10);
     });
   });
-
+ 
 });

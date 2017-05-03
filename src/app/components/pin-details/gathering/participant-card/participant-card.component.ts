@@ -7,8 +7,7 @@ import { Participant } from '../../../../models/participant';
 
 @Component({
   selector: 'participant-card',
-  templateUrl: 'participant-card.html',
-  styleUrls: ['participant-card.component.css']
+  templateUrl: 'participant-card.html'
 })
 export class ParticipantCardComponent {
 

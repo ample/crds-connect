@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Pin, pinType } from '../../models/pin';
@@ -28,7 +29,8 @@ export class ListEntryComponent {
   constructor(private session: SessionService,
               private router: Router,
               private state: StateService) {
-    this.currentContactId = this.session.getContactId();
+              // ngOnInit()?
+              this.currentContactId = this.session.getContactId();
   }
 
   public isMe() {

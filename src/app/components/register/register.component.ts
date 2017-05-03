@@ -1,3 +1,5 @@
+import { Angulartics2 } from 'angulartics2';
+
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -31,16 +33,17 @@ export class RegisterComponent implements OnInit {
     private session: SessionService,
     private redirectService: LoginRedirectService
   ) {
-    this.regForm = this.fb.group({
+
+  }
+
+  ngOnInit() {
+        this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
       lastName: ['', [<any>Validators.required]],
       email: ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
       password: ['', [<any>Validators.required, <any>Validators.minLength(8)]]
     });
-  }
-
-  ngOnInit() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.privacyPolicyUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
     this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
     this.termsOfServiceUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
