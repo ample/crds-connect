@@ -2,7 +2,7 @@
 
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
@@ -16,7 +16,7 @@ import { Angulartics2 } from 'angulartics2';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MapSettings } from '../../models/map-settings';
 import { SearchService } from '../../services/search.service';
-import { GoogleMapsAPIWrapper } from '@agm/core';
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { IPService } from '../../services/ip.service';

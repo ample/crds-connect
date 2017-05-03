@@ -4,7 +4,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper }  from 'angular2-google-maps/core';
 import { MapComponent } from '../components/map/map.component';
 import { MapContentComponent } from '../components/map-content/map-content.component';
 import { MapFooterComponent } from '../components/map-footer/map-footer.component';

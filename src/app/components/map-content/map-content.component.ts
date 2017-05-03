@@ -2,7 +2,7 @@ import { Angulartics2 } from 'angulartics2';
 
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
-import { GoogleMapsAPIWrapper, LatLng } from '@agm/core';
+import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
 import { StateService } from '../../services/state.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';

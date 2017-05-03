@@ -3,7 +3,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { MapView } from '../../models/map-view';
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
@@ -23,7 +23,7 @@ import { StateService } from '../../services/state.service';
 import { SearchService } from '../../services/search.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { LoginRedirectService } from '../../services/login-redirect.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { CookieService, CookieOptionsArgs, CookieOptions } from 'angular2-cookie/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -91,10 +91,9 @@ describe('Component: Neighbors', () => {
         // major refactoring to make it testable. Sad.
         UserLocationService,
         LocationService,
-        PinService,  
+        PinService,
         SearchService,
         SessionService,
-        CookieService,
         IPService,
         { provide: SiteAddressService, useValue: mockSiteAddressService },
         { provide: GoogleMapService, useValue: mockGoogleMapService },

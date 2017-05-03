@@ -26,7 +26,7 @@ import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
-import { GoogleMapsAPIWrapper } from '@agm/core';
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { SearchService } from '../../services/search.service';
 import { MapView } from '../../models/map-view';
 
