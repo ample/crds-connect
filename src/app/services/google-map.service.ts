@@ -28,31 +28,38 @@ export class GoogleMapService {
   }
 
   public emitRefreshMap(coords: GeoCoordinates): void {
+    console.log('googleMapService: emitRefreshMap');
     this.mapUpdatedEmitter.emit(coords);
   }
 
   public emitClearMap(): void {
+    console.log('googleMapService: emitClearMap');
     this.mapClearEmitter.emit();
   }
 
   public emitDataForDrawing(data: any): void {
+    console.log('googleMapService: emitDataForDrawing');
     this.dataForDrawingEmitter.emit(data);
   }
 
   public emitClusterMarkerData(data: any): void {
+    console.log('googleMapService: emitClusterMarkerData');
     this.clusterMarkersEmitter.emit(data);
   }
 
   public setDidUserAllowGeoLoc(value: boolean): void {
+    console.log('googleMapService: setDidUserAllowGeoLoc');
     this.didUserAllowGeoLoc = value;
   }
 
   public emitMapViewUpdated(mapView: MapView): void {
+    console.log('googleMapService: emitMapViewUpdated');
     this.mapViewUpdatedEmitter.emit(mapView);
   }
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
+    console.log('googleMapService: calculateZoom');
         let bounds = {
         width: document.documentElement.clientWidth,
         height: document.documentElement.clientHeight,
@@ -64,6 +71,7 @@ export class GoogleMapService {
 
   // zero in on the zoom that's closest to the target pin count without going under
   private calculateBestZoom(bounds: Object, zoom: number, pins: Pin[], viewtype: string, pops: Object = {}): number {
+    console.log('googleMapService: calculateBestZoom');
     let popTarget;
     if (viewtype === 'world') {
       popTarget = 10;
@@ -91,6 +99,7 @@ export class GoogleMapService {
 
   // return the number of pins in a bounded region
   private countPopAtZoom(bounds: Object, zoom: number, pins: Pin[], pops: Object): number {
+    console.log('googleMapService: countPopAtZoom');
     if (pops[zoom] === undefined) {
       let geoBounds = this.calculateGeoBounds(bounds, zoom);
       let geoPop = this.countResultsInBounds(geoBounds, pins);
@@ -101,6 +110,7 @@ export class GoogleMapService {
 
   // determine the google lat/lng bounds of a region from a viewport and zoom
   public calculateGeoBounds(bounds: Object, zoom: number): Object {
+    console.log('googleMapService: calculateGeoBounds');
     // at zoom 0,    256px for 180° latitude,  0.703125°/px
     //               256px for 360° longitude, 1.46025°/px
     // at zoom 1,    512px for 180° latitude,  0.3515625°/px
@@ -129,6 +139,7 @@ export class GoogleMapService {
 
   // count the pins in an area lat/lng bounded area
   private countResultsInBounds(geoBounds: Object,  pins: Pin[]): number {
+    console.log('googleMapService: countResultsInBounds');
     let counter = 0;
     for (let pin of pins) {
       if ((pin.address.latitude < geoBounds['north']) &&
@@ -143,6 +154,7 @@ export class GoogleMapService {
 
   // Converting decimal degrees into plotable degrees minutes seconds value
   private dms(dec: number): String {
+    console.log('googleMapService: dms');
     let decSgn = (dec < 0) ? '-' : '';
     dec = Math.abs(dec);
     let decDeg = parseInt('' + dec, 10);

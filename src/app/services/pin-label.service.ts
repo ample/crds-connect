@@ -77,11 +77,12 @@ export class PinLabelService {
   }
 
   public isMe(pin: Pin): boolean {
-    let isPinASite: boolean = pin.pinType === pinType.SITE;
+/*    let isPinASite: boolean = pin.pinType === pinType.SITE;
     let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
     let isMe: boolean = !isPinASite && doesUserOwnPin;
 
-    return isMe;
+    return isMe;*/
+    return false;
   }
 
 }

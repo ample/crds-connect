@@ -17,7 +17,7 @@ import { googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
 function PinLabelOverlay(bounds, map, labelData) {
-
+    console.log('mapContent: ');
     this.bounds_ = bounds;
     this.map_ = map;
     this.labelData_ = labelData;
@@ -53,10 +53,12 @@ export class MapContentComponent implements OnInit {
 
   @HostListener('document:redrawingClusters', ['$event'])
   onClusterRedraw(event) {
+    console.log('mapContent: onClusterRedraw');
     this.drawLabels(event.data.markersNotInClusters);
   }
 
   ngOnInit() {
+    console.log('mapContent: ngOnInit');
     this.mapApiWrapper.getNativeMap()
       .then((map) => {
 
@@ -82,6 +84,7 @@ export class MapContentComponent implements OnInit {
           let self = this;
 
           map.addListener('dragend', () => {
+            console.log('mapContent: listener: dragend');
             let center = map.getCenter();
             let zoom = map.getZoom();
             let mapViewUpdate = new MapView('dragend', center.lat(), center.lng(), zoom);
@@ -90,6 +93,7 @@ export class MapContentComponent implements OnInit {
           });
 
           map.addListener('zoom_changed', () => {
+            console.log('mapContent: listener: zoom_changed');
             let center = map.getCenter();
             let zoom = map.getZoom();
             let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
@@ -101,16 +105,19 @@ export class MapContentComponent implements OnInit {
   }
 
   public clearCanvas(): void {
+    console.log('mapContent: clearCanvas');
     this.mapHlpr.emitClearMap();
   };
 
   public didNonSiteMarkerCountChange(newMarkerCount: number): boolean {
+    console.log('mapContent: didNonSiteMarkerCountChange');
     let isCountChanged: boolean = newMarkerCount !== this.markersOutsideOfClustersCount;
     this.markersOutsideOfClustersCount = newMarkerCount;
     return isCountChanged;
   }
 
   public drawLabels(markers: any): void {
+    console.log('mapContent: drawLabels');
     this.mapApiWrapper.getNativeMap()
       .then((map) => {
 

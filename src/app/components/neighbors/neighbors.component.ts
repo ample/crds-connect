@@ -23,7 +23,7 @@ import { SearchOptions } from '../../models/search-options';
   templateUrl: 'neighbors.component.html'
 })
 
-export class NeighborsComponent implements OnInit, OnDestroy {
+export class NeighborsComponent implements OnInit, OnDestroy, OnChanges {
   public isMapHidden = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
@@ -39,22 +39,31 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private searchService: SearchService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+      console.log('neighbors: doLocalSearchEmitter');
       this.state.setUseZoom(mapView.zoom);
       this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
     });
 
     this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
+      console.log('neighbors: mySearchResultsEmitter');
       this.pinSearchResults = myStuffSearchResults as PinSearchResultsDto;
       this.processAndDisplaySearchResults('', this.pinSearchResults.centerLocation.lat, this.pinSearchResults.centerLocation.lng);
     });
   }
 
   public ngOnDestroy(): void {
+    console.log('neighbors: ngOnDestroy');
     // If we don't unsubscribe we will get memory leaks and weird behavior. 
     this.mySub.unsubscribe();
   }
 
+    ngOnChanges(changes) {
+    // changes.prop contains the old and the new value...
+    console.log('neighbors: ngOnChanges');
+  }
+
   public ngOnInit(): void {
+    console.log('neighbors: ngOnInit');
     let haveResults = !!this.pinSearchResults;
 
     if (!haveResults) {
@@ -78,6 +87,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   runFreshSearch() {
+    console.log('neighbors: runFreshSearch');
     this.userLocationService.GetUserLocation().subscribe (
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
@@ -87,14 +97,17 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   setView(mapOrListView): void {
+    console.log('neighbors: setView');
     this.mapViewActive = mapOrListView === 'map';
   }
 
   viewChanged(isMapViewActive: boolean) {
+    console.log('neighbors: viewChanged');
     this.mapViewActive = isMapViewActive;
   }
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
+    console.log('neighbors: processAndDisplaySearchResults');
     // include posted pin if not included in results
     this.verifyPostedPinExistence();
     this.ensureUpdatedPinAddressIsDisplayed();
@@ -149,6 +162,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.isMapHidden = true;
     setTimeout(() => {
+      console.log('neighbors: processAndDisplaySearchResults: timeout hit');
       this.isMapHidden = false;
     }, 1);
 
@@ -171,6 +185,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   doSearch(searchString: string,  lat?: number, lng?: number, zoom?: number) {
+    console.log('neighbors: doSearch');
     this.state.setLoading(true);
     this.pinService.getPinSearchResults(searchString, lat, lng, zoom).subscribe(
       next => {
@@ -185,22 +200,26 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private goToNoResultsPage() {
+    console.log('neighbors: goToNoResultsPage');
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
   }
 
   private foundPinElement = (pinFromResults: Pin): boolean => {
+    console.log('neighbors: foundPinElement');
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
   }
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
+    console.log('neighbors: filterFoundPinElement');
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
   }
 
   private verifyPostedPinExistence() {
+    console.log('neighbors: verifyPostedPinExistence');
     if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
       this.state.navigatedFromAddToMapComponent = false;
       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
@@ -217,7 +236,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private ensureUpdatedPinAddressIsDisplayed() {
-
+    console.log('neighbors: ensureUpdatedPinAddressIsDisplayed');
     let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
 
     if (wasPinAddressJustUpdated) {
