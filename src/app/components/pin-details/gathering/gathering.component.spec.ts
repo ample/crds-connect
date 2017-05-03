@@ -39,7 +39,7 @@ class MockAngulartic {
     eventTrack = new MockEventTrack();
 };
 
-describe('GatheringComponent', () => {
+fdescribe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
     let el;
@@ -200,6 +200,7 @@ describe('GatheringComponent', () => {
         (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
         //comp['router'].url = 'test';
+
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContentBlockModule } from 'crds-ng2-content-block';
@@ -117,6 +117,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
+    FormsModule,
     SelectModule,
     ToastModule.forRoot(),
     routing,
