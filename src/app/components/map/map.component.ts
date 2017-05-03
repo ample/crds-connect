@@ -76,10 +76,10 @@ export class MapComponent implements OnInit {
     let iconName: string;
     if (pin.pinType === pinType.SITE) {
       iconName = 'SITE';
-    } else if (pin.pinType === pinType.GATHERING) {
-      iconName = 'GATHERING';
-    } else if (pin.pinType === pinType.PERSON && this.session.isCurrentPin(pin)) {
+    } else if (this.session.isCurrentPin(pin)) {
       iconName = 'ME';
+    } else if (pin.pinType === pinType.GATHERING) {
+      iconName = 'GATHERING'; 
     } else {
       iconName = 'PERSON';
     }
