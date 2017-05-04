@@ -43,7 +43,7 @@ export class HostApplicationHelperService {
   // Temporary method
   public formatPhoneNumber(phoneNumber: string) {
     let areaCode: string = phoneNumber.slice(0, 3);
-    let firstThree: string = phoneNumber.slice(4, 7);
+    let firstThree: string = phoneNumber.slice(3, 6);
     let lastFour: string = phoneNumber.slice(6, 10);
 
     let formattedNumber = areaCode + '-' + firstThree + '-' + lastFour;
