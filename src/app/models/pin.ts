@@ -40,7 +40,7 @@ export class Pin {
         this.pinType = pinType;
         this.proximity = proximity;
         this.householdId = householdId;
-        this.iconUrl = 'http://crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
-        this.title = 'phils new title';
+        this.iconUrl = '';
+        this.title = '';
     }
 }
