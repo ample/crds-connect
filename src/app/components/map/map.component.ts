@@ -1,6 +1,6 @@
 import { Angulartics2 } from 'angulartics2';
 import * as moment from 'moment';
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ import { MapView } from '../../models/map-view';
   selector: 'app-map',
   templateUrl: 'map.component.html'
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
@@ -38,7 +38,6 @@ export class MapComponent implements OnInit, OnChanges {
               private session: SessionService) {}
 
   public ngOnInit(): void {
-    console.log('map: ngOnInit');
     let haveResults = !!this.searchResults;
     if (haveResults) {
       let lat = this.searchResults.centerLocation.lat;
@@ -62,13 +61,8 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes) {
-    // changes.prop contains the old and the new value...
-    console.log('map: ngOnChanges');
-  }
 
   private displayDetails(pin: Pin) {
-    console.log('map: displayDetails');
     this.state.setCurrentView('map');
     // Both Person Pin and Gathering Pin navigate to pin-details
     // Site Pin stays on map with info-window popup
@@ -79,6 +73,7 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
+<<<<<<< HEAD
   public getStringByPinType(pin) {
     let time = moment().format('HH:mm:ss:SSS');
     console.log('map: getStringByPinType' + time);
@@ -109,24 +104,22 @@ export class MapComponent implements OnInit, OnChanges {
     console.log('title', pin.title);
     return name;
   }
+=======
+>>>>>>> DE3443 - remove console.log statements
 
   public getFirstNameOrSiteName(pin: Pin) {
-    console.log('map: getFirstNameOrSiteName');
     return this.capitalizeFirstLetter(pin.firstName) || this.capitalizeFirstLetter(pin.siteName);
   }
 
   public getLastInitial(pin: Pin) {
-    console.log('map: getLastInitial');
     return pin.lastName ? this.capitalizeFirstLetter((pin.lastName.substring(0, 1)) + '.') : '';
   }
 
   public hostOrEmptyString(pin: Pin): string {
-    console.log('map: hostOrEmptyString');
     return pin.pinType === pinType.GATHERING ? 'HOST' : '';
   }
 
   public isMe(pin: Pin): string {
-    console.log('map: isMe');
     let isPinASite: boolean = pin.pinType === pinType.SITE;
     let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
     let shouldHaveMeLabel: boolean = !isPinASite && doesUserOwnPin;
@@ -135,7 +128,6 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   public capitalizeFirstLetter(string) {
-    console.log('map: capitalizeFirstLetter');
     let isStringEmptyOrNull = string === undefined || string === null || string === '';
 
     if (isStringEmptyOrNull) {
