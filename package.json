@@ -8,8 +8,8 @@
     "test:ci": "jest --runInBand",
     "test:watch": "jest --watch",
     "build-dev": "rimraf dist && rimraf node_modules/@types/jasmine && webpack --config config/webpack.dev.js --progress --profile --bail",
-    "build-int": "rimraf dist && webpack --config config/webpack.int.js --progress --profile --bail",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
+    "build-int": "rimraf dist && rimraf node_modules/@types/jasmine && webpack --config config/webpack.int.js --progress --profile --bail",
+    "build": "rimraf dist && rimraf node_modules/@types/jasmine webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "licenses": [
     {
