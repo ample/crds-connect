@@ -15,9 +15,11 @@
     <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
       <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
 
-      <footer class="btn-group-vertical">
-        <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
-        <button type="button" (click)="cancel()" class="btn btn-link btn-default">Cancel</button>
+      <footer class="row soft-top">
+        <div class="col-xs-12 btn-group">
+          <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
+          <button type="button" (click)="cancel()" class="btn btn-outline btn-default">Cancel</button>
+        </div>
       </footer>
 
       <div *ngIf="submissionError" class="alert alert-danger">
