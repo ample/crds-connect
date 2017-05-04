@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { InviteSomeoneComponent } from './invite-someone.component';
 
@@ -26,23 +27,22 @@ describe('InviteSomeoneComponent', () => {
     let el;
 
     let mockContentService, mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast;
-
     beforeEach(() => {
-        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGathering']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
+        mockPinService = { inviteToGathering: jest.fn() };
+        mockBlandPageService = { primeAndGo: jest.fn() };
+        mockStateService = { setLoading: jest.fn() };
+        mockToast = { error: jest.fn() };
+        mockContentService = { getContent: jest.fn() };
 
         TestBed.configureTestingModule({
             declarations: [
                 InviteSomeoneComponent
             ],
+            imports: [
+                RouterTestingModule.withRoutes([]),
+            ],
             providers: [
-                { provide: Router, useValue: mockRouter },
-                { provide: FormBuilder, useValue: mockFormBuilder },
+                FormBuilder,
                 { provide: PinService, useValue: mockPinService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
@@ -87,15 +87,15 @@ describe('InviteSomeoneComponent', () => {
             BlandPageCause.Success,
             `gathering/${gatheringId}`
         );
-        (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.of({}));
+        mockPinService.inviteToGathering.mockReturnValue(Observable.of({}));
         comp.gatheringId = gatheringId;
         comp.participantId = participantId;
 
         comp.onSubmit(param);
 
-        expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
-        expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
-        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
+        expect(mockStateService.setLoading).toHaveBeenCalledWith(true);
+        expect(mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
     it('should fail to submit', () => {
@@ -105,15 +105,15 @@ describe('InviteSomeoneComponent', () => {
         let gatheringId = 123;
         let participantId = 456;
         let param = { value: someone, valid: isValid };
-        mockContentService.getContent.and.returnValue(expectedText);
-        (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.throw({}));
+        mockContentService.getContent.mockReturnValue(expectedText);
+        mockPinService.inviteToGathering.mockReturnValue(Observable.throw({}));
         comp.gatheringId = gatheringId;
         comp.participantId = participantId;
 
         comp.onSubmit(param);
 
-        expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(false);
-        expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
+        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);
     });
 

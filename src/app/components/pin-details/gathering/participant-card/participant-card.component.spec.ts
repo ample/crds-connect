@@ -20,7 +20,7 @@ describe('ParticipantCardComponent', () => {
   let mockSessionService;
 
   beforeEach(() => {
-    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
+    mockSessionService = { getContactId: jest.fn() };
     participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff',
       'JoeKer', 123, '1943-02-03');
 
@@ -61,12 +61,12 @@ describe('ParticipantCardComponent', () => {
   });
 
   it('showMeLabel() should return true when participant.contactId matches logged in users', () => {
-    mockSessionService.getContactId.and.returnValue(321);
+    mockSessionService.getContactId.mockReturnValue(321);
     expect(comp.showMeLabel()).toBe(true);
   });
 
   it('showMeLabel() should return false when participant.contactId doesnt match logged in users', () => {
-    mockSessionService.getContactId.and.returnValue(747648367);
+    mockSessionService.getContactId.mockReturnValue(747648367);
     expect(comp.showMeLabel()).toBe(false);
   });
 });

@@ -9,14 +9,12 @@ describe('MapContentComponent', () => {
   let fixture: ComponentFixture<MapContentComponent>;
   let mockGoogleMapService,
       mockGoogleMapsAPIWrapper,
-      mockMapsAPILoader,
       mockStateService;
 
   beforeEach(async(() => {
-        mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('sessionService', ['constructor']);
-        mockGoogleMapsAPIWrapper = jasmine.createSpyObj<GoogleMapsAPIWrapper>('googleMapsAPIWrapper', ['constructor']);
-        mockMapsAPILoader = jasmine.createSpyObj<MapsAPILoader>('googleMapsAPILoader', ['constructor']);
-        mockStateService = jasmine.createSpyObj<StateService>('googleMapService', ['constructor']);
+        mockGoogleMapService = { emitMapViewUpdated: jest.fn(), emitClearMap: jest.fn() };
+        mockGoogleMapsAPIWrapper = { getNativeMap: jest.fn() };
+        mockStateService = { setMapView: jest.fn() };
     TestBed.configureTestingModule({
       declarations: [
         MapContentComponent
@@ -24,7 +22,6 @@ describe('MapContentComponent', () => {
       providers: [
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: GoogleMapsAPIWrapper, useValue: mockGoogleMapsAPIWrapper },
-        { provide: MapsAPILoader, useValue: mockMapsAPILoader },
         { provide: StateService, useValue: mockStateService }
       ]
     }).compileComponents();

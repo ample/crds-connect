@@ -34,14 +34,14 @@ describe('GatheringEditComponent', () => {
 
     beforeEach(() => {
         pin = MockTestData.getAPin();
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-        mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['updateGathering']);
-        mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress', 'clearCache']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+        mockSessionService = { getContactId: jest.fn() };
+        mockBlandPageService = { primeAndGo: jest.fn() };
+        mockToastr = { success: jest.fn(), error: jest.fn() };
+        mockStateService = { setPageHeader: jest.fn(), setLoading: jest.fn() };
+        mockContentService = { getContent: jest.fn() };
+        mockPinService = { updateGathering: jest.fn() };
+        mockAddressService = { getFullAddress: jest.fn(), clearCache: jest.fn() };
+        mockRouter = { navigate: jest.fn() };
         TestBed.configureTestingModule({
             declarations: [
                 GatheringEditComponent,
@@ -83,15 +83,15 @@ describe('GatheringEditComponent', () => {
     }));
 
     it('create an instance', () => {
-        mockAddressService.getFullAddress.and.returnValue(Observable.of(MockTestData.getAnAddress()));
+        mockAddressService.getFullAddress.mockReturnValue(Observable.of(MockTestData.getAnAddress()));
         fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 
     it('should init', () => {
         let address = MockTestData.getAnAddress(3);
-        mockAddressService.getFullAddress.and.returnValue(Observable.of(address));
-        mockSessionService.getContactId.and.returnValue(1);
+        mockAddressService.getFullAddress.mockReturnValue(Observable.of(address));
+        mockSessionService.getContactId.mockReturnValue(1);
         comp.ngOnInit();
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
         expect(mockAddressService.getFullAddress).toHaveBeenCalledWith(pin.gathering.groupId, pinType.GATHERING);
@@ -102,10 +102,10 @@ describe('GatheringEditComponent', () => {
     });
 
     it('should init with getFullAddress failure', () => {
-        mockAddressService.getFullAddress.and.returnValue(Observable.throw({}));
+        mockAddressService.getFullAddress.mockReturnValue(Observable.throw({}));
         let expectedError = 'Lets get ready to party';
-        mockContentService.getContent.and.returnValue(expectedError);
-        mockSessionService.getContactId.and.returnValue(1);
+        mockContentService.getContent.mockReturnValue(expectedError);
+        mockSessionService.getContactId.mockReturnValue(1);
         comp.ngOnInit();
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
         expect(mockAddressService.getFullAddress).toHaveBeenCalledWith(pin.gathering.groupId, pinType.GATHERING);
@@ -124,8 +124,8 @@ describe('GatheringEditComponent', () => {
             '',
             ''
         );
-        mockAddressService.getFullAddress.and.returnValue(Observable.of(address));
-        mockSessionService.getContactId.and.returnValue(42);
+        mockAddressService.getFullAddress.mockReturnValue(Observable.of(address));
+        mockSessionService.getContactId.mockReturnValue(42);
         comp.ngOnInit();
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
     });
@@ -135,8 +135,8 @@ describe('GatheringEditComponent', () => {
         let newPin = MockTestData.getAPin(1);
 
         newPin.gathering.address = MockTestData.getAnAddress(42);
-        mockPinService.updateGathering.and.returnValue(Observable.of(newPin));
-        mockContentService.getContent.and.returnValue(expectedToast);
+        mockPinService.updateGathering.mockReturnValue(Observable.of(newPin));
+        mockContentService.getContent.mockReturnValue(expectedToast);
         expect(comp.pin.gathering.address.addressId).toBe(1);
 
         comp.onSubmit();
@@ -150,8 +150,8 @@ describe('GatheringEditComponent', () => {
 
     it('should fail to submit gracefully', () => {
         let expectedToast = 'Hey this guy has an error';
-        mockPinService.updateGathering.and.returnValue(Observable.throw({}));
-        mockContentService.getContent.and.returnValue(expectedToast);
+        mockPinService.updateGathering.mockReturnValue(Observable.throw({}));
+        mockContentService.getContent.mockReturnValue(expectedToast);
         comp.onSubmit();
         expect(comp['submitting']).toBe(false);
         expect(mockToastr.error).toHaveBeenCalledWith(expectedToast);

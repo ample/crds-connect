@@ -29,13 +29,12 @@ describe('HandleInviteComponent', () => {
     let mockActivatedRoute, guid, accepted, groupId;
 
     beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['handleInvite']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService',
-            ['primeAndGo', 'goToHandledInvite']);
-        mockActivatedRoute = jasmine.createSpyObj<ActivatedRoute>('route', ['']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinDetails']);
-        mockRouter = jasmine.createSpyObj<Router>('rotuer', ['navigate']);
+        mockStateService = { setLoading: jest.fn() };
+        mockGroupService = { handleInvite: jest.fn() };
+        mockBlandPageService = { primeAndGo: jest.fn(), goToHandledInvite: jest.fn() };
+        mockActivatedRoute = { '': jest.fn() };
+        mockPinService = { getPinDetails: jest.fn() };
+        mockRouter = { navigate: jest.fn() };
         guid = 'Abc123';
         groupId = 123123;
         accepted = true;
@@ -107,8 +106,8 @@ describe('HandleInviteComponent', () => {
         comp['accepted'] = accepted;
         comp['groupId'] = groupId;
 
-        (mockGroupService.handleInvite).and.returnValue(Observable.of(true));
-        (mockPinService.getPinDetails).and.returnValue(Observable.of(pin));
+        (mockGroupService.handleInvite.mockReturnValue(Observable.of(true));
+        (mockPinService.getPinDetails.mockReturnValue(Observable.of(pin));
 
 
 
@@ -131,8 +130,8 @@ describe('HandleInviteComponent', () => {
         comp['accepted'] = accepted;
         comp['groupId'] = groupId;
 
-        (mockGroupService.handleInvite).and.returnValue(Observable.of(true));
-        (mockPinService.getPinDetails).and.returnValue(Observable.of(pin));
+        mockGroupService.handleInvite.mockReturnValueOnce(Observable.of(true));
+        mockPinService.getPinDetails.mockReturnValueOnce(Observable.of(pin));
 
         comp.handleInvite();
 
@@ -148,7 +147,7 @@ describe('HandleInviteComponent', () => {
         comp['accepted'] = accepted;
         comp['groupId'] = groupId;
 
-        (mockGroupService.handleInvite).and.returnValue(Observable.throw('is broken'));
+        mockGroupService.handleInvite.mockReturnValueOnce(Observable.throw('is broken'));
 
         comp.handleInvite();
 

@@ -38,16 +38,14 @@ describe('Component: Add Me to the Map', () => {
 
 
   beforeEach(() => {
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
-    mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
-    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['clearCache']);
-    mockState = jasmine.createSpyObj<StateService>('state', ['setMyViewOrWorldView', 'setCurrentView', 'setLoading', 'setLastSearch']);
-    mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
-    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
-
+    mockContentService = { loadData: jest.fn(), getContent: jest.fn()};
+    mockLocation = { back: jest.fn() };
+    mockBlandPageService = {primeAndGo: jest.fn()};
+    mockSessionService = { clearCache: jest.fn()};
+    mockState = { setMyViewOrWorldView: jest.fn(), setCurrentView: jest.fn(), setloading: jest.fn(), setLastSearch: jest.fn()};
+    mockAddressService = { constructor: jest.fn() };
+    mockToastsManager = { constructor: jest.fn() };
+    mockPinService = { postPin: jest.fn() };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -121,8 +119,8 @@ describe('Component: Add Me to the Map', () => {
           '',
           ''
         );
-
-        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
+        console.log(mockPinService);
+        mockPinService.postPin.mockReturnValueOnce(Observable.of(pin));
         this.component.onSubmit(this.component.addressFormGroup);
         expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);

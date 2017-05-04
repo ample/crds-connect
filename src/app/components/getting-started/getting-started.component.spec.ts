@@ -12,7 +12,7 @@ describe('Component: GettingStarted', () => {
   let mockStateService;
 
   beforeEach(() => {
-    mockStateService = jasmine.createSpyObj<GettingStartedComponent>('gettingStartedComponent', ['constructor']);
+    mockStateService = {constructor: jest.fn() };
     TestBed.configureTestingModule({
       declarations: [
         GettingStartedComponent

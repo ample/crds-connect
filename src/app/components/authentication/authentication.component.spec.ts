@@ -12,7 +12,6 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 import { AuthenticationComponent } from './authentication.component';
 
@@ -27,11 +26,10 @@ describe('Component: Authentication', () => {
     mockStoreService;
 
   beforeEach(() => {
-    mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('redirectService', ['cancelRedirect', 'redirectToTarget']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'postLogin']);
-    mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setLoading']);
-    mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
+    mockLoginRedirectService = { cancelRedirect: jest.fn(), redirectToTarget: jest.fn()};
+    mockSessionService = { postLogin: jest.fn() };
+    mockStateService = { setLoading: jest.fn() };
+    mockStoreService = { constructor: jest.fn(), loadUserData: jest.fn() };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -41,7 +39,6 @@ describe('Component: Authentication', () => {
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         FormBuilder,
         { provide: SessionService, useValue: mockSessionService },
-        { provide: CookieService, useValue: mockCookieService },
         { provide: StateService, useValue: mockStateService },
         { provide: StoreService, useValue: mockStoreService },
       ],
@@ -84,7 +81,7 @@ describe('Component: Authentication', () => {
   it('loginException should get set to true', () => {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
-    (<jasmine.Spy>comp.session.postLogin).and.returnValue(Observable.throw({}));
+    comp.session.postLogin.mockReturnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
     expect(comp.loginException).toBeTruthy();

@@ -4,7 +4,9 @@
   "scripts": {
     "serve": "npm run start",
     "start": "webpack-dev-server --inline --open --progress --port 8080",
-    "test": "karma start",
+    "test": "npm jest",
+    "test:ci": "jest --runInBand",
+    "test:watch": "jest --watch",
     "build-dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail",
     "build-int": "rimraf dist && webpack --config config/webpack.int.js --progress --profile --bail",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
@@ -44,7 +46,7 @@
   },
   "devDependencies": {
     "@types/core-js": "0.9.34",
-    "@types/jasmine": "2.5.41",
+    "@types/jest": "^19.2.2",
     "@types/node": "6.0.68",
     "angular-cli": "1.0.0-beta.18",
     "angular2-template-loader": "0.5.0",
@@ -52,7 +54,7 @@
     "bootstrap-sass": "3.3.7",
     "codelyzer": "2.0.0",
     "copy-webpack-plugin": "4.0.0",
-    "crds-ng2-content-block": "1.0.2",
+    "crds-ng2-content-block": "1.0.4",
     "css-loader": "0.25.0",
     "css-to-string-loader": "0.1.2",
     "dotenv-webpack": "1.4.0",
@@ -60,24 +62,12 @@
     "file-loader": "0.9.0",
     "html-loader": "0.4.4",
     "html-webpack-plugin": "2.24.0",
-    "jasmine-core": "2.5.2",
-    "jasmine-spec-reporter": "2.7.0",
-    "karma": "1.4.1",
-    "karma-chrome-launcher": "2.0.0 ",
-    "karma-coverage": "1.1.1",
-    "karma-jasmine": "1.0.2",
-    "karma-mocha-reporter": "2.2.1",
-    "karma-phantomjs-launcher": "1.0.2",
-    "karma-remap-coverage": "0.1.2",
-    "karma-remap-istanbul": "0.2.1",
-    "karma-sourcemap-loader": "0.3.7",
-    "karma-teamcity-reporter": "1.0.0",
-    "karma-webpack": "1.8.0",
+    "jest": "^19.0.2",
+    "jest-preset-angular": "^1.2.0",
+    "jest-zone-patch": "0.0.6",
     "node-sass": "3.10.1",
     "null-loader": "0.1.1",
     "open": "0.0.5",
-    "phantomjs-polyfill-includes": "1.0.2",
-    "phantomjs-prebuilt": "^2.1.13",
     "protractor": "4.0.10",
     "raw-loader": "0.5.1",
     "rimraf": "2.5.4",
@@ -91,5 +81,21 @@
     "webpack": "1.13.3",
     "webpack-dev-server": "1.16.2",
     "webpack-merge": "0.15.0"
+  },
+  "jest": {
+    "globals": {
+      "__TS_CONFIG__": "tsconfig.json",
+      "__TRANSFORM_HTML__": true
+    },
+    "preset": "jest-preset-angular",
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupJest.ts",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/config/",
+      "webpack.test.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!crds-ng2-content-block)"
+    ]
   }
 }

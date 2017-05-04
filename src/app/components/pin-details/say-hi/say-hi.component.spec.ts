@@ -15,32 +15,22 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { Angulartics2 } from 'angulartics2';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 
-function fakenext(param: any) { return 1; }
-
-class MockEventTrack {
-    next = fakenext;
-}
-
-class MockAngulartic {
-    eventTrack = new MockEventTrack();
-};
-
 describe('SayHiComponent', () => {
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
 
-    let mockPinService, 
-        mockLoginRedirectService, 
-        mockSessionService, 
+    let mockPinService,
+        mockLoginRedirectService,
+        mockSessionService,
         mockBlandPageService,
         mockAngulartics2;
 
     beforeEach(() => {
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['sendHiEmail']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getUserData']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-        mockAngulartics2 = new MockAngulartic();
+        mockPinService = { sendHiEmail: jest.fn() };
+        mockLoginRedirectService = { redirectToLogin: jest.fn() };
+        mockSessionService = { getUserData: jest.fn() };
+        mockBlandPageService = { primeAndGo: jest.fn() };
+        mockAngulartics2 = { eventTrack: { next: jest.fn() }};
 
         TestBed.configureTestingModule({
             declarations: [

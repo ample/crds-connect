@@ -19,17 +19,15 @@ describe('Component: Registration', () => {
     let mockRouter,
         mockSessionService,
         mockStateService,
-        mockFormBuilder,
         mockStoreService,
         mockLoginRedirectService;
 
   beforeEach(() => {
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['getNextPageToShow','getPrevPageToShow','hidePage','setLoading']);
-        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
-        mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',['']);
+        mockRouter = { navigateByUrl: jest.fn() };
+        mockSessionService = { postLogin: jest.fn() };
+        mockStateService = { getNextPageToShow: jest.fn(), getPrevPageToShow: jest.fn(), hidePage: jest.fn(), setLoading: jest.fn() };
+        mockStoreService = { loadUserData: jest.fn() };
+        mockLoginRedirectService = { redirectToTarget: jest.fn() };
 
         TestBed.configureTestingModule({
             declarations: [
@@ -40,7 +38,7 @@ describe('Component: Registration', () => {
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: Router, useValue: mockRouter },
-                { provide: FormBuilder, useValue: mockFormBuilder },
+                FormBuilder,
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: StoreService, useValue: mockStoreService }
             ],
@@ -122,7 +120,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (mockSessionService.postLogin).and.returnValue(Observable.throw({}));
+        (mockSessionService.postLogin.mockReturnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {

@@ -31,9 +31,9 @@ describe('GatheringRequestsComponent', () => {
         mockStateService;
 
     beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
-        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['getGroupRequests', 'acceptOrDenyRequest']);
+        mockStateService = { setLoading: jest.fn() };
+        mockBlandPageService = {primeAndGo: jest.fn(), goToDefaultError: jest.fn() };
+        mockGroupService = {getGroupRequests: jest.fn(), acceptOrDenyRequest: jest.fn() };
 
         TestBed.configureTestingModule({
             declarations: [
@@ -62,13 +62,13 @@ describe('GatheringRequestsComponent', () => {
     });
 
     it('should init and filter out placed inquiries', () => {
-        (<jasmine.Spy>mockGroupService.getGroupRequests).and.returnValue(Observable.of([{ inquiryId: 1 }, { inquiryId: 2 },
+        mockGroupService.getGroupRequests.mockReturnValue(Observable.of([{ inquiryId: 1 }, { inquiryId: 2 },
         { inquiryId: 3, placed: true }]));
-        (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
+        mockStateService.setLoading.mockReturnValue(true);
         comp.ngOnInit();
         expect(comp['inquiries'].length).toBe(2);
-        expect(mockGroupService.getGroupRequests.calls.count()).toBe(1);
-        expect(mockStateService.setLoading.calls.count()).toBe(2);
+        expect(mockGroupService.getGroupRequests).toHaveBeenCalledTimes(1);
+        expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });
 
     it('should convert inquiry to participant', () => {
@@ -80,8 +80,8 @@ describe('GatheringRequestsComponent', () => {
     });
 
     it('should accept Invitation', () => {
-        (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.of([{}]));
-        (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
+        mockGroupService.acceptOrDenyRequest.mockReturnValue(Observable.of([{}]));
+        mockStateService.setLoading.mockReturnValue(true);
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, true);
 
@@ -97,12 +97,12 @@ describe('GatheringRequestsComponent', () => {
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId,
             comp.pin.gathering.groupTypeId, true, inquiry);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
-        expect(mockStateService.setLoading.calls.count()).toBe(2);
+        expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });
 
     it('should deny Invitation', () => {
-        (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.of([{}]));
-        (<jasmine.Spy>mockStateService.setLoading).and.returnValue(true);
+        mockGroupService.acceptOrDenyRequest.mockReturnValue(Observable.of([{}]));
+        mockStateService.setLoading.mockReturnValue(true);
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, false);
 
@@ -118,11 +118,11 @@ describe('GatheringRequestsComponent', () => {
         expect(mockGroupService.acceptOrDenyRequest).toHaveBeenCalledWith(comp.pin.gathering.groupId,
             comp.pin.gathering.groupTypeId, false, inquiry);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
-        expect(mockStateService.setLoading.calls.count()).toBe(2);
+        expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });
 
     it('accept/deny invitation should handle error', () => {
-        (<jasmine.Spy>mockGroupService.acceptOrDenyRequest).and.returnValue(Observable.throw({ status: 500 }));
+        mockGroupService.acceptOrDenyRequest.mockReturnValue(Observable.throw({ status: 500 }));
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         comp.acceptOrDenyInquiry(inquiry, false);
 

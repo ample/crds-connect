@@ -26,9 +26,8 @@ describe('ListEntryComponent', () => {
             navigate(url: string) { return url; }
         }
 
-        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'getContactId']);
-
+        mockStateService = { setCurrentView: jest.fn() };
+        mockSessionService = { getContactId: jest.fn() };
 
         TestBed.configureTestingModule({
             declarations: [

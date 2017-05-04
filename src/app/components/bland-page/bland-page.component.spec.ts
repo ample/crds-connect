@@ -22,9 +22,9 @@ describe('BlandPageComponent', () => {
     let mockBlandPageService, mockStateService, mockRouter;
 
     beforeEach(() => {
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['getBlandPageDetails']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+        mockBlandPageService = { getBlandPageDetails: jest.fn() };
+        mockStateService = { setLoading: jest.fn() };
+        mockRouter = { navigate: jest.fn() };
 
         TestBed.configureTestingModule({
             declarations: [
@@ -54,7 +54,7 @@ describe('BlandPageComponent', () => {
     it('should init and is type content block', () => {
         comp.contentBlock = false;
         let bpd = new BlandPageDetails('', '', BlandPageType.ContentBlock, BlandPageCause.Success, '');
-        (<jasmine.Spy>mockBlandPageService.getBlandPageDetails).and.returnValue(bpd);
+        mockBlandPageService.getBlandPageDetails.mockReturnValue(bpd);
         comp.ngOnInit();
         expect(mockBlandPageService.getBlandPageDetails).toHaveBeenCalled();
         expect(comp.contentBlock).toBe(true);
@@ -64,7 +64,7 @@ describe('BlandPageComponent', () => {
     it('should init and is type text', () => {
         comp.contentBlock = true;
         let bpd = new BlandPageDetails('', '', BlandPageType.Text, BlandPageCause.Success, '');
-        (<jasmine.Spy>mockBlandPageService.getBlandPageDetails).and.returnValue(bpd);
+        mockBlandPageService.getBlandPageDetails.mockReturnValue(bpd);
         comp.ngOnInit();
         expect(mockBlandPageService.getBlandPageDetails).toHaveBeenCalled();
         expect(comp.contentBlock).toBe(false);

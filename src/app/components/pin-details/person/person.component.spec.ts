@@ -26,11 +26,11 @@ describe('PersonComponent', () => {
     let mockContentService, mockToast, mockStateService, mockAddressService, mockRouter;
 
     beforeEach(() => {
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
-        mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
-        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+        mockContentService = { getContent: jest.fn() };
+        mockAddressService = { getFullAddress: jest.fn() };
+        mockToast = { warning: jest.fn(), error: jest.fn() };
+        mockStateService = {setLoading: jest.fn(), setPageHeader: jest.fn() };
+        mockRouter = { navigate: jest.fn() };
 
         TestBed.configureTestingModule({
             declarations: [
@@ -71,7 +71,7 @@ describe('PersonComponent', () => {
         comp.isPinOwner = true;
         comp.isLoggedIn = true;
         let expectedAddress = MockTestData.getAnAddress();
-        mockAddressService.getFullAddress.and.returnValue(Observable.of(expectedAddress));
+        mockAddressService.getFullAddress.mockReturnValue(Observable.of(expectedAddress));
 
         comp.ngOnInit();
 
@@ -85,8 +85,8 @@ describe('PersonComponent', () => {
         comp.isLoggedIn = true;
         let expectedText = '<p>Error loading address</p>';
 
-        mockContentService.getContent.and.returnValue(expectedText);
-        mockAddressService.getFullAddress.and.returnValue(Observable.throw({status: 500}));
+        mockContentService.getContent.mockReturnValue(expectedText);
+        mockAddressService.getFullAddress.mockReturnValue(Observable.throw({status: 500}));
 
         comp.ngOnInit();
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);

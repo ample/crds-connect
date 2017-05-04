@@ -17,10 +17,10 @@ describe('ListFooterComponent', () => {
     let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService;
 
     beforeEach(() => {
-        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView', 'getCurrentView']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToWhatsAHost']);
+        mockListHelperService = { getUserMapState: jest.fn() };
+        mockSessionService = { getContactId: jest.fn() };
+        mockStateService = { setCurrentView: jest.fn(), getCurrentView: jest.fn() };
+        mockBlandPageService = { goToWhatsAHost: jest.fn() };
         TestBed.configureTestingModule({
             declarations: [
                 ListFooterComponent,

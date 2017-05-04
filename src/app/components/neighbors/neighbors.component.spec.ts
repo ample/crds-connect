@@ -1,76 +1,51 @@
+import { Subject } from 'rxjs/Rx';
+import { MockTestData } from '../../shared/MockTestData';
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from '@angular-cli/ast-tools/node_modules/rxjs/Rx';
-import { MapView } from '../../models/map-view';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { UserLocationService } from '../../services/user-location.service';
 import { NeighborsComponent } from './neighbors.component';
-import { ListViewComponent } from '../../components/list-view/list-view.component';
-import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
-import { MapComponent } from '../../components/map/map.component';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-import { SearchLocalComponent } from '../../components/search-local/search-local.component';
-import { MapContentComponent } from '../../components/map-content/map-content.component';
-import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { FormsModule } from '@angular/forms';
-import { ContentBlockModule } from 'crds-ng2-content-block';
-import { SiteAddressService } from '../../services/site-address.service';
-import { SessionService } from '../../services/session.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { SearchService } from '../../services/search.service';
-import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
-import { LoginRedirectService } from '../../services/login-redirect.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LocationService } from '../../services/location.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
-import { Pin } from '../../models/pin';
-import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
-import { IPService } from '../../services/ip.service';
+import { Pin, PinSearchResultsDto, MapView } from '../../models';
 import { MockComponent } from '../../shared/mock.component';
 import { AddressService } from '../../services/address.service';
 
 describe('Component: Neighbors', () => {
-  let mockSiteAddressService,
-    mockUserLocationService,
-    mockLocationService,
+  let mockUserLocationService,
     mockPinService,
     mockGoogleMapService,
     mockNeighborsHelperService,
     mockStateService,
     mockSearchService,
-    mockSessionService,
-    mockCookieService,
-    mockLoginRedirectService,
-    mockBlandPageService,
-    mockIPService,
     mockAddressService;
+  let pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(0, 0), [MockTestData.getAPin(1), MockTestData.getAPin(2)]);
 
   beforeEach(() => {
-
-    mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['']);
-    mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
-    mockLocationService = jasmine.createSpyObj<LocationService>('locationService', ['getCurrentPosition']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
-    mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googleMapService', ['constructor', 'setDidUserAllowGeoLoc']);
-    mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getLastSearch', 'setCurrentView']);
-    mockSearchService = jasmine.createSpyObj<SearchService>('searchService', ['']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId', 'get', 'isLoggedIn']);
-    mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['']);
-    mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['']);
-    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['']);
-    mockIPService = jasmine.createSpyObj<IPService>('ipService', ['']);
-    mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['']);
+    mockAddressService = { clearCache: jest.fn() };
+    mockPinService = { getPinSearchResults: jest.fn() };
+    mockGoogleMapService = { setDidUserAllowGeoLoc: jest.fn() };
+    mockNeighborsHelperService = { emitChange: jest.fn() };
+    mockStateService = { setUseZoom: jest.fn(), setLoading: jest.fn(), getMyViewOrWorldView: jest.fn(), setLastSearch: jest.fn(),
+                         getCurrentView: jest.fn(), getLastSearch: jest.fn(), setCurrentView: jest.fn(), setMapView: jest.fn() };
+    mockUserLocationService = { GetUserLocation: jest.fn(() => {return Observable.of({lat: 42, lng: 42 }); })};
+    mockSearchService = {doLocalSearchEmitter: { subscribe: jest.fn() }, mySearchResultsEmitter: { subscribe: jest.fn() } };
+    mockSearchService.doLocalSearchEmitter.subscribe.mockReturnValue(Observable.of(pinSearchResults));
+    mockSearchService.mySearchResultsEmitter.subscribe.mockReturnValue(Subject.create(Observable.of(pinSearchResults)));
+    mockPinService.getPinSearchResults.mockReturnValue(Observable.of(pinSearchResults));
 
     TestBed.configureTestingModule({
       declarations: [
@@ -90,19 +65,12 @@ describe('Component: Neighbors', () => {
       providers: [
         // These services could not be mocked and have the tests pass. The ngOnInit needs
         // major refactoring to make it testable. Sad.
-        UserLocationService,
-        LocationService,
-        PinService,  
-        SearchService,
-        SessionService,
-        CookieService,
-        IPService,
-        { provide: SiteAddressService, useValue: mockSiteAddressService },
+        { provide: UserLocationService, useValue: mockUserLocationService },
+        { provide: PinService, useValue: mockPinService },
+        { provide: SearchService, useValue: mockSearchService },
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: StateService, useValue: mockStateService },
-        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-        { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: AddressService, useValue: mockAddressService }
       ]
     });
@@ -116,13 +84,14 @@ describe('Component: Neighbors', () => {
 
   it('should init map with existing results', () => {
     this.component.haveResults = true;
+    this.fixture.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(0, 0), new Array<Pin>());
     this.component.ngOnInit();
     expect(this.component.pinSearchResults).toBeTruthy();
   });
 
   it('should init map and get new results', () => {
     this.component.haveResults = false;
-    this.fixture.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(0, 0), new Array<Pin>());
+    this.fixture.pinSearchResults = null;
     this.component.ngOnInit();
     expect(this.component.pinSearchResults).toBeTruthy();
   });

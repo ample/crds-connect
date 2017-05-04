@@ -12,14 +12,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: NoResults', () => {
-  let mockContentService, 
-      mockStateService, 
+  let mockStateService,
       mockRouter;
 
   beforeEach(() => {
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
-    mockStateService = jasmine.createSpyObj<StateService>('state', ['']);
-    mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
+    mockStateService = { setPageHeader: jest.fn() };
+    mockRouter = { navigateByUrl: jest.fn() };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -31,7 +29,6 @@ describe('Component: NoResults', () => {
       ],
       providers: [
         { provide: StateService, useValue: mockStateService },
-        { provide: ContentService, useValue: mockContentService },
         { provide: Router, useValue: mockRouter }
       ]
     });
@@ -39,7 +36,7 @@ describe('Component: NoResults', () => {
     this.fixture = TestBed.createComponent(NoResultsComponent);
     this.component = this.fixture.componentInstance;
   });
- 
+
   it('should create an instance', () => {
       expect(this.component).toBeTruthy();
   });

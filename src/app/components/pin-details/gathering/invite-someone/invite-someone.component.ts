@@ -25,7 +25,6 @@ export class InviteSomeoneComponent implements OnInit {
     public inviteFormGroup: FormGroup;
 
     constructor(private fb: FormBuilder,
-        private router: Router,
         private pinService: PinService,
         private blandPageService: BlandPageService,
         private state: StateService,

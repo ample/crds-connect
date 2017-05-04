@@ -23,13 +23,12 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockStateService, mockFormBuilder, mockLocation;
+    let mockPinService, mockStateService, mockLocation;
 
     beforeEach(() => {
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
-        mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
+        mockPinService = { postPin: jest.fn() };
+        mockStateService = { setLoading: jest.fn() };
+        mockLocation = {back: jest.fn() };
         TestBed.configureTestingModule({
             declarations: [
                 AddressFormComponent
@@ -37,7 +36,7 @@ describe('AddressFormComponent', () => {
             providers: [
                 { provide: StateService, useValue: mockStateService },
                 { provide: PinService, useValue: mockPinService },
-                { provide: FormBuilder, useValue: mockFormBuilder },
+                FormBuilder,
                 { provide: Location, useValue: mockLocation }
             ],
             schemas: [NO_ERRORS_SCHEMA]

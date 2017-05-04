@@ -29,10 +29,10 @@ describe('PinDetailsComponent', () => {
 
   beforeEach(() => {
     pin = MockTestData.getAPin();
-    mockPlatformLocation = jasmine.createSpyObj<PlatformLocation>('location', ['reload']);
-    mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
-    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin']);
+    mockPlatformLocation = { reload: jest.fn() };
+    mockSession = { isLoggedIn: jest.fn() };
+    mockState = { setLoading: jest.fn(), setPageHeader: jest.fn() };
+    mockPinService = { doesLoggedInUserOwnPin: jest.fn() };
     TestBed.configureTestingModule({
       declarations: [
         PinDetailsComponent,
@@ -72,7 +72,7 @@ describe('PinDetailsComponent', () => {
     });
 
     it('doesLoggedInUserOwnPin() should return true if contactId matches', () => {
-      mockPinService.doesLoggedInUserOwnPin.and.returnValue(true);
+      mockPinService.doesLoggedInUserOwnPin.mockReturnValue(true);
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
       expect(returnValue).toBe(true);
@@ -80,23 +80,23 @@ describe('PinDetailsComponent', () => {
     });
 
     it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', () => {
-      mockPinService.doesLoggedInUserOwnPin.and.returnValue(false);
+      mockPinService.doesLoggedInUserOwnPin.mockReturnValue(false);
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
       expect(returnValue).toBe(false);
     });
 
     it('should init while not logged in', () => {
-      mockSession.isLoggedIn.and.returnValue(false);
+      mockSession.isLoggedIn.mockReturnValue(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
       expect(comp.pin.firstName).toBe('firstName1');
-      expect(mockSession.isLoggedIn.calls.count()).toEqual(1);
+      expect(mockSession.isLoggedIn).toHaveBeenCalledTimes(1);
       expect(comp.isPinOwner).toBe(false);
     });
 
     it('shouldInit while logged in', () => {
-      mockSession.isLoggedIn.and.returnValue(true);
+      mockSession.isLoggedIn.mockReturnValue(true);
       expect(comp.isGatheringPin).toBe(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(true);
@@ -114,12 +114,12 @@ describe('PinDetailsComponent', () => {
     });
 
     it('shouldInit while not logged in', () => {
-      mockSession.isLoggedIn.and.returnValue(false);
+      mockSession.isLoggedIn.mockReturnValue(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
       expect(comp.isGatheringPin).toBe(true);
       expect(comp.pin.firstName).toBe('firstName1');
-      expect(mockSession.isLoggedIn.calls.count()).toEqual(1);
+      expect(mockSession.isLoggedIn).toHaveBeenCalledTimes(1);
       expect(comp.isPinOwner).toBe(false);
     });
   });

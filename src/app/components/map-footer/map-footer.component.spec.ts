@@ -32,14 +32,15 @@ describe('Component: MapFooter', () => {
     let mockSearchService;
 
     beforeEach(() => {
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setCurrentView', 'setMyViewOrWorldView', 'getCurrentView']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
-        mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['setLoading', 'setPageHeader', 'GetUserLocation']);
-        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
-        mockSearchService = jasmine.createSpyObj<SearchService>('searchService',['constructor']);
+        mockPinService = { getPinSearchResults: jest.fn() };
+        mockLoginRedirectService = { redirectToLogin: jest.fn() };
+        mockStateService = { setLoading: jest.fn(), setPageHeader: jest.fn(), setCurrentView: jest.fn(),
+                             setMyViewOrWorldView: jest.fn(), getCurrentView: jest.fn() };
+        mockSessionService = { getContactId: jest.fn(), isLoggedIn: jest.fn() };
+        mockBlandPageService = { primeAndGo: jest.fn(), goToDefaultError: jest.fn() };
+        mockUserLocationService = { getUserLocation: jest.fn() };
+        mockAngulartics2 = { eventTrack: { next:  jest.fn() } };
+        mockSearchService = { emitMyStuffSearch: jest.fn(), };
 
         TestBed.configureTestingModule({
             declarations: [

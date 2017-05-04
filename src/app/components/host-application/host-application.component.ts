@@ -9,10 +9,8 @@ import { ToastsManager } from 'ng2-toastr';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
-import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { StoreService } from '../../services/store.service';
 
 import { Address } from '../../models/address';
 import { HostRequestDto } from '../../models/host-request-dto';
@@ -23,7 +21,7 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   selector: 'app-host-application',
   templateUrl: 'host-application.component.html'
 })
-export class HostApplicationComponent implements OnInit {
+export class HostApplicationComponent implements OnInit, AfterViewInit {
 
   public userData: DetailedUserData;
   public hostForm: FormGroup;
@@ -33,14 +31,11 @@ export class HostApplicationComponent implements OnInit {
   public errorMessage: string = '';
 
   constructor(
-    private blandPageService: BlandPageService,
     private content: ContentService,
     private hlpr: HostApplicationHelperService,
-    private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
     private router: Router,
     private session: SessionService,
-    private store: StoreService,
     private toast: ToastsManager,
     private state: StateService,
     private location: Location

@@ -17,7 +17,7 @@ describe('ParticipantService', () => {
 
 
     beforeEach(() => {
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'getContactId']);
+        mockSessionService = { get: jest.fn(), getContactId: jest.fn() };
 
         TestBed.configureTestingModule({
             providers: [
@@ -35,7 +35,7 @@ describe('ParticipantService', () => {
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(123);
+                mockSessionService.getContactId.mockReturnValue(123);
 
                 for (var i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
@@ -58,7 +58,7 @@ describe('ParticipantService', () => {
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(123);
+                mockSessionService.getContactId.mockReturnValue(123);
 
                 for (var i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
@@ -79,7 +79,7 @@ describe('ParticipantService', () => {
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: null;
                 let userId: 123;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(123);
+                mockSessionService.getContactId.mockReturnValue(123);
 
                 service['cache'] = cache;
                 service['userIdentifier'] = userId;
@@ -99,8 +99,7 @@ describe('ParticipantService', () => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
                 let result;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
-                <jasmine.Spy>(mockSessionService.get);
+                mockSessionService.getContactId.mockReturnValue(userId);
 
                 for (var i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
@@ -125,8 +124,8 @@ describe('ParticipantService', () => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
                 let result;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(999);
-                <jasmine.Spy>(mockSessionService.get).and.returnValue(Observable.of(MockTestData.getAParticipantsArray(3)));
+                mockSessionService.getContactId.mockReturnValue(999);
+                mockSessionService.get.mockReturnValue(Observable.of(MockTestData.getAParticipantsArray(3)));
 
                 for (var i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
@@ -150,8 +149,8 @@ describe('ParticipantService', () => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
                 let result;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
-                <jasmine.Spy>(mockSessionService.get).and.returnValue(Observable.of(MockTestData.getAParticipantsArray(3)));
+                mockSessionService.getContactId.mockReturnValue(userId);
+                mockSessionService.get.mockReturnValue(Observable.of(MockTestData.getAParticipantsArray(3)));
 
                 for (let i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));

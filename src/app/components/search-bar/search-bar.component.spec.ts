@@ -9,7 +9,7 @@ import { StateService } from '../../services/state.service';
 describe('Component: Search Bar', () => {
   let mockStateService;
   beforeEach(() => {
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setMyViewOrWorldView']);
+    mockStateService = { setMyViewOrWorldView: jest.fn() };
     TestBed.configureTestingModule({
       declarations: [
         SearchBarComponent

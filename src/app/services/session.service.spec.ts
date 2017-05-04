@@ -42,7 +42,7 @@ describe('Service: Session', () => {
   };
 
   beforeEach(() => {
-    mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
+    mockLoginRedirectService = { redirectToLogin: jest.fn() };
     TestBed.configureTestingModule({
       providers: [
         SessionService,
@@ -98,8 +98,18 @@ describe('Service: Session', () => {
         conn.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
       });
 
-      spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
-      spyOn(service.cookieService, 'remove').and.returnValue(true);
+      let dictionary = {intSessionId: undefined};
+
+      // Have to mock cookieService here not sure why. 
+      jest.spyOn(service['cookieService'], 'put').mockImplementation((name, value, options) => {
+        dictionary[name] = value;
+      });
+
+      jest.spyOn(service['cookieService'], 'get').mockImplementation((name) => {
+        return dictionary[name];
+      });
+
+      jest.spyOn(Observable, 'timer').mockReturnValue(Observable.of({}));
 
       const result = service.get(url);
       result.subscribe(res => {
@@ -187,6 +197,16 @@ describe('Service: Session', () => {
   describe('Service: Session cookie timeouts', () => {
 
     it('should setup timer if logged in',  inject([SessionService], (service: any) => {
+      let dictionary = {intSessionId: undefined};
+
+      // Have to mock cookieService here not sure why. 
+      jest.spyOn(service['cookieService'], 'put').mockImplementation((name, value, options) => {
+        dictionary[name] = value;
+      });
+
+      jest.spyOn(service['cookieService'], 'get').mockImplementation((name) => {
+        return dictionary[name];
+      });
       service['cookieOptions'] = { domain: 'localhost' };
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
@@ -196,22 +216,32 @@ describe('Service: Session', () => {
       expect(service['refreshTimeout']).toBeUndefined();
       service.setCookieTimeout();
       expect(service['refreshTimeout']).toBeDefined();
-      expect(service.cookieService.remove.calls.count()).toBe(4);
+      expect(service.cookieService.remove).toHaveBeenCalledTimes(4);
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
     }));
 
     it('should unsubscribe old Observable when creating a new timer',  inject([SessionService], (service: any) => {
+      let dictionary = {intSessionId: undefined};
+
+      // Have to mock cookieService here not sure why. 
+      jest.spyOn(service['cookieService'], 'put').mockImplementation((name, value, options) => {
+        dictionary[name] = value;
+      });
+
+      jest.spyOn(service['cookieService'], 'get').mockImplementation((name) => {
+        return dictionary[name];
+      });
       service['cookieOptions'] = { domain: 'localhost' };
       service.setAccessToken('token');
       service.setRefreshToken('refreshToken');
-      let subscription = jasmine.createSpyObj<Subscription>('subscription', ['unsubscribe']);
+      let subscription = { unsubscribe: jest.fn() };
       service['refreshTimeout'] = subscription;
       spyOn(Observable, 'timer').and.returnValue(Observable.of({}));
       spyOn(service.cookieService, 'remove').and.callThrough();
 
       service.setCookieTimeout();
       expect(service['refreshTimeout']).toBeDefined();
-      expect(service.cookieService.remove.calls.count()).toBe(4);
+      expect(service.cookieService.remove).toHaveBeenCalledTimes(4);
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
       expect(subscription.unsubscribe).toHaveBeenCalled();
     }));

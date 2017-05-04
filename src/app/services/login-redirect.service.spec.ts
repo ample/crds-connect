@@ -6,7 +6,7 @@ describe('LoginRedirectService', () => {
   let router: Router;
 
   beforeEach(() => {
-    router = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
+    router = {navigate: jest.fn(), navigateByUrl: jest.fn() };
     fixture = new LoginRedirectService(router);
   });
 

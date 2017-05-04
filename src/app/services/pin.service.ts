@@ -50,7 +50,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     this.SayHiTemplateId = sayHiTemplateId;
   }
 
-  private createPartialCache(pin: Pin): void {
+  public createPartialCache(pin: Pin): void {
     let contactId = this.session.getContactId();
     let pinArray = new Array<Pin>();
     pinArray.push(pin);
