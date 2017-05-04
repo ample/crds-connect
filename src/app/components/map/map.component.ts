@@ -1,5 +1,4 @@
 import { Angulartics2 } from 'angulartics2';
-import * as moment from 'moment';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
@@ -72,40 +71,6 @@ export class MapComponent implements OnInit {
       this.router.navigate([`gathering/${pin.gathering.groupId}/`]);
     }
   }
-
-<<<<<<< HEAD
-  public getStringByPinType(pin) {
-    let time = moment().format('HH:mm:ss:SSS');
-    console.log('map: getStringByPinType' + time);
-    /*let iconName: string;
-    if (pin.pinType === pinType.SITE) {
-      iconName = 'SITE';
-<<<<<<< HEAD
-    } else if (pin.pinType === pinType.GATHERING) {
-      iconName = 'GATHERING';
-    } else if (pin.pinType === pinType.PERSON && this.session.isCurrentPin(pin)) {
-      iconName = 'ME';
-=======
-    
-    } else if (pin.pinType === pinType.GATHERING) {
-      iconName = 'GATHERING';
->>>>>>> logging
-    } else {
-      iconName = 'PERSON';
-    }*/
-    return 'http://crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
-  }
-
-  public getLabelName(pin: Pin) {
-    let time = moment().format('HH:mm:ss:SSS');
-    //console.log('map: getLabelName' + time);
-    let name = this.pinLabelService.createPinLabelDataJsonString(pin);
-    console.log('name:', name);
-    console.log('title', pin.title);
-    return name;
-  }
-=======
->>>>>>> DE3443 - remove console.log statements
 
   public getFirstNameOrSiteName(pin: Pin) {
     return this.capitalizeFirstLetter(pin.firstName) || this.capitalizeFirstLetter(pin.siteName);
