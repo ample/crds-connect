@@ -73,8 +73,7 @@ app-neighbors {
   background: $cr-gray-lighter;
 }
 
-.fauxdal-open {
-  @extend .modal-open;
+.modal-open {
   position: fixed;
 }
 

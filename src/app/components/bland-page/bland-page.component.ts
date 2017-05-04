@@ -38,9 +38,10 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
         let isFauxdal: boolean = (data[0] !== undefined && data[0]['isFauxdal']) || this.isFauxModal;
 
         if (isFauxdal) {
-            // This component is rendered within a fauxdal, so we to need the .fauxdal-open
-            //  selector to the <body> element when this view is initialized.
-            document.querySelector('body').classList.add('fauxdal-open');
+            // This component is rendered within a fauxdal, so we to need the
+            // .modal-open selector to the <body> element when this view is
+            // initialized.
+            document.querySelector('body').classList.add('modal-open');
         }
     }
 

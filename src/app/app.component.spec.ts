@@ -60,18 +60,18 @@ describe('App: CrdsConnect', () => {
 
   it('should remove fauxdal body classes', () => {
     // Start fresh...
-    document.querySelector('body').classList.remove('fauxdal-open');
+    document.querySelector('body').classList.remove('modal-open');
 
-    expect(document.querySelector('body').classList).not.toContain('fauxdal-open');
-    document.querySelector('body').classList.add('fauxdal-open');
-    expect(document.querySelector('body').classList).toContain('fauxdal-open');
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
+    document.querySelector('body').classList.add('modal-open');
+    expect(document.querySelector('body').classList).toContain('modal-open');
 
     let obj = new NavigationStart(123, '/something');
     component.removeFauxdalClasses(obj);
-    expect(document.querySelector('body').classList).not.toContain('fauxdal-open');
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
 
     // Cleanup...
-    document.querySelector('body').classList.remove('fauxdal-open');
+    document.querySelector('body').classList.remove('modal-open');
   });
 
 });

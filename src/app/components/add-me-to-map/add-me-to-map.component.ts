@@ -72,7 +72,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit() {
     // This component is rendered within a fauxdal,
     // so we need the following selector added to <body> element
-    document.querySelector('body').classList.add('fauxdal-open');
+    document.querySelector('body').classList.add('modal-open');
   }
 
   public onSubmit() {

@@ -87,14 +87,14 @@ describe('Component: Add Me to the Map', () => {
 
   it('should attach class selector to body element after view init', () => {
     // Start fresh...
-    document.querySelector('body').classList.remove('fauxdal-open');
+    document.querySelector('body').classList.remove('modal-open');
 
-    expect(document.querySelector('body').classList).not.toContain('fauxdal-open');
+    expect(document.querySelector('body').classList).not.toContain('modal-open');
     this.component.ngAfterViewInit();
-    expect(document.querySelector('body').classList).toContain('fauxdal-open');
+    expect(document.querySelector('body').classList).toContain('modal-open');
 
     // Cleanup...
-    document.querySelector('body').classList.remove('fauxdal-open');
+    document.querySelector('body').classList.remove('modal-open');
   });
 
   it('should go back when x is clicked', () => {
