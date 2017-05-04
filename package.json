@@ -97,6 +97,7 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!crds-ng2-content-block)"
-    ]
+    ],
+    "testResultsProcessor": "jest-teamcity-reporter"
   }
 }
