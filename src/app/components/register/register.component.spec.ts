@@ -100,7 +100,7 @@ describe('Component: Registration', () => {
 
       let res = comp.switchMessage(errors);
       expect(res).toBe('is <em>invalid</em>');
-    }); 
+    });
   });
 
   describe('#next', () => {
@@ -120,7 +120,7 @@ describe('Component: Registration', () => {
     describe('when invalid credentials are submitted', () => {
       beforeEach(() => {
         setForm('Bob', '', 'good@g.com', 'foobar');
-        (mockSessionService.postLogin.mockReturnValue(Observable.throw({}));
+        mockSessionService.postLogin.mockReturnValue(Observable.throw({}));
       });
 
       it('#adv should not get called', () => {

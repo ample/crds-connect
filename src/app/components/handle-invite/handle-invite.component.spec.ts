@@ -106,8 +106,8 @@ describe('HandleInviteComponent', () => {
         comp['accepted'] = accepted;
         comp['groupId'] = groupId;
 
-        (mockGroupService.handleInvite.mockReturnValue(Observable.of(true));
-        (mockPinService.getPinDetails.mockReturnValue(Observable.of(pin));
+        mockGroupService.handleInvite.mockReturnValue(Observable.of(true));
+        mockPinService.getPinDetails.mockReturnValue(Observable.of(pin));
 
 
 

@@ -85,7 +85,7 @@ describe('Service: Pin', () => {
   }));
 
   it('should get cached pin details', inject([PinService], (service: PinService) => {
-    <jasmine.Spy>(mockSessionService.getContactId.mockReturnValue(123);
+    mockSessionService.getContactId.mockReturnValue(123);
     let pinsCache: PinSearchResultsDto, results: Pin, designatorStart: number, participantID: number, groupId: number;
     designatorStart = 98789;
     participantID = designatorStart;
@@ -132,13 +132,13 @@ describe('Service: Pin', () => {
   }));
 
   it('should NOT list pin as the user\'s pin', inject([PinService], (service: PinService) => {
-    <jasmine.Spy>(mockSessionService.getContactId.mockReturnValue(222);
+    mockSessionService.getContactId.mockReturnValue(222);
     let doesUserOwnPin = service.doesLoggedInUserOwnPin(mockPin);
     expect(doesUserOwnPin).toBe(false);
   }));
 
   it('should list pin as the user\'s pin', inject([PinService], (service: PinService) => {
-    <jasmine.Spy>(mockSessionService.getContactId.mockReturnValue(222);
+    mockSessionService.getContactId.mockReturnValue(222);
     let doesUserOwnPin: boolean = service.doesLoggedInUserOwnPin(mockPinMatchingContactId);
     expect(doesUserOwnPin).toBe(true);
   }));
@@ -153,7 +153,7 @@ describe('Service: Pin', () => {
     service['cacheLevel'] = CacheLevel.Full;
     service['userIdentifier'] = 123;
     let pin = MockTestData.getAPin();
-    <jasmine.Spy>(mockSessionService.post.mockReturnValue(Observable.of(pin));
+    mockSessionService.post.mockReturnValue(Observable.of(pin));
     service.postPin(pin).subscribe( (result) => {;
       expect(service['cache']).toBeNull();
       expect(result.contactId).toBe(pin.contactId);

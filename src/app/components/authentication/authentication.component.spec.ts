@@ -81,7 +81,7 @@ describe('Component: Authentication', () => {
   it('loginException should get set to true', () => {
     setForm('bad@bad.com', 'reallynotgood');
     comp.form.markAsDirty();
-    comp.session.postLogin.mockReturnValue(Observable.throw({}));
+    mockSessionService.postLogin.mockReturnValue(Observable.throw({}));
     expect(comp.loginException).toBeFalsy();
     comp.submitLogin();
     expect(comp.loginException).toBeTruthy();

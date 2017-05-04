@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 describe('LoginRedirectService', () => {
   let fixture: LoginRedirectService;
-  let router: Router;
+  let router: any;
 
   beforeEach(() => {
     router = {navigate: jest.fn(), navigateByUrl: jest.fn() };

@@ -101,7 +101,7 @@ describe('GatheringComponent', () => {
         let participants = MockTestData.getAParticipantsArray(3);
         mockSessionService.getContactId.mockReturnValue(participants[2].contactId);
         mockParticipantService.getParticipants.mockReturnValue(Observable.of(participants));
-        (mockAddressService.getFullAddress.mockReturnValue(Observable.of(
+        mockAddressService.getFullAddress.mockReturnValue(Observable.of(
             new Address(null, addLine1, null, null, null, null, null, null, null, null)));
         comp.isLoggedIn = true;
         comp.pin = pin;
@@ -188,7 +188,7 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.mockReturnValue(true);
         let pin = MockTestData.getAPin(1);
-        (mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 409 }));
+        mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
         comp['router'].url = 'test';
 
@@ -203,7 +203,7 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.mockReturnValue(true);
         let pin = MockTestData.getAPin(1);
-        (mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 406 }));
+        mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 406 }));
         comp.pin = pin;
         comp['router'].url = 'test';
 
@@ -218,7 +218,7 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.mockReturnValue(true);
         let pin = MockTestData.getAPin(1);
-        (mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 406 }));
+        mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 406 }));
         comp.pin = pin;
         comp['router'].url = '/connect/gathering/1234';
 
