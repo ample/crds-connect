@@ -82,7 +82,7 @@ export class MapComponent implements OnInit, OnChanges {
   public getStringByPinType(pin) {
     let time = moment().format('HH:mm:ss:SSS');
     console.log('map: getStringByPinType' + time);
-    let iconName: string;
+    /*let iconName: string;
     if (pin.pinType === pinType.SITE) {
       iconName = 'SITE';
 <<<<<<< HEAD
@@ -97,15 +97,16 @@ export class MapComponent implements OnInit, OnChanges {
 >>>>>>> logging
     } else {
       iconName = 'PERSON';
-    }
-    return '//crds-cms-uploads.s3.amazonaws.com/connect/' + iconName + '.svg';
+    }*/
+    return 'http://crds-cms-uploads.s3.amazonaws.com/connect/PERSON.svg';
   }
 
   public getLabelName(pin: Pin) {
     let time = moment().format('HH:mm:ss:SSS');
-    console.log('map: getLabelName' + time);
+    //console.log('map: getLabelName' + time);
     let name = this.pinLabelService.createPinLabelDataJsonString(pin);
-    //console.log(name);
+    console.log('name:', name);
+    console.log('title', pin.title);
     return name;
   }
 
