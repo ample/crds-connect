@@ -64,6 +64,7 @@
     "html-webpack-plugin": "2.24.0",
     "jest": "^19.0.2",
     "jest-preset-angular": "^1.2.0",
+    "jest-teamcity-reporter": "^0.6.2",
     "jest-zone-patch": "0.0.6",
     "node-sass": "3.10.1",
     "null-loader": "0.1.1",
