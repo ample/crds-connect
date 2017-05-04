@@ -5,7 +5,7 @@
     "serve": "npm run start",
     "start": "webpack-dev-server --inline --open --progress --port 8080",
     "test": "npm jest",
-    "test:ci": "jest --runInBand",
+    "test:ci": "jest",
     "test:watch": "jest --watch",
     "build-dev": "rimraf dist && rimraf node_modules/@types/jasmine && webpack --config config/webpack.dev.js --progress --profile --bail",
     "build-int": "rimraf dist && rimraf node_modules/@types/jasmine && webpack --config config/webpack.int.js --progress --profile --bail",
