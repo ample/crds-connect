@@ -11,6 +11,8 @@ body {
   z-index: 10;
 }
 
+[hidden] { display: none !important;}
+
 // Map labels
 .pin-label {
   $map-label-font-size: 13px;
