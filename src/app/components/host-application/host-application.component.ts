@@ -32,6 +32,7 @@ export class HostApplicationComponent implements OnInit {
   public groupAddress: Address;
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
+  public isHidden = true; //temporary fix for hiding isHomeAddress checkbox
 
   constructor(
     private addressService: AddressService,
