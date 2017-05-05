@@ -1,6 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -61,6 +60,7 @@ export class MapComponent implements OnInit {
     }
   }
 
+
   private displayDetails(pin: Pin) {
     this.state.setCurrentView('map');
     // Both Person Pin and Gathering Pin navigate to pin-details
@@ -70,24 +70,6 @@ export class MapComponent implements OnInit {
     } else if (pin.pinType === pinType.GATHERING) {
       this.router.navigate([`gathering/${pin.gathering.groupId}/`]);
     }
-  }
-
-  public getStringByPinType(pin) {
-    let iconName: string;
-    if (pin.pinType === pinType.SITE) {
-      iconName = 'SITE';
-    } else if (pin.pinType === pinType.GATHERING) {
-      iconName = 'GATHERING';
-    } else if (pin.pinType === pinType.PERSON && this.session.isCurrentPin(pin)) {
-      iconName = 'ME';
-    } else {
-      iconName = 'PERSON';
-    }
-    return '//crds-cms-uploads.s3.amazonaws.com/connect/' + iconName + '.svg';
-  }
-
-  public getLabelName(pin: Pin) {
-    return this.pinLabelService.createPinLabelDataJsonString(pin);
   }
 
   public getFirstNameOrSiteName(pin: Pin) {
@@ -111,7 +93,6 @@ export class MapComponent implements OnInit {
   }
 
   public capitalizeFirstLetter(string) {
-
     let isStringEmptyOrNull = string === undefined || string === null || string === '';
 
     if (isStringEmptyOrNull) {
