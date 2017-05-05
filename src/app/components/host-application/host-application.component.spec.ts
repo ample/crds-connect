@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
+import { AddressService } from '../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
@@ -29,7 +30,8 @@ describe('Component: Host Application', () => {
 
   let component;
   let fixture;
-  let   mockIFrameParentService,
+  let   mockAddressService,
+        mockIFrameParentService,
         mockStoreService,
         mockStateService,
         mockSessionService,
@@ -41,6 +43,7 @@ describe('Component: Host Application', () => {
         mockValidate;
 
   beforeEach(() => {
+        mockAddressService = jasmine.createSpyObj<PinService>('addressService', ['postPin']);
         mockIFrameParentService = jasmine.createSpyObj<IFrameParentService>('iFrameParentService', ['constructor', 'getIFrameParentUrl']);
         mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
@@ -60,6 +63,7 @@ describe('Component: Host Application', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        { provide: AddressService, useValue: mockAddressService },
         ContentService,
         HostApplicationHelperService,
         { provide: IFrameParentService, useValue: mockIFrameParentService },
