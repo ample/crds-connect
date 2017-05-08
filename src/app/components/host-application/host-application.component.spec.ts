@@ -26,21 +26,20 @@ describe('Component: Host Application', () => {
 
   let component;
   let fixture;
-  let   mockIFrameParentService,
-        mockStoreService,
-        mockStateService,
   let   mockAddressService,
-        mockIFrameParentService,
-        mockStoreService,
         mockStateService,
-  let   mockStateService,
         mockSessionService,
+        mockContentService,
+        mockToastsManager,
+        mockValidate;
 
   beforeEach(() => {
         mockStateService = { setLoading: jest.fn() };
         mockValidate = { minLength: jest.fn(), maxLength: jest.fn(), required: jest.fn() };
         mockContentService = { getContent: jest.fn() };
         mockToastsManager = { error: jest.fn(), success: jest.fn() };
+        mockSessionService = { postHostApplication: jest.fn() };
+        mockAddressService = { emitClearGroupAddressForm: jest.fn() };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -73,6 +72,7 @@ describe('Component: Host Application', () => {
   it('validate phone length, min not met', () => {
     expect(mockValidate.minLength(new FormControl('123'))).toBeFalsy();
   });
+
   it('should initiate with the "use home address for group" checkbox ticked', () => {
     const isHomeAddressCheckbox = this.fixture.debugElement.query(By.css('#isHomeAddress')).nativeElement;
     expect(isHomeAddressCheckbox.checked).toBeTruthy();
