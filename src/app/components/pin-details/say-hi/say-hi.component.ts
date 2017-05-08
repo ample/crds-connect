@@ -32,7 +32,6 @@ export class SayHiComponent implements OnInit {
     private loginRedirectService: LoginRedirectService,
     private session: SessionService,
     private router: Router,
-    private state: StateService,
     private blandPageService: BlandPageService,
     private angulartics2: Angulartics2) { }
 
@@ -93,11 +92,13 @@ export class SayHiComponent implements OnInit {
   }
 
   handleError() {
-    let bpd = new BlandPageDetails();
-    bpd.blandPageCause = BlandPageCause.Error;
-    bpd.content = '<h1 class="title">Sorry!</h1><p>We are unable to send your email at this time.</p>';
-    bpd.goToState = this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId;
-    bpd.buttonText = 'Return to details page';
+    let bpd = new BlandPageDetails(
+      'Return to details page',
+      '<h1 class="title">Sorry!</h1><p>We are unable to send your email at this time.</p>',
+      BlandPageType.Text,
+      BlandPageCause.Error,
+      this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId
+    );
     this.blandPageService.primeAndGo(bpd);
   }
 }
