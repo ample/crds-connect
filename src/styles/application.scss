@@ -4,7 +4,6 @@
 
 body {
   -webkit-font-smoothing: initial;
-  background: $cr-gray-lighter;
 }
 
 #toast-container {
@@ -66,6 +65,11 @@ app-neighbors {
       }
     }
   }
+}
+
+.connect-bg {
+  background: $cr-gray-lighter;
+  margin-bottom: -40px; // Removes white space between footer & content.
 }
 
 .connect-container {
