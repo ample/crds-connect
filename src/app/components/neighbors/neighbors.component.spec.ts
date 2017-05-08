@@ -38,7 +38,7 @@ import { IPService } from '../../services/ip.service';
 import { MockComponent } from '../../shared/mock.component';
 import { AddressService } from '../../services/address.service';
 
-describe('Component: Neighbors', () => {
+xdescribe('Component: Neighbors', () => {
   let mockSiteAddressService,
     mockUserLocationService,
     mockLocationService,

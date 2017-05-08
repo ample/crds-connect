@@ -4,6 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
 var Dotenv = require('dotenv-webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var AotPlugin = require('@ngtools/webpack');
 
 module.exports = {
   entry: {

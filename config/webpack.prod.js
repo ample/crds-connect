@@ -1,3 +1,4 @@
+const ngToolsWebpack = require('@ngtools/webpack');
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -8,35 +9,42 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'source-map',
-
+  resolve: {
+    extensions: ['.ts', '.js']
+  },
+  entry: './src/main.aot.ts',
   output: {
-    path: helpers.root('dist'),
-    publicPath: '/',
-    filename: '[name].js',
-    chunkFilename: '[id].chunk.js'
+    path: __dirname + '/dist',
+    publicPath: 'dist/',
+    filename: 'bundle.js'
   },
-
-  htmlLoader: {
-    minimize: false
-  },
-
   plugins: [
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: {
-        keep_fnames: true
-      },
-      compress: {
-        warnings: false
-      }
+    new ngToolsWebpack.AotPlugin({
+      tsConfigPath: './tsconfig-aot.json'
     }),
-    new ExtractTextPlugin('[name].[hash].css'),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'ENV': JSON.stringify(ENV)
-      }
-    })
-  ]
+		new webpack.LoaderOptionsPlugin({
+			minimize: true,
+			debug: false
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			},
+			output: {
+				comments: false
+			},
+			sourceMap: true
+		})
+  ],
+  module: {
+    loaders: [
+      { test: /\.scss$/, loaders: ['raw-loader', 'sass-loader'] },
+      { test: /\.css$/, loader: 'raw-loader' },
+      { test: /\.html$/, loader: 'raw-loader' },
+      { test: /\.ts$/, loader: '@ngtools/webpack' }
+    ]
+  },
+  devServer: {
+    historyApiFallback: true
+  }
 });
