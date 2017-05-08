@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { AddressService } from '../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
@@ -25,11 +26,15 @@ describe('Component: Host Application', () => {
 
   let component;
   let fixture;
+  let   mockIFrameParentService,
+        mockStoreService,
+        mockStateService,
+  let   mockAddressService,
+        mockIFrameParentService,
+        mockStoreService,
+        mockStateService,
   let   mockStateService,
         mockSessionService,
-        mockValidate,
-        mockContentService,
-        mockToastsManager;
 
   beforeEach(() => {
         mockStateService = { setLoading: jest.fn() };
@@ -45,6 +50,7 @@ describe('Component: Host Application', () => {
         RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
       ],
       providers: [
+        { provide: AddressService, useValue: mockAddressService },
         ContentService,
         HostApplicationHelperService,
         { provide: StateService, useValue: mockStateService },

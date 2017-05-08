@@ -80,6 +80,9 @@ export class PersonEditComponent implements OnInit {
                 this.addressService.clearCache();
                 this.toastr.success(this.content.getContent('personSavedSuccess'));
                 this.pin = pin;
+                this.state.navigatedFromAddToMapComponent = true;
+                this.state.postedPin = pin;
+                this.state.setLastSearch(null);
                 this.router.navigate(['/person', this.pin.participantId]);
             },
             (error) => {

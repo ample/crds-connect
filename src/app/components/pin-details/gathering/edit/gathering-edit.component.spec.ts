@@ -145,6 +145,7 @@ describe('GatheringEditComponent', () => {
         expect(mockToastr.success).toHaveBeenCalledWith(expectedToast);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId]);
         expect(mockAddressService.clearCache).toHaveBeenCalled();
+        expect(mockStateService.setLastSearch).toHaveBeenCalledWith(null);
         expect(comp['submitting']).toBe(false);
     });
 

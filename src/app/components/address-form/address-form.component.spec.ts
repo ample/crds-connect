@@ -10,6 +10,8 @@ import { DebugElement } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
+import { AddressService } from '../../services/address.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { LookupTable } from '../../models/lookup-table';
@@ -23,17 +25,19 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockStateService, mockLocation;
+    let mockPinService, mockStateService, mockLocation, mockAddressService;
 
     beforeEach(() => {
         mockPinService = { postPin: jest.fn() };
         mockStateService = { setLoading: jest.fn() };
         mockLocation = {back: jest.fn() };
+		mockAddressService = { getFullAddress: jest.fn() };
         TestBed.configureTestingModule({
             declarations: [
                 AddressFormComponent
             ],
             providers: [
+                { provide: AddressService, useValue: mockAddressService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: PinService, useValue: mockPinService },
                 FormBuilder,
