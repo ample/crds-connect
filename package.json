@@ -7,7 +7,8 @@
     "test": "karma start",
     "build-dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail",
     "build-int": "rimraf dist && webpack --config config/webpack.int.js --progress --profile --bail",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "build:prod": "del-cli dist && ngc -p tsconfig-aot.json && ngc -p tsconfig-aot.json && webpack --config config/webpack.config.prod.js --progress --profile --bail && del-cli 'src/app/**/*.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.js.map' 'src/app/**/*.shim.ts' 'src/app/**/*.ngsummary.json' 'src/app/**/*.ngstyle.ts' 'dist/app'"
   },
   "licenses": [
     {
@@ -50,6 +51,7 @@
     "@types/core-js": "0.9.34",
     "@types/jasmine": "2.5.41",
     "@types/node": "6.0.68",
+    "angular-router-loader": "^0.6.0",
     "angular2-template-loader": "0.5.0",
     "awesome-typescript-loader": "3.1.3",
     "bootstrap-sass": "3.3.7",
@@ -58,6 +60,7 @@
     "crds-ng2-content-block": "1.0.2",
     "css-loader": "0.25.0",
     "css-to-string-loader": "0.1.2",
+    "del-cli": "^0.2.1",
     "dotenv-webpack": "1.4.0",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "0.9.0",
