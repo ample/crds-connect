@@ -69,7 +69,6 @@ export class RemovePersonPinComponent implements OnInit {
   }
 
   public cancel() {
-    this.state.setCurrentView('map');
     console.log(this.pin);
     this.router.navigate(['/person/', this.pin.participantId, 'edit']);
   }
