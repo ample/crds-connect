@@ -12,7 +12,7 @@ import { StateService } from './services/state.service';
   template: `
     <div [ngClass]="{'loading': state.is_loading}">
       <app-preloader></app-preloader>
-      <div class="outlet-wrapper">
+      <div class="outlet-wrapper connect-bg">
         <app-header></app-header>
         <router-outlet></router-outlet>
       </div>
