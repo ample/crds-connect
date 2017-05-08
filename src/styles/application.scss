@@ -1,6 +1,6 @@
 @import '~crds-styles/assets/stylesheets/bootstrap';
-@import 'components/media-objects';
-@import 'pages/pin-details';
+@import 'components/modules';
+@import 'pages/modules';
 
 body {
   -webkit-font-smoothing: initial;
@@ -12,49 +12,6 @@ body {
 }
 
 [hidden] { display: none !important;}
-
-// Map labels
-.pin-label {
-  $map-label-font-size: 13px;
-  $map-label-font-family: $condensed-font-face;
-  $map-label-default-color: $cr-gray;
-  $map-label-me-color: $cr-gold;
-  $map-label-host-color: $cr-cyan;
-  $map-label-person-color: $cr-blue;
-  $map-label-site-color: $cr-orange;
-
-  color: $map-label-default-color;
-  font-size: $map-label-font-size;
-
-  &.person {
-    color: $map-label-person-color;
-  }
-
-  &.person,
-  &.gathering {
-    &.me {
-      color: $map-label-me-color;
-
-      &::after {
-        content: "ME";
-        font-size: 8px;
-      }
-    }
-
-    &.host {
-      color: $map-label-host-color;
-
-      &::after {
-        content: "HOST";
-        font-size: 8px;
-      }
-    }
-  }
-
-  &.site {
-    color: $map-label-site-color;
-  }
-}
 
 app-preloader {
   display: none;
@@ -72,136 +29,6 @@ app-preloader {
 
 app-neighbors {
   display: block;
-  background: $cr-gray-lighter;
-}
-
-.fauxdal-open {
-  @extend .modal-open;
-  position: fixed;
-}
-
-.fauxdal-wrapper {
-  background-color: darken($cr-blue, 20);
-  color: $cr-white;
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 5;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-
-.fauxdal {
-  @include size(100vw, 100vh);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 7;
-
-  .close {
-    opacity: 1.0;
-
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-
-    a {
-      color: $cr-white;
-
-      display: block;
-      padding: 1rem;
-      margin: -1rem;
-
-      &:hover {
-        color: rgba($cr-white, .5);
-      }
-    }
-  }
-
-  &.fauxdal-center {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-
-  .fauxdal-content {
-    max-width: $container-tablet;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  &.fauxdal-fullscreen {
-    @media (min-width: $screen-xs) {
-      padding-top: initial;
-    }
-
-    .container-fluid {
-      background-color: darken($cr-blue, 20);
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-  }
-
-  .title,
-  .control-label {
-    color: $cr-white;
-  }
-}
-
-.app-header {
-  position: relative;
-  z-index: 5;
-
-  .brand-bar {
-    position: relative;
-    height: 40px;
-    overflow: hidden;
-    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
-    background-repeat: repeat-x;
-    background-size: auto 100%;
-  }
-
-  .app-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    padding: 11.5px;
-    line-height: 1;
-    color: $cr-white;
-    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    svg {
-      width: 75px;
-      height: 15px;
-      padding: 0;
-    }
-  }
-
-  .page-title {
-    text-align: center;
-    padding: 1rem;
-    background-color: darken(desaturate($cr-blue-dark, 5), 5);
-
-    * {
-      color: $cr-white;
-    }
-
-    a {
-      margin-top: 0.25rem;
-    }
-
-    h1 {
-      display: inline-block;
-      margin: 0 auto;
-      line-height: 1;
-      font-size: 1.5rem;
-    }
-  }
 }
 
 // Centers blocks to the middle of the screen.
@@ -211,108 +38,10 @@ app-neighbors {
   width: 100%;
 }
 
-app-map,
-sebm-google-map,
-canvas-map-overlay {
-  // Calculations are designed such that while the screen is less than 3000px
-  // tall, the map is never too short, but also never more than 99px below
-  // the bottom of the screen directly within Connect.
-  //
-  // When displayed as a microclient, it may fall another 54px-64px below
-  // the footer, accounting for the global header.
-  height: 381px;
-  @for $idx from 5 to 30 {
-    $height: $idx * 100;
-    @media screen and ( min-height: #{$height}px ){
-      height: #{$height - 19}px;
-    }
-  }
-}
-
-// Style map
-app-map {
-  display: block;
-  overflow: hidden;
-  position: relative;
-}
-
-sebm-google-map {
-  @media (min-width: $screen-xs) {
-    .gmnoprint {
-      padding: .5rem;
-    }
-  }
-}
-
-canvas-map-overlay {
-  display: block;
-  pointer-events: none;
-  position: absolute;
-  width: 100vw;
-  z-index: 1;
-}
-
-// Map footer
-app-map-footer {
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 5px;
-  right: 1rem;
-  z-index: 4;
-  @media (min-width: $screen-xs) {
-    top: 13px;
-  }
-  input {
-    float: right;
-    clear: both;
-  }
-}
-
-// Getting started layout
-.people {
-  display: flex;
-  flex-flow: column nowrap;
-  margin-top: 1rem;
-
-  @media (min-width: $screen-xs) {
-    flex-direction: row;
-  }
-
-  .person {
-    flex: 1 1 auto;
-    text-align: center;
-
-    align-items: center;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-
-    &::last-child {
-      padding-top: 1rem;
-    }
-
-    .entry-header {
-      justify-content: center;
-    }
-  }
-}
-
-// Update search results button
-search-local {
-  display: block;
-  position: absolute;
-  bottom: 60px;
-  left: calc(50% - 66px); // half screen width minus half of the button width
-  z-index: 4;
-}
-
 // 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
 .btn.btn-primary.active {
   background: darken($btn-primary-bg, 20);
 }
-
-
 
 // Single Toggle Button
 .btn-toggle {

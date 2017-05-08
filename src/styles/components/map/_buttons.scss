@@ -1,0 +1,25 @@
+// Positions buttons on the map
+app-map-footer {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 5px;
+  right: 1rem;
+  z-index: 4;
+  @media (min-width: $screen-xs) {
+    top: 13px;
+  }
+  input {
+    float: right;
+    clear: both;
+  }
+}
+
+// Styles "Update search" results button
+search-local {
+  display: block;
+  position: absolute;
+  bottom: 60px;
+  left: calc(50% - 66px); // half screen width minus half of the button width
+  z-index: 4;
+}
