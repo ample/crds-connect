@@ -1,4 +1,3 @@
-import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
@@ -14,11 +13,9 @@ import { Group } from '../models/group';
 export class AddressService extends CacheableService<Pin[]> {
 
     private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-    public groupAddressFormFieldClearEmitter: EventEmitter<void>;
 
     constructor(private session: SessionService) {
         super();
-        this.groupAddressFormFieldClearEmitter = new EventEmitter<void>();
     }
 
     public getFullAddress(id: number, addressType: pinType): Observable<Address> {
@@ -42,10 +39,6 @@ export class AddressService extends CacheableService<Pin[]> {
         }
 
         return this.getAddressByTypeFromBackend(id, addressType);
-    }
-
-    public emitClearGroupAddressForm(): void {
-      this.groupAddressFormFieldClearEmitter.emit();
     }
 
     private getAddressByTypeFromBackend(id: number, addressType: pinType): Observable<Address> {

@@ -35,12 +35,5 @@ export class AddressFormComponent implements OnInit {
     });
 
     this.parentForm.addControl(this.groupName, this.addressFormGroup);
-
-    if (this.groupName === 'groupAddress') {
-      this.addressHlpr.groupAddressFormFieldClearEmitter.subscribe(() => {
-        this.parentForm.removeControl(this.groupName);
-      });
-    }
-
   }
 }

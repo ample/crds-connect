@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 
-import { AddressService } from '../../services/address.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
@@ -32,10 +31,9 @@ export class HostApplicationComponent implements OnInit {
   public groupAddress: Address;
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
-  public isHidden = true; //temporary fix for hiding isHomeAddress checkbox
+  public groupName: string = 'groupAddress';
 
   constructor(
-    private addressService: AddressService,
     private blandPageService: BlandPageService,
     private content: ContentService,
     private hlpr: HostApplicationHelperService,
@@ -74,8 +72,8 @@ export class HostApplicationComponent implements OnInit {
   }
 
   public onIsHomeAddressClicked() {
-    if (!this.hostForm.value.isHomeAddress){
-      this.addressService.emitClearGroupAddressForm();
+    if (!this.hostForm.value.isHomeAddress) {
+      this.hostForm.removeControl(this.groupName);
     }
   }
 

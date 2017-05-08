@@ -27,7 +27,6 @@
               </div>
 
               <!--MEETING AT HOME? -->
-              <div class="checkbox" [hidden]="isHidden"> <!--HIDDEN ATTRIBUTE IS A TEMP FIX-->
                 <label for="isHomeAddress">
                 <input checked=""
                        type="checkbox"
@@ -36,7 +35,6 @@
                        formControlName="isHomeAddress"
                        name="isHomeAddress"
                        (click)="onIsHomeAddressClicked()">We will meet at my home</label>
-              </div>
             </div>
           </div>
 
@@ -70,6 +68,10 @@
               <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
             </div>
           </div>
+
+
+          <!--TESTING LOOLOLOL-->
+          {{hostForm.value | json}}
 
           <footer class="soft-top row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3 btn-group">
