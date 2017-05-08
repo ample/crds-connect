@@ -39,7 +39,7 @@ export class PersonEditComponent implements OnInit {
         this.pin = this.route.snapshot.data['pin'];
         this.editPersonForm = new FormGroup({});
         this.checkPinOwner(this.pin);
-        this.state.setPageHeader('Details', ['/person', this.pin.participantId]);
+        this.state.setPageHeader('Details', `/person/${this.pin.participantId}`);
         this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON)
             .finally(() => {
                 this.ready = true;
@@ -80,6 +80,9 @@ export class PersonEditComponent implements OnInit {
                 this.addressService.clearCache();
                 this.toastr.success(this.content.getContent('personSavedSuccess'));
                 this.pin = pin;
+                this.state.navigatedFromAddToMapComponent = true;
+                this.state.postedPin = pin;
+                this.state.setLastSearch(null);
                 this.router.navigate(['/person', this.pin.participantId]);
             },
             (error) => {

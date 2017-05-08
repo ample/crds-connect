@@ -141,6 +141,7 @@ describe('PersonEditComponent', () => {
         expect(mockToastr.success).toHaveBeenCalledWith(expectedToast);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/person', pin.participantId]);
         expect(mockAddressService.clearCache).toHaveBeenCalled();
+        expect(mockStateService.setLastSearch).toHaveBeenCalledWith(null);
         expect(comp['submitting']).toBe(false);
     });
 
@@ -154,7 +155,7 @@ describe('PersonEditComponent', () => {
         expect(comp['submissionError']).toBe(true);
     });
 
-    it('should cancel', () => {
+     it('should cancel', () => {
         comp.cancel();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/person', pin.participantId]);
     });
@@ -162,5 +163,5 @@ describe('PersonEditComponent', () => {
     it('should navigate to remove-person-pin when remove link clicked', () => {
         comp.removePersonPin();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/remove-person-pin', pin.participantId]);
-    });    
+});
 });

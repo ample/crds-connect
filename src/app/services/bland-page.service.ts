@@ -32,7 +32,7 @@ export class BlandPageService {
     public goToDefaultError(goToRoute: string) {
         this.blandPageDetails = new BlandPageDetails(
             'back',
-            '<h1 class="title text-lowercase">OOPS</h1><p>Something went wrong.</p>',
+            '<h1 class="title">OOPS</h1><p>Something went wrong.</p>',
             BlandPageType.Text,
             BlandPageCause.Error,
             goToRoute
@@ -99,7 +99,7 @@ export class BlandPageService {
         }
 
         this.blandPageDetails = new BlandPageDetails(
-            accepted === true ? `Check the group out` : 'Go to the map',
+            accepted === true ? `Check out the group` : 'Go to the map',
             text,
             BlandPageType.Text,
             BlandPageCause.Success,

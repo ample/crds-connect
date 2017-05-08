@@ -27,9 +27,15 @@
               </div>
 
               <!--MEETING AT HOME? -->
-              <div class="checkbox">
+              <div class="checkbox" [hidden]="isHidden"> <!--HIDDEN ATTRIBUTE IS A TEMP FIX-->
                 <label for="isHomeAddress">
-                <input checked="" type="checkbox" value="" id="isHomeAddress" formControlName="isHomeAddress" name="isHomeAddress">We will meet at my home</label>
+                <input checked=""
+                       type="checkbox"
+                       value=""
+                       id="isHomeAddress"
+                       formControlName="isHomeAddress"
+                       name="isHomeAddress"
+                       (click)="onIsHomeAddressClicked()">We will meet at my home</label>
               </div>
             </div>
           </div>
@@ -46,9 +52,9 @@
           <div class="row text-left soft-top">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">
               <label class="control-label push-half-bottom" for="contactNumber">BEST REACHED AT:</label>
-              <input tabindex="1" type="text" onlyTheseKeys="[0-9]" maxlength="10" class="form-control" placeholder="Contact Number" id="contactNumber"
-                formControlName="contactNumber" name="contactNumber">
-              <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['contactNumber'].valid">Contact number is invalid!!</p>
+              <input type="tel" onlyTheseKeys="[0-9]" maxlength="10" class="form-control" placeholder="Phone number"
+                id="contactNumber" formControlName="contactNumber" name="contactNumber">
+              <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['contactNumber'].valid">Phone number is invalid!!</p>
             </div>
           </div>
 
@@ -60,8 +66,7 @@
               </div>
 
               <label class="control-label push-half-bottom" for="gatheringDescription">GATHERING DESCRIPTION:</label>
-              <textarea tabindex="1" type="text" class="form-control" rows="5" maxlength="300" placeholder="Group Description" id="gatheringDescription"
-                formControlName="gatheringDescription" name="gatheringDescription"></textarea>
+              <textarea type="text" class="form-control" rows="5" maxlength="300" placeholder="Group Description" id="gatheringDescription" formControlName="gatheringDescription" name="gatheringDescription"></textarea>
               <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
             </div>
           </div>
@@ -77,7 +82,6 @@
             <crds-content-block id="generalError"></crds-content-block>
           </div>
         </form>
-
       </div>
     </div>
   </div>

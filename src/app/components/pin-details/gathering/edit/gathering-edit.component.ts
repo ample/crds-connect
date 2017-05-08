@@ -43,7 +43,7 @@ export class GatheringEditComponent implements OnInit {
             updateHomeAddress: new FormControl(this.pin.updateHomeAddress)
         });
         this.checkPinOwner(this.pin);
-        this.state.setPageHeader('gathering', ['/gathering', this.pin.gathering.groupId]);
+        this.state.setPageHeader('gathering', `/gathering/${this.pin.gathering.groupId}`);
         Observable.forkJoin(
             this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING),
             this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON))
@@ -95,6 +95,9 @@ export class GatheringEditComponent implements OnInit {
                 this.addressService.clearCache();
                 this.toastr.success(this.content.getContent('gatheringSavedSuccessfully'));
                 this.pin = pin;
+                this.state.navigatedFromAddToMapComponent = true;
+                this.state.postedPin = pin;
+                this.state.setLastSearch(null);
                 this.router.navigate(['/gathering', this.pin.gathering.groupId]);
             },
             (error) => {

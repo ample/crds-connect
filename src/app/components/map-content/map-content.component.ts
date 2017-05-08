@@ -17,7 +17,6 @@ import { googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
 function PinLabelOverlay(bounds, map, labelData) {
-
     this.bounds_ = bounds;
     this.map_ = map;
     this.labelData_ = labelData;
@@ -189,8 +188,11 @@ export class MapContentComponent implements OnInit {
             let div = this.div_;
             div.className = 'pin-label';
             div.className += ' ' + pinType[this.labelData_.pinType].toLowerCase().toString();
-            if (this.labelData_.isMe) { div.className += ' me'; }
-            if (this.labelData_.isHost) { div.className += ' host'; }
+            if (this.labelData_.isMe) {
+               div.className += ' me';
+           } else {
+              if (this.labelData_.isHost) { div.className += ' host'; }
+            }
             div.style.left = sw.x + 20 + 'px';
             div.style.top = ne.y - 20 + 'px';
             div.style.width = ((ne.x - sw.x) + 100) + 'px';

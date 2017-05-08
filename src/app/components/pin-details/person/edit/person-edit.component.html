@@ -7,25 +7,27 @@
     <div class="media-body">
       <pin-header [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
     </div>
-</div>
+  </div>
 
   <hr>
 
-<div>
+  <div>
     <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
-        <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
+      <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
 
-      <footer class="btn-group-vertical">
-            <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
-            <button type="button" (click)="cancel()" class="btn btn-link btn-default">Cancel</button>
-        </footer>
+      <footer class="row soft-top">
+        <div class="col-xs-12 btn-group">
+        <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary">Update my details</button>
+          <button type="button" (click)="cancel()" class="btn btn-outline btn-default">Cancel</button>
+        </div>
+      </footer>
 
         <div>
             <a class="pointer" (click)="removePersonPin()">Remove me from the map</a>
         </div>
 
-        <div *ngIf="submissionError" class="alert alert-danger">
-            <crds-content-block id="generalError"></crds-content-block>
-        </div>
+      <div *ngIf="submissionError" class="alert alert-danger">
+        <crds-content-block id="generalError"></crds-content-block>
+      </div>
     </form>
 </div></div>
