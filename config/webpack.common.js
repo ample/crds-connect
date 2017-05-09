@@ -21,6 +21,7 @@ module.exports = {
     loaders: [
       {
         test: /\.ts$/,
+        exclude: [helpers.root('src/main-aot.ts')],
         loaders: ['awesome-typescript-loader', 'angular2-template-loader']
       },
       {

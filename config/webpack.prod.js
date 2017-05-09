@@ -1,30 +1,38 @@
-var path = require('path');
-
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
-var commonConfig = require('./webpack.common');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var commonConfig = require('./webpack.common.js');
+var helpers = require('./helpers');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-   entry: './src/main-aot.ts',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
-        filename: '[hash].js',
-        chunkFilename: '[id].[hash].chunk.js'
-    },
-    module: {
-        rules: [
-            {
-                test: /\.ts$/,
-                use: [
-                    { loader: 'awesome-typescript-loader'},
-                    { loader: 'angular2-template-loader' },
-                    { loader: 'angular-router-loader?aot=true' }
-                ]
-            }
-        ]
-    },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin()
-    ]
+  entry: './src/main.ts',
+  devtool: 'source-map',
+
+  output: {
+    path: helpers.root('dist'),
+    publicPath: '/',
+    filename: '[name].js',
+    chunkFilename: '[id].chunk.js'
+  },
+
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: {
+        keep_fnames: true
+      },
+      compress: {
+        warnings: false
+      }
+    }),
+    new ExtractTextPlugin('[name].[hash].css'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'ENV': JSON.stringify(ENV)
+      }
+    })
+  ]
 });
