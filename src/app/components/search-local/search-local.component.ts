@@ -15,6 +15,7 @@ export class SearchLocalComponent implements OnInit {
 
   private mapView;
   public active: boolean;
+  public needed: boolean;
 
   constructor(public mapHelper: GoogleMapService,
     private state: StateService,
@@ -24,6 +25,7 @@ export class SearchLocalComponent implements OnInit {
 
   ngOnInit() {
     this.active = false;
+    this.needed = false;
     this.mapHelper.mapViewUpdatedEmitter.subscribe((update) => {
       if ((update.value === 'dragend') || (update.value === 'zoom_changed')) {
         this.mapView = update;

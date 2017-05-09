@@ -95,6 +95,9 @@ export class GatheringEditComponent implements OnInit {
                 this.addressService.clearCache();
                 this.toastr.success(this.content.getContent('gatheringSavedSuccessfully'));
                 this.pin = pin;
+                this.state.navigatedFromAddToMapComponent = true;
+                this.state.postedPin = pin;
+                this.state.setLastSearch(null);
                 this.router.navigate(['/gathering', this.pin.gathering.groupId]);
             },
             (error) => {
