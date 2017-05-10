@@ -1,6 +1,6 @@
 {
   "name": "crds-connect",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "serve": "npm run start",
     "start": "webpack-dev-server --inline --open --progress --port 8080",
@@ -8,7 +8,7 @@
     "build-dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail",
     "build-int": "rimraf dist && webpack --config config/webpack.int.js --progress --profile --bail",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "build:prod": "del-cli dist && ngc -p tsconfig-aot.json && ngc -p tsconfig-aot.json && webpack --config config/webpack.config.prod.js --progress --profile --bail && del-cli 'src/app/**/*.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.js.map' 'src/app/**/*.shim.ts' 'src/app/**/*.ngsummary.json' 'src/app/**/*.ngstyle.ts' 'dist/app'"
+    "build:prod": "del-cli dist && ngc -p tsconfig-aot.json && ngc -p tsconfig-aot.json && webpack --config config/webpack.aot.prod.js --progress --profile --bail && del-cli 'src/app/**/*.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.js.map' 'src/app/**/*.shim.ts' 'src/app/**/*.ngsummary.json' 'src/app/**/*.ngstyle.ts' 'dist/app'"
   },
   "licenses": [
     {
