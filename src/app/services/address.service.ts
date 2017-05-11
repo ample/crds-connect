@@ -18,6 +18,7 @@ export class AddressService extends CacheableService<Pin[]> {
 
     constructor(private session: SessionService) {
         super();
+        // TODO: Remove this emitter.
         this.groupAddressFormFieldClearEmitter = new EventEmitter<void>();
     }
 
