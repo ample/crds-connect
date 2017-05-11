@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
+  entry: './src/main.ts',
   devtool: 'source-map',
 
   output: {
@@ -17,13 +18,8 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].chunk.js'
   },
 
-  htmlLoader: {
-    minimize: false
-  },
-
   plugins: [
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.DedupePlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       mangle: {
         keep_fnames: true

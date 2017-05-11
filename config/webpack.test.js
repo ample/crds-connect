@@ -11,26 +11,10 @@ module.exports = function(options) {
     devtool: 'inline-source-map',
 
     resolve: {
-      extensions: ['', '.ts', '.js'],
-      root: helpers.root('src'),
+      extensions: ['*', '.ts', '.js'],
     },
 
     module: {
-
-      preLoaders: [
-        {
-          test: /\.ts$/,
-          loader: 'tslint-loader',
-          exclude: [helpers.root('node_modules')]
-        },
-        {
-          test: /\.js$/,
-          loader: 'source-map-loader',
-          exclude: [
-            helpers.root('node_modules')
-          ]
-        }
-      ],
 
       loaders: [
         {
@@ -39,7 +23,7 @@ module.exports = function(options) {
         },
         {
           test: /\.html$/,
-          loader: 'html'
+          loader: 'html-loader'
         },
         {
           test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
@@ -48,21 +32,19 @@ module.exports = function(options) {
         {
           test: /\.css$/,
           exclude: helpers.root('src', 'app'),
-          loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+          loader: ExtractTextPlugin.extract({fallback: 'style', use: 'css?sourceMap'})
         },
         {
           test: /\.css$/,
           include: helpers.root('src', 'app'),
-          loader: 'raw'
+          loader: 'raw-loader'
         },
         {
           test: /\.scss$/,
           exclude: /node_modules/,
           loaders: ['raw-loader', 'sass-loader']
         }
-      ],
-
-      postLoaders: []
+      ]
     },
 
     plugins: [
@@ -74,14 +56,8 @@ module.exports = function(options) {
       }),
     ],
 
-    tslint: {
-      emitErrors: false,
-      failOnHint: false,
-      resourcePath: 'src'
-    },
-
     node: {
-      global: 'window',
+      global: true,
       process: false,
       crypto: 'empty',
       module: false,
