@@ -36,6 +36,7 @@ export class AddressFormComponent implements OnInit {
 
     this.parentForm.addControl(this.groupName, this.addressFormGroup);
 
+    // TODO: Remove this and do it in whatever parent form needs this and remove emitter.
     if (this.groupName === 'groupAddress') {
       this.addressHlpr.groupAddressFormFieldClearEmitter.subscribe(() => {
         this.parentForm.removeControl(this.groupName);
