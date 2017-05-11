@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
-import { SelectModule } from 'angular2-select';
+import { SelectModule } from 'ng-select';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { SiteAddressService } from '../../services/site-address.service';

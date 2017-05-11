@@ -31,6 +31,11 @@ import { MockComponent } from '../../../shared/mock.component';
 
 function fakenext(param: any) { return 1; }
 
+class MockRouter {
+    public url  = 'test';
+    navigateByUrl(url: string) { return url; }
+}
+
 describe('GatheringComponent', () => {
     let fixture: ComponentFixture<GatheringComponent>;
     let comp: GatheringComponent;
@@ -45,6 +50,7 @@ describe('GatheringComponent', () => {
     let mockContentService;
     let mockAddressService;
     let mockAngulartics2;
+    let mockRouter;
 
     beforeEach(() => {
         mockSessionService = { getContactId: jest.fn(), isLoggedIn: jest.fn() };
@@ -75,10 +81,7 @@ describe('GatheringComponent', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
-                {
-                    provide: Router,
-                    useValue: { routerState: { snapshot: { url: 'abc123' }}, navigate: jasmine.createSpy('navigate') },
-                },
+                { provide: Router, useValue: mockRouter },
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -190,7 +193,8 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
-        comp['router'].url = 'test';
+        let router =  comp['router'];
+        //router.url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -205,7 +209,8 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 406 }));
         comp.pin = pin;
-        comp['router'].url = 'test';
+        let router =  comp['router'];
+        //router.url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -220,7 +225,8 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 406 }));
         comp.pin = pin;
-        comp['router'].url = '/connect/gathering/1234';
+        let router =  comp['router'];
+        //router.url = '/connect/gathering/1234';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -237,7 +243,8 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         comp.pin = pin;
         mockPinService.requestToJoinGathering.mockReturnValue(Observable.throw({ status: 500 }));
-        comp['router'].url = 'test';
+        let router =  comp['router'];
+        //router.url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();

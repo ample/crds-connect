@@ -1,4 +1,4 @@
-import { Observable } from '@angular-cli/ast-tools/node_modules/rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 /* tslint:disable:no-unused-variable */
 
