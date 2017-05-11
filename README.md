@@ -20,7 +20,11 @@ Run the following commands for your environment. The build artifacts will be sto
 
 ## Running unit tests
 
-Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` to execute all unit tests via [Jest](https://facebook.github.io/jest/).
+
+Run `npm run test:watch` to execute tests in watch mode (useful for development)
+
+Run `npm run test:coverage` to execute tests and generate a test coverage report
 
 ## Parameters
 
