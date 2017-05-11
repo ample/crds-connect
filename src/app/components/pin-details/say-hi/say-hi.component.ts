@@ -53,7 +53,7 @@ export class SayHiComponent implements OnInit {
     this.session.getUserData().subscribe(
       ret => {
         this.user = ret;
-        if (this.session.getContactId() === this.pin.contactId) {
+        if (this.user.contactId === this.pin.contactId) {
           if (this.isGathering) {
             this.router.navigate(['/gathering/' + this.pin.gathering.groupId]);
           } else {

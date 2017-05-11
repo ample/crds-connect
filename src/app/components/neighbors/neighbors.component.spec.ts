@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import { MockTestData } from '../../shared/MockTestData';
 /* tslint:disable:no-unused-variable */
 
@@ -23,7 +23,7 @@ import { Pin, PinSearchResultsDto, MapView } from '../../models';
 import { MockComponent } from '../../shared/mock.component';
 import { AddressService } from '../../services/address.service';
 
-xdescribe('Component: Neighbors', () => {
+describe('Component: Neighbors', () => {
   let mockUserLocationService,
     mockPinService,
     mockGoogleMapService,
