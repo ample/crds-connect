@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -110,6 +111,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     BrowserModule,
+    BrowserAnimationsModule,
     ButtonsModule,
     CollapseModule,
     CommonModule,
