@@ -17,7 +17,6 @@ import { googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
 function PinLabelOverlay(bounds, map, labelData) {
-
     this.bounds_ = bounds;
     this.map_ = map;
     this.labelData_ = labelData;

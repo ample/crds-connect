@@ -10,6 +10,8 @@ import { DebugElement } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
+import { AddressService } from '../../services/address.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { LookupTable } from '../../models/lookup-table';
@@ -23,9 +25,10 @@ describe('AddressFormComponent', () => {
     let comp: AddressFormComponent;
     let el;
 
-    let mockPinService, mockStateService, mockFormBuilder, mockLocation;
+    let mockAddressService, mockPinService, mockStateService, mockFormBuilder, mockLocation;
 
     beforeEach(() => {
+        mockAddressService = jasmine.createSpyObj<PinService>('addressService', ['postPin']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
@@ -35,6 +38,7 @@ describe('AddressFormComponent', () => {
                 AddressFormComponent
             ],
             providers: [
+                { provide: AddressService, useValue: mockAddressService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: FormBuilder, useValue: mockFormBuilder },

@@ -14,9 +14,6 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].chunk.js'
   },
 
-  htmlLoader: {
-    minimize: false
-  },
 
   plugins: [
     new ExtractTextPlugin('[name].css')

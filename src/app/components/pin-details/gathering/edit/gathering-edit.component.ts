@@ -32,7 +32,7 @@ export class GatheringEditComponent implements OnInit {
                 private content: ContentService,
                 private pinService: PinService,
                 private router: Router) { }
-
+    // TODO: Refactor so that when we have pin data we don't go out and get it again. Still need to get it if navigated to directly. 
     ngOnInit() {
         this.state.setLoading(true);
 
@@ -95,6 +95,9 @@ export class GatheringEditComponent implements OnInit {
                 this.addressService.clearCache();
                 this.toastr.success(this.content.getContent('gatheringSavedSuccessfully'));
                 this.pin = pin;
+                this.state.navigatedFromAddToMapComponent = true;
+                this.state.postedPin = pin;
+                this.state.setLastSearch(null);
                 this.router.navigate(['/gathering', this.pin.gathering.groupId]);
             },
             (error) => {

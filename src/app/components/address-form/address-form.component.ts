@@ -1,7 +1,11 @@
-import { Angulartics2 } from 'angulartics2';
-import { Address } from '../../models/address';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
+import { Angulartics2 } from 'angulartics2';
+
+import { AddressService } from '../../services/address.service';
+import { Address } from '../../models/address';
+
 import { usStatesList } from '../../shared/constants';
 
 @Component({
@@ -17,7 +21,8 @@ export class AddressFormComponent implements OnInit {
   private formName: string;
   private stateList: Array<string>;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private addressHlpr: AddressService) { }
 
   ngOnInit() {
     this.stateList = usStatesList;
@@ -30,5 +35,13 @@ export class AddressFormComponent implements OnInit {
     });
 
     this.parentForm.addControl(this.groupName, this.addressFormGroup);
+
+    // TODO: Remove this and do it in whatever parent form needs this and remove emitter.
+    if (this.groupName === 'groupAddress') {
+      this.addressHlpr.groupAddressFormFieldClearEmitter.subscribe(() => {
+        this.parentForm.removeControl(this.groupName);
+      });
+    }
+
   }
 }

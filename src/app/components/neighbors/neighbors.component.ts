@@ -217,7 +217,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private ensureUpdatedPinAddressIsDisplayed() {
-
     let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
 
     if (wasPinAddressJustUpdated) {
