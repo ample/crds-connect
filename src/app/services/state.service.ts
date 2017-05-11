@@ -5,6 +5,8 @@ import { MapView } from '../models/map-view';
 import { Pin } from '../models/pin';
 import { SearchOptions } from '../models/search-options';
 
+// TODO: This class has a lot of flags. 
+// Investigate to see if they belong here and/or add some documentation. 
 @Injectable()
 export class StateService {
 
@@ -13,6 +15,7 @@ export class StateService {
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
   public navigatedBackFromAuthComponent: boolean = false;
+  // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
   public navigatedFromAddToMapComponent: boolean = false;
 
   public myStuffActive: boolean = false;
