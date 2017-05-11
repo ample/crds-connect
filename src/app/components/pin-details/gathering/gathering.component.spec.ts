@@ -1,7 +1,3 @@
-/*
- * Testing a simple Angular 2 component
- * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
- */
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { Angulartics2 } from 'angulartics2';
@@ -12,11 +8,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { GatheringComponent } from './gathering.component';
 
-import { Pin } from '../../../models/pin';
-import { Address } from '../../../models/address';
-import { Group } from '../../../models/group';
-import { Participant } from '../../../models/participant';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
+import { Pin, Address, Group, Participant, BlandPageCause, BlandPageDetails, BlandPageType } from '../../../models';
 
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
@@ -39,27 +31,22 @@ class MockAngulartic {
     eventTrack = new MockEventTrack();
 };
 
-class MockRouter {
-    public url  = 'test';
-    navigateByUrl(url: string) { return url; }
-}
+let fixture: ComponentFixture<GatheringComponent>;
+let comp: GatheringComponent;
+let el;
+let mockSessionService;
+let mockPinService;
+let mockLoginRedirectService;
+let mockBlandPageService;
+let mockStateService;
+let mockParticipantService;
+let mockToast;
+let mockContentService;
+let mockAddressService;
+let mockAngulartics2;
+let mockRouter;
 
-describe('GatheringComponent', () => {
-    let fixture: ComponentFixture<GatheringComponent>;
-    let comp: GatheringComponent;
-    let el;
-    let mockSessionService;
-    let mockPinService;
-    let mockLoginRedirectService;
-    let mockBlandPageService;
-    let mockStateService;
-    let mockParticipantService;
-    let mockToast;
-    let mockContentService;
-    let mockAddressService;
-    let mockAngulartics2;
-    let mockRouter;
-
+describe('Gathering component redirect error', () => {
     beforeEach(() => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
@@ -72,7 +59,10 @@ describe('GatheringComponent', () => {
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
         mockAngulartics2 = new MockAngulartic();
-        mockRouter = new MockRouter();
+        mockRouter = {
+            url: '/connect/gathering/1234', routerState:
+                { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
+        };
 
         TestBed.configureTestingModule({
             declarations: [
@@ -91,7 +81,87 @@ describe('GatheringComponent', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
-                { provide: Router, useValue: mockRouter },
+                {
+                    provide: Router,
+                    useValue: mockRouter
+                },
+            ],
+            schemas: [NO_ERRORS_SCHEMA]
+        });
+    });
+
+    beforeEach(async(() => {
+        TestBed.compileComponents().then(() => {
+            fixture = TestBed.createComponent(GatheringComponent);
+            comp = fixture.componentInstance;
+        });
+    }));
+
+    beforeEach(() => {
+        mockRouter = {
+            url: '/connect/gathering/1234', routerState:
+                { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
+        };
+    });
+
+    it('should not redirect if already on the gathering page while failing requesting to join', () => {
+        mockRouter = {
+            url: '/connect/gathering/1234', routerState:
+                { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
+        };
+        mockRouter.routerState.snapshot.url = 'connect/gathering/1234';
+        fixture = TestBed.createComponent(GatheringComponent);
+        comp = fixture.componentInstance;
+        comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
+        let pin = MockTestData.getAPin(1);
+        (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 406 }));
+        comp.pin = pin;
+
+        comp.requestToJoin();
+        expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockToast.warning).not.toHaveBeenCalled();
+        expect(mockLoginRedirectService.redirectToTarget).not.toHaveBeenCalled();
+    });
+});
+
+describe('GatheringComponent', () => {
+    beforeEach(() => {
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
+        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
+            ['redirectToLogin', 'redirectToTarget']);
+        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
+        mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
+        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
+        mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
+        mockAngulartics2 = new MockAngulartic();
+        mockRouter = { url: 'abc123', routerState: { snapshot: { url: 'abc123' } }, navigate: jasmine.createSpy('navigate') };
+
+        TestBed.configureTestingModule({
+            declarations: [
+                GatheringComponent,
+                MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] })
+            ],
+            imports: [],
+            providers: [
+                { provide: PinService, useValue: mockPinService },
+                { provide: SessionService, useValue: mockSessionService },
+                { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+                { provide: BlandPageService, useValue: mockBlandPageService },
+                { provide: StateService, useValue: mockStateService },
+                { provide: ParticipantService, useValue: mockParticipantService },
+                { provide: ToastsManager, useValue: mockToast },
+                { provide: AddressService, useValue: mockAddressService },
+                { provide: ContentService, useValue: mockContentService },
+                { provide: Angulartics2, useValue: mockAngulartics2 },
+                {
+                    provide: Router,
+                    useValue: mockRouter
+                },
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -167,7 +237,7 @@ describe('GatheringComponent', () => {
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);
     });
 
-    xit('should redirectToLogin while request(ing)ToJoin', () => {
+    it('should redirectToLogin while request(ing)ToJoin', () => {
         comp.isLoggedIn = false;
         mockSessionService.isLoggedIn.and.returnValue(false);
         comp.requestToJoin();
@@ -195,16 +265,15 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
     });
 
-    xit('should fail with 409 (conflict) while requesting to join', () => {
+    it('should fail with 409 (conflict) while requesting to join', () => {
         let expectedText = '<p>Looks like you have already requested to join this group.</p>';
         (<jasmine.Spy>mockContentService.getContent).and.returnValue(expectedText);
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.and.returnValue(true);
         let pin = MockTestData.getAPin(1);
+
         (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 409 }));
         comp.pin = pin;
-        let router =  comp['router'];
-        //router.url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -213,14 +282,12 @@ describe('GatheringComponent', () => {
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     });
 
-    xit('should do nothing with 406 (unacceptable) while requesting to join', () => {
+    it('should do nothing with 406 (unacceptable) while requesting to join', () => {
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.and.returnValue(true);
         let pin = MockTestData.getAPin(1);
         (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 406 }));
         comp.pin = pin;
-        let router =  comp['router'];
-        //router.url = 'test';
 
         comp.requestToJoin();
         expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -229,23 +296,7 @@ describe('GatheringComponent', () => {
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     });
 
-    xit('should not redirect if already on the gathering page while failing requesting to join', () => {
-        comp.isLoggedIn = true;
-        mockSessionService.isLoggedIn.and.returnValue(true);
-        let pin = MockTestData.getAPin(1);
-        (mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 406 }));
-        comp.pin = pin;
-        let router =  comp['router'];
-        //router.url = '/connect/gathering/1234';
-
-        comp.requestToJoin();
-        expect(mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
-        expect(mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
-        expect(mockToast.warning).not.toHaveBeenCalled();
-        expect(mockLoginRedirectService.redirectToTarget).not.toHaveBeenCalled();
-    });
-
-    xit('should fail with error while requesting to join', () => {
+    it('should fail with error while requesting to join', () => {
         let expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
         (<jasmine.Spy>mockContentService.getContent).and.returnValue(expectedText);
         comp.isLoggedIn = true;
@@ -253,8 +304,6 @@ describe('GatheringComponent', () => {
         let pin = MockTestData.getAPin(1);
         comp.pin = pin;
         (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.throw({ status: 500 }));
-        let router =  comp['router'];
-        //router.url = 'test';
 
         comp.requestToJoin();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -279,7 +328,7 @@ describe('GatheringComponent', () => {
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
     });
 
-    xit('should edit', () => {
+    it('should edit', () => {
         let pin = MockTestData.getAPin(1);
         comp['pin'] = pin;
         comp.edit();
