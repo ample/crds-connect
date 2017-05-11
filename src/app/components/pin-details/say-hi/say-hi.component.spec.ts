@@ -78,8 +78,9 @@ describe('SayHiComponent', () => {
     });
 
     it('should say hi to person', () => {
-        comp['loggedIn'] = true;
+        comp['isLoggedIn'] = true;
         comp['isGathering'] = false;
+        mockAngulartics2.eventTrack.next.mockReturnValue(true);
         let user = MockTestData.getAPin(1);
         let pin = MockTestData.getAPin(2);
         comp['user'] = user;
@@ -93,14 +94,14 @@ describe('SayHiComponent', () => {
         );
 
         mockPinService.sendHiEmail.mockReturnValue(Observable.of({}));
-        comp['doSayHi']();
+        comp.sayHi();
         expect(mockPinService.sendHiEmail).toHaveBeenCalledWith(user, pin);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledTimes(1);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
     });
 
     it('should say hi to gathering', () => {
-        comp['loggedIn'] = true;
+        comp['isLoggedIn'] = true;
         comp['isGathering'] = true;
         let user = MockTestData.getAPin(1);
         let pin = MockTestData.getAPin(2);
@@ -122,7 +123,7 @@ describe('SayHiComponent', () => {
     });
 
     it('say hi to person should error gracefully', () => {
-        comp['loggedIn'] = true;
+        comp['isLoggedIn'] = true;
         comp['isGathering'] = false;
         let user = MockTestData.getAPin(1);
         let pin = MockTestData.getAPin(2);
@@ -144,7 +145,7 @@ describe('SayHiComponent', () => {
     });
 
     it('say hi to gathering should error gracefully', () => {
-        comp['loggedIn'] = true;
+        comp['isLoggedIn'] = true;
         comp['isGathering'] = true;
         let user = MockTestData.getAPin(1);
         let pin = MockTestData.getAPin(2);
