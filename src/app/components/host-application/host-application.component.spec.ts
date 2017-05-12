@@ -24,7 +24,7 @@ import { BlandPageService } from '../../services/bland-page.service';
 
 import { HostApplicationComponent } from './host-application.component';
 
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule } from 'ngx-bootstrap';
 
 describe('Component: Host Application', () => {
 

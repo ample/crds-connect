@@ -32,7 +32,7 @@ export class GatheringEditComponent implements OnInit {
                 private content: ContentService,
                 private pinService: PinService,
                 private router: Router) { }
-
+    // TODO: Refactor so that when we have pin data we don't go out and get it again. Still need to get it if navigated to directly. 
     ngOnInit() {
         this.state.setLoading(true);
 

@@ -8,9 +8,12 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class SearchService {
 
-  // These should probably both be observables (Subscriptions) and not event emitters. 
+  // These should probably both be Subject observables and not event emitters. 
   // See https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service
   public doLocalSearchEmitter: EventEmitter<MapView>;
+
+  // TODO: Replace with Subject
+  // See https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service
   public mySearchResultsEmitter: Subject<PinSearchResultsDto> = new Subject<PinSearchResultsDto>();
 
   constructor() {

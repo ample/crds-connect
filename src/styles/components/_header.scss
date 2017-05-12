@@ -1,0 +1,52 @@
+.app-header {
+  position: relative;
+  z-index: 5;
+
+  .brand-bar {
+    position: relative;
+    height: 40px;
+    overflow: hidden;
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+  }
+
+  .app-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 11.5px;
+    line-height: 1;
+    color: $cr-white;
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    svg {
+      width: 75px;
+      height: 15px;
+      padding: 0;
+    }
+  }
+
+  .page-title {
+    text-align: center;
+    padding: 1rem;
+    background-color: darken(desaturate($cr-blue-dark, 5), 5);
+
+    * {
+      color: $cr-white;
+    }
+
+    a {
+      margin-top: 0.25rem;
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 auto;
+      line-height: 1;
+      font-size: 1.5rem;
+    }
+  }
+}

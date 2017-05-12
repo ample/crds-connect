@@ -40,6 +40,7 @@ export class LoginRedirectService {
 
   public cancelRedirect(): void {
     // Crossroads classic sometimes adds /?resolve=true to the url. Ignore it for this. 
+    // TODO: Hopefully maestro can remove the /?resolve=true for us. If not is there a better way?
     if (this.origin && this.origin !== '/?resolve=true') {
       this.redirectFunction = null;
       this.router.navigate([this.origin]);

@@ -174,6 +174,7 @@ export class SessionService extends SmartCacheableService<User, number> {
     return this.hasToken();
   }
 
+  // TODO: Consolidate logout and clearTokens methods. 
   public logOut(): void {
     this.clearTokens();
     return;
@@ -205,6 +206,8 @@ export class SessionService extends SmartCacheableService<User, number> {
     }
   }
 
+  // TODO: Decide if this should be the profile call or not. Some benefits to still use are
+  // faster, relevent connec data etc. 
   public getDetailedUserData(): Observable<any> {
     let contactId = this.getContactId();
 
