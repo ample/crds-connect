@@ -3,14 +3,14 @@
   "version": "2.0.0",
   "scripts": {
     "serve": "npm run start",
-    "start": "rimraf node_modules/@types/jasmine && webpack-dev-server --inline --open --progress --port 8080",
+    "start": "webpack-dev-server --inline --open --progress --port 8080",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "build-dev": "rimraf node_modules/@types/jasmine && rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail",
-    "build-int": "rimraf node_modules/@types/jasmine && rimraf dist && webpack --config config/webpack.int.js --progress --profile --bail",
-    "build": "rimraf node_modules/@types/jasmine && rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "build:prod": "rimraf node_modules/@types/jasmine && del-cli dist && ngc -p tsconfig-aot.json && ngc -p tsconfig-aot.json && webpack --config config/webpack.aot.prod.js --progress --profile --bail && del-cli 'src/app/**/*.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.js.map' 'src/app/**/*.shim.ts' 'src/app/**/*.ngsummary.json' 'src/app/**/*.ngstyle.ts' 'dist/app'"
+    "build-dev": "rimraf dist && webpack --config config/webpack.dev.js --progress --profile --bail",
+    "build-int": "rimraf dist && webpack --config config/webpack.int.js --progress --profile --bail",
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "build:prod": "del-cli dist && ngc -p tsconfig-aot.json && ngc -p tsconfig-aot.json && webpack --config config/webpack.aot.prod.js --progress --profile --bail && del-cli 'src/app/**/*.js' 'src/app/**/*.ngfactory.ts' 'src/app/**/*.js.map' 'src/app/**/*.shim.ts' 'src/app/**/*.ngsummary.json' 'src/app/**/*.ngstyle.ts' 'dist/app'"
   },
   "licenses": [
     {
@@ -76,7 +76,6 @@
     "node-sass": "3.10.1",
     "null-loader": "0.1.1",
     "open": "0.0.5",
-    "protractor": "4.0.10",
     "raw-loader": "0.5.1",
     "rimraf": "2.5.4",
     "sass-loader": "4.0.2",
