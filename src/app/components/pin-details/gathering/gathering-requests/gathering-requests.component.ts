@@ -31,15 +31,17 @@ export class GatheringRequestsComponent implements OnInit {
   public ngOnInit() {
     this.state.setLoading(true);
     this.groupService.getGroupRequests(this.pin.gathering.groupId)
+      .finally(() => {
+        this.state.setLoading(false);
+      })
       .subscribe(inquiryList => {
         this.inquiries = inquiryList.filter((inquiry) => {
           return inquiry.placed == null;
         });
-        this.state.setLoading(false);
       },
       (error) => {
         this.errorRetrieving = true;
-        this.state.setLoading(false);
+        console.log(error);
       });
   }
 

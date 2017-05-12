@@ -22,6 +22,7 @@ describe('PersonComponent', () => {
     let fixture: ComponentFixture<PersonComponent>;
     let comp: PersonComponent;
     let el;
+    let pin;
 
     let mockContentService, mockToast, mockStateService, mockAddressService, mockRouter;
 
@@ -51,7 +52,8 @@ describe('PersonComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(PersonComponent);
             comp = fixture.componentInstance;
-            comp['pin'] = MockTestData.getAPin(1);
+            pin = MockTestData.getAPin(1);
+            comp['pin'] = pin;
             // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
@@ -90,5 +92,11 @@ describe('PersonComponent', () => {
 
         comp.ngOnInit();
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);
+    });
+
+    it('should route to edit', () => {
+        comp.edit();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/person', pin.participantId, 'edit']);
+        expect(mockRouter.navigate).toHaveBeenCalledTimes(1);
     });
 });

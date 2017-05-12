@@ -71,6 +71,13 @@ describe('GatheringRequestsComponent', () => {
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });
 
+    it('should set errorRetrieving on getGroupRequests error', () => {
+        mockGroupService.getGroupRequests.mockReturnValue(Observable.throw({}));
+        comp.ngOnInit();
+        expect(comp['errorRetrieving']).toBeTruthy();
+        expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
+    });
+
     it('should convert inquiry to participant', () => {
         let inquiry = new Inquiry(1, 'theemail@email.com', null, 'Joe', 'Ker', new Date(2002), false, 42, 1, null);
         let participant = comp.convertToParticipant(inquiry);
@@ -129,5 +136,11 @@ describe('GatheringRequestsComponent', () => {
         expect(inquiry.error).toBeTruthy();
         expect(mockBlandPageService.primeAndGo).not.toHaveBeenCalled();
         expect(mockBlandPageService.goToDefaultError).not.toHaveBeenCalled();
+    });
+
+    it('should return inquiries', () => {
+        let inquiries = [MockTestData.getAnInquiry(1), MockTestData.getAnInquiry(2)];
+        comp['inquiries'] = inquiries;
+        expect(comp.getInquiries()).toBe(inquiries);
     });
 });

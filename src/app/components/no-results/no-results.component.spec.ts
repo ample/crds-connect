@@ -4,8 +4,6 @@ import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ContentBlockModule } from 'crds-ng2-content-block';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { StateService } from '../../services/state.service';
 import { NoResultsComponent } from './no-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -49,6 +47,24 @@ describe('Component: NoResults', () => {
   it('should navigate to add me to map on button click', () => {
       this.component.btnClickAddToMap();
       expect(this.component.router.navigateByUrl).toHaveBeenCalledWith('/add-me-to-the-map');
+  });
+
+  it('should init()', () => {
+    this.component.ngOnInit();
+    expect(mockStateService.setPageHeader).toHaveBeenCalledWith('No Results', '/');
+    expect(this.component['groupUrl']).toBe('//int.crossroads.net/groups/search');
+  });
+
+  it('should navigate to become a host', () => {
+    this.component.btnClickBecomeHost();
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/host-signup');
+  });
+
+  it('should open a new window for groups', () => {
+    jest.spyOn(window, 'open').mockReturnValue(true);
+    this.component.groupUrl = 'abc123';
+    this.component.btnClickFindOnlineGroup();
+    expect(window.open).toHaveBeenCalledWith(this.component.groupUrl);
   });
 
 });

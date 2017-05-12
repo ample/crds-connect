@@ -219,4 +219,21 @@ describe('SayHiComponent', () => {
         expect(mockRouter.navigate).toHaveBeenCalledTimes(1);
         expect(mockSessionService.getUserData).toHaveBeenCalledTimes(1);
     });
+
+    it('getUserDetailsThenSayHi should error gracefully', () => {
+        let pin = MockTestData.getAPin(1);
+        comp['pin'] = pin;
+        mockSessionService.getUserData.mockReturnValue(Observable.throw({}));
+        comp['getUserDetailsThenSayHi']();
+        let expectedBpd = new BlandPageDetails(
+            'Return to details page',
+            '<h1 class="title">Sorry!</h1><p>We are unable to send your email at this time.</p>',
+            BlandPageType.Text,
+            BlandPageCause.Error,
+            `/person/${pin.participantId}`
+        );
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledTimes(1);
+        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
+        expect(mockPinService.sendHiEmail).not.toHaveBeenCalled();
+    });
 });

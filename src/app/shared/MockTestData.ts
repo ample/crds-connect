@@ -1,9 +1,5 @@
-import { Pin } from '../models/pin';
-import { Address } from '../models/address';
-import { Group } from '../models/group';
-import { Participant } from '../models/participant';
-import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { GeoCoordinates } from '../models/geo-coordinates';
+import { Pin, Address, Group, Participant, PinSearchResultsDto, GeoCoordinates, Inquiry } from '../models';
+
 export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
@@ -113,6 +109,21 @@ export class MockTestData {
             23,
             this.getAParticipantsArray(numParticipantsInGathering),
             30
+        );
+    }
+
+    public static getAnInquiry(designator: number = 1) {
+        return  new Inquiry(
+            designator,
+            `email${designator}@address.com`,
+            '123-123-1234',
+            `firstName${designator}`,
+            `lastName${designator}`,
+            new Date(2016, 5),
+            false,
+            designator,
+            designator,
+            ''
         );
     }
 

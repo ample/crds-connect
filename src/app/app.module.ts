@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
+// TODO: Pull this out into it's own file.
 export class CustomOptions extends ToastOptions {
   animate = 'fade';
   dismiss = 'auto';
