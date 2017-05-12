@@ -8,7 +8,10 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-  entry: './src/main.ts',
+  entry: {
+    app: './src/main.ts',
+    vendors: './src/vendor.ts'
+  },
   devtool: 'source-map',
 
   output: {

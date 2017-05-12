@@ -35,7 +35,7 @@ export class SayHiComponent implements OnInit {
     private blandPageService: BlandPageService,
     private angulartics2: Angulartics2) { }
 
-
+  // TODO: Rename methods?
   ngOnInit() {
     this.getUserDetailsThenSayHi = this.getUserDetailsThenSayHi.bind(this);
   }
