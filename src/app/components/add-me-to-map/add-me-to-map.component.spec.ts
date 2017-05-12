@@ -119,7 +119,6 @@ describe('Component: Add Me to the Map', () => {
           '',
           ''
         );
-        console.log(mockPinService);
         mockPinService.postPin.mockReturnValueOnce(Observable.of(pin));
         this.component.onSubmit(this.component.addressFormGroup);
         expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
