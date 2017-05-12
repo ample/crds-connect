@@ -1,98 +1,104 @@
-@import '~crds-styles/assets/stylesheets/bootstrap';
-@import 'components/modules';
-@import 'pages/modules';
+#crds-connect {
+  @import '~crds-styles/assets/stylesheets/bootstrap';
+  @import 'components/modules';
+  @import 'pages/modules';
 
-body {
-  -webkit-font-smoothing: initial;
-}
+  font-size: $base-font-size;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 
-#toast-container {
-  z-index: 10;
-}
+  body {
+    -webkit-font-smoothing: initial;
+  }
 
-[hidden] { display: none !important;}
+  #toast-container {
+    z-index: 10;
+  }
 
-app-preloader {
-  display: none;
-  .loading & {
+  [hidden] { display: none !important;}
+
+  app-preloader {
+    display: none;
+    .loading & {
+      display: block;
+    }
+  }
+
+  .outlet-wrapper {
+    display: block;
+    .loading & {
+      display: none;
+    }
+  }
+
+  app-neighbors {
     display: block;
   }
-}
 
-.outlet-wrapper {
-  display: block;
-  .loading & {
-    display: none;
+  // Centers blocks to the middle of the screen.
+  .content-middle {
+    @include container-fixed();
+    max-width: $container-tablet;
+    width: 100%;
   }
-}
 
-app-neighbors {
-  display: block;
-}
+  // 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
+  .btn.btn-primary.active {
+    background: darken($btn-primary-bg, 20);
+  }
 
-// Centers blocks to the middle of the screen.
-.content-middle {
-  @include container-fixed();
-  max-width: $container-tablet;
-  width: 100%;
-}
+  // Single Toggle Button
+  .btn-toggle {
+    $btn-toggle-styles: (
+      primary: (bg: $btn-primary-bg, bc: $btn-primary-border),
+      secondary: (bg: $btn-secondary-bg, bc: $btn-secondary-border),
+      gray: (bg: $btn-gray-bg, bc: $btn-gray-border),
+      option: (bg: $btn-option-bg, bc: $btn-option-border),
+      default: (bg: $btn-default-bg, bc: $btn-default-border)
+    );
 
-// 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
-.btn.btn-primary.active {
-  background: darken($btn-primary-bg, 20);
-}
-
-// Single Toggle Button
-.btn-toggle {
-  $btn-toggle-styles: (
-    primary: (bg: $btn-primary-bg, bc: $btn-primary-border),
-    secondary: (bg: $btn-secondary-bg, bc: $btn-secondary-border),
-    gray: (bg: $btn-gray-bg, bc: $btn-gray-border),
-    option: (bg: $btn-option-bg, bc: $btn-option-border),
-    default: (bg: $btn-default-bg, bc: $btn-default-border)
-  );
-
-  @each $style, $map in $btn-toggle-styles {
-    &.btn-#{$style} {
-      &,
-      &:active,
-      &:active:focus,
-      &:focus,
-      &:hover {
-        background: map-get($map, bg);
-        border-color: map-get($map, bc);
-        box-shadow: none;
+    @each $style, $map in $btn-toggle-styles {
+      &.btn-#{$style} {
+        &,
+        &:active,
+        &:active:focus,
+        &:focus,
+        &:hover {
+          background: map-get($map, bg);
+          border-color: map-get($map, bc);
+          box-shadow: none;
+        }
       }
     }
   }
-}
 
-.connect-bg {
-  background: $cr-gray-lighter;
-  margin-bottom: -40px; // Removes white space between footer & content.
-}
+  .connect-bg {
+    background: $cr-gray-lighter;
+    margin-bottom: -40px; // Removes white space between footer & content.
+  }
 
-.connect-container {
-  background: $cr-white;
-  min-height: 381px;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  .connect-container {
+    background: $cr-white;
+    min-height: 381px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 
-  @for $idx from 5 to 30 {
-    $height: $idx * 100;
-    @media screen and ( min-height: #{$height}px ){
-      min-height: #{$height - 19}px;
+    @for $idx from 5 to 30 {
+      $height: $idx * 100;
+      @media screen and ( min-height: #{$height}px ){
+        min-height: #{$height - 19}px;
+      }
     }
-  }
 
-  @media (min-width: $screen-sm) {
-    box-shadow: 0 0 10px 0 $cr-gray-light;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    width: $container-tablet;
-  }
+    @media (min-width: $screen-sm) {
+      box-shadow: 0 0 10px 0 $cr-gray-light;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      width: $container-tablet;
+    }
 
-  &.dark-theme {
-    background: $cr-black;
+    &.dark-theme {
+      background: $cr-black;
+    }
   }
 }
