@@ -1,6 +1,11 @@
 .fauxdal-open {
-  @extend .modal-open;
+  overflow: hidden;
   position: fixed;
+
+  .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .fauxdal-wrapper {
