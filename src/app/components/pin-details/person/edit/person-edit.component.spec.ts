@@ -38,7 +38,8 @@ describe('PersonEditComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setCurrentView', 'getCurrentView']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setCurrentView',
+                                                              'getCurrentView', 'setLastSearch']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress', 'clearCache']);
