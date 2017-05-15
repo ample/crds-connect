@@ -9,7 +9,8 @@ import { MapView } from '../models/map-view';
 
 @Injectable()
 export class GoogleMapService {
-
+  // TODO: Should these be subjects?
+  // See https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service 
   public mapUpdatedEmitter: EventEmitter<GeoCoordinates>;
   public mapClearEmitter: EventEmitter<void>;
   public dataForDrawingEmitter: EventEmitter<any>;

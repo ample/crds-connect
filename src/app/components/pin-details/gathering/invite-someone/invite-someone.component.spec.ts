@@ -80,7 +80,7 @@ describe('InviteSomeoneComponent', () => {
         let param = { value: someone, valid: isValid };
         let blandPageDetails = new BlandPageDetails(
             'Return to my pin',
-            '<h1 class="title text-lowercase">Invitation Sent</h1>' +
+            '<h1 class="title">Invitation Sent</h1>' +
             // tslint:disable-next-line:max-line-length
             `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
             BlandPageType.Text,

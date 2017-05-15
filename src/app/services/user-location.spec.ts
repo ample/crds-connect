@@ -16,7 +16,7 @@ import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule } from 'ngx-bootstrap';
 import { LocationService } from '../services/location.service';
 import { PinService}  from '../services/pin.service';
 import { BlandPageService } from './bland-page.service';
