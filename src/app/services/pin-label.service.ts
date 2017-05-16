@@ -76,6 +76,16 @@ export class PinLabelService {
     return pin.pinType === pinType.GATHERING;
   }
 
+// TODO - move to session service or state service -- needs to pass in the MyStuffList of pins, not just search results pins
+  public isLeadingAny(pins: Array<Pin>): boolean {
+    for (let pin of pins) {
+      if (this.isHost(pin)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public isMe(pin: Pin): boolean {
     let isPinASite: boolean = pin.pinType === pinType.SITE;
     let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
