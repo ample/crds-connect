@@ -255,6 +255,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((err) => Observable.throw(err.json().error));
   }
 
+  public removePersonPin(participantId: number) {
+    let removePersonPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin/removeFromMap';
+    super.clearCache();
+    
+    return this.session.post(removePersonPinUrl, participantId);
+
+  } 
+
   public doesLoggedInUserOwnPin(pin: Pin) {
     let contactId = this.session.getContactId();
     return contactId === pin.contactId;
