@@ -39,8 +39,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private searchService: SearchService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+      // TODO determine finder flag Connect = 1 and Group Tool = 2
+      // let finderType = 'CONNECT';
+      let finderType = 'SMALL_GROUPS';
       this.state.setUseZoom(mapView.zoom);
-      this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
+      this.doSearch('searchLocal', finderType, mapView.lat, mapView.lng, mapView.zoom);
     });
 
     this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
@@ -57,6 +60,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     let haveResults = !!this.pinSearchResults;
 
+    // TODO determine finder flag Connect = 1 and Group Tool = 2
+    // let finderType = 'CONNECT';
+    let finderType = 'SMALL_GROUPS';
+
     if (!haveResults) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
@@ -67,7 +74,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           this.state.setMyViewOrWorldView('world');
           this.runFreshSearch();
         } else {
-          this.doSearch(lastSearch.search, lastSearch.coords.lat, lastSearch.coords.lng);
+          this.doSearch(lastSearch.search, finderType, lastSearch.coords.lat, lastSearch.coords.lng);
         }
       } else {
         this.runFreshSearch();
@@ -78,10 +85,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   runFreshSearch() {
+    // TODO determine finder flag Connect = 1 and Group Tool = 2
+    // let finderType = 'CONNECT';
+    let finderType = 'SMALL_GROUPS';
+
     this.userLocationService.GetUserLocation().subscribe (
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-        this.doSearch('useLatLng', pos.lat, pos.lng );
+        this.doSearch('useLatLng', finderType, pos.lat, pos.lng );
       }
     );
   }
@@ -170,9 +181,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  doSearch(searchString: string,  lat?: number, lng?: number, zoom?: number) {
+// TODO determine finder flag Connect = 1 and Group Tool = 2
+  doSearch(searchString: string,  finderType: string, lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinSearchResults(searchString, lat, lng, zoom).subscribe(
+    this.pinService.getPinSearchResults(searchString, finderType, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.processAndDisplaySearchResults(searchString, lat, lng);

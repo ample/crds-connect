@@ -58,7 +58,10 @@ export class MapFooterComponent {
   }
 
   doSearch(lat: number, lng: number) {
-    this.pin.getPinSearchResults('', lat, lng).subscribe(
+// TODO determine finder flag Connect = 1 and Group Tool = 2    
+    // let finderType = 'CONNECT';
+    let finderType = 'SMALL_GROUPS';
+    this.pin.getPinSearchResults('', finderType, lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;
         this.myPinSearchResults.pinSearchResults =

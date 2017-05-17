@@ -98,7 +98,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       });
   }
 
-  public getPinSearchResults(userSearchAddress: string, lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
+
+// TODO determine finder flag Connect = 1 and Group Tool = 2
+  public getPinSearchResults(userSearchAddress: string, finderType: string
+                            , lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
     let contactId = this.session.getContactId();
     let searchOptions: SearchOptions;
 
@@ -107,7 +110,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
       } else {
-        return this.getPinSearchResultsWorld(searchOptions, contactId, userSearchAddress, lat, lng, zoom);
+        return this.getPinSearchResultsWorld(searchOptions, finderType, contactId, userSearchAddress, lat, lng, zoom);
       }
     } else {  // getMyViewOrWorldView = 'my'
       searchOptions = new SearchOptions('myView', lat, lng);
@@ -120,16 +123,17 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private getPinSearchResultsWorld(searchOptions: SearchOptions
+    , finderType: string
     , contactId: number
     , userSearchAddress: string
     , lat?: number
     , lng?: number
     , zoom?: number): Observable<PinSearchResultsDto> {
     let searchUrl: string = lat && lng ?
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType
       + '/' + lat.toString().split('.').join('$') + '/'
       + lng.toString().split('.').join('$') :
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType;
     // if we have a cache AND that cache came from a full search and
     // not just an insert from visiting a detail page off the bat, use that cache
     if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
@@ -149,7 +153,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
           };
           // get extra pins for moving around without new query
           let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom - 1);
-          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType
             + '/' + lat.toString().split('.').join('$')
             + '/' + lng.toString().split('.').join('$')
             + '/' + ('' + geobounds['north']).split('.').join('$')
@@ -157,12 +161,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
             + '/' + ('' + geobounds['south']).split('.').join('$')
             + '/' + ('' + geobounds['east']).split('.').join('$');
         } else {
-          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress
+          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType
             + '/' + lat.toString().split('.').join('$')
             + '/' + lng.toString().split('.').join('$');
         }
       } else {
-        searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress;
+        searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType;
       }
 
       return this.session.get(this.baseUrl + searchUrlZoom)

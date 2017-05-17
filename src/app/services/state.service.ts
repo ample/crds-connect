@@ -10,6 +10,7 @@ import { SearchOptions } from '../models/search-options';
 @Injectable()
 export class StateService {
 
+  public activeApp: string = 'FINDER';
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
