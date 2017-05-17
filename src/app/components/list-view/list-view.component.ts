@@ -30,7 +30,13 @@ export class ListViewComponent implements OnInit {
     if (this.searchResults == null) {
       return new Array<Pin>();
     }
-    return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
+
+    if(this.stateService.activeApp){
+      return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
+    } else {
+      return this.searchResults.pinSearchResults;
+    }
+
   }
 
   public pinsToShowCountings() {

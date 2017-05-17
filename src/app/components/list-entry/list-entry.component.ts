@@ -17,6 +17,7 @@ export class ListEntryComponent {
   @Input() siteName: string = '';
   @Input() type: number;
   @Input() proximity: number = 0;
+  @Input() groupTitle: string = '';
   @Input() description: string = '';
   @Input() groupId: number = 0;
   @Input() address: Address = null;
@@ -42,7 +43,11 @@ export class ListEntryComponent {
   }
 
   public name() {
-    return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
+    if(this.isSmallGroup()){
+      return this.groupTitle ? this.groupTitle.toUpperCase() : '';
+    } else {
+      return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
+    }
   }
 
   public isPerson() {
@@ -55,6 +60,10 @@ export class ListEntryComponent {
 
   public isSite() {
     return this.type === pinType.SITE;
+  }
+
+  public isSmallGroup() {
+    return this.type === pinType.SMALL_GROUP;
   }
 
   public getPicByPinType() {
@@ -99,7 +108,11 @@ export class ListEntryComponent {
   }
 
   public roundedProximity() {
-    return this.proximity.toFixed(1);
+    if(this.isSmallGroup()){
+      return 1;
+    } else {
+      return this.proximity.toFixed(1)
+    };
   }
 
 }
