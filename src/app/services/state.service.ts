@@ -13,7 +13,7 @@ import { App, AppRoute, appRoute, app} from '../shared/constants';
 export class StateService {
 
   public activeApp: string = app.CONNECT;
-  public appForWhichWeRanLastSearch: string = app.CONNECT;
+  public appForWhichWeRanLastSearch: string = undefined;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };

@@ -58,9 +58,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.state.setActiveApp(this.router.url);
 
-    let haveResults = !!this.pinSearchResults;
+    let haveResults: boolean = !!this.pinSearchResults;
+    let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;
+    let areSearchResultsDated: boolean = !haveResults || !areResultsValid;
 
-    if (!haveResults) {
+    if ( areSearchResultsDated ) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
@@ -147,6 +149,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.processAndDisplaySearchResults(searchString, lat, lng);
+        this.state.appForWhichWeRanLastSearch = this.state.activeApp;
       },
       error => {
         console.log(error);
