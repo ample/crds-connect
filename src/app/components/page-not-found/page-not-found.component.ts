@@ -8,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class PageNotFoundComponent implements OnInit {
 
   constructor() { }
-
+  /* TODO: Remove this component. It is not used and is only here so the routes file is happy. 
+     The not found guard routes things back to maestro.
+  */
   ngOnInit() {
   }
 

@@ -37,7 +37,7 @@ describe('GatheringEditComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setLastSearch']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['updateGathering']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress', 'clearCache']);
@@ -145,6 +145,7 @@ describe('GatheringEditComponent', () => {
         expect(mockToastr.success).toHaveBeenCalledWith(expectedToast);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId]);
         expect(mockAddressService.clearCache).toHaveBeenCalled();
+        expect(mockStateService.setLastSearch).toHaveBeenCalledWith(null);
         expect(comp['submitting']).toBe(false);
     });
 

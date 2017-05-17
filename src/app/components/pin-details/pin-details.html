@@ -1,4 +1,4 @@
-<div [class.is-gathering]="isGatheringPin">
+<div class="connect-container container" [class.is-gathering]="isGatheringPin">
   <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
   <person *ngIf="!isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
 </div>

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -19,13 +20,13 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
 import { PreloaderModule } from './preloader/preloader.module';
-import { SelectModule } from 'angular2-select';
+import { SelectModule } from 'ng-select';
 
 import { HeaderComponent } from './layout/header/header.component';
 
@@ -110,6 +111,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     BrowserModule,
+    BrowserAnimationsModule,
     ButtonsModule,
     CollapseModule,
     CommonModule,
@@ -117,6 +119,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     HttpModule,
     PreloaderModule,
     ReactiveFormsModule,
+    FormsModule,
     SelectModule,
     ToastModule.forRoot(),
     routing,

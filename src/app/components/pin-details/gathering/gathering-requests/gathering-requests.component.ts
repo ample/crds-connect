@@ -57,9 +57,9 @@ export class GatheringRequestsComponent implements OnInit {
         let templateText;
         let bpd;
         if (approve) {
-          templateText = '<h1 class="title text-lowercase">Request accepted</h1>';
+          templateText = '<h1 class="title">Request accepted</h1>';
         } else {
-          templateText = '<h1 class="title text-lowercase">Request Denied</h1>';
+          templateText = '<h1 class="title">Request Denied</h1>';
         }
         // tslint:disable-next-line:max-line-length
         templateText += `<p>${inquiry.firstName} ${inquiry.lastName.slice(0, 1)}. has been notified.</p>`;

@@ -36,7 +36,7 @@ export class SayHiComponent implements OnInit {
     private blandPageService: BlandPageService,
     private angulartics2: Angulartics2) { }
 
-
+  // TODO: Rename methods?
   ngOnInit() {
     this.getUserDetailsThenSayHi = this.getUserDetailsThenSayHi.bind(this);
   }
@@ -72,7 +72,7 @@ export class SayHiComponent implements OnInit {
 
   private doSayHi() {
     // tslint:disable-next-line:max-line-length
-    let templateText =  `<h1 class="title text-lowercase">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
+    let templateText =  `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
     let notificationText = (this.isGathering) ? `<p>${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</p>`
                                               : `<p>You just said hi to ${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}.</p>`;
     let bpd = new BlandPageDetails(
@@ -95,7 +95,7 @@ export class SayHiComponent implements OnInit {
   handleError() {
     let bpd = new BlandPageDetails();
     bpd.blandPageCause = BlandPageCause.Error;
-    bpd.content = '<h1 class="title text-lowercase">Sorry!</h1><p>We are unable to send your email at this time.</p>';
+    bpd.content = '<h1 class="title">Sorry!</h1><p>We are unable to send your email at this time.</p>';
     bpd.goToState = this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId;
     bpd.buttonText = 'Return to details page';
     this.blandPageService.primeAndGo(bpd);

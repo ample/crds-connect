@@ -60,6 +60,18 @@ export const googleMapStyles: Array<any> = [
     ]
   },
   {
+    'featureType': 'administrative.province',
+    'elementType': 'geometry.stroke',
+    'stylers': [
+      {
+        'color': '#979797'
+      },
+      {
+        'weight': 1
+      }
+    ]
+  },
+  {
     'featureType': 'poi',
     'elementType': 'geometry',
     'stylers': [

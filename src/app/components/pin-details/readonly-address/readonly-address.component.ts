@@ -16,7 +16,7 @@ export class ReadonlyAddressComponent implements OnInit {
 
   public distString = '';
   public showFullAddress: boolean = false;
-
+  // TODO: Move this component up one level
   public ngOnInit() {
     if ((this.isGathering && this.isInGathering) || (this.isPinOwner)) {
       this.showFullAddress = true;

@@ -4,7 +4,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper }  from 'angular2-google-maps/core';
 import { MapComponent } from '../components/map/map.component';
 import { MapContentComponent } from '../components/map-content/map-content.component';
 import { MapFooterComponent } from '../components/map-footer/map-footer.component';
@@ -27,7 +27,7 @@ import { PinLabelService } from '../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule } from 'ngx-bootstrap';
 import { LocationService } from './/location.service';
 import { PinService}  from './/pin.service';
 import { UserLocationService } from './/user-location.service';

@@ -60,7 +60,6 @@ export class MapComponent implements OnInit {
     }
   }
 
-
   private displayDetails(pin: Pin) {
     this.state.setCurrentView('map');
     // Both Person Pin and Gathering Pin navigate to pin-details
