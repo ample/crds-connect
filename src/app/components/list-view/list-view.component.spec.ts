@@ -14,6 +14,7 @@ import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BlandPageService } from '../../services/bland-page.service';
+import { PinLabelService } from '../../services/pin-label.service';
 import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: List View', () => {
@@ -22,7 +23,8 @@ describe('Component: List View', () => {
     mockCookieService,
     mockNeighborsHelperService,
     mockBlandPageService,
-    mockSessionService;
+    mockSessionService,
+    mockPinLabelService;
 
   beforeEach(() => {
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
@@ -30,6 +32,7 @@ describe('Component: List View', () => {
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
+    mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -48,7 +51,8 @@ describe('Component: List View', () => {
         { provide: ListHelperService, useValue: mockListHelperService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: BlandPageService, useValue: mockBlandPageService },
-        { provide: SessionService, useValue: mockSessionService }
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: PinLabelService, useValue: mockPinLabelService }
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);
@@ -69,5 +73,5 @@ describe('Component: List View', () => {
       expect(this.component.showing_increment).toEqual(10);
     });
   });
- 
+
 });

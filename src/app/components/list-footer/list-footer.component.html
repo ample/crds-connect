@@ -7,8 +7,8 @@
             (click)="addMeToTheMapClicked()">Add me to map</button>
   </div>
 
-  <!-- NOT a host -->
-  <div *ngIf="!pinLabelService.isLeadingAny(pins)"
+  <!-- NOT a host / not logged in  -->
+  <div *ngIf="!pinLabelService.isHostingAny(pins)"
         class="bg-gray">
     <crds-content-block id="finderWantToHost"></crds-content-block>
     <div class="btn-group">

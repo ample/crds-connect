@@ -52,13 +52,4 @@ export class ListFooterComponent implements OnInit, OnChanges {
     this.blandPageService.goToWhatsAHost();
   }
 
-// TODO - need to pull this to a higher level service - make sure the parameter is myStuffPins - not just results pins
-// should the basic list view footer behave the same way as the MY Stuff list view footer?? 
-  private isLeadingAny(myStuffPins: Array<Pin>): boolean {
-    if (this.state.getMyViewOrWorldView() === 'my') {
-      return this.pinLabelService.isLeadingAny(myStuffPins);
-    }
-    return false;
-  }
 }
-

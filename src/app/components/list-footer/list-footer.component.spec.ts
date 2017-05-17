@@ -9,18 +9,20 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { PinLabelService } from '../../services/pin-label.service';
 
 describe('ListFooterComponent', () => {
     let fixture: ComponentFixture<ListFooterComponent>;
     let comp: ListFooterComponent;
     let el;
-    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService;
+    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService, mockPinLabelService;
 
     beforeEach(() => {
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView', 'getCurrentView']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView', 'getCurrentView', ]);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToWhatsAHost']);
+        mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['isHostingAny']);
         TestBed.configureTestingModule({
             declarations: [
                 ListFooterComponent,
@@ -33,7 +35,8 @@ describe('ListFooterComponent', () => {
                 { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: StateService, useValue: mockStateService },
-                { provide: BlandPageService, useValue: mockBlandPageService }
+                { provide: BlandPageService, useValue: mockBlandPageService },
+                { provide: PinLabelService, useValue: mockPinLabelService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
