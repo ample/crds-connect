@@ -292,6 +292,61 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinSearchResults;
   }
 
+  public sortPinsAndRemoveDuplicates(pinSearchResults: Pin[]): Pin[] {
+    let sortedPins: Pin[] = this.sortPins(pinSearchResults);
+    let sortedAndUniquePins: Pin[] = this.removeDuplicatePins(sortedPins);
+
+    return sortedAndUniquePins;
+  };
+
+  public sortPins(pinSearchResults: Pin[]): Pin[] {
+
+    let sortedPinSearchResults: Pin[] =
+      pinSearchResults.sort(
+        (p1: Pin, p2: Pin) => {
+          if (p1.proximity !== p2.proximity) {
+            return p1.proximity - p2.proximity; // asc
+          } else if (p1.firstName && p2.firstName && (p1.firstName !== p2.firstName)) {
+            return p1.firstName.localeCompare(p2.firstName); // asc
+          } else if (p1.lastName && p2.lastName && (p1.lastName !== p2.lastName)) {
+            return p1.lastName.localeCompare(p2.lastName); // asc
+          } else {
+            return p2.pinType - p1.pinType; // des
+          }
+      });
+
+    return sortedPinSearchResults;
+  }
+
+  public removeDuplicatePins(pinSearchResults: Pin[]): Pin[] {
+
+    let lastIndex = -1;
+
+    let uniquePins: Pin[] =
+      pinSearchResults.filter(
+        (p, index, self) => {
+          if (p.pinType === 3) {
+            lastIndex = -1;
+            return true;
+          } else if (lastIndex === -1) {
+            lastIndex = index;
+            return true;
+          } else {
+            let pl = self[lastIndex];
+            let test = (p.proximity !== pl.proximity) ||
+                (p.firstName !== pl.firstName) ||
+                (p.lastName !== pl.lastName);
+            if (test) {
+              lastIndex = index;
+            }
+            return test;
+          }
+        }
+      );
+
+    return uniquePins;
+  }
+
   public clearPinCache() {
     super.clearCache();
   }

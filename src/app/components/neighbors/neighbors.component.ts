@@ -102,45 +102,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.verifyPostedPinExistence();
     this.ensureUpdatedPinAddressIsDisplayed();
 
-    // sort
     this.pinSearchResults.pinSearchResults =
-      this.pinSearchResults.pinSearchResults.sort(
-        (p1: Pin, p2: Pin) => {
-          if (p1.proximity !== p2.proximity) {
-            return p1.proximity - p2.proximity; // asc
-          } else if (p1.firstName && p2.firstName && (p1.firstName !== p2.firstName)) {
-            return p1.firstName.localeCompare(p2.firstName); // asc
-          } else if (p1.lastName && p2.lastName && (p1.lastName !== p2.lastName)) {
-            return p1.lastName.localeCompare(p2.lastName); // asc
-          } else {
-            return p2.pinType - p1.pinType; // des
-          }
-        }
-      );
-
-    // uniq - algorithm takes advantage of being sorted
-    let lastIndex = -1;
-    this.pinSearchResults.pinSearchResults =
-      this.pinSearchResults.pinSearchResults.filter(
-        (p, index, self) => {
-          if (p.pinType === 3) {
-            lastIndex = -1;
-            return true;
-          } else if (lastIndex === -1) {
-            lastIndex = index;
-            return true;
-          } else {
-            let pl = self[lastIndex];
-            let test = (p.proximity !== pl.proximity) ||
-              (p.firstName !== pl.firstName) ||
-              (p.lastName !== pl.lastName);
-            if (test) {
-              lastIndex = index;
-            }
-          return test;
-          }
-        }
-      );
+        this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
 
     this.state.setLoading(false);
 
@@ -151,6 +114,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.neighborsHelper.emitChange();
 
     this.isMapHidden = true;
+
     setTimeout(() => {
       this.isMapHidden = false;
     }, 1);
@@ -169,6 +133,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           // its a different search, clear the last mapView;
           this.state.setMapView(null);
       }
+
       this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
     }
   }
@@ -196,12 +161,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  }
+  };
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  }
+  };
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
