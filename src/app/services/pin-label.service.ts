@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 
 import { PinService } from './pin.service';
+import { StateService } from './state.service';
 
 import { Pin, pinType } from '../models/pin';
 import { PinLabelData } from '../models/pin-label-data';
@@ -9,7 +10,7 @@ import { PinLabelData } from '../models/pin-label-data';
 export class PinLabelService {
 
 
-  constructor (private pinHlpr: PinService) {}
+  constructor (private pinHlpr: PinService, private state: StateService) {}
 
   createPinLabelDataJsonString(pin: Pin): string {
     return JSON.stringify(this.createPinLabelData(pin));
@@ -74,6 +75,17 @@ export class PinLabelService {
 
   public isHost(pin: Pin): boolean {
     return pin.pinType === pinType.GATHERING;
+  }
+
+  public isHostingAny(myPins: Array<Pin>): boolean {
+    if (this.state.getMyViewOrWorldView() === 'my') {
+      for (let pin of myPins) {
+        if (this.isHost(pin)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public isMe(pin: Pin): boolean {
