@@ -3,6 +3,29 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
+export class ActiveAppRoute {
+  FINDER_ROUTE: string;
+  GROUPS_ROUTE: string;
+
+  constructor () {
+    this.FINDER_ROUTE = '/';
+    this.GROUPS_ROUTE = '/groupsv2';
+  }
+}
+
+export class ActiveApp {
+  FINDER: string;
+  GROUPS: string;
+
+  constructor () {
+    this.FINDER = 'FINDER';
+    this.GROUPS = 'GROUPS';
+  }
+}
+
+export const activeAppRoute: ActiveAppRoute = new ActiveAppRoute();
+export const activeApp: ActiveApp = new ActiveApp();
+
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',
   'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR',

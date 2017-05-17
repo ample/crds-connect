@@ -55,6 +55,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+
+    this.state.setActiveApp(this.router.url);
+
     let haveResults = !!this.pinSearchResults;
 
     if (!haveResults) {
