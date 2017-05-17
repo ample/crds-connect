@@ -3,7 +3,7 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
-export class ActiveAppRoute {
+export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;
 
@@ -13,7 +13,7 @@ export class ActiveAppRoute {
   }
 }
 
-export class ActiveApp {
+export class App {
   CONNECT: string;
   SMALL_GROUPS: string;
 
@@ -23,8 +23,8 @@ export class ActiveApp {
   }
 }
 
-export const activeAppRoute: ActiveAppRoute = new ActiveAppRoute();
-export const activeApp: ActiveApp = new ActiveApp();
+export const appRoute: AppRoute = new AppRoute();
+export const app: App = new App();
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',

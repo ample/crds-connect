@@ -292,6 +292,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinSearchResults;
   }
 
+  public areLastResultsFromActiveApp (currentApp: string, lastResultsApp: string): boolean {
+    return currentApp === lastResultsApp;
+  };
+
   public sortPinsAndRemoveDuplicates(pinSearchResults: Pin[]): Pin[] {
     let sortedPins: Pin[] = this.sortPins(pinSearchResults);
     let sortedAndUniquePins: Pin[] = this.removeDuplicatePins(sortedPins);

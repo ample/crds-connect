@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 
-import { ActiveApp, ActiveAppRoute, activeAppRoute, activeApp } from '../shared/constants';
+import { App, AppRoute, appRoute, app } from '../shared/constants';
 
 describe('Service: State', () => {
   beforeEach(() => {
@@ -45,13 +45,13 @@ describe('Service: State', () => {
   }));
 
   it('should determine that the app is in the groupsv2 state', inject([StateService], (service: any) => {
-    service.setActiveApp(activeAppRoute.SMALL_GROUPS_ROUTE);
-    expect(service.activeApp).toEqual(activeApp.SMALL_GROUPS);
+    service.setActiveApp(appRoute.SMALL_GROUPS_ROUTE);
+    expect(service.activeApp).toEqual(app.SMALL_GROUPS);
   }));
 
   it('should determine that the app is in the finder state', inject([StateService], (service: any) => {
-    service.setActiveApp(activeAppRoute.CONNECT_ROUTE);
-    expect(service.activeApp).toEqual(activeApp.CONNECT);
+    service.setActiveApp(appRoute.CONNECT_ROUTE);
+    expect(service.activeApp).toEqual(app.CONNECT);
   }));
 
 
