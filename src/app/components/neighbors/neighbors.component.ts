@@ -40,7 +40,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
-      this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
+      this.doSearch('searchLocal', this.state.activeApp, mapView.lat, mapView.lng, mapView.zoom);
     });
 
     this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
@@ -72,7 +72,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           this.state.setMyViewOrWorldView('world');
           this.runFreshSearch();
         } else {
-          this.doSearch(lastSearch.search, lastSearch.coords.lat, lastSearch.coords.lng);
+          this.doSearch(lastSearch.search, this.state.activeApp, lastSearch.coords.lat, lastSearch.coords.lng);
         }
       } else {
         this.runFreshSearch();
@@ -86,7 +86,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.userLocationService.GetUserLocation().subscribe (
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-        this.doSearch('useLatLng', pos.lat, pos.lng );
+        this.doSearch('useLatLng', this.state.activeApp, pos.lat, pos.lng );
       }
     );
   }
@@ -143,9 +143,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  doSearch(searchString: string,  lat?: number, lng?: number, zoom?: number) {
+  doSearch(searchString: string, finderType: string,  lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinSearchResults(searchString, lat, lng, zoom).subscribe(
+    this.pinService.getPinSearchResults(searchString, this.state.activeApp, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.processAndDisplaySearchResults(searchString, lat, lng);
