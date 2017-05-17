@@ -12,7 +12,7 @@ import { ActiveApp, ActiveAppRoute, activeAppRoute, activeApp } from '../shared/
 @Injectable()
 export class StateService {
 
-  public activeApp: string = activeApp.FINDER;
+  public activeApp: string = activeApp.CONNECT;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
@@ -99,11 +99,11 @@ export class StateService {
   }
 
   public setActiveApp(appRoute: string): void {
-    let isInGroupsApp: boolean = appRoute === activeAppRoute.GROUPS_ROUTE;
+    let isInGroupsApp: boolean = appRoute === activeAppRoute.SMALL_GROUPS_ROUTE;
     if (isInGroupsApp) {
-      this.activeApp = activeApp.GROUPS;
+      this.activeApp = activeApp.SMALL_GROUPS;
     } else {
-      this.activeApp = activeApp.FINDER;
+      this.activeApp = activeApp.CONNECT;
     }
   }
 

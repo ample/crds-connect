@@ -45,13 +45,13 @@ describe('Service: State', () => {
   }));
 
   it('should determine that the app is in the groupsv2 state', inject([StateService], (service: any) => {
-    service.setActiveApp(activeAppRoute.GROUPS_ROUTE);
-    expect(service.activeApp).toEqual(activeApp.GROUPS);
+    service.setActiveApp(activeAppRoute.SMALL_GROUPS_ROUTE);
+    expect(service.activeApp).toEqual(activeApp.SMALL_GROUPS);
   }));
 
   it('should determine that the app is in the finder state', inject([StateService], (service: any) => {
-    service.setActiveApp(activeAppRoute.FINDER_ROUTE);
-    expect(service.activeApp).toEqual(activeApp.FINDER);
+    service.setActiveApp(activeAppRoute.CONNECT_ROUTE);
+    expect(service.activeApp).toEqual(activeApp.CONNECT);
   }));
 
 

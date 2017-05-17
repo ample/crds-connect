@@ -4,22 +4,22 @@ export const crdsOakleyCoords: any = {
 };
 
 export class ActiveAppRoute {
-  FINDER_ROUTE: string;
-  GROUPS_ROUTE: string;
+  CONNECT_ROUTE: string;
+  SMALL_GROUPS_ROUTE: string;
 
   constructor () {
-    this.FINDER_ROUTE = '/';
-    this.GROUPS_ROUTE = '/groupsv2';
+    this.CONNECT_ROUTE = '/';
+    this.SMALL_GROUPS_ROUTE = '/groupsv2';
   }
 }
 
 export class ActiveApp {
-  FINDER: string;
-  GROUPS: string;
+  CONNECT: string;
+  SMALL_GROUPS: string;
 
   constructor () {
-    this.FINDER = 'FINDER';
-    this.GROUPS = 'GROUPS';
+    this.CONNECT = 'CONNECT';
+    this.SMALL_GROUPS = 'SMALL_GROUPS';
   }
 }
 

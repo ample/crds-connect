@@ -119,7 +119,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.isMapHidden = false;
     }, 1);
 
-    // if pinsearchresults is empty then display the bland page
+    this.navigateAwayIfNoSearchResults(searchString, lat, lng );
+  }
+
+  private navigateAwayIfNoSearchResults(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
@@ -130,8 +133,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     } else {
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
-          // its a different search, clear the last mapView;
-          this.state.setMapView(null);
+        // its a different search, clear the last mapView;
+        this.state.setMapView(null);
       }
 
       this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
