@@ -7,6 +7,8 @@ import { Address } from '../../models/address';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
+import { App, app } from '../../shared/constants';
+
 @Component({
   selector: 'list-entry',
   templateUrl: 'list-entry.component.html'

@@ -13,6 +13,8 @@ import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
 import { User } from '../../models/user';
 
+import { App, app } from '../../shared/constants';
+
 @Component({
   selector: 'app-pin-detail',
   templateUrl: 'pin-details.html'
@@ -20,12 +22,14 @@ import { User } from '../../models/user';
 export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
+  public activeApp: string = undefined;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';
   public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public isGatheringPin: boolean = false;
+  public isSmallGroupPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: Pin;
@@ -41,6 +45,7 @@ export class PinDetailsComponent implements OnInit {
 
   public ngOnInit() {
     this.state.setLoading(true);
+    this.activeApp = this.state.activeApp;
     this.state.setPageHeader('connect', '/');
 
     this.pin = this.route.snapshot.data['pin'];
@@ -48,6 +53,8 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
+    } else if (this.pin.pinType === pinType.SMALL_GROUP){
+      this.isSmallGroupPin = true;
     }
 
     if (this.session.isLoggedIn()) {
