@@ -6,6 +6,8 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 
+import { App, app} from '../../shared/constants';
+
 @Component({
   selector: 'app-listview',
   templateUrl: 'list-view.component.html'
@@ -26,16 +28,14 @@ export class ListViewComponent implements OnInit {
   }
 
   public pinsToShow(): Pin[] {
+
     let showing: number = this.stateService.getShowingPinCount();
+
     if (this.searchResults == null) {
       return new Array<Pin>();
     }
 
-    if(this.stateService.activeApp){
-      return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
-    } else {
-      return this.searchResults.pinSearchResults;
-    }
+    return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
 
   }
 

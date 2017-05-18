@@ -108,11 +108,7 @@ export class ListEntryComponent {
   }
 
   public roundedProximity() {
-    if(this.isSmallGroup()){
-      return 1;
-    } else {
-      return this.proximity.toFixed(1)
-    };
+    return this.proximity ? this.proximity.toFixed(1) : 999;
   }
 
 }

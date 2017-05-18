@@ -60,9 +60,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     let haveResults: boolean = !!this.pinSearchResults;
     let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;
-    let areSearchResultsDated: boolean = !haveResults || !areResultsValid;
+    let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
 
-    if ( areSearchResultsDated ) {
+    if ( areSearchResultsAbsentOrDated ) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
