@@ -6,8 +6,6 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 
-import { App, app} from '../../shared/constants';
-
 @Component({
   selector: 'app-listview',
   templateUrl: 'list-view.component.html'

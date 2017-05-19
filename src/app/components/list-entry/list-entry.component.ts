@@ -7,6 +7,8 @@ import { Address } from '../../models/address';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
+import { proximityUnavailableDefaultNum } from '../../shared/constants';
+
 import { App, app } from '../../shared/constants';
 
 @Component({
@@ -44,7 +46,7 @@ export class ListEntryComponent {
     return this.type === pinType.GATHERING && this.contactId === this.currentContactId;
   }
 
-  public name() {
+  public formatName() {
     if(this.isSmallGroup()){
       return this.groupTitle ? this.groupTitle.toUpperCase() : '';
     } else {
@@ -110,7 +112,7 @@ export class ListEntryComponent {
   }
 
   public roundedProximity() {
-    return this.proximity ? this.proximity.toFixed(1) : 999;
+    return this.proximity ? this.proximity.toFixed(1) : proximityUnavailableDefaultNum;
   }
 
 }

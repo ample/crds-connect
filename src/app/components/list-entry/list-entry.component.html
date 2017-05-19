@@ -5,7 +5,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{name()}}<span class="media-label">
+    <h3 class="media-heading">{{formatName()}}<span class="media-label">
         <span *ngIf="isMe()" class="label label-warning">ME</span>
       </span></h3>
     <p class="media-meta">
@@ -21,7 +21,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{name()}}
+    <h3 class="media-heading">{{formatName()}}
       <span class="media-label">
         <span class="label label-primary">HOST</span>
         <span *ngIf="isMyGathering()" class="label label-warning">ME</span>
@@ -56,7 +56,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{name()}}
+    <h3 class="media-heading">{{formatName()}}
       <span class="media-label">
         <!-- Placeholder for custom labels, the logic for which is not yet available in groups-->
       </span>
