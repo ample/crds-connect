@@ -23,6 +23,7 @@ export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
   public activeApp: string = undefined;
+  public pinType: any = pinType;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';
