@@ -3,6 +3,29 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
+export class AppRoute {
+  CONNECT_ROUTE: string;
+  SMALL_GROUPS_ROUTE: string;
+
+  constructor () {
+    this.CONNECT_ROUTE = '/';
+    this.SMALL_GROUPS_ROUTE = '/groupsv2';
+  }
+}
+
+export class App {
+  CONNECT: string;
+  SMALL_GROUPS: string;
+
+  constructor () {
+    this.CONNECT = 'CONNECT';
+    this.SMALL_GROUPS = 'SMALL_GROUPS';
+  }
+}
+
+export const appRoute: AppRoute = new AppRoute();
+export const app: App = new App();
+
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',
   'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR',
@@ -16,6 +39,9 @@ export enum UserState {
   LoggedIn_OnMap,
   NotLoggedIn
 }
+
+//The default value for proximity to user's current location when no location data is available
+export let proximityUnavailableDefaultNum: number = 999;
 
 export const googleMapStyles: Array<any> = [
   {

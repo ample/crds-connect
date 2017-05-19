@@ -40,7 +40,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
-      this.doSearch('searchLocal', mapView.lat, mapView.lng, mapView.zoom);
+      this.doSearch('searchLocal', this.state.activeApp, mapView.lat, mapView.lng, mapView.zoom);
     });
 
     this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
@@ -55,9 +55,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    let haveResults = !!this.pinSearchResults;
 
-    if (!haveResults) {
+    this.state.setActiveApp(this.router.url);
+
+    let haveResults: boolean = !!this.pinSearchResults;
+    let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;
+    let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
+
+    if ( areSearchResultsAbsentOrDated ) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
@@ -67,7 +72,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           this.state.setMyViewOrWorldView('world');
           this.runFreshSearch();
         } else {
-          this.doSearch(lastSearch.search, lastSearch.coords.lat, lastSearch.coords.lng);
+          this.doSearch(lastSearch.search, this.state.activeApp, lastSearch.coords.lat, lastSearch.coords.lng);
         }
       } else {
         this.runFreshSearch();
@@ -81,7 +86,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.userLocationService.GetUserLocation().subscribe (
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-        this.doSearch('useLatLng', pos.lat, pos.lng );
+        this.doSearch('useLatLng', this.state.activeApp, pos.lat, pos.lng );
       }
     );
   }
@@ -99,45 +104,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.verifyPostedPinExistence();
     this.ensureUpdatedPinAddressIsDisplayed();
 
-    // sort
     this.pinSearchResults.pinSearchResults =
-      this.pinSearchResults.pinSearchResults.sort(
-        (p1: Pin, p2: Pin) => {
-          if (p1.proximity !== p2.proximity) {
-            return p1.proximity - p2.proximity; // asc
-          } else if (p1.firstName && p2.firstName && (p1.firstName !== p2.firstName)) {
-            return p1.firstName.localeCompare(p2.firstName); // asc
-          } else if (p1.lastName && p2.lastName && (p1.lastName !== p2.lastName)) {
-            return p1.lastName.localeCompare(p2.lastName); // asc
-          } else {
-            return p2.pinType - p1.pinType; // des
-          }
-        }
-      );
-
-    // uniq - algorithm takes advantage of being sorted
-    let lastIndex = -1;
-    this.pinSearchResults.pinSearchResults =
-      this.pinSearchResults.pinSearchResults.filter(
-        (p, index, self) => {
-          if (p.pinType === 3) {
-            lastIndex = -1;
-            return true;
-          } else if (lastIndex === -1) {
-            lastIndex = index;
-            return true;
-          } else {
-            let pl = self[lastIndex];
-            let test = (p.proximity !== pl.proximity) ||
-              (p.firstName !== pl.firstName) ||
-              (p.lastName !== pl.lastName);
-            if (test) {
-              lastIndex = index;
-            }
-          return test;
-          }
-        }
-      );
+        this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
 
     this.state.setLoading(false);
 
@@ -148,11 +116,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.neighborsHelper.emitChange();
 
     this.isMapHidden = true;
+
     setTimeout(() => {
       this.isMapHidden = false;
     }, 1);
 
-    // if pinsearchresults is empty then display the bland page
+    this.navigateAwayIfNoSearchResults(searchString, lat, lng );
+  }
+
+  private navigateAwayIfNoSearchResults(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
@@ -163,19 +135,21 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     } else {
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
-          // its a different search, clear the last mapView;
-          this.state.setMapView(null);
+        // its a different search, clear the last mapView;
+        this.state.setMapView(null);
       }
+
       this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
     }
   }
 
-  doSearch(searchString: string,  lat?: number, lng?: number, zoom?: number) {
+  doSearch(searchString: string, finderType: string,  lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinSearchResults(searchString, lat, lng, zoom).subscribe(
+    this.pinService.getPinSearchResults(searchString, this.state.activeApp, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.processAndDisplaySearchResults(searchString, lat, lng);
+        this.state.appForWhichWeRanLastSearch = this.state.activeApp;
       },
       error => {
         console.log(error);
@@ -193,12 +167,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  }
+  };
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  }
+  };
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
