@@ -7,6 +7,8 @@ import { Address } from '../../models/address';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
+import { proximityUnavailableDefaultNum } from '../../shared/constants';
+
 @Component({
   selector: 'list-entry',
   templateUrl: 'list-entry.component.html'
@@ -108,7 +110,7 @@ export class ListEntryComponent {
   }
 
   public roundedProximity() {
-    return this.proximity ? this.proximity.toFixed(1) : 999;
+    return this.proximity ? this.proximity.toFixed(1) : proximityUnavailableDefaultNum;
   }
 
 }
