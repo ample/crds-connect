@@ -146,6 +146,13 @@ const appRoutes: Routes = [
       user: UserDataResolver
     }
   }, {
+    path: 'small-group/:groupId',
+    component: PinDetailsComponent,
+    resolve: {
+      pin: PinResolver,
+      user: UserDataResolver
+    }
+  }, {
     path: 'gathering/:groupId/edit',
     component: GatheringEditComponent,
     resolve: {

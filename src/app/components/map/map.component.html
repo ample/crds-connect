@@ -12,7 +12,7 @@
                           [latitude]="pin.address.latitude"
                           [longitude]="pin.address.longitude"
                           [iconUrl] = "pin.iconUrl"
-                          (markerClick) = "displayDetails(pin)"
+                          (markerClick) = "pinClicked(pin)"
                           [title] = "pin.title">
 
     <sebm-google-map-info-window [disableAutoPan]="true">
