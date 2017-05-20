@@ -3,11 +3,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
+import { Address } from '../../../models/address';
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 import { Pin, pinType } from '../../../models/pin';
 import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 import { Participant } from '../../../models/participant';
-import { Address } from '../../../models/address';
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -33,6 +33,7 @@ export class SmallGroupComponent implements OnInit {
 
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
+  public _pinType: pinType = undefined;
   private ready = false;
   private address: Address = Address.overload_Constructor_One();
 
@@ -49,6 +50,7 @@ export class SmallGroupComponent implements OnInit {
     private angulartics2: Angulartics2) { }
 
   public ngOnInit() {
+    console.log('Initializing small group compoonent');
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);

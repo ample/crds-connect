@@ -1,3 +1,5 @@
+SMALL GROUP COMPONENT
+
 <div *ngIf="ready">
   <div class="pin-details-dark dark-theme"
        [ngClass]="{ host_plain: !isInGathering && !isPinOwner }">
@@ -5,7 +7,7 @@
     <div class="media media-dark">
       <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
       <div class="media-body">
-        <pin-header [isGathering]="true" [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
+        <pin-header [pinType]="_pinType" [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
         <div class="media-meta">
           <readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
         </div>

@@ -31,6 +31,7 @@ export class GatheringComponent implements OnInit {
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
 
+  private pinType: any = pinType;
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
