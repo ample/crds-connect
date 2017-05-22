@@ -9,8 +9,6 @@ import { StateService } from '../../services/state.service';
 
 import { proximityUnavailableDefaultNum } from '../../shared/constants';
 
-import { App, app } from '../../shared/constants';
-
 @Component({
   selector: 'list-entry',
   templateUrl: 'list-entry.component.html'

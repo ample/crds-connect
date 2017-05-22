@@ -13,8 +13,6 @@ import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
 import { User } from '../../models/user';
 
-import { App, app } from '../../shared/constants';
-
 @Component({
   selector: 'app-pin-detail',
   templateUrl: 'pin-details.html'
