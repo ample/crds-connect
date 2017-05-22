@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
-
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { sayHiTemplateId } from '../shared/constants';
@@ -67,11 +66,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     if (super.isCachedForUser(contactId)) {
       cachedPins = super.getCache();
       pin = cachedPins.pinSearchResults.find(aPin => {
-        if (aPin.pinType == pinIdentifier.type) {
-          if (pinIdentifier.type == pinType.PERSON) {
-            return (aPin.participantId == pinIdentifier.id);
+        if (aPin.pinType === pinIdentifier.type) {
+          if (pinIdentifier.type === pinType.PERSON) {
+            return (aPin.participantId === pinIdentifier.id);
           } else {
-            return (aPin.gathering) && (aPin.gathering.groupId == pinIdentifier.id);
+            return (aPin.gathering) && (aPin.gathering.groupId === pinIdentifier.id);
           }
         } else {
           return false;
@@ -170,7 +169,17 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return this.session.get(this.baseUrl + searchUrlZoom)
         // when we get the new results, set them to the cache
         .map(res => this.gatheringService.addAddressesToGatheringPins(res))
-        .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+        .do((res: PinSearchResultsDto) => {
+          if ( this.state.removedSelf) {
+            this.state.removedSelf = false;
+            let index = res.pinSearchResults.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
+            if (index > -1) {
+                // remove my pin locally because AWS will take some time to remove from Cloudsearch
+                res.pinSearchResults.splice(index, 1);
+            }
+          }
+          super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId); 
+        })
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
   }
@@ -259,11 +268,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public removePersonPin(participantId: number) {
     let removePersonPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin/removeFromMap';
-    super.clearCache();
-    
-    return this.session.post(removePersonPinUrl, participantId);
 
-  } 
+    return this.session.post(removePersonPinUrl, participantId)
+       .map((res: any) => {
+        return res;
+       })
+       .catch((err) => Observable.throw(err.json().error));
+  }
+
 
   public doesLoggedInUserOwnPin(pin: Pin) {
     let contactId = this.session.getContactId();

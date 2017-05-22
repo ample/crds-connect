@@ -62,7 +62,7 @@ export class HandleInviteComponent implements OnInit {
                         this.blandPageService.goToHandledInvite(this.accepted, this.groupId, address, name);
                     },
                     error => {
-                        this.router.navigate(['map']);
+                        this.router.navigate(['']);
                     }
                 );
             },
