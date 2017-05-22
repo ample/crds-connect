@@ -38,7 +38,7 @@ describe('Component: List View', () => {
       declarations: [
         ListViewComponent,
         MockComponent({selector: 'list-entry', inputs: ['firstName', 'lastName', 'siteName', 'type',
-                      'proximity', 'description', 'groupId', 'address', 'participantId', 'participantCount', 'contactId']}),
+                      'proximity', 'description', 'groupTitle',  'groupId', 'address', 'participantId', 'participantCount', 'contactId']}),
         ListFooterComponent,
         MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
         MockComponent({selector: 'crds-content-block', inputs: ['id']})

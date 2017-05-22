@@ -106,6 +106,7 @@ const appRoutes: Routes = [
   },
   { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
+  { path: 'groupsv2', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
     path: 'remove-person-pin/:participantId',
@@ -139,6 +140,13 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: 'gathering/:groupId',
+    component: PinDetailsComponent,
+    resolve: {
+      pin: PinResolver,
+      user: UserDataResolver
+    }
+  }, {
+    path: 'small-group/:groupId',
     component: PinDetailsComponent,
     resolve: {
       pin: PinResolver,

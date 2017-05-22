@@ -20,6 +20,7 @@ import { User } from '../../models/user';
 export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
+  public pinType: any = pinType;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';

@@ -5,11 +5,15 @@ import { MapView } from '../models/map-view';
 import { Pin } from '../models/pin';
 import { SearchOptions } from '../models/search-options';
 
+import { App, AppRoute, appRoute, app} from '../shared/constants';
+
 // TODO: This class has a lot of flags. 
 // Investigate to see if they belong here and/or add some documentation. 
 @Injectable()
 export class StateService {
 
+  public activeApp: string = app.CONNECT;
+  public appForWhichWeRanLastSearch: string = undefined;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
@@ -95,6 +99,15 @@ export class StateService {
     this.navigatedFromAddToMapComponent = false;
     this.updatedPinOldAddress = null;
     this.updatedPin = null;
+  }
+
+  public setActiveApp(activeAppRoute: string): void {
+    let isInGroupsApp: boolean = activeAppRoute === appRoute.SMALL_GROUPS_ROUTE;
+    if (isInGroupsApp) {
+      this.activeApp = app.SMALL_GROUPS;
+    } else {
+      this.activeApp = app.CONNECT;
+    }
   }
 
 }

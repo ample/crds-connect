@@ -61,7 +61,7 @@ describe('ListEntryComponent', () => {
         fixture.detectChanges();
         comp.firstName = 'Bob';
         comp.lastName = 'Johnson';
-        expect(comp.name()).toBe('BOB J.');
+        expect(comp.formatName()).toBe('BOB J.');
     });
 
     it('should return proper count string', () => {

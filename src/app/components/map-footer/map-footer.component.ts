@@ -55,10 +55,10 @@ export class MapFooterComponent {
           }
       );
     }
-  }
+  };
 
   doSearch(lat: number, lng: number) {
-    this.pin.getPinSearchResults('', lat, lng).subscribe(
+    this.pin.getPinSearchResults('', this.state.activeApp, lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;
         this.myPinSearchResults.pinSearchResults =

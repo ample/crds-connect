@@ -4,6 +4,8 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 
+import { App, AppRoute, appRoute, app } from '../shared/constants';
+
 describe('Service: State', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,4 +43,16 @@ describe('Service: State', () => {
     service.setUseZoom(10);
     expect(service.getUseZoom()).toEqual(10);
   }));
+
+  it('should determine that the app is in the groupsv2 state', inject([StateService], (service: any) => {
+    service.setActiveApp(appRoute.SMALL_GROUPS_ROUTE);
+    expect(service.activeApp).toEqual(app.SMALL_GROUPS);
+  }));
+
+  it('should determine that the app is in the finder state', inject([StateService], (service: any) => {
+    service.setActiveApp(appRoute.CONNECT_ROUTE);
+    expect(service.activeApp).toEqual(app.CONNECT);
+  }));
+
+
 });
