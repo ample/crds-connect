@@ -38,6 +38,7 @@ export class RemovePersonPinComponent implements OnInit {
   public removePersonPin() {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {
+        this.state.removedSelf = true;
         this.state.cleanUpStateAfterPinUpdate();
         this.session.clearCache();
         this.state.setMyViewOrWorldView('world');
