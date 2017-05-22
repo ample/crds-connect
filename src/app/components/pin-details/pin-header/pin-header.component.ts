@@ -2,7 +2,7 @@ import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Address } from '../../../models/address';
-import { pinType } from '../../../models/pin';
+import { Pin, pinType } from '../../../models/pin';
 
 @Component({
   selector: 'pin-header',

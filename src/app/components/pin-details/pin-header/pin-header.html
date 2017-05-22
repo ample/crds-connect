@@ -2,10 +2,16 @@
 
 <h2 class="media-heading media-heading-stacked">
 
-	<span class="media-label">
-		<span *ngIf="isPinOwner" class="label label-warning">Me</span>
-		<span *ngIf="pinType === _pinType.GATHERING" class="label label-primary">Host</span>
-	</span>
+  <span class="media-label">
+    <span *ngIf="isPinOwner" class="label label-warning">Me</span>
+    <span *ngIf="pinType === _pinType.GATHERING" class="label label-primary">Host</span>
+  </span>
 
-	{{firstName}} {{lastName | slice:0:1}}
+    <span *ngIf="pinType === _pinType.GATHERING">
+      lol {{pinType === _pinType.GATHERING}}
+    </span>
+
+    <span *ngIf="pinType !== _pinType.GATHERING">
+      {{firstName}} {{lastName | slice:0:1}} {{pinType === _pinType.GATHERING}}
+    </span>
 </h2>
