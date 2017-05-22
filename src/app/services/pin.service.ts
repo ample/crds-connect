@@ -170,7 +170,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         .do((res: PinSearchResultsDto) => {
           if ( this.state.removedSelf) {
             this.state.removedSelf = false;
-            let index = res.pinSearchResults.findIndex(obj => obj.pinType === 1 && obj.contactId === contactId);
+            let index = res.pinSearchResults.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
             if (index > -1) {
                 // remove my pin locally because AWS will take some time to remove from Cloudsearch
                 res.pinSearchResults.splice(index, 1);
