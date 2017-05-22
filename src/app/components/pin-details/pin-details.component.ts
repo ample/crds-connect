@@ -20,13 +20,13 @@ import { User } from '../../models/user';
 export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
-  public pinType: any = pinType;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';
   public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public isGatheringPin: boolean = false;
+  public isSmallGroupPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: Pin;
@@ -49,6 +49,8 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
+    } else if (this.pin.pinType === pinType.SMALL_GROUP){
+      this.isSmallGroupPin = true;
     }
 
     if (this.session.isLoggedIn()) {

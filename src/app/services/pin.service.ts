@@ -7,7 +7,7 @@ import { SmartCacheableService, CacheLevel } from './base-service/cacheable.serv
 
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
-import { sayHiTemplateId } from '../shared/constants';
+import { app, App, sayHiTemplateId } from '../shared/constants';
 import { StateService } from '../services/state.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
@@ -56,6 +56,16 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     super.setSmartCache(new PinSearchResultsDto(new GeoCoordinates(0, 0), pinArray), CacheLevel.Partial, null, contactId);
   }
 
+  private setPinTypeAsGroupIfInGroupApp(pin: Pin){
+    let isGroupPin: boolean = this.state.activeApp === app.SMALL_GROUPS;
+
+    if (isGroupPin) {
+      pin.pinType = pinType.SMALL_GROUP;
+    }
+
+    return pin;
+  }
+
   // GETS
   public getPinDetails(pinIdentifier: PinIdentifier): Observable<Pin> {
     let contactId = this.session.getContactId();
@@ -77,7 +87,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         }
       });
       if (pin != null) {
-        console.log('PinService got partial cached PinSearchResultsDto');
         return Observable.of<Pin>(pin);
       }
     }
@@ -90,7 +99,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.get(url)
       .map((res: Pin) => { return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId,
       res.participantId, res.address, res.hostStatus, res.gathering, res.siteName, res.pinType, res.proximity, res.householdId); })
-      .do((res: Pin) => this.createPartialCache(res))
+      .do((res: Pin) => {
+        res = this.setPinTypeAsGroupIfInGroupApp(res);
+        this.createPartialCache(res)
+      })
       .catch((error: any) => {
         this.state.setLoading(false);
         return Observable.throw(error || 'Server error');

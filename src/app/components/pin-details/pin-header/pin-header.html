@@ -1,9 +1,18 @@
-<span *ngIf="!isPinOwner && !isGathering" class="pin-details-greeting">Say Hello to</span>
+<span *ngIf="doShowHelloMsg" class="pin-details-greeting">Say Hello to</span>
 
 <h2 class="media-heading media-heading-stacked">
-	<span class="media-label">
-		<span *ngIf="isPinOwner" class="label label-warning">Me</span>
-		<span *ngIf="isGathering" class="label label-primary">Host</span>
-	</span>
-	{{firstName}} {{lastName | slice:0:1}}
+
+  <span class="media-label">
+    <span *ngIf="isPinOwner" class="label label-warning">Me</span>
+    <span *ngIf="pin.pinType === _pinType.GATHERING" class="label label-primary">Host</span>
+  </span>
+
+    <span *ngIf="pin.pinType  === _pinType.SMALL_GROUP">
+      {{pin.gathering.groupName}}
+    </span>
+
+    <span *ngIf="pin.pinType !== _pinType.SMALL_GROUP">
+      {{pin.firstName}} {{pin.lastName | slice:0:1}}
+    </span>
+
 </h2>
