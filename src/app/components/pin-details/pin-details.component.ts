@@ -20,8 +20,6 @@ import { User } from '../../models/user';
 export class PinDetailsComponent implements OnInit {
 
   @Input() pin: Pin;
-  public activeApp: string = undefined;
-  public pinType: any = undefined;
   public submitted: boolean = false;
   public errorMessage: string = '';
   public buttonText: string = 'Update';
@@ -44,17 +42,14 @@ export class PinDetailsComponent implements OnInit {
 
   public ngOnInit() {
     this.state.setLoading(true);
-    this.activeApp = this.state.activeApp;
     this.state.setPageHeader('connect', '/');
 
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
 
     if (this.pin.pinType === pinType.GATHERING) {
-      this.pinType = pinType.GATHERING;
       this.isGatheringPin = true;
     } else if (this.pin.pinType === pinType.SMALL_GROUP){
-      this.pinType = pinType.SMALL_GROUP;
       this.isSmallGroupPin = true;
     }
 
