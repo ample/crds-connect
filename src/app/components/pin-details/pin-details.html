@@ -1,5 +1,4 @@
 <div class="connect-container container" [class.is-gathering]="isGatheringPin">
-  <gathering *ngIf="isGatheringPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
+  <gathering *ngIf="isGatheringPin || isSmallGroupPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></gathering>
   <person *ngIf="!isGatheringPin && !isSmallGroupPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" [isPinOwner]="isPinOwner"></person>
-  <small-group *ngIf="isSmallGroupPin" [user]="user" [pin]="pin" [isLoggedIn]="isLoggedIn" isPinOwner="false"></small-group>
 </div>

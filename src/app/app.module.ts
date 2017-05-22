@@ -63,7 +63,6 @@ import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
-import { SmallGroupComponent } from './components/pin-details/small-group/small-group.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 
 import { AddressService } from './services/address.service';
@@ -167,7 +166,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SayHiComponent,
     SearchBarComponent,
     SearchLocalComponent,
-    SmallGroupComponent,
     GoogleMapClusterDirective
   ],
   providers: [
