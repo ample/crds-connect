@@ -22,7 +22,7 @@ export class PinHeaderComponent {
   constructor() {}
 
   ngOnInit() {
-    this.isPinOwner = false; //default to false until pin owner logic is in place
+    this.isPinOwner = pinType.SMALL_GROUP ? false : this.isPinOwner; //default until group owner logic defined
     let doShowHelloMsg: boolean =  !this.isPinOwner
       && this.pinType !== pinType.GATHERING
       && this.pinType !== pinType.SMALL_GROUP;
