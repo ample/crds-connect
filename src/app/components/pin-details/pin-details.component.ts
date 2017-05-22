@@ -52,7 +52,6 @@ export class PinDetailsComponent implements OnInit {
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
 
-    console.log('Passed in pin type: ' + this.pin.pinType);
     if (this.pin.pinType === pinType.GATHERING) {
       this.pinType = pinType.GATHERING;
       this.isGatheringPin = true;
@@ -60,8 +59,6 @@ export class PinDetailsComponent implements OnInit {
       this.pinType = pinType.SMALL_GROUP;
       this.isSmallGroupPin = true;
     }
-
-    console.log('Pin type is: ' + this.pinType);
 
     if (this.session.isLoggedIn()) {
       this.isLoggedIn = true;

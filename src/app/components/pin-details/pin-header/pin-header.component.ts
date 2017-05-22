@@ -17,21 +17,15 @@ export class PinHeaderComponent {
   @Input() userImage: string = 'https://image.ibb.co/gQGf0a/GRAYGUY.png';
   @Input() contactId: number;
 
-  public _pinType: pinType = this.pinType;
+  public _pinType: any = pinType;
 
   constructor() {}
 
   ngOnInit() {
-    console.log('Initializing gathering component');
-    console.log(this.pinType);
+    this.isPinOwner = false; //default to false until pin owner logic is in place
+    let doShowHelloMsg: boolean =  !this.isPinOwner
+      && this.pinType !== pinType.GATHERING
+      && this.pinType !== pinType.SMALL_GROUP;
   }
-
-  private displaySayHelloMessage (): boolean {
-    return !this.isPinOwner
-           && this.pinType !== pinType.GATHERING
-           && this.pinType !== pinType.SMALL_GROUP
-
-
-  };
 
 }

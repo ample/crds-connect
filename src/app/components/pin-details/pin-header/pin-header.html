@@ -1,10 +1,10 @@
-<span *ngIf="displaySayHelloMessage()" class="pin-details-greeting">Say Hello to</span>
+<span *ngIf="doShowHelloMsg" class="pin-details-greeting">Say Hello to</span>
 
 <h2 class="media-heading media-heading-stacked">
 
 	<span class="media-label">
 		<span *ngIf="isPinOwner" class="label label-warning">Me</span>
-		<span *ngIf="_pinType === pinType.GATHERING" class="label label-primary">Host</span>
+		<span *ngIf="pinType === _pinType.GATHERING" class="label label-primary">Host</span>
 	</span>
 
 	{{firstName}} {{lastName | slice:0:1}}

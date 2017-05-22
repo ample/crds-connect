@@ -33,7 +33,8 @@ export class SmallGroupComponent implements OnInit {
 
   public isInGathering: boolean = false;
   public sayHiButtonText: string = 'Contact host';
-  public _pinType: pinType = undefined;
+  public pinType: pinType = undefined;
+  public _pinType: any = pinType;
   private ready = false;
   private address: Address = Address.overload_Constructor_One();
 
@@ -50,7 +51,7 @@ export class SmallGroupComponent implements OnInit {
     private angulartics2: Angulartics2) { }
 
   public ngOnInit() {
-    console.log('Initializing small group compoonent');
+    this.pinType = this.pin.pinType;
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
