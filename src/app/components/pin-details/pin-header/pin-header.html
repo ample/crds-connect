@@ -9,7 +9,7 @@
 
     <span *ngIf="pin.pinType  === _pinType.GATHERING">
       {{pin.gathering.groupName}}
-    </span>0.
+    </span>
 
     <span *ngIf="pin.pinType !== _pinType.GATHERING && pin.pinType !== _pinType.SMALL_GROUP">
       {{pin.firstName}} {{pin.lastName | slice:0:1}}
