@@ -34,6 +34,8 @@ export class StateService {
   private savedMapView: MapView;
   private lastSearch: SearchOptions;
 
+  public removedSelf: boolean = false;
+
   public setMapView(mv: MapView) {
     this.savedMapView = mv;
   }
