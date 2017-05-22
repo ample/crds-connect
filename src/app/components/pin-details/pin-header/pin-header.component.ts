@@ -1,6 +1,8 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 
+import { StateService } from '../../../services/state.service';
+
 import { Address } from '../../../models/address';
 import { Pin, pinType } from '../../../models/pin';
 
@@ -10,22 +12,21 @@ import { Pin, pinType } from '../../../models/pin';
 })
 export class PinHeaderComponent {
 
-  @Input() pinType: pinType = undefined;
+  @Input() pin: Pin = undefined;
   @Input() isPinOwner: boolean = false;
-  @Input() firstName: string = '';
-  @Input() lastName: string = '';
-  @Input() userImage: string = 'https://image.ibb.co/gQGf0a/GRAYGUY.png';
-  @Input() contactId: number;
 
   public _pinType: any = pinType;
 
-  constructor() {}
+  constructor(private state: StateService) {}
 
   ngOnInit() {
+
     this.isPinOwner = pinType.SMALL_GROUP ? false : this.isPinOwner; //default until group owner logic defined
     let doShowHelloMsg: boolean =  !this.isPinOwner
-      && this.pinType !== pinType.GATHERING
-      && this.pinType !== pinType.SMALL_GROUP;
+      && this.pin.pinType !== pinType.GATHERING
+      && this.pin.pinType !== pinType.SMALL_GROUP;
+
+    this.pin.firstName
   }
 
 }
