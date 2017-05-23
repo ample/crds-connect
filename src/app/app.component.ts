@@ -1,4 +1,4 @@
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics} from 'angulartics2';
@@ -52,11 +52,6 @@ export class AppComponent implements OnInit {
       this.removeFauxdalClasses(val);
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     });
-
-    // determine the base url
-    console.log(location.prepareExternalUrl(location.path()));
-    console.log(document.location.href);
-    console.log(location.path());
   }
 
   ngOnInit() {
