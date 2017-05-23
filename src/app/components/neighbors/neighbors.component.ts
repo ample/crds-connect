@@ -12,7 +12,6 @@ import { NeighborsHelperService } from '../../services/neighbors-helper.service'
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { SearchService } from '../../services/search.service';
-import { AppSettingsService } from '../../services/app-settings.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -59,7 +58,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    //this.state.setActiveApp(this.router.url);
+    this.state.setActiveApp(this.router.url);
 
     let haveResults: boolean = !!this.pinSearchResults;
     let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;  // this should be refactored out 
@@ -170,12 +169,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  };
+  }
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  };
+  }
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
