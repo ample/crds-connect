@@ -65,6 +65,7 @@ export class AppComponent implements OnInit {
   }
 
   private getAppContext() {
+    // determine if we are running connect or group tool
     let root = document.location.href.replace(this.location.path(), '');
 
     if (root.endsWith('connect') || root.endsWith('connect/')) {
