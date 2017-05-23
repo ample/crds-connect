@@ -53,7 +53,11 @@ export class GatheringComponent implements OnInit {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
-    this.state.setPageHeader('gathering', '/');
+
+    let redirectRouteOnBack: string = this.state.isConnectApp() ? '/' : '/groupsv2';
+    let pageTitleOnHeader: string = this.state.isConnectApp() ? 'Gathering' : 'Group';
+    this.state.setPageHeader(pageTitleOnHeader, redirectRouteOnBack);
+
     try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       participants => {

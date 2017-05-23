@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
-import { Pin } from '../models/pin';
+import { Pin, pinType } from '../models/pin';
 import { SearchOptions } from '../models/search-options';
 
 import { App, AppRoute, appRoute, app} from '../shared/constants';
@@ -108,6 +108,19 @@ export class StateService {
     } else {
       this.activeApp = app.CONNECT;
     }
+  }
+
+  public isConnectApp(pin?: Pin): boolean {
+
+    let isConnectApp: boolean;
+
+    if (!pin) {
+      isConnectApp= this.activeApp === app.CONNECT;
+    } else {
+      isConnectApp = pin.pinType !== pinType.SMALL_GROUP;
+    }
+
+    return isConnectApp;
   }
 
 }
