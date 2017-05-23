@@ -66,6 +66,7 @@ import { SearchLocalComponent } from './components/search-local/search-local.com
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 
 import { AddressService } from './services/address.service';
+import { AppSettingsService } from './services/app-settings.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -170,6 +171,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
   ],
   providers: [
     AddressService,
+    AppSettingsService,
     appRoutingProviders,
     BlandPageGuard,
     BlandPageService,
