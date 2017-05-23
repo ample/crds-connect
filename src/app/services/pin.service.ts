@@ -263,8 +263,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId);
   }
 
-  public inviteToGathering(gatheringId: number, someone: Person): Observable<boolean> {
-    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/inviteToGathering/${gatheringId}`, someone);
+  public inviteToGroup(groupId: number, someone: Person, finderType: string): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/invitetogroup/${groupId}/${finderType}`, someone);
   }
 
   public postPin(pin: Pin) {
