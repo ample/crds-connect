@@ -56,7 +56,7 @@ describe('Gathering component redirect error', () => {
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
             ['redirectToLogin', 'redirectToTarget']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'isConnectApp']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
@@ -138,7 +138,7 @@ describe('GatheringComponent', () => {
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
             ['redirectToLogin', 'redirectToTarget']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'isConnectApp']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
