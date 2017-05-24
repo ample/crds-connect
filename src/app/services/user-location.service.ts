@@ -121,14 +121,14 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     let contactId = this.session.getContactId();
     let locObs = new Observable(observer => {
 
-      // If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
+
       this.mapHlpr.setDidUserAllowGeoLoc(false);
 
-      setTimeout(() => {
-        if (!this.mapHlpr.didUserAllowGeoLoc) {
-          observer.error();
-        }
-      }, 15000);
+      // If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
+      // REMOVED the 15 sec timeout here, was breaking all other browsers, consider smaller timeout if needed again
+      if (!this.mapHlpr.didUserAllowGeoLoc) {
+        return observer.error();
+      }
 
       let position: GeoCoordinates;
 
