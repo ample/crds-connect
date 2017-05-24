@@ -23,6 +23,11 @@ export class App {
   }
 }
 
+export enum AppType {
+  Connect,
+  Groups
+};
+
 export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
 
@@ -40,7 +45,7 @@ export enum UserState {
   NotLoggedIn
 }
 
-//The default value for proximity to user's current location when no location data is available
+// The default value for proximity to user's current location when no location data is available
 export let proximityUnavailableDefaultNum: number = 999;
 
 export const googleMapStyles: Array<any> = [

@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AddressService } from '../../services/address.service';
+import { AppSettingsService } from '../../services/app-settings.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -36,11 +37,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private router: Router,
     private state: StateService,
     private userLocationService: UserLocationService,
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private appSettings: AppSettingsService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
-      this.doSearch('searchLocal', this.state.activeApp, mapView.lat, mapView.lng, mapView.zoom);
+      this.doSearch('searchLocal', this.appSettings.finderType, mapView.lat, mapView.lng, mapView.zoom);
     });
 
     this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
@@ -59,7 +61,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.state.setActiveApp(this.router.url);
 
     let haveResults: boolean = !!this.pinSearchResults;
-    let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;
+    let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;  // this should be refactored out 
     let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
 
     if ( areSearchResultsAbsentOrDated ) {
@@ -72,7 +74,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           this.state.setMyViewOrWorldView('world');
           this.runFreshSearch();
         } else {
-          this.doSearch(lastSearch.search, this.state.activeApp, lastSearch.coords.lat, lastSearch.coords.lng);
+          this.doSearch(lastSearch.search, this.appSettings.finderType, lastSearch.coords.lat, lastSearch.coords.lng);
         }
       } else {
         this.runFreshSearch();
@@ -86,7 +88,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.userLocationService.GetUserLocation().subscribe (
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-        this.doSearch('useLatLng', this.state.activeApp, pos.lat, pos.lng );
+        this.doSearch('useLatLng', this.appSettings.finderType, pos.lat, pos.lng );
       }
     );
   }
@@ -145,11 +147,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   doSearch(searchString: string, finderType: string,  lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
-    this.pinService.getPinSearchResults(searchString, this.state.activeApp, lat, lng, zoom).subscribe(
+    this.pinService.getPinSearchResults(searchString, this.appSettings.finderType, lat, lng, zoom).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.processAndDisplaySearchResults(searchString, lat, lng);
-        this.state.appForWhichWeRanLastSearch = this.state.activeApp;
+        this.state.appForWhichWeRanLastSearch = this.state.activeApp;   // this needs to be refactored out
       },
       error => {
         console.log(error);
@@ -167,12 +169,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
          && postedPin.pinType === pinFromResults.pinType);
-  };
+  }
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  };
+  }
 
   private verifyPostedPinExistence() {
     if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {

@@ -9,6 +9,7 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 import { Participant } from '../../../models/participant';
 import { Address } from '../../../models/address';
 
+import { AppSettingsService } from '../../../services/app-settings.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
@@ -37,7 +38,8 @@ export class GatheringComponent implements OnInit {
   private ready = false;
   private address: Address = Address.overload_Constructor_One();
 
-  constructor(private session: SessionService,
+  constructor(private app: AppSettingsService,
+    private session: SessionService,
     private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
@@ -53,7 +55,11 @@ export class GatheringComponent implements OnInit {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
-    this.state.setPageHeader('gathering', '/');
+
+    let redirectRouteOnBack: string = this.app.isConnectApp() ? '/' : '/groupsv2';
+    let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
+    this.state.setPageHeader(pageTitleOnHeader, redirectRouteOnBack);
+
     try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
       participants => {
@@ -94,6 +100,8 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
+    let routeToGoToOnSuccess: string = this.app.isConnectApp() ? '' : 'groupsv2';
+    let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
     this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
@@ -102,10 +110,10 @@ export class GatheringComponent implements OnInit {
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
-            'finderGatheringJoinRequestSent',
+            successBodyContentBlock,
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
-            ''
+            routeToGoToOnSuccess
           ));
         },
         failure => {

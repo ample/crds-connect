@@ -14,7 +14,7 @@ import { StateService } from '../../services/state.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { UserLocationService } from  '../../services/user-location.service';
-
+import { AppSettingsService } from '../../services/app-settings.service';
 
 
 describe('Component: MapFooter', () => {
@@ -30,6 +30,7 @@ describe('Component: MapFooter', () => {
     let mockUserLocationService;
     let mockAngulartics2;
     let mockSearchService;
+    let mockAppSettingsService;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
@@ -40,6 +41,7 @@ describe('Component: MapFooter', () => {
         mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['setLoading', 'setPageHeader', 'GetUserLocation']);
         mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
         mockSearchService = jasmine.createSpyObj<SearchService>('searchService',['constructor']);
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingService', ['constructor']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -53,7 +55,8 @@ describe('Component: MapFooter', () => {
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: UserLocationService, useValue: mockUserLocationService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
-                { provide: SearchService, useValue: mockSearchService }
+                { provide: SearchService, useValue: mockSearchService },
+                { provide: AppSettingsService, useValue: mockAppSettingsService}
             ],
             imports: [
                 RouterTestingModule.withRoutes([])
