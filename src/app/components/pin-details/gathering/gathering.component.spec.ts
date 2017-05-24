@@ -253,6 +253,7 @@ describe('GatheringComponent', () => {
     it('should succeed while requesting to join', () => {
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.and.returnValue(true);
+        (<jasmine.Spy>mockAppSettingsService.isConnectApp).and.returnValue(true);
         let pin = MockTestData.getAPin(1);
         let expectedBPD = new BlandPageDetails(
             'Return to map',
