@@ -10,6 +10,7 @@ import { GatheringComponent } from './gathering.component';
 
 import { Pin, Address, Group, Participant, BlandPageCause, BlandPageDetails, BlandPageType } from '../../../models';
 
+import { AppSettingsService } from '../../../services/app-settings.service';
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -34,6 +35,7 @@ class MockAngulartic {
 let fixture: ComponentFixture<GatheringComponent>;
 let comp: GatheringComponent;
 let el;
+let mockAppSettingsService;
 let mockSessionService;
 let mockPinService;
 let mockLoginRedirectService;
@@ -48,6 +50,7 @@ let mockRouter;
 
 describe('Gathering component redirect error', () => {
     beforeEach(() => {
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
@@ -71,6 +74,7 @@ describe('Gathering component redirect error', () => {
             ],
             imports: [],
             providers: [
+                { provide: AppSettingsService, useValue: mockAppSettingsService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
@@ -128,6 +132,7 @@ describe('Gathering component redirect error', () => {
 
 describe('GatheringComponent', () => {
     beforeEach(() => {
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
@@ -148,6 +153,7 @@ describe('GatheringComponent', () => {
             ],
             imports: [],
             providers: [
+                { provide: AppSettingsService, useValue: mockAppSettingsService },
                 { provide: PinService, useValue: mockPinService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
