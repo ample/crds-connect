@@ -16,6 +16,10 @@
   overflow-y: scroll;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    background-color: darken($cr-blue, 15);
+  }
 }
 
 .fauxdal {
