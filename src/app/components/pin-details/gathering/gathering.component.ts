@@ -101,6 +101,7 @@ export class GatheringComponent implements OnInit {
 
   public requestToJoin() {
     let routeToGoToOnSuccess: string = this.app.isConnectApp() ? '' : 'groupsv2';
+    let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
     this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
@@ -109,7 +110,7 @@ export class GatheringComponent implements OnInit {
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
-            'finderGatheringJoinRequestSent',
+            successBodyContentBlock,
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
             routeToGoToOnSuccess
