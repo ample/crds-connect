@@ -6,7 +6,7 @@ import { AppSettingsService } from '../services/app-settings.service';
 import { Pin, pinType } from '../models/pin';
 import { AppType } from '../shared/constants';
 
-fdescribe('Service: App Settings', () => {
+describe('Service: App Settings', () => {
 
     const mockContactIdOnMap: number  = 111;
     const mockContactIdNotInPinArray: number   = 333;
