@@ -5,10 +5,12 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
-
+import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus } from '../../shared/constants';
 import { AddressService } from '../../services/address.service';
+import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { GroupService } from '../../services/group.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
@@ -33,6 +35,7 @@ export class HostApplicationComponent implements OnInit {
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
   public isHidden = true; //temporary fix for hiding isHomeAddress checkbox
+  private ApplicationUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
   constructor(
     private addressService: AddressService,
@@ -46,10 +49,34 @@ export class HostApplicationComponent implements OnInit {
     private store: StoreService,
     private toast: ToastsManager,
     private state: StateService,
-    private location: Location
+    private location: Location,
+    private appSettingsService: AppSettingsService,
+    private groupService: GroupService
   ) {}
 
   public ngOnInit() {
+    switch (this.appSettingsService.leadershipApplicationType) {
+      case LeadershipApplicationType.GROUP_LEADER:
+        this.groupService.getLeaderStatus().subscribe(
+          pos => {
+              console.log(pos);
+              console.log(GroupLeaderApplicationStatus.APPROVED);
+              console.log(pos.status === GroupLeaderApplicationStatus.APPROVED);
+              if ( pos.status === GroupLeaderApplicationStatus.APPROVED) {
+                console.log('create a group');
+              } else {
+                console.log('go to leader application');
+                window.location.href = this.ApplicationUrl;
+              }
+          },
+          error => {
+            console.log('bad things');
+            window.location.href = this.ApplicationUrl;
+          }
+      );
+        break;
+    };
+
     this.userData = this.route.snapshot.data['userData'];
     let mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
     this.homeAddress = this.userData.address;
