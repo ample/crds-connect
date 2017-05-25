@@ -30,6 +30,7 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { EventEmitter } from '@angular/core';
 import { MapView } from '../../models/map-view';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 describe('Component: SearchLocal', () => {
   let fixture: ComponentFixture<SearchLocalComponent>;
@@ -50,9 +51,8 @@ describe('Component: SearchLocal', () => {
     mockBlandPageService,
     mockIPService,
     mockCookieService,
-    mockEventEmitter;
-
-
+    mockEventEmitter,
+    mockAppSettingsService;
 
 
   beforeEach(() => {
@@ -75,7 +75,7 @@ describe('Component: SearchLocal', () => {
     mockIPService = jasmine.createSpyObj<IPService>('ipService', ['']);
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
     mockEventEmitter = jasmine.createSpyObj<EventEmitter<MapView>>('eventEmitter', ['subscribe']);
-
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingService', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -107,7 +107,8 @@ describe('Component: SearchLocal', () => {
         { provide: CookieService, useValue: mockCookieService },
         { provide: SearchService, useValue: mockSearchService },
         { provide: IPService, useValue: mockIPService },
-        { provide: NeighborsHelperService, useValue: mockNeighborsHelperService }
+        { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
+        { provide: AppSettingsService, useValue: mockAppSettingsService}
       ]
     });
 

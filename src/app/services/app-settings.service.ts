@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { AppType } from '../shared/constants';
+import { AppType, app } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
@@ -11,13 +11,19 @@ export class AppSettingsService {
   setAppSettings(appType: AppType) {
       switch (appType) {
           case AppType.Connect:
-            this.finderType = 'CONNECT';
+            this.finderType = app.CONNECT;
             console.log('Settings for Connect');
             break;
           case AppType.Groups:
-            this.finderType = 'SMALL_GROUPS';
+            this.finderType = app.SMALL_GROUPS;
             console.log('Settings for Groups');
             break;
       }
   }
+
+  public isConnectApp(): boolean {
+      let isConnectApp: boolean = this.finderType === app.CONNECT;
+      return isConnectApp;
+  }
+
 }

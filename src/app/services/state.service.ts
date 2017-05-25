@@ -109,18 +109,4 @@ export class StateService {
       this.activeApp = app.CONNECT;
     }
   }
-
-  public isConnectApp(pin?: Pin): boolean {
-
-    let isConnectApp: boolean;
-
-    if (!pin) {
-      isConnectApp= this.activeApp === app.CONNECT;
-    } else {
-      isConnectApp = pin.pinType !== pinType.SMALL_GROUP;
-    }
-
-    return isConnectApp;
-  }
-
 }

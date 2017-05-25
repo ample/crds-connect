@@ -15,6 +15,10 @@ import { HeaderComponent } from './layout/header/header.component';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { AppSettingsService } from './services/app-settings.service';
+import { APP_BASE_HREF } from '@angular/common';
+
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -43,6 +47,9 @@ describe('App: CrdsConnect', () => {
         Angulartics2GoogleAnalytics,
         ToastsManager,
         ToastOptions,
+        AppSettingsService,
+        Location, {provide: LocationStrategy, useClass: PathLocationStrategy},
+        {provide: APP_BASE_HREF, useValue: '/'}
       ]
     })
       .compileComponents();

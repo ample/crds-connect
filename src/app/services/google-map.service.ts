@@ -16,7 +16,7 @@ export class GoogleMapService {
   public dataForDrawingEmitter: EventEmitter<any>;
   public clusterMarkersEmitter: EventEmitter<any>;
 
-  public didUserAllowGeoLoc: boolean;
+  public didUserAllowGeoLoc: boolean = false;
   public siteMarkersOnMap: any = undefined;
   public mapViewUpdatedEmitter: EventEmitter<MapView>;
 
