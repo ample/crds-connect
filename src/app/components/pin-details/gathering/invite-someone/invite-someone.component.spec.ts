@@ -29,6 +29,8 @@ describe('InviteSomeoneComponent', () => {
     let mockContentService, mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast, mockAppSettings;
 
     beforeEach(() => {
+        mockAppSettings =  jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
+        mockAppSettings.finderType = "CONNECT";
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGroup']);
@@ -36,21 +38,20 @@ describe('InviteSomeoneComponent', () => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
-        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
 
         TestBed.configureTestingModule({
             declarations: [
                 InviteSomeoneComponent
             ],
             providers: [
+                { provide: AppSettingsService, useValue: mockAppSettings },
                 { provide: Router, useValue: mockRouter },
                 { provide: FormBuilder, useValue: mockFormBuilder },
                 { provide: PinService, useValue: mockPinService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: ToastsManager, useValue: mockToast },
-                { provide: ContentService, useValue: mockContentService },
-                { provide: AppSettingsService, useValue: mockAppSettings }
+                { provide: ContentService, useValue: mockContentService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -75,7 +76,7 @@ describe('InviteSomeoneComponent', () => {
         expect(comp.inviteFormGroup.controls['email']).toBeTruthy();
     });
 
-    fit('should successfully submit', () => {
+    it('should successfully submit', () => {
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
         let gatheringId = 123;
@@ -91,8 +92,6 @@ describe('InviteSomeoneComponent', () => {
             `gathering/${gatheringId}`
         );
 
-        mockAppSettings.finderType = 'CONNECT';
-
         (<jasmine.Spy>mockPinService.inviteToGroup).and.returnValue(Observable.of({}));
         comp.gatheringId = gatheringId;
         comp.participantId = participantId;
@@ -104,7 +103,7 @@ describe('InviteSomeoneComponent', () => {
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
-    fit('should fail to submit', () => {
+    it('should fail to submit', () => {
         let expectedText = '<p>invite failed</p>';
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
