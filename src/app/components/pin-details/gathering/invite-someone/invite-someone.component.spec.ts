@@ -30,7 +30,7 @@ describe('InviteSomeoneComponent', () => {
 
     beforeEach(() => {
         mockAppSettings =  jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
-        mockAppSettings.finderType = "CONNECT";
+        mockAppSettings.finderType = 'CONNECT';
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGroup']);
