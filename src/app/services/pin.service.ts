@@ -138,11 +138,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     , lat?: number
     , lng?: number
     , zoom?: number): Observable<PinSearchResultsDto> {
+    contactId = contactId || 0;
     let searchUrl: string = lat && lng ?
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType
+      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType + '/' + contactId
       + '/' + lat.toString().split('.').join('$') + '/'
       + lng.toString().split('.').join('$') :
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType;
+      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType + '/' + contactId;
     // if we have a cache AND that cache came from a full search and
     // not just an insert from visiting a detail page off the bat, use that cache
     if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
@@ -163,6 +164,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
           // get extra pins for moving around without new query
           let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom - 1);
           searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType
+            + '/' + contactId
             + '/' + lat.toString().split('.').join('$')
             + '/' + lng.toString().split('.').join('$')
             + '/' + ('' + geobounds['north']).split('.').join('$')
@@ -171,11 +173,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
             + '/' + ('' + geobounds['east']).split('.').join('$');
         } else {
           searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType
+            + '/' + contactId
             + '/' + lat.toString().split('.').join('$')
             + '/' + lng.toString().split('.').join('$');
         }
       } else {
-        searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType;
+        searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType + '/' + contactId;
       }
 
       return this.session.get(this.baseUrl + searchUrlZoom)
