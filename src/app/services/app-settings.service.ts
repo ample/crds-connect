@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { AppType, app } from '../shared/constants';
+import { AppType, app, AppRoute, appRoute } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
@@ -24,6 +24,11 @@ export class AppSettingsService {
   public isConnectApp(): boolean {
       let isConnectApp: boolean = this.finderType === app.CONNECT;
       return isConnectApp;
+  }
+
+  public getBaseUrlForCurrentApp(): string {
+      let baseUrlForApp: string = this.isConnectApp() ? appRoute.CONNECT_ROUTE : appRoute.SMALL_GROUPS_ROUTE;
+      return baseUrlForApp;
   }
 
 }

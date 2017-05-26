@@ -48,7 +48,8 @@ export class MapFooterComponent {
     this.state.myStuffActive = true;
 
     if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin('/');
+      let baseUrlToRedirectToAfterLogin: string = this.appSettings.getBaseUrlForCurrentApp();
+      this.loginRedirectService.redirectToLogin(baseUrlToRedirectToAfterLogin);
     } else {
       this.userLocationService.GetUserLocation().subscribe(
           pos => {
@@ -57,7 +58,7 @@ export class MapFooterComponent {
           }
       );
     }
-  }
+  };
 
   doSearch(lat: number, lng: number) {
     this.pin.getPinSearchResults('', this.appSettings.finderType, lat, lng).subscribe(
