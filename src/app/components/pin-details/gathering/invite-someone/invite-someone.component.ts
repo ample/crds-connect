@@ -23,6 +23,7 @@ export class InviteSomeoneComponent implements OnInit {
     @Input() participantId: number;
 
     public inviteFormGroup: FormGroup;
+    public isFormSubmitted: boolean = false;
 
     constructor(private fb: FormBuilder,
         private router: Router,
@@ -41,6 +42,8 @@ export class InviteSomeoneComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
+        this.isFormSubmitted = true;
+
         if (valid) {
             let someone = new Person(value.firstname, value.lastname, value.email);
 
