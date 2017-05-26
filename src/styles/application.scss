@@ -30,13 +30,6 @@ app-neighbors {
   display: block;
 }
 
-// Centers blocks to the middle of the screen.
-.content-middle {
-  @include container-fixed();
-  max-width: $container-tablet;
-  width: 100%;
-}
-
 // 🚨 Temp fix - Need higher contrast for active states on btns (to be revisited).
 .btn.btn-primary.active {
   background: darken($btn-primary-bg, 20);
@@ -72,11 +65,23 @@ app-neighbors {
   margin-bottom: -40px; // Removes white space between footer & content.
 }
 
+.container {
+  @media (min-width: $screen-sm) {
+    width: $container-tablet;
+  }
+
+  @media (min-width: $screen-md) {
+    width: $container-tablet;
+  }
+
+  @media (min-width: $screen-lg) {
+    width: $container-tablet;
+  }
+}
+
 .connect-container {
   background: $cr-white;
   min-height: 381px;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 
   @for $idx from 5 to 30 {
     $height: $idx * 100;
@@ -87,9 +92,6 @@ app-neighbors {
 
   @media (min-width: $screen-sm) {
     box-shadow: 0 0 10px 0 $cr-gray-light;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    width: $container-tablet;
   }
 
   &.dark-theme {
