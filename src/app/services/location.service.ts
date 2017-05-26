@@ -18,7 +18,10 @@ export class LocationService {
         this.getPositionFromGeoLocation().subscribe(
             geoLocPos => {
               observer.next(geoLocPos);
-            }
+            },
+          error => {
+            observer.error();
+          }
         );
       } else {
         let defaultPos: any = this.getDefaultPosition();
@@ -34,14 +37,14 @@ export class LocationService {
       let position: GeoCoordinates;
 
       navigator.geolocation.getCurrentPosition(pos => {
+        // user chose ALLOW location detection
         position = new GeoCoordinates(pos.coords.latitude, pos.coords.longitude);
         observer.next(position);
       }, () => {
-        position =  this.getDefaultPosition();
-        observer.next(position);
+        // user chose BLOCK location detection
+         observer.error();
       }, { maximumAge: 600000, timeout: 5000, enableHighAccuracy: true});
     });
-
     return geoLocationObservable;
   };
 

@@ -18,6 +18,8 @@ import { Observable } from 'rxjs';
 })
 export class GatheringEditComponent implements OnInit {
     @Input() pin: Pin;
+
+    private pinType: any = pinType;
     private submitting: boolean = false;
     private ready: boolean = false;
     private submissionError: boolean = false;

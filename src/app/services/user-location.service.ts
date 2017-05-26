@@ -34,8 +34,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     }
     let locObs = new Observable(observer => {
       if (this.session.isLoggedIn()) {
-        let contactid: number = this.session.getContactId(); // get contactid from cookie
-
+        let contactid: number = this.session.getContactId();
         this.getUserLocationFromUserId(contactid).subscribe(
           success => {
             observer.next(success);
@@ -120,15 +119,9 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
   private getUserLocationFromCurrentLocation(): Observable<any> {
     let contactId = this.session.getContactId();
     let locObs = new Observable(observer => {
-
-      // If user does not allow location within 15 seconds, throw - this is a fix for Firefox hanging on 'Not now'
-      this.mapHlpr.setDidUserAllowGeoLoc(false);
-
-      setTimeout(() => {
-        if (!this.mapHlpr.didUserAllowGeoLoc) {
-          observer.error();
-        }
-      }, 15000);
+      // On FF, user is not allowed time to allow/block location detection
+      // assumption is block and IP detection is used
+      // REMOVED previous fix with 15 sec timeout to accomodate FF
 
       let position: GeoCoordinates;
 

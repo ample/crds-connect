@@ -13,7 +13,7 @@ import { MapMarker } from '../../models/map-marker';
 import { PinLabelData, PinLabel } from '../../models/pin-label-data';
 import { pinType } from '../../models/pin';
 
-import { googleMapStyles } from '../../shared/constants';
+import { app, App, googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
 function PinLabelOverlay(bounds, map, labelData) {
@@ -52,7 +52,9 @@ export class MapContentComponent implements OnInit {
 
   @HostListener('document:redrawingClusters', ['$event'])
   onClusterRedraw(event) {
-    this.drawLabels(event.data.markersNotInClusters);
+    if(this.state.activeApp === app.CONNECT){
+      this.drawLabels(event.data.markersNotInClusters);
+    }
   }
 
   ngOnInit() {

@@ -26,11 +26,15 @@ export class ListViewComponent implements OnInit {
   }
 
   public pinsToShow(): Pin[] {
+
     let showing: number = this.stateService.getShowingPinCount();
+
     if (this.searchResults == null) {
       return new Array<Pin>();
     }
+
     return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
+
   }
 
   public pinsToShowCountings() {

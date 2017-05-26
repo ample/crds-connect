@@ -1,4 +1,4 @@
-<div class="container-fluid connect-container">
+<div class="connect-container">
   <div *ngIf="isMyStuffView()">
     <h2 class="title" *ngIf="isMyStuffView()"><crds-content-block id="finderMyStuff"></crds-content-block></h2>
     <hr>
@@ -10,6 +10,7 @@
               [siteName]="pin.siteName"
               [type]="pin.pinType"
               [proximity]="pin.proximity"
+              [groupTitle] = "pin.gathering ? pin.gathering.groupName : ''"
               [description]="pin.gathering ? pin.gathering.groupDescription : ''"
               [groupId]="pin.gathering ? pin.gathering.groupId : 0"
               [participantId]="pin.participantId"
@@ -24,4 +25,5 @@
           (click)="showMore()">Load more</button>
 
   <list-footer [pins]="searchResults?.pinSearchResults"></list-footer>
+
 </div>

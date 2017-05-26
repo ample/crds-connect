@@ -4,6 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TestBed } from '@angular/core/testing';
 import 'rxjs/add/observable/of';
+import { AppSettingsService } from '../../services/app-settings.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { MapComponent } from '../../components/map/map.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
@@ -46,7 +47,8 @@ describe('Component: Map', () => {
         mockIPService,
         mockGoogleMapsAPIWrapper,
         mockSearchService,
-        mockNeighborsHelperService;
+        mockNeighborsHelperService,
+        mockAppSettingsService;
 
   beforeEach(() => {
         mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['constructor']);
@@ -65,6 +67,7 @@ describe('Component: Map', () => {
         mockGoogleMapsAPIWrapper = jasmine.createSpyObj<GoogleMapsAPIWrapper>('googleMapsAPIWrapper', ['constructor']);
         mockSearchService = jasmine.createSpyObj<SearchService>('searchService', ['constructor']);
         mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['constructor']);
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('AppSettingsService', ['constructor']);
     TestBed.configureTestingModule({
       declarations: [
         MapComponent,
@@ -93,7 +96,8 @@ describe('Component: Map', () => {
         { provide: IPService, useValue: mockIPService },
         { provide: GoogleMapsAPIWrapper, useValue: mockGoogleMapsAPIWrapper },
         { provide: SearchService, useValue: mockSearchService },
-        { provide: NeighborsHelperService, useValue: mockNeighborsHelperService }
+        { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
+        { provide: AppSettingsService, useValue: mockAppSettingsService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });

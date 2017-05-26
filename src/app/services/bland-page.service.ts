@@ -58,6 +58,12 @@ export class BlandPageService {
         this.primeWhatsAHost(cancelRoute);
         this.router.navigate(['/host-next-steps']);
     }
+
+    public goToRemovePersonPin(cancelRoute?: string) {
+        this.primeRemovePersonPin(cancelRoute);
+        this.router.navigate(['/remove-person-pin']);
+
+    }
     /**
      * This will set the blandPageDetails for Whats a Host and
      * nothing more.  This should only be used by the Whats A Host route Guard.
@@ -111,6 +117,19 @@ export class BlandPageService {
             cancelRoute
         );
     }
+
+    public primeRemovePersonPin(cancelRoute: string = '') {
+        this.blandPageDetails = new BlandPageDetails(
+            'Remove my pin',
+            '',
+            BlandPageType.Text,
+            BlandPageCause.SimpleFauxdal,
+            '/',
+            cancelRoute
+        );
+    }
+
+
 
     public primed() {
         return (this.blandPageDetails !== null && this.blandPageDetails !== undefined);

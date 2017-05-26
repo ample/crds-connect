@@ -26,6 +26,7 @@ export class PinDetailsComponent implements OnInit {
   public isPinOwner: boolean = false;
   public isLoggedIn: boolean = false;
   public isGatheringPin: boolean = false;
+  public isSmallGroupPin: boolean = false;
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: Pin;
@@ -48,6 +49,8 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
+    } else if (this.pin.pinType === pinType.SMALL_GROUP){
+      this.isSmallGroupPin = true;
     }
 
     if (this.session.isLoggedIn()) {
