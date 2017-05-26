@@ -1,7 +1,7 @@
 <h3 class="title font-size-h5 soft-top">Pending</h3>
 <hr>
-<div *ngIf="inquiries.length > 0" class="container-fluid">
-  <div class="row" *ngFor="let inquiry of inquiries">
+<div *ngIf="inquiries.length > 0">
+  <div *ngFor="let inquiry of inquiries">
     <div class="border-bottom soft-half-bottom">
       <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
 

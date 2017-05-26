@@ -1,4 +1,4 @@
-<div class="content-middle connect-container" heading="Register">
+<div class="container connect-container soft-sides" heading="Register">
   <header class="component-header push-top">Register An Account</header>
 
   <hr class="flush-top">
@@ -7,9 +7,9 @@
         action="/"
         (ngSubmit)="store.preSubmit($event);submitRegistration();"
         novalidate>
-    <div class="form-row">
+    <div class="row">
       <!-- First Name -->
-      <div class="form-group form-col-2">
+      <div class="form-group col-xs-6">
         <input type="text"
                class="form-control"
                placeholder="First Name"
@@ -23,7 +23,7 @@
       </div>
 
       <!-- Last Name -->
-      <div class="form-group form-col-2">
+      <div class="form-group col-xs-6">
         <input type="text"
                class="form-control"
                placeholder="Last Name"
@@ -38,8 +38,8 @@
     </div>
 
     <!-- Email -->
-    <div class="form-row">
-      <div class="form-group form-col-1">
+    <div class="row">
+      <div class="form-group col-xs-12">
         <input type="text"
               class="form-control"
               placeholder="Email"
@@ -56,8 +56,8 @@
     </div>
 
     <!-- Password -->
-    <div class="form-row">
-      <div class="form-group form-col-1">
+    <div class="row">
+      <div class="form-group col-xs-12">
         <input type="password"
                class="form-control"
                placeholder="Password"

@@ -1,4 +1,4 @@
-<div class="connect-container">
+<div class="connect-container container">
   <div *ngIf="isMyStuffView()">
     <h2 class="title" *ngIf="isMyStuffView()"><crds-content-block id="finderMyStuff"></crds-content-block></h2>
     <hr>
@@ -19,10 +19,7 @@
               [contactId]="pin.contactId">
   </list-entry>
 
-  <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length"
-          type="submit"
-          class="btn btn-secondary btn-block"
-          (click)="showMore()">Load more</button>
+  <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length" type="submit" class="btn btn-secondary btn-block push-half-top" (click)="showMore()">Load more</button>
 
   <list-footer [pins]="searchResults?.pinSearchResults"></list-footer>
 
