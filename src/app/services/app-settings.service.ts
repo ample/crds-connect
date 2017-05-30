@@ -1,10 +1,11 @@
 import { Injectable} from '@angular/core';
-import { AppType, app, AppRoute, appRoute } from '../shared/constants';
+import { AppType, app, AppRoute, appRoute, LeadershipApplicationType } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
 
   public finderType: string;
+  public leadershipApplicationType: LeadershipApplicationType;
 
   constructor() {}
 
@@ -12,11 +13,11 @@ export class AppSettingsService {
       switch (appType) {
           case AppType.Connect:
             this.finderType = app.CONNECT;
-            console.log('Settings for Connect');
+            this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
             break;
           case AppType.Groups:
             this.finderType = app.SMALL_GROUPS;
-            console.log('Settings for Groups');
+            this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
             break;
       }
   }

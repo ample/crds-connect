@@ -16,6 +16,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
+import { AppSettingsService } from '../../../../services/app-settings.service';
 
 import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
@@ -25,12 +26,14 @@ describe('InviteSomeoneComponent', () => {
     let comp: InviteSomeoneComponent;
     let el;
 
-    let mockContentService, mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast;
+    let mockContentService, mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast, mockAppSettings;
 
     beforeEach(() => {
+        mockAppSettings =  jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
+        mockAppSettings.finderType = 'CONNECT';
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGathering']);
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGroup']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
@@ -41,6 +44,7 @@ describe('InviteSomeoneComponent', () => {
                 InviteSomeoneComponent
             ],
             providers: [
+                { provide: AppSettingsService, useValue: mockAppSettings },
                 { provide: Router, useValue: mockRouter },
                 { provide: FormBuilder, useValue: mockFormBuilder },
                 { provide: PinService, useValue: mockPinService },
@@ -87,14 +91,15 @@ describe('InviteSomeoneComponent', () => {
             BlandPageCause.Success,
             `gathering/${gatheringId}`
         );
-        (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.of({}));
+
+        (<jasmine.Spy>mockPinService.inviteToGroup).and.returnValue(Observable.of({}));
         comp.gatheringId = gatheringId;
         comp.participantId = participantId;
 
         comp.onSubmit(param);
 
         expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
-        expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
+        expect(<jasmine.Spy>mockPinService.inviteToGroup).toHaveBeenCalledWith(gatheringId, someone, 'CONNECT');
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
@@ -105,15 +110,18 @@ describe('InviteSomeoneComponent', () => {
         let gatheringId = 123;
         let participantId = 456;
         let param = { value: someone, valid: isValid };
+
         mockContentService.getContent.and.returnValue(expectedText);
-        (<jasmine.Spy>mockPinService.inviteToGathering).and.returnValue(Observable.throw({}));
+        mockAppSettings.finderType = 'CONNECT';
+
+        (<jasmine.Spy>mockPinService.inviteToGroup).and.returnValue(Observable.throw({}));
         comp.gatheringId = gatheringId;
         comp.participantId = participantId;
 
         comp.onSubmit(param);
 
         expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(false);
-        expect(<jasmine.Spy>mockPinService.inviteToGathering).toHaveBeenCalledWith(gatheringId, someone);
+        expect(<jasmine.Spy>mockPinService.inviteToGroup).toHaveBeenCalledWith(gatheringId, someone, 'CONNECT');
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);
     });
 

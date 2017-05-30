@@ -12,8 +12,10 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { AddressService } from '../../services/address.service';
+import { AppSettingsService } from '../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { IFrameParentService } from '../../services/iframe-parent.service';
+import { GroupService } from '../../services/group.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -40,7 +42,9 @@ describe('Component: Host Application', () => {
         mockLoginRedirectService,
         mockPinService,
         mockBlandPageService,
-        mockValidate;
+        mockValidate,
+        mockGroupService,
+        mockAppSettings;
 
   beforeEach(() => {
         mockAddressService = jasmine.createSpyObj<PinService>('addressService', ['postPin']);
@@ -54,6 +58,8 @@ describe('Component: Host Application', () => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['constructor']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('BlandPageService', ['constructor']);
         mockValidate = jasmine.createSpyObj<Validators>('Validators', ['minLength', 'maxLength', 'required']);
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['constructor']);
+        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['constructor']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -76,6 +82,8 @@ describe('Component: Host Application', () => {
         { provide: PinService, useValue: mockPinService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: Validators, useValue: mockValidate },
+        { provide: GroupService, useValue: mockGroupService },
+        { provide: AppSettingsService, useValue: mockAppSettings },
         ToastsManager,
         ToastOptions
       ],

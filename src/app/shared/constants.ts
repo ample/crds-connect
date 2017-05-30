@@ -28,6 +28,23 @@ export enum AppType {
   Groups
 };
 
+export enum LeadershipApplicationType {
+  ANYWHERE_HOST,
+  GROUP_LEADER
+};
+
+export enum GroupLeaderApplicationStatus {
+  NOT_APPLIED = 1,
+  INTERESTED,
+  APPLIED,
+  APPROVED,
+  DENIED
+};
+
+export class LeaderStatus {
+  status: number;
+}
+
 export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
 
