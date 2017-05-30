@@ -75,7 +75,7 @@ export class MapFooterComponent {
         this.state.setCurrentView('map');
         this.router.navigate(['/no-results']);
       }
-      );
+    );
   }
 
 }

@@ -7,7 +7,6 @@ import { SmartCacheableService, CacheLevel } from './base-service/cacheable.serv
 
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
-import { app, App, sayHiTemplateId } from '../shared/constants';
 import { StateService } from '../services/state.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
@@ -23,6 +22,8 @@ import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
 import { SearchOptions } from '../models/search-options';
+
+import { app, App, sayHiTemplateId } from '../shared/constants';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -126,7 +127,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
       } else {
-        return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
+        return this.getPinSearchResultsMyStuff(searchOptions, contactId, finderType, lat, lng);
       }
     }
   }
@@ -201,14 +202,25 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   private getPinSearchResultsMyStuff(searchOptions: SearchOptions
     , contactId: number
+    , finderType: string
     , lat?: number
     , lng?: number): Observable<PinSearchResultsDto> {
+
     const geoCodeString = `/${lat}/${lng}`;
     let corsFriendlyGeoCode = geoCodeString.toString().split('.').join('$');
 
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}`)
-      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
+    //GetMyGroupPins(string token, int[] groupTypeIds, int participantId)
+
+
+    if(finderType === app.CONNECT){
+      return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}/${finderType}`)
+          .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+          .catch((error: any) => Observable.throw(error || 'Server error'));
+    } else if (finderType === app.SMALL_GROUPS){
+      return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}/${finderType}`)
+          .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+          .catch((error: any) => Observable.throw(error || 'Server error'));
+    }
   }
 
   // PUTS
