@@ -2,7 +2,7 @@
 #
 # Before running you will need an AWS Access Key ID and an AWS Secret Access Key
 
-$searchdomain = "connect-prod"
+$searchdomain = "connect-dev"
 
 aws cloudsearch create-domain --domain-name "$searchdomain"
 
@@ -15,6 +15,7 @@ aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupdes
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupid --type int
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupname --type text
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name grouptypeid --type int
+aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupstartdate --type text
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name hoststatus --type int
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name householdid --type int
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name lastname --type text
