@@ -59,18 +59,13 @@ export class HostApplicationComponent implements OnInit {
       case LeadershipApplicationType.GROUP_LEADER:
         this.groupService.getLeaderStatus().subscribe(
           pos => {
-              console.log(pos);
-              console.log(GroupLeaderApplicationStatus.APPROVED);
-              console.log(pos.status === GroupLeaderApplicationStatus.APPROVED);
               if ( pos.status === GroupLeaderApplicationStatus.APPROVED) {
                 console.log('create a group');
               } else {
-                console.log('go to leader application');
                 window.location.href = this.ApplicationUrl;
               }
           },
           error => {
-            console.log('bad things');
             window.location.href = this.ApplicationUrl;
           }
       );
