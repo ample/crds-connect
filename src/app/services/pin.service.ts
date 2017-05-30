@@ -206,21 +206,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     , lat?: number
     , lng?: number): Observable<PinSearchResultsDto> {
 
-    const geoCodeString = `/${lat}/${lng}`;
-    let corsFriendlyGeoCode = geoCodeString.toString().split('.').join('$');
+    const geoCodeParamsString = `/${lat}/${lng}`;
+    let corsFriendlyGeoCodeParams = geoCodeParamsString.toString().split('.').join('$');
 
-    //GetMyGroupPins(string token, int[] groupTypeIds, int participantId)
-
-
-    if(finderType === app.CONNECT){
-      return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}/${finderType}`)
-          .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
-          .catch((error: any) => Observable.throw(error || 'Server error'));
-    } else if (finderType === app.SMALL_GROUPS){
-      return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}/${finderType}`)
-          .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
-          .catch((error: any) => Observable.throw(error || 'Server error'));
-    }
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCodeParams}/${finderType}`)
+      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
+      .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
   // PUTS
