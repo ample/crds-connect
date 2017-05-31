@@ -7,6 +7,8 @@ import { Address } from '../../models/address';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
+import { proximityUnavailableDefaultNum } from '../../shared/constants';
+
 @Component({
   selector: 'list-entry',
   templateUrl: 'list-entry.component.html'
@@ -17,6 +19,7 @@ export class ListEntryComponent {
   @Input() siteName: string = '';
   @Input() type: number;
   @Input() proximity: number = 0;
+  @Input() groupTitle: string = '';
   @Input() description: string = '';
   @Input() groupId: number = 0;
   @Input() address: Address = null;
@@ -41,8 +44,12 @@ export class ListEntryComponent {
     return this.type === pinType.GATHERING && this.contactId === this.currentContactId;
   }
 
-  public name() {
-    return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
+  public formatName() {
+    if(this.isSmallGroup()){
+      return this.groupTitle ? this.groupTitle.toUpperCase() : '';
+    } else {
+      return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
+    }
   }
 
   public isPerson() {
@@ -55,6 +62,10 @@ export class ListEntryComponent {
 
   public isSite() {
     return this.type === pinType.SITE;
+  }
+
+  public isSmallGroup() {
+    return this.type === pinType.SMALL_GROUP;
   }
 
   public getPicByPinType() {
@@ -99,7 +110,7 @@ export class ListEntryComponent {
   }
 
   public roundedProximity() {
-    return this.proximity.toFixed(1);
+    return this.proximity ? this.proximity.toFixed(1) : proximityUnavailableDefaultNum;
   }
 
 }

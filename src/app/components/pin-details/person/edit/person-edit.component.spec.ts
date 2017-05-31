@@ -38,7 +38,8 @@ describe('PersonEditComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
         mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setLastSearch']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setCurrentView',
+                                                              'getCurrentView', 'setLastSearch']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress', 'clearCache']);
@@ -47,7 +48,7 @@ describe('PersonEditComponent', () => {
             declarations: [
                 PersonEditComponent,
                 MockComponent({ selector: 'address-form', inputs: ['parentForm', 'isFormSubmitted', 'groupName', 'address'] }),
-                MockComponent({ selector: 'crds-content-block', inputs: ['id']})
+                MockComponent({ selector: 'crds-content-block', inputs: ['id'] })
             ],
             imports: [
                 RouterTestingModule.withRoutes([]),
@@ -66,7 +67,7 @@ describe('PersonEditComponent', () => {
                     useValue: { snapshot: { data: { pin: pin } } },
                 },
             ],
-            schemas: [ NO_ERRORS_SCHEMA ]
+            schemas: [NO_ERRORS_SCHEMA]
         });
     });
 

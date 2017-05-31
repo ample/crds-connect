@@ -8,6 +8,7 @@ import { SmartCacheableService, CacheLevel } from './base-service/cacheable.serv
 import { IFrameParentService } from './iframe-parent.service';
 import { SessionService } from './session.service';
 import { ParticipantService } from './participant.service';
+import { LeaderStatus } from '../shared/constants';
 
 import { Pin } from '../models/pin';
 import { Inquiry } from '../models/inquiry';
@@ -55,5 +56,12 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
 
   public handleInvite(guid: string, accepted: boolean, groupId: number): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/group/${groupId}/invitation/${guid}`, accepted);
+  }
+
+  public getLeaderStatus(): Observable<LeaderStatus> {
+    let url = `${this.baseUrl}api/v1.0.0/group-leader/leader-status`;
+    return this.session.get (url)
+      .do((res) => console.log(res))
+      .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 }

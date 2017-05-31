@@ -19,7 +19,12 @@
   left: 0;
   z-index: 5;
   overflow-y: scroll;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
 }
 
 .fauxdal {
@@ -34,7 +39,7 @@
 
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 2rem;
 
     a {
       color: $cr-white;

@@ -15,6 +15,9 @@ import { StateService } from '../services/state.service';
 import { Address } from '../models/address';
 import { Pin, pinType } from '../models/pin';
 import { PinLabelData } from '../models/pin-label-data';
+import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+
+import { MockTestData } from '../shared/MockTestData';
 
 describe('Service: Pin Label', () => {
 
@@ -72,6 +75,24 @@ describe('Service: Pin Label', () => {
     expect(pinLabel.isHost).toEqual(mockPinLabel.isHost);
     expect(pinLabel.isMe).toEqual(mockPinLabel.isMe);
     expect(pinLabel.pinType).toEqual(mockPinLabel.pinType);
+  }));
+
+  it('should return true for host', inject([PinLabelService, StateService], (service: PinLabelService, state: StateService) => {
+    state.setMyViewOrWorldView('my');
+    let pins = MockTestData.getAPinSearchResults(2).pinSearchResults;
+    let pinsHost = MockTestData.getAPinSearchResultsGatheringHost(2).pinSearchResults;
+    pins = pins.concat(pinsHost);
+    let isHostTrue = service.isHostingAny(pins);
+
+    expect(isHostTrue).toEqual(true);
+  }));
+
+  it('should return false for host', inject([PinLabelService, StateService], (service: PinLabelService, state: StateService) => {
+    state.setMyViewOrWorldView('my');
+    let pins = MockTestData.getAPinSearchResults(2).pinSearchResults;
+    let isHostTrue = service.isHostingAny(pins);
+
+    expect(isHostTrue).toEqual(false);
   }));
 
 });

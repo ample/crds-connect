@@ -1,11 +1,9 @@
 <div class="container-fluid connect-container dark-theme">
   <div class="media">
-    <profile-picture imageClass="media-object img-size-6"
-                     wrapperClass="media-img-wrapper"
-                     [contactId]="pin.contactId"></profile-picture>
+    <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 
     <div class="media-body">
-      <pin-header [isPinOwner]="isPinOwner" [lastName]="pin.lastName" [firstName]="pin.firstName" [contactId]="pin.contactId"></pin-header>
+      <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
     </div>
   </div>
 
@@ -21,6 +19,10 @@
           <button type="button" (click)="cancel()" class="btn btn-outline btn-default">Cancel</button>
         </div>
       </footer>
+
+      <div>
+        <a class="pointer" [routerLink]="['/remove-person-pin/', pin.participantId]">Remove me from the map</a>
+      </div>
 
       <div *ngIf="submissionError" class="alert alert-danger">
         <crds-content-block id="generalError"></crds-content-block>

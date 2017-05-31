@@ -1,3 +1,4 @@
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics} from 'angulartics2';
@@ -6,9 +7,12 @@ import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr'
 
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { StateService } from './services/state.service';
+import { AppSettingsService } from './services/app-settings.service';
+import { AppType } from './shared/constants';
 
 @Component({
   selector: 'app-root',
+  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}],
   template: `
     <div [ngClass]="{'loading': state.is_loading}">
       <app-preloader></app-preloader>
@@ -28,6 +32,8 @@ export class AppComponent implements OnInit {
   iFrameResizerCW: any;
 
   constructor(
+    private location: Location,
+    private appsettings: AppSettingsService,
     private route: ActivatedRoute,
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
@@ -50,6 +56,24 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.state.setLoading(true);
+    this.getAppContext();
+  }
+
+  private getAppContext() {
+    // determine if we are running connect or group tool
+    let root = document.location.href.replace(this.location.path(), '');
+
+    if (root.endsWith('connect') || root.endsWith('connect/')) {
+      this.appsettings.setAppSettings(AppType.Connect);
+      return;
+    }
+
+    if (root.endsWith('groupsv2') || root.endsWith('groupsv2/')) {
+      this.appsettings.setAppSettings(AppType.Groups);
+      return;
+    }
+    // default to Groups
+    this.appsettings.setAppSettings(AppType.Groups);
   }
 
   removeFauxdalClasses(val) {
