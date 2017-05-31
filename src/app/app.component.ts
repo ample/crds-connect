@@ -60,10 +60,8 @@ export class AppComponent implements OnInit {
   }
 
   private getAppContext() {
-    // determine if we are running connect or group tool
 
     let root = document.location.href.replace(this.location.path(), '');
-    console.log('Root: ' + root);
 
     let url: string = document.location.href;
 
