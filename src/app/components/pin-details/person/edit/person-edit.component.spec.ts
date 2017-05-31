@@ -160,9 +160,4 @@ describe('PersonEditComponent', () => {
         comp.cancel();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/person', pin.participantId]);
     });
-
-    it('should navigate to remove-person-pin when remove link clicked', () => {
-        comp.removePersonPin();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/remove-person-pin', pin.participantId]);
-});
 });
