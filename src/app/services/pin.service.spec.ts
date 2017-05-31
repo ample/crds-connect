@@ -14,13 +14,9 @@ import { Observable } from 'rxjs/Rx';
 import { Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
-import { Pin, pinType } from '../models/pin';
-import { User } from '../models/user';
-import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+import { Pin, pinType, GeoCoordinates, User, PinSearchResultsDto, PinIdentifier, Address } from '../models';
 import { MockTestData } from '../shared/MockTestData';
-import { PinIdentifier } from '../models/pin-identifier';
 import { CacheLevel } from '../services/base-service/cacheable.service';
-import { Address } from '../models/address';
 
 describe('Service: Pin', () => {
   let fixture, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService;
@@ -187,6 +183,18 @@ describe('Service: Pin', () => {
       expect(pins[0].address).toEqual(mockAddress2);
     }));
 
+    it('should re-sort by center coords', inject([PinService], (service: PinService) => {
+      let pins: Pin[] = new Array();
+      pins.push(MockTestData.getAPin(3));
+      pins.push(MockTestData.getAPin(1));
+      pins.push(MockTestData.getAPin(2));
+      let centerCoords = new GeoCoordinates(0, 0);
 
+      let reSortedPins = service.reSortBasedOnCenterCoords(pins, centerCoords);
+      expect(reSortedPins[0].contactId).toBe(1);
+      expect(reSortedPins[1].contactId).toBe(2);
+      expect(reSortedPins[2].contactId).toBe(3);
+    }));
 
-});
+}
+);
