@@ -36,7 +36,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public SayHiTemplateId: number;
-  private earthsRadiusInMiles;
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
 
@@ -49,7 +48,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
-    this.earthsRadiusInMiles = earthsRadiusInMiles;
   }
 
   private createPartialCache(pin: Pin): void {
@@ -345,7 +343,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let b2 = address.longitude * (pi / 180);
     return Math.acos(Math.cos(a1) * Math.cos(b1) * Math.cos(a2) * Math.cos(b2)
       + Math.cos(a1) * Math.sin(b1) * Math.cos(a2) * Math.sin(b2)
-      + Math.sin(a1) * Math.sin(a2)) * this.earthsRadiusInMiles;
+      + Math.sin(a1) * Math.sin(a2)) * earthsRadiusInMiles;
   }
 
 

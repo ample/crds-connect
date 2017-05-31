@@ -101,9 +101,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   viewChanged(isMapViewActive: boolean) {
     this.mapViewActive = isMapViewActive;
     if (!isMapViewActive) {
-          let location = this.state.getMapView();
-          let lastSearch = this.state.getLastSearch();
-          let coords = (location !== null ) ? location : lastSearch.coords;
+          let location: MapView = this.state.getMapView();
+          let lastSearch: SearchOptions = this.state.getLastSearch();
+          let coords: GeoCoordinates = (location !== null ) ? location : lastSearch.coords;
           this.pinSearchResults.pinSearchResults =
             this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
         }
