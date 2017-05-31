@@ -22,7 +22,8 @@ export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
 
-  constructor(private pin: PinService,
+  constructor(private appSettings: AppSettingsService,
+              private pin: PinService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
               private state: StateService,
@@ -30,8 +31,7 @@ export class MapFooterComponent {
               private blandPageService: BlandPageService,
               private userLocationService: UserLocationService,
               private search: SearchService,
-              private angulartics2: Angulartics2,
-              private appSettings: AppSettingsService) { }
+              private angulartics2: Angulartics2) { }
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');

@@ -27,6 +27,11 @@ export class AppSettingsService {
       return isConnectApp;
   }
 
+  public isSmallGroupApp(): boolean {
+    let isSmallGroupApp: boolean = this.finderType === app.SMALL_GROUPS;
+    return isSmallGroupApp;
+  }
+
   public getBaseUrlForCurrentApp(): string {
       let baseUrlForApp: string = this.isConnectApp() ? appRoute.CONNECT_ROUTE : appRoute.SMALL_GROUPS_ROUTE;
       return baseUrlForApp;
