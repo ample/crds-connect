@@ -1,11 +1,13 @@
+@import url('https://s3.amazonaws.com/ample-crds/crds-styles/bootstrap-0.6.1.css');
+@import url('https://s3.amazonaws.com/ample-crds/crds-styles/crds-styles-0.6.1.css');
+
+@import '~crds-styles/assets/stylesheets/config/modules';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/mixins';
+
 #crds-connect {
-  @import '~crds-styles/assets/stylesheets/bootstrap';
   @import 'components/modules';
   @import 'pages/modules';
-
-  font-size: $base-font-size;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
 
   body {
     -webkit-font-smoothing: initial;
