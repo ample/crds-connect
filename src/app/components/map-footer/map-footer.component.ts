@@ -2,6 +2,7 @@ import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { PinService } from '../../services/pin.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
@@ -29,7 +30,8 @@ export class MapFooterComponent {
               private blandPageService: BlandPageService,
               private userLocationService: UserLocationService,
               private search: SearchService,
-              private angulartics2: Angulartics2) { }
+              private angulartics2: Angulartics2,
+              private appSettings: AppSettingsService) { }
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
@@ -58,7 +60,7 @@ export class MapFooterComponent {
   }
 
   doSearch(lat: number, lng: number) {
-    this.pin.getPinSearchResults('', lat, lng).subscribe(
+    this.pin.getPinSearchResults('', this.appSettings.finderType, lat, lng).subscribe(
       next => {
         this.myPinSearchResults = next as PinSearchResultsDto;
         this.myPinSearchResults.pinSearchResults =

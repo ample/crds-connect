@@ -16,6 +16,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
+import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
@@ -25,6 +26,8 @@ import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
+
+
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 
 const appRoutes: Routes = [
@@ -93,16 +96,24 @@ const appRoutes: Routes = [
       isFauxdal: true
     }]
   },
-  { path: 'host-signup',
+  {
+    path: 'host-signup',
     component: HostApplicationComponent,
     canActivate: [LoggedInGuard],
     resolve: {
       userData: DetailedUserDataResolver
     }
   },
-  { path: 'map', component: NeighborsComponent },
   { path: 'neighbors', component: NeighborsComponent },
+  { path: 'groupsv2', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
+  {
+    path: 'remove-person-pin/:participantId',
+    component: RemovePersonPinComponent,
+    resolve: {
+      pin: PinResolver
+    }
+  },
   {
     path: 'getting-started',
     component: GettingStartedComponent,
@@ -134,13 +145,20 @@ const appRoutes: Routes = [
       user: UserDataResolver
     }
   }, {
+    path: 'small-group/:groupId',
+    component: PinDetailsComponent,
+    resolve: {
+      pin: PinResolver,
+      user: UserDataResolver
+    }
+  }, {
     path: 'gathering/:groupId/edit',
     component: GatheringEditComponent,
     resolve: {
       pin: PinResolver
     },
-    canActivate: [ LoggedInGuard ]
-   },
+    canActivate: [LoggedInGuard]
+  },
   {
     path: 'person/:participantId',
     component: PinDetailsComponent,

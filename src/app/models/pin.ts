@@ -1,7 +1,7 @@
 import { Address } from './address';
 import { Group } from './group';
 
-export enum pinType {PERSON = 1, GATHERING = 2, SITE = 3 };
+export enum pinType { PERSON = 1, GATHERING = 2, SITE = 3, SMALL_GROUP = 4 };
 
 export class Pin {
     firstName: string;

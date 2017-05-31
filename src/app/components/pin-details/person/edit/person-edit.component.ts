@@ -25,14 +25,14 @@ export class PersonEditComponent implements OnInit {
     public editPersonForm: FormGroup;
 
     constructor(private route: ActivatedRoute,
-                private session: SessionService,
-                private blandPageService: BlandPageService,
-                private state: StateService,
-                private addressService: AddressService,
-                private toastr: ToastsManager,
-                private content: ContentService,
-                private pinService: PinService,
-                private router: Router) { }
+        private session: SessionService,
+        private blandPageService: BlandPageService,
+        private state: StateService,
+        private addressService: AddressService,
+        private toastr: ToastsManager,
+        private content: ContentService,
+        private pinService: PinService,
+        private router: Router) { }
 
     // TODO: Refactor so that when we have pin data we don't go out and get it again. Still need to get it if navigated to directly.
     ngOnInit() {
@@ -43,15 +43,15 @@ export class PersonEditComponent implements OnInit {
         this.state.setPageHeader('Details', `/person/${this.pin.participantId}`);
         this.addressService.getFullAddress(this.pin.participantId, pinType.PERSON)
             .finally(() => {
-              this.ready = true;
-              this.state.setLoading(false);
+                this.ready = true;
+                this.state.setLoading(false);
             })
             .subscribe(
             address => {
-              this.pin.address = address;
+                this.pin.address = address;
             },
             error => {
-              this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
+                this.toastr.error(this.content.getContent('errorRetrievingFullAddress'));
             }
             );
     }
@@ -73,10 +73,10 @@ export class PersonEditComponent implements OnInit {
     public onSubmit() {
         this.submitting = true;
         this.pinService.postPin(this.pin)
-        .finally(() => {
-            this.submitting = false;
-        })
-        .subscribe(
+            .finally(() => {
+                this.submitting = false;
+            })
+            .subscribe(
             (pin) => {
                 this.addressService.clearCache();
                 this.toastr.success(this.content.getContent('personSavedSuccess'));
@@ -91,10 +91,16 @@ export class PersonEditComponent implements OnInit {
                 this.submissionError = true;
                 console.log(error);
             }
-        );
+            );
+    }
+
+    public removePersonPin() {
+        this.state.setCurrentView('map');
+        this.router.navigate(['/remove-person-pin', this.pin.participantId]);
     }
 
     public cancel() {
+        this.state.setCurrentView('list');
         this.router.navigate(['/person', this.pin.participantId]);
     }
 

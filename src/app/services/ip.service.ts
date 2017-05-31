@@ -48,7 +48,7 @@ export class IPService {
     let obs: Observable<any> = new Observable(observer => {
       this.getClientIpFromThirdPartyApi().subscribe(
         ipData => {
-          let corsFriendlyIp = ipData.ip.toString().split('.').join('-');
+          let corsFriendlyIp = ipData.ip.toString().split('.').join('$');
           let geoLocByIpUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip/' + corsFriendlyIp;
           this.session.get(geoLocByIpUrl)
             .map(this.session.extractData)

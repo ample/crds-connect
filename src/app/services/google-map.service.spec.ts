@@ -31,6 +31,7 @@ import { AlertModule } from 'ngx-bootstrap';
 import { LocationService } from './/location.service';
 import { PinService}  from './/pin.service';
 import { UserLocationService } from './/user-location.service';
+import { AppSettingsService } from './/app-settings.service';
 
 import { GeoCoordinates } from '../models/geo-coordinates';
 
@@ -73,7 +74,8 @@ describe('Service: Google Map', () => {
         SessionService,
         CookieService,
         Angulartics2,
-        LoginRedirectService
+        LoginRedirectService,
+        AppSettingsService
       ]
     });
     this.fixture = TestBed.createComponent(MapComponent);

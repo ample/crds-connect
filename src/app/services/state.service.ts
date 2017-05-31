@@ -2,14 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
-import { Pin } from '../models/pin';
+import { Pin, pinType } from '../models/pin';
 import { SearchOptions } from '../models/search-options';
+
+import { App, AppRoute, appRoute, app} from '../shared/constants';
 
 // TODO: This class has a lot of flags. 
 // Investigate to see if they belong here and/or add some documentation. 
 @Injectable()
 export class StateService {
 
+  public activeApp: string = app.CONNECT;
+  public appForWhichWeRanLastSearch: string = undefined;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
@@ -29,6 +33,8 @@ export class StateService {
   private zoomToUse: number = -1;
   private savedMapView: MapView;
   private lastSearch: SearchOptions;
+
+  public removedSelf: boolean = false;
 
   public setMapView(mv: MapView) {
     this.savedMapView = mv;
@@ -95,4 +101,12 @@ export class StateService {
     this.updatedPin = null;
   }
 
+  public setActiveApp(activeAppRoute: string): void {
+    let isInGroupsApp: boolean = activeAppRoute === appRoute.SMALL_GROUPS_ROUTE;
+    if (isInGroupsApp) {
+      this.activeApp = app.SMALL_GROUPS;
+    } else {
+      this.activeApp = app.CONNECT;
+    }
+  }
 }
