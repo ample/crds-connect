@@ -105,8 +105,6 @@ const appRoutes: Routes = [
     }
   },
   { path: 'neighbors', component: NeighborsComponent },
-  { path: 'groupsv2', component: NeighborsComponent },
-  { path: 'connect', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
     path: 'remove-person-pin/:participantId',
