@@ -6,8 +6,9 @@ import { Address } from '../../models/address';
 
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { ListHelperService } from '../../services/list-helper.service';
 
-import { proximityUnavailableDefaultNum } from '../../shared/constants';
+import { proximityUnavailableDefaultNum, groupDescriptionLenth } from '../../shared/constants';
 
 @Component({
   selector: 'list-entry',
@@ -31,7 +32,8 @@ export class ListEntryComponent {
 
   constructor(private session: SessionService,
               private router: Router,
-              private state: StateService) {
+              private state: StateService,
+              private listHelper: ListHelperService) {
               // ngOnInit()?
               this.currentContactId = this.session.getContactId();
   }
@@ -45,8 +47,8 @@ export class ListEntryComponent {
   }
 
   public formatName() {
-    if(this.isSmallGroup()){
-      return this.groupTitle ? this.groupTitle.toUpperCase() : '';
+    if (this.isSmallGroup()) {
+      return this.groupTitle ? this.listHelper.truncateTextEllipsis(this.groupTitle.toUpperCase(), groupDescriptionLenth) : '';
     } else {
       return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
     }

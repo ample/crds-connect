@@ -5,6 +5,8 @@ export const crdsOakleyCoords: any = {
 
 export const earthsRadiusInMiles: number = 3443.9;
 
+export const groupDescriptionLenth: number = 44;
+
 export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;

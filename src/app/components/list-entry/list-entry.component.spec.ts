@@ -12,11 +12,12 @@ import { Router } from '@angular/router';
 import { ListEntryComponent } from './list-entry.component';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { ListHelperService } from '../../services/list-helper.service';
 import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
 
 describe('ListEntryComponent', () => {
-    let mockStateService, mockSessionService;
+    let mockStateService, mockSessionService, mockListHelperService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
@@ -28,6 +29,7 @@ describe('ListEntryComponent', () => {
         }
 
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
+        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['constructor', 'truncateTextEllipsis']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'getContactId']);
 
 
@@ -40,6 +42,7 @@ describe('ListEntryComponent', () => {
             providers: [
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
+                { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: Router, useClass: RouterStub }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
