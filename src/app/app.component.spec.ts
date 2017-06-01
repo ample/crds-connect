@@ -65,6 +65,43 @@ describe('App: CrdsConnect', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should know that its in the connect flow', () => {
+    let testAppRoute: string = 'connect';
+    let testRoot: string = 'https://int.crossroads.net/';
+    let testUrl: string = 'https://int.crossroads.net/connect/';
+    let isConnectApp: boolean = component.isInSpecifiedApp(testAppRoute, testRoot, testUrl);
+
+    expect(isConnectApp).toBe(true);
+  });
+
+  it('should know that its in the connect flow', () => {
+    let testAppRoute: string = 'connect';
+    let testRoot: string = 'https://int.crossroads.net/';
+    let testUrl: string = 'https://int.crossroads.net/connect/connect';
+    let isConnectApp: boolean = component.isInSpecifiedApp(testAppRoute, testRoot, testUrl);
+
+    expect(isConnectApp).toBe(true);
+  });
+
+
+  it('should know that its in the groups flow', () => {
+    let testAppRoute: string = 'groupsv2';
+    let testUrl: string = 'https://int.crossroads.net/groupsv2/';
+    let testRoot: string = 'https://int.crossroads.net/';
+    let isInGroupsApp: boolean = component.isInSpecifiedApp(testAppRoute, testRoot, testUrl);
+
+    expect(isInGroupsApp).toBe(true);
+  });
+
+  it('should know that its in the groups flow', () => {
+    let testAppRoute: string = 'groupsv2';
+    let testUrl: string = 'https://int.crossroads.net/groupsv2/groupsv2';
+    let testRoot: string = 'https://int.crossroads.net/';
+    let isInGroupsApp: boolean = component.isInSpecifiedApp(testAppRoute, testRoot, testUrl);
+
+    expect(isInGroupsApp).toBe(true);
+  });
+
   it('should remove fauxdal body classes', () => {
     // Start fresh...
     document.querySelector('body').classList.remove('fauxdal-open');

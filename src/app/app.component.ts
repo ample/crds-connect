@@ -65,14 +65,8 @@ export class AppComponent implements OnInit {
 
     let url: string = document.location.href;
 
-    let rootEndsWithConnect: boolean = root.endsWith('connect') || root.endsWith('connect/');
-    let rootEndsWithGroups: boolean = root.endsWith('groupsv2') || root.endsWith('groupsv2/');
-
-    let urlEndsWithConnect: boolean = url.endsWith('connect') || url.endsWith('connect/');
-    let urlEndsWithGroups: boolean = url.endsWith('groupsv2') || url.endsWith('groupsv2/');
-
-    let isInConnectApp: boolean  = rootEndsWithConnect || urlEndsWithConnect;
-    let isInGroupsApp: boolean = rootEndsWithGroups || urlEndsWithGroups;
+    let isInConnectApp: boolean = this.isInSpecifiedApp('connect', root, url);
+    let isInGroupsApp: boolean = this.isInSpecifiedApp('groupsv2', root, url);
 
     if (isInConnectApp) {
       this.appsettings.setAppSettings(AppType.Connect);
@@ -82,6 +76,13 @@ export class AppComponent implements OnInit {
       this.defaultToGroupAppType();
     }
 
+  }
+
+  public isInSpecifiedApp(appRoute: string, root: string, url: string) {
+    let rootEndsWithAppRoute: boolean = root.endsWith(appRoute) || root.endsWith(appRoute + '/');
+    let urlEndsWithAppRoute: boolean = url.endsWith(appRoute) || url.endsWith(appRoute + '/');
+    let isInConnectApp: boolean  = rootEndsWithAppRoute || urlEndsWithAppRoute;
+    return isInConnectApp;
   }
 
   removeFauxdalClasses(val) {
