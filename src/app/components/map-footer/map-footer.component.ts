@@ -22,7 +22,8 @@ export class MapFooterComponent {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
 
-  constructor(private pin: PinService,
+  constructor(private appSettings: AppSettingsService,
+              private pin: PinService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
               private state: StateService,
@@ -30,8 +31,7 @@ export class MapFooterComponent {
               private blandPageService: BlandPageService,
               private userLocationService: UserLocationService,
               private search: SearchService,
-              private angulartics2: Angulartics2,
-              private appSettings: AppSettingsService) { }
+              private angulartics2: Angulartics2) { }
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
@@ -48,7 +48,8 @@ export class MapFooterComponent {
     this.state.myStuffActive = true;
 
     if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin('/');
+      let baseUrlToRedirectToAfterLogin: string = this.appSettings.getBaseUrlForCurrentApp();
+      this.loginRedirectService.redirectToLogin(baseUrlToRedirectToAfterLogin);
     } else {
       this.userLocationService.GetUserLocation().subscribe(
           pos => {
@@ -57,7 +58,7 @@ export class MapFooterComponent {
           }
       );
     }
-  }
+  };
 
   doSearch(lat: number, lng: number) {
     this.pin.getPinSearchResults('', this.appSettings.finderType, lat, lng).subscribe(
@@ -74,7 +75,7 @@ export class MapFooterComponent {
         this.state.setCurrentView('map');
         this.router.navigate(['/no-results']);
       }
-      );
+    );
   }
 
 }

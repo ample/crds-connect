@@ -28,12 +28,12 @@ export class App {
 export enum AppType {
   Connect,
   Groups
-};
+}
 
 export enum LeadershipApplicationType {
   ANYWHERE_HOST,
   GROUP_LEADER
-};
+}
 
 export enum GroupLeaderApplicationStatus {
   NOT_APPLIED = 1,
@@ -41,7 +41,7 @@ export enum GroupLeaderApplicationStatus {
   APPLIED,
   APPROVED,
   DENIED
-};
+}
 
 export class LeaderStatus {
   status: number;

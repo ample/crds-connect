@@ -127,7 +127,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
         return Observable.of(super.getCache());
       } else {
-        return this.getPinSearchResultsMyStuff(searchOptions, contactId, lat, lng);
+        return this.getPinSearchResultsMyStuff(searchOptions, contactId, finderType, lat, lng);
       }
     }
   }
@@ -202,12 +202,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   private getPinSearchResultsMyStuff(searchOptions: SearchOptions
     , contactId: number
+    , finderType: string
     , lat?: number
     , lng?: number): Observable<PinSearchResultsDto> {
-    const geoCodeString = `/${lat}/${lng}`;
-    let corsFriendlyGeoCode = geoCodeString.toString().split('.').join('$');
 
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCode}`)
+    const geoCodeParamsString = `/${lat}/${lng}`;
+    let corsFriendlyGeoCodeParams = geoCodeParamsString.toString().split('.').join('$');
+
+    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCodeParams}/${finderType}`)
       .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }

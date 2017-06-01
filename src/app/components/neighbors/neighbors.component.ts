@@ -6,13 +6,13 @@ import { Router } from '@angular/router';
 
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
+import { LocationService } from '../../services/location.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { SearchService } from '../../services/search.service';
-import { LocationService } from '../../services/location.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -31,15 +31,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public pinSearchResults: PinSearchResultsDto;
   private mySub: Subscription; // for my MyStuffEmitter
 
-  constructor(private addressService: AddressService,
-    private pinService: PinService,
-    private mapHlpr: GoogleMapService,
-    private neighborsHelper: NeighborsHelperService,
-    private router: Router,
-    private state: StateService,
-    private userLocationService: UserLocationService,
-    private searchService: SearchService,
-    private appSettings: AppSettingsService) {
+  constructor( private appSettings: AppSettingsService,
+               private addressService: AddressService,
+               private pinService: PinService,
+               private mapHlpr: GoogleMapService,
+               private neighborsHelper: NeighborsHelperService,
+               private router: Router,
+               private state: StateService,
+               private userLocationService: UserLocationService,
+               private searchService: SearchService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.state.setUseZoom(mapView.zoom);
@@ -131,17 +131,26 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.isMapHidden = false;
     }, 1);
 
-    this.navigateAwayIfNoSearchResults(searchString, lat, lng);
+    this.navigateAwayIfNecessary(searchString, lat, lng);
   }
 
-  private navigateAwayIfNoSearchResults(searchString: string, lat: number, lng: number): void {
+  private navigateAwayIfNecessary(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
-    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my') {
+    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp()) {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
       this.router.navigate(['add-me-to-the-map']);
+    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
+      this.state.setLoading(false);
+      this.state.setMyViewOrWorldView('my');
+      console.log('Navigating to connect page for now...'); // TODO: This will redirect somewhere in the future, TBD
+      this.router.navigate(['add-me-to-the-map']);
+    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
+      this.state.setLoading(false);
+      this.state.setMyViewOrWorldView('my');
+      this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
