@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
   public isInSpecifiedApp(appRoute: string, root: string, url: string) {
     let rootEndsWithAppRoute: boolean = root.endsWith(appRoute) || root.endsWith(appRoute + '/');
     let urlEndsWithAppRoute: boolean = url.endsWith(appRoute) || url.endsWith(appRoute + '/');
-    let isInConnectApp: boolean  = rootEndsWithAppRoute || urlEndsWithAppRoute;
+    let isInConnectApp: boolean = rootEndsWithAppRoute || urlEndsWithAppRoute;
     return isInConnectApp;
   }
 
