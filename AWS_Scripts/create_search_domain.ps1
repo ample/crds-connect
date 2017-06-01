@@ -36,7 +36,7 @@ aws cloudsearch define-index-field --domain-name "$searchdomain" --name grouptyp
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupagerange --type literal-array
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupmeetingday --type literal
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupmeetingtime --type literal
-aws cloudsearch define-index-field --domain-name "$searchdomain" --name grouplocation --type literal
+aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupvirtual --type int
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupmeetingfrequency --type literal
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupkidswelcome --type int
 aws cloudsearch define-index-field --domain-name "$searchdomain" --name groupprimarycontactfirstname --type text
