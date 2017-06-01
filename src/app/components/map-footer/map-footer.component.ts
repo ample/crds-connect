@@ -38,7 +38,7 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-  public myStuffBtnClicked = () => {
+  public myStuffBtnClicked() {
     this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
     this.pin.clearPinCache();
 
