@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
+import { LocationService } from '../../services/location.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -64,7 +65,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;  // this should be refactored out 
     let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
 
-    if ( areSearchResultsAbsentOrDated ) {
+    if (areSearchResultsAbsentOrDated) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
@@ -85,10 +86,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   runFreshSearch() {
-    this.userLocationService.GetUserLocation().subscribe (
+    this.userLocationService.GetUserLocation().subscribe(
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-        this.doSearch('useLatLng', this.appSettings.finderType, pos.lat, pos.lng );
+        this.doSearch('useLatLng', this.appSettings.finderType, pos.lat, pos.lng);
       }
     );
   }
@@ -99,6 +100,13 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   viewChanged(isMapViewActive: boolean) {
     this.mapViewActive = isMapViewActive;
+    if (!isMapViewActive) {
+          let location: MapView = this.state.getMapView();
+          let lastSearch: SearchOptions = this.state.getLastSearch();
+          let coords: GeoCoordinates = (location !== null ) ? location : lastSearch.coords;
+          this.pinSearchResults.pinSearchResults =
+            this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
+        }
   }
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
@@ -107,7 +115,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.ensureUpdatedPinAddressIsDisplayed();
 
     this.pinSearchResults.pinSearchResults =
-        this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
+      this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
 
     this.state.setLoading(false);
 
@@ -123,7 +131,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.isMapHidden = false;
     }, 1);
 
-    this.navigateAwayIfNecessary(searchString, lat, lng );
+    this.navigateAwayIfNecessary(searchString, lat, lng);
   }
 
   private navigateAwayIfNecessary(searchString: string, lat: number, lng: number): void {
@@ -154,7 +162,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  doSearch(searchString: string, finderType: string,  lat?: number, lng?: number, zoom?: number) {
+  doSearch(searchString: string, finderType: string, lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
     this.pinService.getPinSearchResults(searchString, this.appSettings.finderType, lat, lng, zoom).subscribe(
       next => {
@@ -177,7 +185,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private foundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
-         && postedPin.pinType === pinFromResults.pinType);
+      && postedPin.pinType === pinFromResults.pinType);
   }
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
@@ -190,14 +198,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.navigatedFromAddToMapComponent = false;
       let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
       let pin = this.state.postedPin;
-       if (isFound === undefined) {
-         this.pinSearchResults.pinSearchResults.push(pin);
-       } else { // filter out old pin and replace
-         this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
-         this.pinSearchResults.pinSearchResults.push(pin);
-       }
-       this.addressService.clearCache();
-       this.state.postedPin = null;
+      if (isFound === undefined) {
+        this.pinSearchResults.pinSearchResults.push(pin);
+      } else { // filter out old pin and replace
+        this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
+        this.pinSearchResults.pinSearchResults.push(pin);
+      }
+      this.addressService.clearCache();
+      this.state.postedPin = null;
     }
   }
 
@@ -207,9 +215,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     if (wasPinAddressJustUpdated) {
 
       this.pinSearchResults.pinSearchResults = this.pinService.replaceAddressOnUpdatedPin(
-          this.pinSearchResults.pinSearchResults,
-          this.state.updatedPin,
-          this.state.updatedPinOldAddress
+        this.pinSearchResults.pinSearchResults,
+        this.state.updatedPin,
+        this.state.updatedPinOldAddress
       );
 
       this.addressService.clearCache();

@@ -3,6 +3,8 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
+export const earthsRadiusInMiles: number = 3443.9;
+
 export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;
