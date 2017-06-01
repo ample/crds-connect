@@ -99,7 +99,6 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    let routeToGoToOnSuccess: string = this.app.isConnectApp() ? '' : 'groupsv2';
     let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
     this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
     if (this.session.isLoggedIn()) {
@@ -112,7 +111,7 @@ export class GatheringComponent implements OnInit {
             successBodyContentBlock,
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
-            routeToGoToOnSuccess
+            ''
           ));
         },
         failure => {
