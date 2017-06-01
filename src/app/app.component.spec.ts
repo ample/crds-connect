@@ -74,7 +74,7 @@ describe('App: CrdsConnect', () => {
     expect(isConnectApp).toBe(true);
   });
 
-  it('should know that its in the connect flow', () => {
+  it('should know that its in the connect flow given redundant entries', () => {
     let testAppRoute: string = 'connect';
     let testRoot: string = 'https://int.crossroads.net/';
     let testUrl: string = 'https://int.crossroads.net/connect/connect';
@@ -93,7 +93,7 @@ describe('App: CrdsConnect', () => {
     expect(isInGroupsApp).toBe(true);
   });
 
-  it('should know that its in the groups flow', () => {
+  it('should know that its in the groups flow given redundant entries', () => {
     let testAppRoute: string = 'groupsv2';
     let testUrl: string = 'https://int.crossroads.net/groupsv2/groupsv2';
     let testRoot: string = 'https://int.crossroads.net/';
