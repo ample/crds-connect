@@ -15,6 +15,7 @@ import { StateService } from '../../services/state.service';
 })
 export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
+  @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
@@ -25,6 +26,7 @@ export class SearchBarComponent implements OnChanges {
 
   public ngOnChanges(): void {
     this.setButtonText();
+    this.setSearchText();
   }
 
   public toggleView() {
@@ -49,6 +51,10 @@ export class SearchBarComponent implements OnChanges {
 
   private setButtonText() {
     this.buttontext = this.isMapHidden ? 'Map' : 'List';
+  }
+
+  private setSearchText() {
+    this.searchText = this.isMyStuffSearch ? 'My Stuff' : '';
   }
 
 }

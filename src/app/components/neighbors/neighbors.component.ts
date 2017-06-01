@@ -26,7 +26,8 @@ import { SearchOptions } from '../../models/search-options';
 })
 
 export class NeighborsComponent implements OnInit, OnDestroy {
-  public isMapHidden = false;
+  public isMyStuffSearch: boolean = false;
+  public isMapHidden: boolean = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
   private mySub: Subscription; // for my MyStuffEmitter
@@ -51,6 +52,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     });
 
     this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
+      this.isMyStuffSearch = true;
       this.pinSearchResults = myStuffSearchResults as PinSearchResultsDto;
       this.processAndDisplaySearchResults('', this.pinSearchResults.centerLocation.lat, this.pinSearchResults.centerLocation.lng);
     });
@@ -90,6 +92,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   runFreshSearch() {
+    this.isMyStuffSearch = false;
     this.userLocationService.GetUserLocation().subscribe(
       pos => {
         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
