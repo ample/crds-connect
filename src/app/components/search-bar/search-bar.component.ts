@@ -26,6 +26,14 @@ export class SearchBarComponent implements OnChanges {
 
   constructor(private state: StateService) {}
 
+  public ngOnInit(): void {
+    if (!this.state.myStuffActive) {
+      this.searchText = this.state.lastSearch ? this.state.lastSearch.search : '';
+    } else {
+      this.searchText = 'My Stuff';
+    }
+  }
+
   public ngOnChanges(): void {
     this.setButtonText();
     this.setSearchText();
@@ -47,7 +55,6 @@ export class SearchBarComponent implements OnChanges {
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
       this.search.emit(searchString);
-      this.searchText = '';
     }
   }
 
