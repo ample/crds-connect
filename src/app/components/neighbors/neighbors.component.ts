@@ -142,9 +142,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.router.navigate(['add-me-to-the-map']);
     } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
       this.state.setLoading(false);
-      this.state.setMyViewOrWorldView('my');
-      console.log('Navigating to connect page for now...'); // TODO: This will redirect somewhere in the future, TBD
-      this.router.navigate(['add-me-to-the-map']);
+      this.state.setMyViewOrWorldView('world');
+      this.router.navigate(['stuff-not-found']);
     } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('my');
