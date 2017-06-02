@@ -11,7 +11,8 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-search-bar',
-  templateUrl: 'search-bar.component.html'
+  templateUrl: 'search-bar.component.html',
+  styleUrls:  ['search-bar.component.css']
 })
 export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
@@ -21,6 +22,7 @@ export class SearchBarComponent implements OnChanges {
 
   private searchText: string = '';
   public buttontext: string;
+  public isSearchClearHidden: boolean = true;
 
   constructor(private state: StateService) {}
 
@@ -55,6 +57,14 @@ export class SearchBarComponent implements OnChanges {
 
   private setSearchText() {
     this.searchText = this.isMyStuffSearch ? 'My Stuff' : '';
+  }
+
+  public clearSearchText() {
+    this.searchText = '';
+  }
+
+  public searchKeyUp(){
+    this.isSearchClearHidden = false;
   }
 
 }
