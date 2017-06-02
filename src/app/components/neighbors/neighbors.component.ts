@@ -176,6 +176,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       },
       error => {
         console.log(error);
+        this.state.lastSearch.search = searchString;
         this.state.setLoading(false);
         this.goToNoResultsPage();
       });
