@@ -1,3 +1,4 @@
+import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -104,9 +105,8 @@ const appRoutes: Routes = [
       userData: DetailedUserDataResolver
     }
   },
+  { path: 'stuff-not-found', component: StuffNotFoundComponent},
   { path: 'neighbors', component: NeighborsComponent },
-  { path: 'groupsv2', component: NeighborsComponent },
-  { path: 'connect', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
     path: 'remove-person-pin/:participantId',

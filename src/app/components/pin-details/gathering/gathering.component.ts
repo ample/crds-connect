@@ -56,9 +56,8 @@ export class GatheringComponent implements OnInit {
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
 
-    let redirectRouteOnBack: string = this.app.isConnectApp() ? '/' : '/groupsv2';
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
-    this.state.setPageHeader(pageTitleOnHeader, redirectRouteOnBack);
+    this.state.setPageHeader(pageTitleOnHeader, '/');
 
     try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
@@ -100,7 +99,6 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    let routeToGoToOnSuccess: string = this.app.isConnectApp() ? '' : 'groupsv2';
     let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
     this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
     if (this.session.isLoggedIn()) {
@@ -113,7 +111,7 @@ export class GatheringComponent implements OnInit {
             successBodyContentBlock,
             BlandPageType.ContentBlock,
             BlandPageCause.Success,
-            routeToGoToOnSuccess
+            ''
           ));
         },
         failure => {
