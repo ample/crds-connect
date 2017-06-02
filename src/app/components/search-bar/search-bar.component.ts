@@ -11,20 +11,32 @@ import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-search-bar',
-  templateUrl: 'search-bar.component.html'
+  templateUrl: 'search-bar.component.html',
+  styleUrls:  ['search-bar.component.css']
 })
 export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
+  @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private searchText: string = '';
   public buttontext: string;
+  public isSearchClearHidden: boolean = true;
 
   constructor(private state: StateService) {}
 
+  public ngOnInit(): void {
+    if (!this.state.myStuffActive) {
+      this.searchText = this.state.lastSearch ? this.state.lastSearch.search : '';
+    } else {
+      this.searchText = 'My Stuff';
+    }
+  }
+
   public ngOnChanges(): void {
     this.setButtonText();
+    this.setSearchText();
   }
 
   public toggleView() {
@@ -43,12 +55,23 @@ export class SearchBarComponent implements OnChanges {
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
       this.search.emit(searchString);
-      this.searchText = '';
     }
   }
 
   private setButtonText() {
     this.buttontext = this.isMapHidden ? 'Map' : 'List';
+  }
+
+  private setSearchText() {
+    this.searchText = this.isMyStuffSearch ? 'My Stuff' : '';
+  }
+
+  public clearSearchText() {
+    this.searchText = '';
+  }
+
+  public searchKeyUp(){
+    this.isSearchClearHidden = false;
   }
 
 }
