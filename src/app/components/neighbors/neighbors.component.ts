@@ -59,8 +59,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    this.state.setActiveApp(this.router.url);
-
     let haveResults: boolean = !!this.pinSearchResults;
     let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;  // this should be refactored out 
     let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
