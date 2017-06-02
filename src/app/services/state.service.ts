@@ -32,7 +32,7 @@ export class StateService {
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
   private savedMapView: MapView;
-  public lastSearch: SearchOptions;
+  private lastSearch: SearchOptions;
 
   public removedSelf: boolean = false;
 

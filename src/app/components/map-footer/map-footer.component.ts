@@ -38,29 +38,8 @@ export class MapFooterComponent {
     this.blandPageService.goToGettingStarted();
   }
 
-  public myStuffBtnClicked(): void {
+  public myStuffBtnClicked = () => {
     this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
-
-    if (this.state.myStuffActive) {
-      this.changeStateToAllResults();
-    } else {
-      this.changeStateToMyStuff();
-    }
-  };
-
-  public changeStateToAllResults() {
-    this.pin.clearPinCache();
-
-    this.state.setLoading(true);
-    this.state.setCurrentView('map');
-    this.state.setMyViewOrWorldView('world');
-    this.state.myStuffActive = false;
-
-    let mapView = this.state.getMapView();
-    this.search.emitLocalSearch(mapView);
-  }
-
-  public changeStateToMyStuff(): void {
     this.pin.clearPinCache();
 
     this.state.setLoading(true);
@@ -73,13 +52,13 @@ export class MapFooterComponent {
       this.loginRedirectService.redirectToLogin(baseUrlToRedirectToAfterLogin);
     } else {
       this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-          this.doSearch(pos.lat, pos.lng );
-        }
+          pos => {
+              this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
+              this.doSearch(pos.lat, pos.lng );
+          }
       );
     }
-  }
+  };
 
   doSearch(lat: number, lng: number) {
     this.pin.getPinSearchResults('', this.appSettings.finderType, lat, lng).subscribe(
