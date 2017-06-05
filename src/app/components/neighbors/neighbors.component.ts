@@ -172,6 +172,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         next => {
           this.pinSearchResults = next as PinSearchResultsDto;
           this.processAndDisplaySearchResults(searchString, lat, lng);
+          this.state.lastSearch.search = searchString;
           this.state.appForWhichWeRanLastSearch = this.state.activeApp;   // this needs to be refactored out
         },
         error => {
