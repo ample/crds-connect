@@ -1,8 +1,9 @@
 .pin-label {
   $map-label-font-size: 13px;
   $map-label-font-family: $condensed-font-face;
-  $map-label-default-color: $cr-gray;
+  $map-label-default-color: $cr-cyan;
   $map-label-me-color: $cr-gold;
+  $map-label-group-color: $cr-cyan;  
   $map-label-host-color: $cr-cyan;
   $map-label-person-color: $cr-blue;
   $map-label-site-color: $cr-orange;
@@ -13,6 +14,10 @@
   &.person {
     color: $map-label-person-color;
   }
+
+  &.small_group {
+    color: $map-label-group-color;
+  }  
 
   &.person,
   &.gathering {
