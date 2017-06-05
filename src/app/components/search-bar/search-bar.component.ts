@@ -26,13 +26,7 @@ export class SearchBarComponent implements OnChanges {
 
   constructor(private state: StateService) {}
 
-  public ngOnInit(): void {
-    if (!this.state.myStuffActive) {
-      this.searchText = this.state.lastSearch ? this.state.lastSearch.search : '';
-    } else {
-      this.searchText = 'My Stuff';
-    }
-  }
+  public ngOnInit(): void {}
 
   public ngOnChanges(): void {
     this.setButtonText();
@@ -63,7 +57,11 @@ export class SearchBarComponent implements OnChanges {
   }
 
   private setSearchText() {
-    this.searchText = this.isMyStuffSearch ? 'My Stuff' : '';
+    if (!this.state.myStuffActive) {
+      this.searchText = this.state.lastSearch ? this.state.lastSearch.search : '';
+    } else {
+      this.searchText = 'My Stuff';
+    }
   }
 
   public clearSearchText() {
