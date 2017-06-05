@@ -16,7 +16,7 @@ import { SearchService } from '../../services/search.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
-import { Pin } from '../../models/pin';
+import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { SearchOptions } from '../../models/search-options';
 
@@ -139,10 +139,21 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.navigateAwayIfNecessary(searchString, lat, lng);
   }
 
+  private isOnlyMePin() {
+    if (this.pinSearchResults.pinSearchResults[0].pinType === pinType.PERSON) {
+      return true;
+    }
+    return false;
+  }
+
   private navigateAwayIfNecessary(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
+    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp() && this.isOnlyMePin()) {
+      this.state.setLoading(false);
+      this.state.setMyViewOrWorldView('world');
+      this.router.navigate(['stuff-not-found']);
     } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp()) {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
