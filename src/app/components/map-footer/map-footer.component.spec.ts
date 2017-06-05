@@ -16,6 +16,16 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 
+function fakenext(param: any) { return 1; }
+
+class MockEventTrack {
+    next = fakenext;
+}
+
+class MockAngulartic {
+    eventTrack = new MockEventTrack();
+};
+
 
 describe('Component: MapFooter', () => {
     let fixture: ComponentFixture<MapFooterComponent>;
@@ -39,9 +49,11 @@ describe('Component: MapFooter', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['setLoading', 'setPageHeader', 'GetUserLocation']);
-        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
+        mockAngulartics2 = new MockAngulartic();
         mockSearchService = jasmine.createSpyObj<SearchService>('searchService',['constructor']);
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingService', ['constructor']);
+
+        mockStateService.myStuffActive = false;
 
         TestBed.configureTestingModule({
             declarations: [
@@ -74,6 +86,12 @@ describe('Component: MapFooter', () => {
 
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
+    });
+
+    it('should change state to my stuff if it is inactive and "My Stuff" is clicked', () => {
+        spyOn(comp, 'changeStateToMyStuff');
+        comp.myStuffBtnClicked();
+        expect(comp.changeStateToMyStuff).toHaveBeenCalled();
     });
 
 });
