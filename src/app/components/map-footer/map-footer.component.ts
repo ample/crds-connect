@@ -69,8 +69,7 @@ export class MapFooterComponent {
     this.state.myStuffActive = true;
 
     if (!this.session.isLoggedIn()) {
-      let baseUrlToRedirectToAfterLogin: string = this.appSettings.getBaseUrlForCurrentApp();
-      this.loginRedirectService.redirectToLogin(baseUrlToRedirectToAfterLogin);
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     } else {
       this.userLocationService.GetUserLocation().subscribe(
           pos => {
