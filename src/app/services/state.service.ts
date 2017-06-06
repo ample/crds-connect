@@ -18,7 +18,9 @@ export class StateService {
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
-  public navigatedBackFromAuthComponent: boolean = false;
+  public navigatedBackToNeighbors: boolean = false;
+
+
   // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
   public navigatedFromAddToMapComponent: boolean = false;
 
