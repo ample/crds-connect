@@ -1,8 +1,4 @@
-/*
- * Testing a simple Angular 2 component
- * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
- */
-
+import { Address } from '../../../models';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
@@ -74,12 +70,18 @@ describe('ReadonlyAddressComponent', () => {
         expect(comp.distString).toEqual('(23.45 mi)');
     });
 
-    it('init should not set distString', () => {
+    it('init should not set distString if address is null', () => {
         comp.distance = null;
 
         comp.ngOnInit();
 
         expect(comp.distString).toBe('');
+    });
+
+    it('init should set distString to Online Group if addressId is 0 (zero)', () => {
+        comp.address = new Address(0, null, null, null, null, null, null, null, null, null);
+        comp.ngOnInit();
+        expect(comp.distString).toBe('Online Group');
     });
 
 });
