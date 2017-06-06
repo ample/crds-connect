@@ -379,27 +379,27 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     let lastIndex = -1;
 
-    let uniquePins: Pin[] =
-      pinSearchResults.filter(
-        (p, index, self) => {
-          if (p.pinType === 3) {
-            lastIndex = -1;
-            return true;
-          } else if (lastIndex === -1) {
-            lastIndex = index;
-            return true;
-          } else {
-            let pl = self[lastIndex];
-            let test = (p.proximity !== pl.proximity) ||
-                (p.firstName !== pl.firstName) ||
-                (p.lastName !== pl.lastName);
-            if (test) {
-              lastIndex = index;
-            }
-            return test;
-          }
+    let uniquePins: Pin[] = pinSearchResults.filter( (p, index, self) => {
+
+      let isGroupOrGatheringPin: boolean = p.pinType === pinType.GATHERING || p.pinType === pinType.SMALL_GROUP;
+
+      if (isGroupOrGatheringPin) {
+        lastIndex = -1;
+        return true;
+      } else if (lastIndex === -1) {
+        lastIndex = index;
+        return true;
+      } else {
+        let pl = self[lastIndex];
+        let test = (p.proximity !== pl.proximity) ||
+          (p.firstName !== pl.firstName) ||
+          (p.lastName !== pl.lastName);
+        if (test) {
+          lastIndex = index;
         }
-      );
+        return test;
+      }
+    });
 
     return uniquePins;
   }
