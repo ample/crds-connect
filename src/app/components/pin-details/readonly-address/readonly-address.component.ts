@@ -23,6 +23,8 @@ export class ReadonlyAddressComponent implements OnInit {
     }
     if (this.distance != null) {
       this.distString = `(${this.distance.toFixed(2).toString()} mi)`;
+    } else if (this.distance == null && this.address.addressId === 0 ) {
+      this.distString = 'Online Group';
     }
   }
 
