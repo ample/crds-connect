@@ -74,8 +74,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
       if (lastSearch != null) {
-        if (this.state.navigatedBackFromAuthComponent) {
-          this.state.navigatedBackFromAuthComponent = false;
+        if (this.state.navigatedBackToNeighbors) {
+          this.state.navigatedBackToNeighbors = false;
           this.state.setMyViewOrWorldView('world');
           this.runFreshSearch();
         } else {
