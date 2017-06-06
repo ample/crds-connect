@@ -43,6 +43,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                private searchService: SearchService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+      this.isMyStuffSearch = this.state.myStuffActive;
       if (mapView) {
         this.state.setUseZoom(mapView.zoom);
         this.doSearch('searchLocal', this.appSettings.finderType, mapView.lat, mapView.lng, mapView.zoom);
