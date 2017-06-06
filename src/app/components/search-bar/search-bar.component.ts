@@ -58,7 +58,8 @@ export class SearchBarComponent implements OnChanges {
 
   private setSearchText() {
     if (!this.state.myStuffActive) {
-      this.searchText = this.state.lastSearch ? this.state.lastSearch.search : '';
+      this.searchText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
+                        ? this.state.lastSearch.search : '';
     } else {
       this.searchText = 'My Stuff';
     }
