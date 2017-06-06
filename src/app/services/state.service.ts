@@ -19,7 +19,7 @@ export class StateService {
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
   public navigatedBackToNeighbors: boolean = false;
-
+  public navigatedDirectlyToGroup: boolean   = false; // Did we navigate directly to a group (group mode) because there was only one?
 
   // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
   public navigatedFromAddToMapComponent: boolean = false;
