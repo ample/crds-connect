@@ -43,7 +43,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                private searchService: SearchService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
-      if(mapView){
+      if (mapView) {
         this.state.setUseZoom(mapView.zoom);
         this.doSearch('searchLocal', this.appSettings.finderType, mapView.lat, mapView.lng, mapView.zoom);
       } else {
@@ -162,8 +162,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
       this.router.navigate(['stuff-not-found']);
-    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
+    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp() && this.state.navigatedDirectlyToGroup === false) {
       this.state.setLoading(false);
+      this.state.navigatedDirectlyToGroup = true;
       this.state.setMyViewOrWorldView('my');
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
