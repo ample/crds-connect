@@ -19,6 +19,7 @@ export class NoResultsComponent implements OnInit {
     this.state.navigatedBackToNeighbors = true;
     this.groupUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/search`;
     this.state.setPageHeader('No Results', '/');
+    this.state.myStuffActive = false;
   }
 
   public btnClickBack()  {
