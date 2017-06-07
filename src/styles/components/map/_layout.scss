@@ -19,7 +19,7 @@ canvas-map-overlay {
 // Style map
 app-map {
   display: block;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
@@ -29,6 +29,7 @@ sebm-google-map {
       padding: .5rem;
     }
   }
+  overflow: visible;
 }
 
 canvas-map-overlay {
@@ -37,4 +38,5 @@ canvas-map-overlay {
   position: absolute;
   width: 100vw;
   z-index: 1;
+  overflow: visible;
 }
