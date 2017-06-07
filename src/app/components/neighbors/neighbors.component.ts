@@ -43,7 +43,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                private searchService: SearchService) {
 
     searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
-      if(mapView){
+      this.isMyStuffSearch = this.state.myStuffActive;
+      if (mapView) {
         this.state.setUseZoom(mapView.zoom);
         this.doSearch('searchLocal', this.appSettings.finderType, mapView.lat, mapView.lng, mapView.zoom);
       } else {
@@ -138,22 +139,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.navigateAwayIfNecessary(searchString, lat, lng);
   }
-
-  private isOnlyMePin() {
-    if (this.pinSearchResults.pinSearchResults[0].pinType === pinType.PERSON) {
-      return true;
-    }
-    return false;
-  }
-
+  
   private navigateAwayIfNecessary(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
-    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp() && this.isOnlyMePin()) {
-      this.state.setLoading(false);
-      this.state.setMyViewOrWorldView('world');
-      this.router.navigate(['stuff-not-found']);
     } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp()) {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
@@ -162,8 +152,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
       this.router.navigate(['stuff-not-found']);
-    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
+    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp() && this.state.navigatedDirectlyToGroup === false) {
       this.state.setLoading(false);
+      this.state.navigatedDirectlyToGroup = true;
       this.state.setMyViewOrWorldView('my');
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {

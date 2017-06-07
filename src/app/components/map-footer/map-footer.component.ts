@@ -49,12 +49,15 @@ export class MapFooterComponent {
   };
 
   public changeStateToAllResults() {
+
+    this.state.myStuffActive = false;
+    this.state.lastSearch.search = '';
+
     this.pin.clearPinCache();
 
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
-    this.state.myStuffActive = false;
 
     let mapView = this.state.getMapView();
     this.search.emitLocalSearch(mapView);
