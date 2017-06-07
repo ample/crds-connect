@@ -54,13 +54,15 @@ export class GoogleMapService {
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
-        let bounds = {
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
-        lat: lat,
-        lng: lng
-        };
-        return this.calculateBestZoom(bounds, zoom, pins, viewtype);
+        // Don't calculate zoom, getting too close and the grey overlay is sticking
+        return 15;
+        // let bounds = {
+        // width: document.documentElement.clientWidth,
+        // height: document.documentElement.clientHeight,
+        // lat: lat,
+        // lng: lng
+        // };
+        // return this.calculateBestZoom(bounds, zoom, pins, viewtype);
   }
 
   // zero in on the zoom that's closest to the target pin count without going under
@@ -78,8 +80,8 @@ export class GoogleMapService {
         return 3;
       }
       return this.calculateBestZoom(bounds, zoom - 1, pins, viewtype, pops);
-    } else if (zoom >= 20) {
-      return 20;
+    } else if (zoom >= 15) {
+      return 15;
     } else {
       let upPop = this.countPopAtZoom(bounds, zoom + 1, pins, pops);
       if (upPop < popTarget) {
