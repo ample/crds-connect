@@ -62,7 +62,8 @@
       </span>
     </h3>
     <p class="media-meta">
-      <span>{{roundedProximity()}} MI</span>
+      <span *ngIf="address.addressId !== 0">{{roundedProximity()}} MI</span>
+      <span *ngIf="address.addressId === 0">Online Group</span> 
     </p>
     <p class="media-description">{{gatheringDescription()}}</p>
   </div>
