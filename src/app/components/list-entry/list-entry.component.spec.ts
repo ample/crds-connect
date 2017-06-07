@@ -1,3 +1,4 @@
+import { AppSettingsService } from '../../services/app-settings.service';
 import { pinType } from '../../models';
 /*
  * Testing a simple Angular 2 component
@@ -17,20 +18,18 @@ import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
 
 describe('ListEntryComponent', () => {
-    let mockStateService, mockSessionService, mockListHelperService;
+    let mockStateService, mockSessionService, mockListHelperService, mockAppSettings, mockRouter;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
     let el;
 
     beforeEach(() => {
-        class RouterStub {
-            navigate(url: string) { return url; }
-        }
-
-        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
-        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['constructor', 'truncateTextEllipsis']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'getContactId']);
+        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setCurrentView']);
+        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['truncateTextEllipsis']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId']);
+        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
 
         TestBed.configureTestingModule({
@@ -43,7 +42,8 @@ describe('ListEntryComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ListHelperService, useValue: mockListHelperService },
-                { provide: Router, useClass: RouterStub }
+                { provide: Router, useValue: mockRouter },
+                { provide: AppSettingsService, useValue: mockAppSettings }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -87,5 +87,17 @@ describe('ListEntryComponent', () => {
         comp.currentContactId = 2;
         comp.type = pinType.GATHERING;
         expect(comp.isMyGathering()).toBe(false);
+    });
+
+    it('should redirect to groups in group mode', () => {
+        (mockAppSettings.isConnectApp).and.returnValue(false);
+        comp.displayDetails(1);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['small-group/1']);
+    });
+
+    it('should redirect to gathering in connect mode', () => {
+        (mockAppSettings.isConnectApp).and.returnValue(true);
+        comp.displayDetails(1);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
     });
 });
