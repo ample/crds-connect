@@ -1,3 +1,4 @@
+import { AppSettingsService } from '../../services/app-settings.service';
 import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Router } from '@angular/router';
@@ -33,7 +34,8 @@ export class ListEntryComponent {
   constructor(private session: SessionService,
               private router: Router,
               private state: StateService,
-              private listHelper: ListHelperService) {
+              private listHelper: ListHelperService,
+              private appSettings: AppSettingsService) {
               // ngOnInit()?
               this.currentContactId = this.session.getContactId();
   }
@@ -108,7 +110,11 @@ export class ListEntryComponent {
 
   public displayDetails(id) {
     this.state.setCurrentView('list');
+    if (this.appSettings.isConnectApp()) {
     this.router.navigate([`gathering/${id}/`]);
+    } else {
+      this.router.navigate([`small-group/${id}`]);
+    }
   }
 
   public roundedProximity() {
