@@ -31,6 +31,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
   private mySub: Subscription; // for my MyStuffEmitter
+  private localSub: Subscription;
 
   constructor( private appSettings: AppSettingsService,
                private addressService: AddressService,
@@ -42,7 +43,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                private userLocationService: UserLocationService,
                private searchService: SearchService) {
 
-    searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
+    this.localSub = searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
       this.isMyStuffSearch = this.state.myStuffActive;
       if (mapView) {
         this.state.setUseZoom(mapView.zoom);
@@ -62,6 +63,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     // If we don't unsubscribe we will get memory leaks and weird behavior.
     this.mySub.unsubscribe();
+    this.localSub.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -139,7 +141,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.navigateAwayIfNecessary(searchString, lat, lng);
   }
-  
+
   private navigateAwayIfNecessary(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
