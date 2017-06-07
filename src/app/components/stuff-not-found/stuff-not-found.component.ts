@@ -15,7 +15,6 @@ export class StuffNotFoundComponent implements OnInit {
     public ngOnInit() {
         this.state.setPageHeader('my stuff', '/');
         this.state.setLoading(false);
-        this.state.myStuffActive = false;
     }
 
 }
