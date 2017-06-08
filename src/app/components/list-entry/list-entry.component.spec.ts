@@ -1,4 +1,4 @@
-import { pinType } from '../../models';
+import { Pin, pinType } from '../../models';
 /*
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
@@ -10,14 +10,16 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListEntryComponent } from './list-entry.component';
+
+import { ListHelperService } from '../../services/list-helper.service';
+import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { ListHelperService } from '../../services/list-helper.service';
 import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
 
 describe('ListEntryComponent', () => {
-    let mockStateService, mockSessionService, mockListHelperService;
+    let mockStateService, mockSessionService, mockListHelperService, mockPinService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
@@ -28,6 +30,7 @@ describe('ListEntryComponent', () => {
             navigate(url: string) { return url; }
         }
 
+        mockPinService = jasmine.createSpyObj<StateService>('pinService', ['displayPinDetails']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['constructor', 'truncateTextEllipsis']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'getContactId']);
@@ -40,6 +43,7 @@ describe('ListEntryComponent', () => {
                 MockComponent({selector: 'readonly-address', inputs: ['isPinOwner', 'address', 'distance']})
             ],
             providers: [
+                { provide: PinService, useValue: mockPinService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ListHelperService, useValue: mockListHelperService },

@@ -1,12 +1,14 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
 
+import { ListHelperService } from '../../services/list-helper.service';
+import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { ListHelperService } from '../../services/list-helper.service';
 
 import { proximityUnavailableDefaultNum, groupDescriptionLenth } from '../../shared/constants';
 
@@ -15,6 +17,7 @@ import { proximityUnavailableDefaultNum, groupDescriptionLenth } from '../../sha
   templateUrl: 'list-entry.component.html'
 })
 export class ListEntryComponent {
+  @Input() pin: Pin;
   @Input() firstName: string = '';
   @Input() lastName: string = '';
   @Input() siteName: string = '';
@@ -30,11 +33,11 @@ export class ListEntryComponent {
 
   public currentContactId: number;
 
-  constructor(private session: SessionService,
+  constructor(private pinService: PinService,
+              private session: SessionService,
               private router: Router,
               private state: StateService,
               private listHelper: ListHelperService) {
-              // ngOnInit()?
               this.currentContactId = this.session.getContactId();
   }
 
@@ -106,9 +109,9 @@ export class ListEntryComponent {
     this.router.navigate([`person/${id}/`]);
   }
 
-  public displayDetails(id) {
+  public displayPinDetails(pin: Pin) {
     this.state.setCurrentView('list');
-    this.router.navigate([`gathering/${id}/`]);
+    this.pinService.navigateToPinDetailsPage(pin);
   }
 
   public roundedProximity() {

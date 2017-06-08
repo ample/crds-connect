@@ -37,7 +37,7 @@ describe('Component: List View', () => {
     TestBed.configureTestingModule({
       declarations: [
         ListViewComponent,
-        MockComponent({selector: 'list-entry', inputs: ['firstName', 'lastName', 'siteName', 'type',
+        MockComponent({selector: 'list-entry', inputs: ['pin', 'firstName', 'lastName', 'siteName', 'type',
                       'proximity', 'description', 'groupTitle',  'groupId', 'address', 'participantId', 'participantCount', 'contactId']}),
         ListFooterComponent,
         MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),

@@ -11,8 +11,9 @@ import { GoogleMapService } from './google-map.service';
 import { BlandPageService } from './bland-page.service';
 import { PinService } from './pin.service';
 import { Observable } from 'rxjs/Rx';
-import { Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { Response, ResponseOptions } from '@angular/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { Pin, pinType, GeoCoordinates, User, PinSearchResultsDto, PinIdentifier, Address } from '../models';
 import { MockTestData } from '../shared/MockTestData';
@@ -54,6 +55,8 @@ describe('Service: Pin', () => {
           useFactory: (backend, options) => new Http(backend, options),
           deps: [MockBackend, BaseRequestOptions]
         }
+      ], imports: [
+        RouterTestingModule.withRoutes([])
       ]
     });
   });

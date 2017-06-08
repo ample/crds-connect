@@ -1,6 +1,8 @@
 import { Injectable, NgZone, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+
 import { Observable } from 'rxjs/Observable';
 
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
@@ -41,6 +43,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   constructor(
     private gatheringService: SiteAddressService,
+    private router: Router,
     private session: SessionService,
     private state: StateService,
     private blandPageService: BlandPageService,
@@ -406,6 +409,16 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public clearPinCache() {
     super.clearCache();
+  }
+
+  public navigateToPinDetailsPage(pin: Pin): void {
+    if (pin.pinType === pinType.PERSON) {
+      this.router.navigate([`person/${pin.participantId}/`]);
+    } else if (pin.pinType === pinType.GATHERING) {
+      this.router.navigate([`gathering/${pin.gathering.groupId}/`]);
+    } else if (pin.pinType === pinType.SMALL_GROUP) {
+      this.router.navigate([`small-group/${pin.gathering.groupId}/`]);
+    }
   }
 
 }
