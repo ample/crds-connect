@@ -11,6 +11,7 @@ import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListEntryComponent } from './list-entry.component';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
@@ -18,22 +19,22 @@ import { StateService } from '../../services/state.service';
 import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
 
+import { MockTestData } from '../../shared/MockTestData';
+
 describe('ListEntryComponent', () => {
-    let mockStateService, mockSessionService, mockListHelperService, mockPinService;
+    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService, mockRouter;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
     let el;
 
     beforeEach(() => {
-        class RouterStub {
-            navigate(url: string) { return url; }
-        }
-
         mockPinService = jasmine.createSpyObj<StateService>('pinService', ['displayPinDetails']);
-        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
-        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['constructor', 'truncateTextEllipsis']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'getContactId']);
+        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setCurrentView']);
+        mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['truncateTextEllipsis']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId']);
+        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
 
         TestBed.configureTestingModule({
@@ -47,7 +48,8 @@ describe('ListEntryComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ListHelperService, useValue: mockListHelperService },
-                { provide: Router, useClass: RouterStub }
+                { provide: Router, useValue: mockRouter },
+                { provide: AppSettingsService, useValue: mockAppSettings }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -91,5 +93,19 @@ describe('ListEntryComponent', () => {
         comp.currentContactId = 2;
         comp.type = pinType.GATHERING;
         expect(comp.isMyGathering()).toBe(false);
+    });
+
+    xit('should redirect to groups in group mode', () => {
+        let pin = MockTestData.getAPin(1);
+        (mockAppSettings.isConnectApp).and.returnValue(false);
+        comp.displayPinDetails(pin);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['small-group/1']);
+    });
+
+    xit('should redirect to gathering in connect mode', () => {
+        let pin = MockTestData.getAPin(1);
+        (mockAppSettings.isConnectApp).and.returnValue(true);
+        comp.displayPinDetails(pin);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
     });
 });

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
@@ -33,7 +34,8 @@ export class ListEntryComponent {
 
   public currentContactId: number;
 
-  constructor(private pinService: PinService,
+  constructor(private appSettings: AppSettingsService,
+              private pinService: PinService,
               private session: SessionService,
               private router: Router,
               private state: StateService,
