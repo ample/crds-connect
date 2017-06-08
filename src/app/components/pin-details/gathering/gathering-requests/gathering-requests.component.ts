@@ -20,6 +20,7 @@ export class GatheringRequestsComponent implements OnInit {
   @Input() pin: Pin;
   private inquiries: Inquiry[] = [];
   private errorRetrieving: boolean = false;
+  private loading: boolean = true;
 
   constructor(
     private groupService: GroupService,
@@ -29,17 +30,17 @@ export class GatheringRequestsComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.state.setLoading(true);
     this.groupService.getGroupRequests(this.pin.gathering.groupId)
+      .finally(() => {
+        this.loading = false;
+      })
       .subscribe(inquiryList => {
         this.inquiries = inquiryList.filter((inquiry) => {
           return inquiry.placed == null;
         });
-        this.state.setLoading(false);
       },
       (error) => {
         this.errorRetrieving = true;
-        this.state.setLoading(false);
       });
   }
 
@@ -51,7 +52,11 @@ export class GatheringRequestsComponent implements OnInit {
 
   public acceptOrDenyInquiry(inquiry: Inquiry, approve: boolean) {
     this.state.setLoading(true);
-    this.groupService.acceptOrDenyRequest(this.pin.gathering.groupId, this.pin.gathering.groupTypeId, approve, inquiry).subscribe(
+    this.groupService.acceptOrDenyRequest(this.pin.gathering.groupId, this.pin.gathering.groupTypeId, approve, inquiry)
+    .finally(() => {
+      this.state.setLoading(false);
+    })
+    .subscribe(
       success => {
         // TODO add profile pictures to template text (otherwise would've used a content block)
         let templateText;
@@ -70,10 +75,8 @@ export class GatheringRequestsComponent implements OnInit {
           BlandPageCause.Success,
           'gathering/' + this.pin.gathering.groupId
         );
-        this.state.setLoading(false);
         this.blandPageService.primeAndGo(bpd);
       }, (error) => {
-        this.state.setLoading(false);
         inquiry.error = true;
       });
   }
