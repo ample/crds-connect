@@ -8,7 +8,7 @@
   </div>
 
   <!-- NOT a host / not logged in  -->
-  <div *ngIf="!pinLabelService.isHostingAny(pins)"
+  <div *ngIf="isUserHostingAnyGatheringsOrGroups"
         class="bg-gray">
     <crds-content-block id="finderWantToHost"></crds-content-block>
     <div class="btn-group">
