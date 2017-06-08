@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
@@ -11,6 +13,8 @@ import { App, AppRoute, appRoute, app} from '../shared/constants';
 // Investigate to see if they belong here and/or add some documentation. 
 @Injectable()
 export class StateService {
+
+  public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
 
   public activeApp: string = app.CONNECT;
   public appForWhichWeRanLastSearch: string = undefined;
@@ -37,6 +41,15 @@ export class StateService {
   public lastSearch: SearchOptions;
 
   public removedSelf: boolean = false;
+
+  public emitMyStuffChanged(): void {
+    this.myStuffStateChangedEmitter.next(this.myStuffActive);
+  }
+
+  public setIsMyStuffActive(isActive: boolean){
+    this.myStuffActive = isActive;
+    this.emitMyStuffChanged();
+  }
 
   public setMapView(mv: MapView) {
     this.savedMapView = mv;
