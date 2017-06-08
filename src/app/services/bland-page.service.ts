@@ -76,7 +76,7 @@ export class BlandPageService {
             BlandPageType.ContentBlock,
             BlandPageCause.SimpleFauxdal,
             'host-signup',
-            cancelRoute
+            `getting-started`
         );
     }
 
