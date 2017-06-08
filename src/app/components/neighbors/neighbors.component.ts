@@ -168,7 +168,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         this.state.setMapView(null);
       }
 
-      this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
+      if (lat === undefined || lng === undefined) {
+        this.state.setLastSearch(new SearchOptions(searchString, lastSearch.coords.lat, lastSearch.coords.lng));
+      } else {
+        this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
+      }
     }
   }
 
