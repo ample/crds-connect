@@ -18,7 +18,7 @@ describe('Component: Search Bar', () => {
         FormsModule
       ],
       providers: [
-        { provide: StateService, useValue: mockStateService }
+        StateService
       ]
     });
     this.fixture = TestBed.createComponent(SearchBarComponent);

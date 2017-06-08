@@ -5,6 +5,7 @@
   </div>
 
   <list-entry *ngFor="let pin of pinsToShow()"
+              [pin] = "pin"
               [firstName]="pin.firstName"
               [lastName]="pin.lastName"
               [siteName]="pin.siteName"
