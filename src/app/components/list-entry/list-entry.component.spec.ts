@@ -29,7 +29,7 @@ describe('ListEntryComponent', () => {
     let el;
 
     beforeEach(() => {
-        mockPinService = jasmine.createSpyObj<StateService>('pinService', ['displayPinDetails']);
+        mockPinService = jasmine.createSpyObj<StateService>('pinService', ['navigateToPinDetailsPage']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setCurrentView']);
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['truncateTextEllipsis']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId']);
@@ -95,17 +95,18 @@ describe('ListEntryComponent', () => {
         expect(comp.isMyGathering()).toBe(false);
     });
 
-    xit('should redirect to groups in group mode', () => {
+    it('should redirect to groups in group mode', () => {
         let pin = MockTestData.getAPin(1);
         (mockAppSettings.isConnectApp).and.returnValue(false);
         comp.displayPinDetails(pin);
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['small-group/1']);
+        expect(mockPinService.navigateToPinDetailsPage).toHaveBeenCalledWith(pin);
     });
 
-    xit('should redirect to gathering in connect mode', () => {
+    it('should redirect to gathering in connect mode', () => {
         let pin = MockTestData.getAPin(1);
         (mockAppSettings.isConnectApp).and.returnValue(true);
         comp.displayPinDetails(pin);
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
+        expect(mockPinService.navigateToPinDetailsPage).toHaveBeenCalledWith(pin);
     });
+
 });

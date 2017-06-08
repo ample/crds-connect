@@ -4,6 +4,7 @@
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 
+import { AppSettingsService } from '../services/app-settings.service';
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
@@ -14,17 +15,21 @@ import { Observable } from 'rxjs/Rx';
 import { MockBackend } from '@angular/http/testing';
 import { Response, ResponseOptions } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 import { Pin, pinType, GeoCoordinates, User, PinSearchResultsDto, PinIdentifier, Address } from '../models';
 import { MockTestData } from '../shared/MockTestData';
 import { CacheLevel } from '../services/base-service/cacheable.service';
 
 describe('Service: Pin', () => {
-  let fixture, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService;
+  let fixture, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
+
+  mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
   mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googlemapservice', ['get', 'post', 'getContactId']);
+  mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
   const mockAddress = new Address(123, 'Test St', null, 'TesVille', 'ZZ', '12345', 0, 0, 'US', 'County');
   const mockAddress2 = new Address(123, 'Billy St', null, 'BillyVille', 'ZZ', '54321', 0, 0, 'US', 'County');
@@ -54,7 +59,8 @@ describe('Service: Pin', () => {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),
           deps: [MockBackend, BaseRequestOptions]
-        }
+        },
+        { provide: Router, useValue: mockRouter }
       ], imports: [
         RouterTestingModule.withRoutes([])
       ]
@@ -198,6 +204,21 @@ describe('Service: Pin', () => {
       expect(reSortedPins[1].contactId).toBe(2);
       expect(reSortedPins[2].contactId).toBe(3);
     }));
+
+    it('should redirect to groups in group mode', inject([PinService], (service: PinService) => {
+      let pin = MockTestData.getAPin(1, 3, pinType.SMALL_GROUP, 5, 5);
+      (mockAppSettings.isConnectApp).and.returnValue(false);
+      service.navigateToPinDetailsPage(pin);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['small-group/1/']);
+    }));
+
+    it('should redirect to groups in group mode', inject([PinService], (service: PinService) => {
+      let pin = MockTestData.getAPin(1, 3, pinType.GATHERING, 5, 5);
+      (mockAppSettings.isConnectApp).and.returnValue(true);
+      service.navigateToPinDetailsPage(pin);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
+    }));
+
 
 }
 );
