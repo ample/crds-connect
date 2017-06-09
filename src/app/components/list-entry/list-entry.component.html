@@ -16,7 +16,7 @@
 
 <div *ngIf="isGathering()"
      class="media media-link border-bottom gathering"
-     (click)="displayDetails(groupId)">
+     (click)="displayPinDetails(pin)">
   <profile-picture [contactId]="contactId"
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
@@ -51,7 +51,7 @@
 
 <div *ngIf="isSmallGroup()"
      class="media media-link border-bottom gathering"
-     (click)="displayDetails(groupId)">
+     (click)="displayPinDetails(pin)">
   <profile-picture [contactId]="contactId"
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>

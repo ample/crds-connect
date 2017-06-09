@@ -19,6 +19,7 @@ export class ListFooterComponent implements OnInit, OnChanges {
 
   @Input() pins: Array<Pin>;
 
+  public isUserHostingAnyGatheringsOrGroups: boolean = false;
   public userContactId: number = null;
   public userMapState: UserState = undefined;
   public userMapStateEnum = UserState;
@@ -30,7 +31,9 @@ export class ListFooterComponent implements OnInit, OnChanges {
               private blandPageService: BlandPageService,
               private pinLabelService: PinLabelService) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.isUserHostingAnyGatheringsOrGroups = this.pinLabelService.isHostingAny(this.pins);
+  }
 
   ngOnChanges(): void {
     this.userContactId = this.session.getContactId();
