@@ -41,6 +41,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
+import { AddSomeoneComponent } from './components/pin-details/gathering/add-someone/add-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
@@ -145,6 +146,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
+    AddSomeoneComponent,
     ListViewComponent,
     ListFooterComponent,
     ListEntryComponent,

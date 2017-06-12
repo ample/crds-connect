@@ -39,4 +39,5 @@
   </div>
 
   <invite-someone *ngIf="isPinOwner" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
+  <add-someone *ngIf="isPinOwner" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 </div>
