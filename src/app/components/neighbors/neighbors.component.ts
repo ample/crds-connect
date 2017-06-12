@@ -18,6 +18,7 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 import { SearchOptions } from '../../models/search-options';
 
 @Component({
@@ -178,6 +179,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   doSearch(searchString: string, finderType: string, lat?: number, lng?: number, zoom?: number) {
     this.state.setLoading(true);
+
+    let queryParams = new PinSearchQueryParams(searchString, this.appSettings.finderType, null, lat, lng, null, null, null, null);
+
     this.pinService.getPinSearchResults(searchString, this.appSettings.finderType, lat, lng, zoom).subscribe(
         next => {
           this.pinSearchResults = next as PinSearchResultsDto;

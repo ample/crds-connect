@@ -27,4 +27,15 @@ export class SearchService {
     this.mySearchResultsEmitter.next(searchResults);
   }
 
+  // //TODO: Define query params and return type (Observable<PinDto>
+  // public searchPins(queryParams: any): Subject<PinSearchResultsDto>  {
+  //
+  //   let subject: Subject<PinSearchResultsDto>  = new Subject();
+  //
+  //
+  //
+  //   return subject;
+  //
+  // }
+
 }

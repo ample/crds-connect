@@ -10,9 +10,11 @@ import { SessionService } from '../../services/session.service';
 import { UserLocationService } from  '../../services/user-location.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { SearchService } from '../../services/search.service';
+
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 
 @Component({
   selector: 'app-map-footer',
@@ -94,7 +96,10 @@ export class MapFooterComponent implements OnInit {
   }
 
   doSearch(lat: number, lng: number) {
-    this.pin.getPinSearchResults('', this.appSettings.finderType, lat, lng).subscribe(
+
+    let queryParams = new PinSearchQueryParams('', this.appSettings.finderType, null, lat, lng, null, null, null, null);
+
+    this.pin.getPinSearchResults(queryParams).subscribe(
         next => {
           this.myPinSearchResults = next as PinSearchResultsDto;
           this.myPinSearchResults.pinSearchResults =

@@ -4,17 +4,17 @@ import { Response, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/catch'; //TODO: Can probable delete these
+import 'rxjs/add/operator/map'; //TODO: Can probable delete these
 
-import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
-
+import { BlandPageService } from '../services/bland-page.service';;
+import { GoogleMapService } from '../services/google-map.service';
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
-import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants';
+import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 import { StateService } from '../services/state.service';
-import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './iframe-parent.service';
-
-import { GoogleMapService } from '../services/google-map.service';
 
 import { Address } from '../models/address';
 import { Pin, pinType } from '../models/pin';
@@ -22,17 +22,17 @@ import { PinIdentifier } from '../models/pin-identifier';
 import { User } from '../models/user';
 import { Person } from '../models/person';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+import { PinSearchQueryParams } from '../models/pin-search-query-params';
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
 import { SearchOptions } from '../models/search-options';
 import * as _ from 'lodash';
 
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
+import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
+
 
 @Injectable()
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
-
 
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
@@ -134,6 +134,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       }
     }
   }
+
+
 
   private getPinSearchResultsWorld(searchOptions: SearchOptions
     , finderType: string
@@ -419,6 +421,17 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     } else if (pin.pinType === pinType.SMALL_GROUP) {
       this.router.navigate([`small-group/${pin.gathering.groupId}/`]);
     }
+  }
+
+  //TODO: Define query params and return type (Observable<PinDto>
+  public searchPins(queryParams: any): Subject<PinSearchResultsDto>  {
+
+    let subject: Subject<PinSearchResultsDto>  = new Subject();
+
+
+
+    return subject;
+
   }
 
 }
