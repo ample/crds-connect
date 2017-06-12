@@ -68,8 +68,8 @@ export class MockTestData {
                 'city' + designator.toString(),
                 'state' + designator.toString(),
                 '17272',
-                123123123,
-                123123123,
+                designator,
+                designator,
                 'US',
                 'CountyCounty'
             );

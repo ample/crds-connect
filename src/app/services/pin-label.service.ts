@@ -78,6 +78,11 @@ export class PinLabelService {
   }
 
   public isHostingAny(myPins: Array<Pin>): boolean {
+
+    if(!myPins){
+      return false;
+    }
+
     if (this.state.getMyViewOrWorldView() === 'my') {
       for (let pin of myPins) {
         if (this.isHost(pin)) {
@@ -85,6 +90,7 @@ export class PinLabelService {
         }
       }
     }
+
     return false;
   }
 
