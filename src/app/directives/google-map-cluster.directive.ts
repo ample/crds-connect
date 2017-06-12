@@ -36,9 +36,9 @@ export class GoogleMapClusterDirective implements AfterContentInit {
     this.wrapper.getNativeMap().then(map => {
       let options = {
         // maxZoom: 16, grey starts here for groups 
-        // maxZoom:17, grey is not appearing, BUT
-        // all labels don't display and markers on top of each other, hard to click on 
-        maxZoom: 16,
+        // maxZoom:17, grey does not seem to appear, BUT
+        // all labels don't display and markers on top of each other, hard/impossible to click on individual pins
+        maxZoom: 17,
         averageCenter: true,
         styles: [{
           url: '//crds-cms-uploads.s3.amazonaws.com/connect/CLUSTER.svg',
