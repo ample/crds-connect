@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { EmailAddressValidator } from '../../../../validators/email-address.validator';
 import { ToastsManager } from 'ng2-toastr';
 
+import { AppSettingsService } from '../../../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
@@ -23,6 +24,7 @@ export class InviteSomeoneComponent implements OnInit {
     @Input() participantId: number;
 
     public inviteFormGroup: FormGroup;
+    public isFormSubmitted: boolean = false;
 
     constructor(private fb: FormBuilder,
         private router: Router,
@@ -30,7 +32,8 @@ export class InviteSomeoneComponent implements OnInit {
         private blandPageService: BlandPageService,
         private state: StateService,
         private toast: ToastsManager,
-        private content: ContentService) { }
+        private content: ContentService,
+        private appSettings: AppSettingsService) { }
 
     ngOnInit() {
         this.inviteFormGroup = new FormGroup({
@@ -41,11 +44,13 @@ export class InviteSomeoneComponent implements OnInit {
     }
 
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
+        this.isFormSubmitted = true;
+
         if (valid) {
             let someone = new Person(value.firstname, value.lastname, value.email);
 
             this.state.setLoading(true);
-            this.pinService.inviteToGathering(this.gatheringId, someone).subscribe(
+            this.pinService.inviteToGroup(this.gatheringId, someone, this.appSettings.finderType).subscribe(
                 success => {
                     let bpd = new BlandPageDetails(
                         'Return to my pin',

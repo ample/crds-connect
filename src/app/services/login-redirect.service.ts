@@ -31,7 +31,7 @@ export class LoginRedirectService {
         this.redirectFunction = null;
         tempFunc();
       } else {
-        this.router.navigate([this.originalTarget], { replaceUrl: true });
+        this.router.navigate([this.originalTarget.replace('?resolve=true', '')], { replaceUrl: true });
       }
     } else {
       this.router.navigate([target]);

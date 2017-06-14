@@ -67,13 +67,13 @@ describe('Component: Authentication', () => {
     expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
   });
 
-  it('should set the "navigatedBackFromAuthComponent" prop on state service',
+  it('should set the "navigatedBackToNeighbors" prop on state service',
     () => {
-      comp.state.navigatedBackFromAuthComponent = false;
+      comp.state.navigatedBackToNeighbors = false;
       let ret = comp.back();
       expect(ret).toEqual(false);
       expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
-      expect(comp.state.navigatedBackFromAuthComponent).toEqual(true);
+      expect(comp.state.navigatedBackToNeighbors).toEqual(true);
 
     });
 

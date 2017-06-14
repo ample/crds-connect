@@ -16,8 +16,10 @@ export class NoResultsComponent implements OnInit {
               private state: StateService) {}
 
   public ngOnInit(): void {
+    this.state.navigatedBackToNeighbors = true;
     this.groupUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/search`;
     this.state.setPageHeader('No Results', '/');
+    this.state.myStuffActive = false;
   }
 
   public btnClickBack()  {

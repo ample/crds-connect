@@ -68,7 +68,8 @@ describe('GatheringRequestsComponent', () => {
         comp.ngOnInit();
         expect(comp['inquiries'].length).toBe(2);
         expect(mockGroupService.getGroupRequests.calls.count()).toBe(1);
-        expect(mockStateService.setLoading.calls.count()).toBe(2);
+        expect(mockStateService.setLoading.calls.count()).toBe(0);
+        expect(comp['loading']).toBe(false);
     });
 
     it('should convert inquiry to participant', () => {
