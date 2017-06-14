@@ -65,7 +65,12 @@ app-neighbors {
   margin-bottom: -40px; // Removes white space between footer & content.
 }
 
-.container {
+.connect-layout-container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+
   @media (min-width: $screen-sm) {
     width: $container-tablet;
   }
