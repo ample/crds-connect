@@ -14,6 +14,7 @@ import { SearchService } from '../../services/search.service';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 
 @Component({
@@ -65,9 +66,10 @@ export class MapFooterComponent implements OnInit {
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
 
-    let mapView = this.state.getMapView();
-    this.search.emitLocalSearch(mapView);
+    let pinSearchRequest = new PinSearchRequestParams(true, null);
+    this.pin.emitPinSearchRequest(pinSearchRequest);
   }
+
 
   public redirectThenChangeToMyStuff(){
     this.changeStateToMyStuff();
@@ -84,36 +86,13 @@ export class MapFooterComponent implements OnInit {
     } else {
       this.state.setCurrentView('map');
       this.state.setMyViewOrWorldView('my');
-      this.state.myStuffActive = true;
+      this.state.setIsMyStuffActive(true);
 
-      this.userLocationService.GetUserLocation().subscribe(
-          pos => {
-            this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-            this.doSearch(pos.lat, pos.lng );
-          }
-      );
+      let pinSearchRequest = new PinSearchRequestParams(true, null);
+
+      //TODO: Check proximity sorting which was in the doSearch method in this controller
+      this.pin.emitPinSearchRequest(pinSearchRequest);
     }
-  }
-
-  doSearch(lat: number, lng: number) {
-
-    let queryParams = new PinSearchQueryParams('', this.appSettings.finderType, null, lat, lng, null, null, null, null);
-
-    this.pin.getPinSearchResults(queryParams).subscribe(
-        next => {
-          this.myPinSearchResults = next as PinSearchResultsDto;
-          this.myPinSearchResults.pinSearchResults =
-              this.myPinSearchResults.pinSearchResults.sort(
-                  (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-          this.search.emitMyStuffSearch(this.myPinSearchResults);
-        },
-        error => {
-          console.log(error);
-          this.state.setLoading(false);
-          this.state.setCurrentView('map');
-          this.router.navigate(['/no-results']);
-        }
-    );
   }
 
 }

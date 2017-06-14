@@ -8,7 +8,9 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
+import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
 @Component({
@@ -20,14 +22,15 @@ export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
   @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
-  @Output() search: EventEmitter<string> = new EventEmitter<string>();
+  //@Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private isMyStuffActiveSub: Subscription;
   private searchText: string = '';
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
 
-  constructor(private state: StateService) {
+  constructor(private pin: PinService,
+              private state: StateService) {
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
       this.setButtonText();
@@ -57,7 +60,8 @@ export class SearchBarComponent implements OnChanges {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
-      this.search.emit(searchString);
+      let pinSearchRequest = new PinSearchRequestParams(true, null);
+      this.pin.emitPinSearchRequest(pinSearchRequest);
     }
   }
 

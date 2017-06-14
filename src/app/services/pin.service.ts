@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch'; //TODO: Can probable delete these
 import 'rxjs/add/operator/map'; //TODO: Can probable delete these
 
+import { AppSettingsService } from '../services/app-settings.service';
 import { BlandPageService } from '../services/bland-page.service';;
 import { GoogleMapService } from '../services/google-map.service';
 import { SiteAddressService } from '../services/site-address.service';
@@ -17,15 +18,19 @@ import { StateService } from '../services/state.service';
 import { IFrameParentService } from './iframe-parent.service';
 
 import { Address } from '../models/address';
+import { MapView } from '../models/map-view';
+import { MapBoundingBox } from '../models/map-bounding-box';
 import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
-import { User } from '../models/user';
 import { Person } from '../models/person';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
+import { PinSearchRequestParams } from '../models/pin-search-request-params';
 import { PinSearchQueryParams } from '../models/pin-search-query-params';
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
 import { SearchOptions } from '../models/search-options';
+import { User } from '../models/user';
+
 import * as _ from 'lodash';
 
 import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
@@ -41,7 +46,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
 
+  public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
+
   constructor(
+    private appSetting: AppSettingsService,
     private gatheringService: SiteAddressService,
     private router: Router,
     private session: SessionService,
@@ -51,6 +59,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   ) {
     super();
     this.SayHiTemplateId = sayHiTemplateId;
+  }
+
+
+  public emitPinSearchRequest(requestParams: PinSearchRequestParams): void {
+    this.pinSearchRequestEmitter.next(requestParams);
   }
 
   private createPartialCache(pin: Pin): void {
@@ -113,97 +126,71 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       });
   }
 
-  public getPinSearchResults(userSearchAddress: string, finderType: string
-                            , lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
-    let contactId = this.session.getContactId();
-    let searchOptions: SearchOptions;
+  public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
+    //TODO: Bring back caching which was here
+    return this.getPinSearchResultsWorld(params);
+  }
 
-    if (this.state.getMyViewOrWorldView() === 'world') {
-      searchOptions = new SearchOptions(userSearchAddress, lat, lng);
-      if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-        return Observable.of(super.getCache());
-      } else {
-        return this.getPinSearchResultsWorld(searchOptions, finderType, contactId, userSearchAddress, lat, lng, zoom);
-      }
-    } else {  // getMyViewOrWorldView = 'my'
-      searchOptions = new SearchOptions('myView', lat, lng);
-      if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
-        return Observable.of(super.getCache());
-      } else {
-        return this.getPinSearchResultsMyStuff(searchOptions, contactId, finderType, lat, lng);
+  private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
+
+    let mapParams: MapView = this.state.getMapView(); // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
+    if(!mapParams){mapParams = new MapView('45249', 39.154007, -84.438326, 5)}; //TODO: This should never be null, this is a patch that cannot go to production
+    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
+
+    let userSearchString: string = params.userSearchString; //redundant
+    let isLocationSearch: boolean = params.isLocationSearch; //redundant
+    let isMyStuff: boolean = this.state.myStuffActive;
+    let finderType: string = this.appSetting.finderType;
+    let contactId: number = this.session.getContactId() || 0;
+    let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
+    let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
+
+    let apiQueryParams = new PinSearchQueryParams(userSearchString, isLocationSearch,isMyStuff, finderType,
+                                                  contactId, centerGeoCoords, mapBoundingBox);
+
+    return apiQueryParams;
+  }
+
+  private removeOwnPinFromSearchResultsIfNecessary(pins: Pin[], contactId: number): Pin[]{
+    if ( this.state.removedSelf) {
+      this.state.removedSelf = false;
+      let index = pins.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
+      if (index > -1) {
+        // remove my pin locally because AWS will take some time to remove from Cloudsearch
+        pins.splice(index, 1);
       }
     }
+
+    return pins;
   }
 
 
+  private getPinSearchResultsWorld(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
 
-  private getPinSearchResultsWorld(searchOptions: SearchOptions
-    , finderType: string
-    , contactId: number
-    , userSearchAddress: string
-    , lat?: number
-    , lng?: number
-    , zoom?: number): Observable<PinSearchResultsDto> {
-    contactId = contactId || 0;
-    let searchUrl: string = lat && lng ?
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType + '/' + contactId
-      + '/' + lat.toString().split('.').join('$') + '/'
-      + lng.toString().split('.').join('$') :
-      'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress + '/' + finderType + '/' + contactId;
-    // if we have a cache AND that cache came from a full search and
-    // not just an insert from visiting a detail page off the bat, use that cache
-    if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
+    let mapParams: MapView = this.state.getMapView();
+    if (!mapParams) {mapParams = new MapView('45249', 39.154007, -84.438326, 5)}; //TODO: We need to preset this on neighbors component init
+    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
 
+    let contactId: number = this.session.getContactId() || 0;
+
+    let findPinsEndpointUrl: string =  this.baseUrl + 'api/v1.0.0/finder/findpinsbyaddress/';
+
+    let apiQueryParams: PinSearchQueryParams = this.buildSearchPinQueryParams(params);
+
+    if (super.cacheIsReadyAndValid(searchOptionsForCache, CacheLevel.Full, contactId)) {
       console.log('PinService got full cached PinSearchResultsDto');
       return Observable.of(super.getCache());
     } else {
-      let searchUrlZoom: string;
-      if (lat && lng) {
-        if (zoom) {
-          // call to get bounding box
-          let bounds = {
-            width: document.documentElement.clientWidth,
-            height: document.documentElement.clientHeight,
-            lat: lat,
-            lng: lng
-          };
-          // get extra pins for moving around without new query
-          let geobounds = this.mapHlpr.calculateGeoBounds(bounds, zoom - 1);
-          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType
-            + '/' + contactId
-            + '/' + lat.toString().split('.').join('$')
-            + '/' + lng.toString().split('.').join('$')
-            + '/' + ('' + geobounds['north']).split('.').join('$')
-            + '/' + ('' + geobounds['west']).split('.').join('$')
-            + '/' + ('' + geobounds['south']).split('.').join('$')
-            + '/' + ('' + geobounds['east']).split('.').join('$');
-        } else {
-          searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType
-            + '/' + contactId
-            + '/' + lat.toString().split('.').join('$')
-            + '/' + lng.toString().split('.').join('$');
-        }
-      } else {
-        searchUrlZoom = 'api/v1.0.0/finder/findpinsbyaddress/' + userSearchAddress  + '/' + finderType + '/' + contactId;
-      }
-
-      return this.session.get(this.baseUrl + searchUrlZoom)
-        // when we get the new results, set them to the cache
+      return this.session.post(findPinsEndpointUrl, apiQueryParams)
         .map(res => this.gatheringService.addAddressesToGatheringPins(res))
         .do((res: PinSearchResultsDto) => {
-          if ( this.state.removedSelf) {
-            this.state.removedSelf = false;
-            let index = res.pinSearchResults.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
-            if (index > -1) {
-                // remove my pin locally because AWS will take some time to remove from Cloudsearch
-                res.pinSearchResults.splice(index, 1);
-            }
-          }
-          super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId);
+          res.pinSearchResults = this.removeOwnPinFromSearchResultsIfNecessary(res.pinSearchResults, contactId);
+          super.setSmartCache(res, CacheLevel.Full, searchOptionsForCache, contactId);
         })
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
   }
+
 
   private getPinSearchResultsMyStuff(searchOptions: SearchOptions
     , contactId: number

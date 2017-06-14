@@ -1,26 +1,26 @@
+import { GeoCoordinates } from '../models/geo-coordinates';
+import { MapBoundingBox } from '../models/map-bounding-box';
+
 export class PinSearchQueryParams {
 
-  userSearchAddress: string;
+  userSearchString: string;
+  isAddressSearch: boolean;
+  isMyStuff: boolean;
   finderType: string;
-  contactId: string;
-  lat: number;
-  lng: number;
-  upperLeftLat: string;
-  upperLeftLng: string;
-  bottomRightLat: string;
-  bottomRightLng: string;
+  contactId: number;
+  centerGeoCoords: GeoCoordinates;
+  boundingBox: MapBoundingBox;
 
-    constructor(userSearchAddress: string, finderType: string, contactId: string, lat: number, lng: number,
-                upperLeftLat: string, upperLeftLng: string, bottomRightLat: string, bottomRightLng: string) {
-      this.userSearchAddress = userSearchAddress;
-      this.finderType = finderType;
-      this.contactId = contactId;
-      this.lat = lat;
-      this.lng = lng;
-      this.upperLeftLat = upperLeftLat;
-      this.upperLeftLng = upperLeftLng;
-      this.bottomRightLat = bottomRightLat;
-      this.bottomRightLng = bottomRightLng;
-    }
+  constructor(userSearchString: string, isAddressSearch: boolean, isMyStuff: boolean, finderType: string,
+              contactId: number, centerGeoCoords: GeoCoordinates, boundingBox: MapBoundingBox) {
+
+    this.userSearchString = userSearchString;
+    this.isAddressSearch = isAddressSearch;
+    this.isMyStuff = isMyStuff;
+    this.finderType = finderType;
+    this.contactId = contactId;
+    this.centerGeoCoords = centerGeoCoords;
+    this.boundingBox = boundingBox;
+  }
 
 }
