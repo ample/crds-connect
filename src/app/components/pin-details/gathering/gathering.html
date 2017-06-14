@@ -7,21 +7,49 @@
       <div class="media-body">
         <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
         <div class="media-meta">
-          <readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+          <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+          <span *ngIf="pin.pinType === pinType.SMALL_GROUP">
+            <span>{{pin?.gathering?.meetingDay}} at {{pin?.gathering?.meetingTime}}, {{pin?.gathering?.meetingFrequency}}</span>
+          </span>
         </div>
       </div>
     </div>
 
-    <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
+    <p class="gathering-description border-top push-top">{{pin.gathering?.groupDescription.substring(0,265)}}</p>
+    <div class="group-meta-data border-top push-top">
+      <strong>Category</strong>
+      <br>
+      Interest / Dining Out
+      <br><br>
+      <strong>Where</strong>
+      <br>
+      <readonly-address *ngIf="pin.pinType === pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+      <br><br>
+      <strong>Group Type</strong>
+      <br>
+      Women only (don't be a creeper dude)
+      <br><br>
+      <strong>Age Range</strong>
+      <br>
+      40s
+      <br><br>
+      <strong>Leaders</strong>
+      <br>
+      Carol McBain
+      <br><br>
+      <strong>Kids Welcome</strong>
+      No
+      <br>
+   </div>    
 
     <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
 
-    <div *ngIf="!isInGathering && !isPinOwner">
+    <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering && !isPinOwner">
       <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
       <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
     </div>
 
-    <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
+    <pin-login-actions *ngIf="!isLoggedIn && pin.pinType !== pinType.SMALL_GROUP" [isGathering]="true"></pin-login-actions>
   </div>
 
   <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
