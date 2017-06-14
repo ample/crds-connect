@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
@@ -12,13 +14,17 @@ import { App, AppRoute, appRoute, app} from '../shared/constants';
 @Injectable()
 export class StateService {
 
+  public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
+
   public activeApp: string = app.CONNECT;
   public appForWhichWeRanLastSearch: string = undefined;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
-  public navigatedBackFromAuthComponent: boolean = false;
+  public navigatedBackToNeighbors: boolean = false;
+  public navigatedDirectlyToGroup: boolean   = false; // Did we navigate directly to a group (group mode) because there was only one?
+
   // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
   public navigatedFromAddToMapComponent: boolean = false;
 
@@ -32,9 +38,18 @@ export class StateService {
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
   private savedMapView: MapView;
-  private lastSearch: SearchOptions;
+  public lastSearch: SearchOptions;
 
   public removedSelf: boolean = false;
+
+  public emitMyStuffChanged(): void {
+    this.myStuffStateChangedEmitter.next(this.myStuffActive);
+  }
+
+  public setIsMyStuffActive(isActive: boolean){
+    this.myStuffActive = isActive;
+    this.emitMyStuffChanged();
+  }
 
   public setMapView(mv: MapView) {
     this.savedMapView = mv;

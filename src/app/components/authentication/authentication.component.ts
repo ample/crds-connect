@@ -38,7 +38,7 @@ export class AuthenticationComponent implements OnInit {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
-    this.state.navigatedBackFromAuthComponent = true;
+    this.state.navigatedBackToNeighbors = true;
   }
 
   public ngOnInit(): void {
@@ -85,7 +85,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   public back(): boolean {
-    this.state.navigatedBackFromAuthComponent = true;
+    this.state.navigatedBackToNeighbors = true;
     this.redirectService.cancelRedirect();
     return false;
   }

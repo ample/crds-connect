@@ -1,6 +1,9 @@
 <h3 class="title font-size-h5 soft-top">Pending</h3>
 <hr>
-<div *ngIf="inquiries.length > 0">
+<div *ngIf="loading" [ngClass]="{'loading': loading}">
+  <app-preloader></app-preloader>
+</div>
+<div *ngIf="inquiries.length > 0 && !loading">
   <div *ngFor="let inquiry of inquiries">
     <div class="border-bottom soft-half-bottom">
       <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
@@ -21,8 +24,8 @@
   </div>
 </div>
 
-<div *ngIf="errorRetrieving" class="alert alert-danger push-top">
+<div *ngIf="errorRetrieving && !loading" class="alert alert-danger push-top">
   <crds-content-block id="finderErrorLoadingContent"></crds-content-block>
 </div>
 
-<div *ngIf="inquiries.length < 1 && !errorRetrieving">No pending requests or invitations</div>
+<div *ngIf="inquiries.length < 1 && !errorRetrieving && !loading">No pending requests or invitations</div>

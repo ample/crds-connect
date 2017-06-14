@@ -62,15 +62,7 @@ export class MapComponent implements OnInit {
 
   private pinClicked(pin: Pin) {
     this.state.setCurrentView('map');
-    // Both Person Pin and Gathering Pin navigate to pin-details
-    // Site Pin stays on map with info-window popup
-    if (pin.pinType === pinType.PERSON) {
-      this.router.navigate([`person/${pin.participantId}/`]);
-    } else if (pin.pinType === pinType.GATHERING) {
-      this.router.navigate([`gathering/${pin.gathering.groupId}/`]);
-    } else if (pin.pinType === pinType.SMALL_GROUP) {
-      this.router.navigate([`small-group/${pin.gathering.groupId}/`]);
-    }
+    this.pinHlpr.navigateToPinDetailsPage(pin);
   }
 
   public getFirstNameOrSiteName(pin: Pin) {

@@ -31,4 +31,12 @@ export class ListHelperService {
 
     return userState;
   }
+
+    public truncateTextEllipsis(fullString: string, maxLength: number): string {
+      if (fullString.length > maxLength) {
+        fullString = fullString.substr(0, maxLength).trim() + '...';
+      }
+      return fullString;
+    }
+
 }

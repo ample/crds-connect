@@ -35,6 +35,12 @@ export class RemovePersonPinComponent implements OnInit {
     this.pin = this.route.snapshot.data['pin'];
   }
 
+  public ngAfterViewInit() {
+    // This component is rendered within a fauxdal,
+    // so we need the following selector added to <body> element
+    document.querySelector('body').classList.add('fauxdal-open');
+  }
+
   public removePersonPin() {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {
@@ -73,11 +79,4 @@ export class RemovePersonPinComponent implements OnInit {
     console.log(this.pin);
     this.router.navigate(['/person/', this.pin.participantId, 'edit']);
   }
-
-
-
-
-
-
-
 }

@@ -14,7 +14,7 @@
              formControlName="firstname"
              name="firstname">
 
-      <p *ngIf="inviteFormGroup.controls['firstname'].touched && !inviteFormGroup.controls['firstname'].valid" class="error help-block">First Name is required!</p>
+      <p *ngIf="isFormSubmitted && !inviteFormGroup.controls['firstname'].valid" class="error help-block">First Name is required!</p>
     </div>
 
     <!--LAST NAME-->
@@ -28,7 +28,7 @@
              formControlName="lastname"
              name="lastname">
 
-      <p *ngIf="inviteFormGroup.controls['lastname'].touched && !inviteFormGroup.controls['lastname'].valid" class="error help-block">Last Name is required!</p>
+      <p *ngIf="isFormSubmitted && !inviteFormGroup.controls['lastname'].valid" class="error help-block">Last Name is required!</p>
     </div>
   </div>
 
@@ -45,10 +45,10 @@
                formControlName="email"
                name="email">
 
-        <p *ngIf="inviteFormGroup.controls['email'].touched && !inviteFormGroup.controls['email'].valid" class="error help-block">A valid email is required!</p>
+        <p *ngIf="isFormSubmitted && !inviteFormGroup.controls['email'].valid" class="error help-block">A valid email is required!</p>
       </div>
     </div>
   </div>
 
-  <button type="submit" [disabled]="inviteFormGroup.invalid" class="btn btn-secondary">Send Invite</button>
+  <button type="submit" class="btn btn-secondary">Send Invite</button>
 </form>

@@ -56,24 +56,34 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.state.setLoading(true);
+    this.state.setActiveApp(this.router.url);
     this.getAppContext();
   }
 
   private getAppContext() {
-    // determine if we are running connect or group tool
+
     let root = document.location.href.replace(this.location.path(), '');
 
-    if (root.endsWith('connect') || root.endsWith('connect/')) {
+    let url: string = document.location.href;
+
+    let isInConnectApp: boolean = this.isInSpecifiedApp('connect', root, url);
+    let isInGroupsApp: boolean = this.isInSpecifiedApp('groupsv2', root, url);
+
+    if (isInConnectApp) {
       this.appsettings.setAppSettings(AppType.Connect);
-      return;
+    } else if (isInGroupsApp) {
+      this.appsettings.setAppSettings(AppType.Groups);
+    } else {
+      this.defaultToGroupAppType();
     }
 
-    if (root.endsWith('groupsv2') || root.endsWith('groupsv2/')) {
-      this.appsettings.setAppSettings(AppType.Groups);
-      return;
-    }
-    // default to Groups
-    this.appsettings.setAppSettings(AppType.Groups);
+  }
+
+  public isInSpecifiedApp(appRoute: string, root: string, url: string) {
+    let rootEndsWithAppRoute: boolean = root.endsWith(appRoute) || root.endsWith(appRoute + '/');
+    let urlEndsWithAppRoute: boolean = url.endsWith(appRoute) || url.endsWith(appRoute + '/');
+    let isInConnectApp: boolean = rootEndsWithAppRoute || urlEndsWithAppRoute;
+    return isInConnectApp;
   }
 
   removeFauxdalClasses(val) {
@@ -81,6 +91,10 @@ export class AppComponent implements OnInit {
       // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
       document.querySelector('body').classList.remove('fauxdal-open');
     }
+  }
+
+  private defaultToGroupAppType(): void {
+    this.appsettings.setAppSettings(AppType.Groups);
   }
 
 }

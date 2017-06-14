@@ -20,8 +20,8 @@ export class ListViewComponent implements OnInit {
   }
 
   public ngOnInit() {
-      this.neighborsHelperService.changeEmitter.subscribe(() => {
-        this.stateService.setShowingPinCount(10);
+    this.neighborsHelperService.changeEmitter.subscribe(() => {
+      this.stateService.setShowingPinCount(10);
     });
   }
 

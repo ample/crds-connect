@@ -2,10 +2,14 @@
   <div class="container">
     <div class="input-group searchbar">
       <input type="text"
-              class="form-control"
-              [(ngModel)]="searchText"
-              (keyup.enter)="onSearch(searchText)"
-              placeholder="Search zip or keyword...">
+             class="form-control"
+             [(ngModel)]="searchText"
+             (keyup.enter)="onSearch(searchText)"
+             placeholder="Search zip or keyword...">
+      <!--(keyup) = "searchKeyUp()"--> <!--This attribute belongs to the input above-->
+      <!--<span class="form-control-clear glyphicon glyphicon-remove form-control-feedback"-->
+      <!--[hidden]="isSearchClearHidden"-->
+      <!--(click)="clearSearchText()"></span>-->
       <span class="input-group-btn">
         <button type="submit" class="btn btn-secondary" (click)="onSearch(searchText)">
           <svg class="icon icon-1" viewBox="0 0 256 256">
