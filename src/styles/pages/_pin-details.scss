@@ -12,7 +12,8 @@
 
   &.person,
   &.host_plain {
-    height: 100vh;
+    min-height: 100vh;
+    margin-bottom: -1rem;
   }
 }
 
