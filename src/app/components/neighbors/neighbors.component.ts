@@ -59,45 +59,26 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     let pinSearchRequest = new PinSearchRequestParams(true, null);
 
-    if(!haveResults){
-      this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, 5); //TODO: Find where we set initial zoom and use it instead of magic number 5
-          this.state.setMapView(initialMapView);
-          let pinSearchRequest = new PinSearchRequestParams(true, null);
-          this.doSearch(pinSearchRequest);
-        }
-      );
-    }
 
     //TODO: Get rid of if chains
     if (haveResults) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
-      if (lastSearch != null) {
-        if (this.state.navigatedBackToNeighbors) {
-          this.doSearch(pinSearchRequest);
-        } else {
-          this.doSearch(pinSearchRequest);
-        }
-      } else {
+      if (lastSearch == null) {
         this.doSearch(pinSearchRequest);
       }
     } else {
       this.setView(this.state.getCurrentView());
+      this.userLocationService.GetUserLocation().subscribe(
+        pos => {
+          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, 5); //TODO: Find where we set initial zoom and use it instead of magic number 5
+          this.state.setMapView(initialMapView);
+          this.doSearch(pinSearchRequest);
+        }
+      );
     }
   }
-
-  // runFreshSearch() {
-  //   this.isMyStuffSearch = false;
-  //   this.userLocationService.GetUserLocation().subscribe(
-  //       pos => {
-  //         this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-  //         this.doSearch('useLatLng', this.appSettings.finderType, pos.lat, pos.lng);
-  //       }
-  //   );
-  // }
 
   setView(mapOrListView): void {
     this.mapViewActive = mapOrListView === 'map';
