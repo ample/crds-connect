@@ -134,7 +134,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
 
     let mapParams: MapView = this.state.getMapView(); // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
-    if(!mapParams){mapParams = new MapView('45249', 39.154007, -84.438326, 5)}; //TODO: This should never be null, this is a patch that cannot go to production
     let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
 
     let userSearchString: string = params.userSearchString; //redundant
@@ -168,7 +167,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private getPinSearchResultsWorld(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
 
     let mapParams: MapView = this.state.getMapView();
-    if (!mapParams) {mapParams = new MapView('45249', 39.154007, -84.438326, 5)}; //TODO: We need to preset this on neighbors component init
     let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
 
     let contactId: number = this.session.getContactId() || 0;

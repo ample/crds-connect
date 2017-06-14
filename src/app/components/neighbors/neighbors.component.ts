@@ -32,8 +32,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public isMapHidden: boolean = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
-  private pinSearchSub: Subscription; // for my MyStuffEmitter
-  //private localSub: Subscription;
+  private pinSearchSub: Subscription;
 
   constructor( private appSettings: AppSettingsService,
                private addressService: AddressService,
@@ -57,14 +56,22 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
 
     let haveResults: boolean = !!this.pinSearchResults;
-    let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;  // this should be refactored out
-    let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
 
     let pinSearchRequest = new PinSearchRequestParams(true, null);
 
+    if(!haveResults){
+      this.userLocationService.GetUserLocation().subscribe(
+        pos => {
+          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, 5); //TODO: Find where we set initial zoom and use it instead of magic number 5
+          this.state.setMapView(initialMapView);
+          let pinSearchRequest = new PinSearchRequestParams(true, null);
+          this.doSearch(pinSearchRequest);
+        }
+      );
+    }
 
     //TODO: Get rid of if chains
-    if (areSearchResultsAbsentOrDated) {
+    if (haveResults) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
       let lastSearch = this.state.getLastSearch();
