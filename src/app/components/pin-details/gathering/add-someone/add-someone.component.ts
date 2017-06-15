@@ -9,6 +9,7 @@ import { AppSettingsService } from '../../../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
+import { ParticipantService } from '../../../../services/participant.service';
 import { StateService } from '../../../../services/state.service';
 
 import { Person } from '../../../../models/person';
@@ -31,14 +32,13 @@ export class AddSomeoneComponent implements OnInit {
     public selectedMatch: Person;
     public useSelectedButtonDisabled: boolean = true;
 
-    constructor(private fb: FormBuilder,
-        private router: Router,
-        private pinService: PinService,
-        private blandPageService: BlandPageService,
-        private state: StateService,
-        private toast: ToastsManager,
-        private content: ContentService,
-        private appSettings: AppSettingsService) { }
+    constructor(private pinService: PinService,
+                private blandPageService: BlandPageService,
+                private state: StateService,
+                private toast: ToastsManager,
+                private content: ContentService,
+                private appSettings: AppSettingsService,
+                private participantService: ParticipantService) { }
 
     ngOnInit() {
         this.addFormGroup = new FormGroup({
@@ -101,6 +101,7 @@ export class AddSomeoneComponent implements OnInit {
         // add someone to the group
         this.pinService.addToGroup(this.gatheringId, someone).subscribe(
             success => {
+                this.participantService.clearGroupFromCache(this.gatheringId);
                 let bpd = new BlandPageDetails(
                     'Return to my group',
                     '<h1 class="title">Your group is growing!</h1>' +
