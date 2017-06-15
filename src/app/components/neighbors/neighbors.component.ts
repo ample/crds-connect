@@ -45,7 +45,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                private searchService: SearchService) {
 
     this.pinSearchSub = pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
-      this.pinService.getPinSearchResults(srchParams);
+      this.doSearch(srchParams);
     });
   }
 
@@ -96,7 +96,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
-    // include posted pin if not included in results
     this.verifyPostedPinExistence();
     this.ensureUpdatedPinAddressIsDisplayed();
 
@@ -158,18 +157,17 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.state.setLoading(true);
 
     this.pinService.getPinSearchResults(searchParams).subscribe(
-        next => {
-          this.pinSearchResults = next as PinSearchResultsDto;
-          this.processAndDisplaySearchResults(searchParams.userSearchString, 0, 0); //TODO: Fix the zeroes here
-          this.state.lastSearch.search = searchParams.userSearchString;
-          this.state.appForWhichWeRanLastSearch = this.state.activeApp;   // this needs to be refactored out
-        },
-        error => {
-          console.log(error);
-          this.state.lastSearch.search = searchParams.userSearchString;
-          this.state.setLoading(false);
-          this.goToNoResultsPage();
-        });
+      next => {
+        this.pinSearchResults = next as PinSearchResultsDto;
+        this.processAndDisplaySearchResults(searchParams.userSearchString, next.centerLocation.lat, next.centerLocation.lng);
+        this.state.lastSearch.search = searchParams.userSearchString;
+      },
+      error => {
+        console.log(error);
+        this.state.lastSearch.search = searchParams.userSearchString;
+        this.state.setLoading(false);
+        this.goToNoResultsPage();
+      });
   }
 
   private goToNoResultsPage() {

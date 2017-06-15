@@ -90,7 +90,7 @@ export class MapFooterComponent implements OnInit {
 
       let pinSearchRequest = new PinSearchRequestParams(true, null);
 
-      //TODO: Check proximity sorting which was in the doSearch method in this controller
+      // TODO: Check proximity sorting which was in the doSearch method in this controller
       this.pin.emitPinSearchRequest(pinSearchRequest);
     }
   }

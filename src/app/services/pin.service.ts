@@ -39,12 +39,12 @@ import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/consta
 @Injectable()
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
 
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-  private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
-
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
+
+  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
 
@@ -128,7 +128,27 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
     //TODO: Bring back caching which was here
-    return this.getPinSearchResultsWorld(params);
+    let mapParams: MapView = this.state.getMapView();
+    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
+
+    let contactId: number = this.session.getContactId() || 0;
+
+    let findPinsEndpointUrl: string =  this.getApiEndpointUrl();
+
+    let apiQueryParams: PinSearchQueryParams = this.buildSearchPinQueryParams(params);
+
+    if (super.cacheIsReadyAndValid(searchOptionsForCache, CacheLevel.Full, contactId)) {
+      console.log('PinService got full cached PinSearchResultsDto');
+      return Observable.of(super.getCache());
+    } else {
+      return this.session.post(findPinsEndpointUrl, apiQueryParams)
+        .map(res => this.gatheringService.addAddressesToGatheringPins(res))
+        .do((res: PinSearchResultsDto) => {
+          res.pinSearchResults = this.removeOwnPinFromSearchResultsIfNecessary(res.pinSearchResults, contactId);
+          super.setSmartCache(res, CacheLevel.Full, searchOptionsForCache, contactId);
+        })
+        .catch((error: any) => Observable.throw(error || 'Server error'));
+    }
   }
 
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
@@ -155,7 +175,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       this.state.removedSelf = false;
       let index = pins.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
       if (index > -1) {
-        // remove my pin locally because AWS will take some time to remove from Cloudsearch
         pins.splice(index, 1);
       }
     }
@@ -163,45 +182,17 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pins;
   }
 
+  private getApiEndpointUrl() {
 
-  private getPinSearchResultsWorld(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
+    let endPointUrl: string = this.baseUrl;
 
-    let mapParams: MapView = this.state.getMapView();
-    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
-
-    let contactId: number = this.session.getContactId() || 0;
-
-    let findPinsEndpointUrl: string =  this.baseUrl + 'api/v1.0.0/finder/findpinsbyaddress/';
-
-    let apiQueryParams: PinSearchQueryParams = this.buildSearchPinQueryParams(params);
-
-    if (super.cacheIsReadyAndValid(searchOptionsForCache, CacheLevel.Full, contactId)) {
-      console.log('PinService got full cached PinSearchResultsDto');
-      return Observable.of(super.getCache());
+    if (this.appSetting.finderType === app.CONNECT) {
+      endPointUrl += 'api/v1.0.0/finder/findpinsbyaddress/';
     } else {
-      return this.session.post(findPinsEndpointUrl, apiQueryParams)
-        .map(res => this.gatheringService.addAddressesToGatheringPins(res))
-        .do((res: PinSearchResultsDto) => {
-          res.pinSearchResults = this.removeOwnPinFromSearchResultsIfNecessary(res.pinSearchResults, contactId);
-          super.setSmartCache(res, CacheLevel.Full, searchOptionsForCache, contactId);
-        })
-        .catch((error: any) => Observable.throw(error || 'Server error'));
+      endPointUrl += 'api/v1.0.0/finder/findmypinsbycontactid/';
     }
-  }
 
-
-  private getPinSearchResultsMyStuff(searchOptions: SearchOptions
-    , contactId: number
-    , finderType: string
-    , lat?: number
-    , lng?: number): Observable<PinSearchResultsDto> {
-
-    const geoCodeParamsString = `/${lat}/${lng}`;
-    let corsFriendlyGeoCodeParams = geoCodeParamsString.toString().split('.').join('$');
-
-    return this.session.get(`${this.baseUrl}api/v1.0.0/finder/findmypinsbycontactid/${contactId}${corsFriendlyGeoCodeParams}/${finderType}`)
-      .do((res: PinSearchResultsDto) => super.setSmartCache(res, CacheLevel.Full, searchOptions, contactId))
-      .catch((error: any) => Observable.throw(error || 'Server error'));
+    return endPointUrl;
   }
 
   // PUTS
