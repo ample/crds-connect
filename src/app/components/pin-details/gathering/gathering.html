@@ -24,7 +24,7 @@
     <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
   </div>
 
-  <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
+  <gathering-requests *ngIf="isPinOwner && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
 
   <div *ngIf="isInGathering">
     <h3 class="title font-size-h5">Participants</h3>

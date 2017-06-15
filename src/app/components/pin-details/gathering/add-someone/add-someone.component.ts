@@ -21,12 +21,15 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 
 export class AddSomeoneComponent implements OnInit {
-@ViewChild('childModal') public childModal: ModalDirective;
+@ViewChild('resultsModal') public resultsModal: ModalDirective;
     @Input() gatheringId: number;
     @Input() participantId: number;
 
     public addFormGroup: FormGroup;
     public isFormSubmitted: boolean = false;
+    public matches: Person[];
+    public selectedMatch: Person;
+    public useSelectedButtonDisabled: boolean = true;
 
     constructor(private fb: FormBuilder,
         private router: Router,
@@ -45,6 +48,32 @@ export class AddSomeoneComponent implements OnInit {
         });
     }
 
+    public showResultsModal(): void {
+        this.resultsModal.show();
+    }
+
+    public hideResultsModal(): void {
+        this.resultsModal.hide();
+    }
+
+    public modalUseSelected(): void {
+        this.resultsModal.hide();
+        this.state.setLoading(true);
+        this.addToGroup(this.selectedMatch);
+    }
+
+    public modalUseEntered(): void {
+        this.selectedMatch = new Person(this.addFormGroup.controls['firstname'].value, this.addFormGroup.controls['lastname'].value, this.addFormGroup.controls['email'].value);
+        this.resultsModal.hide();
+        this.state.setLoading(true);
+        this.addToGroup(this.selectedMatch);
+    }
+
+    public onSelect(person: Person): void {
+        this.selectedMatch = person;
+        this.useSelectedButtonDisabled = false;
+    }
+
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
         this.isFormSubmitted = true;
 
@@ -52,19 +81,13 @@ export class AddSomeoneComponent implements OnInit {
             let someone = new Person(value.firstname, value.lastname, value.email);
 
             this.state.setLoading(true);
-            this.pinService.addToGroup(this.gatheringId, someone).subscribe(
+            // get matches
+            this.pinService.getMatches(someone).subscribe(
                 success => {
-                    let bpd = new BlandPageDetails(
-                        'Return to my pin',
-                        '<h1 class="title">Somebody was added</h1>' +
-                        // tslint:disable-next-line:max-line-length
-                        `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added.</p>`,
-                        BlandPageType.Text,
-                        BlandPageCause.Success,
-                        `gathering/${this.gatheringId}`
-                    );
-
-                    this.blandPageService.primeAndGo(bpd);
+                    // display the modal so the user can choose 
+                    this.state.setLoading(false);
+                    this.matches = success;
+                    this.showResultsModal();
                 },
                 failure => {
                     this.state.setLoading(false);
@@ -72,5 +95,28 @@ export class AddSomeoneComponent implements OnInit {
                 }
             );
         }
+    }
+
+    addToGroup(someone: Person) {
+        // add someone to the group
+        this.pinService.addToGroup(this.gatheringId, someone).subscribe(
+            success => {
+                let bpd = new BlandPageDetails(
+                    'Return to my group',
+                    '<h1 class="title">Your group is growing!</h1>' +
+                    // tslint:disable-next-line:max-line-length
+                    `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
+                    BlandPageType.Text,
+                    BlandPageCause.Success,
+                    `gathering/${this.gatheringId}`
+                );
+
+                this.blandPageService.primeAndGo(bpd);
+            },
+            failure => {
+                this.state.setLoading(false);
+                this.toast.error(this.content.getContent('finderErrorInvite'));
+            }
+        );
     }
 }

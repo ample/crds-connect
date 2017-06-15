@@ -50,23 +50,51 @@
     </div>
   </div>
 
-  <button class="btn btn-primary" (click)="lgModal.show()">Large modal</button>
+  
  
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Large modal</h4>
-        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
+  <div bsModal #resultsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Possible Matches</h4>
+          <button type="button" class="close pull-right" (click)="hideResultsModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Make a selection
+          <br>
+                    
+          <div id="buttonGroup" class="btn-group btn-group-block">
+            
+            <button *ngFor="let match of matches" class="btn btn-option btn-flex btn-outline" type="button" (click)="onSelect(match)" [class.active]="match === selectedMatch">
+              <div class="row">
+                <div class="btn-group-label">
+                  <span class="btn-group-icons">
+                    <svg class="icon circle-thin" viewBox="0 0 256 256">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                    </svg>
+
+                    <svg class="icon check-circle" viewBox="0 0 256 256">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                    </svg>
+                  </span>
+                 {{ match.firstname }} {{ match.lastname }}</div>
+                <div class="btn-group-label">{{ match.email }}</div>
+              </div>
+            </button>
+            
+          </div>
+
+          <button type="button" class="btn btn-primary" [disabled] = "useSelectedButtonDisabled" (click)="modalUseSelected()">Use Selected</button>
+          <button type="button" class="btn btn-primary" (click)="modalUseEntered()">None of these. Use what I typed in.</button>
+          <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+        </div>
+        
       </div>
     </div>
   </div>
-</div>
 
   <button type="submit" class="btn btn-secondary">Done</button>
 </form>
