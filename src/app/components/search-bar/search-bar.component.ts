@@ -60,7 +60,7 @@ export class SearchBarComponent implements OnChanges {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
-      let pinSearchRequest = new PinSearchRequestParams(true, null);
+      let pinSearchRequest = new PinSearchRequestParams(true, searchString);
       this.pin.emitPinSearchRequest(pinSearchRequest);
     }
   }

@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/catch'; //TODO: Can probable delete these
-import 'rxjs/add/operator/map'; //TODO: Can probable delete these
+import 'rxjs/add/operator/catch'; //TODO: Can probably delete these
+import 'rxjs/add/operator/map'; //TODO: Can probably delete these
 
 import { AppSettingsService } from '../services/app-settings.service';
 import { BlandPageService } from '../services/bland-page.service';;
@@ -140,6 +140,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
     //TODO: Bring back caching which was here
+    console.log('PIN SEARCH CALLED WITH: ');
+    console.log(params);
     let mapParams: MapView = this.state.getMapView();
     let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
 
@@ -156,6 +158,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return this.session.post(findPinsEndpointUrl, apiQueryParams)
         .map(res => this.gatheringService.addAddressesToGatheringPins(res))
         .do((res: PinSearchResultsDto) => {
+          console.log('RESULTS: ');
+          console.log(res);
           res.pinSearchResults = this.removeOwnPinFromSearchResultsIfNecessary(res.pinSearchResults, contactId);
           super.setSmartCache(res, CacheLevel.Full, searchOptionsForCache, contactId);
           this.updateMapView(params, res);
@@ -175,10 +179,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
+    if (userSearchString) {centerGeoCoords = new GeoCoordinates(null, null);}
     let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
 
     let apiQueryParams = new PinSearchQueryParams(userSearchString, isLocationSearch,isMyStuff, finderType,
                                                   contactId, centerGeoCoords, mapBoundingBox);
+
+    console.log('API QUERY PARAMS: ');
+    console.log(apiQueryParams);
 
     return apiQueryParams;
   }
