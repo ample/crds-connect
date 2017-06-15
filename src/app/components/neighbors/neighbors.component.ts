@@ -139,10 +139,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setMyViewOrWorldView('my');
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
+      //TODO: We may not need this else statement at all
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
         // its a different search, clear the last mapView;
-        this.state.setMapView(null);
+        //this.state.setMapView(null);
       }
 
       if (lat === undefined || lng === undefined) {

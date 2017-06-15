@@ -126,6 +126,18 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       });
   }
 
+  private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {
+
+    let lastSearchString: string = srchParams.userSearchString;
+    let lat: number = srchRes.centerLocation.lat;
+    let lng: number = srchRes.centerLocation.lng;
+    let zoom: number = this.mapHlpr.calculateZoom(15, lat, lng, srchRes.pinSearchResults, this.state.getMyViewOrWorldView());
+
+    let mapView: MapView = new MapView(lastSearchString, lat, lng, zoom );
+
+    this.state.setMapView(mapView);
+  }
+
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
     //TODO: Bring back caching which was here
     let mapParams: MapView = this.state.getMapView();
@@ -146,6 +158,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         .do((res: PinSearchResultsDto) => {
           res.pinSearchResults = this.removeOwnPinFromSearchResultsIfNecessary(res.pinSearchResults, contactId);
           super.setSmartCache(res, CacheLevel.Full, searchOptionsForCache, contactId);
+          this.updateMapView(params, res);
         })
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
@@ -186,7 +199,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     let endPointUrl: string = this.baseUrl;
 
-    if (this.appSetting.finderType === app.CONNECT) {
+    if (!this.state.myStuffActive) {
       endPointUrl += 'api/v1.0.0/finder/findpinsbyaddress/';
     } else {
       endPointUrl += 'api/v1.0.0/finder/findmypinsbycontactid/';
