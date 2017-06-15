@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmailAddressValidator } from '../../../../validators/email-address.validator';
 import { ToastsManager } from 'ng2-toastr';
+import { ModalModule } from 'ngx-bootstrap';
 
 import { AppSettingsService } from '../../../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
@@ -12,6 +13,7 @@ import { StateService } from '../../../../services/state.service';
 
 import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
     selector: 'add-someone',
@@ -19,7 +21,7 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../mod
 })
 
 export class AddSomeoneComponent implements OnInit {
-
+@ViewChild('childModal') public childModal: ModalDirective;
     @Input() gatheringId: number;
     @Input() participantId: number;
 

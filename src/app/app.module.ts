@@ -20,7 +20,7 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -62,6 +62,7 @@ import { ProfilePictureComponent } from './components/profile-picture/profile-pi
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
+import { UserLookupModalComponent } from './components/user-lookup-modal/user-lookup-modal.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
@@ -124,6 +125,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
+    ModalModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
     routing,
@@ -171,6 +173,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchBarComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
+    UserLookupModalComponent,
     GoogleMapClusterDirective
   ],
   providers: [
