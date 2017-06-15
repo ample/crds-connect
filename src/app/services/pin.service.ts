@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/catch'; //TODO: Can probably delete these
-import 'rxjs/add/operator/map'; //TODO: Can probably delete these
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 import { AppSettingsService } from '../services/app-settings.service';
 import { BlandPageService } from '../services/bland-page.service';;
@@ -139,9 +139,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
-    //TODO: Bring back caching which was here
-    console.log('PIN SEARCH CALLED WITH: ');
-    console.log(params);
+    this.state.setLoading(true);
     let mapParams: MapView = this.state.getMapView();
     let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
 
@@ -158,11 +156,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       return this.session.post(findPinsEndpointUrl, apiQueryParams)
         .map(res => this.gatheringService.addAddressesToGatheringPins(res))
         .do((res: PinSearchResultsDto) => {
-          console.log('RESULTS: ');
-          console.log(res);
           res.pinSearchResults = this.removeOwnPinFromSearchResultsIfNecessary(res.pinSearchResults, contactId);
           super.setSmartCache(res, CacheLevel.Full, searchOptionsForCache, contactId);
           this.updateMapView(params, res);
+          this.state.setLoading(false);
         })
         .catch((error: any) => Observable.throw(error || 'Server error'));
     }
@@ -418,17 +415,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     } else if (pin.pinType === pinType.SMALL_GROUP) {
       this.router.navigate([`small-group/${pin.gathering.groupId}/`]);
     }
-  }
-
-  //TODO: Define query params and return type (Observable<PinDto>
-  public searchPins(queryParams: any): Subject<PinSearchResultsDto>  {
-
-    let subject: Subject<PinSearchResultsDto>  = new Subject();
-
-
-
-    return subject;
-
   }
 
 }

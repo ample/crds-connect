@@ -22,7 +22,6 @@ export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
   @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
-  //@Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private isMyStuffActiveSub: Subscription;
   private searchText: string = '';

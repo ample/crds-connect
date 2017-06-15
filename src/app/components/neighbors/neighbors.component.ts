@@ -22,6 +22,8 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 import { SearchOptions } from '../../models/search-options';
 
+import { initialMapZoom } from '../../shared/constants';
+
 @Component({
   selector: 'app-neighbors',
   templateUrl: 'neighbors.component.html'
@@ -59,8 +61,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     let pinSearchRequest = new PinSearchRequestParams(true, null);
 
-
-    //TODO: Get rid of if chains
     if (haveResults) {
       this.state.setLoading(true);
       this.setView(this.state.getCurrentView());
@@ -72,7 +72,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.setView(this.state.getCurrentView());
       this.userLocationService.GetUserLocation().subscribe(
         pos => {
-          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, 5); //TODO: Find where we set initial zoom and use it instead of magic number 5
+          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
           this.state.setMapView(initialMapView);
           this.doSearch(pinSearchRequest);
         }
