@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { FormsModule }   from '@angular/forms';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { Angulartics2 } from 'angulartics2';
 import { Observable, Subscription } from 'rxjs/Rx';
@@ -18,7 +18,7 @@ import { StateService } from '../../services/state.service';
   templateUrl: 'search-bar.component.html',
   styleUrls:  ['search-bar.component.css']
 })
-export class SearchBarComponent implements OnChanges {
+export class SearchBarComponent implements OnChanges, OnInit {
   @Input() isMapHidden: boolean;
   @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
@@ -28,16 +28,17 @@ export class SearchBarComponent implements OnChanges {
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
 
-  constructor(private pin: PinService,
+  constructor(private pinService: PinService,
               private state: StateService) {
+  }
+
+  public ngOnInit(): void {
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
       this.setButtonText();
       this.setSearchText();
     });
   }
-
-  public ngOnInit(): void {}
 
   public ngOnChanges(): void {
     this.setButtonText();
@@ -60,7 +61,7 @@ export class SearchBarComponent implements OnChanges {
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
       let pinSearchRequest = new PinSearchRequestParams(true, searchString);
-      this.pin.emitPinSearchRequest(pinSearchRequest);
+      this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
   }
 
@@ -81,7 +82,7 @@ export class SearchBarComponent implements OnChanges {
     this.searchText = '';
   }
 
-  public searchKeyUp(){
+  public searchKeyUp() {
     this.isSearchClearHidden = false;
   }
 

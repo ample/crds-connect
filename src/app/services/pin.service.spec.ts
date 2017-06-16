@@ -51,6 +51,7 @@ describe('Service: Pin', () => {
       providers: [
         SiteAddressService,
         PinService,
+        { provide: AppSettingsService, useValue: mockAppSettings },
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
         { provide: BlandPageService, useValue: mockBlandPageService },
