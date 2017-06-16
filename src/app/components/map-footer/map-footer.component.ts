@@ -43,7 +43,6 @@ export class MapFooterComponent implements OnInit {
 
   public myStuffBtnClicked(): void {
     this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
-    console.log(this.state.myStuffActive);
     if (this.state.myStuffActive) {
       this.changeStateToAllResults();
     } else {
