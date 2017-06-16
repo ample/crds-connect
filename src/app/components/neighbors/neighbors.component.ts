@@ -96,7 +96,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
-    this.verifyPostedPinExistence();
+    this.pinSearchResults.pinSearchResults =
+        this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
+
     this.ensureUpdatedPinAddressIsDisplayed();
 
     this.pinSearchResults.pinSearchResults =
@@ -174,33 +176,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
-  }
-
-  private foundPinElement = (pinFromResults: Pin): boolean => {
-    let postedPin = this.state.postedPin;
-    return (postedPin.participantId === pinFromResults.participantId
-    && postedPin.pinType === pinFromResults.pinType);
-  }
-
-  private filterFoundPinElement = (pinFromResults: Pin): boolean => {
-    let postedPin = this.state.postedPin;
-    return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  }
-
-  private verifyPostedPinExistence() {
-    if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
-      this.state.navigatedFromAddToMapComponent = false;
-      let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
-      let pin = this.state.postedPin;
-      if (isFound === undefined) {
-        this.pinSearchResults.pinSearchResults.push(pin);
-      } else { // filter out old pin and replace
-        this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
-        this.pinSearchResults.pinSearchResults.push(pin);
-      }
-      this.addressService.clearCache();
-      this.state.postedPin = null;
-    }
   }
 
   private ensureUpdatedPinAddressIsDisplayed() {

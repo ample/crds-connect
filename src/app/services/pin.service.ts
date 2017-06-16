@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { AddressService } from '../services/address.service';
 import { AppSettingsService } from '../services/app-settings.service';
 import { BlandPageService } from '../services/bland-page.service';;
 import { GoogleMapService } from '../services/google-map.service';
@@ -49,6 +50,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
 
   constructor(
+    private addressService: AddressService,
     private appSetting: AppSettingsService,
     private gatheringService: SiteAddressService,
     private router: Router,
@@ -415,6 +417,38 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     } else if (pin.pinType === pinType.SMALL_GROUP) {
       this.router.navigate([`small-group/${pin.gathering.groupId}/`]);
     }
+  }
+
+  public addNewPinToResultsIfNotUpdatedInAwsYet(pinsFromServer: Pin[]): Pin[] {
+
+    let wasFreshPinJustAdded: boolean = this.state.navigatedFromAddToMapComponent && !!this.state.postedPin;
+
+    if (wasFreshPinJustAdded) {
+      this.state.navigatedFromAddToMapComponent = false;
+      let isFound = pinsFromServer.find(this.foundPinElement);
+      let pin = this.state.postedPin;
+      if (isFound === undefined) {
+        pinsFromServer.push(pin);
+      } else {
+        pinsFromServer = pinsFromServer.filter(this.filterFoundPinElement);
+        pinsFromServer.push(pin);
+      }
+      this.addressService.clearCache();
+      this.state.postedPin = null;
+
+      return pinsFromServer;
+    }
+  }
+
+  private foundPinElement = (pinFromResults: Pin): boolean => {
+    let postedPin = this.state.postedPin;
+    return (postedPin.participantId === pinFromResults.participantId
+    && postedPin.pinType === pinFromResults.pinType);
+  };
+
+  private filterFoundPinElement = (pinFromResults: Pin): boolean => {
+    let postedPin = this.state.postedPin;
+    return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
   }
 
 }
