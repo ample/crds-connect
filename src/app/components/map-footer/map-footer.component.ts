@@ -7,9 +7,7 @@ import { PinService } from '../../services/pin.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
-import { UserLocationService } from  '../../services/user-location.service';
 import { BlandPageService } from '../../services/bland-page.service';
-import { SearchService } from '../../services/search.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
@@ -26,14 +24,12 @@ export class MapFooterComponent implements OnInit {
   public myPinSearchResults: PinSearchResultsDto;
 
   constructor(private appSettings: AppSettingsService,
-              private pin: PinService,
+              private pinService: PinService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
               private state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
-              private userLocationService: UserLocationService,
-              private search: SearchService,
               private angulartics2: Angulartics2) { }
 
   public ngOnInit() {
@@ -47,7 +43,7 @@ export class MapFooterComponent implements OnInit {
 
   public myStuffBtnClicked(): void {
     this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
-
+    console.log(this.state.myStuffActive);
     if (this.state.myStuffActive) {
       this.changeStateToAllResults();
     } else {
@@ -60,24 +56,24 @@ export class MapFooterComponent implements OnInit {
     this.state.setIsMyStuffActive(false);
     this.state.lastSearch.search = '';
 
-    this.pin.clearPinCache();
+    this.pinService.clearPinCache();
 
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
 
     let pinSearchRequest = new PinSearchRequestParams(true, null);
-    this.pin.emitPinSearchRequest(pinSearchRequest);
+    this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
 
-  public redirectThenChangeToMyStuff(){
+  public redirectThenChangeToMyStuff() {
     this.changeStateToMyStuff();
     this.loginRedirectService.redirectToTarget();
   }
 
   public changeStateToMyStuff(): void {
-    this.pin.clearPinCache();
+    this.pinService.clearPinCache();
 
     this.state.setLoading(true);
 
@@ -90,7 +86,7 @@ export class MapFooterComponent implements OnInit {
 
       let pinSearchRequest = new PinSearchRequestParams(true, null);
 
-      this.pin.emitPinSearchRequest(pinSearchRequest);
+      this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
   }
 
