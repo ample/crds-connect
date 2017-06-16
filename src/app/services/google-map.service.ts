@@ -1,12 +1,11 @@
 import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
-import { MapMarker } from '../models/map-marker';
-import { Pin, pinType } from '../models/pin';
-
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { MapBoundingBox } from '../models/map-bounding-box';
 import { MapView } from '../models/map-view';
+import { MapMarker } from '../models/map-marker';
+import { Pin, pinType } from '../models/pin';
 
 @Injectable()
 export class GoogleMapService {

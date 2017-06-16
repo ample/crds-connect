@@ -4,6 +4,7 @@
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 
+import { AddressService } from '../services/address.service';
 import { AppSettingsService } from '../services/app-settings.service';
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
@@ -22,8 +23,9 @@ import { MockTestData } from '../shared/MockTestData';
 import { CacheLevel } from '../services/base-service/cacheable.service';
 
 describe('Service: Pin', () => {
-  let fixture, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
+  let fixture, mockAddressService, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
 
+  mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['clearCache']);
   mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
@@ -51,6 +53,7 @@ describe('Service: Pin', () => {
       providers: [
         SiteAddressService,
         PinService,
+        { provide: AddressService, useValue: mockAddressService },
         { provide: AppSettingsService, useValue: mockAppSettings },
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
