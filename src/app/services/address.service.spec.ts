@@ -61,6 +61,39 @@ describe('AddressService', () => {
             });
         }));
 
+        it('should  get full group address without cache',
+        inject([AddressService], (addressService: AddressService) => {
+            let address: Address = MockTestData.getAnAddress(5);
+
+            (mockSessionService.getContactId).and.returnValue(null);
+            (mockSessionService.get).and.returnValue(
+                Observable.of(address)
+            );
+
+            addressService.getFullAddress(1, pinType.GATHERING).subscribe( (data) => {
+                expect(data).toEqual(address);
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${addressService['baseUrl']}api/v1.0.0/finder/group/address/1`);
+            });
+        }));
+
+        it('should  get full group address with cache',
+        inject([AddressService], (addressService: AddressService) => {
+            let pinsCache: Pin[] = [];
+            pinsCache.push(MockTestData.getAPin(1));
+            pinsCache[0].pinType = pinType.GATHERING;
+            pinsCache[0].gathering.address = MockTestData.getAnAddress(50);
+            addressService['cache'] = pinsCache;
+            addressService['cacheLevel'] = CacheLevel.Partial;
+            addressService['userIdentifier'] = 2;
+
+            (mockSessionService.getContactId).and.returnValue(2);
+
+            addressService.getFullAddress(1, pinType.GATHERING).subscribe( (data) => {
+                expect(data).toEqual(pinsCache[0].gathering.address);
+                expect(mockSessionService.get).not.toHaveBeenCalledWith();
+            });
+        }));
+
         it('should  get partial person address without cache',
         inject([AddressService], (addressService: AddressService) => {
             let address: Address = MockTestData.getAnAddress(5);
