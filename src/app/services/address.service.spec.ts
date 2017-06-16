@@ -25,22 +25,22 @@ describe('AddressService', () => {
     // it('...', async(inject([...], (...) => {}));
 
     it('should instantiate',
-        inject([AddressService], (s: AddressService) => {
-            expect(s).toBeTruthy();
+        inject([AddressService], (addressService: AddressService) => {
+            expect(addressService).toBeTruthy();
             // expect('1').toEqual(1);
         })
     );
 
     it('should get full person address without cache',
-        inject([AddressService], (s: AddressService) => {
+        inject([AddressService], (addressService: AddressService) => {
             let address = MockTestData.getAnAddress(3);
             (mockSessionService.getContactId).and.returnValue(null);
             (mockSessionService.get).and.returnValue(
                 Observable.of(address)
             );
-            s.getFullAddress(1, pinType.PERSON).subscribe( (data) => {
+            addressService.getFullAddress(1, pinType.PERSON).subscribe( (data) => {
                 expect(data).toEqual(address);
-                expect(mockSessionService.get).toHaveBeenCalledWith('http://localhost:49380/api/v1.0.0/finder/person/address/1/true');
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${addressService['baseUrl']}api/v1.0.0/finder/person/address/1/true`);
             });
         }));
 
@@ -75,7 +75,7 @@ describe('AddressService', () => {
 
             addressService.getFullAddress(1, pinType.PERSON).subscribe( (data) => {
                 expect(data).toEqual(address);
-                expect(mockSessionService.get).toHaveBeenCalledWith('http://localhost:49380/api/v1.0.0/finder/person/address/1/true');
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${addressService['baseUrl']}api/v1.0.0/finder/person/address/1/true`);
             });
         }));
 
