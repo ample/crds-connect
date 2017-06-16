@@ -133,7 +133,7 @@ describe('MapFooterComponent', () => {
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalledTimes(1);
     });
 
-    fit('should set state and go to getting started when gettingStartedBtnClicked', () =>{
+    it('should set state and go to getting started when gettingStartedBtnClicked', () =>{
         comp.gettingStartedBtnClicked();
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockBlandPageService.goToGettingStarted).toHaveBeenCalledTimes(1);
