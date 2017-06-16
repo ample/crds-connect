@@ -1,3 +1,6 @@
+import {
+    ParticipantDetailsComponent
+} from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -156,6 +159,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     ParticipantCardComponent,
+    ParticipantDetailsComponent,
     PersonComponent,
     PersonEditComponent,
     PinDetailsComponent,
