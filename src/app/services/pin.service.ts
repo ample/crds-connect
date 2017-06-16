@@ -280,8 +280,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/addtogroup/${groupId}`, someone);
   }
 
-  public getMatches(searchUser: Person): Observable<Person[]> {
-    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/getmatches`, searchUser);
+  public getMatch(searchUser: Person): Observable<Person[]> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/getmatch`, searchUser);
   }
 
   public postPin(pin: Pin) {

@@ -29,7 +29,8 @@ export class AddSomeoneComponent implements OnInit {
     public addFormGroup: FormGroup;
     public isFormSubmitted: boolean = false;
     public matches: Person[];
-    public selectedMatch: Person;
+    public selectedMatch: Person = new Person();
+    public matchFound: boolean = false;
     public useSelectedButtonDisabled: boolean = true;
 
     constructor(private pinService: PinService,
@@ -57,6 +58,7 @@ export class AddSomeoneComponent implements OnInit {
     }
 
     public modalUseSelected(): void {
+        this.selectedMatch = this.matches[0];
         this.resultsModal.hide();
         this.state.setLoading(true);
         this.addToGroup(this.selectedMatch);
@@ -69,24 +71,21 @@ export class AddSomeoneComponent implements OnInit {
         this.addToGroup(this.selectedMatch);
     }
 
-    public onSelect(person: Person): void {
-        this.selectedMatch = person;
-        this.useSelectedButtonDisabled = false;
-    }
-
     onSubmit({ value, valid }: { value: any, valid: boolean }) {
         this.isFormSubmitted = true;
-
+        this.matchFound = false;
         if (valid) {
             let someone = new Person(value.firstname, value.lastname, value.email);
-
+            this.selectedMatch = someone;
             this.state.setLoading(true);
             // get matches
-            this.pinService.getMatches(someone).subscribe(
+            this.pinService.getMatch(someone).subscribe(
                 success => {
                     // display the modal so the user can choose 
                     this.state.setLoading(false);
+                    success.length > 0 ? this.matchFound = true : this.matchFound = false;
                     this.matches = success;
+                    this.selectedMatch = this.matches[0];
                     this.showResultsModal();
                 },
                 failure => {

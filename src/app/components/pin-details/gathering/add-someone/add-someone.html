@@ -63,33 +63,22 @@
         </div>
 
         <div class="modal-body">
-          Make a selection
-          <br>
-                    
-          <div id="buttonGroup" class="btn-group btn-group-block">
-            
-            <button *ngFor="let match of matches" class="btn btn-option btn-flex btn-outline" type="button" (click)="onSelect(match)" [class.active]="match === selectedMatch">
-              <div class="row">
-                <div class="btn-group-label">
-                  <span class="btn-group-icons">
-                    <svg class="icon circle-thin" viewBox="0 0 256 256">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                    </svg>
-
-                    <svg class="icon check-circle" viewBox="0 0 256 256">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                    </svg>
-                  </span>
-                 {{ match.firstname }} {{ match.lastname }}</div>
-                <div class="btn-group-label">{{ match.email }}</div>
-              </div>
-            </button>
-            
+                              
+          <div *ngIf="matchFound">
+             The exisitng Crossroads user {{selectedMatch.firstname}} {{selectedMatch.lastname}} with email address {{selectedMatch.email}} will be added to your group.
+             <br>
+             <button type="button" class="btn btn-primary"  (click)="modalUseSelected()">OK</button>
+             <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
           </div>
 
-          <button type="button" class="btn btn-primary" [disabled] = "useSelectedButtonDisabled" (click)="modalUseSelected()">Use Selected</button>
-          <button type="button" class="btn btn-primary" (click)="modalUseEntered()">None of these. Use what I typed in.</button>
-          <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+          <div *ngIf="!matchFound">
+             {{selectedMatch.firstname}} {{selectedMatch.lastname}} with email address {{selectedMatch.email}} will be added to your group.
+             <br>
+             <button type="button" class="btn btn-primary" (click)="modalUseEntered()">OK</button>
+             <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+          </div>
+
+          
         </div>
         
       </div>
