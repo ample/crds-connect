@@ -6,9 +6,7 @@ import { CacheableService, CacheLevel } from './base-service/cacheable.service';
 
 import { SessionService } from './session.service';
 
-import { Address } from '../models/address';
-import { Pin, pinType } from '../models/pin';
-import { Group } from '../models/group';
+import { Address, Pin, pinType, Group } from '../models';
 
 @Injectable()
 export class AddressService extends CacheableService<Pin[]> {
