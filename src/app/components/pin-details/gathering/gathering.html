@@ -1,57 +1,59 @@
 <div *ngIf="ready">
-  <div class="pin-details-dark dark-theme"
+  <div class="row pin-details-dark dark-theme"
        [ngClass]="{ host_plain: !isInGathering && !isPinOwner }">
 
-    <div class="media media-dark">
-      <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
-      <div class="media-body">
-        <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
-        <div class="media-meta">
-          <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
-          <span *ngIf="pin.pinType === pinType.SMALL_GROUP">
-            <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
-          </span>
+    <div class="col-xs-12 soft">
+      <div class="media media-dark">
+        <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
+        <div class="media-body">
+          <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
+          <div class="media-meta">
+            <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+            <span *ngIf="pin.pinType === pinType.SMALL_GROUP">
+              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
+            </span>            
+          </div>
         </div>
       </div>
+
+      <p class="gathering-description border-top push-top">{{pin.gathering?.groupDescription.substring(0,265)}}</p>
+      <div class="group-meta-data border-top push-top">
+        <strong>Category</strong>
+        <br>
+        Interest / Dining Out
+        <br><br>
+        <strong>Where</strong>
+        <br>
+        <readonly-address *ngIf="pin.pinType === pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+        <br><br>
+        <strong>Group Type</strong>
+        <br>
+        Women only (don't be a creeper dude)
+        <br><br>
+        <strong>Age Range</strong>
+        <br>
+        40s
+        <br><br>
+        <strong>Leader</strong>
+        <br>
+        {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
+        <br><br>
+        <strong>Kids Welcome</strong>
+        {{pin?.gathering?.kidsWelcome}}
+        <br>
+     </div>  
+
+   {{ pin.gathering | json }}       
+
+      <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
+
+      <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering && !isPinOwner">
+        <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
+        <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
+      </div>
+
+      <pin-login-actions *ngIf="!isLoggedIn  && pin.pinType !== pinType.SMALL_GROUP" [isGathering]="true"></pin-login-actions>
     </div>
-
-    <p class="gathering-description border-top push-top">{{pin.gathering?.groupDescription.substring(0,265)}}</p>
-    <div class="group-meta-data border-top push-top">
-      <strong>Category</strong>
-      <br>
-      Interest / Dining Out
-      <br><br>
-      <strong>Where</strong>
-      <br>
-      <readonly-address *ngIf="pin.pinType === pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
-      <br><br>
-      <strong>Group Type</strong>
-      <br>
-      Women only (don't be a creeper dude)
-      <br><br>
-      <strong>Age Range</strong>
-      <br>
-      40s
-      <br><br>
-      <strong>Leader</strong>
-      <br>
-      {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
-      <br><br>
-      <strong>Kids Welcome</strong>
-      {{pin?.gathering?.kidsWelcome}}
-      <br>
-   </div>  
-
-   {{ pin.gathering | json }}  
-
-    <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
-
-    <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering && !isPinOwner">
-      <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
-      <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
-    </div>
-
-    <pin-login-actions *ngIf="!isLoggedIn && pin.pinType !== pinType.SMALL_GROUP" [isGathering]="true"></pin-login-actions>
   </div>
 
   <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
@@ -59,11 +61,9 @@
   <div *ngIf="isInGathering">
     <h3 class="title font-size-h5">Participants</h3>
     <hr>
-    <div class="container-fluid">
-      <div class="row" *ngFor="let participant of pin.gathering.Participants">
-        <div class="border-bottom soft-quarter-bottom">
-          <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
-        </div>
+    <div *ngFor="let participant of pin.gathering.Participants">
+      <div class="border-bottom soft-quarter-bottom">
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
       </div>
     </div>
   </div>
