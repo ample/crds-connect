@@ -75,8 +75,6 @@ describe('MapFooterComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(MapFooterComponent);
             comp = fixture.componentInstance;
-
-            // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
 
