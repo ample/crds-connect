@@ -14,8 +14,8 @@
       </div>
 
       <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
-
-      <button class="btn primary btn-primary" *ngIf="isLeader" (click)="edit()">Edit</button>
+      <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
+      <button class="btn primary btn-primary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
 
       <div *ngIf="!isInGathering">
         <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
@@ -33,7 +33,7 @@
     <hr>
     <div *ngFor="let participant of pin.gathering.Participants">
       <div class="border-bottom soft-quarter-bottom">
-        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [canBeHyperlinked]="isLeader"></participant-card>
       </div>
     </div>
   </div>

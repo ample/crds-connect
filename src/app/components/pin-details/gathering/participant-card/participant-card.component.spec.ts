@@ -85,7 +85,7 @@ describe('ParticipantCardComponent', () => {
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
 
-    comp.OnParticipantClick();
+    comp.onParticipantClick();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['./participant-detail/' + 777], { relativeTo: mockRoute });
   });
 });
