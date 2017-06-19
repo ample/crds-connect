@@ -2,12 +2,16 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
 import { Observable } from 'rxjs/Rx';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { SearchBarComponent } from './search-bar.component';
+
+import { app, placeholderTextForSearchBar } from '../../shared/constants';
 
 class StateServiceStub {
   public myStuffActive: boolean = false;
@@ -22,9 +26,10 @@ describe('SearchBarComponent', () => {
   let fixture: ComponentFixture<SearchBarComponent>;
   let comp: SearchBarComponent;
   let el;
-  let mockPinService, mockStateService;
+  let mockAppSettingsService, mockPinService, mockStateService;
 
   beforeEach(() => {
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
     mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
@@ -32,6 +37,7 @@ describe('SearchBarComponent', () => {
         SearchBarComponent
       ],
       providers: [
+        { provide: AppSettingsService, useValue: mockAppSettingsService },
         { provide: StateService, useValue: mockStateService },
         { provide: PinService, useValue: mockPinService }
       ],

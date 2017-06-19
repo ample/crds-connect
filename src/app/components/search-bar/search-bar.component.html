@@ -5,7 +5,7 @@
              class="form-control"
              [(ngModel)]="searchText"
              (keyup.enter)="onSearch(searchText)"
-             placeholder="Search zip or keyword...">
+             placeholder={{placeholderTextForSearchBar}}>
       <!--(keyup) = "searchKeyUp()"--> <!--This attribute belongs to the input above-->
       <!--<span class="form-control-clear glyphicon glyphicon-remove form-control-feedback"-->
       <!--[hidden]="isSearchClearHidden"-->
