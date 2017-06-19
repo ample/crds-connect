@@ -34,6 +34,7 @@ export class GatheringComponent implements OnInit {
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
+  public isLeader: boolean = false;
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
   private address: Address = Address.overload_Constructor_One();
@@ -71,13 +72,16 @@ export class GatheringComponent implements OnInit {
               this.ready = true;
             })
             .subscribe(
-            address => {
-              this.pin.gathering.address = address;
-            },
-            error => {
-              this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
-            }
+              address => {
+                this.pin.gathering.address = address;
+              },
+              error => {
+                this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+              }
             );
+          if (this.participantService.loggedInUserIsLeaderOfGroup(this.pin.gathering.groupId)){
+            this.isLeader = true;
+          }
         } else {
           this.state.setLoading(false);
           this.ready = true;

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { CacheableService, CacheLevel } from './base-service/cacheable.service';
+import * as _ from 'lodash';
 
 import { SessionService } from './session.service';
 
 import { Participant } from '../models/participant';
 import { Group } from '../models/group';
+import { GroupRole } from '../shared/constants';
 
 @Injectable()
 export class ParticipantService extends CacheableService<Group[]> {
@@ -46,6 +48,24 @@ export class ParticipantService extends CacheableService<Group[]> {
         }
 
         return this.getParticipantsByGroupFromBackend(groupId);
+    }
+
+    public loggedInUserIsLeaderOfGroup(groupId: number): boolean {
+        let contactId = this.session.getContactId();
+        if (super.isCachedForUser(contactId)) {
+            let groupParticipantCache = super.getCache();
+
+            let group = groupParticipantCache.find(g => {
+                return g.groupId === groupId;
+            });
+
+            let participant = group.Participants.find(p => {
+                return p.contactId === contactId;
+            })
+
+            return participant.groupRoleId === GroupRole.LEADER;
+        }
+        return false;
     }
 
     private getParticipantsByGroupFromBackend(groupId: number): Observable<Participant[]> {
