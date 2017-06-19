@@ -9,7 +9,6 @@ import { Address } from '../../../models/address';
 export class ReadonlyAddressComponent implements OnInit {
 
   @Input() isGathering: boolean = false;
-  @Input() isPinOwner: boolean = false;
   @Input() isLeader: boolean = false;
   @Input() isInGathering: boolean = false;
   @Input() address: Address;
@@ -19,7 +18,7 @@ export class ReadonlyAddressComponent implements OnInit {
   public showFullAddress: boolean = false;
   // TODO: Move this component up one level
   public ngOnInit() {
-    if ((this.isGathering && this.isInGathering) || (this.isPinOwner || this.isLeader)) {
+    if ((this.isGathering && this.isInGathering) || this.isLeader) {
       this.showFullAddress = true;
     }
     if (this.distance != null) {
