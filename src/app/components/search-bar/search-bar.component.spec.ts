@@ -78,4 +78,17 @@ describe('SearchBarComponent', () => {
     expect(comp.isMyStuffSearch).toBeFalsy();
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
   });
+
+  it('It should set the placeholder text to "Address..." on CONNECT component init', () => {
+    <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
+    comp.ngOnInit();
+    expect(comp.placeholderTextForSearchBar).toBe(placeholderTextForSearchBar.ADDRESS);
+  });
+
+  it('It should set the placeholder text to "Keyword..." on GROUPS component init', () => {
+    <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(false);
+    comp.ngOnInit();
+    expect(comp.placeholderTextForSearchBar).toBe(placeholderTextForSearchBar.KEYWORD);
+  });
+
 });
