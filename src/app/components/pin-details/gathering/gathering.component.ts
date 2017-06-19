@@ -66,6 +66,9 @@ export class GatheringComponent implements OnInit {
         this.pin.gathering.Participants = participants;
         if (this.loggedInUserIsInGathering(this.session.getContactId())) {
           this.isInGathering = true;
+          if (this.participantService.loggedInUserIsLeaderOfGroup(this.pin.gathering.groupId)){
+            this.isLeader = true;
+          }
           this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
             .finally(() => {
               this.state.setLoading(false);
@@ -79,9 +82,6 @@ export class GatheringComponent implements OnInit {
                 this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
               }
             );
-          if (this.participantService.loggedInUserIsLeaderOfGroup(this.pin.gathering.groupId)){
-            this.isLeader = true;
-          }
         } else {
           this.state.setLoading(false);
           this.ready = true;

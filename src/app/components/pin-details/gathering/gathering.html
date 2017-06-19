@@ -15,9 +15,9 @@
 
       <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
 
-      <button class="btn primary btn-primary" *ngIf="isLeader || isLeader" (click)="edit()">Edit</button>
+      <button class="btn primary btn-primary" *ngIf="isLeader" (click)="edit()">Edit</button>
 
-      <div *ngIf="!isInGathering && !isPinOwner">
+      <div *ngIf="!isInGathering">
         <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
         <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
       </div>
