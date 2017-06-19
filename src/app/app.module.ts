@@ -62,7 +62,6 @@ import { ProfilePictureComponent } from './components/profile-picture/profile-pi
 import { ReadonlyAddressComponent } from './components/pin-details/readonly-address/readonly-address.component';
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
-import { UserLookupModalComponent } from './components/user-lookup-modal/user-lookup-modal.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
@@ -173,7 +172,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchBarComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
-    UserLookupModalComponent,
     GoogleMapClusterDirective
   ],
   providers: [
