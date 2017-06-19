@@ -33,6 +33,10 @@ export class Group {
     Participants: Participant[];
     groupTypeId?: number;
     participantCount: number;
+    // AgeRange: string[];
+    PrimaryContactFirstName: string;
+    PrimaryContactLastName: string;
+
 
     public static overload_Constructor_One(groupId: number, participants: Participant[]): Group {
         return new Group(groupId, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
@@ -45,7 +49,8 @@ export class Group {
     $remainingCapacity?: number, $groupFullInd?: boolean, $waitListInd?: boolean, $waitListGroupId?: number,
     $childCareInd?: boolean, $meetingDayId?: number, $meetingDay?: string, $meetingTime?: string, $meetingFrequency?: string,
     $meetingFrequencyId?: number, $address?: Address, $targetSize?: number, $kidsWelcome?: boolean, $proximity?: number,
-    $Participants?: Participant[], $groupTypeId?: number, $participantCount?: number) {
+    $Participants?: Participant[], $groupTypeId?: number, $participantCount?: number,
+    primaryContactFirstName?: string, primaryContactLastName?: string) {
         this.groupId = $groupId;
         this.groupName = $groupName;
         this.groupDescription = $groupDescription;
@@ -76,6 +81,8 @@ export class Group {
         this.Participants = $Participants;
         this.groupTypeId = $groupTypeId;
         this.participantCount = $participantCount;
+        this.PrimaryContactFirstName = primaryContactFirstName;
+        this.PrimaryContactLastName = primaryContactLastName;
     }
 
 }

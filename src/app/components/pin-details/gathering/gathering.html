@@ -9,7 +9,7 @@
         <div class="media-meta">
           <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
           <span *ngIf="pin.pinType === pinType.SMALL_GROUP">
-            <span>{{pin?.gathering?.meetingDay}} at {{pin?.gathering?.meetingTime}}, {{pin?.gathering?.meetingFrequency}}</span>
+            <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
           </span>
         </div>
       </div>
@@ -33,14 +33,16 @@
       <br>
       40s
       <br><br>
-      <strong>Leaders</strong>
+      <strong>Leader</strong>
       <br>
-      Carol McBain
+      {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
       <br><br>
       <strong>Kids Welcome</strong>
-      No
+      {{pin?.gathering?.kidsWelcome}}
       <br>
-   </div>    
+   </div>  
+
+   {{ pin.gathering | json }}  
 
     <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
 

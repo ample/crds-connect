@@ -181,6 +181,16 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.pinService.getPinSearchResults(searchString, this.appSettings.finderType, lat, lng, zoom).subscribe(
         next => {
           this.pinSearchResults = next as PinSearchResultsDto;
+          for (let i = 0; i < this.pinSearchResults.pinSearchResults.length; i++) {
+            let pin = this.pinSearchResults.pinSearchResults[i];
+            console.log('**************');
+            console.log(pin.gathering.meetingTime);
+            console.log('**************');
+            // pin.gathering.meetingTime = 'lol';
+            // console.log('**************');
+            // console.log(pin.gathering.meetingTime);
+            // console.log('**************');
+          }
           this.processAndDisplaySearchResults(searchString, lat, lng);
           this.state.lastSearch.search = searchString;
           this.state.appForWhichWeRanLastSearch = this.state.activeApp;   // this needs to be refactored out
