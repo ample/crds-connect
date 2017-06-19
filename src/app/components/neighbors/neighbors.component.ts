@@ -99,7 +99,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.pinSearchResults.pinSearchResults =
         this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
 
-    this.ensureUpdatedPinAddressIsDisplayed();
+    this.pinSearchResults.pinSearchResults =
+        this.pinService.ensureUpdatedPinAddressIsDisplayed(this.pinSearchResults.pinSearchResults);
 
     this.pinSearchResults.pinSearchResults =
         this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
@@ -176,23 +177,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
-  }
-
-  private ensureUpdatedPinAddressIsDisplayed() {
-    let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
-
-    if (wasPinAddressJustUpdated) {
-
-      this.pinSearchResults.pinSearchResults = this.pinService.replaceAddressOnUpdatedPin(
-          this.pinSearchResults.pinSearchResults,
-          this.state.updatedPin,
-          this.state.updatedPinOldAddress
-      );
-
-      this.addressService.clearCache();
-
-      this.state.cleanUpStateAfterPinUpdate();
-    }
   }
 
 }

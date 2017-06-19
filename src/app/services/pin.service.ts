@@ -451,4 +451,20 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
   }
 
+  public ensureUpdatedPinAddressIsDisplayed(pinsFromServer: Pin[]): Pin[] {
+    let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
+
+    if (wasPinAddressJustUpdated) {
+
+      pinsFromServer = this.replaceAddressOnUpdatedPin(pinsFromServer, this.state.updatedPin,
+                                                       this.state.updatedPinOldAddress);
+
+      this.addressService.clearCache();
+
+      this.state.cleanUpStateAfterPinUpdate();
+
+      return pinsFromServer;
+    }
+  }
+
 }
