@@ -57,27 +57,17 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    let haveResults: boolean = !!this.pinSearchResults;
-
     let pinSearchRequest = new PinSearchRequestParams(true, null);
 
-    if (haveResults) {
-      this.state.setLoading(true);
-      this.setView(this.state.getCurrentView());
-      let lastSearch = this.state.getLastSearch();
-      if (lastSearch == null) {
+    this.setView(this.state.getCurrentView());
+    this.userLocationService.GetUserLocation().subscribe(
+      pos => {
+        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+        this.state.setMapView(initialMapView);
         this.doSearch(pinSearchRequest);
       }
-    } else {
-      this.setView(this.state.getCurrentView());
-      this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
-          this.state.setMapView(initialMapView);
-          this.doSearch(pinSearchRequest);
-        }
-      );
-    }
+    );
+
   }
 
   setView(mapOrListView): void {
@@ -143,7 +133,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setMyViewOrWorldView('my');
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
-      //TODO: We may not need this else statement at all
       let lastSearch = this.state.getLastSearch();
       if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
         // its a different search, clear the last mapView;

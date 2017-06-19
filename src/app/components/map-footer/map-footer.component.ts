@@ -42,7 +42,9 @@ export class MapFooterComponent implements OnInit {
   }
 
   public myStuffBtnClicked(): void {
+
     this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
+
     if (this.state.myStuffActive) {
       this.changeStateToAllResults();
     } else {
@@ -72,6 +74,7 @@ export class MapFooterComponent implements OnInit {
   }
 
   public changeStateToMyStuff(): void {
+
     this.pinService.clearPinCache();
 
     this.state.setLoading(true);
