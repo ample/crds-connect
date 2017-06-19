@@ -435,9 +435,9 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       }
       this.addressService.clearCache();
       this.state.postedPin = null;
-
-      return pinsFromServer;
     }
+
+    return pinsFromServer;
   }
 
   private foundPinElement = (pinFromResults: Pin): boolean => {
@@ -449,7 +449,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  }
+  };
 
   public ensureUpdatedPinAddressIsDisplayed(pinsFromServer: Pin[]): Pin[] {
     let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
@@ -463,8 +463,9 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
       this.state.cleanUpStateAfterPinUpdate();
 
-      return pinsFromServer;
     }
+
+    return pinsFromServer;
   }
 
 }

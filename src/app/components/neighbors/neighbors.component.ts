@@ -96,6 +96,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
+
     this.pinSearchResults.pinSearchResults =
         this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
 
@@ -170,13 +171,18 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         console.log(error);
         this.state.lastSearch.search = searchParams.userSearchString;
         this.state.setLoading(false);
-        this.goToNoResultsPage();
+        this.goToErrorPage();
       });
   }
 
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
+  }
+
+  private goToErrorPage() {
+    this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
+    this.router.navigateByUrl('/error');
   }
 
 }
