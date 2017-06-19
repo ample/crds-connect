@@ -6,9 +6,7 @@ import { CacheableService, CacheLevel } from './base-service/cacheable.service';
 
 import { SessionService } from './session.service';
 
-import { Address } from '../models/address';
-import { Pin, pinType } from '../models/pin';
-import { Group } from '../models/group';
+import { Address, Pin, pinType, Group } from '../models';
 
 @Injectable()
 export class AddressService extends CacheableService<Pin[]> {
@@ -45,13 +43,30 @@ export class AddressService extends CacheableService<Pin[]> {
         return this.getAddressByTypeFromBackend(id, addressType);
     }
 
+    public getPartialPersonAddress(id: number) {
+        let contactId = this.session.getContactId();
+        if (super.isCachedForUser(contactId)) {
+            let addressCache = super.getCache();
+            let pin = addressCache.find(p => {
+                return (p.pinType === pinType.PERSON && p.participantId === id);
+            });
+
+            if (pin != null) {
+                console.log('AddressService got cached Address');
+                return Observable.of(pin.address);
+            }
+        }
+
+        return this.getAddressByTypeFromBackend(id, pinType.PERSON, false);
+    }
+
     public emitClearGroupAddressForm(): void {
       this.groupAddressFormFieldClearEmitter.emit();
     }
 
-    private getAddressByTypeFromBackend(id: number, addressType: pinType): Observable<Address> {
+    private getAddressByTypeFromBackend(id: number, addressType: pinType, shouldGetFullAddress: boolean = true): Observable<Address> {
         // tslint:disable-next-line:max-line-length
-        let url = addressType === pinType.GATHERING ? `${this.baseUrl}api/v1.0.0/finder/group/address/${id}` : `${this.baseUrl}api/v1.0.0/finder/person/address/${id}`;
+        let url = addressType === pinType.GATHERING ? `${this.baseUrl}api/v1.0.0/finder/group/address/${id}` : `${this.baseUrl}api/v1.0.0/finder/person/address/${id}/${shouldGetFullAddress}`;
         let contactId = this.session.getContactId();
         return this.session.get(url)
             .do((res: Address) => {
