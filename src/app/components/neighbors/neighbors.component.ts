@@ -171,18 +171,13 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         console.log(error);
         this.state.lastSearch.search = searchParams.userSearchString;
         this.state.setLoading(false);
-        this.goToErrorPage();
+        this.goToNoResultsPage();
       });
   }
 
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
-  }
-
-  private goToErrorPage() {
-    this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
-    this.router.navigateByUrl('/error');
   }
 
 }
