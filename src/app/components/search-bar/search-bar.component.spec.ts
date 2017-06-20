@@ -71,6 +71,8 @@ describe('SearchBarComponent', () => {
   });
 
   it('should emit search event', () => {
+    <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
+    comp.ngOnInit();
     let pinSearch = new PinSearchRequestParams(true, 'Phil is cool!');
     mockPinService.emitPinSearchRequest.and.returnValue(true);
     comp.onSearch(pinSearch.userSearchString);
