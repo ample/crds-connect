@@ -1,6 +1,6 @@
 export class MapView {
 
-  value: String;
+  value: string;
   lat: number;
   lng: number;
   zoom: number;

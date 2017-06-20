@@ -11,6 +11,7 @@ import { Participant } from '../models/participant';
 import { MockTestData } from '../shared/MockTestData';
 import { CacheLevel } from './base-service/cacheable.service';
 import { Observable } from 'rxjs/Rx';
+import { GroupRole } from '../shared/constants';
 
 describe('ParticipantService', () => {
     let service, mockSessionService;
@@ -93,6 +94,61 @@ describe('ParticipantService', () => {
             })
         );
     });
+
+    describe('loggedInUserIsLeaderOfGroup', () => {
+        it('should return logged in user is leader',
+            inject([ParticipantService], (service: ParticipantService) => {
+                let cache: Array<Group> = new Array<Group>();
+                let userId: 123;
+                let result: boolean;
+                let selectedGroupId: number;
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
+                for (var i = 1; i < 11; i++) {
+                    // get a randomw number of participants (between 0 and 10)
+                    let numberOfParticipants =  Math.floor(Math.random() * 10) + 1;
+                    // out of those participants select one to be the leader
+                    let selectedLeader = Math.floor(Math.random() * numberOfParticipants);
+                    let g = MockTestData.getAGroup(i, numberOfParticipants);
+                    g.Participants[selectedLeader]['groupRoleId'] = GroupRole.LEADER;
+                    g.Participants[selectedLeader]['contactId'] = userId;
+                    cache.push(g);
+                }
+                service['cache'] = cache;
+                service['userIdentifier'] = userId;
+                service['cacheLevel'] = CacheLevel.Full;
+                selectedGroupId = cache[Math.floor(Math.random() * 10)].groupId;
+                result = service.loggedInUserIsLeaderOfGroup(selectedGroupId);
+
+                expect(result).toBe(true);
+            })
+        );
+        it('should return logged in user is not leader',
+            inject([ParticipantService], (service: ParticipantService) => {
+                let cache: Array<Group> = new Array<Group>();
+                let userId: 123;
+                let result: boolean;
+                let selectedGroupId: number;
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
+                for (var i = 1; i < 11; i++) {
+                    // get a random number of participants (between 0 and 10)
+                    let numberOfParticipants =  Math.floor(Math.random() * 10) + 1;
+                    // out of those participants select one to be the user
+                    let selectedLeader = Math.floor(Math.random() * numberOfParticipants);
+                    let g = MockTestData.getAGroup(i, numberOfParticipants);
+                    g.Participants[selectedLeader]['contactId'] = userId;
+                    cache.push(g);
+                }
+                service['cache'] = cache;
+                service['userIdentifier'] = userId;
+                service['cacheLevel'] = CacheLevel.Full;
+                selectedGroupId = cache[Math.floor(Math.random() * 10)].groupId;
+                result = service.loggedInUserIsLeaderOfGroup(selectedGroupId);
+
+                expect(result).toBe(false);
+            })
+        );
+    });
+
     describe('getParticipants', () => {
         it('should getParticipants',
             inject([ParticipantService], (service: ParticipantService) => {
@@ -100,7 +156,6 @@ describe('ParticipantService', () => {
                 let userId: 123;
                 let result;
                 <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
-                <jasmine.Spy>(mockSessionService.get);
 
                 for (var i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));

@@ -41,6 +41,5 @@ export class SearchLocalComponent implements OnInit {
   public doLocalSearch() {
     this.angulartics2.eventTrack.next({ action: 'Update Results Button Click', properties: { category: 'Connect' } });
     this.state.myStuffActive = false;
-    this.search.emitLocalSearch(this.mapView);
   }
 }

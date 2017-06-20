@@ -4,9 +4,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy 
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
-import { LocationService } from '../../services/location.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -18,7 +16,11 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 import { SearchOptions } from '../../models/search-options';
+
+import { initialMapZoom } from '../../shared/constants';
 
 @Component({
   selector: 'app-neighbors',
@@ -30,76 +32,39 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public isMapHidden: boolean = false;
   public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
-  private mySub: Subscription; // for my MyStuffEmitter
-  private localSub: Subscription;
+  private pinSearchSub: Subscription;
 
   constructor( private appSettings: AppSettingsService,
-               private addressService: AddressService,
                private pinService: PinService,
                private mapHlpr: GoogleMapService,
                private neighborsHelper: NeighborsHelperService,
                private router: Router,
                private state: StateService,
                private userLocationService: UserLocationService,
-               private searchService: SearchService) {
-
-    this.localSub = searchService.doLocalSearchEmitter.subscribe((mapView: MapView) => {
-      this.isMyStuffSearch = this.state.myStuffActive;
-      if (mapView) {
-        this.state.setUseZoom(mapView.zoom);
-        this.doSearch('searchLocal', this.appSettings.finderType, mapView.lat, mapView.lng, mapView.zoom);
-      } else {
-        this.runFreshSearch();
-      }
-    });
-
-    this.mySub = searchService.mySearchResultsEmitter.subscribe((myStuffSearchResults) => {
-      this.isMyStuffSearch = true;
-      this.pinSearchResults = myStuffSearchResults as PinSearchResultsDto;
-      this.processAndDisplaySearchResults('', this.pinSearchResults.centerLocation.lat, this.pinSearchResults.centerLocation.lng);
-    });
-  }
+               private searchService: SearchService) { }
 
   public ngOnDestroy(): void {
-    // If we don't unsubscribe we will get memory leaks and weird behavior.
-    this.mySub.unsubscribe();
-    this.localSub.unsubscribe();
-  }
-
-  public ngOnInit(): void {
-
-    let haveResults: boolean = !!this.pinSearchResults;
-    let areResultsValid: boolean = this.state.activeApp === this.state.appForWhichWeRanLastSearch;  // this should be refactored out
-    let areSearchResultsAbsentOrDated: boolean = !haveResults || !areResultsValid;
-
-    if (areSearchResultsAbsentOrDated) {
-      this.state.setLoading(true);
-      this.setView(this.state.getCurrentView());
-      let lastSearch = this.state.getLastSearch();
-      if (lastSearch != null) {
-        if (this.state.navigatedBackToNeighbors) {
-          this.state.navigatedBackToNeighbors = false;
-          this.state.setMyViewOrWorldView('world');
-          this.runFreshSearch();
-        } else {
-          this.doSearch(lastSearch.search, this.appSettings.finderType, lastSearch.coords.lat, lastSearch.coords.lng);
-        }
-      } else {
-        this.runFreshSearch();
-      }
-    } else {
-      this.setView(this.state.getCurrentView());
+    if (this.pinSearchSub) {
+      this.pinSearchSub.unsubscribe();
     }
   }
 
-  runFreshSearch() {
-    this.isMyStuffSearch = false;
+  public ngOnInit(): void {
+    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
+      this.doSearch(srchParams);
+    });
+
+    let pinSearchRequest = new PinSearchRequestParams(true, null);
+
+    this.setView(this.state.getCurrentView());
     this.userLocationService.GetUserLocation().subscribe(
-        pos => {
-          this.pinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-          this.doSearch('useLatLng', this.appSettings.finderType, pos.lat, pos.lng);
-        }
+      pos => {
+        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+        this.state.setMapView(initialMapView);
+        this.doSearch(pinSearchRequest);
+      }
     );
+
   }
 
   setView(mapOrListView): void {
@@ -111,16 +76,19 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     if (!isMapViewActive) {
       let location: MapView = this.state.getMapView();
       let lastSearch: SearchOptions = this.state.getLastSearch();
-      let coords: GeoCoordinates = (location !== null ) ? location : lastSearch.coords;
+      let coords: GeoCoordinates = (location !== null ) ? new GeoCoordinates(location.lat, location.lng) : lastSearch.coords;
       this.pinSearchResults.pinSearchResults =
           this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
     }
   }
 
   processAndDisplaySearchResults(searchString, lat, lng): void {
-    // include posted pin if not included in results
-    this.verifyPostedPinExistence();
-    this.ensureUpdatedPinAddressIsDisplayed();
+    // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
+    this.pinSearchResults.pinSearchResults =
+        this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
+
+    this.pinSearchResults.pinSearchResults =
+        this.pinService.ensureUpdatedPinAddressIsDisplayed(this.pinSearchResults.pinSearchResults);
 
     this.pinSearchResults.pinSearchResults =
         this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
@@ -141,7 +109,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.navigateAwayIfNecessary(searchString, lat, lng);
   }
-
+  // TODO: Either consolidate these state.setLoading or remove them as it's done before this method is called
   private navigateAwayIfNecessary(searchString: string, lat: number, lng: number): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
@@ -156,19 +124,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setMyViewOrWorldView('world');
       this.router.navigate(['stuff-not-found']);
       this.state.myStuffActive = false;
-    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp() && this.state.navigatedDirectlyToGroup === false) {
+    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.appSettings.isSmallGroupApp() && this.state.navigatedDirectlyToGroup === false) {
       this.state.setLoading(false);
       this.state.navigatedDirectlyToGroup = true;
-      this.state.setMyViewOrWorldView('my');
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
       let lastSearch = this.state.getLastSearch();
-      if (!(lastSearch && lastSearch.search === searchString && lastSearch.coords.lat === lat && lastSearch.coords.lng === lng)) {
-        // its a different search, clear the last mapView;
-        this.state.setMapView(null);
-      }
 
-      if (lat === undefined || lng === undefined) {
+      if (lat == null || lng == null) {
         this.state.setLastSearch(new SearchOptions(searchString, lastSearch.coords.lat, lastSearch.coords.lng));
       } else {
         this.state.setLastSearch(new SearchOptions(searchString, lat, lng));
@@ -176,11 +139,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  doSearch(searchString: string, finderType: string, lat?: number, lng?: number, zoom?: number) {
+  doSearch(searchParams: PinSearchRequestParams ) {
     this.state.setLoading(true);
-    this.pinService.getPinSearchResults(searchString, this.appSettings.finderType, lat, lng, zoom).subscribe(
-        next => {
-          this.pinSearchResults = next as PinSearchResultsDto;
+
+    this.pinService.getPinSearchResults(searchParams).subscribe(
+      next => {
+        this.pinSearchResults = next as PinSearchResultsDto;
           // for (let i = 0; i < this.pinSearchResults.pinSearchResults.length; i++) {
           //   let pin = this.pinSearchResults.pinSearchResults[i];
           //   if (pin.pinType === pinType.GATHERING || pin.pinType === pinType.SMALL_GROUP) {
@@ -190,66 +154,22 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           //     console.log(pin.gathering.primaryContactLastName);
           //     console.log('**************');
           //   }
-          // }
-          this.processAndDisplaySearchResults(searchString, lat, lng);
-          this.state.lastSearch.search = searchString;
-          this.state.appForWhichWeRanLastSearch = this.state.activeApp;   // this needs to be refactored out
-        },
-        error => {
-          console.log(error);
-          this.state.lastSearch.search = searchString;
-          this.state.setLoading(false);
-          this.goToNoResultsPage();
-        });
+          // }        
+        this.processAndDisplaySearchResults(searchParams.userSearchString, next.centerLocation.lat, next.centerLocation.lng);
+        this.state.lastSearch.search = searchParams.userSearchString; // Are we doing this twice? Here and in navigate away
+      },
+      error => {
+        console.log(error);
+        this.state.lastSearch.search = searchParams.userSearchString;
+        this.state.setLoading(false);
+        this.goToNoResultsPage();
+      });
+
   }
 
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
-  }
-
-  private foundPinElement = (pinFromResults: Pin): boolean => {
-    let postedPin = this.state.postedPin;
-    return (postedPin.participantId === pinFromResults.participantId
-    && postedPin.pinType === pinFromResults.pinType);
-  }
-
-  private filterFoundPinElement = (pinFromResults: Pin): boolean => {
-    let postedPin = this.state.postedPin;
-    return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  }
-
-  private verifyPostedPinExistence() {
-    if (this.state.navigatedFromAddToMapComponent && this.state.postedPin) {
-      this.state.navigatedFromAddToMapComponent = false;
-      let isFound = this.pinSearchResults.pinSearchResults.find(this.foundPinElement);
-      let pin = this.state.postedPin;
-      if (isFound === undefined) {
-        this.pinSearchResults.pinSearchResults.push(pin);
-      } else { // filter out old pin and replace
-        this.pinSearchResults.pinSearchResults = this.pinSearchResults.pinSearchResults.filter(this.filterFoundPinElement);
-        this.pinSearchResults.pinSearchResults.push(pin);
-      }
-      this.addressService.clearCache();
-      this.state.postedPin = null;
-    }
-  }
-
-  private ensureUpdatedPinAddressIsDisplayed() {
-    let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
-
-    if (wasPinAddressJustUpdated) {
-
-      this.pinSearchResults.pinSearchResults = this.pinService.replaceAddressOnUpdatedPin(
-          this.pinSearchResults.pinSearchResults,
-          this.state.updatedPin,
-          this.state.updatedPinOldAddress
-      );
-
-      this.addressService.clearCache();
-
-      this.state.cleanUpStateAfterPinUpdate();
-    }
   }
 
 }
