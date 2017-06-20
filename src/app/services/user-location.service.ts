@@ -17,7 +17,6 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
   constructor(private ipService: IPService,
     private location: LocationService,
     private session: SessionService,
-    private pinservice: PinService,
     private mapHlpr: GoogleMapService,
     private state: StateService) {
     super();

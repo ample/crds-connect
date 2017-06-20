@@ -55,7 +55,7 @@ export class StateService {
     this.savedMapView = mv;
   }
 
-  public getMapView() {
+  public getMapView(): MapView {
     return this.savedMapView;
   }
 

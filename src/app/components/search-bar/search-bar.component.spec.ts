@@ -1,48 +1,75 @@
-/* tslint:disable:no-unused-variable */
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { FormsModule }   from '@angular/forms';
-import { SearchBarComponent } from './search-bar.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Observable } from 'rxjs/Rx';
+
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+import { SearchBarComponent } from './search-bar.component';
 
+class StateServiceStub {
+  public myStuffActive: boolean = false;
+  setMyViewOrWorldView = jasmine.createSpy('setMyViewOrWorldView').and.returnValue(true);
+  public lastSearch = { search: null };
+  public myStuffStateChangedEmitter = {
+    subscribe: jasmine.createSpy('subscribe').and.returnValue(Observable.of(this.myStuffActive))
+  };
+};
 
-describe('Component: Search Bar', () => {
-  let mockStateService;
+describe('SearchBarComponent', () => {
+  let fixture: ComponentFixture<SearchBarComponent>;
+  let comp: SearchBarComponent;
+  let el;
+  let mockPinService, mockStateService;
+
   beforeEach(() => {
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setMyViewOrWorldView']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
+    mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
         SearchBarComponent
       ],
-      imports: [
-        FormsModule
-      ],
       providers: [
-        StateService
-      ]
+        { provide: StateService, useValue: mockStateService },
+        { provide: PinService, useValue: mockPinService }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
-    this.fixture = TestBed.createComponent(SearchBarComponent);
-    this.component = this.fixture.componentInstance;
-
   });
 
+  beforeEach(async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(SearchBarComponent);
+      comp = fixture.componentInstance;
+      comp['isMapHidden'] = false;
+      // el = fixture.debugElement.query(By.css('h1'));
+    });
+  }));
+
   it('should create an instance', () => {
-    expect(this.component).toBeTruthy();
+    expect(comp).toBeTruthy();
+  });
+
+  it('should init', () => {
+    comp.ngOnInit();
+    expect(comp.isMyStuffSearch).toBeFalsy();
+    expect(mockStateService.myStuffStateChangedEmitter.subscribe).toHaveBeenCalled();
   });
 
   it('should toggle view', () => {
-    expect(this.component.buttontext).toBe(undefined);
-    this.component.toggleView();
-    expect(this.component.buttontext).toBe('Map');
+    expect(comp.buttontext).toBe(undefined);
+    comp.toggleView();
+    expect(comp.buttontext).toBe('Map');
   });
 
-  it('should emit search event', (done) => {
-    this.component.search.subscribe( g => {
-      expect(g).toEqual('Phil Is Cool!');
-      done();
-    });
-    this.component.onSearch('Phil Is Cool!');
+  it('should emit search event', () => {
+    let pinSearch = new PinSearchRequestParams(true, 'Phil is cool!');
+    mockPinService.emitPinSearchRequest.and.returnValue(true);
+    comp.onSearch(pinSearch.userSearchString);
+    expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(pinSearch);
+    expect(comp.isMyStuffSearch).toBeFalsy();
+    expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
   });
-
 });
-

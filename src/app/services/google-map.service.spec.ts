@@ -10,6 +10,7 @@ import { MapContentComponent } from '../components/map-content/map-content.compo
 import { MapFooterComponent } from '../components/map-footer/map-footer.component';
 import { SearchLocalComponent } from '../components/search-local/search-local.component';
 
+import { AddressService } from '../services/address.service';
 import { BlandPageService } from '../services/bland-page.service';
 import { IFrameParentService } from './/iframe-parent.service';
 import { IPService } from '../services/ip.service';
@@ -57,6 +58,7 @@ describe('Service: Google Map', () => {
         })
       ],
       providers: [
+        AddressService,
         BlandPageService,
         UserLocationService,
         IPService,
