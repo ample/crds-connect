@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 
 import { Angulartics2 } from 'angulartics2';
@@ -14,12 +14,12 @@ import { StateService } from '../../services/state.service';
 @Component({
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html',
-  styleUrls:  ['search-bar.component.css']
+  styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent implements OnChanges {
   @Input() isMapHidden: boolean;
   @Input() isMyStuffSearch: boolean;
-  @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
+  @Output() viewMap: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private isMyStuffActiveSub: Subscription;
@@ -35,7 +35,7 @@ export class SearchBarComponent implements OnChanges {
     });
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void { }
 
   public ngOnChanges(): void {
     this.setButtonText();
@@ -46,7 +46,7 @@ export class SearchBarComponent implements OnChanges {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit(!this.isMapHidden);
 
-    if (this.searchText.length > 0 && this.searchText !== 'My Stuff') {
+    if (this.searchText && this.searchText.length > 0 && this.searchText !== 'My Stuff') {
       this.onSearch(this.searchText);
     }
 
@@ -68,7 +68,7 @@ export class SearchBarComponent implements OnChanges {
   private setSearchText() {
     if (!this.state.myStuffActive) {
       this.searchText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
-                        ? this.state.lastSearch.search : '';
+        ? this.state.lastSearch.search : '';
     } else {
       this.searchText = 'My Stuff';
     }
@@ -78,7 +78,7 @@ export class SearchBarComponent implements OnChanges {
     this.searchText = '';
   }
 
-  public searchKeyUp(){
+  public searchKeyUp() {
     this.isSearchClearHidden = false;
   }
 
