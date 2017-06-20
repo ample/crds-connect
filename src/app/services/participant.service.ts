@@ -62,8 +62,9 @@ export class ParticipantService extends CacheableService<Group[]> {
             let participant = group.Participants.find(p => {
                 return p.contactId === contactId;
             })
-
-            return participant.groupRoleId === GroupRole.LEADER;
+            if (participant !== undefined) {
+                return participant.groupRoleId === GroupRole.LEADER;
+            }
         }
         return false;
     }
