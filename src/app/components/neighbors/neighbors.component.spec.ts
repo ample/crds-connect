@@ -45,7 +45,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserLocationService } from '../../services/user-location.service';
 
 
-xdescribe('Component: Neighbors', () => {
+describe('Component: Neighbors', () => {
   let mockAppSettingsService,
     mockUserLocationService,
     mockPinService,
