@@ -20,7 +20,7 @@
       <div class="group-meta-data border-top push-top">
         <strong>Category</strong>
         <br>
-        Interest / Dining Out
+        {{pin?.gathering?.Category[0]}}
         <br><br>
         <strong>Where</strong>
         <br>
@@ -28,18 +28,18 @@
         <br><br>
         <strong>Group Type</strong>
         <br>
-        Women only (don't be a creeper dude)
+        {{pin?.gathering?.groupType}}
         <br><br>
         <strong>Age Range</strong>
         <br>
-        40s
+        {{pin?.gathering?.ageRanges[0]}}
         <br><br>
         <strong>Leader</strong>
         <br>
         {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
         <br><br>
         <strong>Kids Welcome</strong>
-        {{pin?.gathering?.kidsWelcome}}
+        {{pin?.gathering?.kidsWelcome}} <!-- TODO translate true/false to yes/no-->
         <br>
      </div>  
 

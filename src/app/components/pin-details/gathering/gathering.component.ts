@@ -138,11 +138,4 @@ export class GatheringComponent implements OnInit {
     this.router.navigate(['/gathering', this.pin.gathering.groupId, 'edit']);
   }
 
-  public geTimeHA(): string {
-    console.log('******************');
-    console.log(this.pin.gathering.meetingTime);
-    console.log('******************');
-    return ' HAHAHA';
-  }
-
 }
