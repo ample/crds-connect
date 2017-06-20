@@ -72,7 +72,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   // GETS
   public getPinDetails(pinIdentifier: PinIdentifier): Observable<Pin> {
-    let contactId = this.session.getContactId();
+    let contactId = this.session.getContactId() || 0;
     let cachedPins: PinSearchResultsDto;
     let pin: Pin;
     let url: string;
@@ -115,7 +115,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public getPinSearchResults(userSearchAddress: string, finderType: string
                             , lat?: number, lng?: number, zoom?: number): Observable<PinSearchResultsDto> {
-    let contactId = this.session.getContactId();
+    let contactId = this.session.getContactId() || 0;
     let searchOptions: SearchOptions;
 
     if (this.state.getMyViewOrWorldView() === 'world') {
