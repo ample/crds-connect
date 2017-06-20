@@ -1,23 +1,23 @@
 <div *ngIf="ready">
   <div class="row pin-details-dark dark-theme"
-       [ngClass]="{ host_plain: !isInGathering && !isPinOwner }">
+       [ngClass]="{ host_plain: !isInGathering && !isLeader }">
 
     <div class="col-xs-12 soft">
       <div class="media media-dark">
         <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
         <div class="media-body">
-          <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
+          <pin-header [pin]="pin" [isPinOwner]="isPinOwner" [isLeader]="isLeader"></pin-header>
           <div class="media-meta">
-            <readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+            <readonly-address [isGathering]="true" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
           </div>
         </div>
       </div>
 
       <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
+      <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
+      <button class="btn primary btn-primary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
 
-      <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
-
-      <div *ngIf="!isInGathering && !isPinOwner">
+      <div *ngIf="!isInGathering">
         <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
         <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
       </div>
@@ -26,17 +26,17 @@
     </div>
   </div>
 
-  <gathering-requests *ngIf="isPinOwner" [pin]="pin"></gathering-requests>
+  <gathering-requests *ngIf="isLeader" [pin]="pin"></gathering-requests>
 
   <div *ngIf="isInGathering">
     <h3 class="title font-size-h5">Participants</h3>
     <hr>
     <div *ngFor="let participant of pin.gathering.Participants">
       <div class="border-bottom soft-quarter-bottom">
-        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [canBeHyperlinked]="isLeader"></participant-card>
       </div>
     </div>
   </div>
 
-  <invite-someone *ngIf="isPinOwner" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
+  <invite-someone *ngIf="isLeader" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
 </div>

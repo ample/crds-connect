@@ -14,6 +14,7 @@ export class ParticipantCardComponent {
 
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
+  @Input() canBeHyperlinked: boolean = false;
 
   constructor(private session: SessionService, private router: Router, private route: ActivatedRoute) {
   }
@@ -27,7 +28,9 @@ export class ParticipantCardComponent {
       return this.pinParticipantId === this.participant.participantId;
   }
 
-  public OnParticipantClick(): void {
-    this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+  public onParticipantClick(): void {
+    if (this.canBeHyperlinked){
+      this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+    }
   }
 }

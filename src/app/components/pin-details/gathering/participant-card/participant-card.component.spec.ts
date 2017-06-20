@@ -84,8 +84,19 @@ describe('ParticipantCardComponent', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
+    comp.canBeHyperlinked = true;
 
-    comp.OnParticipantClick();
+    comp.onParticipantClick();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['./participant-detail/' + 777], { relativeTo: mockRoute });
+  });
+
+  it('should not navigate on card click ', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp.canBeHyperlinked = false;
+
+    comp.onParticipantClick();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 });

@@ -87,7 +87,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   // GETS
   public getPinDetails(pinIdentifier: PinIdentifier): Observable<Pin> {
-    let contactId = this.session.getContactId();
+    let contactId = this.session.getContactId() || 0;
     let cachedPins: PinSearchResultsDto;
     let pin: Pin;
     let url: string;

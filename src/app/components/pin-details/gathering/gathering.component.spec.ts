@@ -139,7 +139,7 @@ describe('GatheringComponent', () => {
             ['redirectToLogin', 'redirectToTarget']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants']);
+        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getParticipants', 'loggedInUserIsLeaderOfGroup']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -190,6 +190,7 @@ describe('GatheringComponent', () => {
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(participants[2].contactId);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (<jasmine.Spy>mockParticipantService.loggedInUserIsLeaderOfGroup).and.returnValue(true);
         (mockAddressService.getFullAddress).and.returnValue(Observable.of(
             new Address(null, addLine1, null, null, null, null, null, null, null, null)));
         comp.isLoggedIn = true;
