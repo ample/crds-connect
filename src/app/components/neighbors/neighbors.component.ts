@@ -144,17 +144,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.pinService.getPinSearchResults(searchParams).subscribe(
       next => {
-        this.pinSearchResults = next as PinSearchResultsDto;
-          // for (let i = 0; i < this.pinSearchResults.pinSearchResults.length; i++) {
-          //   let pin = this.pinSearchResults.pinSearchResults[i];
-          //   if (pin.pinType === pinType.GATHERING || pin.pinType === pinType.SMALL_GROUP) {
-          //     console.log('**************');
-          //     console.log(pin.gathering.meetingTime);
-          //     console.log(pin.gathering.primaryContactFirstName);
-          //     console.log(pin.gathering.primaryContactLastName);
-          //     console.log('**************');
-          //   }
-          // }        
+        this.pinSearchResults = next as PinSearchResultsDto;      
         this.processAndDisplaySearchResults(searchParams.userSearchString, next.centerLocation.lat, next.centerLocation.lng);
         this.state.lastSearch.search = searchParams.userSearchString; // Are we doing this twice? Here and in navigate away
       },

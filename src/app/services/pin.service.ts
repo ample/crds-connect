@@ -110,8 +110,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         return Observable.of<Pin>(pin);
       }
     }
-    // now going to MP instead of AWS (TODO change API to go to AWS)
-    // Problems -- different data sources - problems
+
     url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
@@ -119,8 +118,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     console.log('PinService got partial new PinSearchResultsDto');
 
     return this.session.get(url)
-    // TODO do we need to say new Pin() here or --- return res as Pin;
-
       .map((res: Pin) => { return new Pin(res.firstName, res.lastName, res.emailAddress, res.contactId,
       res.participantId, res.address, res.hostStatus, res.gathering, res.siteName, res.pinType, res.proximity, res.householdId); })
       .do((res: Pin) => {
