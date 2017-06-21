@@ -20,7 +20,7 @@
               [contactId]="pin.contactId">
   </list-entry>
 
-  <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length" type="submit" class="btn btn-secondary btn-block push-half-top" (click)="showMore()">Load more</button>
+  <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length" type="submit" class="btn btn-secondary btn-block push-half-top btn-block-mobile" (click)="showMore()">Load more</button>
 
   <list-footer [pins]="searchResults?.pinSearchResults"></list-footer>
 
