@@ -65,8 +65,10 @@ export class GatheringComponent implements OnInit {
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
     this.state.setPageHeader(pageTitleOnHeader, '/');
 
-    this.descriptionToDisplay = this.getDescriptionDisplayText();
-    this.doDisplayFullDesc = this.displayFullDesc();
+    if (this.pin.gathering != null) {
+      this.descriptionToDisplay = this.getDescriptionDisplayText();
+      this.doDisplayFullDesc = this.displayFullDesc();
+    }
 
     try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(

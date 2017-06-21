@@ -332,13 +332,13 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = true;
     });
 
-    fit('should redirect to oops page if something horrible happens', () => {
+    it('should redirect to oops page if something horrible happens', () => {
         let pin = MockTestData.getAPin(1);
         pin.gathering = null;
         comp['pin'] = pin;
 
         comp.ngOnInit();
-        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith(null);
+        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
     });
 
     it('should edit', () => {
