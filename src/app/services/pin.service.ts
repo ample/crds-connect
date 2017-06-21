@@ -169,6 +169,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
   }
 
+  private clearGeoCoordsIfSearchingLocInConnect(searchString: string, centerGeoCoords: GeoCoordinates): GeoCoordinates {
+
+    let isUserSearchingByKeyword: boolean = searchString && searchString !== '';
+    let isConnectApp: boolean = this.appSetting.finderType === app.CONNECT;
+    let doClearCenterCoordsToBeSetInApi: boolean = isUserSearchingByKeyword && isConnectApp;
+
+    if(doClearCenterCoordsToBeSetInApi){
+      return new GeoCoordinates(null, null);
+    } else {
+      return centerGeoCoords;
+    }
+  }
+
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
 
     let mapParams: MapView = this.state.getMapView(); // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
@@ -180,7 +193,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
-    if (userSearchString) {centerGeoCoords = new GeoCoordinates(null, null);}
+    centerGeoCoords = this.clearGeoCoordsIfSearchingLocInConnect(userSearchString, centerGeoCoords);
     let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
 
     let apiQueryParams = new PinSearchQueryParams(userSearchString, isLocationSearch,isMyStuff, finderType,
