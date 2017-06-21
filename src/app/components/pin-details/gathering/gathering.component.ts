@@ -149,10 +149,8 @@ export class GatheringComponent implements OnInit {
       return this.pin.gathering.groupDescription;
     } else {
       return '<span>' + this.listHelperService.truncateTextEllipsis(this.pin.gathering.groupDescription, 265)
-         + '</span><span (click)="expandMoreView(true)" [ngClass]="{"pointer": canBeHyperlinked}" > More </span>';
+         + '</span><span (click)="expandMoreView(true)" [ngClass]="{\'pointer\': canBeHyperlinked}"> More </span>';
     }
   }
 
 }
-
-
