@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <gathering-requests *ngIf="isLeader" [pin]="pin"></gathering-requests>
+  <gathering-requests *ngIf="isLeader && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
 
   <div *ngIf="isInGathering">
     <h3 class="title font-size-h5">Participants</h3>
@@ -38,5 +38,7 @@
     </div>
   </div>
 
-  <invite-someone *ngIf="isLeader" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
+  <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
+
+  <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 </div>

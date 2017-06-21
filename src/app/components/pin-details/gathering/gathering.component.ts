@@ -19,7 +19,6 @@ import { ParticipantService } from '../../../services/participant.service';
 import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
-
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'gathering',
@@ -50,7 +49,8 @@ export class GatheringComponent implements OnInit {
     private toast: ToastsManager,
     private addressService: AddressService,
     private content: ContentService,
-    private angulartics2: Angulartics2) { }
+    private angulartics2: Angulartics2,
+    public appSettingsService: AppSettingsService) {}
 
   public ngOnInit() {
     window.scrollTo(0, 0);
