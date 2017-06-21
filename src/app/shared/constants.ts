@@ -7,6 +7,8 @@ export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLenth: number = 44;
 
+export const groupDescriptionLengthDetails: number = 265;
+
 export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;

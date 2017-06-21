@@ -19,13 +19,19 @@
         </div>
       </div>
 
-      <p class="gathering-description border-top push-top" [innerHTML]="expandMoreView(false)"></p>
-      <!-- TODO pull out into component -->
-      <div class="group-meta-data border-top push-top">
+      <p *ngIf="doDisplayFullDesc === true" class="gathering-description border-top push-top">
+        {{descriptionToDisplay}}
+      </p>
+      <p *ngIf="doDisplayFullDesc === false" class="gathering-description border-top push-top">
+        {{descriptionToDisplay}}
+        <span (click)="expandGroupDescription()" [ngClass]="{'pointer': canBeHyperlinked}">More</span>
+      </p>
+
+      <div *ngIf="pin.pinType === pinType.SMALL_GROUP" class="group-meta-data border-top push-top">
         <strong>Category</strong>
         <br>
-        make sure it can be null (for small groups)
-        <br><br>
+        <div *ngFor="let category of pin?.gathering?.categories">{{category}}</div>
+        <br>
         <strong>Where</strong>
         <br>
         <readonly-address [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
@@ -36,19 +42,17 @@
         <br><br>
         <strong>Age Range</strong>
         <br>
-        age range
-        <br><br>
+        <div *ngFor="let age of pin?.gathering?.ageRanges">{{age}}</div>
+        <br>
         <strong>Leader</strong>
         <br>
         {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
         <br><br>
         <strong>Kids Welcome</strong>
-        {{pin?.gathering?.kidsWelcome}} <!-- TODO translate true/false to yes/no -->
+        <br>
+        {{displayKidsWelcome(pin.gathering.kidsWelcome)}}
         <br>
      </div>   
-
-   {{ pin.gathering | json }} 
-
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn primary btn-primary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
