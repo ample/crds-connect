@@ -17,8 +17,9 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { AddressService } from '../../../services/address.service';
+import { ListHelperService } from '../../../services/list-helper.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-
+import { groupDescriptionLengthDetails } from '../../../shared/constants';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -38,6 +39,8 @@ export class GatheringComponent implements OnInit {
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
   private address: Address = Address.overload_Constructor_One();
+  public descriptionToDisplay: string;
+  public doDisplayFullDesc: boolean;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -49,8 +52,10 @@ export class GatheringComponent implements OnInit {
     private participantService: ParticipantService,
     private toast: ToastsManager,
     private addressService: AddressService,
+    private listHelperService: ListHelperService,
     private content: ContentService,
-    private angulartics2: Angulartics2) { }
+    private angulartics2: Angulartics2,
+    public appSettingsService: AppSettingsService) {}
 
   public ngOnInit() {
     window.scrollTo(0, 0);
@@ -59,6 +64,11 @@ export class GatheringComponent implements OnInit {
 
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
     this.state.setPageHeader(pageTitleOnHeader, '/');
+
+    if (this.pin.gathering != null) {
+      this.descriptionToDisplay = this.getDescriptionDisplayText();
+      this.doDisplayFullDesc = this.displayFullDesc();
+    }
 
     try {
     this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
@@ -140,6 +150,27 @@ export class GatheringComponent implements OnInit {
 
   public edit() {
     this.router.navigate(['/gathering', this.pin.gathering.groupId, 'edit']);
+  }
+
+  public getDescriptionDisplayText(): string {
+    if (this.doDisplayFullDesc === true || this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails) {
+      return this.pin.gathering.groupDescription;
+    } else {
+      return this.listHelperService.truncateTextEllipsis(this.pin.gathering.groupDescription, groupDescriptionLengthDetails);
+    }
+  }
+
+  public displayFullDesc(): boolean {
+    return (this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails) ? true : false;
+  }
+
+  public expandGroupDescription(): void {
+    this.doDisplayFullDesc = true;
+    this.descriptionToDisplay = this.getDescriptionDisplayText();
+  }
+
+  public displayKidsWelcome(kidsWelcome: boolean): string {
+    return kidsWelcome ? 'Yes' : 'No';
   }
 
 }

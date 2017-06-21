@@ -7,12 +7,12 @@
     <span *ngIf="pin.pinType === _pinType.GATHERING" class="label label-primary">Host</span>
   </span>
 
-    <span *ngIf="pin.pinType  === _pinType.SMALL_GROUP">
-      {{pin.gathering.groupName}}
-    </span>
+  <span *ngIf="pin.pinType  === _pinType.SMALL_GROUP || pin.pinType  === _pinType.GATHERING">
+    {{pin.gathering.groupName}}
+  </span>
 
-    <span *ngIf="pin.pinType !== _pinType.SMALL_GROUP">
-      {{pin.firstName}} {{pin.lastName | slice:0:1}}
-    </span>
+  <span *ngIf="pin.pinType === _pinType.PERSON || pin.pinType  === _pinType.SITE">
+    {{pin.firstName}} {{pin.lastName | slice:0:1}}
+  </span>
 
 </h2>
