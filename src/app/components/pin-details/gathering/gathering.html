@@ -19,8 +19,7 @@
         </div>
       </div>
 
-      <!-- TODO add ... if truncated and MORE link to expand -->
-      <p class="gathering-description border-top push-top">{{pin.gathering?.groupDescription.substring(0,265)}}</p>
+      <p class="gathering-description border-top push-top" [innerHTML]="expandMoreView(false)"></p>
       <!-- TODO pull out into component -->
       <div class="group-meta-data border-top push-top">
         <strong>Category</strong>

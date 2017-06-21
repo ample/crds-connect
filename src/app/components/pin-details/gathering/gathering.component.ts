@@ -17,8 +17,8 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { AddressService } from '../../../services/address.service';
+import { ListHelperService } from '../../../services/list-helper.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -49,6 +49,7 @@ export class GatheringComponent implements OnInit {
     private participantService: ParticipantService,
     private toast: ToastsManager,
     private addressService: AddressService,
+    private listHelperService: ListHelperService,
     private content: ContentService,
     private angulartics2: Angulartics2) { }
 
@@ -142,4 +143,16 @@ export class GatheringComponent implements OnInit {
     this.router.navigate(['/gathering', this.pin.gathering.groupId, 'edit']);
   }
 
+  public expandMoreView(isExpanded: boolean): string {
+    console.log(isExpanded);
+    if (this.pin.gathering.groupDescription.length < 265 || isExpanded) {
+      return this.pin.gathering.groupDescription;
+    } else {
+      return '<span>' + this.listHelperService.truncateTextEllipsis(this.pin.gathering.groupDescription, 265)
+         + '</span><span (click)="expandMoreView(true)" [ngClass]="{"pointer": canBeHyperlinked}" > More </span>';
+    }
+  }
+
 }
+
+
