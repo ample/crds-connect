@@ -1,11 +1,11 @@
 import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
+import { GeoCoordinates } from '../models/geo-coordinates';
+import { MapBoundingBox } from '../models/map-bounding-box';
+import { MapView } from '../models/map-view';
 import { MapMarker } from '../models/map-marker';
 import { Pin, pinType } from '../models/pin';
-
-import { GeoCoordinates } from '../models/geo-coordinates';
-import { MapView } from '../models/map-view';
 
 @Injectable()
 export class GoogleMapService {
@@ -54,13 +54,15 @@ export class GoogleMapService {
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
-        let bounds = {
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
-        lat: lat,
-        lng: lng
-        };
-        return this.calculateBestZoom(bounds, zoom, pins, viewtype);
+        // Don't calculate zoom, getting too close and the grey overlay is sticking
+        return 15;
+        // let bounds = {
+        // width: document.documentElement.clientWidth,
+        // height: document.documentElement.clientHeight,
+        // lat: lat,
+        // lng: lng
+        // };
+        // return this.calculateBestZoom(bounds, zoom, pins, viewtype);
   }
 
   // zero in on the zoom that's closest to the target pin count without going under
@@ -78,8 +80,8 @@ export class GoogleMapService {
         return 3;
       }
       return this.calculateBestZoom(bounds, zoom - 1, pins, viewtype, pops);
-    } else if (zoom >= 20) {
-      return 20;
+    } else if (zoom >= 15) {
+      return 15;
     } else {
       let upPop = this.countPopAtZoom(bounds, zoom + 1, pins, pops);
       if (upPop < popTarget) {
@@ -93,15 +95,15 @@ export class GoogleMapService {
   // return the number of pins in a bounded region
   private countPopAtZoom(bounds: Object, zoom: number, pins: Pin[], pops: Object): number {
     if (pops[zoom] === undefined) {
-      let geoBounds = this.calculateGeoBounds(bounds, zoom);
+      let geoBounds = this.calculateGeoBoundsOld(bounds, zoom);
       let geoPop = this.countResultsInBounds(geoBounds, pins);
       pops[zoom] = geoPop;
     }
     return pops[zoom];
   }
 
-  // determine the google lat/lng bounds of a region from a viewport and zoom
-  public calculateGeoBounds(bounds: Object, zoom: number): Object {
+  //TODO: Duplicate of method below, needs to be removed, currently used as overload
+  public calculateGeoBoundsOld(bounds: Object, zoom: number): Object {
     // at zoom 0,    256px for 180° latitude,  0.703125°/px
     //               256px for 360° longitude, 1.46025°/px
     // at zoom 1,    512px for 180° latitude,  0.3515625°/px
@@ -126,6 +128,43 @@ export class GoogleMapService {
       east: (bounds['lng'] + halfLng),
       west: (bounds['lng'] - halfLng)
     };
+  }
+
+  // determine the google lat/lng bounds of a region from a viewport and zoom
+  public calculateGeoBounds(mapParams: MapView): MapBoundingBox {
+    // at zoom 0,    256px for 180° latitude,  0.703125°/px
+    //               256px for 360° longitude, 1.46025°/px
+    // at zoom 1,    512px for 180° latitude,  0.3515625°/px
+    //               512px for 360° longitude, 0.703125°/px
+    // at zoom 2,   1024px for 180° latitude,  0.17578125°/px
+    //              1024px for 360° longitude, 0.3515625°/px
+    //  ...
+    // at zoom n,  256*Apx for 180° latitude,  0.703125°/Apx, A = 2^n
+    //            1024*Apx for 360° longitude, 1.40625°/Apx
+
+    // vadjust compensates for the local distortion of the Mercator projection.
+
+    let zoom = mapParams.zoom - 1; //Why adjust with "-1"? No one knows - magic danderson code.
+    let docWidth = document.documentElement.clientWidth;
+    let docHeight =  document.documentElement.clientHeight;
+    let centerLat = mapParams.lat;
+    let centerLng = mapParams.lng;
+
+    let vadjust = 1.0 / Math.cos(Math.PI * centerLat / 180);
+    let divisor = Math.pow(2, zoom);
+    let halfHeight = vadjust * docHeight / 2;
+    let halfLat = 0.703125 * halfHeight / divisor;
+    let halfWidth = docWidth / 2;
+    let halfLng = 1.406250 * halfWidth / divisor;
+
+    let north: number = centerLat + halfLat;
+    let south: number = centerLat - halfLat;
+    let east: number = centerLng + halfLng;
+    let west: number = centerLng - halfLng;
+
+    let boundingBox = new MapBoundingBox(north, west, south, east);
+
+    return boundingBox;
   }
 
   // count the pins in an area lat/lng bounded area

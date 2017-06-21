@@ -11,7 +11,7 @@ export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;
 
-  constructor () {
+  constructor() {
     this.CONNECT_ROUTE = '/';
     this.SMALL_GROUPS_ROUTE = '/groupsv2';
   }
@@ -21,7 +21,7 @@ export class App {
   CONNECT: string;
   SMALL_GROUPS: string;
 
-  constructor () {
+  constructor() {
     this.CONNECT = 'CONNECT';
     this.SMALL_GROUPS = 'SMALL_GROUPS';
   }
@@ -49,8 +49,16 @@ export class LeaderStatus {
   status: number;
 }
 
+export enum GroupRole {
+  MEMBER = 16,
+  LEADER = 22,
+  APPRENTICE = 66
+}
+
 export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
+
+export const initialMapZoom = 5;
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',

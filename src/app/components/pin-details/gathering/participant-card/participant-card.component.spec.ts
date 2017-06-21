@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 /*
  * Testing a simple Angular 2 component
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
@@ -12,15 +13,22 @@ import { ParticipantCardComponent } from './participant-card.component';
 import { MockComponent } from '../../../../shared/mock.component';
 import { Participant } from '../../../../models/participant';
 
+class ActivatedRouteStub {
+    url = '/small-group/1234';
+}
+
 describe('ParticipantCardComponent', () => {
   let fixture: ComponentFixture<ParticipantCardComponent>;
   let comp: ParticipantCardComponent;
   let el;
   let participant;
-  let mockSessionService;
+  let mockSessionService, mockRouter;
+  let mockRoute: ActivatedRouteStub;
 
   beforeEach(() => {
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
+    mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+    mockRoute = new ActivatedRouteStub();
     participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff',
       'JoeKer', 123, '1943-02-03');
 
@@ -30,7 +38,9 @@ describe('ParticipantCardComponent', () => {
         MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] }),
       ],
       providers: [
-        { provide: SessionService, useValue: mockSessionService }
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockRoute}
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -68,5 +78,25 @@ describe('ParticipantCardComponent', () => {
   it('showMeLabel() should return false when participant.contactId doesnt match logged in users', () => {
     mockSessionService.getContactId.and.returnValue(747648367);
     expect(comp.showMeLabel()).toBe(false);
+  });
+
+  it('should navigate on card click', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp.canBeHyperlinked = true;
+
+    comp.onParticipantClick();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['./participant-detail/' + 777], { relativeTo: mockRoute });
+  });
+
+  it('should not navigate on card click ', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp.canBeHyperlinked = false;
+
+    comp.onParticipantClick();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 });

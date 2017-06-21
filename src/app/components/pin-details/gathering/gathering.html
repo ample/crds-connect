@@ -1,43 +1,44 @@
 <div *ngIf="ready">
-  <div class="pin-details-dark dark-theme"
-       [ngClass]="{ host_plain: !isInGathering && !isPinOwner }">
+  <div class="row pin-details-dark dark-theme"
+       [ngClass]="{ host_plain: !isInGathering && !isLeader }">
 
-    <div class="media media-dark">
-      <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
-      <div class="media-body">
-        <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
-        <div class="media-meta">
-          <readonly-address [isGathering]="true" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+    <div class="col-xs-12 soft">
+      <div class="media media-dark">
+        <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
+        <div class="media-body">
+          <pin-header [pin]="pin" [isPinOwner]="isPinOwner" [isLeader]="isLeader"></pin-header>
+          <div class="media-meta">
+            <readonly-address [isGathering]="true" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+          </div>
         </div>
       </div>
+
+      <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
+      <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
+      <button class="btn primary btn-primary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
+
+      <div *ngIf="!isInGathering">
+        <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
+        <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
+      </div>
+
+      <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
     </div>
-
-    <p class="gathering-description border-top push-top">{{pin.gathering.groupDescription}}</p>
-
-    <button class="btn primary btn-primary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
-
-    <div *ngIf="!isInGathering && !isPinOwner">
-      <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
-      <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
-    </div>
-
-    <pin-login-actions *ngIf="!isLoggedIn" [isGathering]="true"></pin-login-actions>
   </div>
 
-  <gathering-requests *ngIf="isPinOwner && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
+  <gathering-requests *ngIf="isLeader && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
 
   <div *ngIf="isInGathering">
     <h3 class="title font-size-h5">Participants</h3>
     <hr>
-    <div class="container-fluid">
-      <div class="row" *ngFor="let participant of pin.gathering.Participants">
-        <div class="border-bottom soft-quarter-bottom">
-          <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
-        </div>
+    <div *ngFor="let participant of pin.gathering.Participants">
+      <div class="border-bottom soft-quarter-bottom">
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [canBeHyperlinked]="isLeader"></participant-card>
       </div>
     </div>
   </div>
 
-  <invite-someone *ngIf="isPinOwner && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
-  <add-someone *ngIf="isPinOwner && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
+  <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
+
+  <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 </div>

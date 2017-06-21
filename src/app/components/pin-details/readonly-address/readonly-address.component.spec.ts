@@ -36,7 +36,7 @@ describe('ReadonlyAddressComponent', () => {
     it('init should set showFullAddress to true 1', () => {
         comp.isGathering = true;
         comp.isInGathering = true;
-        comp.isPinOwner = false;
+        comp.isLeader = false;
 
         comp.ngOnInit();
         expect(comp.showFullAddress).toBe(true);
@@ -46,7 +46,7 @@ describe('ReadonlyAddressComponent', () => {
 
         comp.isGathering = false;
         comp.isInGathering = false;
-        comp.isPinOwner = true;
+        comp.isLeader = true;
 
         comp.ngOnInit();
 
@@ -56,7 +56,7 @@ describe('ReadonlyAddressComponent', () => {
     it('init should set showFullAddress to false', () => {
         comp.isGathering = false;
         comp.isInGathering = true;
-        comp.isPinOwner = false;
+        comp.isLeader = false;
         comp.ngOnInit();
 
         expect(comp.showFullAddress).toBe(false);

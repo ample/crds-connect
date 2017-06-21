@@ -14,6 +14,7 @@ export class PinHeaderComponent {
 
   @Input() pin: Pin = undefined;
   @Input() isPinOwner: boolean = false;
+  @Input() isLeader: boolean = false;
 
   public doShowHelloMsg: boolean = false;
   public _pinType: any = pinType;
