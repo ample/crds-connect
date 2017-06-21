@@ -24,6 +24,14 @@
   white-space: normal;
 }
 
+.group-meta-data {
+  color: $cr-gray-lighter;
+  padding-top: 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
 participant-card {
   .media {
     .media-img-wrapper {

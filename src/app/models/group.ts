@@ -34,6 +34,15 @@ export class Group {
     groupTypeId?: number;
     participantCount: number;
 
+    categories: string[];
+    ageRanges: string[];
+    primaryContactFirstName: string;
+    primaryContactLastName: string;
+    isVirtualGroup: boolean;
+    primaryContactCongregation: string;
+    groupType: string;
+
+
     public static overload_Constructor_One(groupId: number, participants: Participant[]): Group {
         return new Group(groupId, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null, null, null, null, null, participants);
