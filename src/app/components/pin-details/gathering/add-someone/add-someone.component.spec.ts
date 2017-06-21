@@ -115,13 +115,13 @@ describe('AddSomeoneComponent', () => {
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
-    fit('should successfully submit', () => {
+    it('should successfully submit', () => {
         let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
         let isValid = true;
         let gatheringId = 123;
         let participantId = 456;
         let param = { value: someone, valid: isValid };
-        
+
         comp.resultsModal = jasmine.createSpyObj<ModalDirective>('modalDir', ['show', 'hide']);
         (<jasmine.Spy>mockPinService.getMatch).and.returnValue(Observable.of({}));
 
