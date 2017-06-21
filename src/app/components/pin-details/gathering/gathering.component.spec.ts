@@ -21,6 +21,7 @@ import { ToastsManager, Toast } from 'ng2-toastr';
 import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { MockComponent } from '../../../shared/mock.component';
+import { ListHelperService } from '../../../services/list-helper.service';
 
 function fakenext(param: any) { return 1; }
 
@@ -45,6 +46,7 @@ let mockParticipantService;
 let mockToast;
 let mockContentService;
 let mockAddressService;
+let mockListHelperService;
 let mockAngulartics2;
 let mockRouter;
 
@@ -61,6 +63,7 @@ describe('Gathering component redirect error', () => {
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
+        mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
         mockAngulartics2 = new MockAngulartic();
         mockRouter = {
             url: '/connect/gathering/1234', routerState:
@@ -84,6 +87,7 @@ describe('Gathering component redirect error', () => {
                 { provide: ToastsManager, useValue: mockToast },
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
+                { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
                     provide: Router,
@@ -162,6 +166,7 @@ describe('GatheringComponent', () => {
                 { provide: ParticipantService, useValue: mockParticipantService },
                 { provide: ToastsManager, useValue: mockToast },
                 { provide: AddressService, useValue: mockAddressService },
+                { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
@@ -327,13 +332,13 @@ describe('GatheringComponent', () => {
         comp.isLoggedIn = true;
     });
 
-    it('should redirect to oops page if something horrible happens', () => {
+    fit('should redirect to oops page if something horrible happens', () => {
         let pin = MockTestData.getAPin(1);
         pin.gathering = null;
         comp['pin'] = pin;
 
         comp.ngOnInit();
-        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
+        expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith(null);
     });
 
     it('should edit', () => {
