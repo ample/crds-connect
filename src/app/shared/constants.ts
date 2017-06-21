@@ -7,11 +7,13 @@ export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLenth: number = 44;
 
+export const groupDescriptionLengthDetails: number = 265;
+
 export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;
 
-  constructor () {
+  constructor() {
     this.CONNECT_ROUTE = '/';
     this.SMALL_GROUPS_ROUTE = '/groupsv2';
   }
@@ -21,7 +23,7 @@ export class App {
   CONNECT: string;
   SMALL_GROUPS: string;
 
-  constructor () {
+  constructor() {
     this.CONNECT = 'CONNECT';
     this.SMALL_GROUPS = 'SMALL_GROUPS';
   }
@@ -57,6 +59,12 @@ export class PlaceholderTextForSearchBar {
     this.ADDRESS = 'Address...';
     this.KEYWORD = 'Keyword...';
   }
+}
+
+export enum GroupRole {
+  MEMBER = 16,
+  LEADER = 22,
+  APPRENTICE = 66
 }
 
 export const appRoute: AppRoute = new AppRoute();

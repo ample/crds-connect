@@ -160,6 +160,10 @@ const appRoutes: Routes = [
     component: ParticipantDetailsComponent,
     canActivate: [LoggedInGuard]
   }, {
+    path: 'gathering/:groupId/participant-detail/:groupParticipantId',
+    component: ParticipantDetailsComponent,
+    canActivate: [LoggedInGuard]
+  }, {
     path: 'gathering/:groupId/edit',
     component: GatheringEditComponent,
     resolve: {

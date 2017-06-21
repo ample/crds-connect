@@ -19,7 +19,7 @@ import { app, placeholderTextForSearchBar } from '../../shared/constants';
 @Component({
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html',
-  styleUrls:  ['search-bar.component.css']
+  styleUrls: ['search-bar.component.css']
 })
 export class SearchBarComponent implements OnChanges, OnInit {
   @Input() isMapHidden: boolean;
@@ -58,7 +58,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit(!this.isMapHidden);
 
-    if (this.searchText.length > 0 && this.searchText !== 'My Stuff') {
+    if (this.searchText && this.searchText.length > 0 && this.searchText !== 'My Stuff') {
       this.onSearch(this.searchText);
     }
 
@@ -71,6 +71,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     if (searchString !== null && searchString.length > 0) {
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
       let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString);
+      this.state.lastSearch.search = searchString;
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
   }
@@ -92,7 +93,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.searchText = '';
   }
 
-  public searchKeyUp() {
+  public searchKeyUp(){
     this.isSearchClearHidden = false;
   }
 
