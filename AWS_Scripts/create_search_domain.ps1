@@ -2,7 +2,7 @@
 #
 # Before running you will need an AWS Access Key ID and an AWS Secret Access Key
 
-$searchdomain = "connect"
+$searchdomain = "connect-dev"
 
 aws cloudsearch create-domain --domain-name "$searchdomain"
 
