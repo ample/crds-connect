@@ -62,10 +62,7 @@ describe('AddSomeoneComponent', () => {
                 { provide: ToastsManager, useValue: mockToast },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: AppSettingsService, useValue: mockAppSettings },
-                { provide: ParticipantService, useValue: mockParticipantService },
-                { provide: FormBuilder, useValue: mockFormBuilder },
-                { provide: Router, useValue: mockRouter },
-                { provide: ModalDirective, useValue: mockModal }
+                { provide: ParticipantService, useValue: mockParticipantService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -118,6 +115,34 @@ describe('AddSomeoneComponent', () => {
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 
+    fit('should successfully submit', () => {
+        let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
+        let isValid = true;
+        let gatheringId = 123;
+        let participantId = 456;
+        let param = { value: someone, valid: isValid };
+        let blandPageDetails = new BlandPageDetails(
+            'Return to my pin',
+            '<h1 class="title">Invitation Sent</h1>' +
+            // tslint:disable-next-line:max-line-length
+            `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
+            BlandPageType.Text,
+            BlandPageCause.Success,
+            `gathering/${gatheringId}`
+        );
+
+        comp.resultsModal = jasmine.createSpyObj<ModalDirective>('modalDir', ['show', 'hide']);
+        (<jasmine.Spy>mockPinService.getMatch).and.returnValue(Observable.of({}));
     
+
+        comp.gatheringId = gatheringId;
+        comp.participantId = participantId;
+
+        comp.onSubmit(param);
+
+        expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
+        expect(<jasmine.Spy>mockPinService.getMatch).toHaveBeenCalledWith(someone);
+        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
+    });
 
 });

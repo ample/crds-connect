@@ -22,7 +22,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 
 export class AddSomeoneComponent implements OnInit {
-@ViewChild('resultsModal') public resultsModal: ModalDirective;
+    @ViewChild('resultsModal') public resultsModal: ModalDirective;
     @Input() gatheringId: number;
     @Input() participantId: number;
 
