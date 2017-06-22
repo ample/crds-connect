@@ -10,7 +10,7 @@
           <div class="media-meta">
             <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay != null">
-              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
+              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}} {{proximityToDisplay}}</span>
             </span>        
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay == null">
               <span>Flexible Meeting Time</span>
@@ -55,10 +55,10 @@
      </div>   
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
-      <button class="btn primary btn-primary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
+      <button class="btn primary btn-primary btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
 
       <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
-        <button class="btn btn-secondary" (click)="requestToJoin()">Connect to gathering</button>
+        <button class="btn btn-secondary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
         <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
       </div>
 

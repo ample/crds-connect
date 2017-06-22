@@ -41,6 +41,7 @@ export class GatheringComponent implements OnInit {
   private address: Address = Address.overload_Constructor_One();
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
+  public proximityToDisplay: string = '';
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -68,6 +69,7 @@ export class GatheringComponent implements OnInit {
     if (this.pin.gathering != null) {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
+      this.proximityToDisplay = this.pin.proximity ? '(' + this.pin.proximity.toFixed(1) + ' MI)' : '';
     }
 
     try {
@@ -76,7 +78,7 @@ export class GatheringComponent implements OnInit {
         this.pin.gathering.Participants = participants;
         if (this.loggedInUserIsInGathering(this.session.getContactId())) {
           this.isInGathering = true;
-          if (this.participantService.loggedInUserIsLeaderOfGroup(this.pin.gathering.groupId)){
+          if (this.participantService.loggedInUserIsLeaderOfGroup(this.pin.gathering.groupId)) {
             this.isLeader = true;
           }
           this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
