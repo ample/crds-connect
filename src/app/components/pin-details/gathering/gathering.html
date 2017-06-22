@@ -10,7 +10,7 @@
           <div class="media-meta">
             <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay != null">
-              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
+              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}} {{proximityToDisplay}}</span>
             </span>        
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay == null">
               <span>Flexible Meeting Time</span>
