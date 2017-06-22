@@ -60,6 +60,11 @@ export class SessionService extends SmartCacheableService<User, number> {
     return this.http.post(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
+  public delete(url: string, data: any, options?: RequestOptions) {
+    let requestOptions = this.getRequestOption(options);
+    return this.http.delete(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
+  }
+
   private extractAuthTokenAndUnwrapBody = (res: Response) => {
     if (res.headers != null && res.headers.get('sessionid')) {
       this.setAccessToken(res.headers.get('sessionid'));
