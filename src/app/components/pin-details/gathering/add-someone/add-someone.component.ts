@@ -115,7 +115,7 @@ export class AddSomeoneComponent implements OnInit {
             },
             failure => {
                 this.state.setLoading(false);
-                this.toast.error(this.content.getContent('finderErrorInvite'));
+                this.toast.warning('This user is already in your group.');
             }
         );
     }
