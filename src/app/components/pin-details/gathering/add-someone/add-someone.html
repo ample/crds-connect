@@ -73,7 +73,7 @@
           </div>
 
           <div *ngIf="!matchFound">
-             <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
+             <strong>The new user {{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
              <br>
              <button type="button" class="btn btn-primary" (click)="modalUseEntered()">OK</button>
              <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
