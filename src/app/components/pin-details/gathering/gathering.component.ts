@@ -66,10 +66,11 @@ export class GatheringComponent implements OnInit {
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
     this.state.setPageHeader(pageTitleOnHeader, '/');
 
+    this.proximityToDisplay = this.listHelperService.roundedProximity(this.pin.proximity);
+
     if (this.pin.gathering != null) {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
-      this.proximityToDisplay = this.pin.proximity ? '(' + this.pin.proximity.toFixed(1) + ' MI)' : '';
     }
 
     try {

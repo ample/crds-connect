@@ -11,7 +11,7 @@ import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
-import { proximityUnavailableDefaultNum, groupDescriptionLenth } from '../../shared/constants';
+import { groupDescriptionLenth } from '../../shared/constants';
 
 @Component({
   selector: 'list-entry',
@@ -37,6 +37,7 @@ export class ListEntryComponent implements OnInit {
   public isPerson: boolean;
   public isSite: boolean;
   public isSmallGroup: boolean;
+  public proximityToDisplay: any;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -52,6 +53,7 @@ export class ListEntryComponent implements OnInit {
     this.isGathering = this.type === pinType.GATHERING;
     this.isSite = this.type === pinType.SITE;
     this.isSmallGroup = this.type === pinType.SMALL_GROUP;
+    this.proximityToDisplay = this.listHelper.roundedProximity(this.pin.proximity);
   }
 
   public isMe() {
@@ -109,10 +111,6 @@ export class ListEntryComponent implements OnInit {
   public displayPinDetails(pin: Pin) {
     this.state.setCurrentView('list');
     this.pinService.navigateToPinDetailsPage(pin);
-  }
-
-  public roundedProximity() {
-    return this.proximity ? this.proximity.toFixed(1) : proximityUnavailableDefaultNum;
   }
 
 }
