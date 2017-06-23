@@ -144,7 +144,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.pinService.getPinSearchResults(searchParams).subscribe(
       next => {
-        this.pinSearchResults = next as PinSearchResultsDto;
+        this.pinSearchResults = next as PinSearchResultsDto;      
         this.processAndDisplaySearchResults(searchParams.userSearchString, next.centerLocation.lat, next.centerLocation.lng);
         this.state.lastSearch.search = searchParams.userSearchString; // Are we doing this twice? Here and in navigate away
       },
@@ -154,6 +154,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         this.state.setLoading(false);
         this.goToNoResultsPage();
       });
+
   }
 
   private goToNoResultsPage() {

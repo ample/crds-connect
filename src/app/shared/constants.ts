@@ -7,6 +7,8 @@ export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLenth: number = 44;
 
+export const groupDescriptionLengthDetails: number = 265;
+
 export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;
@@ -49,6 +51,16 @@ export class LeaderStatus {
   status: number;
 }
 
+export class PlaceholderTextForSearchBar {
+  ADDRESS: string;
+  KEYWORD: string;
+
+  constructor () {
+    this.ADDRESS = 'Address...';
+    this.KEYWORD = 'Keyword...';
+  }
+}
+
 export enum GroupRole {
   MEMBER = 16,
   LEADER = 22,
@@ -58,6 +70,7 @@ export enum GroupRole {
 
 export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
+export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 
 export const initialMapZoom = 5;
 

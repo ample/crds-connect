@@ -89,26 +89,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public getPinDetails(pinIdentifier: PinIdentifier): Observable<Pin> {
     let contactId = this.session.getContactId() || 0;
     let cachedPins: PinSearchResultsDto;
-    let pin: Pin;
     let url: string;
 
-    if (super.isCachedForUser(contactId)) {
-      cachedPins = super.getCache();
-      pin = cachedPins.pinSearchResults.find(aPin => {
-        if (aPin.pinType === pinIdentifier.type) {
-          if (pinIdentifier.type === pinType.PERSON) {
-            return (aPin.participantId === pinIdentifier.id);
-          } else {
-            return (aPin.gathering) && (aPin.gathering.groupId === pinIdentifier.id);
-          }
-        } else {
-          return false;
-        }
-      });
-      if (pin != null) {
-        return Observable.of<Pin>(pin);
-      }
-    }
     url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
@@ -120,7 +102,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       res.participantId, res.address, res.hostStatus, res.gathering, res.siteName, res.pinType, res.proximity, res.householdId); })
       .do((res: Pin) => {
         res = this.setPinTypeAsGroupIfInGroupApp(res);
-        this.createPartialCache(res)
+        this.createPartialCache(res);
       })
       .catch((error: any) => {
         this.state.setLoading(false);
@@ -167,6 +149,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
   }
 
+  private clearGeoCoordsIfSearchingLocInConnect(searchString: string, centerGeoCoords: GeoCoordinates): GeoCoordinates {
+
+    let isUserSearchingByKeyword: boolean = searchString && searchString !== '';
+    let isConnectApp: boolean = this.appSetting.finderType === app.CONNECT;
+    let doClearCenterCoordsToBeSetInApi: boolean = isUserSearchingByKeyword && isConnectApp;
+
+    if(doClearCenterCoordsToBeSetInApi){
+      return new GeoCoordinates(null, null);
+    } else {
+      return centerGeoCoords;
+    }
+  }
+
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
 
     let mapParams: MapView = this.state.getMapView(); // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
@@ -178,7 +173,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
-    if (userSearchString) {centerGeoCoords = new GeoCoordinates(null, null);}
+    centerGeoCoords = this.clearGeoCoordsIfSearchingLocInConnect(userSearchString, centerGeoCoords);
     let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
 
     let apiQueryParams = new PinSearchQueryParams(userSearchString, isLocationSearch,isMyStuff, finderType,
@@ -278,7 +273,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/addtogroup/${groupId}`, someone);
   }
 
-  public getMatch(searchUser: Person): Observable<Person[]> {
+  public getMatch(searchUser: Person): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/getmatch`, searchUser);
   }
 

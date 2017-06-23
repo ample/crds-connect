@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Angulartics2 } from 'angulartics2';
 import { Observable, Subscription } from 'rxjs/Rx';
@@ -10,8 +10,11 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+
+import { app, placeholderTextForSearchBar } from '../../shared/constants';
 
 @Component({
   selector: 'app-search-bar',
@@ -22,18 +25,23 @@ export class SearchBarComponent implements OnChanges, OnInit {
   @Input() isMapHidden: boolean;
   @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
-  @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private isMyStuffActiveSub: Subscription;
   private searchText: string = '';
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
+  public placeholderTextForSearchBar: string;
 
-  constructor(private pinService: PinService,
+  constructor(private appSettings: AppSettingsService,
+              private pinService: PinService,
               private state: StateService) {
   }
 
   public ngOnInit(): void {
+
+    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS :
+                                                                         placeholderTextForSearchBar.KEYWORD;
+
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
       this.setButtonText();
@@ -61,7 +69,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
-      let pinSearchRequest = new PinSearchRequestParams(true, searchString);
+      let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
+      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString);
+      this.state.lastSearch.search = searchString;
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
   }
