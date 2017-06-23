@@ -28,7 +28,6 @@ export class AddSomeoneComponent implements OnInit {
 
     public addFormGroup: FormGroup;
     public isFormSubmitted: boolean = false;
-    public matches: Person[];
     public selectedMatch: Person = new Person();
     public matchFound: boolean = false;
     public useSelectedButtonDisabled: boolean = true;
@@ -49,23 +48,21 @@ export class AddSomeoneComponent implements OnInit {
         });
     }
 
-    public showResultsModal(): void {
+    private showResultsModal(): void {
         this.resultsModal.show();
     }
 
-    public hideResultsModal(): void {
+    private hideResultsModal(): void {
         this.resultsModal.hide();
     }
 
     public modalUseSelected(): void {
-        this.selectedMatch = this.matches[0];
         this.resultsModal.hide();
         this.state.setLoading(true);
         this.addToGroup(this.selectedMatch);
     }
 
     public modalUseEntered(): void {
-        this.selectedMatch = new Person(this.addFormGroup.controls['firstname'].value, this.addFormGroup.controls['lastname'].value, this.addFormGroup.controls['email'].value);
         this.resultsModal.hide();
         this.state.setLoading(true);
         this.addToGroup(this.selectedMatch);
@@ -80,12 +77,11 @@ export class AddSomeoneComponent implements OnInit {
             this.state.setLoading(true);
             // get matches
             this.pinService.getMatch(someone).subscribe(
-                success => {
+                isMatchFound => {
                     // display the modal so the user can choose 
                     this.state.setLoading(false);
-                    success.length > 0 ? this.matchFound = true : this.matchFound = false;
-                    this.matches = success;
-                    this.selectedMatch = this.matches[0];
+                    isMatchFound ? this.matchFound = true : this.matchFound = false;
+                    this.selectedMatch = someone;
                     this.showResultsModal();
                 },
                 failure => {
