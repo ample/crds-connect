@@ -80,7 +80,7 @@ export class AddSomeoneComponent implements OnInit {
                 isMatchFound => {
                     // display the modal so the user can choose 
                     this.state.setLoading(false);
-                    isMatchFound ? this.matchFound = true : this.matchFound = false;
+                    isMatchFound === true ? this.matchFound = true : this.matchFound = false;
                     this.selectedMatch = someone;
                     this.showResultsModal();
                 },
