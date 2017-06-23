@@ -40,6 +40,6 @@ export class ListHelperService {
     }
 
     public roundedProximity(proximity: number): any {
-      return proximity ? proximity.toFixed(1) : '';
+      return proximity ? proximity.toFixed(2) : '';
     }
 }
