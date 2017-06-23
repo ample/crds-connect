@@ -63,7 +63,7 @@ describe('Gathering component redirect error', () => {
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
-        mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
+        mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis', 'roundedProximity']);
         mockAngulartics2 = new MockAngulartic();
         mockRouter = {
             url: '/connect/gathering/1234', routerState:
@@ -102,6 +102,7 @@ describe('Gathering component redirect error', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(GatheringComponent);
             comp = fixture.componentInstance;
+            comp.pin = MockTestData.getAPin(1);
         });
     }));
 
@@ -110,6 +111,7 @@ describe('Gathering component redirect error', () => {
             url: '/connect/gathering/1234', routerState:
                 { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
         };
+        comp.pin = MockTestData.getAPin(1);
     });
 
     it('should not redirect if already on the gathering page while failing requesting to join', () => {
@@ -147,6 +149,7 @@ describe('GatheringComponent', () => {
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
+        mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis', 'roundedProximity']);
         mockAngulartics2 = new MockAngulartic();
         mockRouter = { url: 'abc123', routerState: { snapshot: { url: 'abc123' } }, navigate: jasmine.createSpy('navigate') };
 
@@ -182,6 +185,7 @@ describe('GatheringComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(GatheringComponent);
             comp = fixture.componentInstance;
+            comp.pin = MockTestData.getAPin(1);
         });
     }));
 
@@ -190,7 +194,6 @@ describe('GatheringComponent', () => {
     });
 
     it('should init, get participants and loggedInUser is in gathering', () => {
-        let pin = MockTestData.getAPin(1);
         let addLine1 = '567 street ln.';
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(participants[2].contactId);
@@ -198,42 +201,38 @@ describe('GatheringComponent', () => {
         (<jasmine.Spy>mockParticipantService.loggedInUserIsLeaderOfGroup).and.returnValue(true);
         (mockAddressService.getFullAddress).and.returnValue(Observable.of(
             new Address(null, addLine1, null, null, null, null, null, null, null, null)));
+        (<jasmine.Spy>mockListHelperService.roundedProximity).and.returnValue('2.25');
         comp.isLoggedIn = true;
-        comp.pin = pin;
         comp.ngOnInit();
         expect(comp.isInGathering).toBe(true);
-        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
         expect(comp['pin'].gathering.address.addressLine1).toBe(addLine1);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
     });
 
-    it('should init, get participants and loggedInUser is NOT in gathering', () => {
-        let pin = MockTestData.getAPin(1);
+   it('should init, get participants and loggedInUser is NOT in gathering', () => {
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(8675309);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (<jasmine.Spy>mockListHelperService.roundedProximity).and.returnValue('2.25');
         comp.isLoggedIn = true;
-        comp.pin = pin;
         comp.ngOnInit();
         expect(comp.isInGathering).toBe(false);
-        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
     });
 
     it('should init and fail to get participants then go to error page', () => {
-        let pin = MockTestData.getAPin(1);
         (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(8675309);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.throw({ status: 500 }));
         comp.isLoggedIn = true;
-        comp.pin = pin;
         comp.ngOnInit();
-        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
         expect(mockSessionService.getContactId).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
     });
 
     it('should init and fail to get full address then toast', () => {
-        let pin = MockTestData.getAPin(1);
         let participants = MockTestData.getAParticipantsArray(3);
         let expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
         mockContentService.getContent.and.returnValue(expectedText);
@@ -241,9 +240,8 @@ describe('GatheringComponent', () => {
         mockParticipantService.getParticipants.and.returnValue(Observable.of(participants));
         mockAddressService.getFullAddress.and.returnValue(Observable.throw({ status: 500 }));
         comp.isLoggedIn = true;
-        comp.pin = pin;
         comp.ngOnInit();
-        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
         expect(mockSessionService.getContactId).toHaveBeenCalled();
         expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).not.toHaveBeenCalled();
         expect(mockToast.error).toHaveBeenCalledWith(expectedText);
@@ -334,6 +332,7 @@ describe('GatheringComponent', () => {
 
     it('should redirect to oops page if something horrible happens', () => {
         let pin = MockTestData.getAPin(1);
+        comp.pin = pin;
         pin.gathering = null;
         comp['pin'] = pin;
 
