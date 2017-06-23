@@ -50,23 +50,74 @@ export class ParticipantService extends CacheableService<Group[]> {
         return this.getParticipantsByGroupFromBackend(groupId);
     }
 
-    public loggedInUserIsLeaderOfGroup(groupId: number): boolean {
-        let contactId = this.session.getContactId();
-        if (super.isCachedForUser(contactId)) {
-            let groupParticipantCache = super.getCache();
-
-            let group = groupParticipantCache.find(g => {
-                return g.groupId === groupId;
+    public getIsCurrentUserALeader(groupId: number): Observable<boolean> {
+        try {
+            return this.getUserRoleInGroup(groupId, this.session.getContactId()).map((role) => {
+                return role === GroupRole.LEADER;
             });
-
-            let participant = group.Participants.find(p => {
-                return p.contactId === contactId;
-            })
-            if (participant !== undefined) {
-                return participant.groupRoleId === GroupRole.LEADER;
-            }
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of(false);
         }
-        return false;
+    }
+
+    public getIsCurrentUserInGroup(groupId: number): Observable<GroupRole> {
+        return this.getIsUserInGroup(groupId, this.session.getContactId());
+    }
+
+    public getIsUserInGroup(groupId: number, contactId: number = null): Observable<GroupRole> {
+        try {
+            return this.getUserRoleInGroup(groupId, contactId);
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of(GroupRole.NONE);
+        }
+    }
+
+    public getAllLeaders(groupId: number): Observable<Participant[]> {
+        try {
+            return this.getAllParticipantsOfRoleInGroup(groupId, GroupRole.LEADER);
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of([]);
+        }
+    }
+
+    private getUserRoleInGroup(groupId: number, contactId: number): Observable<GroupRole> {
+        return this.getParticipants(groupId).map((participants) => {
+            if (participants !== undefined) {
+                let participant = participants.find(p => {
+                    return p.contactId === contactId;
+                });
+                if (participant !== undefined) {
+                    return participant.groupRoleId;
+                } else {
+                    return GroupRole.NONE;
+                }
+            } else {
+                throw `group with groupId: ${groupId} not found.`;
+            }
+        }, (e: Error) => {
+            throw e.message;
+        });
+    }
+
+    private getAllParticipantsOfRoleInGroup(groupId: number, groupRole: number): Observable<Participant[]> {
+        return this.getParticipants(groupId).map((participants) => {
+            let participantsOfRole: Participant[] = [];
+            if (participants !== undefined) {
+                participants.forEach((participant) => {
+                    if (participant.groupRoleId === groupRole) {
+                        participantsOfRole.push(participant);
+                    }
+                });
+                return participantsOfRole;
+            } else {
+                throw `group with groupId: ${groupId} not found.`;
+            }
+        }, (e: Error) => {
+            throw e.message;
+        });
     }
 
     private getParticipantsByGroupFromBackend(groupId: number): Observable<Participant[]> {
@@ -74,9 +125,8 @@ export class ParticipantService extends CacheableService<Group[]> {
         return this.session.get(`${this.baseUrl}api/v1.0.0/finder/participants/${groupId}`)
             .do((res: Participant[]) => {
                 let cache: Array<Group> = new Array<Group>();
-                if (super.isAtLeastPartialCache() && super.isCachedForUser(contactId)) {
+                if (super.isCachedForUser(contactId)) {
                     cache = super.getCache();
-                } else {
                 }
                 cache.push(Group.overload_Constructor_One(groupId, res));
                 super.setCache(cache, CacheLevel.Partial, contactId);

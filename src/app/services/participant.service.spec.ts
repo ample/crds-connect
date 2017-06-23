@@ -95,7 +95,7 @@ describe('ParticipantService', () => {
         );
     });
 
-    describe('loggedInUserIsLeaderOfGroup', () => {
+    describe('getIsCurrentUserALeader', () => {
         it('should return logged in user is leader',
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
@@ -117,8 +117,11 @@ describe('ParticipantService', () => {
                 service['userIdentifier'] = userId;
                 service['cacheLevel'] = CacheLevel.Full;
                 selectedGroupId = cache[Math.floor(Math.random() * 10)].groupId;
-                result = service.loggedInUserIsLeaderOfGroup(selectedGroupId);
-
+                service.getIsCurrentUserALeader(selectedGroupId).subscribe(
+                    isLeader => {
+                        result = isLeader;
+                    }
+                );
                 expect(result).toBe(true);
             })
         );
@@ -142,7 +145,11 @@ describe('ParticipantService', () => {
                 service['userIdentifier'] = userId;
                 service['cacheLevel'] = CacheLevel.Full;
                 selectedGroupId = cache[Math.floor(Math.random() * 10)].groupId;
-                result = service.loggedInUserIsLeaderOfGroup(selectedGroupId);
+                service.getIsCurrentUserALeader(selectedGroupId).subscribe(
+                    isLeader => {
+                        result = isLeader;
+                    }
+                );
 
                 expect(result).toBe(false);
             })

@@ -20,6 +20,7 @@ import { AddressService } from '../../../services/address.service';
 import { ListHelperService } from '../../../services/list-helper.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { groupDescriptionLengthDetails } from '../../../shared/constants';
+import { GroupRole } from '../../../shared/constants';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -41,6 +42,7 @@ export class GatheringComponent implements OnInit {
   private address: Address = Address.overload_Constructor_One();
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
+  private leaders: Participant[] = [];
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -55,8 +57,9 @@ export class GatheringComponent implements OnInit {
     private listHelperService: ListHelperService,
     private content: ContentService,
     private angulartics2: Angulartics2,
-    public appSettingsService: AppSettingsService) {}
+    public appSettingsService: AppSettingsService) { }
 
+  //ONINIT is doing WAY too much, needs to be simplified and broken up.
   public ngOnInit() {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
@@ -69,56 +72,56 @@ export class GatheringComponent implements OnInit {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
     }
-
     try {
-    this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
-      participants => {
-        this.pin.gathering.Participants = participants;
-        if (this.loggedInUserIsInGathering(this.session.getContactId())) {
-          this.isInGathering = true;
-          if (this.participantService.loggedInUserIsLeaderOfGroup(this.pin.gathering.groupId)){
-            this.isLeader = true;
-          }
-          this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
-            .finally(() => {
-              this.state.setLoading(false);
-              this.ready = true;
-            })
-            .subscribe(
-              address => {
-                this.pin.gathering.address = address;
-              },
-              error => {
-                this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+      this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
+        participants => {
+          this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+            this.leaders = leaders;
+          });
+          this.pin.gathering.Participants = participants;
+          this.participantService.getIsCurrentUserInGroup(this.pin.gathering.groupId).subscribe(
+            role => {
+              console.log(role);
+              if (role !== GroupRole.NONE) {
+                this.isInGathering = true;
+                this.isLeader = role === GroupRole.LEADER;
+
+                this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+                  .finally(() => {
+                    this.state.setLoading(false);
+                    this.ready = true;
+                  })
+                  .subscribe(
+                  address => {
+                    this.pin.gathering.address = address;
+                  },
+                  error => {
+                    this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+                  }
+                  );
+              } else {
+                this.state.setLoading(false);
+                this.ready = true;
               }
-            );
-        } else {
-          this.state.setLoading(false);
-          this.ready = true;
-        }
-      },
-      failure => {
-        console.log('Could not get participants');
-        this.blandPageService.goToDefaultError('');
-      });
+            });
+        },
+        failure => {
+          console.log('Could not get participants');
+          this.blandPageService.goToDefaultError('');
+        });
     } catch (err) {
+      console.log(err.message)
       this.blandPageService.goToDefaultError('');
     }
   }
 
-  private loggedInUserIsInGathering(contactId: number) {
-    return this.pin.gathering.Participants.find((participant) => {
-      return (participant.contactId === contactId);
-    });
-  }
-
   public requestToJoin() {
     let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
-    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' }});
+    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' } });
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
-      .subscribe(
+        .subscribe(
         success => {
           this.blandPageService.primeAndGo(new BlandPageDetails(
             'Return to map',
@@ -142,7 +145,7 @@ export class GatheringComponent implements OnInit {
             this.loginRedirectService.redirectToTarget();
           }
         }
-      );
+        );
     } else {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }

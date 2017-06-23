@@ -64,7 +64,8 @@ export class PlaceholderTextForSearchBar {
 export enum GroupRole {
   MEMBER = 16,
   LEADER = 22,
-  APPRENTICE = 66
+  APPRENTICE = 66,
+  NONE = 0
 }
 
 export const appRoute: AppRoute = new AppRoute();
