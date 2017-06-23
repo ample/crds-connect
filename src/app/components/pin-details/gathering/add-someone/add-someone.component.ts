@@ -77,10 +77,10 @@ export class AddSomeoneComponent implements OnInit {
             this.state.setLoading(true);
             // get matches
             this.pinService.getMatch(someone).subscribe(
-                success => {
+                isMatchFound => {
                     // display the modal so the user can choose 
                     this.state.setLoading(false);
-                    success ? this.matchFound = true : this.matchFound = false;
+                    isMatchFound ? this.matchFound = true : this.matchFound = false;
                     this.selectedMatch = someone;
                     this.showResultsModal();
                 },
