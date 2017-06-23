@@ -59,7 +59,7 @@ describe('Component: Neighbors', () => {
   beforeEach(() => {
     subject = new Subject();
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults', 'reSortBasedOnCenterCoords', 'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed', 'sortPinsAndRemoveDuplicates']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults', 'reSortBasedOnCenterCoords', 'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed', 'sortPinsAndRemoveDuplicates', 'buildPinSearchRequest']);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['emitRefreshMap']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['emitChange']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
@@ -104,6 +104,7 @@ describe('Component: Neighbors', () => {
     (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
     (mockStateService.getCurrentView).and.returnValue('map');
     (mockStateService.getLastSearch).and.returnValue(null);
+    (mockPinService.buildPinSearchRequest).and.returnValue(new PinSearchRequestParams(true, null));
 
     spyOn(this.component, 'doSearch');
     this.component.ngOnInit();

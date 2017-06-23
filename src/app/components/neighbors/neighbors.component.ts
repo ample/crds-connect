@@ -51,7 +51,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    this.subscribeToPinSearchRequestEmitter();
+    this.subscribeToListenForSearchRequests();
     this.setViewToMapOrList(this.state.getCurrentView());
     this.runInitialPinSearch();
 
@@ -72,7 +72,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  processAndDisplaySearchResults(searchString, lat, lng): void {
+  private processAndDisplaySearchResults(searchString, lat, lng): void {
     // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
     this.pinSearchResults.pinSearchResults =
         this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
@@ -152,7 +152,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/no-results');
   }
 
-  private subscribeToPinSearchRequestEmitter(): void {
+  private subscribeToListenForSearchRequests(): void {
 
     this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
       this.doSearch(srchParams);
@@ -162,7 +162,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   private runInitialPinSearch(): void {
 
-    let pinSearchRequest = new PinSearchRequestParams(true, null);
+    let pinSearchRequest: PinSearchRequestParams =
+        this.pinService.buildPinSearchRequest(this.appSettings.isConnectApp(), this.state.searchBarText);
 
     this.userLocationService.GetUserLocation().subscribe(
       pos => {

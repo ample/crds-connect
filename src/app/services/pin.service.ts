@@ -471,4 +471,17 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinsFromServer;
   }
 
+  public buildPinSearchRequest(isConnectApp: boolean, textInSearchBar: string): PinSearchRequestParams {
+
+    let isLocationSearch: boolean = isConnectApp;
+
+    let isTextInSearchBar: boolean = textInSearchBar && textInSearchBar !== '';
+    let searchString = isTextInSearchBar ? textInSearchBar : null;
+
+    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(isLocationSearch, searchString);
+
+    return srchParams;
+
+  }
+
 }
