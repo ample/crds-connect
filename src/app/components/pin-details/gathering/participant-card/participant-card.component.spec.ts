@@ -62,6 +62,7 @@ describe('ParticipantCardComponent', () => {
 
   it('should init and set isMe to true', () => {
     mockSessionService.getContactId.and.returnValue(321);
+    comp.canBeHyperlinked = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(true);
     expect(comp.canBeHyperlinked).toBe(false);
@@ -69,6 +70,7 @@ describe('ParticipantCardComponent', () => {
 
   it('should init and set isMe to false', () => {
     mockSessionService.getContactId.and.returnValue(747648367);
+    comp.canBeHyperlinked = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(false);
     expect(comp.canBeHyperlinked).toBe(true);
