@@ -80,7 +80,7 @@ describe('ParticipantRemoveComponent', () => {
         });
     }));
 
-    fit('should init happy path', () => {
+    it('should init happy path', () => {
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()[1]));
         fixture.detectChanges();
         expect(comp).toBeTruthy();
@@ -89,7 +89,7 @@ describe('ParticipantRemoveComponent', () => {
         expect(comp['redirectUrl']).toBe('/small-group/1234');
     });
 
-    fit('should handle participant not found in group on init', () => {
+    it('should handle participant not found in group on init', () => {
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.throw({error: 'nooo'}));
         spyOn(comp, 'handleError');
         fixture.detectChanges();
@@ -99,12 +99,12 @@ describe('ParticipantRemoveComponent', () => {
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });
 
-    fit('closeClick should take you back', () => {
+    it('closeClick should take you back', () => {
         comp.closeClick();
         expect(mockLocationService.back).toHaveBeenCalledTimes(1);
     });
 
-    fit('onSubmit successfully', () => {
+    it('onSubmit successfully', () => {
         comp['groupId'] = 42;
         comp['groupParticipantId'] = 99;
         comp['redirectUrl'] = 'test';
@@ -116,7 +116,7 @@ describe('ParticipantRemoveComponent', () => {
         expect(mockRouter.navigate).toHaveBeenCalledWith(['test']);
     });
 
-    fit('onSubmit failure should toast', () => {
+    it('onSubmit failure should toast', () => {
         comp['groupId'] = 42;
         comp['groupParticipantId'] = 99;
         comp['redirectUrl'] = 'test';
@@ -129,7 +129,7 @@ describe('ParticipantRemoveComponent', () => {
         expect(mockToastsManager.error).toHaveBeenCalledWith('Something error happens');
     });
 
-    fit('handle error should go to default bland page error', () => {
+    it('handle error should go to default bland page error', () => {
         comp['redirectUrl'] = 'stuff';
         comp['handleError']();
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('stuff');

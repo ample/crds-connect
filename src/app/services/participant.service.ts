@@ -39,7 +39,7 @@ export class ParticipantService extends CacheableService<Group[]> {
             });
 
             if (participant == null) {
-                throw(`Group participant is not part of Group ${groupId}`);
+                throw(`Group participant is not part of group id: ${groupId}`);
             } else {
                 return participant;
             }
