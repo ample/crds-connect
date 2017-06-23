@@ -112,56 +112,150 @@ describe('ParticipantService', () => {
         );
     });
 
-    describe('loggedInUserIsLeaderOfGroup', () => {
-        it('should return logged in user is leader',
+    describe('getCurrentUserGroupRole', () => {
+        beforeEach(() => {
+            console.log = jasmine.createSpy('log');
+        });
+
+        it('should return current users is leader',
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
-                let userId: 123;
-                let result: boolean;
-                let selectedGroupId: number;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
+                let result;
                 for (var i = 1; i < 11; i++) {
-                    // get a randomw number of participants (between 0 and 10)
-                    let numberOfParticipants =  Math.floor(Math.random() * 10) + 1;
-                    // out of those participants select one to be the leader
-                    let selectedLeader = Math.floor(Math.random() * numberOfParticipants);
-                    let g = MockTestData.getAGroup(i, numberOfParticipants);
-                    g.Participants[selectedLeader]['groupRoleId'] = GroupRole.LEADER;
-                    g.Participants[selectedLeader]['contactId'] = userId;
-                    cache.push(g);
+                    cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
                 }
-                service['cache'] = cache;
-                service['userIdentifier'] = userId;
-                service['cacheLevel'] = CacheLevel.Full;
-                selectedGroupId = cache[Math.floor(Math.random() * 10)].groupId;
-                result = service.loggedInUserIsLeaderOfGroup(selectedGroupId);
+                let curUserContactId = cache[0].Participants[0].contactId;
+                cache[0].Participants[0].groupRoleId = GroupRole.LEADER;
+                let groupId = cache[0].groupId;
 
-                expect(result).toBe(true);
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(curUserContactId);
+                service['cache'] = cache;
+                service['userIdentifier'] = curUserContactId;
+                service['cacheLevel'] = CacheLevel.Partial;
+
+                service.getCurrentUserGroupRole(groupId).subscribe(
+                    userRole => {
+                        result = userRole;
+                    }
+                );
+
+                expect(console.log).not.toHaveBeenCalled();
+                expect(result).toBe(GroupRole.LEADER);
             })
         );
-        it('should return logged in user is not leader',
+
+        it('should return current users is not in group',
+            inject([ParticipantService], (service: ParticipantService) => {
+                let cache: Array<Group> = new Array<Group>();
+                let result;
+                for (var i = 1; i < 11; i++) {
+                    cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
+                }
+                let curUserContactId = 98362;
+                let groupId = cache[0].groupId;
+
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(curUserContactId);
+                service['cache'] = cache;
+                service['userIdentifier'] = curUserContactId;
+                service['cacheLevel'] = CacheLevel.Partial;
+
+                service.getCurrentUserGroupRole(groupId).subscribe(
+                    userRole => {
+                        result = userRole;
+                    }
+                );
+                expect(console.log).not.toHaveBeenCalled();
+                expect(result).toBe(GroupRole.NONE);
+            })
+        );
+
+        it('should return current users is not in group because group does not exit',
+            inject([ParticipantService], (service: ParticipantService) => {
+                let cache: Array<Group> = new Array<Group>();
+                let result;
+                for (var i = 1; i < 11; i++) {
+                    cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
+                }
+                let curUserContactId = 98362;
+                let groupId = 8675309;
+
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(curUserContactId);
+                service['cache'] = cache;
+                service['userIdentifier'] = curUserContactId;
+                service['cacheLevel'] = CacheLevel.Partial;
+
+                service.getCurrentUserGroupRole(groupId).subscribe(
+                    userRole => {
+                        result = userRole;
+                    }
+                );
+                expect(console.log).toHaveBeenCalled();
+                expect(result).toBe(GroupRole.NONE);
+            })
+        );
+    });
+
+    describe('getAllLeaders', () => {
+        beforeEach(() => {
+            console.log = jasmine.createSpy('log');
+        });
+
+        it('should return 3 users as leaders',
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
-                let result: boolean;
-                let selectedGroupId: number;
-                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
+                let result: Array<Participant>;
                 for (var i = 1; i < 11; i++) {
-                    // get a random number of participants (between 0 and 10)
-                    let numberOfParticipants =  Math.floor(Math.random() * 10) + 1;
-                    // out of those participants select one to be the user
-                    let selectedLeader = Math.floor(Math.random() * numberOfParticipants);
-                    let g = MockTestData.getAGroup(i, numberOfParticipants);
-                    g.Participants[selectedLeader]['contactId'] = userId;
-                    cache.push(g);
+                    cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
                 }
+
+                cache[0].Participants[0].groupRoleId = GroupRole.LEADER;
+                cache[0].Participants[1].groupRoleId = GroupRole.LEADER;
+                cache[0].Participants[2].groupRoleId = GroupRole.LEADER;
+                let groupId = cache[0].groupId;
+
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
                 service['cache'] = cache;
                 service['userIdentifier'] = userId;
-                service['cacheLevel'] = CacheLevel.Full;
-                selectedGroupId = cache[Math.floor(Math.random() * 10)].groupId;
-                result = service.loggedInUserIsLeaderOfGroup(selectedGroupId);
+                service['cacheLevel'] = CacheLevel.Partial;
 
-                expect(result).toBe(false);
+                service.getAllLeaders(groupId).subscribe(
+                    participants => {
+                        result = participants;
+                    }
+                );
+
+                expect(console.log).not.toHaveBeenCalled();
+                expect(result.length).toBe(3);
+                expect(result[0].groupRoleId).toBe(GroupRole.LEADER);
+                expect(result[1].groupRoleId).toBe(GroupRole.LEADER);
+                expect(result[2].groupRoleId).toBe(GroupRole.LEADER);
+            })
+        );
+
+        it('should not return any leaders, group not found',
+            inject([ParticipantService], (service: ParticipantService) => {
+                let cache: Array<Group> = new Array<Group>();
+                let userId: 123;
+                let result: Array<Participant>;
+                for (var i = 1; i < 11; i++) {
+                    cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
+                }
+                let groupId = 193847;
+
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
+                service['cache'] = cache;
+                service['userIdentifier'] = userId;
+                service['cacheLevel'] = CacheLevel.Partial;
+
+                service.getAllLeaders(groupId).subscribe(
+                    participants => {
+                        result = participants;
+                    }
+                );
+
+                expect(console.log).toHaveBeenCalled();
+                expect(result.length).toBe(0);
             })
         );
     });
@@ -244,4 +338,5 @@ describe('ParticipantService', () => {
             })
         );
     });
+
 });

@@ -10,18 +10,21 @@ import { Participant } from '../../../../models/participant';
   selector: 'participant-card',
   templateUrl: 'participant-card.html'
 })
-export class ParticipantCardComponent {
+export class ParticipantCardComponent implements OnInit {
 
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
   @Input() canBeHyperlinked: boolean = false;
+  private isMe: boolean = false;
 
   constructor(private session: SessionService, private router: Router, private route: ActivatedRoute) {
   }
 
-  public showMeLabel(): boolean {
-      let contactId = this.session.getContactId();
-      return contactId === this.participant.contactId;
+  public ngOnInit() {
+    if (this.session.getContactId() === this.participant.contactId) {
+      this.isMe = true;
+      this.canBeHyperlinked = false;
+    }
   }
 
   public showHostLabel(): boolean {

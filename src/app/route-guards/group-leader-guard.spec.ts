@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { ParticipantService } from '../services/participant.service';
 import { GroupLeaderGuard } from './group-leader.guard';
+import { GroupRole } from '../shared/constants';
 
 describe('GroupLeaderGuard', () => {
     let guard;
@@ -15,14 +16,14 @@ describe('GroupLeaderGuard', () => {
     let fakeRouter: any = jasmine.createSpyObj('router', ['navigate']);
     let fakeRouterState: any = { }; // RouterStateSnapshot
     let fakeActivatedRoute: any; // ActivatedRouteSnapshot
-    let mockParticipantService: any = jasmine.createSpyObj<ParticipantService>('participantService', ['getIsCurrentUserALeader']);
+    let mockParticipantService: any = jasmine.createSpyObj<ParticipantService>('participantService', ['getCurrentUserGroupRole']);
 
     beforeEach(() => {
         guard = new GroupLeaderGuard(mockParticipantService, fakeRouter);
     });
 
     it('should return true if user is a leader', () => {
-        (mockParticipantService.getIsCurrentUserALeader).and.returnValue(Observable.of(true));
+        (mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
         let result = guard.canActivate({
             // example route in here
             path: '/small-group/42/participant/3/',
@@ -30,11 +31,11 @@ describe('GroupLeaderGuard', () => {
         }, fakeRouterState);
 
         expect(result).toBeTruthy();
-        expect(mockParticipantService.getIsCurrentUserALeader).toHaveBeenCalledWith(42);
+        expect(mockParticipantService.getCurrentUserGroupRole).toHaveBeenCalledWith(42);
     });
 
     it('should navigate away if user is not a leader with a small groups urle', done => {
-        (mockParticipantService.getIsCurrentUserALeader).and.returnValue(Observable.of(false));
+        (mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.MEMBER));
         let obs$ = guard.canActivate({
             // example route in here
             path: '/small-group/42/participant/32/',
@@ -50,7 +51,7 @@ describe('GroupLeaderGuard', () => {
     });
 
     it('should navigate away if user is not a leader with a gathering url', done => {
-        (mockParticipantService.getIsCurrentUserALeader).and.returnValue(Observable.of(false));
+        (mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.MEMBER));
         let obs$ = guard.canActivate({
             // example route in here
             path: '/gathering/42/participant/32/',
