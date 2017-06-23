@@ -52,7 +52,9 @@
         <br>
         {{displayKidsWelcome(pin.gathering.kidsWelcome)}}
         <br>
-     </div>   
+     </div>
+
+      <button class="btn btn-secondary btn-block push-half-top btn-block-mobile">Contact Leader</button>
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn primary btn-primary btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
