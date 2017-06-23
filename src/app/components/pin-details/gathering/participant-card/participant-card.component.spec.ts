@@ -60,6 +60,20 @@ describe('ParticipantCardComponent', () => {
     expect(comp).toBeTruthy();
   });
 
+  it('should init and set isMe to true', () => {
+    mockSessionService.getContactId.and.returnValue(321);
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(true);
+    expect(comp.canBeHyperlinked).toBe(false);
+  });
+
+  it('should init and set isMe to false', () => {
+    mockSessionService.getContactId.and.returnValue(747648367);
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(false);
+    expect(comp.canBeHyperlinked).toBe(true);
+  });
+
   it('showHostLabel should return true when pinParticipant id matches the participants id', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
@@ -68,16 +82,6 @@ describe('ParticipantCardComponent', () => {
 
   it('showHostLabel should return false when pinParticipant doesnt match participant', () => {
     expect(comp.showHostLabel()).toBe(false);
-  });
-
-  it('showMeLabel() should return true when participant.contactId matches logged in users', () => {
-    mockSessionService.getContactId.and.returnValue(321);
-    expect(comp.showMeLabel()).toBe(true);
-  });
-
-  it('showMeLabel() should return false when participant.contactId doesnt match logged in users', () => {
-    mockSessionService.getContactId.and.returnValue(747648367);
-    expect(comp.showMeLabel()).toBe(false);
   });
 
   it('should navigate on card click', () => {
