@@ -28,6 +28,23 @@ describe('ParticipantService', () => {
         });
     });
 
+    describe('getGroupParticipant', () => {
+        it('should call getParticipants', inject([ParticipantService], (participantService: ParticipantService) => {
+            spyOn(participantService, 'getParticipants').and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
+            participantService.getGroupParticipant(32, 1).subscribe(result => {
+                expect(result.groupParticipantId).toBe(1);
+                expect(participantService.getParticipants).toHaveBeenCalledWith(32);
+            });
+        }));
+
+        it('should handle participant not found', inject([ParticipantService], (participantService: ParticipantService) => {
+            spyOn(participantService, 'getParticipants').and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
+            participantService.getGroupParticipant(32, 9999).subscribe(result => {}, error => {
+                expect(error).toBe('Group participant is not part of group id: 32');
+            });
+        }));
+    });
+
     // you can also wrap inject() with async() for asynchronous tasks
     // it('...', async(inject([...], (...) => {}));
 

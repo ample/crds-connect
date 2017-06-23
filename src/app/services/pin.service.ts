@@ -91,26 +91,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let cachedPins: PinSearchResultsDto;
     let url: string;
 
-    if (super.isCachedForUser(contactId)) {
-      cachedPins = super.getCache();
-
-      let pin: Pin = cachedPins.pinSearchResults.find(aPin => {
-        if (aPin.pinType === pinIdentifier.type) {
-          if (pinIdentifier.type === pinType.PERSON) {
-            return (aPin.participantId == pinIdentifier.id);  // need == not === here b/c have string and number
-          } else if (pinIdentifier.type === pinType.GATHERING) {
-            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number
-          } else if (pinIdentifier.type === pinType.SMALL_GROUP) {
-            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number
-          }
-        }
-      });
-
-      if (pin !== undefined) {
-        return Observable.of<Pin>(pin);
-      }
-    }
-
     url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
       `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
@@ -293,7 +273,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/addtogroup/${groupId}`, someone);
   }
 
-  public getMatch(searchUser: Person): Observable<Person[]> {
+  public getMatch(searchUser: Person): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/getmatch`, searchUser);
   }
 
@@ -489,6 +469,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
 
     return pinsFromServer;
+  }
+
+  public buildPinSearchRequest(isConnectApp: boolean, textInSearchBar: string): PinSearchRequestParams {
+
+    let isLocationSearch: boolean = isConnectApp;
+
+    let isTextInSearchBar: boolean = textInSearchBar && textInSearchBar !== '';
+    let searchString = isTextInSearchBar ? textInSearchBar : null;
+
+    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(isLocationSearch, searchString);
+
+    return srchParams;
+
   }
 
 }

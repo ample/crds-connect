@@ -5,8 +5,7 @@ import * as _ from 'lodash';
 
 import { SessionService } from './session.service';
 
-import { Participant } from '../models/participant';
-import { Group } from '../models/group';
+import { Group, Participant } from '../models';
 import { GroupRole } from '../shared/constants';
 
 @Injectable()
@@ -32,6 +31,21 @@ export class ParticipantService extends CacheableService<Group[]> {
         }
     }
 
+    public getGroupParticipant(groupId: number, groupParticipantId: number): Observable<Participant> {
+        let participant: Participant;
+        return this.getParticipants(groupId).map(participants => {
+            participant = participants.find(gp => {
+                return gp.groupParticipantId === groupParticipantId;
+            });
+
+            if (participant == null) {
+                throw(`Group participant is not part of group id: ${groupId}`);
+            } else {
+                return participant;
+            }
+        });
+    }
+
     public getParticipants(groupId: number): Observable<Participant[]> {
         let contactId = this.session.getContactId();
         if (super.isCachedForUser(contactId)) {
@@ -52,6 +66,17 @@ export class ParticipantService extends CacheableService<Group[]> {
 
     public getCurrentUserGroupRole(groupId: number): Observable<GroupRole> {
         return this.getUserGroupRole(groupId, this.session.getContactId());
+    }
+
+    public removeParticipant(groupId: number, groupParticipantId: number, message: string) {
+        let url = `${this.baseUrl}api/v1.0.0/finder/group/participant/remove`;
+
+        let groupInformation = { groupId: groupId, groupParticipantId: groupParticipantId, message: message };
+
+        return this.session.post(url, groupInformation).do((res: any) => {
+            this.removeParticipantFromCache(groupId, groupParticipantId);
+        });
+
     }
 
     public getAllLeaders(groupId: number): Observable<Participant[]> {
@@ -109,6 +134,32 @@ export class ParticipantService extends CacheableService<Group[]> {
         });
     }
 
+    public getIsCurrentUserALeader(groupId: number): Observable<boolean> {
+        try {
+            return this.getUserRoleInGroup(groupId, this.session.getContactId()).map((role) => {
+                return role === GroupRole.LEADER;
+            });
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of(false);
+        }
+    }
+
+    private removeParticipantFromCache(groupId: number, groupParticipantId: number) {
+        let contactId = this.session.getContactId();
+        if (super.isCachedForUser(contactId)) {
+            let cache = super.getCache();
+            let group = cache.find(g => {
+                return g.groupId === groupId;
+            });
+
+            group.Participants = group.Participants.filter(gp => {
+                return gp.groupParticipantId !== groupParticipantId;
+            });
+            super.setCache(cache, super.getCacheLevel(), contactId);
+        }
+    }
+
     private getParticipantsByGroupFromBackend(groupId: number): Observable<Participant[]> {
         let contactId = this.session.getContactId();
         return this.session.get(`${this.baseUrl}api/v1.0.0/finder/participants/${groupId}`)
@@ -122,4 +173,5 @@ export class ParticipantService extends CacheableService<Group[]> {
             })
             .catch((error: any) => Observable.throw(error || 'Server exception'));
     }
+    
 }

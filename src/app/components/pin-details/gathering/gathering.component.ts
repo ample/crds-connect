@@ -43,6 +43,7 @@ export class GatheringComponent implements OnInit {
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];
+  public proximityToDisplay: string = '';
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -71,6 +72,7 @@ export class GatheringComponent implements OnInit {
     if (this.pin.gathering != null) {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
+      this.proximityToDisplay = this.pin.proximity ? '(' + this.pin.proximity.toFixed(1) + ' MI)' : '';
     }
     try {
       this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(

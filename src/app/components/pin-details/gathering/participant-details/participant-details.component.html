@@ -1,22 +1,31 @@
-<div class="connect-container connect-layout-container is-gathering">
-<div class="row pin-details-dark dark-theme">
-    <div class="col-xs-12 soft media media-dark">
-        <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="participant.contactId"></profile-picture>
-        <div class="media-body">
-            <h2 class="media-heading media-heading-stacked">
+<div class="connect-container connect-layout-container is-gathering" *ngIf="componentIsReady">
+    <div class="row pin-details-dark dark-theme">
+        <div class="col-xs-12 soft-edges media media-dark">
+            <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="participant.contactId"></profile-picture>
+            <div class="media-body">
+                <h2 class="media-heading media-heading-stacked">
 
-                <span class="media-label">
+                    <span class="media-label">
                 <span class="label label-primary">{{ participant.groupRoleTitle }}</span>
-                </span>
-                <span> {{participant.nickName}} {{participant.lastName | slice:0:1 }} </span>
+                    </span>
+                    <span> {{participant.nickName}} {{participant.lastName | slice:0:1 }} </span>
 
-            </h2>
-            <div class="media-meta" *ngIf="isValidAddress">
-                <readonly-address [isGathering]="false" [isPinOwner]="false" [isInGathering]="false" [address]="participantAddress"></readonly-address>
+                </h2>
+                <div class="media-meta" *ngIf="isValidAddress">
+                    <readonly-address [isGathering]="false" [isPinOwner]="false" [isInGathering]="false" [address]="participantAddress"></readonly-address>
+                </div>
+                <div class="media-meta">
+                    <a class="pointer" href="mailto:{{participant.email}}">{{participant.email}}</a>
+                    <p>Since {{ participant.startDate | date}}</p>
+                </div>
             </div>
-            <div class="media-meta">         
-                <a class="pointer" href="mailto:{{participant.email}}">{{participant.email}}</a>
-                <p>Since {{ participant.startDate | date}}</p>
+        </div>
+    </div>
+    <div class="row pin-details-dark dark-theme">
+        <div class="col-xs-12 soft-half-bottom">
+            <hr>
+            <div class="media-meta">
+                <button (click)="onRemoveParticipant()" class="btn btn-gray">Remove Participant</button>  
             </div>
         </div>
     </div>

@@ -3,16 +3,16 @@
   <div *ngIf="userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn"
         class="bg-gray col-xs-12 push-top soft">
     <crds-content-block id="promptToPutSelfOnMap"></crds-content-block>
-    <button class="btn btn-default"(click)="addMeToTheMapClicked()">Add me to map</button>
+    <button class="btn btn-default btn-block-mobile"(click)="addMeToTheMapClicked()">Add me to map</button>
   </div>
 
   <!-- NOT a host / not logged in  -->
   <div *ngIf="isUserHostingAnyGatheringsOrGroups"
         class="bg-gray col-xs-12 push-top soft">
     <crds-content-block id="finderWantToHost"></crds-content-block>
-    <div class="btn-group">
-      <button class="btn btn-default" (click)="becomeAHostClicked()">Sign up</button>
-      <button class="btn btn-default" (click)="whatsAHostBtnClicked()">What's a host?</button>
+    <div class="btn-group full-width">
+      <button class="btn btn-default btn-block-mobile" (click)="becomeAHostClicked()">Sign up</button>
+      <button class="btn btn-default btn-block-mobile" (click)="whatsAHostBtnClicked()">What's a host?</button>
     </div>
   </div>
 

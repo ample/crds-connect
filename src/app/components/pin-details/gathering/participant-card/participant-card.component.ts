@@ -29,7 +29,7 @@ export class ParticipantCardComponent {
   }
 
   public onParticipantClick(): void {
-    if (this.canBeHyperlinked){
+    if (this.canBeHyperlinked) {
       this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
     }
   }

@@ -27,7 +27,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
 
   private isMyStuffActiveSub: Subscription;
-  private searchText: string = '';
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
@@ -58,8 +57,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit(!this.isMapHidden);
 
-    if (this.searchText && this.searchText.length > 0 && this.searchText !== 'My Stuff') {
-      this.onSearch(this.searchText);
+    if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== 'My Stuff') {
+      this.onSearch(this.state.searchBarText);
     }
 
     this.setButtonText();
@@ -82,15 +81,15 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   private setSearchText() {
     if (!this.state.myStuffActive) {
-      this.searchText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
+      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
     } else {
-      this.searchText = 'My Stuff';
+      this.state.searchBarText = 'My Stuff';
     }
   }
 
   public clearSearchText() {
-    this.searchText = '';
+    this.state.searchBarText = '';
   }
 
   public searchKeyUp(){

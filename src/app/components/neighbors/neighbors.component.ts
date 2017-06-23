@@ -50,24 +50,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
-      this.doSearch(srchParams);
-    });
 
-    let pinSearchRequest = new PinSearchRequestParams(true, null);
-
-    this.setView(this.state.getCurrentView());
-    this.userLocationService.GetUserLocation().subscribe(
-      pos => {
-        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
-        this.state.setMapView(initialMapView);
-        this.doSearch(pinSearchRequest);
-      }
-    );
+    this.subscribeToListenForSearchRequests();
+    this.setViewToMapOrList(this.state.getCurrentView());
+    this.runInitialPinSearch();
 
   }
 
-  setView(mapOrListView): void {
+  private setViewToMapOrList(mapOrListView): void {
     this.mapViewActive = mapOrListView === 'map';
   }
 
@@ -82,7 +72,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  processAndDisplaySearchResults(searchString, lat, lng): void {
+  private processAndDisplaySearchResults(searchString, lat, lng): void {
     // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
     this.pinSearchResults.pinSearchResults =
         this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
@@ -160,6 +150,28 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
+  }
+
+  private subscribeToListenForSearchRequests(): void {
+
+    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
+      this.doSearch(srchParams);
+    });
+
+  }
+
+  private runInitialPinSearch(): void {
+
+    let pinSearchRequest: PinSearchRequestParams =
+        this.pinService.buildPinSearchRequest(this.appSettings.isConnectApp(), this.state.searchBarText);
+
+    this.userLocationService.GetUserLocation().subscribe(
+      pos => {
+        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+        this.state.setMapView(initialMapView);
+        this.doSearch(pinSearchRequest);
+      }
+    );
   }
 
 }
