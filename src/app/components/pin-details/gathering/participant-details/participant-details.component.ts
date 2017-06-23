@@ -23,10 +23,9 @@ export class ParticipantDetailsComponent implements OnInit {
         private route: ActivatedRoute, private state: StateService, private router: Router,
         private blandPageService: BlandPageService, private addressService: AddressService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.state.setLoading(true);
         this.route.params.subscribe(params => {
-            console.log(params);
             this.groupParticipantId = +params['groupParticipantId'];
             this.groupId = +params['groupId'];
             this.redirectUrl = `/${this.router.url.split('/')[1]}/${this.groupId}`;
@@ -35,20 +34,20 @@ export class ParticipantDetailsComponent implements OnInit {
         });
     }
 
-    handleError() {
+    private handleError() {
         this.blandPageService.goToDefaultError(this.redirectUrl);
     }
 
-    isParticipantAddressValid(): boolean {
+    private isParticipantAddressValid(): boolean {
         return ((this.participantAddress != null) && (this.participantAddress.city != null || this.participantAddress.state != null
             || this.participantAddress.zip != null));
     }
 
-    onRemoveParticipant(): void {
+    public onRemoveParticipant(): void {
         this.router.navigate(['./remove/'], { relativeTo: this.route });
     }
 
-    loadParticipantData(): void {
+    private loadParticipantData(): void {
         this.participantService.getGroupParticipant(this.groupId, this.groupParticipantId).subscribe(p => {
                 if (p == null) {
                     this.handleError();
