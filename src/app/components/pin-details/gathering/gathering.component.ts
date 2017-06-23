@@ -79,7 +79,7 @@ export class GatheringComponent implements OnInit {
             this.leaders = leaders;
           });
           this.pin.gathering.Participants = participants;
-          this.participantService.getIsCurrentUserInGroup(this.pin.gathering.groupId).subscribe(
+          this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
               console.log(role);
               if (role !== GroupRole.NONE) {

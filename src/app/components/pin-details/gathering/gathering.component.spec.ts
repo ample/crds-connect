@@ -61,7 +61,7 @@ describe('Gathering component redirect error', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);        
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-            ['getParticipants', 'getIsCurrentUserInGroup', 'getAllLeaders']);
+            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -146,7 +146,7 @@ describe('GatheringComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-            ['getParticipants', 'getIsCurrentUserInGroup', 'getAllLeaders']);
+            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -197,7 +197,7 @@ describe('GatheringComponent', () => {
         let addLine1 = '567 street ln.';
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
-        (<jasmine.Spy>mockParticipantService.getIsCurrentUserInGroup).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         (mockAddressService.getFullAddress).and.returnValue(Observable.of(
             new Address(null, addLine1, null, null, null, null, null, null, null, null)));
@@ -214,7 +214,7 @@ describe('GatheringComponent', () => {
         let addLine1 = '567 street ln.';
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
-        (<jasmine.Spy>mockParticipantService.getIsCurrentUserInGroup).and.returnValue(Observable.of(GroupRole.NONE));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.NONE));
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         comp.isLoggedIn = true;
         comp.pin = pin;
@@ -227,7 +227,7 @@ describe('GatheringComponent', () => {
     it('should init and fail to get participants then go to error page', () => {
         let pin = MockTestData.getAPin(1);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.throw({ status: 500 }));
-        (<jasmine.Spy>mockParticipantService.getIsCurrentUserInGroup).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of([]));
         comp.isLoggedIn = true;
         comp.pin = pin;
@@ -243,7 +243,7 @@ describe('GatheringComponent', () => {
         let expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
         mockContentService.getContent.and.returnValue(expectedText);
         mockParticipantService.getParticipants.and.returnValue(Observable.of(participants));
-        (<jasmine.Spy>mockParticipantService.getIsCurrentUserInGroup).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         mockAddressService.getFullAddress.and.returnValue(Observable.throw({ status: 500 }));
         comp.isLoggedIn = true;

@@ -50,28 +50,8 @@ export class ParticipantService extends CacheableService<Group[]> {
         return this.getParticipantsByGroupFromBackend(groupId);
     }
 
-    public getIsCurrentUserALeader(groupId: number): Observable<boolean> {
-        try {
-            return this.getUserRoleInGroup(groupId, this.session.getContactId()).map((role) => {
-                return role === GroupRole.LEADER;
-            });
-        } catch (e) {
-            console.log(e.message);
-            return Observable.of(false);
-        }
-    }
-
-    public getIsCurrentUserInGroup(groupId: number): Observable<GroupRole> {
-        return this.getIsUserInGroup(groupId, this.session.getContactId());
-    }
-
-    public getIsUserInGroup(groupId: number, contactId: number = null): Observable<GroupRole> {
-        try {
-            return this.getUserRoleInGroup(groupId, contactId);
-        } catch (e) {
-            console.log(e.message);
-            return Observable.of(GroupRole.NONE);
-        }
+    public getCurrentUserGroupRole(groupId: number): Observable<GroupRole> {
+        return this.getUserGroupRole(groupId, this.session.getContactId());
     }
 
     public getAllLeaders(groupId: number): Observable<Participant[]> {
@@ -80,6 +60,15 @@ export class ParticipantService extends CacheableService<Group[]> {
         } catch (e) {
             console.log(e.message);
             return Observable.of([]);
+        }
+    }
+
+    private getUserGroupRole(groupId: number, contactId: number = null): Observable<GroupRole> {
+        try {
+            return this.getUserRoleInGroup(groupId, contactId);
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of(GroupRole.NONE);
         }
     }
 
