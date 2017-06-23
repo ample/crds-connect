@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { ParticipantService } from '../../../../services/participant.service';
 import { StateService } from '../../../../services/state.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 @Component({
     selector: 'participant-remove',
@@ -18,9 +19,14 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
     private removeParticipantForm: FormGroup;
     private redirectUrl: string;
 
-    constructor(private participantService: ParticipantService, private route: ActivatedRoute, private state: StateService,
-        private locationService: Location, private router: Router,
-        private toast: ToastsManager, private blandPageService: BlandPageService) { }
+    constructor(private participantService: ParticipantService,
+                private route: ActivatedRoute,
+                private state: StateService,
+                private locationService: Location,
+                private router: Router,
+                private contentService: ContentService,
+                private toast: ToastsManager,
+                private blandPageService: BlandPageService) { }
 
     ngOnInit() {
         this.state.setLoading(true);
@@ -30,12 +36,16 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
         this.route.params.subscribe(params => {
             this.groupId = +params.groupId;
             this.groupParticipantId = +params.groupParticipantId;
-            this.participantService.getGroupParticipant(this.groupId, this.groupParticipantId).subscribe(p => {}, error => {
+            this.participantService.getGroupParticipant(this.groupId, this.groupParticipantId).finally(() => {
+                this.state.setLoading(false);
+            })
+            .subscribe(p => {}, error => {
                 console.log(error);
                 this.handleError();
             });
             this.redirectUrl = `/${this.router.url.split('/')[1]}/${this.groupId}`;
-            this.state.setLoading(false);
+        }, error => {
+            this.handleError();
         });
     }
 
@@ -54,11 +64,11 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
             this.router.navigate([this.redirectUrl]);
         }, error => {
             console.log(error);
-            this.toast.error('Error removing participant');
+            this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
         });
     }
 
-    public handleError() {
+    private handleError() {
         this.blandPageService.goToDefaultError(this.redirectUrl);
     }
 }
