@@ -66,7 +66,7 @@ export class ParticipantDetailsComponent implements OnInit {
                 }
             }, error => {
                 this.handleError();
-                console.log('error retreving participant information')
+                console.log('error retreving participant information');
             });
     }
 }
