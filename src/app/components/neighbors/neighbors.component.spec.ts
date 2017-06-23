@@ -127,12 +127,12 @@ describe('Component: Neighbors', () => {
   });
 
   it('setView should set mapViewActive to true', () => {
-    this.component.setView('map');
+    this.component.setViewToMapOrList('map');
     expect(this.component['mapViewActive']).toBe(true);
   });
 
   it('setView should set mapViewActive to false', () => {
-    this.component.setView('list');
+    this.component.setViewToMapOrList('list');
     expect(this.component['mapViewActive']).toBe(false);
   });
 

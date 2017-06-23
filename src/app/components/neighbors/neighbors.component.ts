@@ -50,24 +50,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
-      this.doSearch(srchParams);
-    });
 
-    let pinSearchRequest = new PinSearchRequestParams(true, null);
-
-    this.setView(this.state.getCurrentView());
-    this.userLocationService.GetUserLocation().subscribe(
-      pos => {
-        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
-        this.state.setMapView(initialMapView);
-        this.doSearch(pinSearchRequest);
-      }
-    );
+    this.subscribeToPinSearchRequestEmitter();
+    this.setViewToMapOrList(this.state.getCurrentView());
+    this.runInitialPinSearch();
 
   }
 
-  setView(mapOrListView): void {
+  private setViewToMapOrList(mapOrListView): void {
     this.mapViewActive = mapOrListView === 'map';
   }
 
@@ -160,6 +150,27 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
+  }
+
+  private subscribeToPinSearchRequestEmitter(): void {
+
+    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
+      this.doSearch(srchParams);
+    });
+
+  }
+
+  private runInitialPinSearch(): void {
+
+    let pinSearchRequest = new PinSearchRequestParams(true, null);
+
+    this.userLocationService.GetUserLocation().subscribe(
+      pos => {
+        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+        this.state.setMapView(initialMapView);
+        this.doSearch(pinSearchRequest);
+      }
+    );
   }
 
 }
