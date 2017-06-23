@@ -134,17 +134,6 @@ export class ParticipantService extends CacheableService<Group[]> {
         });
     }
 
-    public getIsCurrentUserALeader(groupId: number): Observable<boolean> {
-        try {
-            return this.getUserRoleInGroup(groupId, this.session.getContactId()).map((role) => {
-                return role === GroupRole.LEADER;
-            });
-        } catch (e) {
-            console.log(e.message);
-            return Observable.of(false);
-        }
-    }
-
     private removeParticipantFromCache(groupId: number, groupParticipantId: number) {
         let contactId = this.session.getContactId();
         if (super.isCachedForUser(contactId)) {
