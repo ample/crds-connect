@@ -16,7 +16,7 @@ export class ParticipantDetailsComponent implements OnInit {
     private groupParticipantId: number;
     private participantAddress: Address;
     private isValidAddress: boolean;
-    private ready: boolean = false;
+    private componentIsReady: boolean = false;
     private redirectUrl: string;
 
     constructor(private participantService: ParticipantService,
@@ -53,7 +53,7 @@ export class ParticipantDetailsComponent implements OnInit {
                     this.handleError();
                 } else {
                     this.participant = p;
-                    this.ready = true;
+                    this.componentIsReady = true;
                     this.addressService.getPartialPersonAddress(this.participant.participantId).finally(() => {
                         this.isValidAddress = this.isParticipantAddressValid();
                         this.state.setPageHeader('Participant', this.redirectUrl);

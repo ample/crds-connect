@@ -91,7 +91,7 @@ describe('ParticipantDetailsComponent', () => {
         expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
         expect(comp['participant']).toBe(participant);
         expect(comp['participantAddress']).toBe(address);
-        expect(comp['ready']).toBe(true);
+        expect(comp['componentIsReady']).toBe(true);
         expect(comp['isValidAddress']).toBe(true);
     });
 
