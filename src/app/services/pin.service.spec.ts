@@ -19,6 +19,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
 import { Pin, pinType, GeoCoordinates, User, PinSearchResultsDto, PinIdentifier, Address } from '../models';
+import { PinSearchRequestParams } from '../models/pin-search-request-params';
 import { MockTestData } from '../shared/MockTestData';
 import { CacheLevel } from '../services/base-service/cacheable.service';
 
@@ -202,6 +203,13 @@ describe('Service: Pin', () => {
       (mockAppSettings.isConnectApp).and.returnValue(true);
       service.navigateToPinDetailsPage(pin);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
+    }));
+
+    it('should create valid search params', inject([PinService], (service: PinService) => {
+      let expectedSearchParams = new PinSearchRequestParams(true, 'ayy');
+      let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest(true, 'ayy');
+      expect(actualSearchParams).toEqual(expectedSearchParams);
+
     }));
 
 
