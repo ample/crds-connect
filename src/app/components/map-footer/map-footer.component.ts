@@ -7,12 +7,13 @@ import { PinService } from '../../services/pin.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
-import { UserLocationService } from  '../../services/user-location.service';
 import { BlandPageService } from '../../services/bland-page.service';
-import { SearchService } from '../../services/search.service';
+
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 
 @Component({
   selector: 'app-map-footer',
@@ -23,14 +24,12 @@ export class MapFooterComponent implements OnInit {
   public myPinSearchResults: PinSearchResultsDto;
 
   constructor(private appSettings: AppSettingsService,
-              private pin: PinService,
+              private pinService: PinService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
               private state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
-              private userLocationService: UserLocationService,
-              private search: SearchService,
               private angulartics2: Angulartics2) { }
 
   public ngOnInit() {
@@ -43,6 +42,7 @@ export class MapFooterComponent implements OnInit {
   }
 
   public myStuffBtnClicked(): void {
+
     this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
 
     if (this.state.myStuffActive) {
@@ -57,23 +57,25 @@ export class MapFooterComponent implements OnInit {
     this.state.setIsMyStuffActive(false);
     this.state.lastSearch.search = '';
 
-    this.pin.clearPinCache();
+    this.pinService.clearPinCache();
 
     this.state.setLoading(true);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
 
-    let mapView = this.state.getMapView();
-    this.search.emitLocalSearch(mapView);
+    let pinSearchRequest = new PinSearchRequestParams(true, null);
+    this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
-  public redirectThenChangeToMyStuff(){
+
+  public redirectThenChangeToMyStuff() {
     this.changeStateToMyStuff();
     this.loginRedirectService.redirectToTarget();
   }
 
   public changeStateToMyStuff(): void {
-    this.pin.clearPinCache();
+
+    this.pinService.clearPinCache();
 
     this.state.setLoading(true);
 
@@ -82,33 +84,12 @@ export class MapFooterComponent implements OnInit {
     } else {
       this.state.setCurrentView('map');
       this.state.setMyViewOrWorldView('my');
-      this.state.myStuffActive = true;
+      this.state.setIsMyStuffActive(true);
 
-      this.userLocationService.GetUserLocation().subscribe(
-          pos => {
-            this.myPinSearchResults = new PinSearchResultsDto(new GeoCoordinates(pos.lat, pos.lng), new Array<Pin>());
-            this.doSearch(pos.lat, pos.lng );
-          }
-      );
+      let pinSearchRequest = new PinSearchRequestParams(true, null);
+
+      this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
-  }
-
-  doSearch(lat: number, lng: number) {
-    this.pin.getPinSearchResults('', this.appSettings.finderType, lat, lng).subscribe(
-        next => {
-          this.myPinSearchResults = next as PinSearchResultsDto;
-          this.myPinSearchResults.pinSearchResults =
-              this.myPinSearchResults.pinSearchResults.sort(
-                  (p1: Pin, p2: Pin) => { return p1.proximity - p2.proximity; });
-          this.search.emitMyStuffSearch(this.myPinSearchResults);
-        },
-        error => {
-          console.log(error);
-          this.state.setLoading(false);
-          this.state.setCurrentView('map');
-          this.router.navigate(['/no-results']);
-        }
-    );
   }
 
 }

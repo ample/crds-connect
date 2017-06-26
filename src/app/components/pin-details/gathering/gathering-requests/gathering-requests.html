@@ -3,17 +3,17 @@
 <div *ngIf="loading" [ngClass]="{'loading': loading}">
   <app-preloader></app-preloader>
 </div>
-<div *ngIf="inquiries.length > 0 && !loading" class="container-fluid">
-  <div class="row" *ngFor="let inquiry of inquiries">
+<div *ngIf="inquiries.length > 0 && !loading">
+  <div *ngFor="let inquiry of inquiries">
     <div class="border-bottom soft-half-bottom">
-      <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
+      <participant-card [participant]="convertToParticipant(inquiry)" [canBeHyperlinked]="false"></participant-card>
 
       <div class="pending-requests">
         <p class="text-muted font-size-smaller">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</p>
 
         <div class="btn-group">
-          <button class="btn btn-primary" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
-          <button class="btn btn-default btn-outline" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
+          <button class="btn btn-primary btn-block-mobile" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
+          <button class="btn btn-default btn-outline btn-block-mobile" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
         </div>
 
         <div *ngIf="inquiry.error" class="error help-block">

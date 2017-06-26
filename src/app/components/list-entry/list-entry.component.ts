@@ -1,5 +1,5 @@
 import { Angulartics2 } from 'angulartics2';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Pin, pinType } from '../../models/pin';
@@ -17,7 +17,7 @@ import { proximityUnavailableDefaultNum, groupDescriptionLenth } from '../../sha
   selector: 'list-entry',
   templateUrl: 'list-entry.component.html'
 })
-export class ListEntryComponent {
+export class ListEntryComponent implements OnInit {
   @Input() pin: Pin;
   @Input() firstName: string = '';
   @Input() lastName: string = '';
@@ -33,6 +33,10 @@ export class ListEntryComponent {
   @Input() contactId: number = 0;
 
   public currentContactId: number;
+  public isGathering: boolean;
+  public isPerson: boolean;
+  public isSite: boolean;
+  public isSmallGroup: boolean;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -41,6 +45,13 @@ export class ListEntryComponent {
               private state: StateService,
               private listHelper: ListHelperService) {
               this.currentContactId = this.session.getContactId();
+  }
+
+  public ngOnInit() {
+    this.isPerson = this.type === pinType.PERSON;
+    this.isGathering = this.type === pinType.GATHERING;
+    this.isSite = this.type === pinType.SITE;
+    this.isSmallGroup = this.type === pinType.SMALL_GROUP;
   }
 
   public isMe() {
@@ -52,27 +63,11 @@ export class ListEntryComponent {
   }
 
   public formatName() {
-    if (this.isSmallGroup()) {
+    if (this.isSmallGroup) {
       return this.groupTitle ? this.listHelper.truncateTextEllipsis(this.groupTitle.toUpperCase(), groupDescriptionLenth) : '';
     } else {
       return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
     }
-  }
-
-  public isPerson() {
-    return this.type === pinType.PERSON;
-  }
-
-  public isGathering() {
-    return this.type === pinType.GATHERING;
-  }
-
-  public isSite() {
-    return this.type === pinType.SITE;
-  }
-
-  public isSmallGroup() {
-    return this.type === pinType.SMALL_GROUP;
   }
 
   public getPicByPinType() {

@@ -21,11 +21,16 @@ export class PinResolver implements Resolve<Pin> {
 
     participantId = route.params['participantId'];
     groupId = route.params['groupId'];
+    let routeType = route.url[0].path; // person, gathering, or small-group
 
-    if (participantId != null) {
+    if (participantId != null && routeType === 'person') {
       pinIdentifier = new PinIdentifier(pinType.PERSON, participantId);
     } else {
-      pinIdentifier = new PinIdentifier(pinType.GATHERING, groupId);
+      if (routeType === 'gathering') {
+        pinIdentifier = new PinIdentifier(pinType.GATHERING, groupId);
+      } else if (routeType === 'small-group') {
+        pinIdentifier = new PinIdentifier(pinType.SMALL_GROUP, groupId);
+      }
     }
 
     return this.pinService.getPinDetails(pinIdentifier)
