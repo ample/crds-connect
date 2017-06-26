@@ -282,7 +282,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/addtogroup/${groupId}`, someone);
   }
 
-  public getMatch(searchUser: Person): Observable<Person[]> {
+  public getMatch(searchUser: Person): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/getmatch`, searchUser);
   }
 
@@ -478,6 +478,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
 
     return pinsFromServer;
+  }
+
+  public buildPinSearchRequest(isConnectApp: boolean, textInSearchBar: string): PinSearchRequestParams {
+
+    let isLocationSearch: boolean = isConnectApp;
+
+    let isTextInSearchBar: boolean = textInSearchBar && textInSearchBar !== '';
+    let searchString = isTextInSearchBar ? textInSearchBar : null;
+
+    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(isLocationSearch, searchString);
+
+    return srchParams;
+
   }
 
 }

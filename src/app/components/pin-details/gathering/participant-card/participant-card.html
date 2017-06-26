@@ -4,7 +4,7 @@
   <div class="media-body">
     <h4 (click)="onParticipantClick()" [ngClass]="{'pointer': canBeHyperlinked}" class="media-heading">{{participant.nickName}} {{participant.lastName | slice:0:1}}
       <span class="media-label">
-        <span *ngIf="showMeLabel()" class="label label-warning">Me</span>
+        <span *ngIf="isMe" class="label label-warning">Me</span>
         <span *ngIf="showHostLabel()" class="label label-primary">Host</span>
       </span>
     </h4>

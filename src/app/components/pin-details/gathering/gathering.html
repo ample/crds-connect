@@ -2,6 +2,8 @@
   <div class="row pin-details-dark dark-theme"
        [ngClass]="{ host_plain: !isInGathering && !isLeader }">
 
+
+    <!--TODO: All this small group stuff should be a sub component.  all these ngIf's are going to get very hard to debug.-->
     <div class="col-xs-12 soft">
       <div class="media media-dark">
         <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
@@ -10,10 +12,10 @@
           <div class="media-meta">
             <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay != null">
-              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}} ({{proximityToDisplay}} MI)</span>
+              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}} ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
             </span>        
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay == null">
-              <span>Flexible Meeting Time ({{proximityToDisplay}} MI)</span>
+              <span>Flexible Meeting Time ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
             </span>                  
           </div>
         </div>  
@@ -43,9 +45,9 @@
         <br>
         <div *ngFor="let age of pin?.gathering?.ageRanges">{{age}}</div>
         <br>
-        <strong>Leader</strong>
+        <strong>Leader{{leaders.length > 1 ? 's' : ''}}</strong>
         <br>
-        {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
+        <div *ngFor="let leader of leaders; let isLast = last">{{leader.nickName}} {{leader.lastName}}{{isLast ? '' : ', '}}</div>
         <br><br>
         <strong>Kids Welcome</strong>
         <br>

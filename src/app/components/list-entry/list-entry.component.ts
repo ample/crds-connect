@@ -37,7 +37,6 @@ export class ListEntryComponent implements OnInit {
   public isPerson: boolean;
   public isSite: boolean;
   public isSmallGroup: boolean;
-  public proximityToDisplay: any;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -53,7 +52,6 @@ export class ListEntryComponent implements OnInit {
     this.isGathering = this.type === pinType.GATHERING;
     this.isSite = this.type === pinType.SITE;
     this.isSmallGroup = this.type === pinType.SMALL_GROUP;
-    this.proximityToDisplay = this.listHelper.roundedProximity(this.pin.proximity);
   }
 
   public isMe() {

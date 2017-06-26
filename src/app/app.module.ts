@@ -56,6 +56,7 @@ import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
+import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
@@ -99,6 +100,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
+import { GroupLeaderGuard } from './route-guards/group-leader.guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
@@ -133,7 +135,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'main', 'common', 'ddk')
+      categories: Array('finder', 'main', 'common', 'ddk', 'group tool')
     })
   ],
   declarations: [
@@ -163,6 +165,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PageNotFoundComponent,
     ParticipantCardComponent,
     ParticipantDetailsComponent,
+    ParticipantRemoveComponent,
     PersonComponent,
     PersonEditComponent,
     PinDetailsComponent,
@@ -191,6 +194,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
+    GroupLeaderGuard,
     Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,
