@@ -43,7 +43,6 @@ export class GatheringComponent implements OnInit {
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];
-  public proximityToDisplay: string = '';
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
