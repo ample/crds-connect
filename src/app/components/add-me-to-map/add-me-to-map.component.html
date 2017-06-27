@@ -21,13 +21,13 @@
         <form novalidate [formGroup]="addMeToMapForm" (ngSubmit)="onSubmit(addMeToMapForm)">
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
-              <address-form [parentForm]="addMeToMapForm" groupName="addressForm" [isFormSubmitted]="submissionError" [address]="userData.address"></address-form>
+              <address-form [parentForm]="addMeToMapForm" groupName="addressForm" [isFormSubmitted]="isFormSubmitted" [address]="userData.address"></address-form>
             </div>
           </div>
 
           <footer class="row soft-top">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3 btn-group">
-              <button type="submit" [disabled]="addMeToMapForm.invalid || submitting" class="btn btn-secondary btn-block-mobile">Add me to the map</button>
+              <button type="submit" class="btn btn-secondary btn-block-mobile">Add me to the map</button>
               <button type="button" (click)="closeClick()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
             </div>
           </footer>
