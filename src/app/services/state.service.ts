@@ -39,7 +39,7 @@ export class StateService {
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
-  private savedMapView: MapView;
+  public savedMapView: MapView;
   public lastSearch: SearchOptions;
 
   public removedSelf: boolean = false;

@@ -91,9 +91,18 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let cachedPins: PinSearchResultsDto;
     let url: string;
 
+    let corsFriendlyGeoCodeParams = '';
+    if (this.state.savedMapView != null && this.state.savedMapView != undefined)
+    {
+      let lat = this.state.savedMapView.lat;
+      let lng = this.state.savedMapView.lng;
+      const geoCodeParamsString = `/${lat}/${lng}`;
+      corsFriendlyGeoCodeParams = geoCodeParamsString.toString().split('.').join('$');
+    }
+
     url = pinIdentifier.type === pinType.PERSON ?
       `${this.baseUrl}api/v1.0.0/finder/pin/${pinIdentifier.id}` :
-      `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}`;
+      `${this.baseUrl}api/v1.0.0/finder/pinByGroupID/${pinIdentifier.id}${corsFriendlyGeoCodeParams}`;
 
     console.log('PinService got partial new PinSearchResultsDto');
 

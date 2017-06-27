@@ -43,7 +43,6 @@ export class GatheringComponent implements OnInit {
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];
-  public proximityToDisplay: string = '';
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -60,7 +59,7 @@ export class GatheringComponent implements OnInit {
     private angulartics2: Angulartics2,
     public appSettingsService: AppSettingsService) { }
 
-  //ONINIT is doing WAY too much, needs to be simplified and broken up.
+  // ONINIT is doing WAY too much, needs to be simplified and broken up.
   public ngOnInit() {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
@@ -72,7 +71,6 @@ export class GatheringComponent implements OnInit {
     if (this.pin.gathering != null) {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
-      this.proximityToDisplay = this.pin.proximity ? '(' + this.pin.proximity.toFixed(1) + ' MI)' : '';
     }
     try {
       this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
