@@ -59,6 +59,7 @@ describe('ListEntryComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(ListEntryComponent);
             comp = fixture.componentInstance;
+            comp.pin = MockTestData.getAPin(1);
         });
     }));
 
@@ -68,6 +69,7 @@ describe('ListEntryComponent', () => {
 
     it('should return proper name format', () => {
         fixture.detectChanges();
+        comp.type = pinType.GATHERING;
         comp.firstName = 'Bob';
         comp.lastName = 'Johnson';
         expect(comp.formatName()).toBe('BOB J.');
@@ -77,22 +79,6 @@ describe('ListEntryComponent', () => {
         fixture.detectChanges();
         comp.participantCount = 10;
         expect(comp.count()).toBe('10 OTHERS');
-    });
-
-    it('should call isMyGathering and return true', () => {
-        fixture.detectChanges();
-        comp.contactId = 1;
-        comp.currentContactId = 1;
-        comp.type = pinType.GATHERING;
-        expect(comp.isMyGathering()).toBe(true);
-    });
-
-    it('should call isMyGathering and return false', () => {
-        fixture.detectChanges();
-        comp.contactId = 1;
-        comp.currentContactId = 2;
-        comp.type = pinType.GATHERING;
-        expect(comp.isMyGathering()).toBe(false);
     });
 
     it('should redirect to groups in group mode', () => {
