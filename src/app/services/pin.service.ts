@@ -75,13 +75,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     super.setSmartCache(new PinSearchResultsDto(new GeoCoordinates(0, 0), pinArray), CacheLevel.Partial, null, contactId);
   }
 
-  private setPinTypeAsGroupIfInGroupApp(pin: Pin){
-    let isGroupPin: boolean = this.state.activeApp === app.SMALL_GROUPS;
-
-    if (isGroupPin) {
+  private setPinTypeAsGroupIfInGroupApp(pin: Pin) {
+    if (this.appSetting.isSmallGroupApp()) {
       pin.pinType = pinType.SMALL_GROUP;
     }
-
     return pin;
   }
 

@@ -39,7 +39,6 @@ export class GatheringComponent implements OnInit {
   public isLeader: boolean = false;
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
-  private address: Address = Address.overload_Constructor_One();
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];

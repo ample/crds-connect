@@ -16,7 +16,6 @@ export class StateService {
 
   public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
 
-  public activeApp: string = app.CONNECT;
   public appForWhichWeRanLastSearch: string = undefined;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
@@ -118,12 +117,4 @@ export class StateService {
     this.updatedPin = null;
   }
 
-  public setActiveApp(activeAppRoute: string): void {
-    let isInGroupsApp: boolean = activeAppRoute === appRoute.SMALL_GROUPS_ROUTE;
-    if (isInGroupsApp) {
-      this.activeApp = app.SMALL_GROUPS;
-    } else {
-      this.activeApp = app.CONNECT;
-    }
-  }
 }

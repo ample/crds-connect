@@ -56,7 +56,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.state.setLoading(true);
-    this.state.setActiveApp(this.router.url);
     this.getAppContext();
   }
 
