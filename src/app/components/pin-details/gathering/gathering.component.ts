@@ -35,6 +35,7 @@ export class GatheringComponent implements OnInit {
   @Input() isLoggedIn: boolean = false;
 
   private pinType: any = pinType;
+  public doShowContactLeaderBtn: boolean;
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
   public sayHiButtonText: string = 'Contact host';
@@ -60,6 +61,7 @@ export class GatheringComponent implements OnInit {
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
+
   public ngOnInit() {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
@@ -79,6 +81,9 @@ export class GatheringComponent implements OnInit {
             this.leaders = leaders;
           });
           this.pin.gathering.Participants = participants;
+
+          this.doShowContactLeaderBtn = this.shouldShowContactLeaderBtn();
+
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
               if (role !== GroupRole.NONE) {
@@ -109,9 +114,14 @@ export class GatheringComponent implements OnInit {
           this.blandPageService.goToDefaultError('');
         });
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
       this.blandPageService.goToDefaultError('');
     }
+  }
+
+  private shouldShowContactLeaderBtn(): boolean {
+    return !this.session.isLoggedIn() ?
+      true : !this.participantService.isUserAParticipant(this.session.getContactId(), this.pin.gathering.Participants);
   }
 
   public requestToJoin() {

@@ -97,7 +97,20 @@ export class ParticipantService extends CacheableService<Group[]> {
         }
     }
 
-    private getUserRoleInGroup(groupId: number, contactId: number): Observable<GroupRole> {
+    public isUserAParticipant (contactId: number, participants: Participant[]): boolean {
+
+      let isUserAParticipant: boolean;
+
+      if(!participants) {
+        isUserAParticipant = false;
+      } else {
+        isUserAParticipant = participants.some(p => p.contactId == contactId);
+      }
+
+      return isUserAParticipant;
+    }
+
+    public getUserRoleInGroup(groupId: number, contactId: number): Observable<GroupRole> {
         return this.getParticipants(groupId).map((participants) => {
             if (participants !== undefined) {
                 let participant = participants.find(p => {

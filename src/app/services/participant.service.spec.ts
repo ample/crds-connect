@@ -339,4 +339,30 @@ describe('ParticipantService', () => {
         );
     });
 
+    describe('isUserAParticipant', () => {
+
+      it('should determine that the user IS one of the participants',
+        inject([ParticipantService], (service: ParticipantService) => {
+          let contactId: number = 2;
+          let participants: Participant[] = MockTestData.getAParticipantsArray();
+
+          let isParticipant: boolean = service.isUserAParticipant(contactId, participants);
+
+          expect(isParticipant).toBe(true);
+        })
+      );
+
+      it('should determine that the user is NOT one of the participants',
+        inject([ParticipantService], (service: ParticipantService) => {
+          let contactId: number = 99;
+          let participants: Participant[] = MockTestData.getAParticipantsArray();
+
+          let isParticipant: boolean = service.isUserAParticipant(contactId, participants);
+
+          expect(isParticipant).toBe(false);
+        })
+      );
+
+    });
+
 });
