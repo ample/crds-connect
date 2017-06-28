@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -9,20 +10,30 @@ import { Participant } from '../../../../models/participant';
   selector: 'participant-card',
   templateUrl: 'participant-card.html'
 })
-export class ParticipantCardComponent {
+export class ParticipantCardComponent implements OnInit {
 
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
+  @Input() canBeHyperlinked: boolean = false;
+  private isMe: boolean = false;
 
-  constructor(private session: SessionService) {
+  constructor(private session: SessionService, private router: Router, private route: ActivatedRoute) {
   }
 
-  public showMeLabel(): boolean {
-      let contactId = this.session.getContactId();
-      return contactId === this.participant.contactId;
+  public ngOnInit() {
+    if (this.session.getContactId() === this.participant.contactId) {
+      this.isMe = true;
+      this.canBeHyperlinked = false;
+    }
   }
 
   public showHostLabel(): boolean {
       return this.pinParticipantId === this.participant.participantId;
+  }
+
+  public onParticipantClick(): void {
+    if (this.canBeHyperlinked) {
+      this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+    }
   }
 }

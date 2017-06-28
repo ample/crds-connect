@@ -10,7 +10,7 @@ import { PinLabelData } from '../models/pin-label-data';
 export class PinLabelService {
 
 
-  constructor (private pinHlpr: PinService, private state: StateService) {}
+  constructor (private pinService: PinService, private state: StateService) {}
 
   createPinLabelDataJsonString(pin: Pin): string {
     return JSON.stringify(this.createPinLabelData(pin));
@@ -79,7 +79,7 @@ export class PinLabelService {
 
   public isHostingAny(myPins: Array<Pin>): boolean {
 
-    if(!myPins){
+    if (!myPins) {
       return false;
     }
 
@@ -96,7 +96,7 @@ export class PinLabelService {
 
   public isMe(pin: Pin): boolean {
     let isPinASite: boolean = pin.pinType === pinType.SITE;
-    let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
+    let doesUserOwnPin: boolean = this.pinService.doesLoggedInUserOwnPin(pin);
     let isMe: boolean = !isPinASite && doesUserOwnPin;
 
     return isMe;

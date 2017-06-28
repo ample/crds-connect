@@ -29,10 +29,12 @@ export class StateService {
   public navigatedFromAddToMapComponent: boolean = false;
 
   public myStuffActive: boolean = false;
-  private mapOrListView: string = 'map';
   public postedPin: Pin;
+  public searchBarText: string;
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
+
+  private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
@@ -55,7 +57,7 @@ export class StateService {
     this.savedMapView = mv;
   }
 
-  public getMapView() {
+  public getMapView(): MapView {
     return this.savedMapView;
   }
 

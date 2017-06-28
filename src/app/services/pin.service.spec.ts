@@ -4,6 +4,7 @@
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 
+import { AddressService } from '../services/address.service';
 import { AppSettingsService } from '../services/app-settings.service';
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
@@ -18,12 +19,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
 import { Pin, pinType, GeoCoordinates, User, PinSearchResultsDto, PinIdentifier, Address } from '../models';
+import { PinSearchRequestParams } from '../models/pin-search-request-params';
 import { MockTestData } from '../shared/MockTestData';
 import { CacheLevel } from '../services/base-service/cacheable.service';
 
 describe('Service: Pin', () => {
-  let fixture, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
+  let fixture, mockAddressService, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
 
+  mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['clearCache']);
   mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
@@ -51,6 +54,8 @@ describe('Service: Pin', () => {
       providers: [
         SiteAddressService,
         PinService,
+        { provide: AddressService, useValue: mockAddressService },
+        { provide: AppSettingsService, useValue: mockAppSettings },
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockStateService },
         { provide: BlandPageService, useValue: mockBlandPageService },
@@ -89,25 +94,6 @@ describe('Service: Pin', () => {
     expect(actual.Community_Member_State).toBe(expected.Community_Member_State);
   }));
 
-  it('should get cached pin details', inject([PinService], (service: PinService) => {
-    <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(123);
-    let pinsCache: PinSearchResultsDto, results: Pin, designatorStart: number, participantID: number, groupId: number;
-    designatorStart = 98789;
-    participantID = designatorStart;
-    groupId = designatorStart;
-    pinsCache = MockTestData.getAPinSearchResults(10, 0, 0, designatorStart, 3, pinType.GATHERING, 1);
-    service['cache'] = pinsCache;
-    service['cacheLevel'] = CacheLevel.Full;
-    service['userIdentifier'] = 123;
-
-    service.getPinDetails(new PinIdentifier(pinType.GATHERING, designatorStart)).subscribe(data => {
-      results = data;
-    });
-
-    expect(results.participantId).toBe(participantID);
-    expect(mockSessionService.get).not.toHaveBeenCalled();
-    expect(service['cache'].pinSearchResults.length).toBe(10);
-  }));
 
   it('should get pin details, no pins are cached', inject([PinService], (service: PinService) => {
     let results: Pin;
@@ -217,6 +203,13 @@ describe('Service: Pin', () => {
       (mockAppSettings.isConnectApp).and.returnValue(true);
       service.navigateToPinDetailsPage(pin);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
+    }));
+
+    it('should create valid search params', inject([PinService], (service: PinService) => {
+      let expectedSearchParams = new PinSearchRequestParams(true, 'ayy');
+      let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest(true, 'ayy');
+      expect(actualSearchParams).toEqual(expectedSearchParams);
+
     }));
 
 

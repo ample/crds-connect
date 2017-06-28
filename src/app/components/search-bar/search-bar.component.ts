@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Angulartics2 } from 'angulartics2';
 import { Observable, Subscription } from 'rxjs/Rx';
@@ -8,34 +8,45 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
+import { AppSettingsService } from '../../services/app-settings.service';
+import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+
+import { app, placeholderTextForSearchBar } from '../../shared/constants';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html',
-  styleUrls:  ['search-bar.component.css']
+  styleUrls: ['search-bar.component.css']
 })
-export class SearchBarComponent implements OnChanges {
+export class SearchBarComponent implements OnChanges, OnInit {
   @Input() isMapHidden: boolean;
   @Input() isMyStuffSearch: boolean;
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
-  @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
   private isMyStuffActiveSub: Subscription;
-  private searchText: string = '';
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
+  public placeholderTextForSearchBar: string;
 
-  constructor(private state: StateService) {
+  constructor(private appSettings: AppSettingsService,
+              private pinService: PinService,
+              private state: StateService) {
+  }
+
+  public ngOnInit(): void {
+
+    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS :
+                                                                         placeholderTextForSearchBar.KEYWORD;
+
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
       this.setButtonText();
       this.setSearchText();
     });
   }
-
-  public ngOnInit(): void {}
 
   public ngOnChanges(): void {
     this.setButtonText();
@@ -46,8 +57,8 @@ export class SearchBarComponent implements OnChanges {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit(!this.isMapHidden);
 
-    if (this.searchText.length > 0 && this.searchText !== 'My Stuff') {
-      this.onSearch(this.searchText);
+    if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== 'My Stuff') {
+      this.onSearch(this.state.searchBarText);
     }
 
     this.setButtonText();
@@ -57,7 +68,10 @@ export class SearchBarComponent implements OnChanges {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
-      this.search.emit(searchString);
+      let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
+      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString);
+      this.state.lastSearch.search = searchString;
+      this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
   }
 
@@ -67,15 +81,15 @@ export class SearchBarComponent implements OnChanges {
 
   private setSearchText() {
     if (!this.state.myStuffActive) {
-      this.searchText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
+      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
     } else {
-      this.searchText = 'My Stuff';
+      this.state.searchBarText = 'My Stuff';
     }
   }
 
   public clearSearchText() {
-    this.searchText = '';
+    this.state.searchBarText = '';
   }
 
   public searchKeyUp(){

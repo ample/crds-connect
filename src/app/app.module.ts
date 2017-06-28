@@ -1,3 +1,6 @@
+import {
+    ParticipantDetailsComponent
+} from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -20,7 +23,7 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -41,6 +44,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
+import { AddSomeoneComponent } from './components/pin-details/gathering/add-someone/add-someone.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
@@ -52,6 +56,7 @@ import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
+import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
 import { PersonComponent } from './components/pin-details/person/person.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
@@ -95,6 +100,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
+import { GroupLeaderGuard } from './route-guards/group-leader.guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
@@ -123,12 +129,13 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
+    ModalModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'main', 'common', 'ddk')
+      categories: Array('finder', 'main', 'common', 'ddk', 'group tool')
     })
   ],
   declarations: [
@@ -145,6 +152,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     HeaderComponent,
     HostApplicationComponent,
     InviteSomeoneComponent,
+    AddSomeoneComponent,
     ListViewComponent,
     ListFooterComponent,
     ListEntryComponent,
@@ -156,6 +164,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     ParticipantCardComponent,
+    ParticipantDetailsComponent,
+    ParticipantRemoveComponent,
     PersonComponent,
     PersonEditComponent,
     PinDetailsComponent,
@@ -184,6 +194,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SiteAddressService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
+    GroupLeaderGuard,
     Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,

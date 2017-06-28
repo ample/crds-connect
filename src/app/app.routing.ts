@@ -1,3 +1,6 @@
+import {
+  ParticipantDetailsComponent
+} from './components/pin-details/gathering/participant-details/participant-details.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,15 +21,18 @@ import { HandleInviteComponent } from './components/handle-invite/handle-invite.
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
+import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
+import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
-import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
+
 
 
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
@@ -105,7 +111,7 @@ const appRoutes: Routes = [
       userData: DetailedUserDataResolver
     }
   },
-  { path: 'stuff-not-found', component: StuffNotFoundComponent},
+  { path: 'stuff-not-found', component: StuffNotFoundComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
@@ -152,6 +158,22 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
+  }, {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId',
+    component: ParticipantDetailsComponent,
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
+  }, {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
+    component: ParticipantRemoveComponent,
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
+  }, {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
+    component: ParticipantRemoveComponent,
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
+  }, {
+    path: 'gathering/:groupId/participant-detail/:groupParticipantId',
+    component: ParticipantDetailsComponent,
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
     path: 'gathering/:groupId/edit',
     component: GatheringEditComponent,

@@ -1,82 +1,68 @@
-import { TestBed, inject, async } from '@angular/core/testing';
-
+import { async, inject, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs/Rx';
 import { crdsOakleyCoords } from '../shared/constants';
 import { GeoCoordinates } from '../models/geo-coordinates';
+import { GoogleMapService } from './google-map.service';
+import { IPService } from './ip.service';
+import { LocationService } from './location.service';
+import { PinService } from './pin.service';
 import { SessionService } from './session.service';
+import { StateService } from './state.service';
 import { UserLocationService } from './user-location.service';
 
-import { IFrameParentService } from '../services/iframe-parent.service';
-import { SiteAddressService } from '../services/site-address.service';
-import { GoogleMapService } from '../services/google-map.service';
-import { StateService } from '../services/state.service';
-import { StoreService } from '../services/store.service';
-import { LoginRedirectService } from '../services/login-redirect.service';
-import { Angulartics2 } from 'angulartics2';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule  } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule } from 'ngx-bootstrap';
-import { LocationService } from '../services/location.service';
-import { PinService}  from '../services/pin.service';
-import { BlandPageService } from './bland-page.service';
-import { IPService } from '../services/ip.service';
+describe('UserLocationService', () => {
+  let service;
+  let mockIPService, mockSessionService,
+    mockGoogleMapService, mockStateService, mockLocationService;
 
-describe('Service: User-Location', () => {
   beforeEach(() => {
+    mockIPService = jasmine.createSpyObj<IPService>('ipService', ['getLocationFromIP']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn', 'getUserDetailsByContactId']);
+    mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['setDidUserAllowGeoLoc']);
+    mockStateService = { navigatedFromAddToMapComponent: true };
+    mockLocationService = jasmine.createSpyObj<LocationService>('location', ['getDefaultPosition', 'getCurrentPosition']);
     TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule.withRoutes([]),
-          HttpModule,
-          JsonpModule,
-          ReactiveFormsModule,
-          AlertModule
-        ],
-        providers: [
-          SiteAddressService,
-          GoogleMapService,
-          UserLocationService,
-          LocationService,
-          PinService,
-          IFrameParentService,
-          StoreService,
-          StateService,
-          SessionService,
-          CookieService,
-          Angulartics2,
-          LoginRedirectService,
-          BlandPageService,
-          IPService
-        ]
+      providers: [
+        UserLocationService,
+        { provide: IPService, useValue: mockIPService },
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: GoogleMapService, useValue: mockGoogleMapService },
+        { provide: StateService, useValue: mockStateService },
+        { provide: LocationService, useValue: mockLocationService }
+        // for additional providers, write as examples below
+        // ServiceName,
+        // { provider: ServiceName, useValue: fakeServiceName },
+        // { provider: ServiceName, useClass: FakeServiceClass },
+        // { provider: ServiceName, useFactory: fakeServiceFactory, deps: [] },
+      ]
     });
   });
 
-  it('should create an instance', inject([UserLocationService], (service: any) => {
-    expect(service).toBeTruthy();
+  it('should create an instance', inject([UserLocationService], (userLocationService: UserLocationService) => {
+    expect(userLocationService).toBeTruthy();
   }));
 
-  it('Should get the default Crds-Oakley coordinates', inject([UserLocationService], (service: any) => {
-    expect(service.getUserLocationFromDefault()).toEqual(new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.lng));
+  it('Should get the default Crds-Oakley coordinates', inject([UserLocationService], (userLocationService: UserLocationService) => {
+    let coords = new GeoCoordinates(32, 42);
+    (mockLocationService.getDefaultPosition).and.returnValue(coords)
+    let result = userLocationService['getUserLocationFromDefault']();
+    expect(mockLocationService.getDefaultPosition).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(coords);
   }));
 
-  xit('Should get a location as a GeoCoordinates object', async(inject(
+  it('Should get a location as a GeoCoordinates object', async(inject(
     [UserLocationService],
-    (service) => {
-      const resultObs = service.GetUserLocation();
+    (userLocationService: UserLocationService) => {
+      let coords = new GeoCoordinates(42, 42);
+      (mockIPService.getLocationFromIP).and.returnValue(Observable.of({latitude: coords.lat, longitude: coords.lng}));
 
-      resultObs.subscribe(res => {
-        expect(res).toEqual(jasmine.any(GeoCoordinates));
-      });
-  })));
+      let obs = userLocationService['getUserLocationFromIp']();
 
-  xit('Should get a location as a GeoCoordinates object from IP', async(inject(
-      [UserLocationService],
-      (service) => {
-        const resultObs = service.getUserLocationFromIp();
-
-        resultObs.subscribe(res => {
-          expect(res).toEqual(jasmine.any(GeoCoordinates));
-        });
-      })));
+      obs.subscribe(
+        data => {
+          expect(data).toEqual(coords);
+        }
+      );
+    })));
 
 });
