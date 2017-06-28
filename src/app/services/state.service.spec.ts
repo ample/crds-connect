@@ -44,15 +44,4 @@ describe('Service: State', () => {
     expect(service.getUseZoom()).toEqual(10);
   }));
 
-  it('should determine that the app is in the groupsv2 state', inject([StateService], (service: any) => {
-    service.setActiveApp(appRoute.SMALL_GROUPS_ROUTE);
-    expect(service.activeApp).toEqual(app.SMALL_GROUPS);
-  }));
-
-  it('should determine that the app is in the finder state', inject([StateService], (service: any) => {
-    service.setActiveApp(appRoute.CONNECT_ROUTE);
-    expect(service.activeApp).toEqual(app.CONNECT);
-  }));
-
-
 });

@@ -3,12 +3,13 @@
     <div class="input-group searchbar">
       <input type="text"
              class="form-control"
+             id="search-bar-input"
              [(ngModel)]="state.searchBarText"
              (keyup.enter)="onSearch(state.searchBarText)"
              (keyup)="searchKeyUp()"
              placeholder={{placeholderTextForSearchBar}}>
       <!--(keyup) = "searchKeyUp()"--> <!--This attribute belongs to the input above-->
-      <span class="form-control-clear form-control-feedback" [hidden]="isSearchClearHidden" (click)="state.searchBarText()">
+      <span class="form-control-clear form-control-feedback" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)">
         <svg class="icon icon-1" viewBox="0 0 256 256">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#close"></use>
         </svg>

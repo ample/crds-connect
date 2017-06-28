@@ -27,7 +27,7 @@ describe('Service: Pin', () => {
   let fixture, mockAddressService, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
 
   mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['clearCache']);
-  mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
+  mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);

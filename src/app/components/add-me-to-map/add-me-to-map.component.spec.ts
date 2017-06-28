@@ -102,14 +102,6 @@ describe('Component: Add Me to the Map', () => {
     expect(this.component.location.back).toHaveBeenCalled();
   });
 
-  it('should setSubmissionErrorWarningTo', () => {
-    this.component.setSubmissionErrorWarningTo(true);
-    expect(this.component.submissionError).toBe(true);
-
-    this.component.setSubmissionErrorWarningTo(false);
-    expect(this.component.submissionError).toBe(false);
-  });
-
   it('should submit', () => {
         let pin = MockTestData.getAPin(1);
         this.component['userData'] = pin;
@@ -123,7 +115,8 @@ describe('Component: Add Me to the Map', () => {
         );
 
         (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
-        this.component.onSubmit(this.component.addressFormGroup);
+        pin['valid'] = true;
+        this.component.onSubmit(pin);
         expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
         expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
