@@ -118,6 +118,18 @@ export class GatheringComponent implements OnInit {
     }
   }
 
+  private onContactLeaderClicked(): void {
+
+    this.state.setLoading(true);
+
+    if (!this.session.isLoggedIn()) {
+      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+    } else {
+      this.router.navigate(['contact-group-leader']);
+    }
+
+  }
+
   private shouldShowContactLeaderBtn(): boolean {
     return !this.session.isLoggedIn() ?
       true : !this.participantService.isUserAParticipant(this.session.getContactId(), this.pin.gathering.Participants);
