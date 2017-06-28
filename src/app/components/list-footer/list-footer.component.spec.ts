@@ -10,12 +10,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { PinLabelService } from '../../services/pin-label.service';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 describe('ListFooterComponent', () => {
     let fixture: ComponentFixture<ListFooterComponent>;
     let comp: ListFooterComponent;
     let el;
-    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService, mockPinLabelService;
+    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService, mockPinLabelService, mockAppSettingsService ;
 
     beforeEach(() => {
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
@@ -23,6 +24,7 @@ describe('ListFooterComponent', () => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView', 'getCurrentView', ]);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToWhatsAHost']);
         mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['isHostingAny']);
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp']);
         TestBed.configureTestingModule({
             declarations: [
                 ListFooterComponent,
@@ -36,7 +38,8 @@ describe('ListFooterComponent', () => {
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: PinLabelService, useValue: mockPinLabelService }
+                { provide: PinLabelService, useValue: mockPinLabelService },
+                { provide: AppSettingsService, useValue: mockAppSettingsService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
