@@ -23,7 +23,7 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -67,6 +67,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
@@ -130,6 +131,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ReactiveFormsModule,
     FormsModule,
     ModalModule.forRoot(),
+    AccordionModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
     routing,
@@ -177,6 +179,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RemovePersonPinComponent,
     SayHiComponent,
     SearchBarComponent,
+    SearchFilterComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
     GoogleMapClusterDirective

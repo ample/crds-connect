@@ -38,8 +38,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public ngOnInit(): void {
 
-    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS :
-                                                                         placeholderTextForSearchBar.KEYWORD;
+    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    this.appSettings.setAppSettings(1);
+    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS : placeholderTextForSearchBar.KEYWORD;
 
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
