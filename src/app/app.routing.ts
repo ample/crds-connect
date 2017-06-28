@@ -8,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
@@ -57,6 +58,9 @@ const appRoutes: Routes = [
     data: [{
       accept: true
     }]
+  },  {
+    path: 'contact-leader',
+    component: ContactLeaderComponent
   }, {
     path: 'decline-invite/:groupId/:guid',
     component: HandleInviteComponent,
