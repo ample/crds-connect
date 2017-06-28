@@ -92,8 +92,18 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.searchBarText = '';
   }
 
+  public resetSearchInput(event) {
+    event.preventDefault();
+    this.clearSearchText();
+    this.focusSearchInput();
+  }
+
   public searchKeyUp(){
     this.isSearchClearHidden = false;
+  }
+
+  public focusSearchInput() {
+    document.getElementById('search-bar-input').focus();
   }
 
 }
