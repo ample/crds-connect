@@ -16,6 +16,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BlandPageService } from '../../services/bland-page.service';
 import { PinLabelService } from '../../services/pin-label.service';
 import { MockComponent } from '../../shared/mock.component';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 describe('Component: List View', () => {
   let mockStateService,
@@ -24,7 +25,8 @@ describe('Component: List View', () => {
     mockNeighborsHelperService,
     mockBlandPageService,
     mockSessionService,
-    mockPinLabelService;
+    mockPinLabelService,
+    mockAppSettingsService;
 
   beforeEach(() => {
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
@@ -33,6 +35,7 @@ describe('Component: List View', () => {
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
     mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['constructor']);
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -52,7 +55,8 @@ describe('Component: List View', () => {
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: SessionService, useValue: mockSessionService },
-        { provide: PinLabelService, useValue: mockPinLabelService }
+        { provide: PinLabelService, useValue: mockPinLabelService },
+        { provide: AppSettingsService, useValue: mockAppSettingsService }
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);
