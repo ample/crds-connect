@@ -4,6 +4,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
 import { StateService } from '../../services/state.service';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -47,12 +48,13 @@ export class MapContentComponent implements OnInit {
 
   constructor(public mapApiWrapper: GoogleMapsAPIWrapper,
               private mapHlpr: GoogleMapService,
-              private state: StateService ) {
+              private state: StateService,
+              private appSettings: AppSettingsService ) {
   }
 
   @HostListener('document:redrawingClusters', ['$event'])
   onClusterRedraw(event) {
-    if(this.state.activeApp === app.CONNECT){
+    if (this.appSettings.isConnectApp()) {
       this.drawLabels(event.data.markersNotInClusters);
     }
   }
