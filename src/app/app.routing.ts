@@ -8,6 +8,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
+import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
@@ -57,6 +59,18 @@ const appRoutes: Routes = [
     data: [{
       accept: true
     }]
+  }, {
+    path: 'create-group',
+    component: CreateGroupSummaryComponent,
+    canActivate: [
+      LoggedInGuard
+    ]
+  }, {
+    path: 'create-group/page-1',
+    component: CreateGroupPage1Component,
+    canActivate: [
+      LoggedInGuard
+    ]
   }, {
     path: 'decline-invite/:groupId/:guid',
     component: HandleInviteComponent,

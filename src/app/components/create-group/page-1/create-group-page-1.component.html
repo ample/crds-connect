@@ -1,0 +1,21 @@
+<div class="connect-container connect-layout-container">
+    <div>
+        <p class="media-meta">STEP 1 OF 9</p>
+        <h3 class="media-heading">Group Category</h3>
+        <hr>
+        <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
+    </div>
+    <div *ngIf="isComponentReady" class="btn-group btn-group-block">
+        <button *ngFor="let category of categories;" 
+                class="btn btn-option btn-flex btn-outline"
+                [id]="category.name"
+                (click)="onSelect(category)">
+                <div class="text-left">{{ category.name }}</div>
+        </button>
+    </div>
+</div>
+
+
+<div>
+    <pre>{{categories | json }}</pre>
+</div>
