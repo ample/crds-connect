@@ -17,6 +17,8 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 
+import { MsgToLeader } from '../../models/msg-to-leader';
+
 @Component({
     selector: 'contact-leader',
     templateUrl: 'contact-leader.component.html'
@@ -25,8 +27,7 @@ export class ContactLeaderComponent implements OnInit {
 
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
-  private subject: string = '';
-  private message: string = '';
+  private msgToLeader: MsgToLeader = new MsgToLeader('','');
 
   constructor(
     private addressService: AddressService,
@@ -46,11 +47,12 @@ export class ContactLeaderComponent implements OnInit {
     private groupService: GroupService) {}
 
   public ngOnInit() {
-    this.state.setLoading(false);
     this.contactLeaderForm = new FormGroup({
-      subject: new FormControl(this.subject, [Validators.required]),
-      message: new FormControl(this.message, [Validators.required]),
+      subject: new FormControl('', [Validators.required]),
+      message: new FormControl('', [Validators.required]),
     });
+
+    this.state.setLoading(false);
   }
 
   public ngAfterViewInit() {
