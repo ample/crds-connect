@@ -6,8 +6,10 @@ import * as _ from 'lodash';
 import { SessionService } from './session.service';
 
 import { Group, Participant } from '../models';
+import { GroupMessageDTO } from '../models/group-message-dto';
+import { MsgToLeader } from '../models/msg-to-leader';
+
 import { GroupRole } from '../shared/constants';
-import {MsgToLeader} from "../models/msg-to-leader";
 
 @Injectable()
 export class ParticipantService extends CacheableService<Group[]> {
@@ -177,8 +179,12 @@ export class ParticipantService extends CacheableService<Group[]> {
             .catch((error: any) => Observable.throw(error || 'Server exception'));
     }
 
-    public submitLeaderMessageToAPI(groupId: number, msgToLeader: MsgToLeader) {
+    public submitLeaderMessageToAPI(groupId: number, msgToLeader: MsgToLeader): Observable<any> {
+        let url = `${this.baseUrl}api/grouptool/${groupId}/leadermessage`;
 
+        let groupMsgDto: GroupMessageDTO = new GroupMessageDTO(msgToLeader.subject, msgToLeader.message, null);
+
+        return this.session.post(url, groupMsgDto);
     }
     
 }

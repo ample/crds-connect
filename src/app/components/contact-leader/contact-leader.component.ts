@@ -79,7 +79,13 @@ export class ContactLeaderComponent implements OnInit {
   }
 
   private sendLeaderMessage(msgToLeader: MsgToLeader) {
-    this.participantService.submitLeaderMessageToAPI(this.groupId, msgToLeader);
+    this.participantService.submitLeaderMessageToAPI(this.groupId, msgToLeader).subscribe(
+      next => {
+
+      }, err => {
+
+      }
+    );
   }
 
   private closeClick() {
