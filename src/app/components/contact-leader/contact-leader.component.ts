@@ -81,9 +81,9 @@ export class ContactLeaderComponent implements OnInit {
   private sendLeaderMessage(msgToLeader: MsgToLeader) {
     this.participantService.submitLeaderMessageToAPI(this.groupId, msgToLeader).subscribe(
       next => {
-
+        this.blandPageService.navigateToMessageSentToLeaderConfirmation();
       }, err => {
-
+        console.log('ERROR');
       }
     );
   }
