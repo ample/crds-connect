@@ -23,11 +23,16 @@ import { StoreService } from '../../services/store.service';
 })
 export class ContactLeaderComponent implements OnInit {
 
+  public contactLeaderForm: FormGroup;
+  private subject: string = '';
+  private message: string = '';
+
   constructor(
     private addressService: AddressService,
     private blandPageService: BlandPageService,
     private content: ContentService,
     private hlpr: HostApplicationHelperService,
+    private fb: FormBuilder,
     private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
     private router: Router,
@@ -37,11 +42,14 @@ export class ContactLeaderComponent implements OnInit {
     private state: StateService,
     private location: Location,
     private appSettingsService: AppSettingsService,
-    private groupService: GroupService
-  ) {}
+    private groupService: GroupService) {}
 
   public ngOnInit() {
     this.state.setLoading(false);
+    this.contactLeaderForm = new FormGroup({
+      subject: new FormControl(this.message, [Validators.required]),
+      message: new FormControl(this.message, [Validators.required]),
+    });
     console.log('Initializing...');
   }
 }
