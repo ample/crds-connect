@@ -22,22 +22,22 @@
 
           <!-- SUBJECT -->
           <div class="row">
-          <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
-          <div class="row">
-            <div class="form-group col-xs-12" [formGroupName]="contactLeaderForm">
-              <label class="sr-only" for="subject">Subject</label>
-              <input type="text"
-                     class="form-control"
-                     maxlength="75"
-                     placeholder="Subject"
-                     id = "subject"
-                     formControlName="subject"
-                     name="subject"
-                     [(ngModel)]="subject">
-              <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.controls['subject'].valid">Subject is required</p>
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
+              <div class="row">
+                <div class="form-group col-xs-12" [formGroupName]="contactLeaderForm">
+                  <label class="sr-only" for="subject">Subject</label>
+                  <input type="text"
+                         class="form-control"
+                         maxlength="75"
+                         placeholder="Subject"
+                         id = "subject"
+                         formControlName="subject"
+                         name="subject"
+                         [(ngModel)]="subject">
+                  <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.controls['subject'].valid">Subject is required</p>
+                </div>
+              </div>
             </div>
-          </div>
-          </div>
           </div>
 
           <!-- MESSAGE -->

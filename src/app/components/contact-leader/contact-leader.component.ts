@@ -34,6 +34,7 @@ export class ContactLeaderComponent implements OnInit {
     private content: ContentService,
     private hlpr: HostApplicationHelperService,
     private fb: FormBuilder,
+    private location: Location,
     private loginRedirectService: LoginRedirectService,
     private route: ActivatedRoute,
     private router: Router,
@@ -41,7 +42,6 @@ export class ContactLeaderComponent implements OnInit {
     private store: StoreService,
     private toast: ToastsManager,
     private state: StateService,
-    private location: Location,
     private appSettingsService: AppSettingsService,
     private groupService: GroupService) {}
 
@@ -52,4 +52,19 @@ export class ContactLeaderComponent implements OnInit {
       message: new FormControl(this.message, [Validators.required]),
     });
   }
+
+  public ngAfterViewInit() {
+    // This component is rendered within a fauxdal,
+    // so we need the following selector added to <body> element
+    document.querySelector('body').classList.add('fauxdal-open');
+  }
+
+  private onSubmit() {
+    console.log('Form submited');
+  }
+
+  private closeClick() {
+    this.location.back();
+  }
+
 }
