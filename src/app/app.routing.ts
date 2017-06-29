@@ -60,7 +60,10 @@ const appRoutes: Routes = [
     }]
   },  {
     path: 'contact-leader/:groupId',
-    component: ContactLeaderComponent
+    component: ContactLeaderComponent,
+    canActivate: [
+      LoggedInGuard,
+    ]
   }, {
     path: 'decline-invite/:groupId/:guid',
     component: HandleInviteComponent,

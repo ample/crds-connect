@@ -122,11 +122,12 @@ export class GatheringComponent implements OnInit {
 
     this.state.setLoading(true);
 
+    let routerRedirectUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
+
     if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+      this.loginRedirectService.redirectToLogin(routerRedirectUrl);
     } else {
-      let routerLink: string = 'contact-leader/' + this.pin.gathering.groupId;
-      this.router.navigate([routerLink]);
+      this.router.navigate([routerRedirectUrl]);
     }
 
   }
