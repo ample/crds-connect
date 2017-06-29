@@ -61,8 +61,17 @@ export class ContactLeaderComponent implements OnInit {
     document.querySelector('body').classList.add('fauxdal-open');
   }
 
-  private onSubmit() {
+  private onSubmit({ value, valid }: { value: MsgToLeader, valid: boolean }) {
     console.log('Form submited');
+    console.log(value, valid);
+    this.isFormSubmitted = true;
+    if(valid) {
+      this.sendLeaderMessage(value);
+    }
+  }
+
+  private sendLeaderMessage(msgToLeader: MsgToLeader) {
+
   }
 
   private closeClick() {
