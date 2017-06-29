@@ -94,6 +94,7 @@ export class MapContentComponent implements OnInit {
             let center = map.getCenter();
             let zoom = map.getZoom();
             let mapViewUpdate = new MapView('zoom_changed', center.lat(), center.lng(), zoom);
+            google.maps.event.trigger(map, 'resize'); // could put in an if - zoom > X
             self.mapHlpr.emitMapViewUpdated(mapViewUpdate);
             self.state.setMapView(mapViewUpdate);
           });
