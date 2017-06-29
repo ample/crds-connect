@@ -23,7 +23,7 @@
             </button>
           </li>
 
-          <li>
+          <li *ngIf="appSettings.isSmallGroupApp()">
             <button class="addon-btn" type="button" role="button">
               <svg class="icon icon-1" viewBox="0 0 256 256">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
