@@ -24,6 +24,7 @@ import { StoreService } from '../../services/store.service';
 export class ContactLeaderComponent implements OnInit {
 
   public contactLeaderForm: FormGroup;
+  public isFormSubmitted: boolean = false;
   private subject: string = '';
   private message: string = '';
 
@@ -47,9 +48,8 @@ export class ContactLeaderComponent implements OnInit {
   public ngOnInit() {
     this.state.setLoading(false);
     this.contactLeaderForm = new FormGroup({
-      subject: new FormControl(this.message, [Validators.required]),
+      subject: new FormControl(this.subject, [Validators.required]),
       message: new FormControl(this.message, [Validators.required]),
     });
-    console.log('Initializing...');
   }
 }
