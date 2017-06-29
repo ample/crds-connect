@@ -7,6 +7,7 @@ import { SessionService } from './session.service';
 
 import { Group, Participant } from '../models';
 import { GroupRole } from '../shared/constants';
+import {MsgToLeader} from "../models/msg-to-leader";
 
 @Injectable()
 export class ParticipantService extends CacheableService<Group[]> {
@@ -174,6 +175,10 @@ export class ParticipantService extends CacheableService<Group[]> {
                 super.setCache(cache, CacheLevel.Partial, contactId);
             })
             .catch((error: any) => Observable.throw(error || 'Server exception'));
+    }
+
+    public submitLeaderMessageToAPI(groupId: number, msgToLeader: MsgToLeader) {
+
     }
     
 }

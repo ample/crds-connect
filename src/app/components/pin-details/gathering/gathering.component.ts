@@ -125,7 +125,8 @@ export class GatheringComponent implements OnInit {
     if (!this.session.isLoggedIn()) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
     } else {
-      this.router.navigate(['contact-group-leader']);
+      let routerLink: string = 'contact-leader/' + this.pin.gathering.groupId;
+      this.router.navigate([routerLink]);
     }
 
   }

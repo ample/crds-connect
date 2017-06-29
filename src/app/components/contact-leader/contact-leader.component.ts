@@ -13,6 +13,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { GroupService } from '../../services/group.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
+import { ParticipantService } from '../../services/participant.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -27,6 +28,7 @@ export class ContactLeaderComponent implements OnInit {
 
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
+  public groupId: number;
   private msgToLeader: MsgToLeader = new MsgToLeader('','');
 
   constructor(
@@ -37,6 +39,7 @@ export class ContactLeaderComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private loginRedirectService: LoginRedirectService,
+    private participantService: ParticipantService,
     private route: ActivatedRoute,
     private router: Router,
     private session: SessionService,
@@ -47,9 +50,14 @@ export class ContactLeaderComponent implements OnInit {
     private groupService: GroupService) {}
 
   public ngOnInit() {
+
     this.contactLeaderForm = new FormGroup({
       subject: new FormControl('', [Validators.required]),
       message: new FormControl('', [Validators.required]),
+    });
+
+    this.route.params.subscribe(params => {
+      this.groupId = +params.groupId;
     });
 
     this.state.setLoading(false);
@@ -71,7 +79,7 @@ export class ContactLeaderComponent implements OnInit {
   }
 
   private sendLeaderMessage(msgToLeader: MsgToLeader) {
-
+    this.participantService.submitLeaderMessageToAPI(this.groupId, msgToLeader);
   }
 
   private closeClick() {

@@ -59,7 +59,7 @@ const appRoutes: Routes = [
       accept: true
     }]
   },  {
-    path: 'contact-leader',
+    path: 'contact-leader/:groupId',
     component: ContactLeaderComponent
   }, {
     path: 'decline-invite/:groupId/:guid',
