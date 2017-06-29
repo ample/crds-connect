@@ -14,7 +14,7 @@ export class CreateGroupPage1Component implements OnInit {
     constructor(private state: StateService, private lookup: LookupService) { }
 
     ngOnInit() {
-        this.state.setPageHeader('start a group', '/');
+        this.state.setPageHeader('start a group', '/create-group');
         this.initializeCategories();
         this.state.setLoading(false);
     }

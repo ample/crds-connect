@@ -1,9 +1,4 @@
-import { Pin } from '../models/pin';
-import { Address } from '../models/address';
-import { Group } from '../models/group';
-import { Participant } from '../models/participant';
-import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { GeoCoordinates } from '../models/geo-coordinates';
+import { Address, Category, GeoCoordinates, Group, Participant, PinSearchResultsDto, Pin } from '../models';
 export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
@@ -132,6 +127,25 @@ export class MockTestData {
             this.getAParticipantsArray(numParticipantsInGathering),
             30
         );
+    }
+
+    public static getSomeCategories(numOfCategories: number = 5) {
+        let participants = new Array<Category>();
+        if (numOfCategories === 0) {
+            return null;
+        }
+        for (let index = 0; index < numOfCategories; index++) {
+            let participant = new Category(
+                index,
+                null,
+                `Category #${index} description`,
+                `Example Text #${index}`,
+                false,
+                `Category #${index}`
+            );
+            participants.push(participant);
+        };
+        return participants;
     }
 
     constructor() {}
