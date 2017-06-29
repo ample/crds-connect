@@ -54,15 +54,15 @@ describe('CreateGroupPage1Component', () => {
 
         expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group');
         expect(comp['initializeCategories']).toHaveBeenCalledTimes(1);
-        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(mockStateService.setLoading).not.toHaveBeenCalled();
         expect(comp['isComponentReady']).toBeFalsy();
     });
 
     it('should initialize categories', () => {
         comp['initializeCategories']();
         expect(mockLookupService.getCategories).toHaveBeenCalledTimes(1);
+        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
         expect(comp['categories']).toBe(categories);
-        expect(comp['isComponentReady']).toBeTruthy();
     });
 
     it('should select a category', () => {

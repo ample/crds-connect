@@ -1,5 +1,4 @@
-import { Group } from '../../models';
-import { Address } from '../../models';
+import { Address, Group } from '../../models';
 
 import { Injectable } from '@angular/core';
 

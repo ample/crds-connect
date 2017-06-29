@@ -222,14 +222,13 @@ describe('ParticipantService', () => {
                 service.getAllLeaders(groupId).subscribe(
                     participants => {
                         result = participants;
+                        expect(console.log).not.toHaveBeenCalled();
+                        expect(result.length).toBe(3);
+                        expect(result[0].groupRoleId).toBe(GroupRole.LEADER);
+                        expect(result[1].groupRoleId).toBe(GroupRole.LEADER);
+                        expect(result[2].groupRoleId).toBe(GroupRole.LEADER);
                     }
                 );
-
-                expect(console.log).not.toHaveBeenCalled();
-                expect(result.length).toBe(3);
-                expect(result[0].groupRoleId).toBe(GroupRole.LEADER);
-                expect(result[1].groupRoleId).toBe(GroupRole.LEADER);
-                expect(result[2].groupRoleId).toBe(GroupRole.LEADER);
             })
         );
 

@@ -10,26 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateGroupPage1Component implements OnInit {
     private categories: Category[] = [];
-    private isComponentReady: boolean = false;
     constructor(private state: StateService, private lookup: LookupService) { }
 
     ngOnInit() {
         this.state.setPageHeader('start a group', '/create-group');
         this.initializeCategories();
-        this.state.setLoading(false);
     }
 
-    private initializeCategories() {
+    private initializeCategories(): void {
         this.lookup.getCategories().subscribe(
             categories => {
                 this.categories = categories;
-                this.isComponentReady = true;
-            }
+                this.state.setLoading(false);            }
         );
     }
 
-    public onSelect(category: Category) {
+    public onSelect(category: Category): void {
         category.selected = !category.selected;
-        console.log(category);
     }
 }

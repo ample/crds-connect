@@ -130,12 +130,12 @@ export class MockTestData {
     }
 
     public static getSomeCategories(numOfCategories: number = 5) {
-        let participants = new Array<Category>();
+        let categories = new Array<Category>();
         if (numOfCategories === 0) {
             return null;
         }
         for (let index = 0; index < numOfCategories; index++) {
-            let participant = new Category(
+            let category = new Category(
                 index,
                 null,
                 `Category #${index} description`,
@@ -143,9 +143,9 @@ export class MockTestData {
                 false,
                 `Category #${index}`
             );
-            participants.push(participant);
+            categories.push(category);
         };
-        return participants;
+        return categories;
     }
 
     constructor() {}

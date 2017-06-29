@@ -5,7 +5,7 @@
         <hr>
         <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
     </div>
-    <div *ngIf="isComponentReady">
+    <div>
         <form (ngSubmit)="onSubmit(addMeToMapForm)">
             <div *ngFor="let category of categories" class="btn-group btn-group-block">
                 <button class="btn btn-option btn-flex btn-outline" 
