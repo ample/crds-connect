@@ -7,6 +7,7 @@ export class Category {
     exampleText: string;
     requiresActiveAttribute: boolean;
     name: string;
+    selected: boolean = false;
 
 
 

@@ -5,17 +5,36 @@
         <hr>
         <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
     </div>
-    <div *ngIf="isComponentReady" class="btn-group btn-group-block">
-        <button *ngFor="let category of categories;" 
-                class="btn btn-option btn-flex btn-outline"
-                [id]="category.name"
-                (click)="onSelect(category)">
-                <div class="text-left">{{ category.name }}</div>
-        </button>
+    <div *ngIf="isComponentReady">
+        <form (ngSubmit)="onSubmit(addMeToMapForm)">
+            <div *ngFor="let category of categories" class="btn-group btn-group-block">
+                <button class="btn btn-option btn-flex btn-outline" 
+                        [id]="category.name" 
+                        [ngClass]="{active: category.selected}"
+                        (click)="onSelect(category)">
+                
+                        <div class="text-left">{{ category.name }}</div>
+                </button>
+                <div>
+                    <i>{{category.desc}}</i>
+                </div>
+
+                <div *ngIf="category.selected" class="form-group">
+                    <div class="input-group input-group-block input-group-left">
+                        <input type="text"
+                                class="form-control"
+                                placeholder="{{category.exampleText}}"
+                                id="{{category.name}}-detail"
+                                maxlength="25"
+                                required>
+        </div>
+      </div>
+            </div>
+        </form>
     </div>
 </div>
 
 
-<div>
+<!--<div>
     <pre>{{categories | json }}</pre>
-</div>
+</div>-->

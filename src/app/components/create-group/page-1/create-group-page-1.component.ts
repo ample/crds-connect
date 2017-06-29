@@ -28,7 +28,8 @@ export class CreateGroupPage1Component implements OnInit {
         );
     }
 
-    public onSelect($value) {
-        console.log($value);
+    public onSelect(category: Category) {
+        category.selected = !category.selected;
+        console.log(category);
     }
 }
