@@ -79,11 +79,14 @@ export class ContactLeaderComponent implements OnInit {
   }
 
   private sendLeaderMessage(msgToLeader: MsgToLeader) {
+    this.state.setLoading(true);
     this.participantService.submitLeaderMessageToAPI(this.groupId, msgToLeader).subscribe(
       next => {
         this.blandPageService.navigateToMessageSentToLeaderConfirmation();
+        this.state.setLoading(false);
       }, err => {
         console.log('ERROR');
+        this.state.setLoading(false);
       }
     );
   }
