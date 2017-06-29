@@ -129,7 +129,7 @@ export class MockTestData {
         );
     }
 
-    public static getSomeCategories(numOfCategories: number = 5) {
+    public static getSomeCategories(numOfCategories: number = 5): Category[] {
         let categories = new Array<Category>();
         if (numOfCategories === 0) {
             return null;
