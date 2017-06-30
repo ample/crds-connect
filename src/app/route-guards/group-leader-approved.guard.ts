@@ -7,7 +7,7 @@ import { GroupService } from '../services/group.service';
 @Injectable()
 export class GroupLeaderApprovedGuard implements CanActivate {
 
-    constructor(private router: Router, private groupService: GroupService) { }
+    constructor(private groupService: GroupService, private router: Router) { }
 
     canActivate(
         route: ActivatedRouteSnapshot,
