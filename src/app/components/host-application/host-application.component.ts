@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
-import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus } from '../../shared/constants';
+import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus, ApplicationUrl } from '../../shared/constants';
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -26,7 +26,7 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   selector: 'app-host-application',
   templateUrl: 'host-application.component.html'
 })
-export class HostApplicationComponent implements OnInit {
+export class HostApplicationComponent implements OnInit, AfterViewInit {
 
   public userData: DetailedUserData;
   public hostForm: FormGroup;
@@ -34,8 +34,7 @@ export class HostApplicationComponent implements OnInit {
   public groupAddress: Address;
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
-  public isHidden = true; //temporary fix for hiding isHomeAddress checkbox
-  private ApplicationUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
+  public isHidden = true; // temporary fix for hiding isHomeAddress checkbox
 
   constructor(
     private addressService: AddressService,
@@ -61,12 +60,13 @@ export class HostApplicationComponent implements OnInit {
           pos => {
               if ( pos.status === GroupLeaderApplicationStatus.APPROVED) {
                 console.log('create a group');
+                this.router.navigateByUrl('/create-group');
               } else {
-                window.location.href = this.ApplicationUrl;
+                window.location.href = ApplicationUrl;
               }
           },
           error => {
-            window.location.href = this.ApplicationUrl;
+            window.location.href = ApplicationUrl;
           }
       );
         break;

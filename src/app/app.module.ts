@@ -104,6 +104,7 @@ import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { GroupLeaderApprovedGuard } from './route-guards/group-leader-approved.guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
@@ -200,6 +201,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupLeaderGuard,
+    GroupLeaderApprovedGuard,
     Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,

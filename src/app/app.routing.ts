@@ -31,6 +31,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { GroupLeaderApprovedGuard } from './route-guards/group-leader-approved.guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
@@ -63,13 +64,15 @@ const appRoutes: Routes = [
     path: 'create-group',
     component: CreateGroupSummaryComponent,
     canActivate: [
-      LoggedInGuard
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
     ]
   }, {
     path: 'create-group/page-1',
     component: CreateGroupPage1Component,
     canActivate: [
-      LoggedInGuard
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
     ]
   }, {
     path: 'decline-invite/:groupId/:guid',
