@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
@@ -46,7 +46,8 @@ describe('Component: Contact Leader', () => {
         mockBlandPageService,
         mockValidate,
         mockGroupService,
-        mockAppSettings;
+        mockAppSettings,
+        mockToastsManager;
 
     beforeEach(() => {
         mockAddressService = jasmine.createSpyObj<PinService>('addressService', ['postPin']);
@@ -63,6 +64,7 @@ describe('Component: Contact Leader', () => {
         mockValidate = jasmine.createSpyObj<Validators>('Validators', ['minLength', 'maxLength', 'required']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['constructor']);
         mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['constructor']);
+        mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -88,8 +90,7 @@ describe('Component: Contact Leader', () => {
                 { provide: Validators, useValue: mockValidate },
                 { provide: GroupService, useValue: mockGroupService },
                 { provide: AppSettingsService, useValue: mockAppSettings },
-                ToastsManager,
-                ToastOptions
+                { provide: ToastsManager, useValue: mockToastsManager }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
