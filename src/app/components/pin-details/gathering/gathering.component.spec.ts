@@ -61,7 +61,7 @@ describe('Gathering component redirect error', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders']);
+            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -148,7 +148,7 @@ describe('GatheringComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders']);
+            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -351,5 +351,25 @@ describe('GatheringComponent', () => {
         comp['pin'] = pin;
         comp.edit();
         expect(comp['router'].navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId, 'edit']);
+    });
+
+    it('should always show the contact leader button if the user is NOT logged in', () => {
+        (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(false);
+        let doShowBtn: boolean = comp.shouldShowContactLeaderBtn();
+        expect(doShowBtn).toEqual(true);
+    });
+
+    it('should NOT show btn if user IS logged in and IS a participant', () => {
+        (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
+        (<jasmine.Spy>mockParticipantService.isUserAParticipant).and.returnValue(true);
+        let doShowBtn: boolean = comp.shouldShowContactLeaderBtn();
+        expect(doShowBtn).toEqual(false);
+    });
+
+    it('should show btn if user IS logged in and is NOT a participant', () => {
+        (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
+        (<jasmine.Spy>mockParticipantService.isUserAParticipant).and.returnValue(false);
+        let doShowBtn: boolean = comp.shouldShowContactLeaderBtn();
+        expect(doShowBtn).toEqual(true);
     });
 });

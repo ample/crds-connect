@@ -126,7 +126,7 @@ export class GatheringComponent implements OnInit {
 
   }
 
-  private shouldShowContactLeaderBtn(): boolean {
+  public shouldShowContactLeaderBtn(): boolean {
     return !this.session.isLoggedIn() ?
       true : !this.participantService.isUserAParticipant(this.session.getContactId(), this.pin.gathering.Participants);
   }
