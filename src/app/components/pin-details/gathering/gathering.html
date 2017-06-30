@@ -25,7 +25,7 @@
       </p>
       <p *ngIf="doDisplayFullDesc === false" class="gathering-description border-top push-top">
         {{descriptionToDisplay}}
-        <span (click)="expandGroupDescription()" [ngClass]="{'pointer': canBeHyperlinked}">More</span>
+        <a (click)="expandGroupDescription()" class="pointer">More</a>
       </p>
 
       <dl *ngIf="pin.pinType === pinType.SMALL_GROUP" class="group-meta-data border-top push-top">
