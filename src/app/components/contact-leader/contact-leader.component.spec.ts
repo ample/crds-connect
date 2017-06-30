@@ -128,7 +128,7 @@ describe('Component: Contact Leader', () => {
       expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });
 
-    it('should send message to leader', () => {
+    it('should throw an error if it fails to send a message to the leader', () => {
       let mockMsgToLeader: MsgToLeader = new MsgToLeader('lol','rofl');
       (mockParticipantService.submitLeaderMessageToAPI).and.returnValue(Observable.throw({}));
       (mockContentService.getContent).and.returnValue('whee');
