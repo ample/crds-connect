@@ -28,6 +28,7 @@ export class ContactLeaderComponent implements OnInit {
 
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
+  public submissionError: boolean = true;
   public groupId: number;
   private msgToLeader: MsgToLeader = new MsgToLeader('','');
 
@@ -84,6 +85,7 @@ export class ContactLeaderComponent implements OnInit {
         this.state.setLoading(false);
       }, err => {
         this.state.setLoading(false);
+        this.toast.error(this.content.getContent('groupFinderContactCrdsError'), null, {toastLife: 3000});
       }
     );
   }
