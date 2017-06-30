@@ -24,6 +24,25 @@
   white-space: normal;
 }
 
+dl {
+  &.group-meta-data {
+    font-size: $font-size-small;
+
+    dt {
+      color: $cr-gray-lighter;
+      font-weight: 400;
+
+      &:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+
+    dd {
+      color: $cr-gray-light;
+    }
+  }
+}
+
 .group-meta-data {
   color: $cr-gray-lighter;
   padding-top: 1rem;
