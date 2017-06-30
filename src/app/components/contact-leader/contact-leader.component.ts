@@ -77,7 +77,7 @@ export class ContactLeaderComponent implements OnInit {
     }
   }
 
-  private sendLeaderMessage(msgToLeader: MsgToLeader) {
+  private sendLeaderMessage(msgToLeader: MsgToLeader): void {
     this.state.setLoading(true);
     this.participantService.submitLeaderMessageToAPI(this.groupId, msgToLeader).subscribe(
       next => {
