@@ -1,13 +1,16 @@
 <div class="connect-search">
   <div class="connect-layout-container">
     <div class="input-group searchbar">
-      <input type="text"
-             class="form-control"
-             id="search-bar-input"
-             [(ngModel)]="state.searchBarText"
-             (keyup.enter)="onSearch(state.searchBarText)"
-             (keyup)="searchKeyUp()"
-             placeholder={{placeholderTextForSearchBar}}>
+      <form action="." class="full-width"
+            (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
+        <input type="search"
+              class="form-control"
+              id="search-bar-input"
+              [(ngModel)]="state.searchBarText"
+              [ngModelOptions]="{standalone: true}"
+              (keyup)="searchKeyUp()"
+              placeholder={{placeholderTextForSearchBar}}>
+      </form>
       <!--(keyup) = "searchKeyUp()"--> <!--This attribute belongs to the input above-->
       <span class="form-control-clear form-control-feedback" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)">
         <svg class="icon icon-1" viewBox="0 0 256 256">
