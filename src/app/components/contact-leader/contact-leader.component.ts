@@ -28,7 +28,6 @@ export class ContactLeaderComponent implements OnInit {
 
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
-  public submissionError: boolean = true;
   public groupId: number;
   private msgToLeader: MsgToLeader = new MsgToLeader('','');
 
