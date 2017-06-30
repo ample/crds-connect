@@ -17,6 +17,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { IFrameParentService } from '../../services/iframe-parent.service';
 import { GroupService } from '../../services/group.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
+import { ParticipantService } from '../../services/participant.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -28,11 +29,11 @@ import { ContactLeaderComponent } from './contact-leader.component';
 
 import { AlertModule } from 'ngx-bootstrap';
 
-describe('Component: Host Application', () => {
+describe('Component: Contact Leader', () => {
 
     let component;
     let fixture;
-    let   mockAddressService,
+    let mockAddressService,
         mockIFrameParentService,
         mockStoreService,
         mockStateService,
@@ -40,6 +41,7 @@ describe('Component: Host Application', () => {
         mockCookieService,
         mockAngulartics2,
         mockLoginRedirectService,
+        mockParticipantService,
         mockPinService,
         mockBlandPageService,
         mockValidate,
@@ -49,6 +51,7 @@ describe('Component: Host Application', () => {
     beforeEach(() => {
         mockAddressService = jasmine.createSpyObj<PinService>('addressService', ['postPin']);
         mockIFrameParentService = jasmine.createSpyObj<IFrameParentService>('iFrameParentService', ['constructor', 'getIFrameParentUrl']);
+        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['constructor']);
         mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
@@ -73,6 +76,7 @@ describe('Component: Host Application', () => {
                 ContentService,
                 HostApplicationHelperService,
                 { provide: IFrameParentService, useValue: mockIFrameParentService },
+                { provide: ParticipantService, useValue: mockParticipantService },
                 { provide: StoreService, useValue: mockStoreService },
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
