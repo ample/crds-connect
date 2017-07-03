@@ -6,15 +6,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
 import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus } from '../../shared/constants';
-import { AddressService } from '../../services/address.service';
-import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { GroupService } from '../../services/group.service';
-import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { ParticipantService } from '../../services/participant.service';
-import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 
@@ -24,30 +19,21 @@ import { MsgToLeader } from '../../models/msg-to-leader';
     selector: 'contact-leader',
     templateUrl: 'contact-leader.component.html'
 })
-export class ContactLeaderComponent implements OnInit {
+export class ContactLeaderComponent implements OnInit, AfterViewInit {
 
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
   public groupId: number;
-  private msgToLeader: MsgToLeader = new MsgToLeader('','');
+  private msgToLeader: MsgToLeader = new MsgToLeader('', '');
 
   constructor(
-    private addressService: AddressService,
     private blandPageService: BlandPageService,
     private content: ContentService,
-    private hlpr: HostApplicationHelperService,
-    private fb: FormBuilder,
     private location: Location,
-    private loginRedirectService: LoginRedirectService,
     private participantService: ParticipantService,
     private route: ActivatedRoute,
-    private router: Router,
-    private session: SessionService,
-    private store: StoreService,
     private toast: ToastsManager,
-    private state: StateService,
-    private appSettingsService: AppSettingsService,
-    private groupService: GroupService) {}
+    private state: StateService) {}
 
   public ngOnInit() {
 
@@ -71,7 +57,7 @@ export class ContactLeaderComponent implements OnInit {
 
   public onSubmit({ value, valid }: { value: MsgToLeader, valid: boolean }) {
     this.isFormSubmitted = true;
-    if(valid) {
+    if (valid) {
       this.sendLeaderMessage(value);
     }
   }

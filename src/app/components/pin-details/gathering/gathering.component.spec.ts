@@ -352,24 +352,4 @@ describe('GatheringComponent', () => {
         comp.edit();
         expect(comp['router'].navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId, 'edit']);
     });
-
-    it('should always show the contact leader button if the user is NOT logged in', () => {
-        (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(false);
-        let doShowBtn: boolean = comp.shouldShowContactLeaderBtn();
-        expect(doShowBtn).toEqual(true);
-    });
-
-    it('should NOT show btn if user IS logged in and IS a participant', () => {
-        (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
-        (<jasmine.Spy>mockParticipantService.isUserAParticipant).and.returnValue(true);
-        let doShowBtn: boolean = comp.shouldShowContactLeaderBtn();
-        expect(doShowBtn).toEqual(false);
-    });
-
-    it('should show btn if user IS logged in and is NOT a participant', () => {
-        (<jasmine.Spy>mockSessionService.isLoggedIn).and.returnValue(true);
-        (<jasmine.Spy>mockParticipantService.isUserAParticipant).and.returnValue(false);
-        let doShowBtn: boolean = comp.shouldShowContactLeaderBtn();
-        expect(doShowBtn).toEqual(true);
-    });
 });

@@ -35,7 +35,6 @@ export class GatheringComponent implements OnInit {
   @Input() isLoggedIn: boolean = false;
 
   private pinType: any = pinType;
-  public doShowContactLeaderBtn: boolean;
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
   public sayHiButtonText: string = 'Contact host';
@@ -81,8 +80,6 @@ export class GatheringComponent implements OnInit {
           });
           this.pin.gathering.Participants = participants;
 
-          this.doShowContactLeaderBtn = this.shouldShowContactLeaderBtn();
-
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
               if (role !== GroupRole.NONE) {
@@ -103,6 +100,7 @@ export class GatheringComponent implements OnInit {
                   }
                   );
               } else {
+                // Not a participant of this group.
                 this.state.setLoading(false);
                 this.ready = true;
               }
@@ -124,11 +122,6 @@ export class GatheringComponent implements OnInit {
     let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
 
-  }
-
-  public shouldShowContactLeaderBtn(): boolean {
-    return !this.session.isLoggedIn() ?
-      true : !this.participantService.isUserAParticipant(this.session.getContactId(), this.pin.gathering.Participants);
   }
 
   public requestToJoin() {
