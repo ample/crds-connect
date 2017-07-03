@@ -18,15 +18,17 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
     private message: string = '';
     private removeParticipantForm: FormGroup;
     private redirectUrl: string;
+    private submitting: boolean = false;
+    private isFormSubmitted: boolean = false;
 
     constructor(private participantService: ParticipantService,
-                private route: ActivatedRoute,
-                private state: StateService,
-                private locationService: Location,
-                private router: Router,
-                private contentService: ContentService,
-                private toast: ToastsManager,
-                private blandPageService: BlandPageService) { }
+        private route: ActivatedRoute,
+        private state: StateService,
+        private locationService: Location,
+        private router: Router,
+        private contentService: ContentService,
+        private toast: ToastsManager,
+        private blandPageService: BlandPageService) { }
 
     ngOnInit() {
         this.state.setLoading(true);
@@ -39,10 +41,10 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
             this.participantService.getGroupParticipant(this.groupId, this.groupParticipantId).finally(() => {
                 this.state.setLoading(false);
             })
-            .subscribe(p => {}, error => {
-                console.log(error);
-                this.handleError();
-            });
+                .subscribe(p => { }, error => {
+                    console.log(error);
+                    this.handleError();
+                });
             this.redirectUrl = `/${this.router.url.split('/')[1]}/${this.groupId}`;
         }, error => {
             this.handleError();
@@ -59,13 +61,21 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
         this.locationService.back();
     }
 
-    public onSubmit() {
-        this.participantService.removeParticipant(this.groupId, this.groupParticipantId, this.message).subscribe(done => {
-            this.router.navigate([this.redirectUrl]);
-        }, error => {
-            console.log(error);
-            this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
-        });
+    public onSubmit({ valid }: { valid: boolean }) {
+        this.isFormSubmitted = true;
+        if (valid) {
+            this.submitting = true;
+            this.participantService.removeParticipant(this.groupId, this.groupParticipantId, this.message)
+                .finally(() => {
+                    this.submitting = false;
+                })
+                .subscribe(done => {
+                    this.router.navigate([this.redirectUrl]);
+                }, error => {
+                    console.log(error);
+                    this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
+                });
+        }
     }
 
     private handleError() {

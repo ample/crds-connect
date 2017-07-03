@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { BlandPageService } from '../../services/bland-page.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
@@ -12,11 +13,13 @@ import { StateService } from '../../services/state.service';
 import { PinLabelService } from '../../services/pin-label.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 
+// TODO: Actually test this component.
 describe('ListFooterComponent', () => {
     let fixture: ComponentFixture<ListFooterComponent>;
     let comp: ListFooterComponent;
     let el;
-    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService, mockPinLabelService, mockAppSettingsService ;
+    let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService,
+        mockPinLabelService, mockAppSettingsService, mockRouter;
 
     beforeEach(() => {
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
@@ -25,6 +28,8 @@ describe('ListFooterComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToWhatsAHost']);
         mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['isHostingAny']);
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp']);
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
+
         TestBed.configureTestingModule({
             declarations: [
                 ListFooterComponent,
@@ -39,7 +44,8 @@ describe('ListFooterComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: PinLabelService, useValue: mockPinLabelService },
-                { provide: AppSettingsService, useValue: mockAppSettingsService }
+                { provide: AppSettingsService, useValue: mockAppSettingsService },
+                { provide: Router, useValue: mockRouter }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -54,5 +60,10 @@ describe('ListFooterComponent', () => {
 
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
+    });
+
+    it('should handle create a group clicked', () => {
+        comp.createAGroupClicked();
+        expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/create-group');
     });
 });

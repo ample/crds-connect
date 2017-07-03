@@ -453,12 +453,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let postedPin = this.state.postedPin;
     return (postedPin.participantId === pinFromResults.participantId
     && postedPin.pinType === pinFromResults.pinType);
-  };
+  }
 
   private filterFoundPinElement = (pinFromResults: Pin): boolean => {
     let postedPin = this.state.postedPin;
     return (postedPin.participantId !== pinFromResults.participantId || postedPin.pinType !== pinFromResults.pinType);
-  };
+  }
 
   public ensureUpdatedPinAddressIsDisplayed(pinsFromServer: Pin[]): Pin[] {
     let wasPinAddressJustUpdated: boolean = !!this.state.navigatedFromAddToMapComponent && !!this.state.updatedPin;
