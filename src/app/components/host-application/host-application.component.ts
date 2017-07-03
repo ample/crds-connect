@@ -50,29 +50,10 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     private state: StateService,
     private location: Location,
     private appSettingsService: AppSettingsService,
-    private groupService: GroupService,
-    private window: Window
+    private groupService: GroupService
   ) {}
 
   public ngOnInit() {
-    switch (this.appSettingsService.leadershipApplicationType) {
-      case LeadershipApplicationType.GROUP_LEADER:
-        this.groupService.getLeaderStatus().subscribe(
-          pos => {
-              if ( pos.status === GroupLeaderApplicationStatus.APPROVED) {
-                console.log('create a group');
-                this.router.navigateByUrl('/create-group');
-              } else {
-                this.window.location.href = ApplicationUrl;
-              }
-          },
-          error => {
-            window.location.href = ApplicationUrl;
-          }
-      );
-        break;
-    };
-
     this.userData = this.route.snapshot.data['userData'];
     let mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
     this.homeAddress = this.userData.address;

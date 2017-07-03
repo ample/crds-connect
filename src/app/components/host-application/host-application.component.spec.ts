@@ -85,8 +85,7 @@ describe('Component: Host Application', () => {
         { provide: GroupService, useValue: mockGroupService },
         { provide: AppSettingsService, useValue: mockAppSettings },
         ToastsManager,
-        ToastOptions,
-        { provide: Window, useValue: { location: { hash: 'WAOW-MOCK-HASH' }} }
+        ToastOptions
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
