@@ -7,7 +7,7 @@ import { GroupService } from '../services/group.service';
 @Injectable()
 export class GroupLeaderApprovedGuard implements CanActivate {
 
-    constructor(private groupService: GroupService, private router: Router) { }
+    constructor(private groupService: GroupService, private router: Router, private window: Window) { }
 
     canActivate(
         route: ActivatedRouteSnapshot,
@@ -18,7 +18,7 @@ export class GroupLeaderApprovedGuard implements CanActivate {
             if (status.status === GroupLeaderApplicationStatus.APPROVED) {
               return true;
             } else {
-              window.location.href = ApplicationUrl;
+              this.window.location.href = ApplicationUrl;
               return false;
            }
       });

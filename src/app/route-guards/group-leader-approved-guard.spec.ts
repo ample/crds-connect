@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-
+import { TestBed, async, inject } from '@angular/core/testing';
 /*
  * Testing a route guard
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#isolated-unit-tests
@@ -17,9 +17,11 @@ describe('GroupLeaderApprovedGuard', () => {
     let fakeRouterState: any = { }; // RouterStateSnapshot
     let fakeActivatedRoute: any; // ActivatedRouteSnapshot
     let mockGroupService: any = jasmine.createSpyObj<GroupService>('groupService', ['getLeaderStatus']);
+    let mockWindow: Window;
 
     beforeEach(() => {
-        guard = new GroupLeaderApprovedGuard(mockGroupService, fakeRouter);
+        mockWindow = <any> { location: <any> { hash: 'WAOW-MOCK-HASH' }};
+        guard = new GroupLeaderApprovedGuard(mockGroupService, fakeRouter, mockWindow);
     });
 
     it('should return true if user is a approved leader', () => {

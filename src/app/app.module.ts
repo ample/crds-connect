@@ -2,7 +2,7 @@ import {
     ParticipantDetailsComponent
 } from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Provider  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -225,6 +225,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     UserLocationService,
     UserDataResolver,
     WhatsAHostGuard,
+    { provide: Window, useValue: window },
     HostNextStepsGuard,
   ],
   bootstrap: [AppComponent]

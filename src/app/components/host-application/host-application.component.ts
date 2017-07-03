@@ -50,7 +50,8 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     private state: StateService,
     private location: Location,
     private appSettingsService: AppSettingsService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private window: Window
   ) {}
 
   public ngOnInit() {
@@ -62,7 +63,7 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
                 console.log('create a group');
                 this.router.navigateByUrl('/create-group');
               } else {
-                window.location.href = ApplicationUrl;
+                this.window.location.href = ApplicationUrl;
               }
           },
           error => {
