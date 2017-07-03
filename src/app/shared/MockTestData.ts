@@ -1,4 +1,4 @@
-import { Address, Category, GeoCoordinates, Group, Participant, PinSearchResultsDto, Pin } from '../models';
+import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto } from '../models';
 export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
@@ -146,6 +146,18 @@ export class MockTestData {
             categories.push(category);
         };
         return categories;
+    }
+
+    public static getADetailedUserData(designator: number = 1): DetailedUserData {
+        return new DetailedUserData(
+            designator,
+            `firstName${designator}`,
+            `lastName${designator}`,
+            `${designator}112223333`,
+            '3332221111',
+            `email${designator}@email.com`,
+            this.getAnAddress(designator)
+        );
     }
 
     constructor() {}

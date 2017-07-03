@@ -15,7 +15,6 @@ import { HostApplicationHelperService } from '../../services/host-application-he
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { StoreService } from '../../services/store.service';
 
 import { Address } from '../../models/address';
 import { HostRequestDto } from '../../models/host-request-dto';
@@ -38,19 +37,14 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
 
   constructor(
     private addressService: AddressService,
-    private blandPageService: BlandPageService,
     private content: ContentService,
     private hlpr: HostApplicationHelperService,
-    private loginRedirectService: LoginRedirectService,
+    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private session: SessionService,
-    private store: StoreService,
-    private toast: ToastsManager,
     private state: StateService,
-    private location: Location,
-    private appSettingsService: AppSettingsService,
-    private groupService: GroupService
+    private toast: ToastsManager
   ) {}
 
   public ngOnInit() {
@@ -111,9 +105,9 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
 
     if (isDuplicateGatheringAddress) {
       this.toast.error('You cannot host another gathering at the same location. ' +
-          'Please change the address and try again!', null, {toastLife: 3000});
+          'Please change the address and try again!');
     } else {
-      this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
+      this.toast.error('An error occurred, please try again later.');
     }
   }
 
