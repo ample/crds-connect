@@ -59,6 +59,7 @@ export class GatheringComponent implements OnInit {
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
+
   public ngOnInit() {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
@@ -78,6 +79,7 @@ export class GatheringComponent implements OnInit {
             this.leaders = leaders;
           });
           this.pin.gathering.Participants = participants;
+
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
               if (role !== GroupRole.NONE) {
@@ -98,6 +100,7 @@ export class GatheringComponent implements OnInit {
                   }
                   );
               } else {
+                // Not a participant of this group.
                 this.state.setLoading(false);
                 this.ready = true;
               }
@@ -108,9 +111,17 @@ export class GatheringComponent implements OnInit {
           this.blandPageService.goToDefaultError('');
         });
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
       this.blandPageService.goToDefaultError('');
     }
+  }
+
+  private onContactLeaderClicked(): void {
+
+    this.state.setLoading(true);
+    let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
+    this.router.navigate([contactLeaderOfThisGroupPageUrl]);
+
   }
 
   public requestToJoin() {

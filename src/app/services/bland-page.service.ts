@@ -129,7 +129,16 @@ export class BlandPageService {
         );
     }
 
-
+    public navigateToMessageSentToLeaderConfirmation(): void {
+      let blandPageDetails = new BlandPageDetails(
+          'Return to results',
+          'messageSentToGroupLeaderConfirmation',
+          BlandPageType.ContentBlock,
+          BlandPageCause.SimpleFauxdal,
+          '/',
+          '/');
+      this.primeAndGo(blandPageDetails);
+    }
 
     public primed() {
         return (this.blandPageDetails !== null && this.blandPageDetails !== undefined);

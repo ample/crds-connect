@@ -37,6 +37,7 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -148,6 +149,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
+	ContactLeaderComponent,
     CreateGroupSummaryComponent,
     CreateGroupPage1Component,
     GatheringComponent,
