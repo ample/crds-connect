@@ -35,14 +35,10 @@
 
                     <footer class="row soft-top">
                         <div class="col-xs-12 col-sm-6 col-sm-offset-3 btn-group">
-                            <button type="submit" [disabled]="removeParticipantForm.invalid || submitting" class="btn btn-secondary">Remove Participant</button>
+                            <button type="submit" [disabled]="submitting" class="btn btn-secondary">Remove Participant</button>
                             <button type="button" (click)="closeClick()" class="btn btn-outline btn-default">Cancel</button>
                         </div>
                     </footer>
-
-                    <div *ngIf="submissionError" class="alert alert-danger">
-                        <crds-content-block id="generalError"></crds-content-block>
-                    </div>
                 </form>
             </div>
         </div>

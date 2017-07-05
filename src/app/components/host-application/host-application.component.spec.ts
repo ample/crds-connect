@@ -1,117 +1,109 @@
-/* tslint:disable:no-unused-variable */
-import { Angulartics2 } from 'angulartics2';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { CookieService } from 'angular2-cookie/core';
-import { TestBed } from '@angular/core/testing';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule  } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-
-import { AddressService } from '../../services/address.service';
-import { AppSettingsService } from '../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { IFrameParentService } from '../../services/iframe-parent.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
+import { DetailedUserData } from '../../models/detailed-user-data';
+import { AddressService } from '../../services/address.service';
 import { GroupService } from '../../services/group.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { StoreService } from '../../services/store.service';
-import { LoginRedirectService } from '../../services/login-redirect.service';
-import { PinService } from '../../services/pin.service';
-import { BlandPageService } from '../../services/bland-page.service';
-
+import { MockTestData } from '../../shared/MockTestData';
 import { HostApplicationComponent } from './host-application.component';
 
-import { AlertModule } from 'ngx-bootstrap';
-
-describe('Component: Host Application', () => {
-
-  let component;
-  let fixture;
-  let   mockAddressService,
-        mockIFrameParentService,
-        mockStoreService,
-        mockStateService,
-        mockSessionService,
-        mockCookieService,
-        mockAngulartics2,
-        mockLoginRedirectService,
-        mockPinService,
-        mockBlandPageService,
-        mockValidate,
-        mockGroupService,
-        mockAppSettings;
+// TODO: Finish Unit Testing this Component
+describe('HostApplicationComponent', () => {
+  let fixture: ComponentFixture<HostApplicationComponent>;
+  let comp: HostApplicationComponent;
+  let el;
+  let mockAddressService,
+    mockContentService,
+    mockHostApplicationHlpr,
+    mockLocationService,
+    mockRouter,
+    mockStateService,
+    mockSessionService,
+    mockToastsManager;
+  let userData: DetailedUserData;
 
   beforeEach(() => {
-        mockAddressService = jasmine.createSpyObj<PinService>('addressService', ['postPin']);
-        mockIFrameParentService = jasmine.createSpyObj<IFrameParentService>('iFrameParentService', ['constructor', 'getIFrameParentUrl']);
-        mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
-        mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor']);
-        mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
-        mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angularTics', ['constuctor']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['constructor']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('BlandPageService', ['constructor']);
-        mockValidate = jasmine.createSpyObj<Validators>('Validators', ['minLength', 'maxLength', 'required']);
-        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['constructor']);
-        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['constructor']);
-
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setLoading']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['postHostApplication']);
+    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
+    mockLocationService = jasmine.createSpyObj<Location>('location', ['back']);
+    mockHostApplicationHlpr = jasmine.createSpyObj<HostApplicationHelperService>('hlpr', ['formatPhoneForUi', 'stripHtmlFromString']);
+    mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+    userData = MockTestData.getADetailedUserData();
     TestBed.configureTestingModule({
       declarations: [
         HostApplicationComponent
       ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
         { provide: AddressService, useValue: mockAddressService },
-        ContentService,
-        HostApplicationHelperService,
-        { provide: IFrameParentService, useValue: mockIFrameParentService },
-        { provide: StoreService, useValue: mockStoreService },
+        { provide: ContentService, useValue: mockContentService },
+        { provide: HostApplicationHelperService, useValue: mockHostApplicationHlpr },
+        { provide: Location, useValue: mockLocationService },
         { provide: StateService, useValue: mockStateService },
         { provide: SessionService, useValue: mockSessionService },
-        { provide: CookieService, useValue: mockCookieService },
-        { provide: Angulartics2, useValue: mockAngulartics2 },
-        { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-        { provide: PinService, useValue: mockPinService },
-        { provide: BlandPageService, useValue: mockBlandPageService },
-        { provide: Validators, useValue: mockValidate },
-        { provide: GroupService, useValue: mockGroupService },
-        { provide: AppSettingsService, useValue: mockAppSettings },
-        ToastsManager,
-        ToastOptions
+        { provide: ToastsManager, useValue: mockToastsManager },
+        { provide: ActivatedRoute, useValue: { snapshot: { data: { userData: userData } } } },
+        { provide: Router, useValue: mockRouter }
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
-    this.fixture = TestBed.createComponent(HostApplicationComponent);
-    this.component = this.fixture.componentInstance;
-
   });
+
+  beforeEach(async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(HostApplicationComponent);
+      comp = fixture.componentInstance;
+
+      // el = fixture.debugElement.query(By.css('h1'));
+    });
+  }));
 
   it('should create an instance', () => {
-    expect(this.component).toBeTruthy();
+    expect(comp).toBeTruthy();
   });
 
-  it('validate phone length, min not met', () => {
-    expect(mockValidate.minLength(new FormControl('123'))).toBeFalsy();
-  });
-  it('should initiate with the "use home address for group" checkbox ticked', () => {
-    const isHomeAddressCheckbox = this.fixture.debugElement.query(By.css('#isHomeAddress')).nativeElement;
-    expect(isHomeAddressCheckbox.checked).toBeTruthy();
-  });
-
-  it('validate phone length - correct length', () => {
-    expect(mockValidate.minLength(new FormControl('1235551234'))).toEqual(undefined);
-  });
   it('should initially hide the second address form', () => {
-    const groupAddressForm = this.fixture.debugElement.query(By.css('#gatheringAddressForm'));
+    const groupAddressForm = fixture.debugElement.query(By.css('#gatheringAddressForm'));
     expect(groupAddressForm).toBeFalsy();
   });
 
+  it('should init', () => {
+    (mockHostApplicationHlpr.formatPhoneForUi).and.returnValue(1231231234);
+    let contentReturned = 'Hey this is some content';
+    (mockContentService.getContent).and.returnValue(contentReturned);
+    (mockHostApplicationHlpr.stripHtmlFromString).and.returnValue(contentReturned);
+    comp.ngOnInit();
+    expect(mockHostApplicationHlpr.formatPhoneForUi).toHaveBeenCalledWith(userData.mobilePhone);
+    expect(mockContentService.getContent).toHaveBeenCalledWith('defaultGatheringDesc');
+    expect(mockHostApplicationHlpr.stripHtmlFromString).toHaveBeenCalledWith(contentReturned);
+    expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
+    expect(comp['userData']).toBe(userData);
+  });
+
+  it('validate phone length - min not met', () => {
+      comp.ngOnInit();
+      comp.hostForm.controls['contactNumber'].setValue('123');
+      expect(comp.hostForm.controls['contactNumber'].valid).toBeFalsy();
+  });
+
+  it('validate phone length - correct length', () => {
+      comp.ngOnInit();
+      comp.hostForm.controls['contactNumber'].setValue('1234567890');
+      expect(comp.hostForm.controls['contactNumber'].valid).toBeTruthy();
+  });
 });

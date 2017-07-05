@@ -162,5 +162,4 @@ export class ParticipantService extends CacheableService<Group[]> {
             })
             .catch((error: any) => Observable.throw(error || 'Server exception'));
     }
-    
 }

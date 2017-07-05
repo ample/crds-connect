@@ -2,7 +2,7 @@ import {
     ParticipantDetailsComponent
 } from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Provider  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,6 +37,8 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
+import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
@@ -83,6 +85,7 @@ import { GroupService } from './services/group.service';
 import { IPService } from './services/ip.service';
 import { LocationService } from './services/location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
+import { LookupService } from './services/lookup.service';
 import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
 import { PinLabelService } from './services/pin-label.service';
@@ -101,6 +104,7 @@ import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { GroupLeaderApprovedGuard } from './route-guards/group-leader-approved.guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
@@ -144,6 +148,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
+    CreateGroupSummaryComponent,
+    CreateGroupPage1Component,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
@@ -195,6 +201,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupLeaderGuard,
+    GroupLeaderApprovedGuard,
     Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,
@@ -203,6 +210,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LoginRedirectService,
     LocationService,
     LoggedInGuard,
+    LookupService,
     NeighborsHelperService,
     ParticipantService,
     PinLabelService,
@@ -217,6 +225,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     UserLocationService,
     UserDataResolver,
     WhatsAHostGuard,
+    { provide: Window, useValue: window },
     HostNextStepsGuard,
   ],
   bootstrap: [AppComponent]

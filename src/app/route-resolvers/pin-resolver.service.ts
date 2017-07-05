@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { PinService } from '../services/pin.service';
-import { Pin, pinType } from '../models/pin';
-import { PinIdentifier } from '../models/pin-identifier';
+import { Pin, PinIdentifier, pinType } from '../models';
 import { BlandPageService } from '../services/bland-page.service';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../models/bland-page-details';
 
@@ -21,9 +20,9 @@ export class PinResolver implements Resolve<Pin> {
 
     participantId = route.params['participantId'];
     groupId = route.params['groupId'];
-    let routeType = route.url[0].path; // person, gathering, or small-group
+    let routeType: string = route.url[0].path; // person, gathering, or small-group
 
-    if (participantId != null && routeType === 'person') {
+    if (participantId != null && routeType.includes('person')) {
       pinIdentifier = new PinIdentifier(pinType.PERSON, participantId);
     } else {
       if (routeType === 'gathering') {
