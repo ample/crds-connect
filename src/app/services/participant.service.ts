@@ -174,16 +174,4 @@ export class ParticipantService extends CacheableService<Group[]> {
         return this.session.post(url, groupMsgDto);
     }
 
-    // TODO: Discuss if we need this. I don't believe we do since getCurrentUserGroupRole returns .NONE. 
-    public isUserAParticipant (contactId: number, participants: Participant[]): boolean {
-       let isUserAParticipant: boolean;
-
-      if (!participants) {
-        isUserAParticipant = false;
-      } else {
-        isUserAParticipant = participants.some(p => p.contactId == contactId);
-      }
-
-      return isUserAParticipant;
-    }
 }
