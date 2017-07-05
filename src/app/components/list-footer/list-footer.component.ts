@@ -61,10 +61,7 @@ export class ListFooterComponent implements OnInit, OnChanges {
 
   public createAGroupClicked()  {
     this.state.setCurrentView('list');
-// create a group parent component    
-// Not approved goes to group leader approved
-// Approved goes to create a group
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/create-group');
   }
 
 }

@@ -8,6 +8,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
+import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
+import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
@@ -29,6 +32,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { GroupLeaderApprovedGuard } from './route-guards/group-leader-approved.guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
@@ -57,6 +61,26 @@ const appRoutes: Routes = [
     data: [{
       accept: true
     }]
+  }, {
+    path: 'create-group',
+    component: CreateGroupSummaryComponent,
+    canActivate: [
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
+    ]
+  }, {
+    path: 'create-group/page-1',
+    component: CreateGroupPage1Component,
+    canActivate: [
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
+    ]
+  }, {
+    path: 'contact-leader/:groupId',
+    component: ContactLeaderComponent,
+    canActivate: [
+      LoggedInGuard,
+    ]
   }, {
     path: 'decline-invite/:groupId/:guid',
     component: HandleInviteComponent,
@@ -167,7 +191,7 @@ const appRoutes: Routes = [
     component: ParticipantRemoveComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
-    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
+    path: 'gathering/:groupId/participant-detail/:groupParticipantId/remove',
     component: ParticipantRemoveComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {

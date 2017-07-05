@@ -4,9 +4,10 @@
  */
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { Location } from '@angular/common';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
@@ -111,9 +112,11 @@ describe('ParticipantRemoveComponent', () => {
         comp['message'] = 'The best message';
 
         (mockParticipantService.removeParticipant).and.returnValue(Observable.of({}));
-        comp.onSubmit();
+        comp.onSubmit(new FormGroup({}));
         expect(mockParticipantService.removeParticipant).toHaveBeenCalledWith(42, 99, 'The best message');
         expect(mockRouter.navigate).toHaveBeenCalledWith(['test']);
+        expect(comp['isFormSubmitted']).toBeTruthy();
+        expect(comp['submitting']).toBeFalsy();
     });
 
     it('onSubmit failure should toast', () => {
@@ -123,15 +126,25 @@ describe('ParticipantRemoveComponent', () => {
         comp['message'] = 'The best message';
         (mockParticipantService.removeParticipant).and.returnValue(Observable.throw({error: 'crap'}));
         (mockContentService.getContent).and.returnValue('Something error happens');
-        comp.onSubmit();
+        comp.onSubmit(new FormGroup({}));
         expect(mockRouter.navigate).not.toHaveBeenCalled();
         expect(mockContentService.getContent).toHaveBeenCalledWith('groupToolRemoveParticipantFailure');
         expect(mockToastsManager.error).toHaveBeenCalledWith('Something error happens');
+        expect(comp['isFormSubmitted']).toBeTruthy();
+        expect(comp['submitting']).toBeFalsy();
     });
 
     it('handle error should go to default bland page error', () => {
         comp['redirectUrl'] = 'stuff';
         comp['handleError']();
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('stuff');
+    });
+
+    it('shouldnt submit if the form is not valid', () => {
+        let value = null;
+        let formGroup = new FormGroup({formyElement: new FormControl(value, [Validators.required])});
+        comp.onSubmit(formGroup);
+        expect(comp['isFormSubmitted']).toBeTruthy();
+        expect(mockParticipantService.removeParticipant).not.toHaveBeenCalled();
     });
 });

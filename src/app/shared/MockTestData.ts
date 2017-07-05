@@ -1,9 +1,4 @@
-import { Pin } from '../models/pin';
-import { Address } from '../models/address';
-import { Group } from '../models/group';
-import { Participant } from '../models/participant';
-import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { GeoCoordinates } from '../models/geo-coordinates';
+import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto } from '../models';
 export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
@@ -131,6 +126,37 @@ export class MockTestData {
             23,
             this.getAParticipantsArray(numParticipantsInGathering),
             30
+        );
+    }
+
+    public static getSomeCategories(numOfCategories: number = 5): Category[] {
+        let categories = new Array<Category>();
+        if (numOfCategories === 0) {
+            return null;
+        }
+        for (let index = 0; index < numOfCategories; index++) {
+            let category = new Category(
+                index,
+                null,
+                `Category #${index} description`,
+                `Example Text #${index}`,
+                false,
+                `Category #${index}`
+            );
+            categories.push(category);
+        };
+        return categories;
+    }
+
+    public static getADetailedUserData(designator: number = 1): DetailedUserData {
+        return new DetailedUserData(
+            designator,
+            `firstName${designator}`,
+            `lastName${designator}`,
+            `${designator}112223333`,
+            '3332221111',
+            `email${designator}@email.com`,
+            this.getAnAddress(designator)
         );
     }
 

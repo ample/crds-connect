@@ -11,7 +11,7 @@ import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
-import { groupDescriptionLenth } from '../../shared/constants';
+import { groupDescriptionLength } from '../../shared/constants';
 
 @Component({
   selector: 'list-entry',
@@ -64,7 +64,7 @@ export class ListEntryComponent implements OnInit {
 
   public formatName() {
     if (this.isSmallGroup) {
-      return this.groupTitle ? this.listHelper.truncateTextEllipsis(this.groupTitle.toUpperCase(), groupDescriptionLenth) : '';
+      return this.groupTitle ? this.listHelper.truncateTextEllipsis(this.groupTitle.toUpperCase(), groupDescriptionLength) : '';
     } else {
       return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
     }
