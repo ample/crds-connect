@@ -8,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
@@ -73,6 +74,12 @@ const appRoutes: Routes = [
     canActivate: [
       LoggedInGuard,
       GroupLeaderApprovedGuard
+    ]
+  }, {
+    path: 'contact-leader/:groupId',
+    component: ContactLeaderComponent,
+    canActivate: [
+      LoggedInGuard,
     ]
   }, {
     path: 'decline-invite/:groupId/:guid',
