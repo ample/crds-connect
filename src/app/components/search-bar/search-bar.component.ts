@@ -111,3 +111,4 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
 }
+
