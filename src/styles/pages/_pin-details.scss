@@ -22,6 +22,16 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+
+  .list-inline {
+    a {
+      color: $cr-white;
+
+      &:hover {
+        color: rgba($cr-white, .7);
+      }
+    }
+  }
 }
 
 dl {

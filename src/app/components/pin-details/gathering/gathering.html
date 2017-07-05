@@ -20,12 +20,30 @@
           </div>
         </div>
       </div>
-      <p *ngIf="doDisplayFullDesc === true" class="gathering-description border-top push-top">
+
+      <p class="gathering-description border-top push-top">
         {{descriptionToDisplay}}
-      </p>
-      <p *ngIf="doDisplayFullDesc === false" class="gathering-description border-top push-top">
-        {{descriptionToDisplay}}
-        <a (click)="expandGroupDescription()" class="pointer">More</a>
+        <a *ngIf="!doDisplayFullDesc" (click)="expandGroupDescription()" class="pointer">More</a>
+
+        <span *ngIf="doDisplayFullDesc">
+          <ul class="list-inline push-top">
+            <li>
+              <a href="#">
+                <svg class="icon icon-2" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#facebook"></use>
+                </svg>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <svg class="icon icon-2" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#twitter"></use>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </span>
       </p>
 
       <dl *ngIf="pin.pinType === pinType.SMALL_GROUP" class="group-meta-data border-top push-top">
