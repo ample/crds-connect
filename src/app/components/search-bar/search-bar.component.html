@@ -18,7 +18,7 @@
         </svg>
       </span>
       <span>
-        <a class="form-control-clear" (click)="openFilters()">
+        <a class="form-control-clear form-control-feedback" (click)="toggleFilters()">
           <svg class="icon icon-1" viewBox="0 0 256 256">
             <use xlink:href="/assets/svgs/icons.svg#equalizer"></use>
           </svg>
@@ -35,3 +35,5 @@
     <button type="button" class="btn btn-primary btn-toggle" (click)="toggleView()">{{buttontext}}</button>
   </div>
 </div>
+
+<app-filters *ngIf="isFilterDialogOpen"></app-filters>

@@ -30,6 +30,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
+  public isFilterDialogOpen: boolean = false;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -106,9 +107,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
     document.getElementById('search-bar-input').focus();
   }
 
-  public openFilters() {
-    console.log('filters opened');
+  public toggleFilters() {
+    console.log('filters toggle');
+    this.isFilterDialogOpen = !this.isFilterDialogOpen;
   }
 
 }
-
