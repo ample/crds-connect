@@ -93,4 +93,16 @@ describe('SearchBarComponent', () => {
     expect(comp.placeholderTextForSearchBar).toBe(placeholderTextForSearchBar.KEYWORD);
   });
 
+  it('It should show the "clear search" button if there is text in the search bar ', () => {
+    mockStateService.searchBarText = 'lol';
+    comp.ngOnInit();
+    expect(comp.isSearchClearHidden ).toBe(false);
+  });
+
+  it('It NOT should show the "clear search" button if there is no text in the search bar ', () => {
+    mockStateService.searchBarText = '';
+    comp.ngOnInit();
+    expect(comp.isSearchClearHidden ).toBe(true);
+  });
+
 });
