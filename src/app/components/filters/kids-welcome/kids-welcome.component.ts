@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { Pin, pinType } from '../../../models/pin';
+import { awsFieldNames } from '../../../shared/constants';
 
 @Component({
   selector: 'kids-welcome',
@@ -12,8 +13,10 @@ import { Pin, pinType } from '../../../models/pin';
 })
 
 export class KidsWelcomeComponent {
-  private welcome: boolean = false;
+  private welcome: boolean = null;
   private selected: boolean = false;
+  private filterString: string = '';
+
   constructor( private appSettings: AppSettingsService,
                private router: Router) { }
 
@@ -21,5 +24,13 @@ export class KidsWelcomeComponent {
   public kidsWelcome(value: boolean): void {
         this.selected = true;
         this.welcome = value;
-    }
+  }
+  public getFilterString(): string {
+    // AWS value is a number, not a string
+    let welcomeFlag = this.welcome ? 1 : 0;
+    return this.filterString = (this.welcome != null || this.welcome != undefined) ?
+      (awsFieldNames.GROUP_KIDS_WELCOME + ': ' + welcomeFlag) :
+      null;
+  }
+
 }
