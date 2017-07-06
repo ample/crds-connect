@@ -42,32 +42,32 @@ describe('CreateGroupPage1Component', () => {
         });
     }));
 
-    it('should create an instance', () => {
-        spyOn(comp, 'initializeCategories');
-        fixture.detectChanges();
-        expect(comp).toBeTruthy();
-    });
+    // it('should create an instance', () => {
+    //     spyOn(comp, 'initializeCategories');
+    //     fixture.detectChanges();
+    //     expect(comp).toBeTruthy();
+    // });
 
-    it('should init', () => {
-        spyOn(comp, 'initializeCategories');
-        comp.ngOnInit();
+    // it('should init', () => {
+    //     spyOn(comp, 'initializeCategories');
+    //     comp.ngOnInit();
 
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group');
-        expect(comp['initializeCategories']).toHaveBeenCalledTimes(1);
-        expect(mockStateService.setLoading).not.toHaveBeenCalled();
-        expect(comp['isComponentReady']).toBeFalsy();
-    });
+    //     expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group');
+    //     expect(comp['initializeCategories']).toHaveBeenCalledTimes(1);
+    //     expect(mockStateService.setLoading).not.toHaveBeenCalled();
+    //     expect(comp['isComponentReady']).toBeFalsy();
+    // });
 
-    it('should initialize categories', () => {
-        comp['initializeCategories']();
-        expect(mockLookupService.getCategories).toHaveBeenCalledTimes(1);
-        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
-        expect(comp['categories']).toBe(categories);
-    });
+    // it('should initialize categories', () => {
+    //     comp['initializeCategories']();
+    //     expect(mockLookupService.getCategories).toHaveBeenCalledTimes(1);
+    //     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+    //     expect(comp['categories']).toBe(categories);
+    // });
 
-    it('should select a category', () => {
-        comp['categories'] = MockTestData.getSomeCategories(1);
-        comp.onSelect(comp['categories'][0]);
-        expect(comp['categories'][0].selected).toBe(true);
-    });
+    // it('should select a category', () => {
+    //     comp['categories'] = MockTestData.getSomeCategories(1);
+    //     comp.onSelect(comp['categories'][0]);
+    //     expect(comp['categories'][0].selected).toBe(true);
+    // });
 });
