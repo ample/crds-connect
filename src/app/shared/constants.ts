@@ -10,6 +10,8 @@ export class AwsFieldNames {
   }
 }
 
+export const AgeGroupAttributeTypeId: number = 91;
+
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
   lng: -84.423367
