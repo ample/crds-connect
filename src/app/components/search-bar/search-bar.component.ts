@@ -41,6 +41,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS :
                                                                          placeholderTextForSearchBar.KEYWORD;
 
+    this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
+
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
       this.setButtonText();
