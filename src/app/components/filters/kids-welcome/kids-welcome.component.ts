@@ -11,20 +11,15 @@ import { Pin, pinType } from '../../../models/pin';
   templateUrl: 'kids-welcome.component.html'
 })
 
-export class KidsWelcomeComponent implements OnInit, OnDestroy {
+export class KidsWelcomeComponent {
+  private welcome: boolean = false;
   private selected: boolean = false;
   constructor( private appSettings: AppSettingsService,
                private router: Router) { }
 
-  public ngOnDestroy(): void {
 
-  }
-
-  public ngOnInit(): void {
-
-  }
-
-  public onSelect(): void {
-        this.selected = !this.selected;
+  public kidsWelcome(value: boolean): void {
+        this.selected = true;
+        this.welcome = value;
     }
 }
