@@ -206,7 +206,7 @@ describe('Service: Pin', () => {
     }));
 
     it('should create valid search params', inject([PinService], (service: PinService) => {
-      let expectedSearchParams = new PinSearchRequestParams(true, 'ayy');
+      let expectedSearchParams = new PinSearchRequestParams(true, 'ayy', null);
       let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest(true, 'ayy');
       expect(actualSearchParams).toEqual(expectedSearchParams);
 
