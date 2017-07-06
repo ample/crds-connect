@@ -11,48 +11,32 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
     templateUrl: './create-group-page-1.component.html',
 })
 export class CreateGroupPage1Component implements OnInit {
-    private categories: Category[] = [];
-    private selectedCategories: Category[] = [];
     public groupCategoryForm: FormGroup;
     private isComponentReady: boolean = false;
+    private isSubmitted: boolean = false;
 
     constructor(private state: StateService,
-        private lookup: LookupService,
-        private fb: FormBuilder,
-        private createGroupService: CreateGroupService) { }
+                private createGroupService: CreateGroupService) { }
 
     ngOnInit() {
         this.state.setLoading(true);
         this.state.setPageHeader('start a group', '/create-group');
-        this.groupCategoryForm = new FormGroup({ page1: new FormGroup({}) });
-        this.getCategories();
-    }
-
-    private getCategories(): void {
-        if (this.createGroupService.isInitialized()) {
-            let cats = this.createGroupService.getCategories();
+        this.groupCategoryForm = new FormGroup({});
+        this.createGroupService.initializePageOne()
+        .finally(() => {
+            this.state.setLoading(false);
+            this.isComponentReady = true;
+        })
+        .subscribe(cats => {
             this.initializeCategories(cats);
-        } else {
-            this.lookup.getCategories().subscribe(
-                categories => {
-                    this.createGroupService.initialize();
-                    this.createGroupService.setCategories(categories);
-                    this.initializeCategories(categories);
-                }
-            );
-        }
+        });
     }
 
     private initializeCategories(categories): void {
-        this.categories = categories;
-
-        this.categories.forEach((category) => {
+        categories.forEach((category) => {
             this.groupCategoryForm.addControl(category.name, new FormControl('', []));
             this.groupCategoryForm.addControl(`${category.name}-detail`, new FormControl('', []));
         });
-
-        this.state.setLoading(false);
-        this.isComponentReady = true;
     }
 
     public onSelect(category: Category): void {
@@ -66,7 +50,13 @@ export class CreateGroupPage1Component implements OnInit {
         }
     }
 
-    public onSubmit(value) {
-        this.createGroupService.setCategories(this.categories);
+    public onSubmit(form) {
+        this.isSubmitted = true;
+        if (form.valid) {
+            // Do Something
+        } else {
+            // Do something else
+        }
+
     }
 }
