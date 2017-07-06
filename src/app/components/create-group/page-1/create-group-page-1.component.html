@@ -6,7 +6,7 @@
         <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
     </div>
     <div *ngIf="isComponentReady">
-        <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
             <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block">
                 <button class="btn btn-option btn-flex btn-outline" 
                         [id]="category.name" 
