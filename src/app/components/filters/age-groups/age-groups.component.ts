@@ -21,7 +21,6 @@ export class AgeGroupsComponent implements OnInit {
   private ageGroups: AgeGroup[];
 
   constructor( private appSettings: AppSettingsService,
-               private router: Router,
                private lookupService: LookupService,
                private filterService: FilterService) { }
 
@@ -41,7 +40,6 @@ export class AgeGroupsComponent implements OnInit {
                 let theAge = new AgeGroup(age);
                 this.ageGroups.push(theAge);
             }
-            console.log(this.ageGroups);
           }
       );
   }
@@ -51,10 +49,6 @@ export class AgeGroupsComponent implements OnInit {
     if ( group != null) {
       group.selected = !group.selected;
     }
-  }
-
-  public onSelect(): void {
-        this.selected = !this.selected;
   }
 
   public setFilterString(): void {

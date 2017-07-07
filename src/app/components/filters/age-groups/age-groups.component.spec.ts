@@ -6,28 +6,31 @@ import { Observable } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../../../services/filter.service';
+import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
-import { KidsWelcomeComponent } from './kids-welcome.component';
+import { AgeGroupsComponent } from './age-groups.component';
 
-describe('KidsWelcomeComponent', () => {
-    let fixture: ComponentFixture<KidsWelcomeComponent>;
-    let comp: KidsWelcomeComponent;
+fdescribe('AgeGroupsComponent', () => {
+    let fixture: ComponentFixture<AgeGroupsComponent>;
+    let comp: AgeGroupsComponent;
     let el;
-    let mockAppSettingsService, mockFilterService;
+    let mockAppSettingsService, mockFilterService, mockLookupService;
     let categories;
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
         mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
+        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
         categories = MockTestData.getSomeCategories();
 
         TestBed.configureTestingModule({
             declarations: [
-                KidsWelcomeComponent
+                AgeGroupsComponent
             ],
             providers: [
                 { provide: AppSettingsService, useValue: mockAppSettingsService },
-                { provide: FilterService, useValue: mockFilterService }
+                { provide: FilterService, useValue: mockFilterService },
+                { provide: LookupService, useValue: mockLookupService}
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -35,21 +38,26 @@ describe('KidsWelcomeComponent', () => {
 
     beforeEach(async(() => {
         TestBed.compileComponents().then(() => {
-            fixture = TestBed.createComponent(KidsWelcomeComponent);
+            fixture = TestBed.createComponent(AgeGroupsComponent);
             comp = fixture.componentInstance;
-
-            // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
 
     it('should create an instance', () => {
+        spyOn(comp, 'initializeAgeGroups');
         expect(comp).toBeTruthy();
     });
 
-    it('should welcome kids', () => {
-        comp.kidsWelcome(true);
-        expect(comp['selected']).toBe(true);
-        expect(comp['welcome']).toBe(true);
+    it('should init', () => {
+        spyOn(comp, 'initializeAgeGroups');
+        comp.ngOnInit();
+        expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call setSelection', () => {
+        spyOn(comp, 'setSelection');
+        comp.clickToSelect('123');
+        expect(comp['setSelection']).toHaveBeenCalledTimes(1);
     });
 
 });
