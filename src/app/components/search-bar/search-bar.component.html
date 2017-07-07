@@ -17,7 +17,7 @@
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#close"></use>
         </svg>
       </span>
-      <span>
+      <span *ngIf="appSettings.isSmallGroupApp()">
         <a class="form-control-clear form-control-feedback" (click)="toggleFilters()">
           <svg class="icon icon-1" viewBox="0 0 256 256">
             <use xlink:href="/assets/svgs/icons.svg#equalizer"></use>
@@ -35,5 +35,4 @@
     <button type="button" class="btn btn-primary btn-toggle" (click)="toggleView()">{{buttontext}}</button>
   </div>
 </div>
-<!-- restrict to only groups, not connect -->
-<app-filters *ngIf="state.isFilterDialogOpen" [searchString]="searchString"></app-filters>
+<app-filters *ngIf="state.isFilterDialogOpen && appSettings.isSmallGroupApp()" [searchString]="searchString"></app-filters>

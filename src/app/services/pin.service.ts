@@ -131,7 +131,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
     this.state.setLoading(true);
     let mapParams: MapView = this.state.getMapView();
-    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
+    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng, params.userFilterString);
 
     let contactId: number = this.session.getContactId() || 0;
 
@@ -171,7 +171,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
-    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng);
+    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng, params.userFilterString);
     let isMyStuff: boolean = this.state.myStuffActive;
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
@@ -307,8 +307,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return contactId === pin.contactId;
   }
 
-  public getCachedSearchResults(searchString: string, lat: number, lng: number, contactId: number): PinSearchResultsDto {
-    const searchOptions = new SearchOptions(searchString, lat, lng);
+  public getCachedSearchResults(searchString: string, lat: number, lng: number, contactId: number, filterString: string): PinSearchResultsDto {
+    const searchOptions = new SearchOptions(searchString, lat, lng, filterString);
     if (super.cacheIsReadyAndValid(searchOptions, CacheLevel.Full, contactId)) {
       return super.getCache();
     }
