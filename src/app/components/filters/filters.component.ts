@@ -1,6 +1,6 @@
 import { Angulartics2 } from 'angulartics2';
 
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -8,6 +8,9 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+
+import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
+import { AgeGroupsComponent } from './age-groups/age-groups.component';
 
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
@@ -20,6 +23,9 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
 export class FiltersComponent implements OnInit, OnDestroy {
   @Input() searchString: string;
+
+  @ViewChild(KidsWelcomeComponent) private childKidsWelcomeComponent: KidsWelcomeComponent;
+  @ViewChild(AgeGroupsComponent) private childAgeGroupsComponent: AgeGroupsComponent;
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService,
@@ -49,7 +55,9 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   public resetFilters(): void {
-    // TODO set values back to null/false
+    this.childKidsWelcomeComponent.reset();
+    this.childAgeGroupsComponent.reset();
+    this.state.setIsFilterDialogOpen(false);
   }
 
 }

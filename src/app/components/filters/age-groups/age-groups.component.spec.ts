@@ -9,6 +9,8 @@ import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { AgeGroupsComponent } from './age-groups.component';
+import { AgeGroup } from '../../../models/age-group';
+import { Attribute } from '../../../models/attribute';
 
 describe('AgeGroupsComponent', () => {
     let fixture: ComponentFixture<AgeGroupsComponent>;
@@ -60,4 +62,17 @@ describe('AgeGroupsComponent', () => {
         expect(comp['setSelection']).toHaveBeenCalledTimes(1);
     });
 
+    it('should reset', () => {
+        let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, null, null);
+        let a1 = new AgeGroup(attr);
+        a1.selected = true;
+        let a2 = new AgeGroup(attr);
+        a2.selected = true;
+
+        comp['ageGroups'] = [a1, a2];
+        comp.reset();
+
+        expect(comp['ageGroups'][0].selected).toBe(false);
+        expect(comp['ageGroups'][1].selected).toBe(false);
+    });
 });

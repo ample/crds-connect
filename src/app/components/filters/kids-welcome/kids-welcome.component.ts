@@ -25,6 +25,7 @@ export class KidsWelcomeComponent {
         this.selected = true;
         this.welcome = value;
   }
+
   public setFilterString(): void {
     // AWS value is a number, not a string
     let welcomeFlag = this.welcome ? 1 : 0;
@@ -33,4 +34,8 @@ export class KidsWelcomeComponent {
       null;
   }
 
+  public reset() {
+    this.welcome = null;
+    this.selected = false;
+  }
 }
