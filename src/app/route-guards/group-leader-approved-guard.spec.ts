@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs/Rx';
-import { TestBed, async, inject } from '@angular/core/testing';
 /*
  * Testing a route guard
  * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#isolated-unit-tests
  *            https://angular.io/docs/ts/latest/guide/router.html#!#guards
  */
 
+import { Observable } from 'rxjs/Rx';
+import { TestBed, async, inject } from '@angular/core/testing';
 import { GroupLeaderApprovedGuard } from './group-leader-approved.guard';
 import { GroupService } from '../services/group.service';
 import { GroupLeaderApplicationStatus, LeaderStatus, ApplicationUrl } from '../shared/constants';
@@ -17,11 +17,9 @@ describe('GroupLeaderApprovedGuard', () => {
     let fakeRouterState: any = { }; // RouterStateSnapshot
     let fakeActivatedRoute: any; // ActivatedRouteSnapshot
     let mockGroupService: any = jasmine.createSpyObj<GroupService>('groupService', ['getLeaderStatus']);
-    let mockWindow: Window;
 
     beforeEach(() => {
-        mockWindow = <any> { location: <any> { hash: 'WAOW-MOCK-HASH' }};
-        guard = new GroupLeaderApprovedGuard(mockGroupService, fakeRouter, mockWindow);
+        guard = new GroupLeaderApprovedGuard(mockGroupService, fakeRouter);
     });
 
     it('should return true if user is a approved leader', () => {
@@ -41,8 +39,11 @@ describe('GroupLeaderApprovedGuard', () => {
             path: ApplicationUrl,
         }, fakeRouterState);
 
+        spyOn(guard, 'navigateAway');
+
         obs$.subscribe(result => {
             expect(result).toBeFalsy();
+            expect(guard['navigateAway']).toHaveBeenCalled();
             done();
         });
     });
