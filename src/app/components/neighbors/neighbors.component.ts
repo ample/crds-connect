@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
+import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -41,7 +42,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                private router: Router,
                private state: StateService,
                private userLocationService: UserLocationService,
-               private searchService: SearchService) { }
+               private searchService: SearchService,
+               private filterService: FilterService) { }
 
   public ngOnDestroy(): void {
     if (this.pinSearchSub) {
@@ -134,7 +136,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.pinService.getPinSearchResults(searchParams).subscribe(
       next => {
-        this.pinSearchResults = next as PinSearchResultsDto;      
+        this.pinSearchResults = next as PinSearchResultsDto;
         this.processAndDisplaySearchResults(searchParams.userSearchString, next.centerLocation.lat, next.centerLocation.lng);
         this.state.lastSearch.search = searchParams.userSearchString; // Are we doing this twice? Here and in navigate away
       },
@@ -156,6 +158,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
       this.doSearch(srchParams);
+      this.filterService.resetFilterString();
     });
 
   }
