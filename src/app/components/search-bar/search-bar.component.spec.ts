@@ -17,6 +17,7 @@ import { app, placeholderTextForSearchBar } from '../../shared/constants';
 class StateServiceStub {
   public myStuffActive: boolean = false;
   setMyViewOrWorldView = jasmine.createSpy('setMyViewOrWorldView').and.returnValue(true);
+  setIsFilterDialogOpen = jasmine.createSpy('setIsFilterDialogOpen').and.returnValue(true);
   public lastSearch = { search: null };
   public myStuffStateChangedEmitter = {
     subscribe: jasmine.createSpy('subscribe').and.returnValue(Observable.of(this.myStuffActive))

@@ -43,7 +43,7 @@ import { StateService } from '../../services/state.service';
 import { Subject } from 'rxjs/Subject';
 import { TestBed } from '@angular/core/testing';
 import { UserLocationService } from '../../services/user-location.service';
-
+import { FilterService } from '../../services/filter.service';
 
 describe('Component: Neighbors', () => {
   let mockAppSettingsService,
@@ -54,6 +54,7 @@ describe('Component: Neighbors', () => {
     mockStateService,
     mockSearchService,
     mockRouter,
+    mockFilterService,
     subject;
 
   beforeEach(() => {
@@ -66,6 +67,7 @@ describe('Component: Neighbors', () => {
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getLastSearch', 'setCurrentView', 'setMapView', 'getMapView', 'setMyViewOrWorldView', 'setLastSearch']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
     mockPinService.pinSearchRequestEmitter = subject;
+    mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['resetFilterString']);
     TestBed.configureTestingModule({
       declarations: [
         NeighborsComponent,
@@ -88,6 +90,7 @@ describe('Component: Neighbors', () => {
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: StateService, useValue: mockStateService },
+        { provide: FilterService, useValue: mockFilterService },
         { provide: AppSettingsService, useValue: mockAppSettingsService },
         { provide: Router, useValue: mockRouter }
       ]
