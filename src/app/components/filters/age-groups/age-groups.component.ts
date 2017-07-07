@@ -65,4 +65,9 @@ export class AgeGroupsComponent implements OnInit {
                        : addFilterString;
   }
 
+  public reset() {
+    for (let age of this.ageGroups) {
+      age.selected = false;
+    }
+  }
 }

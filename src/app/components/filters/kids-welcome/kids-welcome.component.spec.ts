@@ -52,4 +52,9 @@ describe('KidsWelcomeComponent', () => {
         expect(comp['welcome']).toBe(true);
     });
 
+    it('should reset', () => {
+        comp.reset();
+        expect(comp['selected']).toBe(false);
+        expect(comp['welcome']).toBe(null);
+    });
 });
