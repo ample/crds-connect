@@ -2,6 +2,7 @@ import { Angulartics2 } from 'angulartics2';
 
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
+import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
@@ -27,6 +28,7 @@ export class FiltersComponent {
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService,
+               private router: Router,
                private pinService: PinService,
                private state: StateService) { }
 

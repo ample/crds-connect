@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
@@ -16,7 +17,7 @@ import { AgeGroupsComponent } from './age-groups/age-groups.component';
 describe('FiltersComponent', () => {
     let fixture: ComponentFixture<FiltersComponent>;
     let comp: FiltersComponent;
-    let mockAppSettingsService, mockFilterService, mockPinService, mockStateService;
+    let mockAppSettingsService, mockFilterService, mockPinService, mockStateService, mockRouter;
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
@@ -24,6 +25,7 @@ describe('FiltersComponent', () => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService',
           ['emitPinSearchRequest', 'setMyViewOrWorldView', 'setIsFilterDialogOpen']);
+        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -33,7 +35,8 @@ describe('FiltersComponent', () => {
                 { provide: AppSettingsService, useValue: mockAppSettingsService },
                 { provide: FilterService, useValue: mockFilterService },
                 { provide: PinService, useValue: mockPinService },
-                { provide: StateService, useValue: mockStateService }
+                { provide: StateService, useValue: mockStateService },
+                { provide: Router, useValue: mockRouter }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
