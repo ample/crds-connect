@@ -36,15 +36,11 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   public applyFilters(): void {
-console.log('AM I HERE????? apply filters');
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
     let filterString: string = this.filterService.buildFilters();
-console.log(filterString);
-console.log(this.searchString);
     if ((this.searchString !== undefined && this.searchString !== null && this.searchString.length > 0) || filterString != null) {
-console.log('AM I HERE????? apply filters - bottom');
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
       let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, this.searchString, filterString);
       this.state.lastSearch.search = this.searchString;

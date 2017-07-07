@@ -68,16 +68,12 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public onSearch(searchString: string) {
-console.log('AM I HERE????? search bar');
     this.searchString = searchString;
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
     let filterString: string = this.filterService.buildFilters();
-console.log(filterString);
-console.log(searchString);
     if ((searchString !== undefined && searchString !== null && searchString.length > 0) || filterString != null) {
-console.log('AM I HERE---- NOW    search bar ?????');
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
       let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString, filterString);
       this.state.lastSearch.search = searchString;

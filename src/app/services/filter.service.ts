@@ -10,12 +10,17 @@ export class FilterService {
   constructor() {}
 
   public buildFilters(): string {
-    // TODO return all filters concatenated
-    // TODO check for null before adding
+    // TODO Add each new filter
     let filterString: string;
     filterString = (this.filterStringKidsWelcome != null) ? this.filterStringKidsWelcome : '';
     filterString = (this.filterStringAgeGroups != null) ? filterString + this.filterStringAgeGroups : filterString;
     return filterString;
+  }
+
+  public resetFilterString(): void {
+    // TODO Add each new filters
+    this.filterStringAgeGroups = null;
+    this.filterStringKidsWelcome = null;
   }
 
 }
