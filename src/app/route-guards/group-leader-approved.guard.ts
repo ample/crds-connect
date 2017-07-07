@@ -7,7 +7,7 @@ import { GroupService } from '../services/group.service';
 @Injectable()
 export class GroupLeaderApprovedGuard implements CanActivate {
 
-    constructor(private groupService: GroupService, private router: Router, private window: Window) { }
+    constructor(private groupService: GroupService, private router: Router) { }
 
     canActivate(
         route: ActivatedRouteSnapshot,
@@ -18,10 +18,15 @@ export class GroupLeaderApprovedGuard implements CanActivate {
             if (status.status === GroupLeaderApplicationStatus.APPROVED) {
               return true;
             } else {
-              this.window.location.href = ApplicationUrl;
+              this.navigateAway();
               return false;
            }
       });
+    }
+
+    // This was literally pulled out into a method so it could be tested. Why you do angular 2?
+    private navigateAway() {
+      window.location.href = ApplicationUrl;
     }
 
 }
