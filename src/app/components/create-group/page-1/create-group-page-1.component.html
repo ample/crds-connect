@@ -12,7 +12,7 @@
             <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
                 <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block soft-top">
                     <button type="button" class="btn btn-option btn-flex btn-outline" [id]="category.name" [ngClass]="{active: category.selected}"
-                        (click)="onSelect(category)" formControlName="{{category.name}}" value="{{category}}" [(ngModel)]="category.selected"
+                        (click)="onSelect(category)" formControlName="{{category.name}}" value="{{category}}"
                         ngDefaultControl>
                 
                         <div class="text-left">{{ category.name }}</div>
