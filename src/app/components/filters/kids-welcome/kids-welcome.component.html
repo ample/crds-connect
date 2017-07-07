@@ -1,7 +1,7 @@
 <div class="btn-group btn-group-block">
   <button type="button"
             class="btn btn-option btn-flex btn-outline"
-            (click)="kidsWelcome(true)" [class.active]="selected && welcome === true">
+            (click)="kidsWelcome(true);setFilterString()" [class.active]="selected && welcome === true">
     <div class="row">
         <div class="btn-group-label">
                   <span class="btn-group-icons">
@@ -21,7 +21,7 @@
  
    <button type="button"
         class="btn btn-option btn-flex btn-outline"
-        (click)="kidsWelcome(false)" [class.active]="selected && welcome === false">
+        (click)="kidsWelcome(false);setFilterString()" [class.active]="selected && welcome === false">
     <div class="row">
         <div class="btn-group-label">
                   <span class="btn-group-icons">

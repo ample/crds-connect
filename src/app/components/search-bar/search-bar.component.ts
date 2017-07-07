@@ -11,6 +11,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
 import { AppSettingsService } from '../../services/app-settings.service';
+import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
@@ -28,13 +29,15 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   private isMyStuffActiveSub: Subscription;
   public buttontext: string;
+  // TODO remove isFilterDialogOpen - move into StateService
+  public isFilterDialogOpen: boolean = false;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
-  public isFilterDialogOpen: boolean = false;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
-              private state: StateService) {
+              private state: StateService,
+              private filterService: FilterService) {
   }
 
   public ngOnInit(): void {
@@ -70,10 +73,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setMyViewOrWorldView('world');
     if (searchString !== null && searchString.length > 0) {
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
-  // ********************************************
-  // TODO get filter string from filter components
-  let filterString = ' (or groupkidswelcome: 1) ';
-  // ********************************************
+      let filterString: string = this.filterService.buildFilters();
+
       let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString, filterString);
       this.state.lastSearch.search = searchString;
       this.pinService.emitPinSearchRequest(pinSearchRequest);
@@ -112,8 +113,10 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public toggleFilters() {
-    console.log('filters toggle');
-    this.isFilterDialogOpen = !this.isFilterDialogOpen;
+    // TODO make this an emitter and subscribe
+    // or can call state.isFilterDialogOpen from ngIf on html ???
+    this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
+    this.isFilterDialogOpen = this.state.getIsFilteredDialogOpen();
   }
 
 }

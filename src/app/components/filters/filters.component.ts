@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
+import { StateService } from '../../services/state.service';
 
 import { Pin, pinType } from '../../models/pin';
 
@@ -17,13 +18,22 @@ import { Pin, pinType } from '../../models/pin';
 export class FiltersComponent implements OnInit, OnDestroy {
 
   constructor( private appSettings: AppSettingsService,
-               private router: Router) { }
+               private router: Router,
+               private state: StateService) { }
 
   public ngOnDestroy(): void {
 
   }
 
   public ngOnInit(): void {
+
+  }
+
+  public applyFilters(): void {
+    this.state.setIsFilterDialogOpen(false);
+  }
+
+  public resetFilters(): void {
 
   }
 

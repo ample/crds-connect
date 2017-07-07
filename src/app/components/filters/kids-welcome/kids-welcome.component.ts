@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
+import { FilterService } from '../../../services/filter.service';
 import { Pin, pinType } from '../../../models/pin';
 import { awsFieldNames } from '../../../shared/constants';
 
@@ -15,21 +16,21 @@ import { awsFieldNames } from '../../../shared/constants';
 export class KidsWelcomeComponent {
   private welcome: boolean = null;
   private selected: boolean = false;
-  private filterString: string = '';
 
   constructor( private appSettings: AppSettingsService,
-               private router: Router) { }
+               private router: Router,
+               private filterService: FilterService) { }
 
 
   public kidsWelcome(value: boolean): void {
         this.selected = true;
         this.welcome = value;
   }
-  public getFilterString(): string {
+  public setFilterString(): void {
     // AWS value is a number, not a string
     let welcomeFlag = this.welcome ? 1 : 0;
-    return this.filterString = (this.welcome != null || this.welcome != undefined) ?
-      (awsFieldNames.GROUP_KIDS_WELCOME + ': ' + welcomeFlag) :
+    this.filterService.filterStringKidsWelcome = (this.welcome != null || this.welcome != undefined) ?
+      ( '(or ' +  awsFieldNames.GROUP_KIDS_WELCOME + ': ' + welcomeFlag + ')') :
       null;
   }
 

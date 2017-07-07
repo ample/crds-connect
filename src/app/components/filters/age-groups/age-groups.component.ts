@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
+import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { AgeGroup } from '../../../models/age-group';
 import { Pin, pinType } from '../../../models/pin';
@@ -17,12 +18,12 @@ import { awsFieldNames } from '../../../shared/constants';
 
 export class AgeGroupsComponent implements OnInit {
   private selected: boolean = false;
-  private filterString: string = '';
   private ageGroups: AgeGroup[];
 
   constructor( private appSettings: AppSettingsService,
                private router: Router,
-               private lookupService: LookupService) { }
+               private lookupService: LookupService,
+               private filterService: FilterService) { }
 
   public ngOnInit(): void {
     this.initializeAgeGroups();
@@ -56,13 +57,16 @@ export class AgeGroupsComponent implements OnInit {
         this.selected = !this.selected;
   }
 
-  public getFilterString(): string {
+  public setFilterString(): void {
+
+    // TODO add call to this funtion in html when click to select
+
     // TODO get value of filter
     // AWS value is a list of strings - so need single quotes around each value in filterString
     // iterate over list and add new key/value for each one in the filter string
 
     // awsFieldNames.GROUP_AGE_RANGE + ': ' + this.formValue // need single quotes around each value since it is a string in aws
-    return this.filterString;
+    this.filterService.filterStringAgeGroups = '';
   }
 
 }
