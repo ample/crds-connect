@@ -1,8 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
@@ -12,7 +11,6 @@ import { StateService } from '../../services/state.service';
 import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './age-groups/age-groups.component';
 
-import { Pin, pinType } from '../../models/pin';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
 
@@ -21,25 +19,16 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
   templateUrl: 'filters.component.html'
 })
 
-export class FiltersComponent implements OnInit, OnDestroy {
+export class FiltersComponent {
   @Input() searchString: string;
 
-  @ViewChild(KidsWelcomeComponent) private childKidsWelcomeComponent: KidsWelcomeComponent;
-  @ViewChild(AgeGroupsComponent) private childAgeGroupsComponent: AgeGroupsComponent;
+  @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
+  @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService,
                private pinService: PinService,
-               private router: Router,
                private state: StateService) { }
-
-  public ngOnDestroy(): void {
-
-  }
-
-  public ngOnInit(): void {
-
-  }
 
   public applyFilters(): void {
 

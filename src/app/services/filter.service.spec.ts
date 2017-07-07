@@ -15,7 +15,18 @@ describe('Service: Filters ', () => {
     });
 
     it('should build filters', inject([FilterService], (service: any) => {
+        service.filterStringKidsWelcome = ' kids ';
+        service.filterStringAgeGroups = ' ages ';
+        let filterString: string = service.buildFilters();
+        expect(filterString).toEqual(' kids  ages ');
+    }));
 
+    it('should reset filters', inject([FilterService], (service: any) => {
+        service.filterStringKidsWelcome = ' kids ';
+        service.filterStringAgeGroups = ' ages ';
+        service.resetFilterString();
+        expect(service.filterStringKidsWelcome).toEqual(null);
+        expect(service.filterStringAgeGroups).toEqual(null);
     }));
 
 });
