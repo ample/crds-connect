@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { Category } from '../../../models/category';
 import { CreateGroupService } from '../create-group-data.service';
@@ -15,7 +17,9 @@ export class CreateGroupPage1Component implements OnInit {
     private isSubmitted: boolean = false;
 
     constructor(private state: StateService,
-                private createGroupService: CreateGroupService) { }
+                private createGroupService: CreateGroupService,
+                private router: Router,
+                private locationService: Location) { }
 
     ngOnInit() {
         this.state.setLoading(true);
@@ -55,6 +59,9 @@ export class CreateGroupPage1Component implements OnInit {
         } else {
             // Do something else
         }
+    }
 
+    public back() {
+        this.locationService.back();
     }
 }

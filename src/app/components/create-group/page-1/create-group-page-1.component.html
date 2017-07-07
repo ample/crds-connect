@@ -1,14 +1,17 @@
 <div class="connect-container connect-layout-container">
-    <div>
+    <div class="row">
+    <div class="col-sm-12">
         <p class="media-meta">STEP 1 OF 9</p>
         <h3 class="media-heading">Group Category</h3>
         <hr>
         <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
     </div>
-    <div>
+    </div>
+    <div class="row">
+    <div class="col-sm-12">
         <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
             <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block">
-                <button class="btn btn-option btn-flex btn-outline" 
+                <button type="button" class="btn btn-option btn-flex btn-outline" 
                         [id]="category.name" 
                         [ngClass]="{active: category.selected}"
                         (click)="onSelect(category)"
@@ -23,7 +26,7 @@
                     <i>{{category.desc}}</i>
                 </div>
 
-                <div [hidden]="!category.selected" class="form-group">
+                <div *ngIf="category.selected" class="form-group">
                     <div class="input-group input-group-block input-group-left">
                         <input type="text"
                                 class="form-control"
@@ -35,12 +38,16 @@
                                 [(ngModel)]="category.categoryDetail"
                                 required>
                     </div>
+                    <p class="error help-block" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</p>
+                    <pre>{{groupCategoryForm.controls['Interest-detail'] }}</pre>
+                    <pre>{{isSubmitted}}</pre>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 btn-group" [hidden]="true">
-              <button type="submit" class="btn btn-secondary btn-block-mobile">Next</button>
-              <button type="button" (click)="closeClick()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
+            <div class="col-xs-12 btn-group soft-top soft-bottom">
+              <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
+              <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
             </div>
         </form>
+    </div>
     </div>
 </div>
