@@ -55,7 +55,6 @@ describe('CreateGroupPage1Component', () => {
         expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group');
         expect(comp['initializeCategories']).toHaveBeenCalledTimes(1);
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
-        expect(comp['isComponentReady']).toBeTruthy();
     });
 
     it('should initialize categories (2 controls for each category)', () => {

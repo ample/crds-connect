@@ -5,7 +5,7 @@
         <hr>
         <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
     </div>
-    <div *ngIf="isComponentReady">
+    <div>
         <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
             <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block">
                 <button class="btn btn-option btn-flex btn-outline" 
@@ -43,8 +43,4 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <pre>{{categories | json }}</pre>
 </div>
