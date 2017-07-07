@@ -6,12 +6,16 @@
         <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
     </div>
     <div>
-        <form (ngSubmit)="onSubmit(addMeToMapForm)">
-            <div *ngFor="let category of categories" class="btn-group btn-group-block">
+        <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
+            <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block">
                 <button class="btn btn-option btn-flex btn-outline" 
                         [id]="category.name" 
                         [ngClass]="{active: category.selected}"
-                        (click)="onSelect(category)">
+                        (click)="onSelect(category)"
+                        formControlName="{{category.name}}"
+                        value="{{category}}"
+                        [(ngModel)]="category.selected"
+                        ngDefaultControl>
                 
                         <div class="text-left">{{ category.name }}</div>
                 </button>
@@ -19,22 +23,24 @@
                     <i>{{category.desc}}</i>
                 </div>
 
-                <div *ngIf="category.selected" class="form-group">
+                <div [hidden]="!category.selected" class="form-group">
                     <div class="input-group input-group-block input-group-left">
                         <input type="text"
                                 class="form-control"
                                 placeholder="{{category.exampleText}}"
                                 id="{{category.name}}-detail"
                                 maxlength="25"
+                                value="{{category.categoryDetail}}"
+                                formControlName="{{category.name}}-detail"
+                                [(ngModel)]="category.categoryDetail"
                                 required>
                     </div>
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 btn-group" [hidden]="true">
+              <button type="submit" class="btn btn-secondary btn-block-mobile">Next</button>
+              <button type="button" (click)="closeClick()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
+            </div>
         </form>
     </div>
 </div>
-
-
-<!--<div>
-    <pre>{{categories | json }}</pre>
-</div>-->
