@@ -10,7 +10,7 @@ import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { AgeGroupsComponent } from './age-groups.component';
 
-fdescribe('AgeGroupsComponent', () => {
+describe('AgeGroupsComponent', () => {
     let fixture: ComponentFixture<AgeGroupsComponent>;
     let comp: AgeGroupsComponent;
     let el;
