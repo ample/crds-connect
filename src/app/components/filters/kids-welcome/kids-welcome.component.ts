@@ -18,7 +18,6 @@ export class KidsWelcomeComponent {
   private selected: boolean = false;
 
   constructor( private appSettings: AppSettingsService,
-               private router: Router,
                private filterService: FilterService) { }
 
 
