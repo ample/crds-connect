@@ -5,9 +5,12 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
+import { FilterService } from '../../services/filter.service';
+import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
 import { Pin, pinType } from '../../models/pin';
+import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
 
 @Component({
@@ -16,8 +19,11 @@ import { Pin, pinType } from '../../models/pin';
 })
 
 export class FiltersComponent implements OnInit, OnDestroy {
+  @Input() searchString: string;
 
   constructor( private appSettings: AppSettingsService,
+               private filterService: FilterService,
+               private pinService: PinService,
                private router: Router,
                private state: StateService) { }
 
@@ -30,11 +36,24 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   public applyFilters(): void {
+console.log('AM I HERE????? apply filters');
+    this.state.myStuffActive = false;
+    this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
+    let filterString: string = this.filterService.buildFilters();
+console.log(filterString);
+console.log(this.searchString);
+    if ((this.searchString !== undefined && this.searchString !== null && this.searchString.length > 0) || filterString != null) {
+console.log('AM I HERE????? apply filters - bottom');
+      let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
+      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, this.searchString, filterString);
+      this.state.lastSearch.search = this.searchString;
+      this.pinService.emitPinSearchRequest(pinSearchRequest);
+    }
   }
 
   public resetFilters(): void {
-
+    // TODO set values back to null/false
   }
 
 }

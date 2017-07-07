@@ -35,5 +35,5 @@
     <button type="button" class="btn btn-primary btn-toggle" (click)="toggleView()">{{buttontext}}</button>
   </div>
 </div>
-
-<app-filters *ngIf="isFilterDialogOpen"></app-filters>
+<!-- restrict to only groups, not connect -->
+<app-filters *ngIf="state.isFilterDialogOpen" [searchString]="searchString"></app-filters>

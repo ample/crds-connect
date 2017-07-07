@@ -30,7 +30,7 @@ export class KidsWelcomeComponent {
     // AWS value is a number, not a string
     let welcomeFlag = this.welcome ? 1 : 0;
     this.filterService.filterStringKidsWelcome = (this.welcome != null || this.welcome != undefined) ?
-      ( '(or ' +  awsFieldNames.GROUP_KIDS_WELCOME + ': ' + welcomeFlag + ')') :
+      `(or ${awsFieldNames.GROUP_KIDS_WELCOME}: ${welcomeFlag})` :
       null;
   }
 

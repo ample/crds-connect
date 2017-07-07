@@ -58,15 +58,17 @@ export class AgeGroupsComponent implements OnInit {
   }
 
   public setFilterString(): void {
+    let addFilterString: string;
+    for (let age of this.ageGroups) {
+      if (age.selected) {
+        // need single quotes around each value since it is a string in aws
+        addFilterString = ` (or ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' ) `;
+      }
+    }
 
-    // TODO add call to this funtion in html when click to select
-
-    // TODO get value of filter
-    // AWS value is a list of strings - so need single quotes around each value in filterString
-    // iterate over list and add new key/value for each one in the filter string
-
-    // awsFieldNames.GROUP_AGE_RANGE + ': ' + this.formValue // need single quotes around each value since it is a string in aws
-    this.filterService.filterStringAgeGroups = '';
+    this.filterService.filterStringAgeGroups = this.filterService.filterStringAgeGroups != null ?
+                       this.filterService.filterStringAgeGroups + addFilterString
+                       : addFilterString;
   }
 
 }
