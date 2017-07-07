@@ -2,6 +2,7 @@ import { Angulartics2 } from 'angulartics2';
 
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
+import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
@@ -27,14 +28,19 @@ export class FiltersComponent {
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService,
+               private router: Router,
                private pinService: PinService,
                private state: StateService) { }
 
   public applyFilters(): void {
+
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
     let filterString: string = this.filterService.buildFilters();
+
+    this.router.navigate([], { queryParams: {filterString: filterString } });
+
     if ((this.searchString !== undefined && this.searchString !== null && this.searchString.length > 0) || filterString != null) {
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
       let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, this.searchString, filterString);
