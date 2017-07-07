@@ -26,7 +26,7 @@ describe('CreateGroupService', () => {
     // you can also wrap inject() with async() for asynchronous tasks
     // it('...', async(inject([...], (...) => {}));
 
-    fit('should create the create group service',
+    it('should create the create group service',
         inject([CreateGroupService], (s: CreateGroupService) => {
             expect(s).toBeTruthy();
             // expect('1').toEqual(1);
@@ -34,7 +34,7 @@ describe('CreateGroupService', () => {
     );
 
 
-    fit('should initialize page one from uninitialized state',
+    it('should initialize page one from uninitialized state',
         inject([CreateGroupService], (s: CreateGroupService) => {
             let categories = MockTestData.getSomeCategories();
             (mockLookupService.getCategories).and.returnValue(Observable.of(categories));
@@ -47,7 +47,7 @@ describe('CreateGroupService', () => {
         })
     );
 
-    fit('should initialize page one from initialized state',
+    it('should initialize page one from initialized state',
         inject([CreateGroupService], (s: CreateGroupService) => {
             let categories = MockTestData.getSomeCategories();
             s.categories = categories;
