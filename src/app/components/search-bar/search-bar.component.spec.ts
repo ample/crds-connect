@@ -9,6 +9,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
+import { FilterService } from '../../services/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
 import { app, placeholderTextForSearchBar } from '../../shared/constants';
@@ -26,11 +27,12 @@ describe('SearchBarComponent', () => {
   let fixture: ComponentFixture<SearchBarComponent>;
   let comp: SearchBarComponent;
   let el;
-  let mockAppSettingsService, mockPinService, mockStateService;
+  let mockAppSettingsService, mockPinService, mockStateService, mockFilterService;
 
   beforeEach(() => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
+    mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters']);
     mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
@@ -39,7 +41,8 @@ describe('SearchBarComponent', () => {
       providers: [
         { provide: AppSettingsService, useValue: mockAppSettingsService },
         { provide: StateService, useValue: mockStateService },
-        { provide: PinService, useValue: mockPinService }
+        { provide: PinService, useValue: mockPinService },
+        { provide: FilterService, useValue: mockFilterService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -73,7 +76,7 @@ describe('SearchBarComponent', () => {
   it('should emit search event', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
-    let pinSearch = new PinSearchRequestParams(true, 'Phil is cool!', null);
+    let pinSearch = new PinSearchRequestParams(true, 'Phil is cool!', undefined);
     mockPinService.emitPinSearchRequest.and.returnValue(true);
     comp.onSearch(pinSearch.userSearchString);
     expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(pinSearch);
