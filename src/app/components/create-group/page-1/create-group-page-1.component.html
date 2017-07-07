@@ -27,7 +27,8 @@
                                 value="{{category.categoryDetail}}" formControlName="{{category.name}}-detail" [(ngModel)]="category.categoryDetail"
                                 required>
                         </div>
-                        <p class="error help-block" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</p>
+                        <div class="alert alert-danger" role="alert" 
+                        [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
                     </div>
                 </div>
                 <div class="soft-top">
