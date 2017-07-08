@@ -22,6 +22,35 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+
+  .list-inline {
+    a {
+      color: $cr-white;
+
+      &:hover {
+        color: rgba($cr-white, .7);
+      }
+    }
+  }
+}
+
+dl {
+  &.group-meta-data {
+    font-size: $font-size-small;
+
+    dt {
+      color: $cr-gray-lighter;
+      font-weight: 400;
+
+      &:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+
+    dd {
+      color: $cr-gray-light;
+    }
+  }
 }
 
 .group-meta-data {

@@ -15,7 +15,10 @@ export class LookupService {
     constructor(private session: SessionService) {}
 
     public getCategories(): Observable<Category[]> {
-        return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`);
+        return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`)
+        .map((res: Category[]) => {
+            return res as Category[];
+        });
     }
 
     public getAgeGroups(): Observable<any> {

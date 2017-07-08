@@ -37,6 +37,7 @@ export class GatheringComponent implements OnInit {
   private pinType: any = pinType;
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
+  public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
   public descriptionToDisplay: string;
@@ -65,6 +66,7 @@ export class GatheringComponent implements OnInit {
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
 
+    this.isInGroupApp = this.app.isSmallGroupApp();
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
     this.state.setPageHeader(pageTitleOnHeader, '/');
 

@@ -3,6 +3,7 @@ const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 var Dotenv = require('dotenv-webpack');
+var webpack = require('webpack');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
 module.exports = function(options) {
@@ -51,6 +52,14 @@ module.exports = function(options) {
       new Dotenv({
         systemvars: true
       }),
+
+      new webpack.ContextReplacementPlugin(
+         // The (\\|\/) piece accounts for path separators in *nix and Windows
+         /angular(\\|\/)core(\\|\/)@angular/,
+         helpers.root('./src'), // location of your src
+         { }
+       ),
+
       new DefinePlugin({
         'ENV': JSON.stringify(ENV)
       }),

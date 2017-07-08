@@ -11,3 +11,29 @@
   font-size: $font-size-base;
   font-weight: 600;
 }
+
+dl {
+  &.media-description {
+    font-size: $font-size-small;
+
+    dt:not(:first-child) {
+      margin-top: .5rem;
+    }
+
+    @media (min-width: $screen-xs) {
+      clear: both;
+
+      dt {
+        float: left;
+      }
+
+      dt:not(:first-child) {
+        margin-top: auto;
+      }
+
+      dd {
+        margin-left: 85px;
+      }
+    }
+  }
+}

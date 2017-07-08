@@ -9,6 +9,7 @@ export class CreateGroupSummaryComponent implements OnInit {
     constructor(private state: StateService) { }
 
     ngOnInit() {
+        this.state.setLoading(true);
         this.state.setPageHeader('start a group', '/');
         this.state.setLoading(false);
     }

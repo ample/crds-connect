@@ -9,7 +9,7 @@ export const crdsOakleyCoords: any = {
 
 export const earthsRadiusInMiles: number = 3443.9;
 
-export const groupDescriptionLenth: number = 44;
+export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
 
