@@ -54,7 +54,7 @@ describe('FiltersComponent', () => {
     });
 
     it('should apply filters', () => {
-        comp.applyFilters();
+        comp.onSubmit();
         expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalled();
         expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalled();
         expect(mockFilterService.buildFilters).toHaveBeenCalled();

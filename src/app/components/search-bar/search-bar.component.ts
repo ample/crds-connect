@@ -74,10 +74,13 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
+    // TODO pass up locationFilter string - is this a requirement, since already doing other filters 
+    // OR remove call to buildFilters and pass in null for filters here???
+    let locationFilter = null;
     let filterString: string = this.filterService.buildFilters();
     if ((searchString !== undefined && searchString !== null && searchString.length > 0) || filterString != null) {
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
-      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString, filterString);
+      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString, locationFilter, filterString);
       this.state.lastSearch.search = searchString;
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }

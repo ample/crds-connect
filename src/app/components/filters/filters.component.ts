@@ -1,6 +1,7 @@
 import { Angulartics2 } from 'angulartics2';
 
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
@@ -20,11 +21,15 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
   templateUrl: 'filters.component.html'
 })
 
-export class FiltersComponent {
-  @Input() searchString: string;
-
+export class FiltersComponent implements OnInit {
+  // Search string coming in will always be Keyword, not location, becuase filters are ONLY on groups, not connect
+  @Input() searchKeywordString: string;
   @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
+
+  private locationFormGroup: FormGroup;
+  private formName: string;
+  private location: string;
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService,
@@ -32,8 +37,14 @@ export class FiltersComponent {
                private pinService: PinService,
                private state: StateService) { }
 
-  public applyFilters(): void {
+    ngOnInit() {
+      this.locationFormGroup = new FormGroup({
+          location: new FormControl(this.location, []),
+      });
+    }
 
+  private applyFilters(): void {
+console.log('apply filter');
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
@@ -41,18 +52,31 @@ export class FiltersComponent {
 
     this.router.navigate([], { queryParams: {filterString: filterString } });
 
-    if ((this.searchString !== undefined && this.searchString !== null && this.searchString.length > 0) || filterString != null) {
+    //if ((this.searchKeywordString !== undefined && this.searchKeywordString !== null && this.searchKeywordString.length > 0) 
+      //   || filterString != null) {
+
+      // TODO - this is no longer true in this case
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
-      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, this.searchString, filterString);
-      this.state.lastSearch.search = this.searchString;
+      // TODO - pinSearchRequest needs to take 2 different search strings - location and keyword
+      // TODO - replace isThisALocationBasedSearch with locationSearchString and searchString with keywordSearchString
+      // bool, location, keyword, filter
+      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, this.location, this.searchKeywordString, filterString);
+      this.state.lastSearch.search = this.searchKeywordString;
       this.pinService.emitPinSearchRequest(pinSearchRequest);
-    }
+
+   // }
   }
 
   public resetFilters(): void {
     this.childKidsWelcomeComponent.reset();
     this.childAgeGroupsComponent.reset();
     this.state.setIsFilterDialogOpen(false);
+  }
+
+  public onSubmit(): void {
+    this.location = this.locationFormGroup.controls.location.value;
+console.log(this.location);
+    this.applyFilters();
   }
 
 }

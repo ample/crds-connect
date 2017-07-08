@@ -63,7 +63,7 @@ export class MapFooterComponent implements OnInit {
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
 
-    let pinSearchRequest = new PinSearchRequestParams(true, null, null);
+    let pinSearchRequest = new PinSearchRequestParams(true, null, null, null);
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
@@ -86,7 +86,7 @@ export class MapFooterComponent implements OnInit {
       this.state.setMyViewOrWorldView('my');
       this.state.setIsMyStuffActive(true);
 
-      let pinSearchRequest = new PinSearchRequestParams(true, null, null);
+      let pinSearchRequest = new PinSearchRequestParams(true, null, null, null);
 
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }

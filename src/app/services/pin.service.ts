@@ -117,8 +117,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {
-
-    let lastSearchString: string = srchParams.userSearchString;
+    // TODO keyword for groups and location for connect
+    let lastSearchString: string = srchParams.userLocationSearchString;
     let lat: number = srchRes.centerLocation.lat;
     let lng: number = srchRes.centerLocation.lng;
     let zoom: number = this.mapHlpr.calculateZoom(15, lat, lng, srchRes.pinSearchResults, this.state.getMyViewOrWorldView());
@@ -128,10 +128,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     this.state.setMapView(mapView);
   }
 
+
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
     this.state.setLoading(true);
     let mapParams: MapView = this.state.getMapView();
-    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng, params.userFilterString);
+    // TODO keyword for groups and location for connect
+    let searchOptionsForCache = new SearchOptions(params.userLocationSearchString, mapParams.lat, mapParams.lng, params.userFilterString);
 
     let contactId: number = this.session.getContactId() || 0;
 
@@ -171,17 +173,18 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
-    let searchOptionsForCache = new SearchOptions(params.userSearchString, mapParams.lat, mapParams.lng, params.userFilterString);
+    // TODO: account for difference if userKeywordSearchString instead of userLocationSearchString
+    let searchOptionsForCache = new SearchOptions(params.userLocationSearchString, mapParams.lat, mapParams.lng, params.userFilterString);
     let isMyStuff: boolean = this.state.myStuffActive;
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
-    centerGeoCoords = this.clearGeoCoordsIfSearchingLocInConnect(params.userSearchString, centerGeoCoords);
+    centerGeoCoords = this.clearGeoCoordsIfSearchingLocInConnect(params.userLocationSearchString, centerGeoCoords);
     let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
 
-    let apiQueryParams = new PinSearchQueryParams(params.userSearchString, params.isLocationSearch, isMyStuff, finderType,
-                                                  contactId, centerGeoCoords, mapBoundingBox, params.userFilterString);
-
+    let apiQueryParams = new PinSearchQueryParams(params.userLocationSearchString, params.userKeywordSearchString, params.isLocationSearch
+                                                  , isMyStuff, finderType, contactId, centerGeoCoords, mapBoundingBox
+                                                  , params.userFilterString);
     console.log('API QUERY PARAMS: ');
     console.log(apiQueryParams);
 
@@ -474,17 +477,22 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinsFromServer;
   }
 
-  public buildPinSearchRequest(isConnectApp: boolean, textInSearchBar: string): PinSearchRequestParams {
+  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string): PinSearchRequestParams {
+// ***************
+//TODO fix this to use location or keyword
+// ***************
+    let isLocationSearch: boolean = this.appSetting.isConnectApp();
 
-    let isLocationSearch: boolean = isConnectApp;
-
-    let isTextInSearchBar: boolean = textInSearchBar && textInSearchBar !== '';
-    let searchString = isTextInSearchBar ? textInSearchBar : null;
-
-    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(isLocationSearch, searchString, null);
+    let isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
+    let searchString = textInLocationSearchBar ? textInLocationSearchBar : null;
+    let filterString = null;
+// ***************
+//TODO fix this to use location AND keyword
+// ***************
+    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(isLocationSearch, searchString
+                                                                        , textInKeywordSearchBar, filterString);
 
     return srchParams;
-
   }
 
 }
