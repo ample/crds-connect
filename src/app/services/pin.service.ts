@@ -157,13 +157,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
   }
 
-  private clearGeoCoordsIfSearchingLocInConnect(searchString: string, centerGeoCoords: GeoCoordinates): GeoCoordinates {
+  private clearGeoCoordsIfSearchingLoc(searchLocationString: string, centerGeoCoords: GeoCoordinates): GeoCoordinates {
+    let isLocationSearch: boolean = searchLocationString && searchLocationString !== '';
 
-    let isUserSearchingByKeyword: boolean = searchString && searchString !== '';
-    let isConnectApp: boolean = this.appSetting.finderType === app.CONNECT;
-    let doClearCenterCoordsToBeSetInApi: boolean = isUserSearchingByKeyword && isConnectApp;
-
-    if(doClearCenterCoordsToBeSetInApi){
+    if (isLocationSearch) {
       return new GeoCoordinates(null, null);
     } else {
       return centerGeoCoords;
@@ -179,7 +176,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
-    centerGeoCoords = this.clearGeoCoordsIfSearchingLocInConnect(params.userLocationSearchString, centerGeoCoords);
+    centerGeoCoords = this.clearGeoCoordsIfSearchingLoc(params.userLocationSearchString, centerGeoCoords);
     let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
 
     let apiQueryParams = new PinSearchQueryParams(params.userLocationSearchString, params.userKeywordSearchString, params.isLocationSearch
