@@ -18,7 +18,6 @@ import { MapView } from '../../models/map-view';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
-import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 import { SearchOptions } from '../../models/search-options';
 
 import { initialMapZoom } from '../../shared/constants';
@@ -122,13 +121,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
       let lastSearch = this.state.getLastSearch();
-
+      let lastSearchString = this.appSettings.isConnectApp() ? searchLocationString : searchKeywordString;
       if (lat == null || lng == null) {
-        // TODO keyword for groups and location for connect
-        this.state.setLastSearch(new SearchOptions(searchLocationString, lastSearch.coords.lat, lastSearch.coords.lng, filterString));
+        this.state.setLastSearch(new SearchOptions(lastSearchString, lastSearch.coords.lat, lastSearch.coords.lng, filterString));
       } else {
-        // TODO keyword for groups and location for connect
-        this.state.setLastSearch(new SearchOptions(searchLocationString, lat, lng, filterString));
+        this.state.setLastSearch(new SearchOptions(lastSearchString, lat, lng, filterString));
       }
     }
   }
@@ -144,13 +141,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
                                             next.centerLocation.lat,
                                             next.centerLocation.lng,
                                             searchParams.userFilterString);
-        // TODO keyword for groups and location for connect
-        this.state.lastSearch.search = searchParams.userLocationSearchString; // Are we doing this twice? Here and in navigate away
+              let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+                                                                     : searchParams.userKeywordSearchString;
+        this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
       },
       error => {
         console.log(error);
-        // TODO keyword for groups and location for connect
-        this.state.lastSearch.search = searchParams.userLocationSearchString;
+        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+                                                                : searchParams.userKeywordSearchString;
+        this.state.lastSearch.search = lastSearchString;
         this.state.setLoading(false);
         this.goToNoResultsPage();
       });

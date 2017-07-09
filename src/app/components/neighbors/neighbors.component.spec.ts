@@ -107,12 +107,12 @@ describe('Component: Neighbors', () => {
     (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
     (mockStateService.getCurrentView).and.returnValue('map');
     (mockStateService.getLastSearch).and.returnValue(null);
-    (mockPinService.buildPinSearchRequest).and.returnValue(new PinSearchRequestParams(true, null, null, null));
+    (mockPinService.buildPinSearchRequest).and.returnValue(new PinSearchRequestParams(null, null, null));
 
     spyOn(this.component, 'doSearch');
     this.component.ngOnInit();
     expect(mockStateService.setMapView).toHaveBeenCalledWith(new MapView('', 42, 42, initialMapZoom));
-    expect(this.component.doSearch).toHaveBeenCalledWith(new PinSearchRequestParams(true, null, null, null));
+    expect(this.component.doSearch).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
     expect(this.component.doSearch).toHaveBeenCalledTimes(1);
     expect(subject.observers.length).toBe(1);
   });
@@ -124,7 +124,7 @@ describe('Component: Neighbors', () => {
 
     spyOn(this.component, 'doSearch');
     this.component.ngOnInit();
-    let searchParams = new PinSearchRequestParams(true, 'user search', null, null);
+    let searchParams = new PinSearchRequestParams('user search', null, null);
     subject.next(searchParams);
     expect(this.component.doSearch).toHaveBeenCalledTimes(2);
     expect(this.component.doSearch).toHaveBeenCalledWith(searchParams);
@@ -272,7 +272,7 @@ describe('Component: Neighbors', () => {
     spyOn(this.component, 'processAndDisplaySearchResults');
     this.component['state'].lastSearch = new SearchOptions('words', 11, 11, null);
 
-    this.component.doSearch(new PinSearchRequestParams(true, 'new words', null, null));
+    this.component.doSearch(new PinSearchRequestParams('new words', null, null));
     expect(this.component.processAndDisplaySearchResults).toHaveBeenCalledWith('new words', results.centerLocation.lat, results.centerLocation.lng, null);
     expect(this.component['pinSearchResults']).toBe(results);
     expect(this.component['state'].lastSearch.search).toBe('new words');
@@ -283,7 +283,7 @@ describe('Component: Neighbors', () => {
     (mockPinService.getPinSearchResults).and.returnValue(Observable.throw({error: 'oh noes'}));
     this.component['state'].lastSearch = new SearchOptions('words', 11, 11, 'filter me');
 
-    this.component.doSearch(new PinSearchRequestParams(true, 'new words', null, null));
+    this.component.doSearch(new PinSearchRequestParams('new words', null, null));
     expect(mockPinService.getPinSearchResults).toHaveBeenCalled();
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     expect(this.component.goToNoResultsPage).toHaveBeenCalledTimes(1);

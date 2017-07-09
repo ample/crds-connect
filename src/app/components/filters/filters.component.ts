@@ -44,27 +44,16 @@ export class FiltersComponent implements OnInit {
     }
 
   private applyFilters(): void {
-console.log('apply filter');
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
+
     let filterString: string = this.filterService.buildFilters();
-
     this.router.navigate([], { queryParams: {filterString: filterString } });
+    let pinSearchRequest = new PinSearchRequestParams(this.location, this.searchKeywordString, filterString);
+    this.state.lastSearch.search = this.searchKeywordString;
+    this.pinService.emitPinSearchRequest(pinSearchRequest);
 
-    //if ((this.searchKeywordString !== undefined && this.searchKeywordString !== null && this.searchKeywordString.length > 0) 
-      //   || filterString != null) {
-
-      // TODO - this is no longer true in this case
-      let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
-      // TODO - pinSearchRequest needs to take 2 different search strings - location and keyword
-      // TODO - replace isThisALocationBasedSearch with locationSearchString and searchString with keywordSearchString
-      // bool, location, keyword, filter
-      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, this.location, this.searchKeywordString, filterString);
-      this.state.lastSearch.search = this.searchKeywordString;
-      this.pinService.emitPinSearchRequest(pinSearchRequest);
-
-   // }
   }
 
   public resetFilters(): void {
