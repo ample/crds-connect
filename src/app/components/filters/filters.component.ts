@@ -27,8 +27,7 @@ export class FiltersComponent implements OnInit {
   @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
 
-  private locationFormGroup: FormGroup;
-  private formName: string;
+  public locationFormGroup: FormGroup;
   private location: string;
 
   constructor( private appSettings: AppSettingsService,
@@ -43,7 +42,7 @@ export class FiltersComponent implements OnInit {
       });
     }
 
-  private applyFilters(): void {
+  public applyFilters(): void {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
@@ -64,7 +63,6 @@ export class FiltersComponent implements OnInit {
 
   public onSubmit(): void {
     this.location = this.locationFormGroup.controls.location.value;
-console.log(this.location);
     this.applyFilters();
   }
 

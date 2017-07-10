@@ -47,14 +47,16 @@ describe('KidsWelcomeComponent', () => {
     });
 
     it('should welcome kids', () => {
+        spyOn(comp, 'setFilterString');
         comp.kidsWelcome(true);
         expect(comp['selected']).toBe(true);
-        expect(comp['welcome']).toBe(true);
+        expect(comp['areKidsWelcome']).toBe(true);
+        expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
     });
 
     it('should reset', () => {
         comp.reset();
         expect(comp['selected']).toBe(false);
-        expect(comp['welcome']).toBe(null);
+        expect(comp['areKidsWelcome']).toBe(null);
     });
 });

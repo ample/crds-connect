@@ -1,15 +1,14 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-import { MockTestData } from '../../shared/MockTestData';
 import { FiltersComponent } from './filters.component';
 import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './age-groups/age-groups.component';
@@ -46,6 +45,7 @@ describe('FiltersComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(FiltersComponent);
             comp = fixture.componentInstance;
+            comp.locationFormGroup = new FormGroup({});
         });
     }));
 
@@ -53,7 +53,13 @@ describe('FiltersComponent', () => {
         expect(comp).toBeTruthy();
     });
 
+    it('should init', () => {
+        comp.ngOnInit();
+        expect(comp.locationFormGroup).not.toBeUndefined();
+    });
+
     it('should apply filters', () => {
+        comp.searchKeywordString = 'my keywords';
         comp.onSubmit();
         expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalled();
         expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalled();

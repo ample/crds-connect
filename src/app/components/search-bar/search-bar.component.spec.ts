@@ -31,7 +31,7 @@ describe('SearchBarComponent', () => {
   let mockAppSettingsService, mockPinService, mockStateService, mockFilterService;
 
   beforeEach(() => {
-    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp']);
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp', 'isSmallGroupApp']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters']);
     mockStateService = new StateServiceStub();

@@ -177,7 +177,7 @@ describe('Component: Neighbors', () => {
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     expect(mockNeighborsHelperService.emitChange).toHaveBeenCalledTimes(1);
     expect(mockGoogleMapService.emitRefreshMap).toHaveBeenCalledTimes(1);
-    expect(this.component.navigateAwayIfNecessary).toHaveBeenCalledWith('Searchy Search', 42, 42, undefined);
+    expect(this.component.navigateAwayIfNecessary).toHaveBeenCalledWith('Searchy Search', 42, 42, undefined, undefined);
   });
 
   it('shouldNavigateAway to no results page if pinsearch results is zero and on world map', () => {
@@ -249,8 +249,8 @@ describe('Component: Neighbors', () => {
     this.component['state'].myStuffActive = false;
     this.component['state'].navigatedDirectlyToGroup = false;
 
-    this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
-    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('searchySearch', 12, 32, undefined));
+    this.component.navigateAwayIfNecessary(null, 'keywordSearchString', 12, 32, undefined);
+    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', 12, 32, undefined));
   });
 
   it('should set last search if results > 1 and everything is awesome (without lat / lng)', () => {
@@ -261,26 +261,28 @@ describe('Component: Neighbors', () => {
     this.component['state'].myStuffActive = false;
     this.component['state'].navigatedDirectlyToGroup = false;
 
-    this.component.navigateAwayIfNecessary('searchySearch', null, undefined);
-    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('searchySearch', 22, 34, undefined));
+    this.component.navigateAwayIfNecessary(null, 'keywordSearchString',  null, undefined);
+    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', 22, 34, undefined));
 
   });
 
   it('should do search', () => {
     let results = MockTestData.getAPinSearchResults(5);
     (mockPinService.getPinSearchResults).and.returnValue(Observable.of(results));
+    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
     spyOn(this.component, 'processAndDisplaySearchResults');
     this.component['state'].lastSearch = new SearchOptions('words', 11, 11, null);
 
-    this.component.doSearch(new PinSearchRequestParams('new words', null, null));
-    expect(this.component.processAndDisplaySearchResults).toHaveBeenCalledWith('new words', results.centerLocation.lat, results.centerLocation.lng, null);
+    this.component.doSearch(new PinSearchRequestParams(null, 'keywordSearchString', null));
+    expect(this.component.processAndDisplaySearchResults).toHaveBeenCalledWith(null, 'keywordSearchString', results.centerLocation.lat, results.centerLocation.lng, null);
     expect(this.component['pinSearchResults']).toBe(results);
-    expect(this.component['state'].lastSearch.search).toBe('new words');
+    expect(this.component['state'].lastSearch.search).toBe('keywordSearchString');
   });
 
   it('doSearch should handle error and go to no results page', () => {
     spyOn(this.component, 'goToNoResultsPage');
     (mockPinService.getPinSearchResults).and.returnValue(Observable.throw({error: 'oh noes'}));
+    (mockAppSettingsService.isConnectApp).and.returnValue(true);
     this.component['state'].lastSearch = new SearchOptions('words', 11, 11, 'filter me');
 
     this.component.doSearch(new PinSearchRequestParams('new words', null, null));
