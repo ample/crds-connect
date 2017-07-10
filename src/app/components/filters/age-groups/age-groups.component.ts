@@ -52,17 +52,17 @@ export class AgeGroupsComponent implements OnInit {
   }
 
   public setFilterString(): void {
-    let addFilterString: string;
+    let addFilterString: string = '';
+    addFilterString = ' (or';
     for (let age of this.ageGroups) {
       if (age.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString = ` (or ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' ) `;
+        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' `;
       }
     }
+    addFilterString += ' )';
 
-    this.filterService.filterStringAgeGroups = this.filterService.filterStringAgeGroups != null ?
-                       this.filterService.filterStringAgeGroups + addFilterString
-                       : addFilterString;
+    this.filterService.filterStringAgeGroups =  addFilterString;
   }
 
   public reset() {
