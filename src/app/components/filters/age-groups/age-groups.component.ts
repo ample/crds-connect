@@ -30,8 +30,10 @@ export class AgeGroupsComponent implements OnInit {
 
   public clickToSelect(value: string) {
     this.setSelection(value);
+    this.setFilterString();
   }
 
+// TODO move into a resolve
   private initializeAgeGroups(): void {
       this.lookupService.getAgeGroups().subscribe(
           ages => {
@@ -51,7 +53,8 @@ export class AgeGroupsComponent implements OnInit {
     }
   }
 
-  public setFilterString(): void {
+// TODO build string in service
+  private setFilterString(): void {
     let addFilterString: string = '';
     addFilterString = ' (or';
     for (let age of this.ageGroups) {

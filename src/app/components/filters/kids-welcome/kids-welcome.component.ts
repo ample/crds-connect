@@ -14,7 +14,7 @@ import { awsFieldNames } from '../../../shared/constants';
 })
 
 export class KidsWelcomeComponent {
-  private welcome: boolean = null;
+  private areKidsWelcome: boolean = null;
   private selected: boolean = false;
 
   constructor( private appSettings: AppSettingsService,
@@ -23,19 +23,21 @@ export class KidsWelcomeComponent {
 
   public kidsWelcome(value: boolean): void {
         this.selected = true;
-        this.welcome = value;
+        this.areKidsWelcome = value;
+        this.setFilterString();
   }
 
-  public setFilterString(): void {
+// TODO build string in service
+  private setFilterString(): void {
     // AWS value is a number, not a string
-    let welcomeFlag = this.welcome ? 1 : 0;
-    this.filterService.filterStringKidsWelcome = (this.welcome != null || this.welcome !== undefined) ?
+    let welcomeFlag = this.areKidsWelcome ? 1 : 0;
+    this.filterService.filterStringKidsWelcome = (this.areKidsWelcome != null || this.areKidsWelcome !== undefined) ?
       `(or ${awsFieldNames.GROUP_KIDS_WELCOME}: ${welcomeFlag})` :
       null;
   }
 
   public reset() {
-    this.welcome = null;
+    this.areKidsWelcome = null;
     this.selected = false;
   }
 }
