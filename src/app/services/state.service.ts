@@ -52,6 +52,10 @@ export class StateService {
     this.emitMyStuffChanged();
   }
 
+  public isMapViewSet(): boolean {
+    return this.savedMapView != null;
+  }
+
   public setMapView(mv: MapView) {
     this.savedMapView = mv;
   }
