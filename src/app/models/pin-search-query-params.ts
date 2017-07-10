@@ -4,6 +4,7 @@ import { MapBoundingBox } from '../models/map-bounding-box';
 export class PinSearchQueryParams {
 
   userSearchString: string;
+  userFilterString: string;
   isAddressSearch: boolean;
   isMyStuff: boolean;
   finderType: string;
@@ -12,9 +13,10 @@ export class PinSearchQueryParams {
   boundingBox: MapBoundingBox;
 
   constructor(userSearchString: string, isAddressSearch: boolean, isMyStuff: boolean, finderType: string,
-              contactId: number, centerGeoCoords: GeoCoordinates, boundingBox: MapBoundingBox) {
+              contactId: number, centerGeoCoords: GeoCoordinates, boundingBox: MapBoundingBox, userFilterString: string) {
 
     this.userSearchString = userSearchString;
+    this.userFilterString = userFilterString;
     this.isAddressSearch = isAddressSearch;
     this.isMyStuff = isMyStuff;
     this.finderType = finderType;

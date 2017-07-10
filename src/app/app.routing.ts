@@ -11,6 +11,7 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { FiltersComponent } from './components/filters/filters.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
