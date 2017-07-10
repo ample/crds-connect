@@ -80,6 +80,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     let keywordString = this.appSettings.isSmallGroupApp() ? searchString : null;
     let filterString: string = this.filterService.buildFilters();
 
+// TODO - US8722 - remove this if statement ?
     if ((searchString !== undefined && searchString !== null && searchString.length > 0) || filterString != null) {
       let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
       this.state.lastSearch.search = searchString;
