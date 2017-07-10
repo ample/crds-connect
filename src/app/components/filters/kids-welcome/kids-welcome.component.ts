@@ -29,7 +29,7 @@ export class KidsWelcomeComponent {
   public setFilterString(): void {
     // AWS value is a number, not a string
     let welcomeFlag = this.welcome ? 1 : 0;
-    this.filterService.filterStringKidsWelcome = (this.welcome != null || this.welcome != undefined) ?
+    this.filterService.filterStringKidsWelcome = (this.welcome != null || this.welcome !== undefined) ?
       `(or ${awsFieldNames.GROUP_KIDS_WELCOME}: ${welcomeFlag})` :
       null;
   }

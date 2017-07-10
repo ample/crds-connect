@@ -165,7 +165,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
       this.doSearch(srchParams);
-      this.filterService.resetFilterString();
     });
 
   }
