@@ -78,7 +78,7 @@ describe('FiltersComponent', () => {
         expect(this.comp.state.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
     });
 
-    fit('should call filter service reset', () => {
+    it('should call filter service reset', () => {
         this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
         this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
         this.comp['childKidsWelcomeComponent'].selected = true;
