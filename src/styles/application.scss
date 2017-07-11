@@ -26,6 +26,14 @@ app-preloader {
   }
 }
 
+section {
+  @include make-row;
+}
+
+article, aside {
+  @include make-md-column(6);
+}
+
 app-neighbors {
   display: block;
 }

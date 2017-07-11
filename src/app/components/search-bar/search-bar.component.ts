@@ -11,6 +11,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
 import { AppSettingsService } from '../../services/app-settings.service';
+import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
@@ -19,7 +20,7 @@ import { app, placeholderTextForSearchBar } from '../../shared/constants';
 @Component({
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html',
-  styleUrls: ['search-bar.component.css']
+  styleUrls: ['search-bar.component.scss']
 })
 export class SearchBarComponent implements OnChanges, OnInit {
   @Input() isMapHidden: boolean;
@@ -30,10 +31,12 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
+  public searchString: string;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
-              private state: StateService) {
+              private state: StateService,
+              private filterService: FilterService) {
   }
 
   public ngOnInit(): void {
@@ -43,6 +46,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
     this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS : placeholderTextForSearchBar.KEYWORD;
+
+    this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
 
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
@@ -68,14 +73,19 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public onSearch(searchString: string) {
+    this.searchString = searchString;
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
-    if (searchString !== null && searchString.length > 0) {
-      let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
-      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString);
-      this.state.lastSearch.search = searchString;
-      this.pinService.emitPinSearchRequest(pinSearchRequest);
-    }
+    this.state.setIsFilterDialogOpen(false);
+
+    let locationFilter = this.appSettings.isConnectApp() ? searchString : null;
+    let keywordString = this.appSettings.isSmallGroupApp() ? searchString : null;
+    let filterString: string = this.filterService.buildFilters();
+
+    let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
+    this.state.lastSearch.search = searchString;
+    this.pinService.emitPinSearchRequest(pinSearchRequest);
+
   }
 
   private setButtonText() {
@@ -101,12 +111,16 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.focusSearchInput();
   }
 
-  public searchKeyUp(){
+  public searchKeyUp() {
     this.isSearchClearHidden = false;
   }
 
   public focusSearchInput() {
     document.getElementById('search-bar-input').focus();
+  }
+
+  public toggleFilters() {
+    this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
   }
 
 }

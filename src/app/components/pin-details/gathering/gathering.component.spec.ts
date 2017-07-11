@@ -53,7 +53,7 @@ let mockRouter;
 
 describe('Gathering component redirect error', () => {
     beforeEach(() => {
-        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp', 'isSmallGroupApp']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
@@ -61,7 +61,7 @@ describe('Gathering component redirect error', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders']);
+            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -140,7 +140,7 @@ describe('Gathering component redirect error', () => {
 
 describe('GatheringComponent', () => {
     beforeEach(() => {
-        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp', 'isSmallGroupApp']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
@@ -148,7 +148,7 @@ describe('GatheringComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders']);
+            ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);

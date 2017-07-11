@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
-import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus } from '../../shared/constants';
+import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus, ApplicationUrl } from '../../shared/constants';
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -15,7 +15,6 @@ import { HostApplicationHelperService } from '../../services/host-application-he
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
-import { StoreService } from '../../services/store.service';
 
 import { Address } from '../../models/address';
 import { HostRequestDto } from '../../models/host-request-dto';
@@ -26,7 +25,7 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   selector: 'app-host-application',
   templateUrl: 'host-application.component.html'
 })
-export class HostApplicationComponent implements OnInit {
+export class HostApplicationComponent implements OnInit, AfterViewInit {
 
   public userData: DetailedUserData;
   public hostForm: FormGroup;
@@ -34,44 +33,21 @@ export class HostApplicationComponent implements OnInit {
   public groupAddress: Address;
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
-  public isHidden = true; //temporary fix for hiding isHomeAddress checkbox
-  private ApplicationUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
+  public isHidden = true; // temporary fix for hiding isHomeAddress checkbox
 
   constructor(
     private addressService: AddressService,
-    private blandPageService: BlandPageService,
     private content: ContentService,
     private hlpr: HostApplicationHelperService,
-    private loginRedirectService: LoginRedirectService,
+    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private session: SessionService,
-    private store: StoreService,
-    private toast: ToastsManager,
     private state: StateService,
-    private location: Location,
-    private appSettingsService: AppSettingsService,
-    private groupService: GroupService
+    private toast: ToastsManager
   ) {}
 
   public ngOnInit() {
-    switch (this.appSettingsService.leadershipApplicationType) {
-      case LeadershipApplicationType.GROUP_LEADER:
-        this.groupService.getLeaderStatus().subscribe(
-          pos => {
-              if ( pos.status === GroupLeaderApplicationStatus.APPROVED) {
-                console.log('create a group');
-              } else {
-                window.location.href = this.ApplicationUrl;
-              }
-          },
-          error => {
-            window.location.href = this.ApplicationUrl;
-          }
-      );
-        break;
-    };
-
     this.userData = this.route.snapshot.data['userData'];
     let mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
     this.homeAddress = this.userData.address;
@@ -129,9 +105,9 @@ export class HostApplicationComponent implements OnInit {
 
     if (isDuplicateGatheringAddress) {
       this.toast.error('You cannot host another gathering at the same location. ' +
-          'Please change the address and try again!', null, {toastLife: 3000});
+          'Please change the address and try again!');
     } else {
-      this.toast.error('An error occurred, please try again later.', null, {toastLife: 3000});
+      this.toast.error('An error occurred, please try again later.');
     }
   }
 
