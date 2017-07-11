@@ -78,10 +78,11 @@ describe('FiltersComponent', () => {
         expect(this.comp.state.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
     });
 
-    it('should call filter service reset', () => {
-        comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
-        comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
-        comp.resetFilters();
+    fit('should call filter service reset', () => {
+        this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
+        this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
+        this.comp['childKidsWelcomeComponent'].selected = true;
+        this.comp.resetFilters();
         expect(mockFilterService.resetFilterString).toHaveBeenCalled();
     });
 });
