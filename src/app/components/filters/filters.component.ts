@@ -5,7 +5,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
@@ -28,10 +27,9 @@ export class FiltersComponent implements OnInit {
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
 
   public locationFormGroup: FormGroup;
-  private location: string;
+  public location: string;
 
-  constructor( private appSettings: AppSettingsService,
-               private filterService: FilterService,
+  constructor( private filterService: FilterService,
                private router: Router,
                private pinService: PinService,
                private state: StateService) { }

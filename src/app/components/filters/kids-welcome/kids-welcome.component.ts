@@ -14,8 +14,8 @@ import { awsFieldNames } from '../../../shared/constants';
 })
 
 export class KidsWelcomeComponent {
-  private areKidsWelcome: boolean = null;
-  private selected: boolean = false;
+  public areKidsWelcome: boolean = null;
+  public selected: boolean = false;
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService) { }
