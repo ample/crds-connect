@@ -3,21 +3,21 @@ import { MapBoundingBox } from '../models/map-bounding-box';
 
 export class PinSearchQueryParams {
 
-  userSearchString: string;
+  userLocationSearchString: string;
+  userKeywordSearchString: string;
   userFilterString: string;
-  isAddressSearch: boolean;
   isMyStuff: boolean;
   finderType: string;
   contactId: number;
   centerGeoCoords: GeoCoordinates;
   boundingBox: MapBoundingBox;
 
-  constructor(userSearchString: string, isAddressSearch: boolean, isMyStuff: boolean, finderType: string,
-              contactId: number, centerGeoCoords: GeoCoordinates, boundingBox: MapBoundingBox, userFilterString: string) {
-
-    this.userSearchString = userSearchString;
+  constructor(userLocationSearchString: string, userKeywordSearchString: string
+              , isMyStuff: boolean, finderType: string, contactId: number, centerGeoCoords: GeoCoordinates
+              , boundingBox: MapBoundingBox, userFilterString: string) {
+    this.userLocationSearchString = userLocationSearchString;
+    this.userKeywordSearchString = userKeywordSearchString;
     this.userFilterString = userFilterString;
-    this.isAddressSearch = isAddressSearch;
     this.isMyStuff = isMyStuff;
     this.finderType = finderType;
     this.contactId = contactId;
