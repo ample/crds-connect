@@ -33,8 +33,7 @@ export class AgeGroupsComponent implements OnInit {
     this.setFilterString();
   }
 
-// TODO move into a resolve
-  private initializeAgeGroups(): void {
+ private initializeAgeGroups(): void {
       this.lookupService.getAgeGroups().subscribe(
           ages => {
             this.ageGroups = [];
@@ -53,19 +52,8 @@ export class AgeGroupsComponent implements OnInit {
     }
   }
 
-// TODO build string in service
   private setFilterString(): void {
-    let addFilterString: string = '';
-    addFilterString = ' (or';
-    for (let age of this.ageGroups) {
-      if (age.selected) {
-        // need single quotes around each value since it is a string in aws
-        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' `;
-      }
-    }
-    addFilterString += ' )';
-
-    this.filterService.filterStringAgeGroups =  addFilterString;
+    this.filterService.setFilterStringAgeGroups(this.ageGroups);
   }
 
   public reset() {
