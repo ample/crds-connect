@@ -48,7 +48,7 @@
 
       <dl *ngIf="pin.pinType === pinType.SMALL_GROUP" class="group-meta-data border-top push-top">
         <dt>Category</dt>
-        <dd *ngFor="let category of pin?.gathering?.categories">{{category}}</dd>
+        <dd *ngFor="let category of pin?.gathering?.categories">{{category.replace(":", ": ")}}</dd>
 
         <dt>Where</dt>
         <dd>
