@@ -74,13 +74,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
-    // TODO - US8722 - pass up locationFilter string - is this a requirement? since already doing for other filters 
-    // OR remove call to buildFilters and pass in null for filters here??
+
     let locationFilter = this.appSettings.isConnectApp() ? searchString : null;
     let keywordString = this.appSettings.isSmallGroupApp() ? searchString : null;
     let filterString: string = this.filterService.buildFilters();
 
-// TODO - US8722 - remove this if statement ?
     if ((searchString !== undefined && searchString !== null && searchString.length > 0) || filterString != null) {
       let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
       this.state.lastSearch.search = searchString;
