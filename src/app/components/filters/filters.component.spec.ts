@@ -68,13 +68,13 @@ describe('FiltersComponent', () => {
         expect(this.comp['state'].lastSearch.search).toBe('my keywords');
     });
 
-    fit('should reset filters', () => {
+    it('should reset filters', () => {
         this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
         this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
         this.comp['childKidsWelcomeComponent'].selected = true;
         this.comp.resetFilters();
         expect(this.comp.childKidsWelcomeComponent.reset).toHaveBeenCalled();
         expect(this.comp.childAgeGroupsComponent.reset).toHaveBeenCalled();
-        expect(this.comp['childKidsWelcomeComponent'].selected).toBe(false);
+        expect(this.comp.state.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
     });
 });
