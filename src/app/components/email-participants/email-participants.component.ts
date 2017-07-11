@@ -24,7 +24,7 @@ import { MapView } from '../../models/map-view';
 })
 export class EmailParticipantsComponent implements OnInit {
 
-  @Input() searchResults: PinSearchResultsDto;
+  @Input() participantEmails: string[];
 
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
@@ -37,8 +37,11 @@ export class EmailParticipantsComponent implements OnInit {
               private session: SessionService) {}
 
   public ngOnInit(): void {
-    console.log('Initialiazing email comp')
+    console.log('Initialiazing email comp, participants received: ');
+    console.log(this.participantEmails);
   }
+
+
 
 
 }
