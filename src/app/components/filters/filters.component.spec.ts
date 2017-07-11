@@ -21,7 +21,7 @@ describe('FiltersComponent', () => {
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
-        mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters']);
+        mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters', 'resetFilterString']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService',
           ['emitPinSearchRequest', 'setMyViewOrWorldView', 'setIsFilterDialogOpen']);
@@ -66,5 +66,12 @@ describe('FiltersComponent', () => {
         comp.resetFilters();
         expect(comp.childKidsWelcomeComponent.reset).toHaveBeenCalled();
         expect(comp.childAgeGroupsComponent.reset).toHaveBeenCalled();
+    });
+
+    it('should call filter service reset', () => {
+        comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
+        comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
+        comp.resetFilters();
+        expect(mockFilterService.resetFilterString).toHaveBeenCalled();
     });
 });

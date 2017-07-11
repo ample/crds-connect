@@ -52,6 +52,7 @@ export class FiltersComponent {
   public resetFilters(): void {
     this.childKidsWelcomeComponent.reset();
     this.childAgeGroupsComponent.reset();
+    this.filterService.resetFilterString();
     this.state.setIsFilterDialogOpen(false);
   }
 
