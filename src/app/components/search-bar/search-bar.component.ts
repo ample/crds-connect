@@ -79,11 +79,10 @@ export class SearchBarComponent implements OnChanges, OnInit {
     let keywordString = this.appSettings.isSmallGroupApp() ? searchString : null;
     let filterString: string = this.filterService.buildFilters();
 
-    if ((searchString !== undefined && searchString !== null && searchString.length > 0) || filterString != null) {
-      let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
-      this.state.lastSearch.search = searchString;
-      this.pinService.emitPinSearchRequest(pinSearchRequest);
-    }
+    let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
+    this.state.lastSearch.search = searchString;
+    this.pinService.emitPinSearchRequest(pinSearchRequest);
+
   }
 
   private setButtonText() {
