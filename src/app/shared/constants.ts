@@ -1,5 +1,7 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
+export const AgeGroupAttributeTypeId: number = 91;
+
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
   lng: -84.423367
@@ -11,6 +13,7 @@ export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
 
+// TODO can we delete this? AppRoute
 export class AppRoute {
   CONNECT_ROUTE: string;
   SMALL_GROUPS_ROUTE: string;
@@ -35,6 +38,18 @@ export enum AppType {
   Connect,
   Groups
 }
+
+export class AwsFieldNames {
+  GROUP_KIDS_WELCOME: string;
+  GROUP_AGE_RANGE: string;
+
+  constructor () {
+    this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
+    this.GROUP_AGE_RANGE = 'groupagerange';
+  }
+}
+
+export const awsFieldNames: AwsFieldNames = new AwsFieldNames();
 
 export enum LeadershipApplicationType {
   ANYWHERE_HOST,
@@ -69,6 +84,7 @@ export enum GroupRole {
   APPRENTICE = 66,
   NONE = 0
 }
+
 
 export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();

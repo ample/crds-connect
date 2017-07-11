@@ -11,6 +11,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
 import { AppSettingsService } from '../../services/app-settings.service';
+import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
@@ -30,10 +31,12 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
+  public searchString: string;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
-              private state: StateService) {
+              private state: StateService,
+              private filterService: FilterService) {
   }
 
   public ngOnInit(): void {
@@ -67,11 +70,14 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public onSearch(searchString: string) {
+    this.searchString = searchString;
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
-    if (searchString !== null && searchString.length > 0) {
+    this.state.setIsFilterDialogOpen(false);
+    let filterString: string = this.filterService.buildFilters();
+    if ((searchString !== undefined && searchString !== null && searchString.length > 0) || filterString != null) {
       let isThisALocationBasedSearch: boolean = this.appSettings.isConnectApp();
-      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString);
+      let pinSearchRequest = new PinSearchRequestParams(isThisALocationBasedSearch, searchString, filterString);
       this.state.lastSearch.search = searchString;
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }
@@ -100,12 +106,16 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.focusSearchInput();
   }
 
-  public searchKeyUp(){
+  public searchKeyUp() {
     this.isSearchClearHidden = false;
   }
 
   public focusSearchInput() {
     document.getElementById('search-bar-input').focus();
+  }
+
+  public toggleFilters() {
+    this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
   }
 
 }
