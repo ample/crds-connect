@@ -18,7 +18,6 @@ import { MapView } from '../../models/map-view';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
-import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 import { SearchOptions } from '../../models/search-options';
 
 import { initialMapZoom } from '../../shared/constants';
@@ -74,7 +73,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private processAndDisplaySearchResults(searchString, lat, lng, filterString): void {
+  private processAndDisplaySearchResults(searchLocationString, searchKeywordString, lat, lng, filterString): void {
     // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
     this.pinSearchResults.pinSearchResults =
         this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
@@ -99,10 +98,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.isMapHidden = false;
     }, 1);
 
-    this.navigateAwayIfNecessary(searchString, lat, lng, filterString);
+    this.navigateAwayIfNecessary(searchLocationString, searchKeywordString, lat, lng, filterString);
   }
   // TODO: Either consolidate these state.setLoading or remove them as it's done before this method is called
-  private navigateAwayIfNecessary(searchString: string, lat: number, lng: number, filterString: string): void {
+  private navigateAwayIfNecessary(searchLocationString: string, searchKeywordString: string, lat: number, lng: number, filterString: string): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
@@ -122,11 +121,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
       let lastSearch = this.state.getLastSearch();
-
+      let lastSearchString = this.appSettings.isConnectApp() ? searchLocationString : searchKeywordString;
       if (lat == null || lng == null) {
-        this.state.setLastSearch(new SearchOptions(searchString, lastSearch.coords.lat, lastSearch.coords.lng, filterString));
+        this.state.setLastSearch(new SearchOptions(lastSearchString, lastSearch.coords.lat, lastSearch.coords.lng, filterString));
       } else {
-        this.state.setLastSearch(new SearchOptions(searchString, lat, lng, filterString));
+        this.state.setLastSearch(new SearchOptions(lastSearchString, lat, lng, filterString));
       }
     }
   }
@@ -137,15 +136,20 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.pinService.getPinSearchResults(searchParams).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
-        this.processAndDisplaySearchResults(searchParams.userSearchString,
+        this.processAndDisplaySearchResults(searchParams.userLocationSearchString,
+                                            searchParams.userKeywordSearchString,
                                             next.centerLocation.lat,
                                             next.centerLocation.lng,
                                             searchParams.userFilterString);
-        this.state.lastSearch.search = searchParams.userSearchString; // Are we doing this twice? Here and in navigate away
+              let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+                                                                     : searchParams.userKeywordSearchString;
+        this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
       },
       error => {
         console.log(error);
-        this.state.lastSearch.search = searchParams.userSearchString;
+        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+                                                                : searchParams.userKeywordSearchString;
+        this.state.lastSearch.search = lastSearchString;
         this.state.setLoading(false);
         this.goToNoResultsPage();
       });
@@ -166,9 +170,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private runInitialPinSearch(): void {
+    let locationFilter: string = null;
 
     let pinSearchRequest: PinSearchRequestParams =
-        this.pinService.buildPinSearchRequest(this.appSettings.isConnectApp(), this.state.searchBarText);
+        this.pinService.buildPinSearchRequest(this.state.searchBarText, locationFilter);
 
     this.userLocationService.GetUserLocation().subscribe(
       pos => {

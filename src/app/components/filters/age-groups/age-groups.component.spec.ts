@@ -58,8 +58,10 @@ describe('AgeGroupsComponent', () => {
 
     it('should call setSelection', () => {
         spyOn(comp, 'setSelection');
+        spyOn(comp, 'setFilterString');
         comp.clickToSelect('123');
         expect(comp['setSelection']).toHaveBeenCalledTimes(1);
+        expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
     });
 
     it('should reset', () => {

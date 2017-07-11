@@ -1,10 +1,21 @@
 <div class="container">
 <div class="row">
-  <div class="col-md-4"><a class="btn-link" (click)="applyFilters()">Apply</a></div>
+  <div class="col-md-4"><a class="btn-link" (click)="locationForm.ngSubmit.emit()">Apply</a></div>
   <div class="col-md-4">Filter</div>
   <div class="col-md-4"><a class="btn-link" (click)="resetFilters()">Reset</a></div>
 </div>
 </div>
+
+<form [formGroup]="locationFormGroup" (ngSubmit)="onSubmit()" #locationForm="ngForm">
+  <div class="form-group">
+    <input class="form-control" 
+           name="location" 
+           formControlName="location"
+           placeholder="Current Location" 
+           type="search" 
+           value="">
+  </div>
+</form>
 
 <accordion>
   
