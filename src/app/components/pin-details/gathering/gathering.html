@@ -68,9 +68,9 @@
         <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
      </dl>
 
-      <button class="btn btn-gray btn-block push-half-top btn-block-mobile"
-              *ngIf = "isInGroupApp"
-              (click) = "onContactLeaderClicked();">Contact Leader</button>
+      <!--<button class="btn btn-gray btn-block push-half-top btn-block-mobile"-->
+              <!--*ngIf = "isInGroupApp"-->
+              <!--(click) = "onContactLeaderClicked();">Contact Leader</button>-->
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn primary btn-primary btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
