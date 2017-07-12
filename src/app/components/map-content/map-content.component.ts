@@ -54,7 +54,7 @@ export class MapContentComponent implements OnInit {
 
   @HostListener('document:redrawingClusters', ['$event'])
   onClusterRedraw(event) {
-      this.drawLabels(event.data.markersNotInClusters);
+    this.drawLabels(event.data.markersNotInClusters);
   }
 
   ngOnInit() {

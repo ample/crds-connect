@@ -28,6 +28,7 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModu
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
+import { ClipboardModule } from 'ngx-clipboard';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'ng-select';
 
@@ -138,6 +139,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CommonModule,
     DatepickerModule,
     HttpModule,
+    ClipboardModule,
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
