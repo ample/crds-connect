@@ -11,7 +11,8 @@ import { EmailParticipantsComponent } from '../../components/email-participants/
 
 
 describe('Component: Map', () => {
-      let mockToastr, mockAngulartics2;
+
+  let mockToastr, mockAngulartics2;
 
   beforeEach(() => {
 
@@ -37,8 +38,29 @@ describe('Component: Map', () => {
 
   });
 
-  fit('should create an instance', () => {
+  it('should create an instance', () => {
     expect(this.component).toBeTruthy();
+  });
+
+  it('should show toast when copying to clipboard', () => {
+
+    let mockListOfParticipantEmails: string[] = ['lol@yahoo.com'];
+    let mockSingleEmailCopiedMsg: string = '1 email address copied to clipboard!';
+
+    this.component.participantEmails = mockListOfParticipantEmails;
+    this.component.displayEmailsCopiedToClipboardToast(mockListOfParticipantEmails[0]);
+    expect(mockToastr.success).toHaveBeenCalledWith(mockSingleEmailCopiedMsg);
+  });
+
+  it('should show plural toast when copying more than one email address to clipboard', () => {
+
+    let mockListOfParticipantEmails: string[] = ['lol@yahoo.com', 'rofl@yahoo.com'];
+    let mockConcatedEmailListString: string = 'lol@yahoo.com,rofl@yahoo.com';
+    let mockMultipleEmailsCopiedMsg: string = '2 email addresses copied to clipboard!';
+
+    this.component.participantEmails = mockListOfParticipantEmails;
+    this.component.displayEmailsCopiedToClipboardToast(mockConcatedEmailListString);
+    expect(mockToastr.success).toHaveBeenCalledWith(mockMultipleEmailsCopiedMsg);
   });
 
 });
