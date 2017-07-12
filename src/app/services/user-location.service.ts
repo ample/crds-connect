@@ -9,7 +9,6 @@ import { GoogleMapService } from '../services/google-map.service';
 import { LocationService } from './location.service';
 import { SessionService } from './session.service';
 import { StateService } from './state.service';
-import { PinService } from './pin.service';
 
 @Injectable()
 export class UserLocationService extends CacheableService<GeoCoordinates> {

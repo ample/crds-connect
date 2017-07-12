@@ -1,11 +1,15 @@
 export class PinSearchRequestParams {
 
-  userSearchString: string;
-  isLocationSearch: boolean;
+  userLocationSearchString: string;
+  userKeywordSearchString: string;
+  userFilterString: string;
 
-  constructor(isLocationSearch: boolean, userSearchString: string) {
-    this.isLocationSearch = isLocationSearch;
-    this.userSearchString = userSearchString;
+  constructor(userLocationSearchString: string
+            , userKeywordSearchString: string
+            , userFilterString: string) {
+    this.userLocationSearchString = userLocationSearchString;
+    this.userKeywordSearchString = userKeywordSearchString;
+    this.userFilterString = userFilterString;
   }
 
 }

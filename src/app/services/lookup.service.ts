@@ -1,4 +1,6 @@
 import { Category } from '../models/category';
+import { AgeGroup } from '../models/age-group';
+import { AgeGroupAttributeTypeId } from '../shared/constants';
 import { CacheableService } from './base-service/cacheable.service';
 import { SessionService } from './session.service';
 
@@ -13,7 +15,13 @@ export class LookupService {
     constructor(private session: SessionService) {}
 
     public getCategories(): Observable<Category[]> {
-        return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`);
+        return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`)
+        .map((res: Category[]) => {
+            return res as Category[];
+        });
     }
 
+    public getAgeGroups(): Observable<any> {
+        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
+    }
 }

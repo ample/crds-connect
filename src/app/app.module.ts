@@ -2,7 +2,7 @@ import {
     ParticipantDetailsComponent
 } from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
-import { NgModule, Provider  } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,7 +23,7 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule  } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -40,6 +40,10 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
+import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
+
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
@@ -78,6 +82,8 @@ import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { CreateGroupService } from './components/create-group/create-group-data.service';
+import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
@@ -135,6 +141,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ReactiveFormsModule,
     FormsModule,
     ModalModule.forRoot(),
+    AccordionModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
     routing,
@@ -149,9 +156,12 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
-	ContactLeaderComponent,
+    ContactLeaderComponent,
     CreateGroupSummaryComponent,
     CreateGroupPage1Component,
+    FiltersComponent,
+    KidsWelcomeComponent,
+    AgeGroupsComponent,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
@@ -197,9 +207,11 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
+    CreateGroupService,
     DetailedUserDataResolver,
     IPService,
     SiteAddressService,
+    FilterService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupLeaderGuard,
@@ -227,7 +239,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     UserLocationService,
     UserDataResolver,
     WhatsAHostGuard,
-    { provide: Window, useValue: window },
     HostNextStepsGuard,
   ],
   bootstrap: [AppComponent]

@@ -76,8 +76,6 @@ describe('AddSomeoneComponent', () => {
     }));
 
     it('AddSomeoneComponent should exist', () => {
-        console.log(fixture);
-        console.log(comp);
         expect(comp).toBeTruthy();
     });
 

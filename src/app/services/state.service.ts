@@ -19,16 +19,18 @@ export class StateService {
   public appForWhichWeRanLastSearch: string = undefined;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
-  public pageHeader: Object = { routerLink: null, title: null };
   public is_loading: boolean = false;
+  public isFilterDialogOpen: boolean = false;
+  public lastSearch: SearchOptions;
+  public myStuffActive: boolean = false;
   public navigatedBackToNeighbors: boolean = false;
   public navigatedDirectlyToGroup: boolean   = false; // Did we navigate directly to a group (group mode) because there was only one?
-
   // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
   public navigatedFromAddToMapComponent: boolean = false;
-
-  public myStuffActive: boolean = false;
+  public pageHeader: Object = { routerLink: null, title: null };
   public postedPin: Pin;
+  public removedSelf: boolean = false;
+  public savedMapView: MapView;
   public searchBarText: string;
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
@@ -38,10 +40,7 @@ export class StateService {
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
-  public savedMapView: MapView;
-  public lastSearch: SearchOptions;
 
-  public removedSelf: boolean = false;
 
   public emitMyStuffChanged(): void {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
@@ -62,6 +61,14 @@ export class StateService {
 
   public getMapView(): MapView {
     return this.savedMapView;
+  }
+
+  public setIsFilterDialogOpen(val: boolean) {
+    this.isFilterDialogOpen = val;
+  }
+
+  public getIsFilteredDialogOpen() {
+    return this.isFilterDialogOpen;
   }
 
   public getLastSearch() {
