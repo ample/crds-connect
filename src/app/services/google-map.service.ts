@@ -7,10 +7,12 @@ import { MapView } from '../models/map-view';
 import { MapMarker } from '../models/map-marker';
 import { Pin, pinType } from '../models/pin';
 
+import {AppSettingsService} from './app-settings.service';
+
 @Injectable()
 export class GoogleMapService {
   // TODO: Should these be subjects?
-  // See https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service 
+  // See https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#bidirectional-service
   public mapUpdatedEmitter: EventEmitter<GeoCoordinates>;
   public mapClearEmitter: EventEmitter<void>;
   public dataForDrawingEmitter: EventEmitter<any>;
@@ -20,7 +22,7 @@ export class GoogleMapService {
   public siteMarkersOnMap: any = undefined;
   public mapViewUpdatedEmitter: EventEmitter<MapView>;
 
-  constructor() {
+  constructor(private appSettings: AppSettingsService) {
     this.mapUpdatedEmitter = new EventEmitter<GeoCoordinates>();
     this.mapClearEmitter = new EventEmitter<void>();
     this.dataForDrawingEmitter = new EventEmitter<any>();
@@ -54,22 +56,24 @@ export class GoogleMapService {
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
-        // Don't calculate zoom, getting too close and the grey overlay is sticking
-        return 15;
-        // let bounds = {
-        // width: document.documentElement.clientWidth,
-        // height: document.documentElement.clientHeight,
-        // lat: lat,
-        // lng: lng
-        // };
-        // return this.calculateBestZoom(bounds, zoom, pins, viewtype);
+        let bounds = {
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight,
+        lat: lat,
+        lng: lng
+        };
+        return this.calculateBestZoom(bounds, zoom, pins, viewtype) - .25;
   }
 
   // zero in on the zoom that's closest to the target pin count without going under
   private calculateBestZoom(bounds: Object, zoom: number, pins: Pin[], viewtype: string, pops: Object = {}): number {
     let popTarget;
     if (viewtype === 'world') {
-      popTarget = 10;
+      if (this.appSettings.isConnectApp()) {
+        popTarget = 10;
+      } else {
+        popTarget = 1;
+      }
     } else {
       popTarget = pins.length;
     }
@@ -83,8 +87,8 @@ export class GoogleMapService {
     } else if (zoom >= 15) {
       return 15;
     } else {
-      let upPop = this.countPopAtZoom(bounds, zoom + 1, pins, pops);
-      if (upPop < popTarget) {
+      let popAfterZoomIn = this.countPopAtZoom(bounds, zoom + 1, pins, pops);
+      if (popAfterZoomIn < popTarget) {
         return zoom;
       } else {
         return this.calculateBestZoom(bounds, zoom + 1, pins, viewtype, pops);
