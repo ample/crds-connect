@@ -28,6 +28,7 @@ import { MapView } from '../../models/map-view';
 export class EmailParticipantsComponent implements OnInit {
 
   @Input() participantEmails: string[];
+  public commaSeperatedParticipantEmails: string;
   public areThereAnyParticipantsInGroup: boolean;
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
@@ -50,13 +51,18 @@ export class EmailParticipantsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.areThereAnyParticipantsInGroup = this.participantEmails.length > 0;
+    this.commaSeperatedParticipantEmails = this.participantEmails.join(', ');
   }
 
-  public copyEmailAddressesClicked(participantEmails: string[]): void {
-    this.displayEmailsCopiedToClipboardToast(participantEmails);
+  public copyEmailAddressesClicked(commaSeperatedParticipantEmails: string): void {
+    this.displayEmailsCopiedToClipboardToast(commaSeperatedParticipantEmails);
   }
 
-  public displayEmailsCopiedToClipboardToast(participantEmails: string[]): void {
+  public emailParticipantsClicked(commaSeperatedParticipantEmails: string): void {
+    window.location.href = `mailto:${commaSeperatedParticipantEmails}`;
+  }
+
+  public displayEmailsCopiedToClipboardToast(commaSeperatedParticipantEmails: string): void {
     let addressSuffix: string = this.participantEmails.length === 1 ? '' : 'es';
     let toastMsg: string = `${this.participantEmails.length} email address${addressSuffix} copied to clipboard!`;
     this.toastr.success(toastMsg);

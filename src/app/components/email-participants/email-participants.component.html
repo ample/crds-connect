@@ -1,16 +1,18 @@
 
 <div *ngIf = "areThereAnyParticipantsInGroup">
-    <select class="form-control">
-        <option disabled="" selected="">Email Group</option>
-        <option>Compose Email</option>
-        <option ngxClipboard
-                [cbContent]="participantEmails"
-                (cbOnSuccess)="isCopied1 = true">Copy Addresses</option>
-    </select>
 
     <button class="btn btn-default" type="button"
             ngxClipboard
-            (click) = "copyEmailAddressesClicked(participantEmails)"
+            (click) = "copyEmailAddressesClicked(commaSeperatedParticipantEmails)"
             [cbContent]="participantEmails"
-            (cbOnSuccess)="isCopied1 = true">Copy Email Addresses</button>
+            (cbOnSuccess)="isCopied1 = true">
+        Copy Email Addresses
+    </button>
+
+    <button class="btn btn-default"
+            type="button"
+            (click) = "emailParticipantsClicked(commaSeperatedParticipantEmails)">
+        Email Participants
+    </button>
+
 </div>
