@@ -42,7 +42,7 @@ describe('Component: Map', () => {
     expect(this.component).toBeTruthy();
   });
 
-  it('should show toast when copying to clipboard', () => {
+  it('should show toast notifying the user that a single email was copied to clipboard', () => {
 
     let mockListOfParticipantEmails: string[] = ['lol@yahoo.com'];
     let mockSingleEmailCopiedMsg: string = '1 email address copied to clipboard!';

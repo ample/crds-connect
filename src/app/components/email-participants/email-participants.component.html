@@ -5,8 +5,7 @@
     <button class="btn btn-default" type="button"
             ngxClipboard
             (click) = "copyEmailAddressesClicked(commaSeparatedParticipantEmails)"
-            [cbContent]="participantEmails"
-            (cbOnSuccess)="isCopied1 = true">
+            [cbContent]="participantEmails">
         Copy Email Addresses
     </button>
 
