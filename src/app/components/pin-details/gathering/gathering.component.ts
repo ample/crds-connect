@@ -43,6 +43,7 @@ export class GatheringComponent implements OnInit {
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];
+  private participantEmails: string[];
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -81,6 +82,7 @@ export class GatheringComponent implements OnInit {
             this.leaders = leaders;
           });
           this.pin.gathering.Participants = participants;
+          this.participantEmails = participants.map(p=>p.email);
 
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {

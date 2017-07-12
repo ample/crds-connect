@@ -2,6 +2,8 @@ import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { LookupService } from './lookup.service';
 import { SessionService } from './session.service';
+import { Attribute } from '../models/attribute';
+import { AgeGroupAttributeTypeId } from '../shared/constants';
 
 describe('LookupService', () => {
     let service;
@@ -37,6 +39,15 @@ describe('LookupService', () => {
             (mockSessionService.get).and.returnValue(Observable.of({}));
             s.getCategories().subscribe(categories => {
                 expect(mockSessionService.get).toHaveBeenCalledWith(`${s['baseUrl']}api/v1.0.0/group-tool/categories`);
+            });
+        })
+    );
+
+    it('should getAgeGroups',
+        inject([LookupService], (s: LookupService) => {
+            (mockSessionService.get).and.returnValue(Observable.of({}));
+            s.getAgeGroups().subscribe(categories => {
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${s['baseUrl']}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
             });
         })
     );
