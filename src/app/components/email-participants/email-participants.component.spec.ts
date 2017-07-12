@@ -4,9 +4,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TestBed } from '@angular/core/testing';
 import 'rxjs/add/observable/of';
+import { ToastsManager } from 'ng2-toastr';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { UserLocationService } from '../../services/user-location.service';
-import { MapComponent } from '../../components/map/map.component';
+import { EmailParticipantsComponent } from '../../components/email-participants/email-participants.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
@@ -33,6 +34,7 @@ import { MapView } from '../../models/map-view';
 
 describe('Component: Map', () => {
       let mockSiteAddressService,
+        mockToastr,
         mockUserLocationService,
         mockLocationService,
         mockPinLabelService,
@@ -59,6 +61,7 @@ describe('Component: Map', () => {
         mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('sessionService', ['constructor']);
         mockStateService = jasmine.createSpyObj<StateService>('googleMapService', ['constructor']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
+        mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
         mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
         mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['constructor']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
@@ -70,7 +73,7 @@ describe('Component: Map', () => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('AppSettingsService', ['constructor']);
     TestBed.configureTestingModule({
       declarations: [
-        MapComponent,
+        EmailParticipantsComponent,
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
@@ -89,6 +92,7 @@ describe('Component: Map', () => {
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: StateService, useValue: mockStateService },
         { provide: SessionService, useValue: mockSessionService },
+        { provide: ToastsManager, useValue: mockToastr },
         { provide: CookieService, useValue: mockCookieService },
         { provide: Angulartics2, useValue: mockAngulartics2 },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
@@ -102,29 +106,13 @@ describe('Component: Map', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
     mockGoogleMapService.mapViewUpdatedEmitter = Observable.of(MapView);
-    this.fixture = TestBed.createComponent(MapComponent);
+    this.fixture = TestBed.createComponent(EmailParticipantsComponent);
     this.component = this.fixture.componentInstance;
 
   });
 
-  it('should create an instance', () => {
+  fit('should create an instance', () => {
     expect(this.component).toBeTruthy();
-  });
-
-  it('should init map with existing results', () => {
-    this.component.haveResults = true;
-    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
-    this.component.ngOnInit();
-    expect(this.component.mapSettings.lat).toBeTruthy();
-    expect(this.component.mapSettings.lng).toBeTruthy();
-  });
-
-  it('should init map and get new results', () => {
-    this.component.haveResults = false;
-    this.fixture.searchResults = new MapSettings(null, null, 5, false, true);
-    this.component.ngOnInit();
-    expect(this.component.mapSettings.lat).toBeTruthy();
-    expect(this.component.mapSettings.lng).toBeTruthy();
   });
 
 });
