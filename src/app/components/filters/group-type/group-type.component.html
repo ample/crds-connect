@@ -1,0 +1,8 @@
+<div class="btn-group">
+  <button *ngFor="let ageGroup of ageGroups" 
+          (click)="clickToSelect(ageGroup.attribute.name)" 
+          class="btn btn-option btn-outline" 
+          type="button" 
+          [class.active]="ageGroup.selected">{{ageGroup.attribute.name}}
+  </button>
+</div>

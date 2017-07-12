@@ -50,6 +50,7 @@ import { GatheringComponent } from './components/pin-details/gathering/gathering
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { GroupTypeComponent } from './components/filters/group-type/group-type.component';
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
@@ -63,6 +64,7 @@ import { MapContentComponent } from './components/map-content/map-content.compon
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
+import { OnlineOrPhysicalGroupComponent } from './components/filters/online-or-physical-group/online-or-physical-group.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
@@ -170,6 +172,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    GroupTypeComponent,
     HandleInviteComponent,
     HeaderComponent,
     HostApplicationComponent,
@@ -183,6 +186,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapFooterComponent,
     NeighborsComponent,
     NoResultsComponent,
+    OnlineOrPhysicalGroupComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     ParticipantCardComponent,
