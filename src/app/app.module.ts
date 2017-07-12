@@ -28,6 +28,7 @@ import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModu
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
+import { ClipboardModule } from 'ngx-clipboard';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'ng-select';
 
@@ -44,6 +45,7 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
 
+import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
@@ -137,6 +139,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CommonModule,
     DatepickerModule,
     HttpModule,
+    ClipboardModule,
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
@@ -159,6 +162,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ContactLeaderComponent,
     CreateGroupSummaryComponent,
     CreateGroupPage1Component,
+    EmailParticipantsComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
