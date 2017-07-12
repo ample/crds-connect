@@ -39,7 +39,7 @@ export class StateService {
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
   public savedMapView: MapView;
-  public lastSearch: SearchOptions;
+  public lastSearch: SearchOptions = new SearchOptions(null, null, null);
 
   public removedSelf: boolean = false;
 

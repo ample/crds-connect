@@ -11,6 +11,7 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
@@ -63,17 +64,23 @@ const appRoutes: Routes = [
     }]
   }, {
     path: 'create-group',
-    component: CreateGroupSummaryComponent,
     canActivate: [
       LoggedInGuard,
       GroupLeaderApprovedGuard
-    ]
-  }, {
-    path: 'create-group/page-1',
-    component: CreateGroupPage1Component,
-    canActivate: [
-      LoggedInGuard,
-      GroupLeaderApprovedGuard
+    ],
+    children: [
+      { 
+        path: '', 
+        component: CreateGroupSummaryComponent
+      },
+      { 
+        path: 'page-1',
+        component: CreateGroupPage1Component
+      },
+      {
+        path: 'page-2',
+        component: CreateGroupPage2Component
+      }
     ]
   }, {
     path: 'contact-leader/:groupId',

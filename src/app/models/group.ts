@@ -42,10 +42,10 @@ export class Group {
     primaryContactCongregation: string;
     groupType: string;
 
-
+    // Date is in there for create group form
     public static overload_Constructor_One(groupId: number, participants: Participant[]): Group {
         return new Group(groupId, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null, null, null, null, null, participants);
+        null, null, null, null, null, '1983-07-16T21:00:00.000Z', null, null, null, null, null, null, participants);
     }
 
     constructor($groupId?: number, $groupName?: string, $groupDescription?: string, $groupTypeName?: string, $ministryId?: number,
