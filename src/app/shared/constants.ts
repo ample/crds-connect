@@ -1,6 +1,17 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
-export const AgeGroupAttributeTypeId: number = 91;
+
+export class AttributeTypes {
+  AgeGroupAttributeTypeId: number;
+  GroupTypeAttributeTypeId: number;
+
+  constructor() {
+    this.AgeGroupAttributeTypeId = 91;
+    this.GroupTypeAttributeTypeId = 73;
+  }
+}
+
+export const attributeTypes: any = new AttributeTypes();
 
 export const crdsOakleyCoords: any = {
   lat: 39.159398,

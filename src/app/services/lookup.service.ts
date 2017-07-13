@@ -1,12 +1,14 @@
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+
 import { Category } from '../models/category';
 import { AgeGroup } from '../models/age-group';
-import { AgeGroupAttributeTypeId } from '../shared/constants';
 import { CacheableService } from './base-service/cacheable.service';
 import { SessionService } from './session.service';
 
-import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
+
+import { attributeTypes } from '../shared/constants';
 
 @Injectable()
 export class LookupService {
@@ -22,6 +24,11 @@ export class LookupService {
     }
 
     public getAgeGroups(): Observable<any> {
-        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
+      return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.AgeGroupAttributeTypeId}`);
     }
+
+    public getGroupTypes(): Observable<any> {
+      return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.GroupTypeAttributeTypeId}`);
+    }
+
 }

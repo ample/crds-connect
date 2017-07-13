@@ -1,13 +1,16 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+
+import { Angulartics2 } from 'angulartics2';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
-import { AgeGroup } from '../../../models/age-group';
+
+import { GroupType } from '../../../models/group-type';
 import { Pin, pinType } from '../../../models/pin';
+
 import { awsFieldNames } from '../../../shared/constants';
 
 @Component({
@@ -18,14 +21,15 @@ import { awsFieldNames } from '../../../shared/constants';
 
 export class GroupTypeComponent implements OnInit {
   private selected: boolean = false;
-  private ageGroups: AgeGroup[];
+  private groupTypes: GroupType[];
+  private isAllDataLoaded: boolean = false;
 
   constructor( private appSettings: AppSettingsService,
                private lookupService: LookupService,
                private filterService: FilterService) { }
 
   public ngOnInit(): void {
-    this.initializeAgeGroups();
+    this.initializeGroupTypes();
   }
 
   public clickToSelect(value: string) {
@@ -33,32 +37,33 @@ export class GroupTypeComponent implements OnInit {
     this.setFilterString();
   }
 
- private initializeAgeGroups(): void {
-      this.lookupService.getAgeGroups().subscribe(
-          ages => {
-            this.ageGroups = [];
-            for (let age of ages.attributes) {
-                let theAge = new AgeGroup(age);
-                this.ageGroups.push(theAge);
-            }
-          }
-      );
+  private initializeGroupTypes(): void {
+    this.lookupService.getGroupTypes().subscribe(
+      groupTypes => {
+        this.groupTypes = [];
+        for (let groupType of groupTypes.attributes) {
+          let theGroupType = new GroupType(groupType);
+          this.groupTypes.push(theGroupType);
+        }
+        this.isAllDataLoaded = true;
+      }
+    );
   }
 
   private setSelection(selectedValue: string) {
-    let group = this.ageGroups.find(i => i.attribute.name === selectedValue);
+    let group = this.groupTypes.find(i => i.attribute.name === selectedValue);
     if ( group != null) {
       group.selected = !group.selected;
     }
   }
 
   private setFilterString(): void {
-    this.filterService.setFilterStringAgeGroups(this.ageGroups);
+    this.filterService.setFilterStringAgeGroups(this.groupTypes);
   }
 
   public reset() {
-    for (let age of this.ageGroups) {
-      age.selected = false;
+    for (let groupType of this.groupTypes) {
+      groupType.selected = false;
     }
   }
 }

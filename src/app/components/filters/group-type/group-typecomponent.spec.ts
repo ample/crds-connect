@@ -9,7 +9,7 @@ import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { GroupTypeComponent } from './group-type.component';
-import { AgeGroup } from '../../../models/age-group';
+import { GroupType } from '../../../models/group-type';
 import { Attribute } from '../../../models/attribute';
 
 describe('GroupTypeComponent', () => {
@@ -46,14 +46,14 @@ describe('GroupTypeComponent', () => {
     }));
 
     it('should create an instance', () => {
-        spyOn(comp, 'initializeAgeGroups');
+        spyOn(comp, 'initializeGroupTypes');
         expect(comp).toBeTruthy();
     });
 
     it('should init', () => {
-        spyOn(comp, 'initializeAgeGroups');
+        spyOn(comp, 'initializeGroupTypes');
         comp.ngOnInit();
-        expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
+        expect(comp['initializeGroupTypes']).toHaveBeenCalledTimes(1);
     });
 
     it('should call setSelection', () => {
@@ -66,15 +66,15 @@ describe('GroupTypeComponent', () => {
 
     it('should reset', () => {
         let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, null, null);
-        let a1 = new AgeGroup(attr);
+        let a1 = new GroupType(attr);
         a1.selected = true;
-        let a2 = new AgeGroup(attr);
+        let a2 = new GroupType(attr);
         a2.selected = true;
 
-        comp['ageGroups'] = [a1, a2];
+        comp['groupTypes'] = [a1, a2];
         comp.reset();
 
-        expect(comp['ageGroups'][0].selected).toBe(false);
-        expect(comp['ageGroups'][1].selected).toBe(false);
+        expect(comp['groupTypes'][0].selected).toBe(false);
+        expect(comp['groupTypes'][1].selected).toBe(false);
     });
 });
