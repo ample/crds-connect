@@ -1,0 +1,19 @@
+
+<div *ngIf = "areThereAnyParticipantsInGroup">
+
+    <!-- COPY PARTICIPANT EMAIL ADDRESSES TO CLIPBOARD -->
+    <button class="btn btn-default" type="button"
+            ngxClipboard
+            (click) = "copyEmailAddressesClicked(commaSeparatedParticipantEmails)"
+            [cbContent]="participantEmails">
+        Copy Email Addresses
+    </button>
+
+    <!-- EMAIL PARTICIPANTS -->
+    <button class="btn btn-default"
+            type="button"
+            (click) = "emailParticipantsClicked(commaSeparatedParticipantEmails)">
+        Email Participants
+    </button>
+
+</div>

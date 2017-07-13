@@ -92,6 +92,17 @@ export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new Plac
 
 export const initialMapZoom = 5;
 
+export const meetingFrequencies = [{
+            meetingFrequencyId: 1,
+            meetingFrequencyDesc: 'Every week'
+        }, {
+            meetingFrequencyId: 2,
+            meetingFrequencyDesc: 'Every other week'
+        }, {
+            meetingFrequencyId: 8,
+            meetingFrequencyDesc: 'Every month'
+        }];
+
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',
   'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR',
