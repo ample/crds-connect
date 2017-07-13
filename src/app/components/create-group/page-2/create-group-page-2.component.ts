@@ -9,6 +9,7 @@ import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { meetingFrequencies } from '../../../shared/constants';
 
 
 @Component({
@@ -19,16 +20,8 @@ export class CreateGroupPage2Component implements OnInit {
     public meetingTimeForm: FormGroup;
     private isSubmitted: boolean = false;
     private daysOfTheWeek: LookupTable[] = [];
-    private meetingFrequencies = [{
-            meetingFrequencyId: 1,
-            meetingFrequencyDesc: 'Every week'
-        }, {
-            meetingFrequencyId: 2,
-            meetingFrequencyDesc: 'Every other week'
-        }, {
-            meetingFrequencyId: 8,
-            meetingFrequencyDesc: 'Every month'
-        }];
+    private meetingFrequencies = meetingFrequencies;
+    
 
     constructor(private fb: FormBuilder,
                 private state: StateService,
