@@ -24,7 +24,8 @@ describe('CreateGroupPage1Component', () => {
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading']);
-        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne', 'validateCategories']);
+        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
+                                                     'validateCategories', 'addSelectedCategoriesToGroupModel']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
@@ -108,7 +109,7 @@ describe('CreateGroupPage1Component', () => {
         expect(comp.groupCategoryForm.controls[`${categories[0].name}-detail`].validator).toBeFalsy();
     });
 
-    it('should submit the form', () => {
+    it('should submit the form if valid', () => {
         (mockCreateGroupService.validateCategories).and.returnValue(true);
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
@@ -117,6 +118,17 @@ describe('CreateGroupPage1Component', () => {
         expect(comp['areCategoriesValid']).toBeTruthy();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-2']);
         expect(mockCreateGroupService.validateCategories).toHaveBeenCalled();
+        expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).toHaveBeenCalled();
+    });
+
+    it('should not submit the from if its not valid', () => {
+        (mockCreateGroupService.validateCategories).and.returnValue(false);
+        comp.groupCategoryForm = new FormGroup({});
+        comp['initializeCategories'](categories);
+        comp.onSelect(categories[0]);
+        comp.onSubmit(comp.groupCategoryForm);
+        expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
+
     });
 
     it('should go back()', () => {

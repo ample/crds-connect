@@ -74,6 +74,7 @@ export class CreateGroupPage1Component implements OnInit {
         this.isSubmitted = true;
         this.state.setLoading(true);
         if (form.valid && this.areCategoriesValid) {
+            this.createGroupService.addSelectedCategoriesToGroupModel();
             this.router.navigate(['/create-group/page-2']);
         } else {
             this.state.setLoading(false);
