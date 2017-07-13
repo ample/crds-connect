@@ -60,11 +60,16 @@ describe('Component: Neighbors', () => {
   beforeEach(() => {
     subject = new Subject();
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults', 'reSortBasedOnCenterCoords', 'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed', 'sortPinsAndRemoveDuplicates', 'buildPinSearchRequest']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService',
+                                                      ['getPinSearchResults', 'reSortBasedOnCenterCoords',
+                                                       'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed',
+                                                       'sortPinsAndRemoveDuplicates', 'buildPinSearchRequest']);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['emitRefreshMap']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['emitChange']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
-    mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getLastSearch', 'setCurrentView', 'setMapView', 'getMapView', 'setMyViewOrWorldView', 'setLastSearch']);
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView',
+                                                                    'getLastSearch', 'setCurrentView', 'setMapView', 'getMapView',
+                                                                    'setMyViewOrWorldView', 'setLastSearch', 'isMapViewSet']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
     mockPinService.pinSearchRequestEmitter = subject;
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['resetFilterString']);
@@ -142,7 +147,7 @@ describe('Component: Neighbors', () => {
 
   it('if viewChanged map view is not active should reSortBasedOnCenterCoords with location', () => {
     let mapView: MapView = new MapView('test', 42, 42, 6);
-    let searchOptions: SearchOptions = new SearchOptions('searchy Search', 11, 11, 'filter me');
+    let searchOptions: SearchOptions = new SearchOptions('searchy Search', 'filter me', null);
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
     (mockStateService.getMapView).and.returnValue(mapView);
     (mockStateService.getLastSearch).and.returnValue(searchOptions);
@@ -244,25 +249,25 @@ describe('Component: Neighbors', () => {
   it('should set last search if results > 1 and everything is awesome (with lat / lng)', () => {
     this.component['pinSearchResults'] = MockTestData.getAPinSearchResults(10);
     (mockStateService.getMyViewOrWorldView).and.returnValue('world');
-    (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', 22, 34, undefined));
+    (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', undefined, null));
     (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
     this.component['state'].myStuffActive = false;
     this.component['state'].navigatedDirectlyToGroup = false;
 
     this.component.navigateAwayIfNecessary(null, 'keywordSearchString', 12, 32, undefined);
-    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', 12, 32, undefined));
+    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', undefined, null));
   });
 
   it('should set last search if results > 1 and everything is awesome (without lat / lng)', () => {
     this.component['pinSearchResults'] = MockTestData.getAPinSearchResults(10);
     (mockStateService.getMyViewOrWorldView).and.returnValue('world');
-    (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', 22, 34, undefined));
+    (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', undefined, null));
     (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
     this.component['state'].myStuffActive = false;
     this.component['state'].navigatedDirectlyToGroup = false;
 
     this.component.navigateAwayIfNecessary(null, 'keywordSearchString',  null, undefined);
-    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', 22, 34, undefined));
+    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', undefined, null));
 
   });
 
@@ -271,7 +276,7 @@ describe('Component: Neighbors', () => {
     (mockPinService.getPinSearchResults).and.returnValue(Observable.of(results));
     (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
     spyOn(this.component, 'processAndDisplaySearchResults');
-    this.component['state'].lastSearch = new SearchOptions('words', 11, 11, null);
+    this.component['state'].lastSearch = new SearchOptions('words', null, null);
 
     this.component.doSearch(new PinSearchRequestParams(null, 'keywordSearchString', null));
     expect(this.component.processAndDisplaySearchResults).toHaveBeenCalledWith(null, 'keywordSearchString', results.centerLocation.lat, results.centerLocation.lng, null);
@@ -283,7 +288,7 @@ describe('Component: Neighbors', () => {
     spyOn(this.component, 'goToNoResultsPage');
     (mockPinService.getPinSearchResults).and.returnValue(Observable.throw({error: 'oh noes'}));
     (mockAppSettingsService.isConnectApp).and.returnValue(true);
-    this.component['state'].lastSearch = new SearchOptions('words', 11, 11, 'filter me');
+    this.component['state'].lastSearch = new SearchOptions('words', 'filter me', null);
 
     this.component.doSearch(new PinSearchRequestParams('new words', null, null));
     expect(mockPinService.getPinSearchResults).toHaveBeenCalled();

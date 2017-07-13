@@ -148,9 +148,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
     this.state.setLoading(true);
     let mapParams: MapView = this.state.getMapView();
-    let lastSearchString = this.appSetting.isConnectApp() ? params.userLocationSearchString
-                                                                : params.userKeywordSearchString;
-    let searchOptionsForCache = new SearchOptions(lastSearchString, params.userFilterString);
+
+    let searchOptionsForCache = new SearchOptions(params.userKeywordSearchString != null ? params.userKeywordSearchString : '',
+                                                  params.userFilterString != null ? params.userFilterString : '',
+                                                  params.userLocationSearchString != null ? params.userLocationSearchString : '');
 
     let contactId: number = this.session.getContactId() || 0;
 
@@ -186,9 +187,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
-    let lastSearchString = this.appSetting.isConnectApp() ? params.userLocationSearchString
-                                                                : params.userKeywordSearchString;
-    let searchOptionsForCache = new SearchOptions(lastSearchString, params.userFilterString);
     let isMyStuff: boolean = this.state.myStuffActive;
     let finderType: string = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
@@ -205,7 +203,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return apiQueryParams;
   }
 
-  private removeOwnPinFromSearchResultsIfNecessary(pins: Pin[], contactId: number): Pin[]{
+  private removeOwnPinFromSearchResultsIfNecessary(pins: Pin[], contactId: number): Pin[] {
     if ( this.state.removedSelf) {
       this.state.removedSelf = false;
       let index = pins.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
@@ -485,10 +483,9 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string): PinSearchRequestParams {
     let isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
-    let searchString = textInLocationSearchBar ? textInLocationSearchBar : null;
-    let filterString = null;
+    let searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
+    let filterString = '';
     let srchParams: PinSearchRequestParams = new PinSearchRequestParams(searchString, textInKeywordSearchBar, filterString);
     return srchParams;
   }
-
 }
