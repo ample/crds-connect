@@ -36,8 +36,8 @@
     <div class="btn-group btn-group-block">
         <button type="button"
                     class="btn btn-option btn-flex btn-outline"
-                    (click)="onSelect(button)"
-                    [class.active]="true">
+                    (click)="onSelectRole(GroupRole.MEMBER)"
+                    [class.active]="selectedRole === GroupRole.MEMBER">
         <div class="row">
             <div class="btn-group-label">
                 <span class="btn-group-icons">
@@ -61,8 +61,8 @@
 
         <button type="button"
                 class="btn btn-option btn-flex btn-outline"
-                (click)="onSelect(button)"
-                [class.active]="true">
+                (click)="onSelectRole(GroupRole.LEADER)"
+                [class.active]="selectedRole === GroupRole.LEADER">
         <div class="row">
             <div class="btn-group-label">
                 <span class="btn-group-icons">
@@ -86,8 +86,8 @@
 
         <button type="button"
                 class="btn btn-option btn-flex btn-outline"
-                (click)="onSelect(button)"
-                [class.active]="true">
+                (click)="onSelectRole(GroupRole.APPRENTICE)"
+                [class.active]="selectedRole === GroupRole.APPRENTICE">
         <div class="row">
             <div class="btn-group-label">
                 <span class="btn-group-icons">

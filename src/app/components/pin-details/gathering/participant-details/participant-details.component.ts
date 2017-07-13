@@ -5,6 +5,7 @@ import { Participant, Address } from '../../../../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParticipantService } from '../../../../services/participant.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { GroupRole } from '../../../../shared/constants';
 
 @Component({
     selector: 'participant-details',
@@ -18,6 +19,9 @@ export class ParticipantDetailsComponent implements OnInit {
     private isValidAddress: boolean;
     private componentIsReady: boolean = false;
     private redirectUrl: string;
+    private selectedRole: number = GroupRole.LEADER;
+
+    GroupRole: any = GroupRole;
 
     constructor(private participantService: ParticipantService,
         private route: ActivatedRoute, private state: StateService, private router: Router,
@@ -53,6 +57,8 @@ export class ParticipantDetailsComponent implements OnInit {
                     this.handleError();
                 } else {
                     this.participant = p;
+                    this.selectedRole = p.groupRoleId;
+                    console.log(this.selectedRole);
                     this.componentIsReady = true;
                     this.addressService.getPartialPersonAddress(this.participant.participantId).finally(() => {
                         this.isValidAddress = this.isParticipantAddressValid();
@@ -68,5 +74,9 @@ export class ParticipantDetailsComponent implements OnInit {
                 this.handleError();
                 console.log('error retreving participant information');
             });
+    }
+
+    public onSelectRole(newRole: GroupRole) {
+        this.selectedRole = newRole;
     }
 }
