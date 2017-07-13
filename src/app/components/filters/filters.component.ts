@@ -65,6 +65,7 @@ export class FiltersComponent implements OnInit {
     this.childAgeGroupsComponent.reset();
     this.filterService.resetFilterString();
     this.state.setIsFilterDialogOpen(false);
+    this.onSubmit();
   }
 
   public onSubmit(): void {

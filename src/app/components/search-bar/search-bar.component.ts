@@ -100,6 +100,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public clearSearchText() {
     this.state.searchBarText = '';
+    this.onSearch('');
   }
 
   public resetSearchInput(event) {
