@@ -5,7 +5,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}<span class="media-label">
+    <h3 class="media-heading">{{formatLeaderName()}}<span class="media-label">
         <span *ngIf="isMe()" class="label label-warning">ME</span>
       </span></h3>
     <p class="media-meta">
@@ -57,7 +57,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}
+    <h3 class="media-heading">{{formatLeaderName()}}
       <span class="media-label">
         <!-- Placeholder for custom labels, the logic for which is not yet available in groups-->
       </span>
@@ -77,7 +77,7 @@
       <dt>Type:</dt>
       <dd>{{pin?.gathering?.groupType}}</dd>
       <dt>Leader:</dt>
-      <dd>{{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}</dd>
+      <dd>{{formatLeaderName()}}</dd>
     </dl>
   </div>
 

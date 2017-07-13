@@ -59,6 +59,7 @@ export class GatheringComponent implements OnInit {
     private content: ContentService,
     private angulartics2: Angulartics2,
     public appSettingsService: AppSettingsService) { }
+    public adjustedLeaderNames: string[];
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
 
@@ -70,7 +71,7 @@ export class GatheringComponent implements OnInit {
     this.isInGroupApp = this.app.isSmallGroupApp();
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
     this.state.setPageHeader(pageTitleOnHeader, '/');
-
+    
     if (this.pin.gathering != null) {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
@@ -86,7 +87,8 @@ export class GatheringComponent implements OnInit {
 
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
-              if (role !== GroupRole.NONE) {
+              let isInGroup: boolean = role !== GroupRole.NONE;
+              if (isInGroup) {
                 this.isInGathering = true;
                 this.isLeader = role === GroupRole.LEADER;
 
@@ -108,6 +110,7 @@ export class GatheringComponent implements OnInit {
                 this.state.setLoading(false);
                 this.ready = true;
               }
+              this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup );
             });
         },
         failure => {
@@ -126,6 +129,15 @@ export class GatheringComponent implements OnInit {
     let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
 
+  }
+ 
+  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
+     let adjustedLeaderNames: string[] = [];
+     leaders.forEach((leader) =>{
+       let adjustedName: string =  isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0,1) + "."}`;
+       adjustedLeaderNames.push(adjustedName);
+     })
+     return adjustedLeaderNames;
   }
 
   public requestToJoin() {
