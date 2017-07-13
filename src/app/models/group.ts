@@ -10,6 +10,7 @@ export class Group {
     ministryId: number;
     congregationId: number;
     congregationName: string;
+    attributeTypes: any = {};
     primaryContactId: number;
     primaryContactEmail: number;
     startDate: string;

@@ -7,6 +7,8 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
+export const groupCategoryAttributeTypeId = 90;
+
 export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLength: number = 44;
