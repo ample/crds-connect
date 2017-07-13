@@ -169,7 +169,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.userLocationService.GetUserLocation().subscribe(
       pos => {
-        debugger;
         if (!this.state.isMapViewSet()) {
           let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
           this.state.setMapView(initialMapView);
