@@ -2,7 +2,7 @@
   <!-- TODO: Add logic to only add pointer class to  picture and name if the current user is a leader and it's not their own participant record-->
   <profile-picture (click)="onParticipantClick()" [contactId]="participant.contactId"  [ngClass]="{'pointer': canBeHyperlinked}" wrapperClass="media-img-wrapper" imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h4 (click)="onParticipantClick()" [ngClass]="{'pointer': canBeHyperlinked}" class="media-heading">{{participant.nickName}} {{participant.lastName | slice:0:1}}
+    <h4 (click)="onParticipantClick()" [ngClass]="{'pointer': canBeHyperlinked}" class="media-heading">{{participant.nickName}} {{participant.lastName}}
       <span class="media-label">
         <span *ngIf="isMe" class="label label-warning">Me</span>
         <span *ngIf="showHostLabel()" class="label label-primary">Host</span>
