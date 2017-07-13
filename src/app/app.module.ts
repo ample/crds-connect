@@ -23,7 +23,7 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule  } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule  } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -41,6 +41,7 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
@@ -147,6 +148,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AccordionModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
+    TimepickerModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
@@ -166,6 +168,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
+    CreateGroupPage2Component,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
