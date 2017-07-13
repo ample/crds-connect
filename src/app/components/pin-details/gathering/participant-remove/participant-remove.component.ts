@@ -15,6 +15,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
     private groupParticipantId: number;
     private groupId: number;
+    private isRemovingSelf: boolean = false;
     private message: string = '';
     private removeParticipantForm: FormGroup;
     private redirectUrl: string;
@@ -38,6 +39,7 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
         this.route.params.subscribe(params => {
             this.groupId = +params.groupId;
             this.groupParticipantId = +params.groupParticipantId;
+            this.setRemovingSelf(params.removeSelf);
             this.participantService.getGroupParticipant(this.groupId, this.groupParticipantId).finally(() => {
                 this.state.setLoading(false);
             })
@@ -45,7 +47,9 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
                     console.log(error);
                     this.handleError();
                 });
-            this.redirectUrl = `/${this.router.url.split('/')[1]}/${this.groupId}`;
+
+            this.redirectUrl = this.isRemovingSelf ? '/' :
+                                                    `/${this.router.url.split('/')[1]}/${this.groupId}`;
         }, error => {
             this.handleError();
         });
@@ -63,8 +67,24 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
 
     public onSubmit({ valid }: { valid: boolean }) {
         this.isFormSubmitted = true;
+        if (this.isRemovingSelf) {
+            this.participantService.removeSelfAsParticipant(this.groupId, this.groupParticipantId)
+                .finally(() => {
+                    this.submitting = false;
+                })
+                .subscribe(done => {
+
+                    this.router.navigate([this.redirectUrl]);
+                }, error => {
+                    console.log(error);
+                    this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
+                });
+            return;
+        }
+
         if (valid) {
             this.submitting = true;
+
             this.participantService.removeParticipant(this.groupId, this.groupParticipantId, this.message)
                 .finally(() => {
                     this.submitting = false;
@@ -81,4 +101,9 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
     private handleError() {
         this.blandPageService.goToDefaultError(this.redirectUrl);
     }
+
+    private setRemovingSelf(param: string): void {
+        this.isRemovingSelf = param === 'true' ? true : false;
+    }
+
 }
