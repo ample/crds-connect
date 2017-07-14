@@ -15,18 +15,21 @@ export class FilterService {
   constructor() {}
 
   public buildFilters(): string {
-    // TODO Add each new filter
     let filterString: string;
+
     filterString = (this.filterStringKidsWelcome != null) ? this.filterStringKidsWelcome : '';
     filterString = (this.filterStringAgeGroups != null) ? filterString + this.filterStringAgeGroups : filterString;
     filterString = (this.filterStringGroupTypes != null) ? filterString + this.filterStringGroupTypes : filterString;
     filterString = (this.filterStringGroupLocation != null) ? filterString + this.filterStringGroupLocation : filterString;
+
     return filterString;
   }
 
   public resetFilterString(): void {
     this.filterStringAgeGroups = null;
     this.filterStringKidsWelcome = null;
+    this.filterStringGroupTypes = null;
+    this.filterStringGroupLocation = null;
   }
 
   public setFilterStringKidsWelcome(welcomeFlag: number, haveKidsWelcomeValue: boolean): void {
@@ -61,7 +64,7 @@ export class FilterService {
     for (let groupType of groupTypes) {
       if (groupType.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${groupType.attribute.name}\' `;
+        addFilterString += ` ${awsFieldNames.GROUP_TYPE}: \'${groupType.attribute.name}\' `;
       }
     }
     addFilterString += ' )';

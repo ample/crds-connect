@@ -51,6 +51,7 @@ export class GroupTypeComponent implements OnInit {
   }
 
   private setSelection(selectedValue: string) {
+    this.reset();
     let group = this.groupTypes.find(i => i.attribute.name === selectedValue);
     if ( group != null) {
       group.selected = !group.selected;
@@ -58,7 +59,7 @@ export class GroupTypeComponent implements OnInit {
   }
 
   private setFilterString(): void {
-    this.filterService.setFilterStringAgeGroups(this.groupTypes);
+    this.filterService.setFilterStringGroupTypes(this.groupTypes);
   }
 
   public reset() {
