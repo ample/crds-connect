@@ -74,13 +74,6 @@ export class ListEntryComponent implements OnInit {
     return this.type === pinType.SMALL_GROUP && this.contactId === this.currentContactId;
   }
 
-  public formatLeaderName() {
-   // if (this.isMyGathering) {
-    //  return (this.firstName + ' ' + this.lastName);
-   // } else {
-      return this.firstName + ' ' + this.lastName.charAt(0) + '.';
-   // }
-  }
   public getPicByPinType() {
     switch (this.type) {
       case pinType.PERSON:
