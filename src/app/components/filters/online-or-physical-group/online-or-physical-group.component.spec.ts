@@ -47,14 +47,14 @@ describe('OnlineOrPhysicalGroupComponent', () => {
     it('should welcome kids', () => {
         spyOn(comp, 'setFilterString');
         comp.isVirtualGroupOptionClicked(true);
-        expect(comp['selected']).toBe(true);
+        expect(comp['isAnOptionSelected']).toBe(true);
         expect(comp['isVirtualGroup']).toBe(true);
         expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
     });
 
     it('should reset', () => {
         comp.reset();
-        expect(comp['selected']).toBe(false);
+        expect(comp['isAnOptionSelected']).toBe(false);
         expect(comp['isVirtualGroup']).toBe(null);
     });
 });

@@ -10,20 +10,19 @@ import { FilterService } from '../../../services/filter.service';
 
 export class OnlineOrPhysicalGroupComponent {
   public isVirtualGroup: boolean = null;
-  public selected: boolean = false;
+  public isAnOptionSelected: boolean = false;
 
   constructor( private filterService: FilterService) { }
-
-
+  
   public isVirtualGroupOptionClicked(isVirtualGroup: boolean): void {
-    this.selected = true;
+    this.isAnOptionSelected = true;
     this.isVirtualGroup = isVirtualGroup;
     this.setFilterString(this.isVirtualGroup);
   }
 
   public reset() {
     this.isVirtualGroup = null;
-    this.selected = false;
+    this.isAnOptionSelected = false;
   }
 
   private setFilterString(isVirtualGroup: boolean): void {
