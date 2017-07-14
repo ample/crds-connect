@@ -1,5 +1,5 @@
-import { AgeGroup } from '../models/age-group';
-import { AgeGroupAttributeTypeId } from '../shared/constants';
+import { AttributeType } from '../models';
+import { AgeGroupAttributeTypeId, GroupGenderMixTypeAttributeId } from '../shared/constants';
 import { Category, LookupTable } from '../models';
 import { CacheableService } from './base-service/cacheable.service';
 import { SessionService } from './session.service';
@@ -18,9 +18,13 @@ export class LookupService {
         return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`);
     }
 
-    public getAgeGroups(): Observable<any> {
+    public getAgeGroups(): Observable<AttributeType> {
         return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
-	}
+    }
+
+    public getGroupGenderMixType(): Observable<AttributeType> {
+        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${GroupGenderMixTypeAttributeId}`);
+    }
 
     public getDaysOfTheWeek(): Observable<LookupTable[]> {
         return this.session.get(`${this.baseUrl}api/v1.0.0/lookup/meetingdays`)

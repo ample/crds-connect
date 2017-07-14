@@ -22,4 +22,5 @@ export { AddMeToMapFormFields } from './add-me-to-map-form-fields';
 export { PinSearchRequestParams } from './pin-search-request-params';
 export { Category } from './category';
 export { Attribute } from './attribute';
+export { AttributeType } from './attribute-type';
 export { DetailedUserData } from './detailed-user-data';

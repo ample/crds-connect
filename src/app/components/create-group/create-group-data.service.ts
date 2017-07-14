@@ -8,16 +8,15 @@ import { groupCategoryAttributeTypeId } from '../../shared/constants';
 
 @Injectable()
 export class CreateGroupService {
-    public meetingTimeType: string = 'specific';
     private pageOneInitialized: boolean = false;
+    public meetingTimeType: string = 'specific';
+    public meetingIsInPerson: boolean = true;
+
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
     public group: Group = Group.overload_Constructor_One(0, []);
 
-    constructor(private lookupService: LookupService) {}
-
-    public setGroupAddress(address: Address): void {
-        this.group.address = address;
+    constructor(private lookupService: LookupService) {
     }
 
     public initializePageOne(): Observable<Category[]> {

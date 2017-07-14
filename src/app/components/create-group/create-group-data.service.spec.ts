@@ -24,9 +24,6 @@ describe('CreateGroupService', () => {
         });
     });
 
-    // you can also wrap inject() with async() for asynchronous tasks
-    // it('...', async(inject([...], (...) => {}));
-
     it('should create the create group service',
         inject([CreateGroupService], (s: CreateGroupService) => {
             expect(s).toBeTruthy();
@@ -98,7 +95,6 @@ describe('CreateGroupService', () => {
             s.categories[1].selected = true;
             s.validateCategories();
             s.addSelectedCategoriesToGroupModel();
-            console.log(s.group.attributeTypes);
             expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributeTypeId).toBe(groupCategoryAttributeTypeId);
             expect(s.group.attributeTypes[groupCategoryAttributeTypeId].name).toBe('Group Category');
             expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributes.length).toBe(2);

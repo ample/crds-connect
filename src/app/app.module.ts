@@ -42,6 +42,8 @@ import { ContactLeaderComponent } from './components/contact-leader/contact-lead
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
+import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
+import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
@@ -164,11 +166,13 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ContactLeaderComponent,
     CreateGroupSummaryComponent,
     CreateGroupPage1Component,
+    CreateGroupPage2Component,
+    CreateGroupPage3Component,
+    CreateGroupPage4Component,
     EmailParticipantsComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
-    CreateGroupPage2Component,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,

@@ -12,6 +12,8 @@ import { ContactLeaderComponent } from './components/contact-leader/contact-lead
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
+import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
+import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
@@ -70,17 +72,25 @@ const appRoutes: Routes = [
       GroupLeaderApprovedGuard
     ],
     children: [
-      { 
-        path: '', 
+      {
+        path: '',
         component: CreateGroupSummaryComponent
       },
-      { 
+      {
         path: 'page-1',
         component: CreateGroupPage1Component
       },
       {
         path: 'page-2',
         component: CreateGroupPage2Component
+      },
+      {
+        path: 'page-3',
+        component: CreateGroupPage3Component
+      },
+      {
+        path: 'page-4',
+        component: CreateGroupPage4Component
       }
     ]
   }, {
