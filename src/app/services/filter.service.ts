@@ -1,8 +1,9 @@
 import { Injectable} from '@angular/core';
-import { awsFieldNames } from '../shared/constants';
 
 import { AgeGroup } from '../models/age-group';
 import { GroupType } from '../models/group-type';
+
+import { awsFieldNames } from '../shared/constants';
 
 @Injectable()
 export class FilterService {
@@ -45,8 +46,7 @@ export class FilterService {
   }
 
   public setFilterStringAgeGroups(ageGroups: AgeGroup[]): void {
-    let addFilterString: string = '';
-    addFilterString = ' (or';
+    let addFilterString = ' (or';
     for (let age of ageGroups) {
       if (age.selected) {
         // need single quotes around each value since it is a string in aws
@@ -59,8 +59,7 @@ export class FilterService {
   }
 
   public setFilterStringGroupTypes (groupTypes: GroupType[]): void {
-    let addFilterString: string = '';
-    addFilterString = ' (or';
+    let addFilterString = ' (or';
     for (let groupType of groupTypes) {
       if (groupType.selected) {
         // need single quotes around each value since it is a string in aws
