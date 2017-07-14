@@ -205,7 +205,7 @@ describe('ParticipantService', () => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;
                 let result: Array<Participant>;
-                for (var i = 1; i < 11; i++) {
+                for (let i = 1; i < 11; i++) {
                     cache.push(MockTestData.getAGroup(i, Math.floor(Math.random() * 10) + 1));
                 }
 

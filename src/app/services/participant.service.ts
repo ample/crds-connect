@@ -27,7 +27,7 @@ export class ParticipantService extends CacheableService<Group[]> {
             let cache = super.getCache();
             if (cache) {
                 let filtered = cache.filter((g) => {
-                    return g.groupId != groupId;
+                    return g.groupId !== groupId;
                 });
                 super.setCache(filtered, CacheLevel.Partial, contactId);
             }
@@ -55,7 +55,7 @@ export class ParticipantService extends CacheableService<Group[]> {
             let groupParticipantCache = super.getCache();
 
             let group = groupParticipantCache.find(g => {
-                return g.groupId == groupId;
+                return g.groupId === groupId;
             });
 
             if (group != null) {
@@ -80,6 +80,36 @@ export class ParticipantService extends CacheableService<Group[]> {
             this.removeParticipantFromCache(groupId, groupParticipantId);
         });
 
+    }
+
+    public updateParticipantRole(groupId: number, participantId: number, roleId: number) {
+        let url = `${this.baseUrl}api/v1.0.0/group/updateParticipantRole/${groupId}/${participantId}/${roleId}`;
+
+        return this.session.post(url, null).do((res: any) => {
+            console.log('updated participant role');
+
+            // update the cache here
+            this.updateParticipantRoleInCache(groupId, participantId, roleId);
+        });
+
+    }
+
+    private updateParticipantRoleInCache(groupId: number, participantId: number, roleId: number) {
+        let contactId = this.session.getContactId();
+        if (super.isCachedForUser(contactId)) {
+            let cache = super.getCache();
+            let group = cache.find(g => {
+                return g.groupId === groupId;
+            });
+
+            let index = group.Participants.findIndex( x => x.participantId === participantId);
+
+            if ( index !== null ) {
+                group.Participants[index].groupRoleId = roleId;
+            }
+
+            super.setCache(cache, super.getCacheLevel(), contactId);
+        }
     }
 
     public getAllLeaders(groupId: number): Observable<Participant[]> {
@@ -119,7 +149,7 @@ export class ParticipantService extends CacheableService<Group[]> {
         });
     }
 
-    private getAllParticipantsOfRoleInGroup(groupId: number, groupRole: number): Observable<Participant[]> {
+    public getAllParticipantsOfRoleInGroup(groupId: number, groupRole: number): Observable<Participant[]> {
         return this.getParticipants(groupId).map((participants) => {
             let participantsOfRole: Participant[] = [];
             if (participants !== undefined) {
