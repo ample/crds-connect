@@ -46,20 +46,20 @@ describe('GroupTypeComponent', () => {
     }));
 
     it('should create an instance', () => {
-        spyOn(comp, 'getGroupTypesFromMp');
+        spyOn(comp, 'getGroupTypesFromMpAndInit');
         expect(comp).toBeTruthy();
     });
 
     it('should init', () => {
-        spyOn(comp, 'getGroupTypesFromMp');
+        spyOn(comp, 'getGroupTypesFromMpAndInit');
         comp.ngOnInit();
-        expect(comp['getGroupTypesFromMp']).toHaveBeenCalledTimes(1);
+        expect(comp['getGroupTypesFromMpAndInit']).toHaveBeenCalledTimes(1);
     });
 
     it('should call setSelection', () => {
         spyOn(comp, 'setGroupTypeSelection');
         spyOn(comp, 'setFilterStringInFilterService');
-        comp.clickToSelect('123');
+        comp.onGroupTypeClicked('123');
         expect(comp['setGroupTypeSelection']).toHaveBeenCalledTimes(1);
         expect(comp['setFilterStringInFilterService']).toHaveBeenCalledTimes(1);
     });

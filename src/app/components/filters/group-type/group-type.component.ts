@@ -20,11 +20,11 @@ export class GroupTypeComponent implements OnInit {
                private filterService: FilterService) { }
 
   public ngOnInit(): void {
-    this.getGroupTypesFromMp();
+    this.getGroupTypesFromMpAndInit();
   }
 
-  public clickToSelect(value: string) {
-    this.setGroupTypeSelection(value);
+  public onGroupTypeClicked(groupTypeName: string) {
+    this.setGroupTypeSelection(groupTypeName);
     this.setFilterStringInFilterService();
   }
 
@@ -34,7 +34,7 @@ export class GroupTypeComponent implements OnInit {
     }
   }
 
-  private getGroupTypesFromMp(): void {
+  private getGroupTypesFromMpAndInit(): void {
     this.lookupService.getGroupTypes().subscribe(
       groupTypes => {
         this.groupTypes = [];
@@ -47,9 +47,9 @@ export class GroupTypeComponent implements OnInit {
     );
   }
 
-  private setGroupTypeSelection(selectedValue: string) {
+  private setGroupTypeSelection(selectedGroupName: string) {
     this.reset();
-    let group = this.groupTypes.find(i => i.attribute.name === selectedValue);
+    let group: GroupType = this.groupTypes.find(i => i.attribute.name === selectedGroupName);
     if ( group != null) {
       group.selected = !group.selected;
     }
