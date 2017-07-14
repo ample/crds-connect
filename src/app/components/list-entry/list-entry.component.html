@@ -75,9 +75,9 @@
       <dd *ngFor="let category of pin?.gathering?.categories">{{category.replace(":", ": ")}}</dd>
       <dd *ngIf="pin?.gathering?.categories == null">&nbsp;</dd>
       <dt>Type:</dt>
-      <dd>{{pin?.gathering?.groupType}}</dd>
+      <dd>{{pin?.gathering?.groupType || '&nbsp;'}}</dd>
       <dt>Leader:</dt>
-      <dd>{{formatLeaderName()}}</dd>
+      <dd>{{formatLeaderName() || '&nbsp;'}}</dd>
     </dl>
   </div>
 
