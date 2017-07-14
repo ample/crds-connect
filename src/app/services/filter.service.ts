@@ -46,7 +46,7 @@ export class FilterService {
   }
 
   public setFilterStringAgeGroups(ageGroups: AgeGroup[]): void {
-    let addFilterString = ' (or';
+    let addFilterString: string = ' (or';
     for (let age of ageGroups) {
       if (age.selected) {
         // need single quotes around each value since it is a string in aws
@@ -55,11 +55,11 @@ export class FilterService {
     }
     addFilterString += ' )';
 
-    this.filterStringAgeGroups =  addFilterString;
+    this.filterStringAgeGroups = addFilterString;
   }
 
   public setFilterStringGroupTypes (groupTypes: GroupType[]): void {
-    let addFilterString = ' (or';
+    let addFilterString: string = ' (or';
     for (let groupType of groupTypes) {
       if (groupType.selected) {
         // need single quotes around each value since it is a string in aws

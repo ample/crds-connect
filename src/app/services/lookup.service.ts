@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
+import { Observable } from 'rxjs'
 
-import { AgeGroup } from '../models/age-group';
 import { Category, LookupTable } from '../models';
 import { CacheableService } from './base-service/cacheable.service';
-import { SessionService } from './session.service';
-
-import { Observable } from 'rxjs';
+import { SessionService } from './session.service';;
 
 import { attributeTypes } from '../shared/constants';
 
