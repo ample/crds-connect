@@ -65,7 +65,7 @@ describe('GroupTypeComponent', () => {
     });
 
     it('should reset', () => {
-        let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, null, null);
+        let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, null, null, null);
         let a1 = new GroupType(attr);
         a1.selected = true;
         let a2 = new GroupType(attr);

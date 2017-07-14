@@ -53,4 +53,4 @@
   </div>
 </div>
 
-<app-filters *ngIf="appSettings.isSmallGroupApp()" [hidden]="!state.isFilterDialogOpen" [searchKeywordString]="searchString"></app-filters>
+<app-filters *ngIf="appSettings.isSmallGroupApp()" [hidden]="!state.isFilterDialogOpen" [searchKeywordString]="state.searchBarText"></app-filters>
