@@ -4,7 +4,7 @@ import { Observable } from 'rxjs'
 
 import { Category, LookupTable } from '../models';
 import { CacheableService } from './base-service/cacheable.service';
-import { SessionService } from './session.service';;
+import { SessionService } from './session.service';
 
 import { attributeTypes } from '../shared/constants';
 
