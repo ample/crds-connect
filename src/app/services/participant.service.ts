@@ -79,7 +79,16 @@ export class ParticipantService extends CacheableService<Group[]> {
         return this.session.post(url, groupInformation).do((res: any) => {
             this.removeParticipantFromCache(groupId, groupParticipantId);
         });
+    }
 
+    public removeSelfAsParticipant(groupId: number, groupParticipantId: number) {
+        let url = `${this.baseUrl}api/v1.0.0/group-tool/group/participant/remove-self`;
+
+        let groupInformation = { groupId: groupId, groupParticipantId: groupParticipantId };
+
+        return this.session.post(url, groupInformation).do((res: any) => {
+            this.removeParticipantFromCache(groupId, groupParticipantId);
+        });
     }
 
     public getAllLeaders(groupId: number): Observable<Participant[]> {

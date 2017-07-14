@@ -95,12 +95,4 @@ describe('ListEntryComponent', () => {
         expect(mockPinService.navigateToPinDetailsPage).toHaveBeenCalledWith(pin);
     });
 
-    it('should format name properly', () => {
-        comp.firstName = 'Bob';
-        comp.lastName = 'Johnson';
-        let newName = comp.formatLeaderName();
-        expect(newName).toBe("Bob J.");
-    });
-
-
 });

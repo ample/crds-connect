@@ -10,5 +10,6 @@
     </h4>
 
     <a class="pointer" href="mailto:{{participant.email}}">{{participant.email}}</a>
+    <span *ngIf="isMe && !isLeader"><br /><a class="pointer" (click)="onRemoveParticipant()">Leave this group</a></span>
   </div>
 </div>
