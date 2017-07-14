@@ -73,8 +73,8 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
                     this.submitting = false;
                 })
                 .subscribe(done => {
-
                     this.router.navigate([this.redirectUrl]);
+                    this.toast.info(this.contentService.getContent('finderConfirmRemoveMyselfFromGroupToast'));
                 }, error => {
                     console.log(error);
                     this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
