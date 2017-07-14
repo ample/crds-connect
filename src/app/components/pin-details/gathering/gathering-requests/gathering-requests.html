@@ -6,7 +6,7 @@
 <div *ngIf="inquiries.length > 0 && !loading">
   <div *ngFor="let inquiry of inquiries">
     <div class="border-bottom soft-half-bottom">
-      <participant-card [participant]="convertToParticipant(inquiry)" [canBeHyperlinked]="false"></participant-card>
+      <participant-card [participant]="convertToParticipant(inquiry)" [isLeader]="false"></participant-card>
 
       <div class="pending-requests">
         <p class="text-muted font-size-smaller">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</p>

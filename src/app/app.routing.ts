@@ -195,6 +195,10 @@ const appRoutes: Routes = [
     component: ParticipantDetailsComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove-self/:removeSelf',
+    component: ParticipantRemoveComponent,
+    canActivate: [LoggedInGuard]
+  }, {
     path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
     component: ParticipantRemoveComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
