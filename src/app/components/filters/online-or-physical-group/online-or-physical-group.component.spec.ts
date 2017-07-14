@@ -46,7 +46,7 @@ describe('OnlineOrPhysicalGroupComponent', () => {
 
     it('should welcome kids', () => {
         spyOn(comp, 'setFilterString');
-        comp.isVirtualGroupCheck(true);
+        comp.isVirtualGroupOptionClicked(true);
         expect(comp['selected']).toBe(true);
         expect(comp['isVirtualGroup']).toBe(true);
         expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
