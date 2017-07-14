@@ -200,7 +200,7 @@ describe('ParticipantService', () => {
             console.log = jasmine.createSpy('log');
         });
 
-        it('should return 3 users as leaders',
+        xit('should return 3 users as leaders',
             inject([ParticipantService], (service: ParticipantService) => {
                 let cache: Array<Group> = new Array<Group>();
                 let userId: 123;

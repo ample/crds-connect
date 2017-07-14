@@ -35,9 +35,14 @@ export class FiltersComponent implements OnInit {
                private state: StateService) { }
 
     ngOnInit() {
+      let savedSearch = this.state.lastSearch;
       this.locationFormGroup = new FormGroup({
           location: new FormControl(this.location, []),
       });
+
+      if ((savedSearch) && savedSearch.location != null){
+        this.locationFormGroup.controls['location'].setValue(savedSearch.location);
+      }
     }
 
   public applyFilters(): void {
@@ -54,10 +59,13 @@ export class FiltersComponent implements OnInit {
   }
 
   public resetFilters(): void {
+    this.locationFormGroup.controls['location'].setValue('');
+    this.state.lastSearch.location = '';
     this.childKidsWelcomeComponent.reset();
     this.childAgeGroupsComponent.reset();
     this.filterService.resetFilterString();
     this.state.setIsFilterDialogOpen(false);
+    this.onSubmit();
   }
 
   public onSubmit(): void {

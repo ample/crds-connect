@@ -8,6 +8,11 @@ import { AgeGroupAttributeTypeId } from '../shared/constants';
 describe('LookupService', () => {
     let service;
     let mockSessionService;
+    let daysOfTheWeek = [
+        { dp_RecordID: 6, dp_RecordName: 'Sunday' },
+        { dp_RecordID: 3, dp_RecordName: 'Monday' },
+        { dp_RecordID: 1, dp_RecordName: 'Nope' }
+    ];
 
     beforeEach(() => {
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get']);
@@ -46,4 +51,16 @@ describe('LookupService', () => {
             });
         })
     );
+
+    it('should getDaysOfTheWeek and order them',
+        inject([LookupService], (s: LookupService) => {
+            (mockSessionService.get).and.returnValue(Observable.of(daysOfTheWeek));
+            s.getDaysOfTheWeek().subscribe(days => {
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${s['baseUrl']}api/v1.0.0/lookup/meetingdays`);
+                expect(days[0].dp_RecordID).toBe(1);
+                expect(days[2].dp_RecordID).toBe(6);
+            });
+        })
+    );
+
 });

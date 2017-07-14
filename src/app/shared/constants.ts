@@ -7,6 +7,8 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
+export const groupCategoryAttributeTypeId = 90;
+
 export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLength: number = 44;
@@ -91,6 +93,17 @@ export const app: App = new App();
 export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 
 export const initialMapZoom = 5;
+
+export const meetingFrequencies = [{
+            meetingFrequencyId: 1,
+            meetingFrequencyDesc: 'Every week'
+        }, {
+            meetingFrequencyId: 2,
+            meetingFrequencyDesc: 'Every other week'
+        }, {
+            meetingFrequencyId: 8,
+            meetingFrequencyDesc: 'Every month'
+        }];
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',
