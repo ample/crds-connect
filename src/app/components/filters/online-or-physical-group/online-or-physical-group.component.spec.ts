@@ -44,7 +44,7 @@ describe('OnlineOrPhysicalGroupComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('should welcome kids', () => {
+    it('should select virtual group', () => {
         spyOn(comp, 'setFilterString');
         comp.isVirtualGroupOptionClicked(true);
         expect(comp['isAnOptionSelected']).toBe(true);
