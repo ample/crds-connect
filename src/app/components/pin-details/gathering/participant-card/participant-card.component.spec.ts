@@ -106,7 +106,7 @@ describe('ParticipantCardComponent', () => {
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
-  fit('should navigate on remove self participant ', () => {
+  it('should navigate on remove self participant ', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
@@ -117,7 +117,7 @@ describe('ParticipantCardComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalled();
   });
 
-  fit('should not navigate on remove self participant ', () => {
+  it('should not navigate on remove self participant ', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
