@@ -16,7 +16,7 @@ export class ParticipantCardComponent implements OnInit {
   @Input() pinParticipantId: number;
   @Input() isLeader: boolean = false;
   public canBeHyperlinked: boolean = true;
-  private isMe: boolean = false;
+  public isMe: boolean = false;
 
   constructor(private session: SessionService, private router: Router, private route: ActivatedRoute) {
   }
@@ -40,8 +40,10 @@ export class ParticipantCardComponent implements OnInit {
 
   public onRemoveParticipant(): void {
     let isRemovingSelf = 'true';
-    this.router.navigate([`./participant-detail/${this.participant.groupParticipantId}/remove-self/${isRemovingSelf}/`],
-       { relativeTo: this.route });
+    if (this.isMe && !this.isLeader) {
+      this.router.navigate([`./participant-detail/${this.participant.groupParticipantId}/remove-self/${isRemovingSelf}/`],
+         { relativeTo: this.route });
+    }
   }
 
 }
