@@ -14,27 +14,27 @@ import { awsFieldNames } from '../../../shared/constants';
 })
 
 export class OnlineOrPhysicalGroupComponent {
-  public areKidsWelcome: boolean = null;
+  public isVirtualGroup: boolean = null;
   public selected: boolean = false;
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService) { }
 
 
-  public kidsWelcome(value: boolean): void {
+  public isVirtualGroupCheck(value: boolean): void {
         this.selected = true;
-        this.areKidsWelcome = value;
+        this.isVirtualGroup = value;
         this.setFilterString();
   }
 
   private setFilterString(): void {
-    let welcomeFlag = this.areKidsWelcome ? 1 : 0;
-    let haveKidsWelcomeValue = this.areKidsWelcome != null || this.areKidsWelcome !== undefined;
-    this.filterService.setFilterStringKidsWelcome(welcomeFlag, haveKidsWelcomeValue);
+    let isVirtualGroupFlag = this.isVirtualGroup ? 1 : 0;
+    let haveIsVirtualGroupValue = this.isVirtualGroup != null || this.isVirtualGroup !== undefined;
+    this.filterService.setFilterStringIsVirtualGroup(isVirtualGroupFlag, haveIsVirtualGroupValue);
   }
 
   public reset() {
-    this.areKidsWelcome = null;
+    this.isVirtualGroup = null;
     this.selected = false;
   }
 }

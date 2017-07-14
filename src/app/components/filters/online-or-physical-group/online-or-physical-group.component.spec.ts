@@ -37,8 +37,6 @@ describe('OnlineOrPhysicalGroupComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(OnlineOrPhysicalGroupComponent);
             comp = fixture.componentInstance;
-
-            // el = fixture.debugElement.query(By.css('h1'));
         });
     }));
 
@@ -48,15 +46,15 @@ describe('OnlineOrPhysicalGroupComponent', () => {
 
     it('should welcome kids', () => {
         spyOn(comp, 'setFilterString');
-        comp.kidsWelcome(true);
+        comp.isVirtualGroupCheck(true);
         expect(comp['selected']).toBe(true);
-        expect(comp['areKidsWelcome']).toBe(true);
+        expect(comp['isVirtualGroup']).toBe(true);
         expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
     });
 
     it('should reset', () => {
         comp.reset();
         expect(comp['selected']).toBe(false);
-        expect(comp['areKidsWelcome']).toBe(null);
+        expect(comp['isVirtualGroup']).toBe(null);
     });
 });

@@ -10,6 +10,7 @@ export class FilterService {
   public filterStringKidsWelcome: string = null;
   public filterStringAgeGroups: string = null;
   public filterStringGroupTypes: string = null;
+  public filterStringGroupLocation: string = null;
 
   constructor() {}
 
@@ -18,11 +19,12 @@ export class FilterService {
     let filterString: string;
     filterString = (this.filterStringKidsWelcome != null) ? this.filterStringKidsWelcome : '';
     filterString = (this.filterStringAgeGroups != null) ? filterString + this.filterStringAgeGroups : filterString;
+    filterString = (this.filterStringGroupTypes != null) ? filterString + this.filterStringGroupTypes : filterString;
+    filterString = (this.filterStringGroupLocation != null) ? filterString + this.filterStringGroupLocation : filterString;
     return filterString;
   }
 
   public resetFilterString(): void {
-    // TODO Add each new filters
     this.filterStringAgeGroups = null;
     this.filterStringKidsWelcome = null;
   }
@@ -31,6 +33,12 @@ export class FilterService {
     this.filterStringKidsWelcome = haveKidsWelcomeValue ?
                                    `(or ${awsFieldNames.GROUP_KIDS_WELCOME}: ${welcomeFlag})` :
                                   null;
+  }
+
+  public setFilterStringIsVirtualGroup(isVirtualFlag: number, haveIsVirtualGroupValue: boolean): void {
+    this.filterStringGroupLocation = haveIsVirtualGroupValue ?
+        `(or ${awsFieldNames.GROUP_VIRTUAL}: ${isVirtualFlag})` :
+        null;
   }
 
   public setFilterStringAgeGroups(ageGroups: AgeGroup[]): void {

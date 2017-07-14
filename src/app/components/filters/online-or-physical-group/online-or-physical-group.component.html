@@ -1,7 +1,7 @@
 <div class="btn-group btn-group-block">
   <button type="button"
             class="btn btn-option btn-flex btn-outline"
-            (click)="kidsWelcome(true)" [class.active]="selected && areKidsWelcome === true">
+            (click)="isVirtualGroupCheck(false)" [class.active]="selected && isVirtualGroup === false">
     <div class="row">
         <div class="btn-group-label">
                   <span class="btn-group-icons">
@@ -13,7 +13,7 @@
                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
                     </svg>
                   </span>
-                 Kids Welcome
+                 In person
         </div>
         <div>...</div>
     </div>
@@ -21,7 +21,7 @@
  
    <button type="button"
         class="btn btn-option btn-flex btn-outline"
-        (click)="kidsWelcome(false)" [class.active]="selected && areKidsWelcome === false">
+        (click)="isVirtualGroupCheck(true)" [class.active]="selected && isVirtualGroup === true">
     <div class="row">
         <div class="btn-group-label">
                   <span class="btn-group-icons">
@@ -33,7 +33,7 @@
                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
                     </svg>
                   </span>
-                 Kids are NOT Welcome here.
+                 Online
         </div>
         <div>...</div>
     </div>
