@@ -21,14 +21,15 @@ export class OnlineOrPhysicalGroupComponent {
     this.setFilterString(this.isVirtualGroup);
   }
 
+  public reset() {
+    this.isVirtualGroup = null;
+    this.selected = false;
+  }
+
   private setFilterString(isVirtualGroup: boolean): void {
     let isVirtualGroupFlag = isVirtualGroup ? 1 : 0;
     let haveIsVirtualGroupValue = this.isVirtualGroup !== null || this.isVirtualGroup !== undefined;
     this.filterService.setFilterStringIsVirtualGroup(isVirtualGroupFlag, haveIsVirtualGroupValue);
   }
 
-  public reset() {
-    this.isVirtualGroup = null;
-    this.selected = false;
-  }
 }

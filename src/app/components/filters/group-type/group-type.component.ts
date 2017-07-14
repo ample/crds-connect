@@ -12,6 +12,7 @@ import { GroupType } from '../../../models/group-type';
 })
 
 export class GroupTypeComponent implements OnInit {
+
   private groupTypes: GroupType[];
   private isAllDataLoaded: boolean = false;
 
@@ -19,15 +20,21 @@ export class GroupTypeComponent implements OnInit {
                private filterService: FilterService) { }
 
   public ngOnInit(): void {
-    this.initializeGroupTypes();
+    this.getGroupTypesFromMp();
   }
 
   public clickToSelect(value: string) {
-    this.setSelection(value);
-    this.setFilterString();
+    this.setGroupTypeSelection(value);
+    this.setFilterStringInFilterService();
   }
 
-  private initializeGroupTypes(): void {
+  public reset() {
+    for (let groupType of this.groupTypes) {
+      groupType.selected = false;
+    }
+  }
+
+  private getGroupTypesFromMp(): void {
     this.lookupService.getGroupTypes().subscribe(
       groupTypes => {
         this.groupTypes = [];
@@ -40,7 +47,7 @@ export class GroupTypeComponent implements OnInit {
     );
   }
 
-  private setSelection(selectedValue: string) {
+  private setGroupTypeSelection(selectedValue: string) {
     this.reset();
     let group = this.groupTypes.find(i => i.attribute.name === selectedValue);
     if ( group != null) {
@@ -48,14 +55,8 @@ export class GroupTypeComponent implements OnInit {
     }
   }
 
-  private setFilterString(): void {
+  private setFilterStringInFilterService(): void {
     this.filterService.setFilterStringGroupTypes(this.groupTypes);
-  }
-
-  public reset() {
-    for (let groupType of this.groupTypes) {
-      groupType.selected = false;
-    }
   }
 
 }
