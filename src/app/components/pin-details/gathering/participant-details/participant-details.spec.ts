@@ -11,7 +11,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
+import { GroupRole } from '../../../../shared/constants';
 import { ParticipantDetailsComponent } from './participant-details.component';
 
 class ActivatedRouteStub {
@@ -22,7 +22,7 @@ class ActivatedRouteStub {
     }
 }
 
-fdescribe('ParticipantDetailsComponent', () => {
+describe('ParticipantDetailsComponent', () => {
     let fixture: ComponentFixture<ParticipantDetailsComponent>;
     let comp: ParticipantDetailsComponent;
     let el;
@@ -31,7 +31,7 @@ fdescribe('ParticipantDetailsComponent', () => {
     let mockRoute: ActivatedRouteStub;
 
     beforeEach(() => {
-        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant', 'getAllParticipantsOfRoleInGroup']);
+        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant', 'getAllParticipantsOfRoleInGroup', 'updateParticipantRole']);
         mockRouter = { url: '/small-group/1234' };
         mockRoute = new ActivatedRouteStub();
         mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
@@ -83,6 +83,7 @@ fdescribe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(address));
+        (mockParticipantService.updateParticipantRole).and.returnValue(true);
 
         (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
@@ -190,6 +191,23 @@ fdescribe('ParticipantDetailsComponent', () => {
         address.state = 'Ohio';
         result = comp['isParticipantAddressValid']();
         expect(result).toBe(true);
+    });
+
+    it('should set new role', () => {
+        comp['selectedRole'] = GroupRole.MEMBER;
+        comp.onSelectRole(GroupRole.APPRENTICE);
+        expect(comp['selectedRole']).toBe(GroupRole.APPRENTICE);
+    });
+
+    fit('should saveChanges', () => {
+        comp['groupId'] = 123;
+        comp['selectedRole'] = 44;
+        comp['participant'] = MockTestData.getAParticipantsArray()[1];
+
+        (mockParticipantService.updateParticipantRole).and.returnValue(Observable.of(true));
+
+        comp.saveChanges();
+        expect(mockParticipantService.updateParticipantRole).toHaveBeenCalled();
     });
 
     it('AddressValid should return false when there is no object or all of zip, city, and state are null', () => {
