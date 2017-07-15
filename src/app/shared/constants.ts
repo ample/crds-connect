@@ -1,6 +1,17 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
-export const AgeGroupAttributeTypeId: number = 91;
+
+export class AttributeTypes {
+  AgeGroupAttributeTypeId: number;
+  GroupTypeAttributeTypeId: number;
+
+  constructor() {
+    this.AgeGroupAttributeTypeId = 91;
+    this.GroupTypeAttributeTypeId = 73;
+  }
+}
+
+export const attributeTypes: any = new AttributeTypes();
 
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
@@ -44,10 +55,14 @@ export enum AppType {
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
   GROUP_AGE_RANGE: string;
+  GROUP_TYPE: string;
+  GROUP_VIRTUAL: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
     this.GROUP_AGE_RANGE = 'groupagerange';
+    this.GROUP_TYPE = 'grouptype';
+    this.GROUP_VIRTUAL = 'groupvirtual';
   }
 }
 
