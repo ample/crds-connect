@@ -22,7 +22,7 @@ class ActivatedRouteStub {
     }
 }
 
-describe('ParticipantDetailsComponent', () => {
+fdescribe('ParticipantDetailsComponent', () => {
     let fixture: ComponentFixture<ParticipantDetailsComponent>;
     let comp: ParticipantDetailsComponent;
     let el;
@@ -31,7 +31,7 @@ describe('ParticipantDetailsComponent', () => {
     let mockRoute: ActivatedRouteStub;
 
     beforeEach(() => {
-        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant']);
+        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant', 'getAllParticipantsOfRoleInGroup']);
         mockRouter = { url: '/small-group/1234' };
         mockRoute = new ActivatedRouteStub();
         mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
@@ -68,7 +68,7 @@ describe('ParticipantDetailsComponent', () => {
         comp.ngOnInit();
         expect(comp['loadParticipantData']).toHaveBeenCalledTimes(1);
         expect(comp['groupId']).toBe(1234);
-        expect(comp['groupParticipantId']).toBe(1)
+        expect(comp['groupParticipantId']).toBe(1);
         expect(mockStateService.setLoading).toHaveBeenCalledWith(true);
     });
 
@@ -83,6 +83,8 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(address));
+
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
         expect(mockParticipantService.getGroupParticipant).toHaveBeenCalledWith(groupId, groupParticipantId);
@@ -105,6 +107,7 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(null));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
 
@@ -126,6 +129,7 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.throw({error: 'nooooo'}));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
 
@@ -137,6 +141,7 @@ describe('ParticipantDetailsComponent', () => {
 
     it('should handle no participant found', () => {
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(null));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
         comp['redirectUrl'] = '/small-group/1234';
 
         comp['loadParticipantData']();

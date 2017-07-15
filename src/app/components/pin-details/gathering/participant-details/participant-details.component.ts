@@ -26,8 +26,11 @@ export class ParticipantDetailsComponent implements OnInit {
     GroupRole: any = GroupRole;
 
     constructor(private participantService: ParticipantService,
-        private route: ActivatedRoute, private state: StateService, private router: Router,
-        private blandPageService: BlandPageService, private addressService: AddressService) { }
+                private route: ActivatedRoute,
+                private state: StateService,
+                private router: Router,
+                private blandPageService: BlandPageService,
+                private addressService: AddressService) { }
 
     public ngOnInit() {
         this.state.setLoading(true);
