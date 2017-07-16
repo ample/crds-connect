@@ -199,7 +199,7 @@ describe('ParticipantDetailsComponent', () => {
         expect(comp['selectedRole']).toBe(GroupRole.APPRENTICE);
     });
 
-    fit('should saveChanges', () => {
+    it('should saveChanges', () => {
         comp['groupId'] = 123;
         comp['selectedRole'] = 44;
         comp['participant'] = MockTestData.getAParticipantsArray()[1];

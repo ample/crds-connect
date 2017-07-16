@@ -96,13 +96,16 @@ export class ParticipantService extends CacheableService<Group[]> {
 
     private updateParticipantRoleInCache(groupId: number, participantId: number, roleId: number) {
         let contactId = this.session.getContactId();
+        let index = null;
         if (super.isCachedForUser(contactId)) {
             let cache = super.getCache();
             let group = cache.find(g => {
                 return g.groupId === groupId;
             });
 
-            let index = group.Participants.findIndex( x => x.participantId === participantId);
+            if ( group != null ) {
+                index = group.Participants.findIndex( x => x.participantId === participantId);
+            }
 
             if ( index !== null ) {
                 group.Participants[index].groupRoleId = roleId;
