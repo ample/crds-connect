@@ -11,7 +11,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
+import { GroupRole } from '../../../../shared/constants';
 import { ParticipantDetailsComponent } from './participant-details.component';
 
 class ActivatedRouteStub {
@@ -31,7 +31,7 @@ describe('ParticipantDetailsComponent', () => {
     let mockRoute: ActivatedRouteStub;
 
     beforeEach(() => {
-        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant']);
+        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant', 'getAllParticipantsOfRoleInGroup', 'updateParticipantRole']);
         mockRouter = { url: '/small-group/1234' };
         mockRoute = new ActivatedRouteStub();
         mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
@@ -68,7 +68,7 @@ describe('ParticipantDetailsComponent', () => {
         comp.ngOnInit();
         expect(comp['loadParticipantData']).toHaveBeenCalledTimes(1);
         expect(comp['groupId']).toBe(1234);
-        expect(comp['groupParticipantId']).toBe(1)
+        expect(comp['groupParticipantId']).toBe(1);
         expect(mockStateService.setLoading).toHaveBeenCalledWith(true);
     });
 
@@ -83,6 +83,9 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(address));
+        (mockParticipantService.updateParticipantRole).and.returnValue(true);
+
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
         expect(mockParticipantService.getGroupParticipant).toHaveBeenCalledWith(groupId, groupParticipantId);
@@ -105,6 +108,7 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(null));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
 
@@ -126,6 +130,7 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.throw({error: 'nooooo'}));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
 
@@ -137,6 +142,7 @@ describe('ParticipantDetailsComponent', () => {
 
     it('should handle no participant found', () => {
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(null));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
         comp['redirectUrl'] = '/small-group/1234';
 
         comp['loadParticipantData']();
@@ -185,6 +191,23 @@ describe('ParticipantDetailsComponent', () => {
         address.state = 'Ohio';
         result = comp['isParticipantAddressValid']();
         expect(result).toBe(true);
+    });
+
+    it('should set new role', () => {
+        comp['selectedRole'] = GroupRole.MEMBER;
+        comp.onSelectRole(GroupRole.APPRENTICE);
+        expect(comp['selectedRole']).toBe(GroupRole.APPRENTICE);
+    });
+
+    it('should saveChanges', () => {
+        comp['groupId'] = 123;
+        comp['selectedRole'] = 44;
+        comp['participant'] = MockTestData.getAParticipantsArray()[1];
+
+        (mockParticipantService.updateParticipantRole).and.returnValue(Observable.of(true));
+
+        comp.saveChanges();
+        expect(mockParticipantService.updateParticipantRole).toHaveBeenCalled();
     });
 
     it('AddressValid should return false when there is no object or all of zip, city, and state are null', () => {
