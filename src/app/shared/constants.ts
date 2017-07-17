@@ -1,11 +1,24 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
-export const AgeGroupAttributeTypeId: number = 91;
+
+export class AttributeTypes {
+  AgeGroupAttributeTypeId: number;
+  GroupTypeAttributeTypeId: number;
+
+  constructor() {
+    this.AgeGroupAttributeTypeId = 91;
+    this.GroupTypeAttributeTypeId = 73;
+  }
+}
+
+export const attributeTypes: any = new AttributeTypes();
 
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
   lng: -84.423367
 };
+
+export const groupCategoryAttributeTypeId = 90;
 
 export const earthsRadiusInMiles: number = 3443.9;
 
@@ -42,10 +55,14 @@ export enum AppType {
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
   GROUP_AGE_RANGE: string;
+  GROUP_TYPE: string;
+  GROUP_VIRTUAL: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
     this.GROUP_AGE_RANGE = 'groupagerange';
+    this.GROUP_TYPE = 'grouptype';
+    this.GROUP_VIRTUAL = 'groupvirtual';
   }
 }
 
@@ -91,6 +108,17 @@ export const app: App = new App();
 export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 
 export const initialMapZoom = 5;
+
+export const meetingFrequencies = [{
+            meetingFrequencyId: 1,
+            meetingFrequencyDesc: 'Every week'
+        }, {
+            meetingFrequencyId: 2,
+            meetingFrequencyDesc: 'Every other week'
+        }, {
+            meetingFrequencyId: 8,
+            meetingFrequencyDesc: 'Every month'
+        }];
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',

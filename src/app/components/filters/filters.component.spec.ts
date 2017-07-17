@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule,  FormsModule} from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
@@ -22,7 +22,7 @@ describe('FiltersComponent', () => {
         mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters', 'resetFilterString']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
         mockStateService = jasmine.createSpyObj<StateService>('stateService',
-          ['emitPinSearchRequest', 'setMyViewOrWorldView', 'setIsFilterDialogOpen']);
+            ['emitPinSearchRequest', 'setMyViewOrWorldView', 'setIsFilterDialogOpen']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
         TestBed.configureTestingModule({
@@ -35,8 +35,8 @@ describe('FiltersComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: Router, useValue: mockRouter }
             ],
-            schemas: [ NO_ERRORS_SCHEMA ],
-            imports: [ ReactiveFormsModule, FormsModule ]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [ReactiveFormsModule, FormsModule]
         });
     });
 
@@ -55,12 +55,19 @@ describe('FiltersComponent', () => {
     it('should init', () => {
         this.comp.ngOnInit();
         expect(this.comp.locationFormGroup).not.toBeUndefined();
+        expect(this.comp['locationFormGroup'].controls['location'].value).toBe(null);
+    });
+
+    it('should init with last saved search', () => {
+        this.comp['state'].lastSearch = new SearchOptions('', '', '45013');
+        this.comp.ngOnInit();
+        expect(this.comp['locationFormGroup'].controls['location'].value).toBe('45013');
     });
 
     it('should apply filters', () => {
         this.comp.searchKeywordString = 'my keywords';
         this.comp['locationFormGroup'].controls['location'] = '90210';
-        this.comp['state'].lastSearch = new SearchOptions('words', 11, 11, 'filter me');
+        this.comp['state'].lastSearch = new SearchOptions('words', 'filter me', '90210');
         this.comp.onSubmit();
         expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
         expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
@@ -68,21 +75,30 @@ describe('FiltersComponent', () => {
         expect(this.comp['state'].lastSearch.search).toBe('my keywords');
     });
 
-    it('should reset filters', () => {
-        this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
-        this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
-        this.comp['childKidsWelcomeComponent'].selected = true;
-        this.comp.resetFilters();
-        expect(this.comp.childKidsWelcomeComponent.reset).toHaveBeenCalled();
-        expect(this.comp.childAgeGroupsComponent.reset).toHaveBeenCalled();
-        expect(this.comp.state.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
-    });
+    describe('Reset', () => {
+        beforeEach(async(() => {
+            this.comp['locationFormGroup'] = new FormGroup({
+                location: new FormControl(this.location, []),
+            });
+            this.comp['state'].lastSearch = new SearchOptions('', '', '');
+            this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
+            this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
+        }));
 
-    it('should call filter service reset', () => {
-        this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
-        this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
-        this.comp['childKidsWelcomeComponent'].selected = true;
-        this.comp.resetFilters();
-        expect(mockFilterService.resetFilterString).toHaveBeenCalled();
+        it('should reset filters', () => {
+            this.comp['childKidsWelcomeComponent'].selected = true;
+            this.comp.resetFilters();
+            expect(this.comp.childKidsWelcomeComponent.reset).toHaveBeenCalled();
+            expect(this.comp.childAgeGroupsComponent.reset).toHaveBeenCalled();
+            expect(this.comp.state.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
+            expect(mockFilterService.resetFilterString).toHaveBeenCalled();
+        });
+
+        it('should reset location', () => {
+            this.comp['locationFormGroup'].controls['location'].setValue('90210');
+            this.comp.resetFilters();
+            expect(this.comp['locationFormGroup'].controls['location'].value).toBe('');
+            expect(this.comp['state'].lastSearch.location).toBe('');
+        });
     });
 });

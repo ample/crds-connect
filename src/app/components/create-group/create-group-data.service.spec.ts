@@ -1,6 +1,7 @@
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { LookupService } from '../../services/lookup.service';
+import { groupCategoryAttributeTypeId } from '../../shared/constants';
 import { MockTestData } from '../../shared/MockTestData';
 import { CreateGroupService } from './create-group-data.service';
 
@@ -58,6 +59,49 @@ describe('CreateGroupService', () => {
                 expect(s.categories).toBe(categories);
                 expect(mockLookupService.getCategories).not.toHaveBeenCalled();
             });
+        })
+    );
+
+    it('should validate selected groups and return valid as true and set selectedCategories',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            let categories = MockTestData.getSomeCategories();
+            s.categories = categories;
+            s['pageOneInitialized'] = true;
+            s.categories[0].selected = true;
+            s.categories[1].selected = true;
+            let value = s.validateCategories();
+            expect(value).toBe(true);
+            expect(s['selectedCategories'].length).toBe(2);
+        })
+    );
+
+    it('should validate selected groups and return valid as false',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            let categories = MockTestData.getSomeCategories();
+            s.categories = categories;
+            s['pageOneInitialized'] = true;
+            s.categories[0].selected = true;
+            s.categories[1].selected = true;
+            s.categories[2].selected = true;
+            let value = s.validateCategories();
+            expect(value).toBe(false);
+            expect(s['selectedCategories'].length).toBe(3);
+        })
+    );
+
+    it('should add attributes to group model',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            let categories = MockTestData.getSomeCategories();
+            s.categories = categories;
+            s['pageOneInitialized'] = true;
+            s.categories[0].selected = true;
+            s.categories[1].selected = true;
+            s.validateCategories();
+            s.addSelectedCategoriesToGroupModel();
+            console.log(s.group.attributeTypes);
+            expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributeTypeId).toBe(groupCategoryAttributeTypeId);
+            expect(s.group.attributeTypes[groupCategoryAttributeTypeId].name).toBe('Group Category');
+            expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributes.length).toBe(2);
         })
     );
 });

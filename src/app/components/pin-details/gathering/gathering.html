@@ -61,16 +61,15 @@
         <dt>Age Range</dt>
         <dd *ngFor="let age of pin?.gathering?.ageRanges">{{age}}</dd>
 
-        <dt>Leader{{leaders.length > 1 ? 's' : ''}}</dt>
-        <dd *ngFor="let leader of leaders; let isLast = last">{{leader.nickName}} {{leader.lastName}}{{isLast ? '' : ', '}}</dd>
-
+        <dt>Leader{{adjustedLeaderNames.length > 1 ? 's' : ''}}</dt>
+        <dd *ngFor="let adjustedName of adjustedLeaderNames; let isLast = last">{{adjustedName}} {{isLast ? '' : ', '}}</dd>
         <dt>Kids Welcome</dt>
         <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
-     </dl>
+      </dl>
 
-      <button class="btn btn-gray btn-block push-half-top btn-block-mobile"
-              *ngIf = "isInGroupApp"
-              (click) = "onContactLeaderClicked();">Contact Leader</button>
+      <!--<button class="btn btn-gray btn-block push-half-top btn-block-mobile"-->
+              <!--*ngIf = "isInGroupApp"-->
+              <!--(click) = "onContactLeaderClicked();">Contact Leader</button>-->
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn primary btn-primary btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
@@ -91,9 +90,10 @@
     <hr>
     <div *ngFor="let participant of pin.gathering.Participants">
       <div class="border-bottom soft-quarter-bottom">
-        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [canBeHyperlinked]="isLeader"></participant-card>
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [isLeader]="isLeader"></participant-card>
       </div>
     </div>
+    <email-participants [participantEmails]="participantEmails"></email-participants>
   </div>
 
   <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>

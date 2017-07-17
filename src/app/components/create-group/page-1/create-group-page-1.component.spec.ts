@@ -6,6 +6,8 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
+import { ToastsManager } from 'ng2-toastr';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
@@ -17,14 +19,17 @@ describe('CreateGroupPage1Component', () => {
     let fixture: ComponentFixture<CreateGroupPage1Component>;
     let comp: CreateGroupPage1Component;
     let el;
-    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService;
+    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService, mockToastsManager, mockContentService;
     let categories;
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading']);
-        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne']);
+        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
+                                                     'validateCategories', 'addSelectedCategoriesToGroupModel']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
+        mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
+        mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         categories = MockTestData.getSomeCategories();
         (mockCreateGroupService.initializePageOne).and.returnValue(Observable.of(categories));
         TestBed.configureTestingModule({
@@ -35,7 +40,9 @@ describe('CreateGroupPage1Component', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
-                { provide: Location, useValue: mockLocationService }
+                { provide: Location, useValue: mockLocationService },
+                { provide: ToastsManager, useValue: mockToastsManager },
+                { provide: ContentService, useValue: mockContentService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -72,23 +79,56 @@ describe('CreateGroupPage1Component', () => {
         });
     });
 
-    it('should select a category', () => {
-        spyOn(comp, 'areAnyCategoriesSelected')
+    it('should add a category', () => {
+        (mockCreateGroupService.validateCategories).and.returnValue(true);
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
         comp.onSelect(categories[0]);
         expect(categories[0].selected).toBe(true);
-        expect(comp['areAnyCategoriesSelected']).toHaveBeenCalled();
+        expect(comp.groupCategoryForm.controls[`${categories[0].name}-detail`].validator).toBeTruthy();
+        expect(comp['areCategoriesValid']).toBeTruthy();
     });
 
-    it('should submit the form', () => {
-        spyOn(comp, 'areAnyCategoriesSelected').and.returnValue(true);
+    it('should prevent adding a category if there are already 2 selected', () => {
+        (mockCreateGroupService.validateCategories).and.returnValue(false);
+        (mockContentService.getContent).and.returnValue('MoonUnitTests');
+        comp.groupCategoryForm = new FormGroup({});
+        comp['initializeCategories'](categories);
+        comp.onSelect(categories[0]);
+        expect(categories[0].selected).toBe(false);
+        expect(mockToastsManager.error).toHaveBeenCalledWith('MoonUnitTests');
+    });
+
+    it('should remove a category', () => {
+        (mockCreateGroupService.validateCategories).and.returnValue(false);
+        comp.groupCategoryForm = new FormGroup({});
+        comp['initializeCategories'](categories);
+        categories[0].selected = true;
+        comp.onSelect(categories[0]);
+        expect(categories[0].selected).toBe(false);
+        expect(comp.groupCategoryForm.controls[`${categories[0].name}-detail`].validator).toBeFalsy();
+    });
+
+    it('should submit the form if valid', () => {
+        (mockCreateGroupService.validateCategories).and.returnValue(true);
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
         comp.onSubmit(comp.groupCategoryForm);
         expect(comp['isSubmitted']).toBeTruthy();
-        expect(comp['anyCategorySelected']).toBeTruthy();
-        expect(comp['areAnyCategoriesSelected']).toHaveBeenCalled();
+        expect(comp['areCategoriesValid']).toBeTruthy();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-2']);
+        expect(mockCreateGroupService.validateCategories).toHaveBeenCalled();
+        expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).toHaveBeenCalled();
+    });
+
+    it('should not submit the from if its not valid', () => {
+        (mockCreateGroupService.validateCategories).and.returnValue(false);
+        comp.groupCategoryForm = new FormGroup({});
+        comp['initializeCategories'](categories);
+        comp.onSelect(categories[0]);
+        comp.onSubmit(comp.groupCategoryForm);
+        expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
+
     });
 
     it('should go back()', () => {

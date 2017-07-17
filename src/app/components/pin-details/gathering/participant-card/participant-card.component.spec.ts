@@ -105,4 +105,27 @@ describe('ParticipantCardComponent', () => {
     comp.onParticipantClick();
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
+
+  it('should navigate on remove self participant ', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp.isMe = true;
+    comp.isLeader = false;
+
+    comp.onRemoveParticipant();
+    expect(mockRouter.navigate).toHaveBeenCalled();
+  });
+
+  it('should not navigate on remove self participant ', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp.isMe = true;
+    comp.isLeader = true;
+
+    comp.onRemoveParticipant();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
+  });
+
 });

@@ -8,13 +8,13 @@ import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
-import { AgeGroupsComponent } from './age-groups.component';
-import { AgeGroup } from '../../../models/age-group';
+import { GroupTypeComponent } from './group-type.component';
+import { GroupType } from '../../../models/group-type';
 import { Attribute } from '../../../models/attribute';
 
-describe('AgeGroupsComponent', () => {
-    let fixture: ComponentFixture<AgeGroupsComponent>;
-    let comp: AgeGroupsComponent;
+describe('GroupTypeComponent', () => {
+    let fixture: ComponentFixture<GroupTypeComponent>;
+    let comp: GroupTypeComponent;
     let el;
     let mockAppSettingsService, mockFilterService, mockLookupService;
     let categories;
@@ -27,7 +27,7 @@ describe('AgeGroupsComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [
-                AgeGroupsComponent
+                GroupTypeComponent
             ],
             providers: [
                 { provide: AppSettingsService, useValue: mockAppSettingsService },
@@ -40,41 +40,41 @@ describe('AgeGroupsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.compileComponents().then(() => {
-            fixture = TestBed.createComponent(AgeGroupsComponent);
+            fixture = TestBed.createComponent(GroupTypeComponent);
             comp = fixture.componentInstance;
         });
     }));
 
     it('should create an instance', () => {
-        spyOn(comp, 'initializeAgeGroups');
+        spyOn(comp, 'getGroupTypesFromMpAndInit');
         expect(comp).toBeTruthy();
     });
 
     it('should init', () => {
-        spyOn(comp, 'initializeAgeGroups');
+        spyOn(comp, 'getGroupTypesFromMpAndInit');
         comp.ngOnInit();
-        expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
+        expect(comp['getGroupTypesFromMpAndInit']).toHaveBeenCalledTimes(1);
     });
 
     it('should call setSelection', () => {
-        spyOn(comp, 'setSelection');
-        spyOn(comp, 'setFilterString');
-        comp.clickToSelect('123');
-        expect(comp['setSelection']).toHaveBeenCalledTimes(1);
-        expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
+        spyOn(comp, 'setGroupTypeSelection');
+        spyOn(comp, 'setFilterStringInFilterService');
+        comp.onGroupTypeClicked('123');
+        expect(comp['setGroupTypeSelection']).toHaveBeenCalledTimes(1);
+        expect(comp['setFilterStringInFilterService']).toHaveBeenCalledTimes(1);
     });
 
     it('should reset', () => {
-        let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, 1, null, null);
-        let a1 = new AgeGroup(attr);
+        let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, null, null, null);
+        let a1 = new GroupType(attr);
         a1.selected = true;
-        let a2 = new AgeGroup(attr);
+        let a2 = new GroupType(attr);
         a2.selected = true;
 
-        comp['ageGroups'] = [a1, a2];
+        comp['groupTypes'] = [a1, a2];
         comp.reset();
 
-        expect(comp['ageGroups'][0].selected).toBe(false);
-        expect(comp['ageGroups'][1].selected).toBe(false);
+        expect(comp['groupTypes'][0].selected).toBe(false);
+        expect(comp['groupTypes'][1].selected).toBe(false);
     });
 });

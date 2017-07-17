@@ -70,6 +70,10 @@ export class ListEntryComponent implements OnInit {
     }
   }
 
+  public isMySmallGroup() {
+    return this.type === pinType.SMALL_GROUP && this.contactId === this.currentContactId;
+  }
+
   public getPicByPinType() {
     switch (this.type) {
       case pinType.PERSON:
