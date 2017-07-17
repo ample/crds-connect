@@ -75,7 +75,7 @@ export class ListEntryComponent implements OnInit {
     if (this.lastName === undefined || this.lastName === null) {
       this.lastName = '';
     }
-    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.').toUpperCase();
+    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
   }
 
    public getMeetingTime() {
