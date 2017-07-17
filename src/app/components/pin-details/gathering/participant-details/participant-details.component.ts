@@ -1,3 +1,4 @@
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { AddressService } from '../../../../services/address.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
@@ -5,7 +6,8 @@ import { Participant, Address } from '../../../../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParticipantService } from '../../../../services/participant.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { GroupRole } from '../../../../shared/constants';
+import { GroupRole, MaxGroupApprentices, MaxGroupLeaders } from '../../../../shared/constants';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'participant-details',
@@ -30,7 +32,9 @@ export class ParticipantDetailsComponent implements OnInit {
                 private state: StateService,
                 private router: Router,
                 private blandPageService: BlandPageService,
-                private addressService: AddressService) { }
+                private addressService: AddressService,
+                private toast: ToastsManager,
+                private content: ContentService) { }
 
     public ngOnInit() {
         this.state.setLoading(true);
@@ -105,15 +109,26 @@ export class ParticipantDetailsComponent implements OnInit {
     }
 
     public saveChanges() {
+
+        if (this.selectedRole === GroupRole.LEADER && this.leaderCount >= MaxGroupLeaders) {
+            this.toast.warning(this.content.getContent('finderMaxLeadersExceeded'), null, {toastLife: 3000});
+            return;
+        }
+
+        if (this.selectedRole === GroupRole.APPRENTICE && this.apprenticeCount >= MaxGroupApprentices) {
+            this.toast.warning(this.content.getContent('finderMaxApprenticeExceeded'), null, {toastLife: 3000});
+            return;
+        }
+
         this.state.setLoading(true);
         this.participantService.updateParticipantRole(this.groupId, this.participant.participantId, this.selectedRole).subscribe(
             p => {
                 console.log('success');
-                this.state.setLoading(false);
                 // go to success page
+                this.router.navigate(['/small-group/' + this.groupId]);
             },
             failure => {
-                console.log('failure');
+                this.toast.warning('Something seems to have gone wrong. Please try again.', null, {toastLife: 3000});
                 this.state.setLoading(false);
         });
     }
