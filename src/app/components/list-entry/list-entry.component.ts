@@ -12,6 +12,7 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
 import { groupDescriptionLength } from '../../shared/constants';
+import * as moment from 'moment';
 
 @Component({
   selector: 'list-entry',
@@ -71,7 +72,15 @@ export class ListEntryComponent implements OnInit {
   }
 
   public leaderName() {
+    if (this.lastName === undefined || this.lastName === null) {
+      this.lastName = '';
+    }
     return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.').toUpperCase();
+  }
+
+   public getMeetingTime() {
+    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
+    return theTime.toDate();
   }
 
   public isMySmallGroup() {
