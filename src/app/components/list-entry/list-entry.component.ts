@@ -70,6 +70,10 @@ export class ListEntryComponent implements OnInit {
     }
   }
 
+  public leaderName() {
+    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.').toUpperCase();
+  }
+
   public isMySmallGroup() {
     return this.type === pinType.SMALL_GROUP && this.contactId === this.currentContactId;
   }
