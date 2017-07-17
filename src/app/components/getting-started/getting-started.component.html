@@ -1,28 +1,8 @@
 <div class="connect-container connect-layout-container soft-sides">
+
+  <div *ngIf="appSettings.isConnectApp()" >
     <!-- Intro Text -->
     <crds-content-block id="finderGettingStarted"></crds-content-block>
-
-    <!-- People -->
-    <!--<div class="people push-ends">
-      <div class="row push-ends" *ngFor="let group of pins">
-        <div class="person col-xs-6" *ngFor="let pin of group">
-          <div class="avatar-group avatar-size-6">
-            <img src="{{pin.image}}" class="img-circle">
-          </div>
-          <div class="label-center">
-            <span *ngIf="pin.host" class="label label-host">HOST</span>
-          </div>
-          <h3 class="entry-header">{{pin.name}}</h3>
-          <p class="entry-subheader">
-            <span class="proximity">{{pin.location}}</span>
-          </p>
-        </div>
-        <h3 class="entry-header">{{pin.name}} <span *ngIf="pin.host" class="label label-host">HOST</span></h3>
-        <p class="entry-subheader">
-          <span class="proximity">{{pin.location}}</span>
-        </p>
-      </div>
-    </div>-->
 
     <!-- Add Me To The Map Text/Button -->
     <crds-content-block id="finderGettingStartedAddToMap"></crds-content-block>
@@ -35,6 +15,7 @@
 
     <!-- Host Text/Buttons -->
     <crds-content-block id="finderGettingStartedHost"></crds-content-block>
+
     <div class="push-bottom soft-bottom">
       <div class="btn-group full-width">
         <a routerLink="/host-signup" class="btn btn-primary btn-block-mobile">Sign up to host</a>
@@ -42,3 +23,28 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="appSettings.isSmallGroupApp()" >
+    <!-- Intro Text -->
+    <crds-content-block id="finderGettingStartedGroups"></crds-content-block>
+
+    <!-- Find a Group Text/Button -->
+    <crds-content-block id="finderGettingStartedGroupsFindGroup"></crds-content-block>
+
+    <div class="soft-bottom soft-quarter-top">
+      <div class="btn-group full-width">
+        <a routerLink="/" class="btn btn-primary btn-block-mobile">Find a group</a>
+      </div>
+    </div>
+
+    <!-- Be a Leader Text/Buttons -->
+    <crds-content-block id="finderGettingStartedGroupsLeader"></crds-content-block>                            
+
+    <div class="push-bottom soft-bottom">
+      <div class="btn-group full-width">
+        <a routerLink="/create-group" class="btn btn-primary btn-block-mobile">Apply to be a leader</a>
+        <a routerLink="/create-group" class="btn btn-default btn-outline btn-block-mobile">Start a group</a>
+      </div>
+    </div>    
+  </div>  
+</div>
