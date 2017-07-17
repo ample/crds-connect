@@ -23,6 +23,7 @@ export class ListFooterComponent implements OnInit, OnChanges {
   @Input() pins: Array<Pin>;
 
   public doesUserLeadAnyGroups: boolean;
+  public isReadyToDisplayComponent: boolean = false;
   public isUserHostingAnyGatheringsOrGroups: boolean = false;
   public isSmallGroupApp: boolean = false;
   public userContactId: number = null;
@@ -40,18 +41,32 @@ export class ListFooterComponent implements OnInit, OnChanges {
               private appSettings: AppSettingsService) {}
 
   public ngOnInit(): void {
-    console.log('INITIALIZING LIST FOOTER');
-    this.participantService.doesUserLeadAnyGroups().subscribe(
-      next => {console.log('The user is a group leader: ' + next);},
-      err => {console.log('lol error');},
-    );
     this.isSmallGroupApp = this.appSettings.isSmallGroupApp();
+    this.getNecessaryDataAndInit();
     this.isUserHostingAnyGatheringsOrGroups = this.pinLabelService.isHostingAny(this.pins);
   }
 
   ngOnChanges(): void {
     this.userContactId = this.session.getContactId();
     this.userMapState = this.listHlpr.getUserMapState(this.userContactId, this.pins);
+  }
+
+  public getNecessaryDataAndInit(): void {
+
+    if(this.isSmallGroupApp){
+      this.participantService.doesUserLeadAnyGroups().subscribe(
+        doesUserLeadAnyGroups => {
+          this.doesUserLeadAnyGroups = doesUserLeadAnyGroups as boolean;
+          this.isReadyToDisplayComponent = true;
+        },
+        err => {
+          this.doesUserLeadAnyGroups = false;
+          this.isReadyToDisplayComponent = true;
+        },
+      );
+    } else {
+      this.isReadyToDisplayComponent = true;
+    }
   }
 
   public addMeToTheMapClicked()  {
@@ -69,7 +84,12 @@ export class ListFooterComponent implements OnInit, OnChanges {
     this.blandPageService.goToWhatsAHost();
   }
 
-  public createAGroupClicked()  {
+  public onBecomeALeaderClicked() {
+    this.state.setCurrentView('list');
+    this.router.navigateByUrl('/create-group');
+  }
+
+  public onCreateAGroupClicked() {
     this.state.setCurrentView('list');
     this.router.navigateByUrl('/create-group');
   }

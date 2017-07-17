@@ -29,7 +29,6 @@ import { RemovePersonPinComponent } from './components/pin-details/person/remove
 import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
-import { DoesUserLeadAnyGroupsResolver } from './route-resolvers/does-user-lead-any-groups-resolver.service';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -53,8 +52,7 @@ const appRoutes: Routes = [
       LoggedInGuard
     ],
     resolve: {
-      userData: UserDataResolver,
-      doesUserLeadAnyGroups: DoesUserLeadAnyGroupsResolver
+      userData: UserDataResolver
     }
   }, {
     path: 'accept-invite/:groupId/:guid',

@@ -63,7 +63,7 @@ describe('ListFooterComponent', () => {
     });
 
     it('should handle create a group clicked', () => {
-        comp.createAGroupClicked();
+        comp.onCreateAGroupClicked();
         expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/create-group');
     });
 });
