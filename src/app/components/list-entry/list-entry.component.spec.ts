@@ -99,7 +99,7 @@ describe('ListEntryComponent', () => {
         comp.firstName = 'Bob';
         comp.lastName = 'Jaegermanjenson';
         let leaderName = comp.leaderName();
-        expect(leaderName).toBe('BOB J.');
+        expect(leaderName).toBe('Bob J.');
     });
 
 });

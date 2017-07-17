@@ -71,7 +71,7 @@ export class ListEntryComponent implements OnInit {
   }
 
   public leaderName() {
-    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.').toUpperCase();
+    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
   }
 
   public isMySmallGroup() {
