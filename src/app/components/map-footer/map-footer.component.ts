@@ -9,6 +9,8 @@ import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { BlandPageService } from '../../services/bland-page.service';
 
+import { GroupsLandingUrl } from '../../shared/constants';
+
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
@@ -37,7 +39,16 @@ export class MapFooterComponent implements OnInit {
 
   public gettingStartedBtnClicked()  {
     this.state.setCurrentView('map');
-    this.blandPageService.goToGettingStarted();
+    if (this.appSettings.isConnectApp()) {
+      this.blandPageService.goToGettingStarted();
+    } else if (this.appSettings.isSmallGroupApp()) {
+      this.navigateAway();
+    }
+  }
+
+  // This was literally pulled out into a method so it could be tested. Why you do angular 2?
+  public navigateAway() {
+      window.location.href = GroupsLandingUrl;
   }
 
   public myStuffBtnClicked(): void {
