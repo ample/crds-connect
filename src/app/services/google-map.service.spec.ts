@@ -3,7 +3,6 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AppSettingsService } from './app-settings.service';
 import { GoogleMapService } from './google-map.service';
 import { Address, Group, MapBoundingBox, MapView, Pin, pinType } from '../models';
-import { AppType } from '../shared/constants';
 
 function generatePin(lat: number, lng: number, name: string): Pin {
   const newAddress = {

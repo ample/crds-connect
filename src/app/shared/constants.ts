@@ -106,6 +106,9 @@ export enum UserState {
   NotLoggedIn
 }
 
+// The starting point for calculating the best zoom for a given search
+export const initialZoom: number = 9;
+
 // The default value for proximity to user's current location when no location data is available
 export let proximityUnavailableDefaultNum: number = 999;
 

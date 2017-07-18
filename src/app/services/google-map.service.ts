@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { GeoCoordinates, MapBoundingBox, MapView, Pin } from '../models/';
 import {AppSettingsService} from './app-settings.service';
+import { initialZoom } from '../shared/constants';
 
 @Injectable()
 export class GoogleMapService {
@@ -51,22 +52,22 @@ export class GoogleMapService {
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
-    const mapParams: MapView = new MapView('zoomCalcView', lat, lng, 9);
-    const popTarget = getPopTarget.bind(this)(viewtype, pins);
+    const mapParams: MapView = new MapView('zoomCalcView', lat, lng, initialZoom);
+    const popTarget = this.getPopTarget(pins, viewtype);
 
     return this.calculateBestZoom(mapParams, pins, popTarget, {}) - .25;  // Subtract .25 so that results are not on edge of screen
+  }
 
-    // Returns the target number of search results based on whether this is a connect or group app.
-    function getPopTarget(): number {
-      if (viewtype === 'world') {
-        if (this.appSettings.isConnectApp()) {
-          return 10;
-        } else {
-          return 1;
-        }
+  // Returns the target number of search results based on whether this is a connect or group app.
+  private getPopTarget(pins: Pin[], viewtype: string): number {
+    if (viewtype === 'world') {
+      if (this.appSettings.isConnectApp()) {
+        return 10;
       } else {
-        return pins.length;
+        return 1;
       }
+    } else {
+      return pins.length;
     }
   }
 
