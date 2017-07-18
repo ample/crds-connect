@@ -26,6 +26,9 @@ export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
 
+export const MaxGroupLeaders: number = 4;
+export const MaxGroupApprentices: number = 2;
+
 // TODO can we delete this? AppRoute
 export class AppRoute {
   CONNECT_ROUTE: string;

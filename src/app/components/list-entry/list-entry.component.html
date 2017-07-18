@@ -63,7 +63,7 @@
       </span>
     </h3>
     <p class="media-meta">
-      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
+      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTime() | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}}</span>
       <span *ngIf="pin?.gathering?.meetingDay == null">Flexible Meeting Time</span>
       <br>
       <span *ngIf="address.addressId !== 0">({{pin?.proximity |  number : '1.2-2' }} MI)</span>

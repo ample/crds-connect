@@ -63,7 +63,7 @@
                 class="btn btn-option btn-flex btn-outline"
                 (click)="onSelectRole(GroupRole.LEADER)"
                 [class.active]="selectedRole === GroupRole.LEADER"
-                *ngIf="isParticipantApprovedLeader() && leaderCount < 4">
+                *ngIf="isParticipantApprovedLeader()">
         <div class="row">
             <div class="btn-group-label">
                 <span class="btn-group-icons">
@@ -81,15 +81,14 @@
         </div>
         </button>
 
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2" *ngIf="isParticipantApprovedLeader() && leaderCount < 4">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2" *ngIf="isParticipantApprovedLeader()">
             <crds-content-block id="finderRoleLeader"></crds-content-block>
         </div>
         
         <button type="button"
                 class="btn btn-option btn-flex btn-outline"
                 (click)="onSelectRole(GroupRole.APPRENTICE)"
-                [class.active]="selectedRole === GroupRole.APPRENTICE"
-                *ngIf="apprenticeCount < 2">
+                [class.active]="selectedRole === GroupRole.APPRENTICE">
         <div class="row">
             <div class="btn-group-label">
                 <span class="btn-group-icons">
@@ -107,7 +106,7 @@
         </div>
         </button>
 
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2" *ngIf="apprenticeCount < 2">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
             <crds-content-block id="finderRoleApprentice"></crds-content-block>
         </div>
     </div>
