@@ -162,7 +162,12 @@ export class MockTestData {
         );
     }
 
-    public static getSomeGroupTypeAttributes(): AttributeType {
+    /**
+     * This call with return an AttributeType object
+     * That contains an array of attributes for Gender Mix Types.
+     * This is mocking what the AttributeType API call returns
+     */
+    public static getGroupGenderMixAttributeTypeWithAttributes(): AttributeType {
         let attributes: Attribute[] = [
             new Attribute(1, 'Errbody welcome', '(errbody)', null, null, null, 0, 73, null, null ),
             new Attribute(2, 'Ladies in da house', '(guuurl)', null, null, null, 1, 73, null, null ),
@@ -171,7 +176,12 @@ export class MockTestData {
         return new AttributeType('group type', 73, false, attributes);
     }
 
-    public static getSomeAgeRangeAttributes(): AttributeType {
+    /**
+     * This call with return an AttributeType object
+     * That contains an array of attributes for age ranges.
+     * This is mocking what the AttributeType API call returns
+     */
+    public static getAgeRangeAttributeTypeWithAttributes(): AttributeType {
         let attributes: Attribute[] = [
             <Attribute>{attributeId: 7089, name: 'middle skool', sortOrder: 0, attributeTypeId: 91},
             new Attribute(7090, 'High Scho', null, null, null, null, 1, 91, null, null),

@@ -110,7 +110,7 @@ describe('CreateGroupService', () => {
 
     it('should add groupGenderMixType to groupModel',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let groupGenderMixTypes = MockTestData.getSomeGroupTypeAttributes().attributes;
+            let groupGenderMixTypes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes().attributes;
             s.selectedGroupGenderMix = groupGenderMixTypes[0];
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.addGroupGenderMixTypeToGroupModel();
@@ -121,7 +121,7 @@ describe('CreateGroupService', () => {
 
     it('should add ageRanges to groupModel',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+            let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
             s.selectedAgeRanges = [ageRanges[0]];
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.addAgeRangesToGroupModel();

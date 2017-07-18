@@ -64,8 +64,8 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('should init', () => {
-        mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(MockTestData.getSomeGroupTypeAttributes()));
-        mockLookupService.getAgeRanges.and.returnValue(Observable.of(MockTestData.getSomeAgeRangeAttributes()));
+        mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(MockTestData.getGroupGenderMixAttributeTypeWithAttributes()));
+        mockLookupService.getAgeRanges.and.returnValue(Observable.of(MockTestData.getAgeRangeAttributeTypeWithAttributes()));
         spyOn(comp, 'setSelectedAgeRanges');
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp.ngOnInit();
@@ -78,7 +78,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('init should handle error', () => {
-        mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(MockTestData.getSomeGroupTypeAttributes()));
+        mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(MockTestData.getGroupGenderMixAttributeTypeWithAttributes()));
         mockLookupService.getAgeRanges.and.returnValue(Observable.throw({error: 500}));
         spyOn(comp, 'setSelectedAgeRanges');
         spyOn(comp, 'setIsStudentMinistrySelected');
@@ -93,11 +93,11 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('onClickMixType should overwrite what is currently stored in the service and set genderMixInvalid to false', () => {
-        let groupGenderMixTypes = MockTestData.getSomeGroupTypeAttributes();
+        let groupGenderMixTypes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes();
         spyOn(comp, 'setSelectedAgeRanges');
         spyOn(comp, 'setIsStudentMinistrySelected');
         mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(groupGenderMixTypes.attributes));
-        mockLookupService.getAgeRanges.and.returnValue(Observable.of(MockTestData.getSomeAgeRangeAttributes()));
+        mockLookupService.getAgeRanges.and.returnValue(Observable.of(MockTestData.getAgeRangeAttributeTypeWithAttributes()));
         comp.ngOnInit();
         comp['groupGenderMixInvalid'] = true;
         comp['onClickMixType'](groupGenderMixTypes[0]);
@@ -106,7 +106,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('setSelectedAgeRanges should mark selected age ranges in component based on service data', () => {
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes();
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes();
         comp['ageRanges'] = ageRanges.attributes.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.attributes.slice(1, 2);
         comp['setSelectedAgeRanges']();
@@ -118,7 +118,7 @@ describe('CreateGroupPage4Component', () => {
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp['selectedAgeRangesInvalid'] = true;
         comp['createGroupService'].selectedAgeRanges = <Attribute[]>[];
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice(0);
         comp['onClickAgeRange'](comp['ageRanges'][0]);
         expect(comp['setIsStudentMinistrySelected']).toHaveBeenCalled();
@@ -131,7 +131,7 @@ describe('CreateGroupPage4Component', () => {
     it('onClickAgeRange should remove ageRange from selectedList if it is already selected', () => {
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp['selectedAgeRangesInvalid'] = true;
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(0, 1);
         comp['onClickAgeRange'](comp['ageRanges'][0]);
@@ -141,7 +141,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if middle school is selected', () => {
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(0, 1);
         comp['setIsStudentMinistrySelected']();
@@ -149,7 +149,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if high school is selected', () => {
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(1, 2);
         comp['setIsStudentMinistrySelected']();
@@ -157,7 +157,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if middle school and high school is selected', () => {
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(0, 2);
         comp['setIsStudentMinistrySelected']();
@@ -165,7 +165,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to false if middle nor high school are selected', () => {
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(2, 3);
         comp['setIsStudentMinistrySelected']();
@@ -204,7 +204,7 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('validate form should return false if selected age ranges length is less than 1', () => {
-        let genderMixes = MockTestData.getSomeGroupTypeAttributes().attributes;
+        let genderMixes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes().attributes;
         comp['createGroupService'].selectedGroupGenderMix = genderMixes[0];
         let result = comp['validateForm']();
         expect(result).toBe(false);
@@ -213,8 +213,8 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('validate form should return true if everything has valid values', () => {
-        let genderMixes = MockTestData.getSomeGroupTypeAttributes().attributes;
-        let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+        let genderMixes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes().attributes;
+        let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
         comp['createGroupService'].selectedGroupGenderMix = genderMixes[0];
         comp['createGroupService'].selectedAgeRanges.push(ageRanges[0]);
         let result = comp['validateForm']();
