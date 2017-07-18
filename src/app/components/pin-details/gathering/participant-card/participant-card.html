@@ -1,4 +1,4 @@
-<div class="media soft-half-ends">
+<div class="media media-link soft-half-ends">
   <!-- TODO: Add logic to only add pointer class to  picture and name if the current user is a leader and it's not their own participant record-->
   <profile-picture (click)="onParticipantClick()" [contactId]="participant.contactId"  [ngClass]="{'pointer': canBeHyperlinked}" wrapperClass="media-img-wrapper left-align" imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
@@ -9,7 +9,7 @@
       </span>
     </h4>
 
-    <a class="pointer" href="mailto:{{participant.email}}">{{participant.email}}</a>
-    <span *ngIf="isMe && !isLeader"><br /><a class="pointer" (click)="onRemoveParticipant()">Leave this group</a></span>
+    <p class="text-muted font-size-small flush-bottom">{{participant.email}}</p>
+    <span *ngIf="isMe && !isLeader"><a class="pointer" (click)="onRemoveParticipant()">Leave this group</a></span>
   </div>
 </div>

@@ -96,14 +96,16 @@
   </div>
 
   <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
-  <add-someone *ngIf="!appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 
-  <div class="soft-ends">
+  <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
+
+  <!-- 👇 is not tied to any functionality. -->
+  <div *ngIf="isLeader && !appSettingsService.isConnectApp()" class="soft-ends">
     <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Guidance</h3>
     <hr class="push-quarter-top flush-bottom">
 
     <div class="push-half-top">
-      <div class="media border-bottom soft-half-bottom push-half-bottom">
+      <div class="media media-link border-bottom soft-half-bottom push-half-bottom">
         <profile-picture wrapperClass="media-img-wrapper left-align flush-top" imageClass="media-object img-size-4"></profile-picture>
         <div class="media-body">
           <h4 class="media-heading font-size-base">Phil B.
