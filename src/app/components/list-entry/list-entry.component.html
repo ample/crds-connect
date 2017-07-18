@@ -5,7 +5,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}<span class="media-label">
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">{{formatName()}}<span class="media-label">
         <span *ngIf="isMe()" class="label label-warning">ME</span>
       </span></h3>
     <p class="media-meta">
@@ -21,7 +21,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">{{formatName()}}
       <span class="media-label">
         <span class="label label-primary">HOST</span>
         <span *ngIf="isMyGathering()" class="label label-warning">ME</span>
@@ -45,7 +45,7 @@
     <div class="media-object-overlay img-circle media-object img-size-5" style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
   </div>
   <div class="media-body">
-    <h3 class="media-heading">Crossroads {{siteName}}</h3>
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">Crossroads {{siteName}}</h3>
     <readonly-address [isPinOwner]="true" [address]="address" [distance]="proximity"></readonly-address>
   </div>
 </div>
@@ -57,7 +57,7 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">{{formatName()}}
       <span class="media-label">
         <!-- Placeholder for custom labels, the logic for which is not yet available in groups-->
       </span>
