@@ -1,8 +1,19 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
-export const AgeGroupAttributeTypeId: number = 91;
-export const GroupGenderMixTypeAttributeId: number = 73;
-export const groupCategoryAttributeTypeId: number = 90;
+
+export class AttributeTypes {
+  AgeRangeAttributeTypeId: number;
+  GroupGenderMixTypeAttributeId: number;
+  GroupCategoryAttributeTypeId: number;
+
+  constructor() {
+    this.AgeRangeAttributeTypeId = 91;
+    this.GroupGenderMixTypeAttributeId = 73;
+    this.GroupCategoryAttributeTypeId = 90;
+  }
+}
+
+export const attributeTypes: any = new AttributeTypes();
 export const MiddleSchoolAgeRangeAttributeId: number = 7089;
 export const HighSchoolAgeRangeAttributeId: number = 7090;
 export const SpiritualGrowthCongregationId: number = 8;
@@ -20,6 +31,9 @@ export const earthsRadiusInMiles: number = 3443.9;
 export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
+
+export const MaxGroupLeaders: number = 4;
+export const MaxGroupApprentices: number = 2;
 
 // TODO can we delete this? AppRoute
 export class AppRoute {
@@ -50,10 +64,14 @@ export enum AppType {
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
   GROUP_AGE_RANGE: string;
+  GROUP_TYPE: string;
+  GROUP_VIRTUAL: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
     this.GROUP_AGE_RANGE = 'groupagerange';
+    this.GROUP_TYPE = 'grouptype';
+    this.GROUP_VIRTUAL = 'groupvirtual';
   }
 }
 

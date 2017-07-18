@@ -1,10 +1,7 @@
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { LookupService } from '../../services/lookup.service';
-import {
-    AgeGroupAttributeTypeId,
-    groupCategoryAttributeTypeId,
-    GroupGenderMixTypeAttributeId, } from '../../shared/constants';
+import { attributeTypes } from '../../shared/constants';
 import { MockTestData } from '../../shared/MockTestData';
 import { CreateGroupService } from './create-group-data.service';
 import { SessionService } from '../../services/session.service';
@@ -102,9 +99,9 @@ describe('CreateGroupService', () => {
             s.categories[1].selected = true;
             s.validateCategories();
             s.addSelectedCategoriesToGroupModel();
-            expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributeTypeId).toBe(groupCategoryAttributeTypeId);
-            expect(s.group.attributeTypes[groupCategoryAttributeTypeId].name).toBe('Group Category');
-            expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributes.length).toBe(2);
+            expect(s.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].attributeTypeId).toBe(attributeTypes.GroupCategoryAttributeTypeId);
+            expect(s.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].name).toBe('Group Category');
+            expect(s.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].attributes.length).toBe(2);
         })
     );
 
@@ -114,8 +111,8 @@ describe('CreateGroupService', () => {
             s.selectedGroupGenderMix = groupGenderMixTypes[0];
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.addGroupGenderMixTypeToGroupModel();
-            expect(s.group.singleAttributes[GroupGenderMixTypeAttributeId]).toBeTruthy();
-            expect(s.group.singleAttributes[GroupGenderMixTypeAttributeId].attribute.attributeId).toBe(1);
+            expect(s.group.singleAttributes[attributeTypes.GroupGenderMixTypeAttributeId]).toBeTruthy();
+            expect(s.group.singleAttributes[attributeTypes.GroupGenderMixTypeAttributeId].attribute.attributeId).toBe(1);
         })
     );
 
@@ -125,7 +122,7 @@ describe('CreateGroupService', () => {
             s.selectedAgeRanges = [ageRanges[0]];
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.addAgeRangesToGroupModel();
-            expect(s.group.attributeTypes[AgeGroupAttributeTypeId].attributes[0].attributeId).toBe(7089);
+            expect(s.group.attributeTypes[attributeTypes.AgeRangeAttributeTypeId].attributes[0].attributeId).toBe(7089);
         })
     );
 });

@@ -5,11 +5,7 @@ import { Address, Attribute, AttributeType, Group } from '../../models';
 import { Category } from '../../models/category';
 import { LookupService } from '../../services/lookup.service';
 import { SessionService } from '../../services/session.service';
-import {
-    AgeGroupAttributeTypeId,
-    groupCategoryAttributeTypeId,
-    GroupGenderMixTypeAttributeId,
-} from '../../shared/constants';
+import { attributeTypes } from '../../shared/constants';
 
 @Injectable()
 export class CreateGroupService {
@@ -55,8 +51,8 @@ export class CreateGroupService {
         });
 
         let jsonObject = {};
-        jsonObject[groupCategoryAttributeTypeId] = {
-            attributeTypeId: groupCategoryAttributeTypeId,
+        jsonObject[attributeTypes.GroupCategoryAttributeTypeId] = {
+            attributeTypeId: attributeTypes.GroupCategoryAttributeTypeId,
             name: 'Group Category',
             attributes: attributes
         };
@@ -67,7 +63,7 @@ export class CreateGroupService {
     public addGroupGenderMixTypeToGroupModel(): void {
         let jsonObject = {};
 
-        jsonObject[GroupGenderMixTypeAttributeId] = {
+        jsonObject[attributeTypes.GroupGenderMixTypeAttributeId] = {
             attribute: this.selectedGroupGenderMix
         };
         this.group.singleAttributes = jsonObject;
@@ -76,8 +72,8 @@ export class CreateGroupService {
     public addAgeRangesToGroupModel(): void {
 
         let jsonObject = {};
-        jsonObject[AgeGroupAttributeTypeId] = {
-            attributeTypeId: AgeGroupAttributeTypeId,
+        jsonObject[attributeTypes.AgeRangeAttributeTypeId] = {
+            attributeTypeId: attributeTypes.AgeRangeAttributeTypeId,
             name: null,
             attributes: this.selectedAgeRanges
         };
@@ -87,7 +83,7 @@ export class CreateGroupService {
 
     private createCategoryDetailAttribute(category: Category): Attribute {
         let attribute = new Attribute(0, category.categoryDetail, category.desc, category.name,
-                            category.categoryId, null, 0, groupCategoryAttributeTypeId,
+                            category.categoryId, null, 0, attributeTypes.GroupCategoryAttributeTypeId,
                             null, null);
 
         if (category.attribute != null) {
