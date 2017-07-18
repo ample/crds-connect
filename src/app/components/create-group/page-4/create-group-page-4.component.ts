@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
 import { Observable } from 'rxjs';
 
-import { Address } from '../../../models';
-import { Attribute } from '../../../models';
+import { Address, Attribute } from '../../../models';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';

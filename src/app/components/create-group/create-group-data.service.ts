@@ -85,7 +85,7 @@ export class CreateGroupService {
     * This will clear meeting day, meeting time, and meeting frequency
     * this is called when meeting time type is flexible
     */
-    public clearMeetingTimeData() {
+    public clearMeetingTimeData(): void {
         this.group.meetingDayId = null;
         this.group.meetingFrequencyId = null;
         this.group.meetingTime = null;

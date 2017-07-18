@@ -18,7 +18,7 @@ export class CreateGroupPage3Component implements OnInit {
     private usStatesList: string[] = usStatesList;
     private isSubmitted: boolean = false;
 
-    private meetingFrequencies = meetingFrequencies;
+    private meetingFrequencies: Array<any> = meetingFrequencies;
 
     constructor(private fb: FormBuilder,
                 private state: StateService,
