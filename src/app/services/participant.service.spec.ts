@@ -18,7 +18,8 @@ describe('ParticipantService', () => {
 
 
     beforeEach(() => {
-        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'getContactId', 'post']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'getWithoutMappingReturnedData',
+            'getContactId', 'post']);
 
         TestBed.configureTestingModule({
             providers: [
@@ -373,7 +374,7 @@ describe('ParticipantService', () => {
                 <jasmine.Spy>(mockSessionService.getWithoutMappingReturnedData).and.returnValue(Observable.of(true));
                 service.doesUserLeadAnyGroups();
                 expect(mockSessionService.getContactId).toHaveBeenCalled();
-                expect(mockSessionService.get).toHaveBeenCalled();
+                expect(mockSessionService.getWithoutMappingReturnedData).toHaveBeenCalled();
             })
         );
 
@@ -383,7 +384,7 @@ describe('ParticipantService', () => {
                 <jasmine.Spy>(mockSessionService.getWithoutMappingReturnedData).and.returnValue(Observable.of(true));
                 service.doesUserLeadAnyGroups();
                 expect(mockSessionService.getContactId).toHaveBeenCalled();
-                expect(mockSessionService.get).not.toHaveBeenCalled();
+                expect(mockSessionService.getWithoutMappingReturnedData).not.toHaveBeenCalled();
             })
         );
     });
