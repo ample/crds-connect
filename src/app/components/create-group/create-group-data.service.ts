@@ -81,6 +81,18 @@ export class CreateGroupService {
         Object.assign(this.group.attributeTypes, this.group.attributeTypes, jsonObject);
     }
 
+    /* 
+    * This will clear meeting day, meeting time, and meeting frequency
+    * this is called when meeting time type is flexible
+    */
+    public clearMeetingTimeData() {
+        this.group.meetingDayId = null;
+        this.group.meetingFrequencyId = null;
+        this.group.meetingTime = null;
+        this.group.meetingDay = null;
+        this.group.meetingFrequency = null;
+    }
+
     private createCategoryDetailAttribute(category: Category): Attribute {
         let attribute = new Attribute(0, category.categoryDetail, category.desc, category.name,
                             category.categoryId, null, 0, attributeTypes.GroupCategoryAttributeTypeId,

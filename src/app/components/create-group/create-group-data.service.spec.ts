@@ -125,4 +125,21 @@ describe('CreateGroupService', () => {
             expect(s.group.attributeTypes[attributeTypes.AgeRangeAttributeTypeId].attributes[0].attributeId).toBe(7089);
         })
     );
+
+    it('should clear meeting time data',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            s.group = Group.overload_Constructor_CreateGroup(4);
+            s.group.meetingDay = 'Thorsday';
+            s.group.meetingDayId = 1;
+            s.group.meetingFrequency = 'all the time';
+            s.group.meetingFrequencyId = 6;
+            s.group.meetingTime = 'that one time';
+            s.clearMeetingTimeData();
+            expect(s.group.meetingDay).toBeNull();
+            expect(s.group.meetingDayId).toBeNull();
+            expect(s.group.meetingFrequency).toBeNull();
+            expect(s.group.meetingFrequencyId).toBeNull();
+            expect(s.group.meetingTime).toBeNull();
+        })
+    );
 });

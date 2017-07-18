@@ -29,7 +29,10 @@ describe('CreateGroupPage2Component', () => {
 
     beforeEach(() => {
         mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        mockCreateGroupService = <CreateGroupService>{ meetingTimeType: 'specific', group: Group.overload_Constructor_One(0, []) },
+        //mockCreateGroupService = <CreateGroupService>{ meetingTimeType: 'specific', group: Group.overload_Constructor_One(0, []) },
+        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['clearMeetingTimeData']);
+        mockCreateGroupService.meetingTimeType = 'specific';
+        mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getDaysOfTheWeek']);
@@ -98,5 +101,31 @@ describe('CreateGroupPage2Component', () => {
     it('should go back', () => {
         comp.back();
         expect(mockLocationService.back).toHaveBeenCalled();
+    });
+
+    it('should submit if valid', () => {
+        let form = new FormGroup({});
+        spyOn(comp, 'removeMeetingInfoFromGroupIfFlexible');
+        comp.onSubmit(form);
+        expect(comp['removeMeetingInfoFromGroupIfFlexible']).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-3']);
+        expect(mockState.setLoading).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not submit if form is invalid', () => {
+        let form  = new FormGroup({
+            stuff: new FormControl('', Validators.required)
+        });
+
+        spyOn(comp, 'removeMeetingInfoFromGroupIfFlexible');
+        comp.onSubmit(form);
+        expect(comp['removeMeetingInfoFromGroupIfFlexible']).not.toHaveBeenCalled();
+        expect(mockRouter.navigate).not.toHaveBeenCalled();
+        expect(mockState.setLoading).toHaveBeenCalledTimes(2);
+    });
+
+    it('should call clearMeetingTimeData if removeMeetingInfoFromGroupIfFlexible', () => {
+        comp['createGroupService'].meetingTimeType = 'flexible';
+        comp['removeMeetingInfoFromGroupIfFlexible']();
     });
 });

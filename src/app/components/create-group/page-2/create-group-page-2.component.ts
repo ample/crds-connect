@@ -72,9 +72,16 @@ export class CreateGroupPage2Component implements OnInit {
         this.state.setLoading(true);
         this.isSubmitted = true;
         if (form.valid) {
+            this.removeMeetingInfoFromGroupIfFlexible();
             this.router.navigate(['/create-group/page-3']);
         } else {
             this.state.setLoading(false);
+        }
+    }
+
+    private removeMeetingInfoFromGroupIfFlexible() {
+        if (this.createGroupService.meetingTimeType === 'flexible') {
+            this.createGroupService.clearMeetingTimeData();
         }
     }
 
