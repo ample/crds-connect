@@ -1,108 +1,178 @@
-/* tslint:disable:no-unused-variable */
+import { TestBed, async, inject } from '@angular/core/testing';
 
-import { TestBed, inject } from '@angular/core/testing';
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { AppSettingsService } from './app-settings.service';
+import { GoogleMapService } from './google-map.service';
+import { Address, Group, MapBoundingBox, MapView, Pin, pinType } from '../models';
+import { AppType } from '../shared/constants';
 
-import { AgmCoreModule, GoogleMapsAPIWrapper }  from 'angular2-google-maps/core';
-import { MapComponent } from '../components/map/map.component';
-import { MapContentComponent } from '../components/map-content/map-content.component';
-import { MapFooterComponent } from '../components/map-footer/map-footer.component';
-import { SearchLocalComponent } from '../components/search-local/search-local.component';
+function generatePin(lat: number, lng: number, name: string): Pin {
+  const newAddress = {
+    addressId: 1,
+    addressLine1: 'foo',
+    addressLine2: 'foo',
+    city: 'foo',
+    state: 'foo',
+    foreignCountry: 'foo',
+    county: 'foo',
+    zip: 'foo',
+    latitude: lat,
+    longitude: lng
+  };
 
-import { AddressService } from '../services/address.service';
-import { BlandPageService } from '../services/bland-page.service';
-import { IFrameParentService } from './/iframe-parent.service';
-import { IPService } from '../services/ip.service';
-import { NeighborsHelperService } from '../services/neighbors-helper.service';
-import { SearchService } from '../services/search.service';
-import { SessionService } from './/session.service';
-import { StateService } from './/state.service';
-import { StoreService } from './/store.service';
-import { SiteAddressService } from '../services/site-address.service';
-import { GoogleMapService } from './/google-map.service';
-import { LoginRedirectService } from './/login-redirect.service';
-import { Angulartics2 } from 'angulartics2';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
-import { PinLabelService } from '../services/pin-label.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule  } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AlertModule } from 'ngx-bootstrap';
-import { LocationService } from './/location.service';
-import { PinService}  from './/pin.service';
-import { UserLocationService } from './/user-location.service';
-import { AppSettingsService } from './/app-settings.service';
+  return {
+    firstName: name,
+    lastName: 'foo',
+    siteName: 'foo',
+    emailAddress: 'foo',
+    contactId: 1,
+    participantId: 1,
+    hostStatus: 1,
+    gathering: new Group(),
+    address: newAddress,
+    pinType: pinType.PERSON,
+    proximity: 1,
+    householdId: 1,
+    updateHomeAddress: false,
+    iconUrl: 'foo',
+    title: 'foo'
+  };
+}
 
-import { GeoCoordinates } from '../models/geo-coordinates';
+function testCalculateZoom(pins: Pin[], GoogleMapService: any) {
+  // Parameters for calculateZoom:
+  const initialZoom: number = 10;
+  const initialLat: number = 39.159398;   // Crossroads Oakley
+  const initialLng: number = -84.423367;  // Crossroads Oakley
+  const viewtype: string = 'world';
 
-import { GoogleMapClusterDirective } from  '../directives/google-map-cluster.directive';
+  // Calculate the zoom and get the resulting pinsInBounds:
+  const calculatedZoom: number = GoogleMapService['calculateZoom'](initialZoom, initialLat, initialLng, pins, viewtype);
+  const mapParams: MapView = new MapView('testMapView', initialLat, initialLng, calculatedZoom);
+  const geoBounds: MapBoundingBox = GoogleMapService['calculateGeoBounds'](mapParams);
+  const pinsInBounds: Pin[] = GoogleMapService['getPinsInBounds'](geoBounds, pins);
+
+  return [calculatedZoom, pinsInBounds];
+}
 
 describe('Service: Google Map', () => {
+    let mockAppSettingsService;
 
-  let mockHeightAdjustment = 4;
+    let pinsInBounds;
+    let calculatedZoom;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        MapComponent,
-        MapContentComponent,
-        MapFooterComponent,
-        SearchLocalComponent,
-        GoogleMapClusterDirective
-      ],
-      imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, JsonpModule, ReactiveFormsModule, AlertModule,
-        AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-        })
-      ],
-      providers: [
-        AddressService,
-        BlandPageService,
-        UserLocationService,
-        IPService,
-        LocationService,
-        PinService,
-        GoogleMapService,
-        GoogleMapsAPIWrapper,
-        IFrameParentService,
-        NeighborsHelperService,
-        PinLabelService,
-        SearchService,
-        SiteAddressService,
-        StoreService,
-        StateService,
-        SessionService,
-        CookieService,
-        Angulartics2,
-        LoginRedirectService,
-        AppSettingsService
-      ]
+    beforeEach(() => {
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp']);
+        TestBed.configureTestingModule({providers: [
+          {provide: AppSettingsService, useValue: mockAppSettingsService},
+          GoogleMapService
+        ]});
     });
-    this.fixture = TestBed.createComponent(MapComponent);
-    this.component = this.fixture.componentInstance;
 
+  describe('Testing in groups app mode', () => {
+    //  Points:
+    //  1. Point is close (zoom > 15)
+    //  2. Point is far away (zoom < 3)
+    //  3. Point is medium distance (3 < zoom < 15)
+    //  4. Point is medium distance (3 < zoom < 15) but farther away than point 3
+    const pnt1 = generatePin(39.159398, -84.423367, 'pnt1');  // Crossroads Oakley
+    const pnt2 = generatePin(34.459205, 113.021052, 'pnt2');  // Shaolin Temple
+    const pnt3 = generatePin(39.146979, -84.445654, 'pnt3');  // Rookwood Commons
+    const pnt4 = generatePin(39.131080, -84.517784, 'pnt4');  // University of Cincinnati
+
+    //  Tests:
+    //  1. Search does not match any points
+    //      pop should not contain any points
+    //      zoom should be 3
+    //  2. Search matches point 1
+    //     pop should contain the first point
+    //     zoom should be 15
+    //  3. Search matches point 2
+    //     pop not contain any points
+    //     zoom should be 3
+    //  4. Search matches points 3 and 4
+    //     pop should contain only point 3
+    it('Should handle no pins', inject([GoogleMapService], (GoogleMapService: any) => {
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([], GoogleMapService);
+
+      expect(calculatedZoom).toEqual(3 - .25);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
+      expect(pinsInBounds.length).toBe(0);
+    }));
+
+    it('Should not zoom in greater than 15', inject([GoogleMapService], (GoogleMapService: any) => {
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt1], GoogleMapService);
+      expect(calculatedZoom).toEqual(15 - .25);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
+      expect(pinsInBounds).toEqual([pnt1]);
+    }));
+
+    it('Should not zoom out greater than 3', inject([GoogleMapService], (GoogleMapService: any) => {
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt2], GoogleMapService);
+
+      expect(calculatedZoom).toEqual(3 - .25);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
+      expect(pinsInBounds.length).toBe(0);
+    }));
+
+    it('Should not continue zooming out when it has already found a point', inject([GoogleMapService], (GoogleMapService: any) => {
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt3, pnt4], GoogleMapService);
+
+      expect(pinsInBounds).toEqual([pnt3]);
+    }));
   });
 
-  it('should create an instance', inject([GoogleMapService], (service: GoogleMapService) => {
-    expect(service).toBeTruthy();
-  }));
+  describe('Testing in connect app mode', () => {
+    beforeEach(() => {
+        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp']);
+        // Mock isConnectApp to return that the app is Connect rather than Groups:
+        mockAppSettingsService.isConnectApp.and.returnValue(true);
+        TestBed.configureTestingModule({providers: [
+          {provide: AppSettingsService, useValue: mockAppSettingsService},
+          GoogleMapService
+        ]});
+    });
 
-  it('should get a height adjustment appropriate for a one-line label', inject([GoogleMapService], (service: GoogleMapService) => {
-    let heightAdjustmentInPixels: number = service.getLabelHeightAdjustment(null, null, false);
-    expect(heightAdjustmentInPixels).toEqual(mockHeightAdjustment);
-  }));
 
-  xit('should emit geo-coordinates', () => {
+    //  Point Clusters:
+    //  1. 5 points at medium distance (3 < zoom < 15)
+    //  2. 5 points at medium distance (3 < zoom < 15) but farther away than cluster 1
+    //  3. 1 point at medium distance (3 < zoom < 15) but farther away than cluster 2
+    //  4. 1 point at far distance (zoom < 3)
+    const cluster1 = [
+      generatePin(39.146979, -84.445654, 'cluster1Pin1'),  // Rookwood Commons
+      generatePin(39.146979, -84.445655, 'cluster1Pin2'),
+      generatePin(39.146979, -84.445656, 'cluster1Pin3'),
+      generatePin(39.146979, -84.445657, 'cluster1Pin4'),
+      generatePin(39.146979, -84.445658, 'cluster1Pin5')
+    ];
 
-    const testCoords: GeoCoordinates = new GeoCoordinates(44, 44);
+    const cluster2 = [
+      generatePin(39.131080, -84.517784, 'cluster2Pin1'),  // University of Cincinnati
+      generatePin(39.131080, -84.517785, 'cluster2Pin2'),
+      generatePin(39.131080, -84.517786, 'cluster2Pin3'),
+      generatePin(39.131080, -84.517787, 'cluster2Pin4'),
+      generatePin(39.131080, -84.517788, 'cluster2Pin5')
+    ];
 
-    spyOn(this.component.mapHlpr, 'emitRefreshMap');
-    this.component.mapHlpr.emitRefreshMap(testCoords);
-    this.fixture.detectChanges();
-    expect(this.component.mapHlpr.emitRefreshMap).toHaveBeenCalledWith(testCoords);
+    const cluster3 = [
+      generatePin(39.144860, -84.618615, 'cluster3Pin1')   // Western Hills Plaza
+    ];
 
+    const cluster4 = [
+      generatePin(34.459205, 113.021052, 'cluster4Pin1')  // Shaolin Temple
+    ];
+
+    //  Tests:
+    //  1.  Search matches clusters 1, 2, and 3
+    //      pop contains only the points in clusters 1 and 2
+    //  2.  Search matches clusters 1 and 4
+    //      pop contains only the points in cluster 1
+    it('Should stop zooming out after 10 pins are found', inject([GoogleMapService], (GoogleMapService: any) => {
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([...cluster1, ...cluster2, ...cluster3], GoogleMapService);
+      expect(pinsInBounds).toEqual([...cluster1, ...cluster2]);
+    }));
+
+    it('Should stop at max zoom, even if target number of pins has not been found', inject([GoogleMapService], (GoogleMapService: any) => {
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([...cluster1, ...cluster4], GoogleMapService);
+
+      expect(pinsInBounds).toEqual(cluster1);
+    }));
   });
-
 });
