@@ -364,4 +364,27 @@ describe('ParticipantService', () => {
             })
         );
     });
+
+    describe('should check if the user leads any groups', () => {
+        it('should check if the user leads any groups',
+            inject([ParticipantService], (service: ParticipantService) => {
+                let userId: 123;
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(userId);
+                <jasmine.Spy>(mockSessionService.get).and.returnValue(Observable.of(true));
+                service.doesUserLeadAnyGroups();
+                expect(mockSessionService.getContactId).toHaveBeenCalled();
+                expect(mockSessionService.get).toHaveBeenCalled();
+            })
+        );
+
+        it('should NOT make the call if userId is null',
+            inject([ParticipantService], (service: ParticipantService) => {
+                <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(null);
+                <jasmine.Spy>(mockSessionService.get).and.returnValue(Observable.of(true));
+                service.doesUserLeadAnyGroups();
+                expect(mockSessionService.getContactId).toHaveBeenCalled();
+                expect(mockSessionService.get).not.toHaveBeenCalled();
+            })
+        );
+    });
 });
