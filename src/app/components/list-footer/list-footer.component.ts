@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Angulartics2 } from 'angulartics2';
 
@@ -31,7 +31,6 @@ export class ListFooterComponent implements OnInit, OnChanges {
   public userMapStateEnum = UserState;
 
   constructor(private listHlpr: ListHelperService,
-              private route: ActivatedRoute,
               private router: Router,
               private session: SessionService,
               public state: StateService,
