@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
     } else {
       this.defaultToGroupAppType();
     }
-    // this.appsettings.setAppSettings(AppType.Groups);
+    this.appsettings.setAppSettings(AppType.Connect);
 
   }
 

@@ -1,17 +1,24 @@
-// Positions buttons on the map
+// Positions buttons in the header
 app-map-footer {
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 5px;
-  right: 1rem;
-  z-index: 4;
-  @media (min-width: $screen-xs) {
-    top: 13px;
+  position: relative;
+
+  .btn {
+    vertical-align: top;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $cr-white;
+      text-decoration: none;
+    }
   }
-  input {
-    float: right;
-    clear: both;
+
+  .pipe {
+    display: inline-block;
+    width: 1px;
+    height: 30px;
+    margin-top: 5px;
+    background-color: rgba($cr-gray-light, 0.5);
   }
 }
 
