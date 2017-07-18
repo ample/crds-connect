@@ -68,13 +68,14 @@ export class AppComponent implements OnInit {
     let isInConnectApp: boolean = this.isInSpecifiedApp('connect', root, url);
     let isInGroupsApp: boolean = this.isInSpecifiedApp('groupsv2', root, url);
 
-    if (isInConnectApp) {
-      this.appsettings.setAppSettings(AppType.Connect);
-    } else if (isInGroupsApp) {
-      this.appsettings.setAppSettings(AppType.Groups);
-    } else {
-      this.defaultToGroupAppType();
-    }
+    // if (isInConnectApp) {
+    //   this.appsettings.setAppSettings(AppType.Connect);
+    // } else if (isInGroupsApp) {
+    //   this.appsettings.setAppSettings(AppType.Groups);
+    // } else {
+    //   this.defaultToGroupAppType();
+    // }
+    this.appsettings.setAppSettings(AppType.Groups);
 
   }
 

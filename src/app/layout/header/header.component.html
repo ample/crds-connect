@@ -1,9 +1,8 @@
 <div class="app-header">
 
   <!-- Brand Bar -->
-  <div class="brand-bar" *ngIf="state.hasBrandBar">
-    <div class="app-logo">
-
+  <div class="brand-bar" [ngClass]="appSettings.appClass()" *ngIf="state.hasBrandBar">
+    <div class="app-logo" *ngIf="appSettings.isConnectApp()">
       <svg width="75px" height="15px" viewBox="0 0 75 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g id="Page-1" stroke="none" stroke-width="1" fill="#FFFFFF" fill-rule="evenodd">
           <g id="brandbanner-logo-connect" fill-rule="nonzero">
@@ -17,7 +16,6 @@
           </g>
         </g>
       </svg>
-
     </div>
   </div>
 
