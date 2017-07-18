@@ -2,7 +2,6 @@
   <div class="row pin-details-dark dark-theme"
        [ngClass]="{ host_plain: !isInGathering && !isLeader }">
 
-
     <!--TODO: All this small group stuff should be a sub component.  all these ngIf's are going to get very hard to debug.-->
     <div class="col-xs-12 soft">
       <div class="media media-dark">
@@ -72,7 +71,7 @@
               <!--(click) = "onContactLeaderClicked();">Contact Leader</button>-->
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
-      <button class="btn primary btn-primary btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
+      <button class="btn btn-gray btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
 
       <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
         <button class="btn btn-secondary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
@@ -85,11 +84,11 @@
 
   <gathering-requests *ngIf="isLeader && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
 
-  <div *ngIf="isInGathering">
-    <h3 class="title font-size-h5">Participants</h3>
-    <hr>
+  <div *ngIf="isInGathering" class="soft-top">
+    <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Participants</h3>
+    <hr class="push-quarter-top flush-bottom">
     <div *ngFor="let participant of pin.gathering.Participants">
-      <div class="border-bottom soft-quarter-bottom">
+      <div class="border-bottom">
         <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [isLeader]="isLeader"></participant-card>
       </div>
     </div>
@@ -97,6 +96,16 @@
   </div>
 
   <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
+  <add-someone *ngIf="!appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 
-  <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
+  <div class="soft-top">
+    <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Participants</h3>
+    <hr class="push-quarter-top">
+
+    <div class="push-half-top">
+      <button class="btn btn-outline btn-primary" type="button">Leader resources</button>
+
+      <button class="btn btn-outline btn-primary" type="button">Group resources</button>
+    </div>
+  </div>
 </div>
