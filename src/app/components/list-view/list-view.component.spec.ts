@@ -7,6 +7,7 @@ import { MapContentComponent } from '../../components/map-content/map-content.co
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { Pin } from '../../models/pin';
+import { ParticipantService } from '../../services/participant.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -26,9 +27,11 @@ describe('Component: List View', () => {
     mockBlandPageService,
     mockSessionService,
     mockPinLabelService,
+    mockParticipantService,
     mockAppSettingsService;
 
   beforeEach(() => {
+    mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['doesUserLeadAnyGroups']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
     mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelperService', ['constructor']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
@@ -50,6 +53,7 @@ describe('Component: List View', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        { provide: ParticipantService, useValue: mockParticipantService },
         { provide: StateService, useValue: mockStateService },
         { provide: ListHelperService, useValue: mockListHelperService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
