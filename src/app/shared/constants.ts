@@ -2,13 +2,18 @@ export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossr
 
 export const AgeGroupAttributeTypeId: number = 91;
 export const GroupGenderMixTypeAttributeId: number = 73;
+export const groupCategoryAttributeTypeId: number = 90;
+export const MiddleSchoolAgeRangeAttributeId: number = 7089;
+export const HighSchoolAgeRangeAttributeId: number = 7090;
+export const SpiritualGrowthCongregationId: number = 8;
+export const SmallGroupTypeId: number = 1;
 
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
   lng: -84.423367
 };
 
-export const groupCategoryAttributeTypeId = 90;
+
 
 export const earthsRadiusInMiles: number = 3443.9;
 

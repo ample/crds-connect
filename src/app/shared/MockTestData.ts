@@ -1,4 +1,6 @@
-import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto } from '../models';
+import { attachEmbeddedView } from '@angular/core/src/view/view_attach';
+
+import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto, AttributeType, Attribute } from '../models';
 export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
@@ -106,7 +108,7 @@ export class MockTestData {
             'congregation' + designator.toString(),
             designator,
             designator,
-            new Date(2016, 5).toDateString(),
+            new Date(2016, 5).getUTCDate(),
             null,
             0,
             true,
@@ -158,6 +160,25 @@ export class MockTestData {
             `email${designator}@email.com`,
             this.getAnAddress(designator)
         );
+    }
+
+    public static getSomeGroupTypeAttributes(): AttributeType {
+        let attributes: Attribute[] = [
+            new Attribute(1, 'Errbody welcome', '(errbody)', null, null, null, 0, 73, null, null ),
+            new Attribute(2, 'Ladies in da house', '(guuurl)', null, null, null, 1, 73, null, null ),
+            new Attribute(3, 'dudebros', '(bros)', null, null, null, 2, 73, null, null)
+        ];
+        return new AttributeType('group type', 73, false, attributes);
+    }
+
+    public static getSomeAgeRangeAttributes(): AttributeType {
+        let attributes: Attribute[] = [
+            <Attribute>{attributeId: 7089, name: 'middle skool', sortOrder: 0, attributeTypeId: 91},
+            new Attribute(7090, 'High Scho', null, null, null, null, 1, 91, null, null),
+            new Attribute(7091, 'College and stuff', null, null, null, null, 2, 91, null, null),
+            new Attribute(7092, 'Dead', null, null, null, null, 3, 91, null, null)
+        ];
+        return new AttributeType('Age Range', 91, true, attributes);
     }
 
     constructor() {}

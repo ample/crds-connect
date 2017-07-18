@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Address, Group, Attribute } from '../../models';
+import { Address, Attribute, AttributeType, Group } from '../../models';
 import { Category } from '../../models/category';
 import { LookupService } from '../../services/lookup.service';
-import { groupCategoryAttributeTypeId } from '../../shared/constants';
+import { SessionService } from '../../services/session.service';
+import {
+    AgeGroupAttributeTypeId,
+    groupCategoryAttributeTypeId,
+    GroupGenderMixTypeAttributeId,
+} from '../../shared/constants';
 
 @Injectable()
 export class CreateGroupService {
@@ -14,13 +19,18 @@ export class CreateGroupService {
 
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
-    public group: Group = Group.overload_Constructor_One(0, []);
+    public group: Group;
 
-    constructor(private lookupService: LookupService) {
+    public selectedGroupGenderMix: Attribute = Attribute.constructor_create_group();
+    public selectedAgeRanges: Attribute[] = [];
+
+    constructor(private lookupService: LookupService, private session: SessionService) {
+        this.group.contactId = this.session.getContactId();
     }
 
     public initializePageOne(): Observable<Category[]> {
         if (!this.pageOneInitialized) {
+            this.group = Group.overload_Constructor_CreateGroup(this.session.getContactId());
             return this.lookupService.getCategories()
             .do((cats: Category[]) => {
                 this.categories = cats;
@@ -50,6 +60,27 @@ export class CreateGroupService {
             attributeTypeId: groupCategoryAttributeTypeId,
             name: 'Group Category',
             attributes: attributes
+        };
+
+        Object.assign(this.group.attributeTypes, this.group.attributeTypes, jsonObject);
+    }
+
+    public addGroupGenderMixTypeToGroupModel(): void {
+        let jsonObject = {};
+
+        jsonObject[GroupGenderMixTypeAttributeId] = {
+            attribute: this.selectedGroupGenderMix
+        };
+        this.group.singleAttributes = jsonObject;
+    }
+
+    public addAgeRangesToGroupModel(): void {
+
+        let jsonObject = {};
+        jsonObject[AgeGroupAttributeTypeId] = {
+            attributeTypeId: AgeGroupAttributeTypeId,
+            name: null,
+            attributes: this.selectedAgeRanges
         };
 
         Object.assign(this.group.attributeTypes, this.group.attributeTypes, jsonObject);

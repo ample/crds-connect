@@ -18,11 +18,11 @@ export class LookupService {
         return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`);
     }
 
-    public getAgeGroups(): Observable<AttributeType> {
+    public getAgeRanges(): Observable<AttributeType> {
         return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
     }
 
-    public getGroupGenderMixType(): Observable<AttributeType> {
+    public getGroupGenderMixTypes(): Observable<AttributeType> {
         return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${GroupGenderMixTypeAttributeId}`);
     }
 

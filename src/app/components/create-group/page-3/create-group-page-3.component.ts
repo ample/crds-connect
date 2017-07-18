@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
 
 import { Address } from '../../../models';
-import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { meetingFrequencies, usStatesList } from '../../../shared/constants';
@@ -26,19 +24,19 @@ export class CreateGroupPage3Component implements OnInit {
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router,
-                private locationService: Location,
-                private lookupService: LookupService) { }
+                private locationService: Location) { }
 
     ngOnInit() {
         this.state.setPageHeader('start a group', '/create-group/page-2');
         this.locationForm = this.fb.group({
-            isInPerson: [this.createGroupService.meetingIsInPerson, Validators.required],
-            address: [this.createGroupService.group.address.addressLine1, Validators.required],
-            city: [this.createGroupService.group.address.city, Validators.required],
-            state: [this.createGroupService.group.address.state, Validators.required],
-            zip: [this.createGroupService.group.address.zip, Validators.required],
-            kidsWelcome: [this.createGroupService.group.kidsWelcome, Validators.required]
+            isInPerson: [this.createGroupService.meetingIsInPerson],
+            address: [this.createGroupService.group.address.addressLine1],
+            city: [this.createGroupService.group.address.city],
+            state: [this.createGroupService.group.address.state],
+            zip: [this.createGroupService.group.address.zip],
+            kidsWelcome: [this.createGroupService.group.kidsWelcome]
         });
+        this.setRequiredFields(this.createGroupService.meetingIsInPerson);
         this.state.setLoading(false);
 
     }
@@ -47,7 +45,7 @@ export class CreateGroupPage3Component implements OnInit {
         this.setRequiredFields(value);
     }
 
-    private setRequiredFields(required: boolean) {
+    private setRequiredFields(required: boolean): void {
         if (required) {
             this.locationForm.controls['address'].setValidators(Validators.required);
             this.locationForm.controls['city'].setValidators(Validators.required);
@@ -78,9 +76,7 @@ export class CreateGroupPage3Component implements OnInit {
     public onSubmit(form: FormGroup) {
         this.isSubmitted = true;
         if (form.valid) {
-            // Do Something
-        } else {
-            // Do something else
+            this.router.navigate(['/create-group/page-4']);
         }
     }
 

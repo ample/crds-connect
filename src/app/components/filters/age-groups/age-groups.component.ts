@@ -34,7 +34,7 @@ export class AgeGroupsComponent implements OnInit {
   }
 
  private initializeAgeGroups(): void {
-      this.lookupService.getAgeGroups().subscribe(
+      this.lookupService.getAgeRanges().subscribe(
           ages => {
             this.ageGroups = [];
             for (let age of ages.attributes) {
