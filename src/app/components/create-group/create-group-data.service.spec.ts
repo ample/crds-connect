@@ -1,25 +1,27 @@
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { LookupService } from '../../services/lookup.service';
-import { groupCategoryAttributeTypeId } from '../../shared/constants';
+import {
+    AgeGroupAttributeTypeId,
+    groupCategoryAttributeTypeId,
+    GroupGenderMixTypeAttributeId, } from '../../shared/constants';
 import { MockTestData } from '../../shared/MockTestData';
 import { CreateGroupService } from './create-group-data.service';
+import { SessionService } from '../../services/session.service';
+import { Group } from '../../models';
 
 describe('CreateGroupService', () => {
     let service;
-    let mockLookupService;
+    let mockLookupService, mockSessionService;
 
     beforeEach(() => {
         mockLookupService = jasmine.createSpyObj<LookupService>('lookupService', ['getCategories']);
+        mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         TestBed.configureTestingModule({
             providers: [
                 CreateGroupService,
-                { provide: LookupService, useValue: mockLookupService }
-                // for additional providers, write as examples below
-                // ServiceName,
-                // { provider: ServiceName, useValue: fakeServiceName },
-                // { provider: ServiceName, useClass: FakeServiceClass },
-                // { provider: ServiceName, useFactory: fakeServiceFactory, deps: [] },
+                { provide: LookupService, useValue: mockLookupService },
+                { provide: SessionService, useValue: mockSessionService }
             ]
         });
     });
@@ -36,11 +38,15 @@ describe('CreateGroupService', () => {
         inject([CreateGroupService], (s: CreateGroupService) => {
             let categories = MockTestData.getSomeCategories();
             (mockLookupService.getCategories).and.returnValue(Observable.of(categories));
+            (mockSessionService.getContactId).and.returnValue(4);
 
             s.initializePageOne().subscribe(result => {
                 expect(result).toBe(categories);
                 expect(s.categories).toBe(categories);
                 expect(mockLookupService.getCategories).toHaveBeenCalledTimes(1);
+                expect(s.group).toBeTruthy();
+                expect(s.group.contactId).toBe(4);
+                expect(mockSessionService.getContactId).toHaveBeenCalled();
             });
         })
     );
@@ -89,6 +95,7 @@ describe('CreateGroupService', () => {
     it('should add attributes to group model',
         inject([CreateGroupService], (s: CreateGroupService) => {
             let categories = MockTestData.getSomeCategories();
+            s.group = Group.overload_Constructor_CreateGroup(4);
             s.categories = categories;
             s['pageOneInitialized'] = true;
             s.categories[0].selected = true;
@@ -98,6 +105,27 @@ describe('CreateGroupService', () => {
             expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributeTypeId).toBe(groupCategoryAttributeTypeId);
             expect(s.group.attributeTypes[groupCategoryAttributeTypeId].name).toBe('Group Category');
             expect(s.group.attributeTypes[groupCategoryAttributeTypeId].attributes.length).toBe(2);
+        })
+    );
+
+    it('should add groupGenderMixType to groupModel',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            let groupGenderMixTypes = MockTestData.getSomeGroupTypeAttributes().attributes;
+            s.selectedGroupGenderMix = groupGenderMixTypes[0];
+            s.group = Group.overload_Constructor_CreateGroup(4);
+            s.addGroupGenderMixTypeToGroupModel();
+            expect(s.group.singleAttributes[GroupGenderMixTypeAttributeId]).toBeTruthy();
+            expect(s.group.singleAttributes[GroupGenderMixTypeAttributeId].attribute.attributeId).toBe(1);
+        })
+    );
+
+    it('should add ageRanges to groupModel',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
+            s.selectedAgeRanges = [ageRanges[0]];
+            s.group = Group.overload_Constructor_CreateGroup(4);
+            s.addAgeRangesToGroupModel();
+            expect(s.group.attributeTypes[AgeGroupAttributeTypeId].attributes[0].attributeId).toBe(7089);
         })
     );
 });

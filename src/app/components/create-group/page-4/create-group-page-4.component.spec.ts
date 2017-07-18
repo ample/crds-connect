@@ -58,12 +58,12 @@ describe('CreateGroupPage4Component', () => {
         });
     }));
 
-    fit('should get an instance', () => {
+    it('should get an instance', () => {
         fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 
-    fit('should init', () => {
+    it('should init', () => {
         mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(MockTestData.getSomeGroupTypeAttributes()));
         mockLookupService.getAgeRanges.and.returnValue(Observable.of(MockTestData.getSomeAgeRangeAttributes()));
         spyOn(comp, 'setSelectedAgeRanges');
@@ -77,7 +77,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['setIsStudentMinistrySelected']).toHaveBeenCalledTimes(1);
     });
 
-    fit('init should handle error', () => {
+    it('init should handle error', () => {
         mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(MockTestData.getSomeGroupTypeAttributes()));
         mockLookupService.getAgeRanges.and.returnValue(Observable.throw({error: 500}));
         spyOn(comp, 'setSelectedAgeRanges');
@@ -92,7 +92,7 @@ describe('CreateGroupPage4Component', () => {
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('/create-group/page-3');
     });
 
-    fit('onClickMixType should overwrite what is currently stored in the service and set genderMixInvalid to false', () => {
+    it('onClickMixType should overwrite what is currently stored in the service and set genderMixInvalid to false', () => {
         let groupGenderMixTypes = MockTestData.getSomeGroupTypeAttributes();
         spyOn(comp, 'setSelectedAgeRanges');
         spyOn(comp, 'setIsStudentMinistrySelected');
@@ -105,7 +105,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['createGroupService'].selectedGroupGenderMix).toBe(groupGenderMixTypes[0]);
     });
 
-    fit('setSelectedAgeRanges should mark selected age ranges in component based on service data', () => {
+    it('setSelectedAgeRanges should mark selected age ranges in component based on service data', () => {
         let ageRanges = MockTestData.getSomeAgeRangeAttributes();
         comp['ageRanges'] = ageRanges.attributes.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.attributes.slice(1, 2);
@@ -114,7 +114,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['ageRanges'][0].selected).toBeFalsy();
     });
 
-    fit('onClickAgeRange should add ageRange to selected list if it is not already selected', () => {
+    it('onClickAgeRange should add ageRange to selected list if it is not already selected', () => {
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp['selectedAgeRangesInvalid'] = true;
         comp['createGroupService'].selectedAgeRanges = <Attribute[]>[];
@@ -128,7 +128,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['selectedAgeRangesInvalid']).toBe(false);
     });
 
-    fit('onClickAgeRange should remove ageRange from selectedList if it is already selected', () => {
+    it('onClickAgeRange should remove ageRange from selectedList if it is already selected', () => {
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp['selectedAgeRangesInvalid'] = true;
         let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
@@ -140,7 +140,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['selectedAgeRangesInvalid']).toBeTruthy();
     });
 
-    fit('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if middle school is selected', () => {
+    it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if middle school is selected', () => {
         let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(0, 1);
@@ -148,7 +148,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['isStudentMinistrySelected']).toBe(true);
     });
 
-    fit('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if high school is selected', () => {
+    it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if high school is selected', () => {
         let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(1, 2);
@@ -156,7 +156,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['isStudentMinistrySelected']).toBe(true);
     });
 
-    fit('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if middle school and high school is selected', () => {
+    it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to true if middle school and high school is selected', () => {
         let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(0, 2);
@@ -164,7 +164,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['isStudentMinistrySelected']).toBe(true);
     });
 
-    fit('setIsStudentMinsitrySelected should set isStudentMinistrySelected to false if middle nor high school are selected', () => {
+    it('setIsStudentMinsitrySelected should set isStudentMinistrySelected to false if middle nor high school are selected', () => {
         let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
         comp['ageRanges'] = ageRanges.slice();
         comp['createGroupService'].selectedAgeRanges = ageRanges.slice(2, 3);
@@ -172,7 +172,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['isStudentMinistrySelected']).toBe(false);
     });
 
-    fit('should submit for if valid', () => {
+    it('should submit for if valid', () => {
         comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(0);
         spyOn(comp, 'validateForm').and.returnValue(true);
         comp['isStudentMinistrySelected'] = true;
@@ -184,7 +184,7 @@ describe('CreateGroupPage4Component', () => {
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
     });
 
-    fit('should not submit if invalid', () => {
+    it('should not submit if invalid', () => {
         comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(0);
         spyOn(comp, 'validateForm').and.returnValue(false);
         comp['isStudentMinistrySelected'] = true;
@@ -196,14 +196,14 @@ describe('CreateGroupPage4Component', () => {
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     })
 
-    fit('validate form should return false if selectedGroupGenderMix is not selected', () => {
+    it('validate form should return false if selectedGroupGenderMix is not selected', () => {
         let result = comp['validateForm']();
         expect(result).toBe(false);
         expect(comp['groupGenderMixInvalid']).toBe(true);
         expect(comp['selectedAgeRangesInvalid']).toBe(true);
     });
 
-    fit('validate form should return false if selected age ranges length is less than 1', () => {
+    it('validate form should return false if selected age ranges length is less than 1', () => {
         let genderMixes = MockTestData.getSomeGroupTypeAttributes().attributes;
         comp['createGroupService'].selectedGroupGenderMix = genderMixes[0];
         let result = comp['validateForm']();
@@ -212,7 +212,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['selectedAgeRangesInvalid']).toBe(true);
     });
 
-    fit('validate form should return true if everything has valid values', () => {
+    it('validate form should return true if everything has valid values', () => {
         let genderMixes = MockTestData.getSomeGroupTypeAttributes().attributes;
         let ageRanges = MockTestData.getSomeAgeRangeAttributes().attributes;
         comp['createGroupService'].selectedGroupGenderMix = genderMixes[0];
@@ -223,7 +223,7 @@ describe('CreateGroupPage4Component', () => {
         expect(comp['selectedAgeRangesInvalid']).toBe(false);
     });
 
-    fit('should go back', () => {
+    it('should go back', () => {
         comp.back();
         expect(mockLocationService.back).toHaveBeenCalled();
     });

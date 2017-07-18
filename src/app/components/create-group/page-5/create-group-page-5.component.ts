@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
-import { Address } from '../../../models';
-import { Attribute } from '../../../models';
-import { BlandPageService } from '../../../services/bland-page.service';
-import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 
@@ -27,11 +22,9 @@ export class CreateGroupPage5Component implements OnInit {
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router,
-                private locationService: Location,
-                private lookupService: LookupService,
-                private blandPageService: BlandPageService) { }
+                private locationService: Location) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.state.setPageHeader('start a group', '/create-group/page-4');
         this.groupDetailsForm = this.fb.group({
             groupName: [this.createGroupService.group.groupName, Validators.required],
@@ -46,17 +39,19 @@ export class CreateGroupPage5Component implements OnInit {
         this.createGroupService.group.availableOnline = value;
     }
 
-    public onSubmit(form: FormGroup) {
+    public onSubmit(form: FormGroup): void {
+        this.state.setLoading(true);
         this.isSubmitted = true;
         if (form.valid && this.createGroupService.group.availableOnline != null) {
-            // this.router.navigate(['/create-group/page-6']);
+            this.router.navigate(['/create-group/page-6']);
         } else {
             this.groupVisabilityInvalid = true;
+            this.state.setLoading(false);
         }
     }
 
 
-    public back() {
+    public back(): void {
         this.locationService.back();
     }
 }

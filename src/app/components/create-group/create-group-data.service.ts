@@ -25,7 +25,6 @@ export class CreateGroupService {
     public selectedAgeRanges: Attribute[] = [];
 
     constructor(private lookupService: LookupService, private session: SessionService) {
-        this.group.contactId = this.session.getContactId();
     }
 
     public initializePageOne(): Observable<Category[]> {

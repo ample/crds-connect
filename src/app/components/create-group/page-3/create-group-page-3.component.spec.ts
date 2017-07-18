@@ -47,12 +47,12 @@ describe('CreateGroupPage3Component', () => {
         });
     }));
 
-    fit('should create an instance', () => {
+    it('should create an instance', () => {
         fixture.detectChanges();
         expect(comp).toBeTruthy();
     });
 
-    fit('should init (meetingIsInPerson set to false)', () => {
+    it('should init (meetingIsInPerson set to false)', () => {
         spyOn(comp, 'setRequiredFields');
         comp.ngOnInit();
         expect(comp.locationForm.controls['isInPerson']).toBeTruthy();
@@ -61,7 +61,7 @@ describe('CreateGroupPage3Component', () => {
         expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     });
 
-    fit('should init (meetingIsInPerson set to true)', () => {
+    it('should init (meetingIsInPerson set to true)', () => {
         comp['createGroupService'].meetingIsInPerson = true;
         spyOn(comp, 'setRequiredFields');
         comp.ngOnInit();
@@ -70,47 +70,47 @@ describe('CreateGroupPage3Component', () => {
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
     });
 
-    fit('onClickIsOnline(true)', () => {
+    it('onClickIsOnline(true)', () => {
         spyOn(comp, 'setRequiredFields');
         comp['onClickIsOnline'](true);
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
     });
 
-    fit('onClickIsOnline(false)', () => {
+    it('onClickIsOnline(false)', () => {
         spyOn(comp, 'setRequiredFields');
         comp['onClickIsOnline'](false);
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(false);
     });
 
-    fit('should set required fields to required', () => {
+    it('should set required fields to required', () => {
         comp.ngOnInit();
         comp['setRequiredFields'](true);
         expect(comp.locationForm.controls['address'].validator).toBeTruthy();
         expect(comp.locationForm.controls['kidsWelcome'].validator).toBeTruthy();
     });
 
-    fit('should set required fields to not required', () => {
+    it('should set required fields to not required', () => {
         comp.ngOnInit();
         comp['setRequiredFields'](false);
         expect(comp.locationForm.controls['address'].validator).toBeFalsy();
         expect(comp.locationForm.controls['kidsWelcome'].validator).toBeFalsy();
     });
 
-    fit('should set kids welcome to true', () => {
+    it('should set kids welcome to true', () => {
         comp.ngOnInit();
         comp['onClickKidsWelcome'](true);
         expect(comp.locationForm.controls['kidsWelcome'].value).toBeTruthy();
         expect(comp['createGroupService'].group.kidsWelcome).toBeTruthy();
     });
 
-    fit('should set kids welcome to false', () => {
+    it('should set kids welcome to false', () => {
         comp.ngOnInit();
         comp['onClickKidsWelcome'](false);
         expect(comp.locationForm.controls['kidsWelcome'].value).toBeFalsy();
         expect(comp['createGroupService'].group.kidsWelcome).toBeFalsy();
     });
 
-    fit('should go to next page if the form is valid', () => {
+    it('should go to next page if the form is valid', () => {
         comp.ngOnInit();
         comp['setRequiredFields'](false);
         comp.onSubmit(comp.locationForm);
@@ -118,7 +118,7 @@ describe('CreateGroupPage3Component', () => {
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-4']);
     });
 
-    fit('should NOT go to next page if the form is valid', () => {
+    it('should NOT go to next page if the form is valid', () => {
         comp.ngOnInit();
         comp['setRequiredFields'](true);
         comp.onSubmit(comp.locationForm);

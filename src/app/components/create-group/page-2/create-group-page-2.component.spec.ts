@@ -74,7 +74,6 @@ describe('CreateGroupPage2Component', () => {
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
         expect(comp['daysOfTheWeek']).toEqual(daysOfTheWeek);
         expect(mockState.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-1');
-        console.log(comp.meetingTimeForm);
     });
 
     it('init should handle error', () => {
