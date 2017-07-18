@@ -142,7 +142,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
       },
       error => {
-        console.log(error);
+        console.log(`Error returned from getPinSearchResults: ${error} `);
+
         let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
         this.state.setLastSearchSearchString(lastSearchString);
