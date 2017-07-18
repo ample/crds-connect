@@ -12,6 +12,9 @@ import { NeighborsHelperService } from '../../services/neighbors-helper.service'
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { SearchService } from '../../services/search.service';
+import { BlandPageComponent } from '../bland-page/bland-page.component';
+import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
+import { BlandPageService } from '../../services/bland-page.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -42,7 +45,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private filterService: FilterService) { }
+    private filterService: FilterService,
+    private blandPageService: BlandPageService) { }
 
   public ngOnDestroy(): void {
     if (this.pinSearchSub) {
@@ -141,13 +145,25 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         console.log(error);
         let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
-        this.state.lastSearch.search = lastSearchString;
+        this.state.setLastSearchSearchString(lastSearchString);
         this.state.setLoading(false);
-        this.goToNoResultsPage();
+        this.goToErrorPage();
       });
-
   }
 
+  private goToErrorPage() {
+    let errorText = 'Oops, looks like there was a problem. Please try again.';
+
+    this.blandPageService.primeAndGo(
+        new BlandPageDetails(
+            'Go to map',
+            errorText,
+            BlandPageType.Text,
+            BlandPageCause.Error,
+            ''
+        )
+    );
+  }
   private goToNoResultsPage() {
     this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
