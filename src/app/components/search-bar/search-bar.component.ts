@@ -40,10 +40,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public ngOnInit(): void {
 
-    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-    this.appSettings.setAppSettings(1);
-    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
     this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS : placeholderTextForSearchBar.KEYWORD;
 
     this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
