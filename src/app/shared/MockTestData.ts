@@ -1,12 +1,14 @@
-import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto } from '../models';
+import { attachEmbeddedView } from '@angular/core/src/view/view_attach';
+
+import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto, AttributeType, Attribute } from '../models';
 export class MockTestData {
 
-  public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
+public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
   hostStatus: number = 3, pinType: number = 1, numParticipantsInGathering: number = 5,
   proximity = 5): PinSearchResultsDto {
     let pins: Pin[];
     pins = new Array<Pin>();
-
+    
     for (let pin = 0; pin < numPins; pin++) {
       pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, proximity));
     }
@@ -20,40 +22,40 @@ export class MockTestData {
   }
 
   public static getAPinSearchResultsGatheringHost(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
-  hostStatus: number = 3, pinType: number = 2, numParticipantsInGathering: number = 5,
-  proximity = 5): PinSearchResultsDto {
-    let pins: Pin[];
-    pins = new Array<Pin>();
-
-    for (let pin = 0; pin < numPins; pin++) {
-      pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, proximity));
+    hostStatus: number = 3, pinType: number = 2, numParticipantsInGathering: number = 5,
+    proximity = 5): PinSearchResultsDto {
+      let pins: Pin[];
+      pins = new Array<Pin>();
+      
+      for (let pin = 0; pin < numPins; pin++) {
+        pins.push(this.getAPin(pin + designatorStart, hostStatus, pinType, numParticipantsInGathering, proximity));
+      }
+      return new PinSearchResultsDto(
+        new GeoCoordinates(
+          lat,
+          long
+        ),
+        pins
+      );
     }
-    return new PinSearchResultsDto(
-      new GeoCoordinates(
-        lat,
-        long
-      ),
-      pins
-    );
-  }
 
   public static getAPin(designator: number = 1, hostStatus: number = 3, pinType: number = 1,
-  numParticipantsInGathering: number = 5, proximity = 5): Pin {
-    return new Pin(
-      'firstName' + designator.toString(),
-      'lastName' + designator.toString(),
-      'email' + designator.toString() + '@address.com',
-      designator,
-      designator,
-      this.getAnAddress(designator),
-      hostStatus,
-      this.getAGroup(designator, numParticipantsInGathering),
-      'site' + designator.toString(),
-      pinType,
-      proximity,
-      designator
-    );
-  }
+    numParticipantsInGathering: number = 5, proximity = 5): Pin {
+      return new Pin(
+        'firstName' + designator.toString(),
+        'lastName' + designator.toString(),
+        'email' + designator.toString() + '@address.com',
+        designator,
+        designator,
+        this.getAnAddress(designator),
+        hostStatus,
+        this.getAGroup(designator, numParticipantsInGathering),
+        'site' + designator.toString(),
+        pinType,
+        proximity,
+        designator
+      );
+    }
 
   public static getAnAddress(designator: number = 1): Address {
     return new Address(
@@ -106,7 +108,7 @@ export class MockTestData {
       'congregation' + designator.toString(),
       designator,
       designator,
-      new Date(2016, 5).toDateString(),
+      new Date(2016, 5).getUTCDate(),
       null,
       0,
       true,
@@ -158,6 +160,35 @@ export class MockTestData {
       `email${designator}@email.com`,
       this.getAnAddress(designator)
     );
+  }
+
+  /**
+   * This call with return an AttributeType object
+   * That contains an array of attributes for Gender Mix Types.
+   * This is mocking what the AttributeType API call returns
+   */
+  public static getGroupGenderMixAttributeTypeWithAttributes(): AttributeType {
+    let attributes: Attribute[] = [
+      new Attribute(1, 'Errbody welcome', '(errbody)', null, null, null, 0, 73, null, null ),
+      new Attribute(2, 'Ladies in da house', '(guuurl)', null, null, null, 1, 73, null, null ),
+      new Attribute(3, 'dudebros', '(bros)', null, null, null, 2, 73, null, null)
+    ];
+    return new AttributeType('group type', 73, false, attributes);
+  }
+
+  /**
+   * This call with return an AttributeType object
+   * That contains an array of attributes for age ranges.
+   * This is mocking what the AttributeType API call returns
+   */
+  public static getAgeRangeAttributeTypeWithAttributes(): AttributeType {
+    let attributes: Attribute[] = [
+      <Attribute>{attributeId: 7089, name: 'middle skool', sortOrder: 0, attributeTypeId: 91},
+      new Attribute(7090, 'High Scho', null, null, null, null, 1, 91, null, null),
+      new Attribute(7091, 'College and stuff', null, null, null, null, 2, 91, null, null),
+      new Attribute(7092, 'Dead', null, null, null, null, 3, 91, null, null)
+    ];
+    return new AttributeType('Age Range', 91, true, attributes);
   }
 
   constructor() {}

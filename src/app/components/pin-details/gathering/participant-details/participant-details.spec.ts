@@ -11,8 +11,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
+import { GroupRole } from '../../../../shared/constants';
 import { ParticipantDetailsComponent } from './participant-details.component';
+import { ToastsManager } from 'ng2-toastr';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class ActivatedRouteStub {
     params = Observable.of({ groupId: 1234, groupParticipantId: 1 });
@@ -27,16 +30,21 @@ describe('ParticipantDetailsComponent', () => {
     let comp: ParticipantDetailsComponent;
     let el;
     let mockParticipantService, mockRouter,
-        mockStateService, mockBlandPageService, mockAddressService;
+        mockStateService, mockBlandPageService, mockAddressService, mockToast, mockContent;
     let mockRoute: ActivatedRouteStub;
 
     beforeEach(() => {
-        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant']);
-        mockRouter = { url: '/small-group/1234' };
+        mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant', 'getAllParticipantsOfRoleInGroup', 'updateParticipantRole']);
+        mockRouter = {
+            url: '/connect/gathering/1234', routerState:
+                { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
+        };
         mockRoute = new ActivatedRouteStub();
         mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
         mockBlandPageService = jasmine.createSpyObj('blandPageService', ['goToDefaultError']);
         mockAddressService = jasmine.createSpyObj('addressService', ['getPartialPersonAddress']);
+        mockToast = jasmine.createSpyObj('toast', ['warning']);
+        mockContent = jasmine.createSpyObj('content', ['getContent']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -50,7 +58,9 @@ describe('ParticipantDetailsComponent', () => {
                 { provide: Router, useValue: mockRouter },
                 { provide: StateService, useValue: mockStateService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: AddressService, useValue: mockAddressService }
+                { provide: AddressService, useValue: mockAddressService },
+                { provide: ToastsManager, useValue: mockToast},
+                { provide: ContentService, useValue: mockContent}
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -68,7 +78,7 @@ describe('ParticipantDetailsComponent', () => {
         comp.ngOnInit();
         expect(comp['loadParticipantData']).toHaveBeenCalledTimes(1);
         expect(comp['groupId']).toBe(1234);
-        expect(comp['groupParticipantId']).toBe(1)
+        expect(comp['groupParticipantId']).toBe(1);
         expect(mockStateService.setLoading).toHaveBeenCalledWith(true);
     });
 
@@ -83,6 +93,9 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(address));
+        (mockParticipantService.updateParticipantRole).and.returnValue(true);
+
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
         expect(mockParticipantService.getGroupParticipant).toHaveBeenCalledWith(groupId, groupParticipantId);
@@ -105,6 +118,7 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.of(null));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
 
@@ -126,6 +140,7 @@ describe('ParticipantDetailsComponent', () => {
 
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(participant));
         (mockAddressService.getPartialPersonAddress).and.returnValue(Observable.throw({error: 'nooooo'}));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
 
         comp['loadParticipantData']();
 
@@ -137,6 +152,7 @@ describe('ParticipantDetailsComponent', () => {
 
     it('should handle no participant found', () => {
         (mockParticipantService.getGroupParticipant).and.returnValue(Observable.of(null));
+        (mockParticipantService.getAllParticipantsOfRoleInGroup).and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
         comp['redirectUrl'] = '/small-group/1234';
 
         comp['loadParticipantData']();
@@ -185,6 +201,25 @@ describe('ParticipantDetailsComponent', () => {
         address.state = 'Ohio';
         result = comp['isParticipantAddressValid']();
         expect(result).toBe(true);
+    });
+
+    it('should set new role', () => {
+        comp['selectedRole'] = GroupRole.MEMBER;
+        comp.onSelectRole(GroupRole.APPRENTICE);
+        expect(comp['selectedRole']).toBe(GroupRole.APPRENTICE);
+    });
+
+    it('should saveChanges', () => {
+        comp['groupId'] = 123;
+        comp['selectedRole'] = 44;
+        comp['leaderCount'] = 1;
+        comp['apprenticeCount'] = 1;
+        comp['participant'] = MockTestData.getAParticipantsArray()[1];
+
+        (mockParticipantService.updateParticipantRole).and.returnValue(Observable.of(true));
+
+        comp.saveChanges();
+        expect(mockParticipantService.updateParticipantRole).toHaveBeenCalled();
     });
 
     it('AddressValid should return false when there is no object or all of zip, city, and state are null', () => {

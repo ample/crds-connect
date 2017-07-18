@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { ListFooterComponent } from './list-footer.component';
 import { ListHelperService } from '../../services/list-helper.service';
+import { ParticipantService } from '../../services/participant.service';
 import { MockComponent } from '../../shared/mock.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,9 +20,10 @@ describe('ListFooterComponent', () => {
     let comp: ListFooterComponent;
     let el;
     let mockListHelperService, mockLoginRedirectService, mockStateService, mockSessionService, mockBlandPageService,
-        mockPinLabelService, mockAppSettingsService, mockRouter;
+        mockPinLabelService, mockAppSettingsService, mockRouter, mockParticipantService;
 
     beforeEach(() => {
+        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['doesUserLeadAnyGroups']);
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHlpr', ['getUserMapState']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setCurrentView', 'getCurrentView', ]);
@@ -39,6 +41,7 @@ describe('ListFooterComponent', () => {
                 RouterTestingModule.withRoutes([])
             ],
             providers: [
+                { provide: ParticipantService, useValue: mockParticipantService },
                 { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: StateService, useValue: mockStateService },
@@ -63,7 +66,7 @@ describe('ListFooterComponent', () => {
     });
 
     it('should handle create a group clicked', () => {
-        comp.createAGroupClicked();
+        comp.onCreateAGroupClicked();
         expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/create-group');
     });
 });

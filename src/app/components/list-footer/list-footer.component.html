@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf = "isReadyToDisplayComponent">
   <!--NOT SMALL GROUPS APP - LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
   <div *ngIf="!isSmallGroupApp && (userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn)"
         class="bg-gray col-xs-12 push-top soft">
@@ -19,7 +19,12 @@
   <div *ngIf="isSmallGroupApp"
         class="bg-gray col-xs-12 push-top soft">    
     <div class="btn-group full-width">
-      <button class="btn btn-default btn-block-mobile" (click)="createAGroupClicked()">Create a group</button>
+      <button class="btn btn-default btn-block-mobile" (click)="onCreateAGroupClicked()">Create a group</button>
+      <button class="btn btn-default btn-block-mobile"
+              *ngIf = "!doesUserLeadAnyGroups"
+              (click)="onBecomeALeaderClicked()">
+        Become a Leader
+      </button>
     </div>
   </div>  
 

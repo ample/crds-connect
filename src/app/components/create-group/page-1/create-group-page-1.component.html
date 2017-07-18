@@ -35,10 +35,12 @@
                         <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
                     </div>
                 </div>
-                <div class="soft-top">
-                    <div *ngIf="isSubmitted && !anyCategorySelected" class="alert alert-danger" role="alert">Category is required</div>
+                <div class="soft-top" *ngIf="isSubmitted && !areCategoriesValid">
+                    <div class="alert alert-danger" role="alert">
+                        <crds-content-block id="finderCategoriesInvalid"></crds-content-block>
+                    </div>
                 </div>
-                <div class="col-xs-12 btn-group soft-top soft-bottom">
+                <div class="col-xs-12 btn-block-mobile soft-ends">
                     <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
                     <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                 </div>

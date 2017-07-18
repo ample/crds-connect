@@ -11,6 +11,10 @@ import { BlandPageComponent } from './components/bland-page/bland-page.component
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
+import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
+import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
+import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
@@ -64,17 +68,35 @@ const appRoutes: Routes = [
     }]
   }, {
     path: 'create-group',
-    component: CreateGroupSummaryComponent,
     canActivate: [
       LoggedInGuard,
       GroupLeaderApprovedGuard
-    ]
-  }, {
-    path: 'create-group/page-1',
-    component: CreateGroupPage1Component,
-    canActivate: [
-      LoggedInGuard,
-      GroupLeaderApprovedGuard
+    ],
+    children: [
+      {
+        path: '',
+        component: CreateGroupSummaryComponent
+      },
+      {
+        path: 'page-1',
+        component: CreateGroupPage1Component
+      },
+      {
+        path: 'page-2',
+        component: CreateGroupPage2Component
+      },
+      {
+        path: 'page-3',
+        component: CreateGroupPage3Component
+      },
+      {
+        path: 'page-4',
+        component: CreateGroupPage4Component
+      },
+      {
+        path: 'page-5',
+        component: CreateGroupPage5Component
+      }
     ]
   }, {
     path: 'contact-leader/:groupId',
@@ -187,6 +209,10 @@ const appRoutes: Routes = [
     path: 'small-group/:groupId/participant-detail/:groupParticipantId',
     component: ParticipantDetailsComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
+  }, {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove-self/:removeSelf',
+    component: ParticipantRemoveComponent,
+    canActivate: [LoggedInGuard]
   }, {
     path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
     component: ParticipantRemoveComponent,

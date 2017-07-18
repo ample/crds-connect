@@ -44,4 +44,8 @@ describe('Service: State', () => {
     expect(service.getUseZoom()).toEqual(10);
   }));
 
+  it('should set last search search string', inject([StateService], (service: any) => {
+    service.setLastSearchSearchString('crazy train');
+    expect(service.getLastSearch().search).toBe('crazy train');
+  }));
 });

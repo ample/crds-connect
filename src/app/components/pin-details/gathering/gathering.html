@@ -12,7 +12,7 @@
           <div class="media-meta">
             <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay != null">
-              <span>{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}} ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
+              <span>{{pin?.gathering?.meetingDay}} at {{ getMeetingTime() | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}} ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
             </span>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay == null">
               <span>Flexible Meeting Time ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
@@ -61,12 +61,11 @@
         <dt>Age Range</dt>
         <dd *ngFor="let age of pin?.gathering?.ageRanges">{{age}}</dd>
 
-        <dt>Leader{{leaders.length > 1 ? 's' : ''}}</dt>
-        <dd *ngFor="let leader of leaders; let isLast = last">{{leader.nickName}} {{leader.lastName}}{{isLast ? '' : ', '}}</dd>
-
+        <dt>Leader{{adjustedLeaderNames.length > 1 ? 's' : ''}}</dt>
+        <dd *ngFor="let adjustedName of adjustedLeaderNames; let isLast = last">{{adjustedName}} {{isLast ? '' : ', '}}</dd>
         <dt>Kids Welcome</dt>
         <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
-     </dl>
+      </dl>
 
       <!--<button class="btn btn-gray btn-block push-half-top btn-block-mobile"-->
               <!--*ngIf = "isInGroupApp"-->
@@ -91,9 +90,10 @@
     <hr>
     <div *ngFor="let participant of pin.gathering.Participants">
       <div class="border-bottom soft-quarter-bottom">
-        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [canBeHyperlinked]="isLeader"></participant-card>
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [isLeader]="isLeader"></participant-card>
       </div>
     </div>
+    <email-participants [participantEmails]="participantEmails"></email-participants>
   </div>
 
   <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>

@@ -1,0 +1,8 @@
+<div class="btn-group" *ngIf = "isAllDataLoaded">
+  <button *ngFor="let groupType of groupTypes"
+          (click)="onGroupTypeClicked(groupType.attribute.name)"
+          class="btn btn-option btn-outline"
+          type="button"
+          [class.active]="groupType.selected">{{groupType.attribute.name}}
+  </button>
+</div>

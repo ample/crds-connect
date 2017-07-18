@@ -31,7 +31,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
-  public searchString: string;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -41,8 +40,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public ngOnInit(): void {
 
-    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS :
-                                                                         placeholderTextForSearchBar.KEYWORD;
+    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS : placeholderTextForSearchBar.KEYWORD;
 
     this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
 
@@ -69,18 +67,19 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.setButtonText();
   }
 
-  public onSearch(searchString: string) {
-    this.searchString = searchString;
+  public onSearch(search: string) {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
 
-    let locationFilter = this.appSettings.isConnectApp() ? searchString : null;
-    let keywordString = this.appSettings.isSmallGroupApp() ? searchString : null;
+    //This needs to go away soon -- you can have location filter and keyword search in connect.
+    let locationFilter = this.appSettings.isConnectApp() ? search : null;
+    let keywordString = this.appSettings.isSmallGroupApp() ? search : null;
     let filterString: string = this.filterService.buildFilters();
 
     let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
-    this.state.lastSearch.search = searchString;
+    this.state.lastSearch.search = search;
+    this.state.searchBarText = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
 
   }
@@ -100,6 +99,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public clearSearchText() {
     this.state.searchBarText = '';
+    this.onSearch('');
   }
 
   public resetSearchInput(event) {

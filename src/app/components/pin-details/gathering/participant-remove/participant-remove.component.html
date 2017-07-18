@@ -13,13 +13,16 @@
 
             <div class="fauxdal-content">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                        <crds-content-block id="groupToolRemoveParticipantSubheaderText"></crds-content-block>
+                    <div *ngIf="isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <crds-content-block id="finderRemoveMyParticipantSubheaderText"></crds-content-block>                             
                     </div>
+                    <div *ngIf="!isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <crds-content-block id="groupToolRemoveParticipantSubheaderText"></crds-content-block>
+                    </div>                    
                 </div>
 
                 <form novalidate [formGroup]="removeParticipantForm" (ngSubmit)="onSubmit(removeParticipantForm)">
-                    <div class="row">
+                    <div *ngIf="!isRemovingSelf" class="row">
                         <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
                             <!-- Reason for Participant Removal-->
                             <div class="row">

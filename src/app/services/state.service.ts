@@ -51,6 +51,10 @@ export class StateService {
     this.emitMyStuffChanged();
   }
 
+  public isMapViewSet(): boolean {
+    return this.savedMapView != null;
+  }
+
   public setMapView(mv: MapView) {
     this.savedMapView = mv;
   }
@@ -73,6 +77,13 @@ export class StateService {
 
   public setLastSearch(ls: SearchOptions) {
     this.lastSearch = ls;
+  }
+
+  public setLastSearchSearchString(value: string) {
+    if ( this.lastSearch === undefined ) {
+      this.lastSearch = new SearchOptions('', '', '');
+    }
+    this.lastSearch.search = value;
   }
 
   public setLoading(val: boolean) {

@@ -21,6 +21,7 @@ import { ListHelperService } from '../../../services/list-helper.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { groupDescriptionLengthDetails } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
+import * as moment from 'moment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -43,6 +44,8 @@ export class GatheringComponent implements OnInit {
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];
+  private participantEmails: string[];
+  public adjustedLeaderNames: string[];
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -81,10 +84,12 @@ export class GatheringComponent implements OnInit {
             this.leaders = leaders;
           });
           this.pin.gathering.Participants = participants;
+          this.participantEmails = participants.map(p=>p.email);
 
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
-              if (role !== GroupRole.NONE) {
+              let isInGroup: boolean = role !== GroupRole.NONE;
+              if (isInGroup) {
                 this.isInGathering = true;
                 this.isLeader = role === GroupRole.LEADER;
 
@@ -106,6 +111,7 @@ export class GatheringComponent implements OnInit {
                 this.state.setLoading(false);
                 this.ready = true;
               }
+              this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup );
             });
         },
         failure => {
@@ -124,6 +130,20 @@ export class GatheringComponent implements OnInit {
     let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
 
+  }
+
+  public getMeetingTime() {
+    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
+    return theTime.toDate();
+  }
+ 
+  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
+     let adjustedLeaderNames: string[] = [];
+     leaders.forEach((leader) => {
+       let adjustedName: string =  isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0,1) + "."}`;
+       adjustedLeaderNames.push(adjustedName);
+     })
+     return adjustedLeaderNames;
   }
 
   public requestToJoin() {
