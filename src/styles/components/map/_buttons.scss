@@ -1,6 +1,13 @@
 // Positions buttons in the header
 app-map-footer {
   position: relative;
+  float: right;
+
+  .connect & {
+    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 
   .btn {
     vertical-align: top;
