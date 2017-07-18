@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { AppSettingsService } from '../../../../services/app-settings.service';
 import { SessionService } from '../../../../services/session.service';
 import { ParticipantCardComponent } from './participant-card.component';
 import { MockComponent } from '../../../../shared/mock.component';
@@ -23,10 +23,12 @@ describe('ParticipantCardComponent', () => {
   let el;
   let participant;
   let mockSessionService, mockRouter;
+  let mockAppSettings;
   let mockRoute: ActivatedRouteStub;
 
   beforeEach(() => {
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
+    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp','isConnectApp']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockRoute = new ActivatedRouteStub();
     participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff',
@@ -40,7 +42,8 @@ describe('ParticipantCardComponent', () => {
       providers: [
         { provide: SessionService, useValue: mockSessionService },
         { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockRoute}
+        { provide: ActivatedRoute, useValue: mockRoute},
+        { provide: AppSettingsService, useValue: mockAppSettings}
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -76,9 +79,22 @@ describe('ParticipantCardComponent', () => {
     expect(comp.canBeHyperlinked).toBe(true);
   });
 
+  it('showLeaderLabel should return true', () => {
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.isLeader = true;
+    expect(comp.showLeaderLabel()).toBe(true);
+  });
+
+  it('showApprenticeLabel should return true', () => {
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.isApprentice = true;
+    expect(comp.showApprenticeLabel()).toBe(true);
+  });
+
   it('showHostLabel should return true when pinParticipant id matches the participants id', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
+    mockAppSettings.isConnectApp.and.returnValue(true);
     expect(comp.showHostLabel()).toBe(true);
   });
 
