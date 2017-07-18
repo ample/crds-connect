@@ -9,8 +9,8 @@ import { SearchOptions } from '../models/search-options';
 
 import { App, AppRoute, appRoute, app} from '../shared/constants';
 
-// TODO: This class has a lot of flags. 
-// Investigate to see if they belong here and/or add some documentation. 
+// TODO: This class has a lot of flags.
+// Investigate to see if they belong here and/or add some documentation.
 @Injectable()
 export class StateService {
 
@@ -25,7 +25,7 @@ export class StateService {
   public myStuffActive: boolean = false;
   public navigatedBackToNeighbors: boolean = false;
   public navigatedDirectlyToGroup: boolean   = false; // Did we navigate directly to a group (group mode) because there was only one?
-  // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
+  // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates.
   public navigatedFromAddToMapComponent: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public postedPin: Pin;
@@ -46,7 +46,7 @@ export class StateService {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
   }
 
-  public setIsMyStuffActive(isActive: boolean){
+  public setIsMyStuffActive(isActive: boolean) {
     this.myStuffActive = isActive;
     this.emitMyStuffChanged();
   }

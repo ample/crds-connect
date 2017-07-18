@@ -1,9 +1,7 @@
 import { PinLabel, PinLabelData } from './pin-label-data';
 import { pinType } from './pin';
 
-
 describe('FancyService without the TestBed', () => {
-
   let pinLabelData: PinLabelData;
   let gatheringLabelData: PinLabelData;
   let siteLabelData: PinLabelData;
@@ -23,5 +21,4 @@ describe('FancyService without the TestBed', () => {
     let pinLabel: PinLabel = new PinLabel(siteLabelData);
     expect(pinLabel.line1).toEqual('Some Site');
   });
-
 });

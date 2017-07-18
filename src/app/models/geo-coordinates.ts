@@ -1,5 +1,4 @@
 export class GeoCoordinates {
-
   lat: number;
   lng: number;
 
@@ -7,5 +6,4 @@ export class GeoCoordinates {
     this.lat = lat;
     this.lng = lng;
   }
-
 }

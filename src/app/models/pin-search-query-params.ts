@@ -2,7 +2,6 @@ import { GeoCoordinates } from '../models/geo-coordinates';
 import { MapBoundingBox } from '../models/map-bounding-box';
 
 export class PinSearchQueryParams {
-
   userLocationSearchString: string;
   userKeywordSearchString: string;
   userFilterString: string;
@@ -24,5 +23,4 @@ export class PinSearchQueryParams {
     this.centerGeoCoords = centerGeoCoords;
     this.boundingBox = boundingBox;
   }
-
 }

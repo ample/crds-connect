@@ -13,54 +13,54 @@ import { Pin, PinIdentifier, pinType } from '../models';
 import { Http, Response, ResponseOptions } from '@angular/http';
 
 describe('PinResolver', () => {
-    let guard;
+  let guard;
 
-    let fakeRouter: any = { };
-    let fakeRouterState: any = { }; // RouterStateSnapshot
-    let fakeActivatedRoute: any; // ActivatedRouteSnapshot
-    let mockPinService: any = jasmine.createSpyObj<PinService>('pinService', ['getPinDetails']);
-    let mockBlandPageService: any = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+  let fakeRouter: any = { };
+  let fakeRouterState: any = { }; // RouterStateSnapshot
+  let fakeActivatedRoute: any; // ActivatedRouteSnapshot
+  let mockPinService: any = jasmine.createSpyObj<PinService>('pinService', ['getPinDetails']);
+  let mockBlandPageService: any = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
 
-    beforeEach(() => {
-        guard = new PinResolver(mockPinService, mockBlandPageService);
+  beforeEach(() => {
+    guard = new PinResolver(mockPinService, mockBlandPageService);
+  });
+
+  it('should resolve person pin', () => {
+    (mockPinService.getPinDetails).and.returnValue(Observable.of({}));
+    let participantId = 1234;
+    // canActivate, canActivateChild, canDeactivate, resolve, canLoad
+    let result = guard.resolve({
+      // example route in here
+      path: `person/${participantId}`,
+      url: [{path: 'person'}, `${participantId}`],
+      params: { participantId: participantId }
     });
+    expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.PERSON, participantId));
+  });
 
-    it('should resolve person pin', () => {
-        (mockPinService.getPinDetails).and.returnValue(Observable.of({}));
-        let participantId = 1234;
-        // canActivate, canActivateChild, canDeactivate, resolve, canLoad
-        let result = guard.resolve({
-            // example route in here
-            path: `person/${participantId}`,
-            url: [{path: 'person'}, `${participantId}`],
-            params: { participantId: participantId }
-        });
-        expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.PERSON, participantId));
+  it('should resolve gathering pin', () => {
+    (mockPinService.getPinDetails).and.returnValue(Observable.of({}));
+    let gatheringId = 1337;
+    // canActivate, canActivateChild, canDeactivate, resolve, canLoad
+    let result = guard.resolve({
+      // example route in here
+      path: `gathering/${gatheringId}`,
+      url: [{path: 'gathering'}, `${gatheringId}`],
+      params: { groupId: gatheringId }
     });
+    expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.GATHERING, gatheringId));
+  });
 
-    it('should resolve gathering pin', () => {
-        (mockPinService.getPinDetails).and.returnValue(Observable.of({}));
-        let gatheringId = 1337;
-        // canActivate, canActivateChild, canDeactivate, resolve, canLoad
-        let result = guard.resolve({
-            // example route in here
-            path: `gathering/${gatheringId}`,
-            url: [{path: 'gathering'}, `${gatheringId}`],
-            params: { groupId: gatheringId }
-        });
-        expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.GATHERING, gatheringId));
+  it('should resolve small group pin', () => {
+    (mockPinService.getPinDetails).and.returnValue(Observable.of({}));
+    let groupId = 8754;
+    // canActivate, canActivateChild, canDeactivate, resolve, canLoad
+    let result = guard.resolve({
+      // example route in here
+      path: `small-group/${groupId}`,
+      url: [{path: 'small-group'}, `${groupId}`],
+      params: { groupId: groupId}
     });
-
-    it('should resolve small group pin', () => {
-        (mockPinService.getPinDetails).and.returnValue(Observable.of({}));
-        let groupId = 8754;
-        // canActivate, canActivateChild, canDeactivate, resolve, canLoad
-        let result = guard.resolve({
-            // example route in here
-            path: `small-group/${groupId}`,
-            url: [{path: 'small-group'}, `${groupId}`],
-            params: { groupId: groupId}
-        });
-        expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.SMALL_GROUP, groupId));
-    });
+    expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.SMALL_GROUP, groupId));
+  });
 });

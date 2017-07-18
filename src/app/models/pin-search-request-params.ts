@@ -1,5 +1,4 @@
 export class PinSearchRequestParams {
-
   userLocationSearchString: string;
   userKeywordSearchString: string;
   userFilterString: string;
@@ -11,5 +10,4 @@ export class PinSearchRequestParams {
     this.userKeywordSearchString = userKeywordSearchString;
     this.userFilterString = userFilterString;
   }
-
 }

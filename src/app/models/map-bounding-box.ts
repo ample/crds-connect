@@ -1,5 +1,4 @@
 export class MapBoundingBox {
-
   upperLeftLat: number;
   upperLeftLng: number;
   bottomRightLat: number;
@@ -11,5 +10,4 @@ export class MapBoundingBox {
     this.bottomRightLat = bottomRightLat;
     this.bottomRightLng = bottomRightLng;
   }
-
 }

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 
 import { AddressService } from '../services/address.service';
 import { AppSettingsService } from '../services/app-settings.service';
-import { BlandPageService } from '../services/bland-page.service';;
+import { BlandPageService } from '../services/bland-page.service';
 import { GoogleMapService } from '../services/google-map.service';
 import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
@@ -34,7 +34,7 @@ import { User } from '../models/user';
 
 import * as _ from 'lodash';
 
-import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
+import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants';
 
 
 @Injectable()
@@ -89,8 +89,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let url: string;
 
     let corsFriendlyGeoCodeParams = '';
-    if (this.state.savedMapView != null && this.state.savedMapView != undefined)
-    {
+    if (this.state.savedMapView != null && this.state.savedMapView !== undefined) {
       let lat = this.state.savedMapView.lat;
       let lng = this.state.savedMapView.lng;
       const geoCodeParamsString = `/${lat}/${lng}`;
@@ -190,7 +189,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return apiQueryParams;
   }
 
-  private removeOwnPinFromSearchResultsIfNecessary(pins: Pin[], contactId: number): Pin[]{
+  private removeOwnPinFromSearchResultsIfNecessary(pins: Pin[], contactId: number): Pin[] {
     if ( this.state.removedSelf) {
       this.state.removedSelf = false;
       let index = pins.findIndex(obj => obj.pinType === pinType.PERSON && obj.contactId === contactId);
@@ -297,10 +296,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     let removePersonPinUrl = this.baseUrl + 'api/v1.0.0/finder/pin/removeFromMap';
 
     return this.session.post(removePersonPinUrl, participantId)
-       .map((res: any) => {
-        return res;
-       })
-       .catch((err) => Observable.throw(err.json().error));
+      .map((res: any) => res)
+      .catch((err) => Observable.throw(err.json().error));
   }
 
 

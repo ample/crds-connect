@@ -77,11 +77,10 @@ export class SiteAddressService {
 
   constructor() { }
 
-  // Why Does this exist? This is not what is happening. 
+  // Why Does this exist? This is not what is happening.
   public addAddressesToGatheringPins (srchResults: PinSearchResultsDto): PinSearchResultsDto {
     srchResults.pinSearchResults = this.addAddressesToSitePins(srchResults.pinSearchResults);
     return srchResults;
-
   }
 
   // This is what is happening.
@@ -96,7 +95,6 @@ export class SiteAddressService {
     });
 
     return pins;
-
   }
 
   public addAddressToGatheringPin(pin: Pin) {

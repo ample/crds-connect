@@ -10,18 +10,18 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class LookupService {
-    private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
-    constructor(private session: SessionService) {}
+  constructor(private session: SessionService) {}
 
-    public getCategories(): Observable<Category[]> {
-        return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`)
-        .map((res: Category[]) => {
-            return res as Category[];
-        });
-    }
+  public getCategories(): Observable<Category[]> {
+    return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`)
+    .map((res: Category[]) => {
+      return res as Category[];
+    });
+  }
 
-    public getAgeGroups(): Observable<any> {
-        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
-    }
+  public getAgeGroups(): Observable<any> {
+    return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${AgeGroupAttributeTypeId}`);
+  }
 }

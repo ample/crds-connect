@@ -44,7 +44,7 @@ describe('UserLocationService', () => {
 
   it('Should get the default Crds-Oakley coordinates', inject([UserLocationService], (userLocationService: UserLocationService) => {
     let coords = new GeoCoordinates(32, 42);
-    (mockLocationService.getDefaultPosition).and.returnValue(coords)
+    (mockLocationService.getDefaultPosition).and.returnValue(coords);
     let result = userLocationService['getUserLocationFromDefault']();
     expect(mockLocationService.getDefaultPosition).toHaveBeenCalledTimes(1);
     expect(result).toEqual(coords);

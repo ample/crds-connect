@@ -16,9 +16,9 @@ export class HeaderComponent {
 
   private listenForRouteChange() {
     this.router.events.subscribe((val) => {
-        if (val instanceof NavigationStart) {
-          this.state.hasPageHeader = false;
-        }
+      if (val instanceof NavigationStart) {
+        this.state.hasPageHeader = false;
+      }
     });
   }
 

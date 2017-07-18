@@ -20,7 +20,6 @@ export class PinLabelData {
     this.pinType = pinType;
     this.pinLabel = pinLabel;
   }
-
 }
 
 export class PinLabel {

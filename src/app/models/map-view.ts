@@ -1,5 +1,4 @@
 export class MapView {
-
   value: string;
   lat: number;
   lng: number;
@@ -11,5 +10,4 @@ export class MapView {
     this.lng = lng;
     this.zoom = zoom;
   }
-
 }
