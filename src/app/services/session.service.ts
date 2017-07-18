@@ -50,6 +50,11 @@ export class SessionService extends SmartCacheableService<User, number> {
     return this.http.get(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
+  public getWithoutMappingReturnedData(url: string, options?: RequestOptions) {
+    let requestOptions = this.getRequestOption(options);
+    return this.http.get(url, requestOptions);
+  }
+
   public put(url: string, data: any, options?: RequestOptions) {
     let requestOptions = this.getRequestOption(options);
     return this.http.put(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
