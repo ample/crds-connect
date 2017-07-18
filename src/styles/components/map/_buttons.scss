@@ -2,6 +2,7 @@
 app-map-footer {
   position: relative;
   float: right;
+  padding-right: 6px;
 
   .connect & {
     background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
@@ -11,6 +12,7 @@ app-map-footer {
 
   .btn {
     vertical-align: top;
+    padding: 8.5px 12px;
 
     &:hover,
     &:focus,
