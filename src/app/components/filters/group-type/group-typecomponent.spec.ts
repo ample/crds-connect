@@ -22,7 +22,7 @@ describe('GroupTypeComponent', () => {
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
         mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
-        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
+        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getGroupGenderMixTypes']);
         categories = MockTestData.getSomeCategories();
 
         TestBed.configureTestingModule({
@@ -77,4 +77,8 @@ describe('GroupTypeComponent', () => {
         expect(comp['groupTypes'][0].selected).toBe(false);
         expect(comp['groupTypes'][1].selected).toBe(false);
     });
+
+    xit('should getGroupTypesFromMpAndInit', () => [
+        // TODO: This test. 
+    ]);
 });

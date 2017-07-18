@@ -35,7 +35,7 @@ export class GroupTypeComponent implements OnInit {
   }
 
   private getGroupTypesFromMpAndInit(): void {
-    this.lookupService.getGroupTypes().subscribe(
+    this.lookupService.getGroupGenderMixTypes().subscribe(
       groupTypes => {
         this.groupTypes = [];
         for (let groupType of groupTypes.attributes) {
