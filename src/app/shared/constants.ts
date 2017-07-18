@@ -90,7 +90,8 @@ export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
 export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 
-export const initialMapZoom = 5;
+export const initialMapZoom: number = 5;  // Starting zoom used when calculating best zoom for a given search
+export const zoomAdjustment: number = 1;  // Subtracted from the calculated zoom to avoid having pins on the edge of the map
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',

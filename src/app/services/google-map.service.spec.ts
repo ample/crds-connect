@@ -3,6 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AppSettingsService } from './app-settings.service';
 import { GoogleMapService } from './google-map.service';
 import { Address, Group, MapBoundingBox, MapView, Pin, pinType } from '../models';
+import { zoomAdjustment } from '../shared/constants';
 
 function generatePin(lat: number, lng: number, name: string): Pin {
   const newAddress = {
@@ -93,20 +94,20 @@ describe('Service: Google Map', () => {
     it('Should handle no pins', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([], GoogleMapService);
 
-      expect(calculatedZoom).toEqual(3 - .25);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
+      expect(calculatedZoom).toEqual(3 - zoomAdjustment);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
       expect(pinsInBounds.length).toBe(0);
     }));
 
     it('Should not zoom in greater than 15', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt1], GoogleMapService);
-      expect(calculatedZoom).toEqual(15 - .25);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
+      expect(calculatedZoom).toEqual(15 - zoomAdjustment);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
       expect(pinsInBounds).toEqual([pnt1]);
     }));
 
     it('Should not zoom out greater than 3', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt2], GoogleMapService);
 
-      expect(calculatedZoom).toEqual(3 - .25);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
+      expect(calculatedZoom).toEqual(3 - zoomAdjustment);  // Subtract .25 due to extra .25 zoom out applied in calculateZoom
       expect(pinsInBounds.length).toBe(0);
     }));
 
@@ -151,7 +152,8 @@ describe('Service: Google Map', () => {
     ];
 
     const cluster3 = [
-      generatePin(39.144860, -84.618615, 'cluster3Pin1')   // Western Hills Plaza
+      generatePin(39.170029, -84.751012, 'cluster3Pin1')   // Taylor High School
+      // generatePin(39.144860, -84.618615, 'cluster3Pin1')   // Western Hills Plaza
     ];
 
     const cluster4 = [
