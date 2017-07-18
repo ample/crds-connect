@@ -30,10 +30,19 @@
     background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+
     svg {
       width: 75px;
       height: 15px;
       padding: 0;
+    }
+  }
+
+  .groups .app-logo {
+    background: none;
+
+    svg {
+      height: 18px;
     }
   }
 
