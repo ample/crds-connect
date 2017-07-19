@@ -131,20 +131,11 @@ describe('MapFooterComponent', () => {
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalledTimes(1);
     });
 
-    it('should set state and go to getting started when gettingStartedBtnClicked for Connect', () => {
+    it('should set state and go to getting started when gettingStartedBtnClicked', () => {
         (mockAppSettings.isConnectApp).and.returnValue(true);
         comp.gettingStartedBtnClicked();
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockBlandPageService.goToGettingStarted).toHaveBeenCalledTimes(1);
-    });
-
-    it('should set state and go to getting started when gettingStartedBtnClicked for Connect', () => {
-        (mockAppSettings.isSmallGroupApp).and.returnValue(true);
-        spyOn(comp, 'navigateAway');
-        comp.gettingStartedBtnClicked();
-        expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
-        expect(mockBlandPageService.goToGettingStarted).toHaveBeenCalledTimes(0);
-        expect(comp.navigateAway).toHaveBeenCalled();
     });
 
 });
