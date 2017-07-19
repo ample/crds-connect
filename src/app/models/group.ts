@@ -1,6 +1,6 @@
 import { Address } from './address';
 import { Participant } from './participant';
-import { SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
+import { defaultGroupMeetingTime, SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
 
 export class Group {
 
@@ -56,7 +56,7 @@ export class Group {
 
     public static overload_Constructor_CreateGroup(contactId: number) {
         return new Group(0, null, null, null, SpiritualGrowthCongregationId, null, null, contactId, null, new Date().getDate(), null,
-        null, null, null, null, null, null, null, null, null, '1983-07-16T21:00:00.000Z',
+        null, null, null, null, null, null, null, null, null, defaultGroupMeetingTime,
         null, null, Address.overload_Constructor_One(), null, null, null, null, SmallGroupTypeId, null, null);
     }
 

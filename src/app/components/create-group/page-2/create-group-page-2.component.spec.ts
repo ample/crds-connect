@@ -15,6 +15,8 @@ import { MockComponent } from '../../../shared/mock.component';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage2Component } from './create-group-page-2.component';
 
+import { defaultGroupMeetingTime } from '../../../shared/constants';
+
 describe('CreateGroupPage2Component', () => {
     let fixture: ComponentFixture<CreateGroupPage2Component>;
     let comp: CreateGroupPage2Component;
@@ -99,7 +101,7 @@ describe('CreateGroupPage2Component', () => {
     });
 
     it('should go back', () => {
-        comp.back();
+        comp.onBack();
         expect(mockLocationService.back).toHaveBeenCalled();
     });
 
@@ -128,4 +130,11 @@ describe('CreateGroupPage2Component', () => {
         comp['createGroupService'].meetingTimeType = 'flexible';
         comp['removeMeetingInfoFromGroupIfFlexible']();
     });
+
+    it('should set the time to the default time if the time in the group service creation is null', () => {
+        comp['createGroupService']['meetingTime'] = null;
+        comp['initializeGroupMeetingScheduleForm']();
+        expect(comp['createGroupService']['group']['meetingTime']).toEqual(defaultGroupMeetingTime);
+    });
+
 });
