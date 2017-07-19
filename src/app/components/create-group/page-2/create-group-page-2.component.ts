@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
 
-import { LookupTable, Category } from '../../../models';
+import { LookupTable } from '../../../models';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
@@ -21,7 +21,6 @@ export class CreateGroupPage2Component implements OnInit {
     private isSubmitted: boolean = false;
     private daysOfTheWeek: LookupTable[] = [];
     private meetingFrequencies = meetingFrequencies;
-    
 
     constructor(private fb: FormBuilder,
                 private state: StateService,
@@ -39,7 +38,7 @@ export class CreateGroupPage2Component implements OnInit {
             meetingDay: [this.createGroupService.group.meetingDayId, Validators.required],
             meetingFrequency: [this.createGroupService.group.meetingFrequencyId, Validators.required]
         });
-        // Observable.publishReplay().refCount().subscribe();
+
         this.lookupService.getDaysOfTheWeek()
             .finally(() => {
                 this.state.setLoading(false);
@@ -70,11 +69,19 @@ export class CreateGroupPage2Component implements OnInit {
     }
 
     public onSubmit(form: FormGroup) {
+        this.state.setLoading(true);
         this.isSubmitted = true;
         if (form.valid) {
-            // Do Something
+            this.removeMeetingInfoFromGroupIfFlexible();
+            this.router.navigate(['/create-group/page-3']);
         } else {
-            // Do something else
+            this.state.setLoading(false);
+        }
+    }
+
+    private removeMeetingInfoFromGroupIfFlexible() {
+        if (this.createGroupService.meetingTimeType === 'flexible') {
+            this.createGroupService.clearMeetingTimeData();
         }
     }
 

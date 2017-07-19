@@ -44,11 +44,20 @@ describe('LookupService', () => {
         })
     );
 
-    it('should getAgeGroups',
+    it('should getAgeRanges',
         inject([LookupService], (s: LookupService) => {
             (mockSessionService.get).and.returnValue(Observable.of({}));
-            s.getAgeGroups().subscribe(categories => {
-                expect(mockSessionService.get).toHaveBeenCalledWith(`${s['baseUrl']}api/v1.0.0/attribute-type/${attributeTypes.AgeGroupAttributeTypeId}`);
+            s.getAgeRanges().subscribe(categories => {
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${s['baseUrl']}api/v1.0.0/attribute-type/${attributeTypes.AgeRangeAttributeTypeId}`);
+            });
+        })
+    );
+
+    it('should getGroupGenderMixTypes',
+        inject([LookupService], (s: LookupService) => {
+            (mockSessionService.get).and.returnValue(Observable.of({}));
+            s.getGroupGenderMixTypes().subscribe(categories => {
+                expect(mockSessionService.get).toHaveBeenCalledWith(`${s['baseUrl']}api/v1.0.0/attribute-type/${attributeTypes.GroupGenderMixTypeAttributeId}`);
             });
         })
     );

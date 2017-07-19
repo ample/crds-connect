@@ -79,6 +79,13 @@ export class StateService {
     this.lastSearch = ls;
   }
 
+  public setLastSearchSearchString(value: string) {
+    if ( this.lastSearch === undefined ) {
+      this.lastSearch = new SearchOptions('', '', '');
+    }
+    this.lastSearch.search = value;
+  }
+
   public setLoading(val: boolean) {
     this.is_loading = val;
   }

@@ -223,7 +223,8 @@ export class ParticipantService extends CacheableService<Group[]> {
         if(contactId !== null){
           let doesUserLeadSomeGroupUrl = `${this.baseUrl}api/v1.0.0/finder/doesuserleadsomegroup/${contactId}`;
 
-          return this.session.get(doesUserLeadSomeGroupUrl)
+          return this.session.getWithoutMappingReturnedData(doesUserLeadSomeGroupUrl)
+            .map(res=> res.json())
             .catch( (err) => Observable.throw('Error getting doesLeaderLeadSomeGroup!') );
         } else {
           return Observable.of(false);
