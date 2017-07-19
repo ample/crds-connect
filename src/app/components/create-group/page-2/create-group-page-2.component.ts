@@ -9,7 +9,8 @@ import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { BlandPageService } from '../../../services/bland-page.service';
-import { meetingFrequencies } from '../../../shared/constants';
+
+import { meetingFrequencies, groupMeetingScheduleType, GroupMeetingScheduleType } from '../../../shared/constants';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { meetingFrequencies } from '../../../shared/constants';
 export class CreateGroupPage2Component implements OnInit {
     public meetingTimeForm: FormGroup;
     private isSubmitted: boolean = false;
+    private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
     private daysOfTheWeek: LookupTable[] = [];
     private meetingFrequencies = meetingFrequencies;
 
@@ -51,9 +53,9 @@ export class CreateGroupPage2Component implements OnInit {
             });
     }
 
-    private onClick(value) {
-        this.createGroupService.meetingTimeType = value;
-        if (value !== 'specific') {
+    private onClick(selectedMeetingScheduleType: string) {
+        this.createGroupService.meetingTimeType = selectedMeetingScheduleType;
+        if (selectedMeetingScheduleType !== groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE) {
             this.meetingTimeForm.controls['meetingTime'].setValidators(null);
             this.meetingTimeForm.controls['meetingDay'].setValidators(null);
             this.meetingTimeForm.controls['meetingFrequency'].setValidators(null);
@@ -80,7 +82,7 @@ export class CreateGroupPage2Component implements OnInit {
     }
 
     private removeMeetingInfoFromGroupIfFlexible() {
-        if (this.createGroupService.meetingTimeType === 'flexible') {
+        if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
             this.createGroupService.clearMeetingTimeData();
         }
     }

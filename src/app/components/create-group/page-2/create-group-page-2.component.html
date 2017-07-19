@@ -13,7 +13,8 @@
             <form [formGroup]="meetingTimeForm" (ngSubmit)="onSubmit(meetingTimeForm)">
                 <div class="btn-group btn-group-block">
                     <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.meetingTimeType === 'specific'}"
-                        formControlName="meetingTimeType" value="specific" (click)="onClick('specific')" ngDefaultControl>
+                        formControlName="meetingTimeType" value="specific"
+                        (click)="onClick(groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE)" ngDefaultControl>
                     <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -70,7 +71,7 @@
 
                     <div class="btn-group btn-group-block soft-top">
                         <button type="button" class="btn btn-option btn-flex btn-outline" id="flexible" [ngClass]="{active: createGroupService.meetingTimeType === 'flexible'}"
-                            formControlName="meetingTimeType" value="flexible" (click)="onClick('flexible')" ngDefaultControl>
+                            formControlName="meetingTimeType" value="flexible" (click)="onClick(groupMeetingScheduleType.FLEXIBLE)" ngDefaultControl>
                         <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
