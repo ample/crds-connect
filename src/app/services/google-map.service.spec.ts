@@ -91,27 +91,27 @@ describe('Service: Google Map', () => {
     //     zoom should be 3
     //  4. Search matches points 3 and 4
     //     pop should contain only point 3
-    fit('Should handle no pins', inject([GoogleMapService], (GoogleMapService: any) => {
+    it('Should handle no pins', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([], GoogleMapService);
 
       expect(calculatedZoom).toEqual(minZoom - zoomAdjustment);
       expect(pinsInBounds.length).toBe(0);
     }));
 
-    fit('Should not zoom in greater than 15', inject([GoogleMapService], (GoogleMapService: any) => {
+    it('Should not zoom in greater than 15', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt1], GoogleMapService);
       expect(calculatedZoom).toEqual(maxZoom - zoomAdjustment);
       expect(pinsInBounds).toEqual([pnt1]);
     }));
 
-    fit('Should not zoom out greater than 3', inject([GoogleMapService], (GoogleMapService: any) => {
+    it('Should not zoom out greater than 3', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt2], GoogleMapService);
 
       expect(calculatedZoom).toEqual(minZoom - zoomAdjustment);
       expect(pinsInBounds.length).toBe(0);
     }));
 
-    fit('Should not continue zooming out when it has already found a point', inject([GoogleMapService], (GoogleMapService: any) => {
+    it('Should not continue zooming out when it has already found a point', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt3, pnt4], GoogleMapService);
 
       expect(pinsInBounds).toEqual([pnt3]);
@@ -164,12 +164,12 @@ describe('Service: Google Map', () => {
     //      pop contains only the points in clusters 1 and 2
     //  2.  Search matches clusters 1 and 4
     //      pop contains only the points in cluster 1
-    fit('Should stop zooming out after 10 pins are found', inject([GoogleMapService], (GoogleMapService: any) => {
+    it('Should stop zooming out after 10 pins are found', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([...cluster1, ...cluster2, ...cluster3], GoogleMapService);
       expect(pinsInBounds).toEqual([...cluster1, ...cluster2]);
     }));
 
-    fit('Should stop at max zoom, even if target number of pins has not been found', inject([GoogleMapService], (GoogleMapService: any) => {
+    it('Should stop at max zoom, even if target number of pins has not been found', inject([GoogleMapService], (GoogleMapService: any) => {
       [calculatedZoom, pinsInBounds] = testCalculateZoom([...cluster1, ...cluster4], GoogleMapService);
 
       expect(pinsInBounds).toEqual(cluster1);
