@@ -1,7 +1,7 @@
 <div class="connect-container connect-layout-container">
-    <div class="row">
+    <div class="row soft-top">
         <div class="col-sm-12">
-            <p class="media-meta">STEP 2 OF 9</p>
+            <p class="media-meta flush-bottom">STEP 2 OF 9</p>
             <h3 class="media-heading">Meeting Time</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupMeetingTimeHelp"></crds-content-block>
@@ -49,7 +49,7 @@
                                 </svg>
                             </span>
                             <div class="border-ends border-sides soft-sides col-sm-12">
-                                 <timepicker [(ngModel)]="createGroupService.group.meetingTime" formControlName="meetingTime" [showMeridian]="true" [minuteStep]="15"></timepicker> 
+                                 <timepicker [(ngModel)]="createGroupService.group.meetingTime" formControlName="meetingTime" [showMeridian]="true" [minuteStep]="15"></timepicker>
                             </div>
                         </div>
                         <div class="soft-top custom-input">
@@ -85,7 +85,8 @@
                     </button>
                     </div>
                 </div>
-                <div class="col-xs-12 btn-block-mobile soft-ends">
+                <div class="col-xs-12">
+                    <hr>
                     <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
                     <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                 </div>
