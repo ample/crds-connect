@@ -14,80 +14,82 @@ import { meetingFrequencies, groupMeetingScheduleType, GroupMeetingScheduleType 
 
 
 @Component({
-    selector: 'create-group-page-2',
-    templateUrl: './create-group-page-2.component.html',
+  selector: 'create-group-page-2',
+  templateUrl: './create-group-page-2.component.html',
 })
 export class CreateGroupPage2Component implements OnInit {
-    public meetingTimeForm: FormGroup;
-    private isSubmitted: boolean = false;
-    private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
-    private daysOfTheWeek: LookupTable[] = [];
-    private meetingFrequencies = meetingFrequencies;
+  public meetingTimeForm: FormGroup;
+  private isSubmitted: boolean = false;
+  private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
+  private daysOfTheWeek: LookupTable[] = [];
+  private meetingFrequencies = meetingFrequencies;
 
-    constructor(private fb: FormBuilder,
-                private state: StateService,
-                private createGroupService: CreateGroupService,
-                private router: Router,
-                private locationService: Location,
-                private lookupService: LookupService,
-                private blandPageService: BlandPageService) { }
+  constructor(private fb: FormBuilder,
+              private state: StateService,
+              private createGroupService: CreateGroupService,
+              private router: Router,
+              private locationService: Location,
+              private lookupService: LookupService,
+              private blandPageService: BlandPageService) { }
 
-    ngOnInit() {
-        this.state.setPageHeader('start a group', '/create-group/page-1');
-        this.meetingTimeForm = this.fb.group({
-            meetingTimeType: [this.createGroupService.meetingTimeType, Validators.required],
-            meetingTime: [this.createGroupService.group.meetingTime, Validators.required],
-            meetingDay: [this.createGroupService.group.meetingDayId, Validators.required],
-            meetingFrequency: [this.createGroupService.group.meetingFrequencyId, Validators.required]
-        });
+  ngOnInit() {
+    this.state.setPageHeader('start a group', '/create-group/page-1');
 
-        this.lookupService.getDaysOfTheWeek()
-            .finally(() => {
-                this.state.setLoading(false);
-            })
-            .subscribe(days => {
-                this.daysOfTheWeek = days;
-            }, err => {
-                console.log(err);
-                this.blandPageService.goToDefaultError('/');
-            });
+    //set a bunch of form fields as required
+    this.meetingTimeForm = this.fb.group({
+      meetingTimeType: [this.createGroupService.meetingTimeType, Validators.required],
+      meetingTime: [this.createGroupService.group.meetingTime, Validators.required],
+      meetingDay: [this.createGroupService.group.meetingDayId, Validators.required],
+      meetingFrequency: [this.createGroupService.group.meetingFrequencyId, Validators.required]
+    });
+
+    this.lookupService.getDaysOfTheWeek()
+      .finally(() => {
+        this.state.setLoading(false);
+      })
+      .subscribe(days => {
+        this.daysOfTheWeek = days;
+      }, err => {
+        console.log(err);
+        this.blandPageService.goToDefaultError('/');
+      });
+  }
+
+  private onClick(selectedMeetingScheduleType: string) {
+    this.createGroupService.meetingTimeType = selectedMeetingScheduleType;
+    if (selectedMeetingScheduleType !== groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE) {
+      this.meetingTimeForm.controls['meetingTime'].setValidators(null);
+      this.meetingTimeForm.controls['meetingDay'].setValidators(null);
+      this.meetingTimeForm.controls['meetingFrequency'].setValidators(null);
+    } else {
+      this.meetingTimeForm.controls['meetingTime'].setValidators(Validators.required);
+      this.meetingTimeForm.controls['meetingDay'].setValidators(Validators.required);
+      this.meetingTimeForm.controls['meetingFrequency'].setValidators(Validators.required);
     }
 
-    private onClick(selectedMeetingScheduleType: string) {
-        this.createGroupService.meetingTimeType = selectedMeetingScheduleType;
-        if (selectedMeetingScheduleType !== groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE) {
-            this.meetingTimeForm.controls['meetingTime'].setValidators(null);
-            this.meetingTimeForm.controls['meetingDay'].setValidators(null);
-            this.meetingTimeForm.controls['meetingFrequency'].setValidators(null);
-        } else {
-            this.meetingTimeForm.controls['meetingTime'].setValidators(Validators.required);
-            this.meetingTimeForm.controls['meetingDay'].setValidators(Validators.required);
-            this.meetingTimeForm.controls['meetingFrequency'].setValidators(Validators.required);
-        }
+    this.meetingTimeForm.controls['meetingTime'].updateValueAndValidity();
+    this.meetingTimeForm.controls['meetingDay'].updateValueAndValidity();
+    this.meetingTimeForm.controls['meetingFrequency'].updateValueAndValidity();
+  }
 
-        this.meetingTimeForm.controls['meetingTime'].updateValueAndValidity();
-        this.meetingTimeForm.controls['meetingDay'].updateValueAndValidity();
-        this.meetingTimeForm.controls['meetingFrequency'].updateValueAndValidity();
+  public onSubmit(form: FormGroup) {
+    this.state.setLoading(true);
+    this.isSubmitted = true;
+    if (form.valid) {
+      this.removeMeetingInfoFromGroupIfFlexible();
+      this.router.navigate(['/create-group/page-3']);
+    } else {
+      this.state.setLoading(false);
     }
+  }
 
-    public onSubmit(form: FormGroup) {
-        this.state.setLoading(true);
-        this.isSubmitted = true;
-        if (form.valid) {
-            this.removeMeetingInfoFromGroupIfFlexible();
-            this.router.navigate(['/create-group/page-3']);
-        } else {
-            this.state.setLoading(false);
-        }
+  private removeMeetingInfoFromGroupIfFlexible() {
+    if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
+      this.createGroupService.clearMeetingTimeData();
     }
+  }
 
-    private removeMeetingInfoFromGroupIfFlexible() {
-        if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
-            this.createGroupService.clearMeetingTimeData();
-        }
-    }
-
-    public back() {
-        this.locationService.back();
-    }
+  public back() {
+    this.locationService.back();
+  }
 }
