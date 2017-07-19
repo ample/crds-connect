@@ -44,6 +44,8 @@ import { Subject } from 'rxjs/Subject';
 import { TestBed } from '@angular/core/testing';
 import { UserLocationService } from '../../services/user-location.service';
 import { FilterService } from '../../services/filter.service';
+import { BlandPageComponent } from '../bland-page/bland-page.component';
+import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
 
 describe('Component: Neighbors', () => {
   let mockAppSettingsService,
@@ -55,6 +57,7 @@ describe('Component: Neighbors', () => {
     mockSearchService,
     mockRouter,
     mockFilterService,
+    mockBlandService,
     subject;
 
   beforeEach(() => {
@@ -69,10 +72,12 @@ describe('Component: Neighbors', () => {
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView',
                                                                     'getLastSearch', 'setCurrentView', 'setMapView', 'getMapView',
-                                                                    'setMyViewOrWorldView', 'setLastSearch', 'isMapViewSet']);
+                                                                    'setMyViewOrWorldView', 'setLastSearch',
+                                                                    'isMapViewSet', 'setLastSearchSearchString']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
     mockPinService.pinSearchRequestEmitter = subject;
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['resetFilterString']);
+    mockBlandService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
     TestBed.configureTestingModule({
       declarations: [
         NeighborsComponent,
@@ -97,7 +102,8 @@ describe('Component: Neighbors', () => {
         { provide: StateService, useValue: mockStateService },
         { provide: FilterService, useValue: mockFilterService },
         { provide: AppSettingsService, useValue: mockAppSettingsService },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: BlandPageService, useValue: mockFilterService }
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);
@@ -284,17 +290,17 @@ describe('Component: Neighbors', () => {
     expect(this.component['state'].lastSearch.search).toBe('keywordSearchString');
   });
 
-  it('doSearch should handle error and go to no results page', () => {
-    spyOn(this.component, 'goToNoResultsPage');
+  it('doSearch should handle error and go to error page', () => {
+    spyOn(this.component, 'goToErrorPage');
     (mockPinService.getPinSearchResults).and.returnValue(Observable.throw({error: 'oh noes'}));
     (mockAppSettingsService.isConnectApp).and.returnValue(true);
+    (mockBlandService.primeAndGo).and.returnValue(true);
     this.component['state'].lastSearch = new SearchOptions('words', 'filter me', null);
 
     this.component.doSearch(new PinSearchRequestParams('new words', null, null));
     expect(mockPinService.getPinSearchResults).toHaveBeenCalled();
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
-    expect(this.component.goToNoResultsPage).toHaveBeenCalledTimes(1);
-    expect(this.component['state'].lastSearch.search).toBe('new words');
+    expect(this.component.goToErrorPage).toHaveBeenCalledTimes(1);
   });
 
   it('goToNoResultsPage should setMapViewActive to true and route', () => {
