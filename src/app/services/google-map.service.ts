@@ -176,5 +176,4 @@ export class GoogleMapService {
       return 4;
     }
   }
-
 }
