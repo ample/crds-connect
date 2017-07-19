@@ -41,6 +41,10 @@ export class StateService {
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
 
+  constructor() {
+    this.lastSearch = new SearchOptions('', '', '');
+  }
+
 
   public emitMyStuffChanged(): void {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
@@ -80,9 +84,6 @@ export class StateService {
   }
 
   public setLastSearchSearchString(value: string) {
-    if ( this.lastSearch === undefined ) {
-      this.lastSearch = new SearchOptions('', '', '');
-    }
     this.lastSearch.search = value;
   }
 
