@@ -1,6 +1,5 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
-
 export class AttributeTypes {
   AgeRangeAttributeTypeId: number;
   GroupGenderMixTypeAttributeId: number;
@@ -32,10 +31,10 @@ export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
 
-export const GroupsLandingUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups`;
-
 export const MaxGroupLeaders: number = 4;
 export const MaxGroupApprentices: number = 2;
+
+export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/onsitegroups`;
 
 // TODO can we delete this? AppRoute
 export class AppRoute {

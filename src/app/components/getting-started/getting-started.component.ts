@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 
+import { OnsiteGroupsUrl } from '../../shared/constants';
+
 
 @Component({
   templateUrl: 'getting-started.component.html'
@@ -20,4 +22,9 @@ export class GettingStartedComponent implements OnInit {
     this.state.setLoading(false);
     return true;
   }
+
+  public onClickOnsiteGroups(): void {
+    window.location.href = OnsiteGroupsUrl;
+  }
+
 }
