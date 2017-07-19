@@ -7,8 +7,13 @@ export class Attribute {
     categoryDescription: string;
     sortOrder: number;
     attributeTypeId: number;
-    endDate: Date;
     startDate: Date;
+    endDate: Date;
+    selected: boolean = false;
+
+    public static constructor_create_group(): Attribute {
+       return new Attribute(0, '', '', '', 0, '', 0, 0, null, null);
+    }
 
     constructor(attributeId: number, name: string, description: string, category: string, categoryId: number,
                 categoryDescription: string, sortOrder: number, attributeTypeId: number, endDate: Date, startDate: Date) {

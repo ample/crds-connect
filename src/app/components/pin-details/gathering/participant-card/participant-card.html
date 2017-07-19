@@ -6,6 +6,8 @@
       <span class="media-label">
         <span *ngIf="isMe" class="label label-warning">Me</span>
         <span *ngIf="showHostLabel()" class="label label-primary">Host</span>
+        <span *ngIf="showLeaderLabel()" class="label label-primary">Leader</span>
+        <span *ngIf="showApprenticeLabel()" class="label label-primary">Apprentice</span>
       </span>
     </h4>
 

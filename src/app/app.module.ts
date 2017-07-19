@@ -42,6 +42,9 @@ import { ContactLeaderComponent } from './components/contact-leader/contact-lead
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
 import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
+import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
+import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
+import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
@@ -79,6 +82,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
@@ -166,11 +170,14 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     ContactLeaderComponent,
     CreateGroupSummaryComponent,
     CreateGroupPage1Component,
+    CreateGroupPage2Component,
+    CreateGroupPage3Component,
+    CreateGroupPage4Component,
+    CreateGroupPage5Component,
     EmailParticipantsComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
-    CreateGroupPage2Component,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
@@ -206,6 +213,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RemovePersonPinComponent,
     SayHiComponent,
     SearchBarComponent,
+    SearchFilterComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
     GoogleMapClusterDirective

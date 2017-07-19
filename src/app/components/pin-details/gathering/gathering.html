@@ -89,7 +89,7 @@
     <hr class="push-quarter-top flush-bottom">
     <div *ngFor="let participant of pin.gathering.Participants">
       <div class="border-bottom">
-        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId" [isLeader]="isLeader"></participant-card>
+        <participant-card [participant]="participant" [pinParticipantId]="pin.participantId"></participant-card>
       </div>
     </div>
     <email-participants [participantEmails]="participantEmails"></email-participants>

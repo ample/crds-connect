@@ -2,29 +2,37 @@ export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossr
 
 
 export class AttributeTypes {
-  AgeGroupAttributeTypeId: number;
-  GroupTypeAttributeTypeId: number;
+  AgeRangeAttributeTypeId: number;
+  GroupGenderMixTypeAttributeId: number;
+  GroupCategoryAttributeTypeId: number;
 
   constructor() {
-    this.AgeGroupAttributeTypeId = 91;
-    this.GroupTypeAttributeTypeId = 73;
+    this.AgeRangeAttributeTypeId = 91;
+    this.GroupGenderMixTypeAttributeId = 73;
+    this.GroupCategoryAttributeTypeId = 90;
   }
 }
 
 export const attributeTypes: any = new AttributeTypes();
+export const MiddleSchoolAgeRangeAttributeId: number = 7089;
+export const HighSchoolAgeRangeAttributeId: number = 7090;
+export const SpiritualGrowthCongregationId: number = 8;
+export const SmallGroupTypeId: number = 1;
 
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
   lng: -84.423367
 };
 
-export const groupCategoryAttributeTypeId = 90;
+
 
 export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
+
+export const GroupsLandingUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups`;
 
 export const MaxGroupLeaders: number = 4;
 export const MaxGroupApprentices: number = 2;

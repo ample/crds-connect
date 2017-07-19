@@ -1,38 +1,76 @@
-<div class="container">
 <div class="row">
-  <div class="col-md-4"><a class="btn-link" (click)="locationForm.ngSubmit.emit()">Apply</a></div>
-  <div class="col-md-4">Filter</div>
-  <div class="col-md-4"><a class="btn-link" (click)="resetFilters()">Reset</a></div>
-</div>
+  <div class="col-xs-4"><a class="btn-link pull-left font-size-small push-ends pointer" (click)="locationForm.ngSubmit.emit()">Apply</a></div>
+  <div class="col-xs-4"><h2 class="component-header text-center push-half-ends">Filter</h2></div>
+  <div class="col-xs-4"><a class="btn-link pull-right font-size-small push-ends pointer" (click)="resetFilters()">Reset</a></div>
 </div>
 
 <form [formGroup]="locationFormGroup" (ngSubmit)="onSubmit()" #locationForm="ngForm">
   <div class="form-group">
-    <input class="form-control" 
-           name="location" 
-           formControlName="location"
-           placeholder="Current Location" 
-           type="search" 
-           value="">
+    <div class="form-group">
+      <label class="sr-only" for="customAmount">Amount (in dollars)</label>
+      <div class="input-group input-group-block input-group-left">
+        <span class="input-group-addon">
+          <svg class="icon" viewBox="0 0 256 256">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
+          </svg>
+        </span>
+        <input class="form-control"
+              name="location"
+              placeholder="Current Location"
+              type="search"
+              value=""
+              formControlName="location">
+      </div>
+    </div>
   </div>
 </form>
 
-<accordion>
-  
-  <accordion-group heading="Age Groups">
+<accordion class="accordion">
+  <accordion-group>
+    <div accordion-heading>
+      Age Groups
+      <i class="pull-right float-xs-right">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-down"></use>
+        </svg>
+      </i>
+    </div>
     <age-groups></age-groups>
   </accordion-group>
 
-  <accordion-group heading="Kids Welcome">
+  <accordion-group>
+    <div accordion-heading>
+      Kids Welcome
+      <i class="pull-right float-xs-right">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-down"></use>
+        </svg>
+      </i>
+    </div>
     <kids-welcome></kids-welcome>
   </accordion-group>
 
-  <accordion-group heading="Group Type">
+  <accordion-group>
+    <div accordion-heading>
+      Group Type
+      <i class="pull-right float-xs-right">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-down"></use>
+        </svg>
+      </i>
+    </div>
     <group-type></group-type>
   </accordion-group>
 
-  <accordion-group heading="Location">
+  <accordion-group>
+    <div accordion-heading>
+      Location
+      <i class="pull-right float-xs-right">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-down"></use>
+        </svg>
+      </i>
+    </div>
     <online-or-physical-group></online-or-physical-group>
   </accordion-group>
- 
 </accordion>

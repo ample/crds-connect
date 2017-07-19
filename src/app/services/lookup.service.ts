@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
 
-import { Category, LookupTable } from '../models';
+import { Category, LookupTable, AttributeType } from '../models';
 import { CacheableService } from './base-service/cacheable.service';
 import { SessionService } from './session.service';
 
@@ -14,15 +14,20 @@ export class LookupService {
 
     constructor(private session: SessionService) { }
 
-    public getAgeGroups(): Observable<any> {
-        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.AgeGroupAttributeTypeId}`);
-    }
-
     public getCategories(): Observable<Category[]> {
         return this.session.get(`${this.baseUrl}api/v1.0.0/group-tool/categories`)
         .map((res: Category[]) => {
             return res as Category[];
         });
+    }
+
+    public getAgeRanges(): Observable<AttributeType> {
+        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.AgeRangeAttributeTypeId}`);
+    }
+
+    public getGroupGenderMixTypes(): Observable<AttributeType> {
+        console.log(attributeTypes.GroupGenderMixTypeAttributeId);
+        return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.GroupGenderMixTypeAttributeId}`);
     }
 
     public getDaysOfTheWeek(): Observable<LookupTable[]> {
@@ -37,9 +42,4 @@ export class LookupService {
                 });
             });
     }
-
-    public getGroupTypes(): Observable<any> {
-      return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.GroupTypeAttributeTypeId}`);
-    }
-
 }
