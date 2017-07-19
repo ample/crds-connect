@@ -131,7 +131,7 @@ describe('CreateGroupPage2Component', () => {
         comp['removeMeetingInfoFromGroupIfFlexible']();
     });
 
-    it('should set the time to the default time if the time in the group creation is null', () => {
+    it('should set the time to the default time if the time in the group service creation is null', () => {
         comp['createGroupService']['meetingTime'] = null;
         comp['initializeGroupMeetingScheduleForm']();
         expect(comp['createGroupService']['group']['meetingTime']).toEqual(defaultGroupMeetingTime);
