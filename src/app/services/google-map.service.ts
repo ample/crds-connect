@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { GeoCoordinates, MapBoundingBox, MapView, Pin } from '../models/';
 import {AppSettingsService} from './app-settings.service';
-import { initialZoom, zoomAdjustment } from '../shared/constants';
+import { initialZoom, zoomAdjustment, minZoom, maxZoom, pinTargetGroups, pinTargetConnect } from '../shared/constants';
 
 @Injectable()
 export class GoogleMapService {
@@ -62,9 +62,9 @@ export class GoogleMapService {
   private getPopTarget(pins: Pin[], viewtype: string): number {
     if (viewtype === 'world') {
       if (this.appSettings.isConnectApp()) {
-        return 10;
+        return pinTargetConnect;
       } else {
-        return 1;
+        return pinTargetGroups;
       }
     } else {
       return pins.length;
@@ -75,13 +75,13 @@ export class GoogleMapService {
   private calculateBestZoom(mapParams: MapView, pins: Pin[], popTarget: number, pops: Object = {}): number {
     const pop: number = this.countPopAtZoom(mapParams, pins, pops);
     if (pop < popTarget) {
-      if (mapParams.zoom <= 3) {
-        return 3;
+      if (mapParams.zoom <= minZoom) {
+        return minZoom;
       }
       mapParams.zoom--;
       return this.calculateBestZoom(mapParams, pins, popTarget, pops);
-    } else if (mapParams.zoom >= 15) {
-      return 15;
+    } else if (mapParams.zoom >= maxZoom) {
+      return maxZoom;
     } else {
       mapParams.zoom++;
       const popAfterZoomIn = this.countPopAtZoom(mapParams, pins, pops);
