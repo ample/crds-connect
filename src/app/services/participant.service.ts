@@ -148,8 +148,132 @@ export class ParticipantService extends CacheableService<Group[]> {
         let participant = participants.find(p => {
           return p.contactId === contactId;
         });
-        if (participant !== undefined) {
-          return participant.groupRoleId;
+
+    }
+
+    private updateParticipantRoleInCache(groupId: number, participantId: number, roleId: number) {
+        let contactId = this.session.getContactId();
+        let index = null;
+        if (super.isCachedForUser(contactId)) {
+            let cache = super.getCache();
+            let group = cache.find(g => {
+                return g.groupId === groupId;
+            });
+
+            if ( group != null ) {
+                index = group.Participants.findIndex( x => x.participantId === participantId);
+            }
+
+            if ( index !== null ) {
+                group.Participants[index].groupRoleId = roleId;
+            }
+
+            super.setCache(cache, super.getCacheLevel(), contactId);
+        }
+    }
+
+    public getAllLeaders(groupId: number): Observable<Participant[]> {
+        try {
+            return this.getAllParticipantsOfRoleInGroup(groupId, GroupRole.LEADER);
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of([]);
+        }
+    }
+
+    private getUserGroupRole(groupId: number, contactId: number = null): Observable<GroupRole> {
+        try {
+            return this.getUserRoleInGroup(groupId, contactId);
+        } catch (e) {
+            console.log(e.message);
+            return Observable.of(GroupRole.NONE);
+        }
+    }
+
+    private getUserRoleInGroup(groupId: number, contactId: number): Observable<GroupRole> {
+        return this.getParticipants(groupId).map((participants) => {
+            if (participants !== undefined) {
+                let participant = participants.find(p => {
+                    return p.contactId === contactId;
+                });
+                if (participant !== undefined) {
+                    return participant.groupRoleId;
+                } else {
+                    return GroupRole.NONE;
+                }
+            } else {
+                throw `group with groupId: ${groupId} not found.`;
+            }
+        }, (e: Error) => {
+            throw e.message;
+        });
+    }
+
+    public getAllParticipantsOfRoleInGroup(groupId: number, groupRole: number): Observable<Participant[]> {
+        return this.getParticipants(groupId).map((participants) => {
+            let participantsOfRole: Participant[] = [];
+            if (participants !== undefined) {
+                participants.forEach((participant) => {
+                    if (participant.groupRoleId === groupRole) {
+                        participantsOfRole.push(participant);
+                    }
+                });
+                return participantsOfRole;
+            } else {
+                throw `group with groupId: ${groupId} not found.`;
+            }
+        }, (e: Error) => {
+            throw e.message;
+        });
+    }
+
+    private removeParticipantFromCache(groupId: number, groupParticipantId: number) {
+        let contactId = this.session.getContactId();
+        if (super.isCachedForUser(contactId)) {
+            let cache = super.getCache();
+            let group = cache.find(g => {
+                return g.groupId === groupId;
+            });
+
+            group.Participants = group.Participants.filter(gp => {
+                return gp.groupParticipantId !== groupParticipantId;
+            });
+            super.setCache(cache, super.getCacheLevel(), contactId);
+        }
+    }
+
+    private getParticipantsByGroupFromBackend(groupId: number): Observable<Participant[]> {
+        let contactId = this.session.getContactId();
+        return this.session.get(`${this.baseUrl}api/v1.0.0/finder/participants/${groupId}`)
+            .do((res: Participant[]) => {
+                let cache: Array<Group> = new Array<Group>();
+                if (super.isCachedForUser(contactId)) {
+                    cache = super.getCache();
+                }
+                cache.push(Group.overload_Constructor_One(groupId, res));
+                super.setCache(cache, CacheLevel.Partial, contactId);
+            })
+            .catch((error: any) => Observable.throw(error || 'Server exception'));
+    }
+
+    public submitLeaderMessageToAPI(groupId: number, msgToLeader: MsgToLeader): Observable<any> {
+        let url = `${this.baseUrl}api/grouptool/${groupId}/leadermessage`;
+
+        let groupMsgDto: GroupMessageDTO = new GroupMessageDTO(msgToLeader.subject, msgToLeader.message, null);
+
+        return this.session.post(url, groupMsgDto);
+    }
+
+    public doesUserLeadAnyGroups(): Observable<Boolean> {
+
+        let contactId: number = this.session.getContactId();
+
+        if(contactId !== null){
+          let doesUserLeadSomeGroupUrl = `${this.baseUrl}api/v1.0.0/finder/doesuserleadsomegroup/${contactId}`;
+
+          return this.session.getWithoutMappingReturnedData(doesUserLeadSomeGroupUrl)
+            .map(res=> res.json())
+            .catch( (err) => Observable.throw('Error getting doesLeaderLeadSomeGroup!') );
         } else {
           return GroupRole.NONE;
         }
