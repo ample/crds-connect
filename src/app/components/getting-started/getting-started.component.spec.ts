@@ -5,20 +5,24 @@ import { GettingStartedComponent } from './getting-started.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { StateService } from '../../services/state.service';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 describe('Component: GettingStarted', () => {
   let fixture: ComponentFixture<GettingStartedComponent>;
   let comp: GettingStartedComponent;
   let mockStateService;
+  let mockAppSettings;
 
   beforeEach(() => {
     mockStateService = jasmine.createSpyObj<GettingStartedComponent>('gettingStartedComponent', ['constructor']);
+    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
     TestBed.configureTestingModule({
       declarations: [
         GettingStartedComponent
       ],
       providers: [
-        { provide: StateService, useValue: mockStateService }
+        { provide: StateService, useValue: mockStateService },
+        { provide: AppSettingsService, useValue: mockAppSettings },
       ],
       imports: [RouterTestingModule.withRoutes([]), HttpModule],
       schemas: [NO_ERRORS_SCHEMA]
