@@ -118,7 +118,13 @@ export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
 export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 
-export const initialMapZoom = 5;
+// Zoom Constants:
+export const initialMapZoom: number = 5;    // Starting zoom used when calculating best zoom for a given search
+export const zoomAdjustment: number = 1;    // Subtracted from the calculated zoom to avoid having pins on the edge of the map
+export const minZoom: number = 3;           // The minimum zoom before zoomAdjustment is applied
+export const maxZoom: number = 15;          // The maximum zoom before zoomAdjustment is applied
+export const pinTargetGroups: number = 1;   // The target number of pins for group app; used when calculating the best zoom
+export const pinTargetConnect: number = 10; // The target number of pins for connect app; used when calculating the best zoom
 
 export const meetingFrequencies = [{
             meetingFrequencyId: 1,
@@ -144,6 +150,9 @@ export enum UserState {
   LoggedIn_OnMap,
   NotLoggedIn
 }
+
+// The starting point for calculating the best zoom for a given search
+export const initialZoom: number = 9;
 
 // The default value for proximity to user's current location when no location data is available
 export let proximityUnavailableDefaultNum: number = 999;
