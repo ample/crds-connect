@@ -36,7 +36,7 @@ describe('CreateGroupPage2Component', () => {
         mockCreateGroupService.meetingTimeType = 'specific';
         mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['onBack']);
+        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getDaysOfTheWeek']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
         (mockLookupService.getDaysOfTheWeek).and.returnValue(Observable.of(daysOfTheWeek));
@@ -102,7 +102,7 @@ describe('CreateGroupPage2Component', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockLocationService.onBack).toHaveBeenCalled();
+        expect(mockLocationService.back).toHaveBeenCalled();
     });
 
     it('should submit if valid', () => {
