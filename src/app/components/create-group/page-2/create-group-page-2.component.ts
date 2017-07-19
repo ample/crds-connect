@@ -83,7 +83,7 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private initializeGroupMeetingScheduleForm(): FormGroup {
-    this.createGroupService.group.meetingTime= this.createGroupService.group.meetingTime || defaultGroupMeetingTime;
+    this.createGroupService.group.meetingTime = this.createGroupService.group.meetingTime || defaultGroupMeetingTime;
     return this.fb.group({
       meetingTimeType: [this.createGroupService.meetingTimeType, Validators.required],
       meetingTime: [this.createGroupService.group.meetingTime],
