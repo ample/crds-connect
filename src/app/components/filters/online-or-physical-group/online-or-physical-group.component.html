@@ -1,38 +1,37 @@
 <div class="btn-group btn-group-block">
-    <button type="button"
-            class="btn btn-option btn-flex btn-outline"
-            (click)="isVirtualGroupOptionClicked(false)" [class.active]="isAnOptionSelected && isVirtualGroup === false">
-        <div class="row">
-            <div class="btn-group-label">
-      <span class="btn-group-icons">
-        <svg class="icon circle-thin" viewBox="0 0 256 256">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-        </svg>
-        <svg class="icon check-circle" viewBox="0 0 256 256">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-        </svg>
-      </span>
-                In person
-            </div>
-            <div>...</div>
-        </div>
-    </button>
-    <button type="button"
-            class="btn btn-option btn-flex btn-outline"
-            (click)="isVirtualGroupOptionClicked(true)" [class.active]="isAnOptionSelected && isVirtualGroup === true">
-        <div class="row">
-            <div class="btn-group-label">
-      <span class="btn-group-icons">
-        <svg class="icon circle-thin" viewBox="0 0 256 256">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-        </svg>
-        <svg class="icon check-circle" viewBox="0 0 256 256">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-        </svg>
-      </span>
-                Online
-            </div>
-            <div>...</div>
-        </div>
-    </button>
+  <button type="button"
+          class="btn btn-option btn-flex btn-outline"
+          (click)="isVirtualGroupOptionClicked(false)" [class.active]="isAnOptionSelected && isVirtualGroup === false">
+    <div class="row">
+      <div class="btn-group-label text-left">
+        <span class="btn-group-icons">
+          <svg class="icon circle-thin" viewBox="0 0 256 256">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+          </svg>
+          <svg class="icon check-circle" viewBox="0 0 256 256">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+          </svg>
+        </span>
+        In person
+      </div>
+    </div>
+  </button>
+
+  <button type="button"
+          class="btn btn-option btn-flex btn-outline"
+          (click)="isVirtualGroupOptionClicked(true)" [class.active]="isAnOptionSelected && isVirtualGroup === true">
+    <div class="row">
+      <div class="btn-group-label text-left">
+        <span class="btn-group-icons">
+          <svg class="icon circle-thin" viewBox="0 0 256 256">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+          </svg>
+          <svg class="icon check-circle" viewBox="0 0 256 256">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+          </svg>
+        </span>
+        Online
+      </div>
+    </div>
+  </button>
 </div>
