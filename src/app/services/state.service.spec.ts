@@ -13,6 +13,10 @@ describe('Service: State', () => {
     });
   });
 
+  it('should have instance of SearchOptions', inject([StateService], (service: any) => {
+    expect(service.lastSearch).toBeDefined();
+  }));
+
   it('should create an instance', inject([StateService], (service: any) => {
       expect(service).toBeTruthy();
   }));
