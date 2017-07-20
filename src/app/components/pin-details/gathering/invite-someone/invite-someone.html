@@ -1,7 +1,6 @@
 <h3 class="title font-size-h5">Invite someone</h3>
-
-<form novalidate [formGroup]="inviteFormGroup" (ngSubmit)="onSubmit(inviteFormGroup)">
-
+<hr>
+<form novalidate [formGroup]="inviteFormGroup" (ngSubmit)="onSubmit(inviteFormGroup)" class="soft-half-bottom">
   <div class="row">
     <div class="form-group col-xs-6">
       <!--FIRST NAME-->
@@ -50,5 +49,5 @@
     </div>
   </div>
 
-  <button type="submit" class="btn btn-secondary btn-block-mobile">Send Invite</button>
+  <button type="submit" class="btn btn-outline btn-primary">Send Invite</button>
 </form>

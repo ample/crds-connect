@@ -1,7 +1,6 @@
 <h3 class="title font-size-h5">Add Participant</h3>
-
-<form novalidate [formGroup]="addFormGroup" (ngSubmit)="onSubmit(addFormGroup)">
-
+<hr>
+<form novalidate [formGroup]="addFormGroup" (ngSubmit)="onSubmit(addFormGroup)" class="soft-half-bottom">
   <div class="row">
     <div class="form-group col-xs-6">
       <!--FIRST NAME-->
@@ -50,8 +49,8 @@
     </div>
   </div>
 
-  
- 
+
+
   <div bsModal #resultsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -64,7 +63,7 @@
         </div>
 
         <div class="modal-body">
-                              
+
           <div *ngIf="matchFound">
              The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
              <br>
@@ -79,12 +78,12 @@
              <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
           </div>
 
-          
+
         </div>
-        
+
       </div>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-secondary">Done</button>
+  <button type="submit" class="btn btn-outline btn-primary">Add</button>
 </form>

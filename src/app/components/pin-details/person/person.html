@@ -1,20 +1,18 @@
-<div class="row">
-  <div class="pin-details-dark person col-xs-12 soft">
-    <div class="media media-dark border-bottom soft-bottom push-bottom">
-      <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
+<div class="pin-details-bg person soft">
+  <div class="media border-bottom soft-bottom push-bottom">
+    <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 
-      <div class="media-body">
-        <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
+    <div class="media-body">
+      <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
 
-        <div class="media-meta">
-          <readonly-address [isPinOwner]="isPinOwner" [address]="pin.address" [distance]="pin.proximity"></readonly-address>
-        </div>
+      <div class="media-meta">
+        <readonly-address [isPinOwner]="isPinOwner" [address]="pin.address" [distance]="pin.proximity"></readonly-address>
       </div>
     </div>
-
-    <button class="btn primary btn-primary btn-block-mobile" *ngIf="isPinOwner" (click)="edit()">Edit</button>
-
-    <say-hi *ngIf="!isPinOwner" [isLoggedIn]="isLoggedIn" [pin]="pin" [user]="user" [isGathering]="false" [buttonText]="sayHiButtonText"></say-hi>
-    <pin-login-actions *ngIf="!isLoggedIn"></pin-login-actions>
   </div>
+
+  <button class="btn btn-secondary" *ngIf="isPinOwner" (click)="edit()">Edit</button>
+
+  <say-hi *ngIf="!isPinOwner" [isLoggedIn]="isLoggedIn" [pin]="pin" [user]="user" [isGathering]="false" [buttonText]="sayHiButtonText"></say-hi>
+  <pin-login-actions *ngIf="!isLoggedIn"></pin-login-actions>
 </div>
