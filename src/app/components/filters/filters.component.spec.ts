@@ -9,8 +9,12 @@ import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { FiltersComponent } from './filters.component';
-import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
+
 import { AgeGroupsComponent } from './age-groups/age-groups.component';
+import { GroupTypeComponent } from './group-type/group-type.component';
+import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
+import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/online-or-physical-group.component';
+
 import { SearchOptions } from '../../models';
 
 describe('FiltersComponent', () => {
@@ -83,6 +87,8 @@ describe('FiltersComponent', () => {
             this.comp['state'].lastSearch = new SearchOptions('', '', '');
             this.comp.childKidsWelcomeComponent = jasmine.createSpyObj<KidsWelcomeComponent>('kidsWelcome', ['reset']);
             this.comp.childAgeGroupsComponent = jasmine.createSpyObj<AgeGroupsComponent>('ageGroups', ['reset']);
+            this.comp.groupTypeComponent = jasmine.createSpyObj<GroupTypeComponent>('groupType', ['reset']);
+            this.comp.onlineOrPhysicalGroupComponent = jasmine.createSpyObj<OnlineOrPhysicalGroupComponent>('onlineOrPhysical', ['reset']);
         }));
 
         it('should reset filters', () => {
@@ -90,6 +96,8 @@ describe('FiltersComponent', () => {
             this.comp.resetFilters();
             expect(this.comp.childKidsWelcomeComponent.reset).toHaveBeenCalled();
             expect(this.comp.childAgeGroupsComponent.reset).toHaveBeenCalled();
+            expect(this.comp.groupTypeComponent.reset).toHaveBeenCalled();
+            expect(this.comp.onlineOrPhysicalGroupComponent.reset).toHaveBeenCalled();
             expect(this.comp.state.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
             expect(mockFilterService.resetFilterString).toHaveBeenCalled();
         });
