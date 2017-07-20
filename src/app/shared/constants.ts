@@ -1,5 +1,20 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
+
+export class GroupMeetingScheduleType {
+  SPECIFIC_TIME_AND_DATE: string;
+  FLEXIBLE: string;
+
+  constructor() {
+    this.SPECIFIC_TIME_AND_DATE = 'specific';
+    this.FLEXIBLE = 'flexible';
+  }
+}
+
+export const groupMeetingScheduleType: any = new GroupMeetingScheduleType();
+
+export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
+
 export class AttributeTypes {
   AgeRangeAttributeTypeId: number;
   GroupGenderMixTypeAttributeId: number;

@@ -12,8 +12,10 @@
             <p class="control-label soft-top">When will you meet?</p>
             <form [formGroup]="meetingTimeForm" (ngSubmit)="onSubmit(meetingTimeForm)">
                 <div class="btn-group btn-group-block">
-                    <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.meetingTimeType === 'specific'}"
-                        formControlName="meetingTimeType" value="specific" (click)="onClick('specific')" ngDefaultControl>
+                    <button type="button" class="btn btn-option btn-flex btn-outline" id="specific"
+                            [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE}"
+                        formControlName="meetingTimeType" value="specific"
+                        (click)="onClick(groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE)" ngDefaultControl>
                     <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -27,7 +29,7 @@
                     </div>
                     </button>
 
-                    <div *ngIf="createGroupService.meetingTimeType === 'specific'">
+                    <div *ngIf="createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE">
                         <div class="soft-top custom-input">
                             <span class="custom-input-icon">
                                 <svg class="icon icon-1" viewBox="0 0 256 256">
@@ -69,8 +71,8 @@
                     </div>
 
                     <div class="btn-group btn-group-block soft-top">
-                        <button type="button" class="btn btn-option btn-flex btn-outline" id="flexible" [ngClass]="{active: createGroupService.meetingTimeType === 'flexible'}"
-                            formControlName="meetingTimeType" value="flexible" (click)="onClick('flexible')" ngDefaultControl>
+                        <button type="button" class="btn btn-option btn-flex btn-outline" id="flexible" [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE}"
+                            formControlName="meetingTimeType" value="flexible" (click)="onClick(groupMeetingScheduleType.FLEXIBLE)" ngDefaultControl>
                         <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -88,7 +90,7 @@
                 <div class="col-xs-12">
                     <hr>
                     <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
-                    <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
+                    <button type="button" (click)="onBack()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                 </div>
             </form>
         </div>
