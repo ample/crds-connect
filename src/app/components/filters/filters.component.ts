@@ -9,6 +9,7 @@ import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
+import { CategoryComponent } from './category/category.component';
 import { AgeGroupsComponent } from './age-groups/age-groups.component';
 import { GroupTypeComponent } from './group-type/group-type.component';
 import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
@@ -30,6 +31,8 @@ export class FiltersComponent implements OnInit {
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
   @ViewChild(OnlineOrPhysicalGroupComponent) public onlineOrPhysicalGroupComponent: OnlineOrPhysicalGroupComponent;
   @ViewChild(GroupTypeComponent) public groupTypeComponent: GroupTypeComponent;
+  @ViewChild(CategoryComponent) public childCategoryComponent: CategoryComponent;
+
 
   public locationFormGroup: FormGroup;
   public location: string;
@@ -68,6 +71,7 @@ export class FiltersComponent implements OnInit {
     this.state.lastSearch.location = '';
     this.childKidsWelcomeComponent.reset();
     this.childAgeGroupsComponent.reset();
+    this.childCategoryComponent.reset();
     this.groupTypeComponent.reset();
     this.onlineOrPhysicalGroupComponent.reset();
     this.filterService.resetFilterString();

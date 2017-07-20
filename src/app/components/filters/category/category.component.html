@@ -1,0 +1,11 @@
+<div class="btn-group">
+  <!--   TODO fix this!  -->
+  <button *ngFor="let cat of categories" 
+          (click)="clickToSelect(cat.name)" 
+          class="btn btn-option btn-outline" 
+          type="button" 
+          [class.active]="categories.selected">{{categories.name}}
+  </button>
+</div>
+
+{{ categories | json }}

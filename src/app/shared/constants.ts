@@ -80,12 +80,14 @@ export enum AppType {
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
   GROUP_AGE_RANGE: string;
+  GROUP_CATEGORY: string;
   GROUP_TYPE: string;
   GROUP_VIRTUAL: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
     this.GROUP_AGE_RANGE = 'groupagerange';
+    this.GROUP_CATEGORY = 'groupcategory';
     this.GROUP_TYPE = 'grouptype';
     this.GROUP_VIRTUAL = 'groupvirtual';
   }
