@@ -4,8 +4,6 @@
           (click)="clickToSelect(cat.name)" 
           class="btn btn-option btn-outline" 
           type="button" 
-          [class.active]="categories.selected">{{categories.name}}
+          [class.active]="cat.selected">{{cat.name}}
   </button>
 </div>
-
-{{ categories | json }}
