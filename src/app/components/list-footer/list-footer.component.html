@@ -20,6 +20,19 @@
         class="bg-gray col-xs-12 push-top soft">    
     <div class="btn-group full-width">
       <button class="btn btn-default btn-block-mobile" (click)="onCreateAGroupClicked()">Create a group</button>
+
+      <button class="btn btn-default btn-block-mobile" 
+              *ngIf = "isMyView"
+              (click)="onLeaderResourcesClicked()">
+              Leader resources
+      </button>
+
+      <button class="btn btn-default btn-block-mobile" 
+              *ngIf = "isMyView"
+              (click)="onGroupResourcesClicked()">
+              Group resources
+      </button>
+
       <button class="btn btn-default btn-block-mobile"
               *ngIf = "!doesUserLeadAnyGroups"
               (click)="onBecomeALeaderClicked()">
