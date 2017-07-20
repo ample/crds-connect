@@ -117,10 +117,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setMyViewOrWorldView('world');
       this.router.navigate(['stuff-not-found']);
       this.state.myStuffActive = false;
-    } else if (this.pinSearchResults.pinSearchResults.length === 1 && this.appSettings.isSmallGroupApp() && this.state.navigatedDirectlyToGroup === false) {
-      this.state.setLoading(false);
-      this.state.navigatedDirectlyToGroup = true;
-      this.router.navigate([`small-group/${this.pinSearchResults.pinSearchResults[0].gathering.groupId}/`]);
     } else {
       this.state.setLastSearch(new SearchOptions(searchKeywordString, filterString, searchLocationString));
     }
