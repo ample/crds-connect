@@ -135,4 +135,8 @@ export class StateService {
     this.updatedPin = null;
   }
 
+  public clearLastSearch() {
+    this.lastSearch = new SearchOptions('', '', '');
+    this.searchBarText = '';
+  }
 }
