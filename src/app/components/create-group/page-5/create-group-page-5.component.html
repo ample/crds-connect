@@ -1,7 +1,7 @@
 <div class="connect-container connect-layout-container">
     <div class="row">
         <div class="col-sm-12">
-            <p class="media-meta">STEP 5 OF 9</p>
+            <p class="media-meta">STEP 5 OF 6</p>
             <h3 class="media-heading">Group Details</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupAboutHelp"></crds-content-block>
@@ -14,7 +14,7 @@
 
                 <div>
                     <label class="control-label" for="groupName">Group name</label>
-                    <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers">
+                    <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers" maxlength="35">
                     <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupName'].valid" class="soft-top">
                         <div class="alert alert-danger">This field is required.</div>
                     </div>
@@ -31,7 +31,7 @@
                 <div>
                     <crds-content-block id="groupToolCreateGroupVisibilityHelp"></crds-content-block>
                     <p class="control-label soft-ends">Set your group to public or private</p>
-                    <div *ngIf="createGroupService.group.availbleOnline === false" class="soft-top">
+                    <div *ngIf="createGroupService.group.availableOnline === false" class="soft-top">
                         <crds-content-block id="groupToolPrivateGroupAlert" class="alert alert-warning"></crds-content-block>
                     </div>
                     <div class="btn-group btn-group-block">

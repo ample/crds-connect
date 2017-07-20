@@ -1,6 +1,7 @@
 import { Address } from './address';
 import { Participant } from './participant';
 import { SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
+import { Pin, pinType } from './pin';
 
 export class Group {
 
@@ -40,8 +41,8 @@ export class Group {
     participantCount: number;
     minorAgeGroupsAdded: boolean;
 
-    categories: string[];
-    ageRanges: string[];
+    categories: string[] = [];
+    ageRanges: string[] = [];
     primaryContactFirstName: string;
     primaryContactLastName: string;
     isVirtualGroup: boolean;

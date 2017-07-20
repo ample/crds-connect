@@ -1,0 +1,57 @@
+<div class="connect-container connect-layout-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="media-meta">STEP 6 OF 6</p>
+            <h3 class="media-heading">Tell us about yourself</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row" *ngIf="isComponentReady">
+        <div class="col-sm-12">
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm)">
+                <div class="soft-top custom-input">
+                    <p class="control-label soft-ends">What site do you regularly attend</p>
+                    <select class="form-control" name="crossroadsSite" formControlName="crossroadsSite" [(ngModel)]="createGroupService.profileData.congregationId">
+                        <option value="null" disabled="true">Select a site...</option>
+                        <option *ngFor="let site of sites" [value]="site.dp_RecordID">{{site.dp_RecordName}}</option>
+                    </select>
+                </div>
+                <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
+                    <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                </div>
+                <p class="control-label soft-ends">Gender</p>
+                <div class="radio radio-inline">
+                    <input id="inlineRadioBtn1" name="gender" type="radio" [value]="1" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
+                    <label for="inlineRadioBtn1">
+                        Male
+                    </label>
+                    <div class="check" tabindex="0"></div>
+                </div>
+                <div class="radio radio-inline">
+                    <input id="inlineRadioBtn2" name="gender" type="radio" [value]="2" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
+                    <label for="inlineRadioBtn2">
+                        Female
+                    </label>
+                    <div class="check" tabindex="0"></div>
+                </div>
+                <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
+                    <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                </div>
+                <div class="soft-ends">
+                    <p class="control-label">What's your address?</p>
+                    <address-form [parentForm]="profileForm" groupName="addressForm" [isFormSubmitted]="isSubmitted" [address]="createGroupService.profileData"
+                        errorClasses="alert alert-danger push-half-top"></address-form>
+                </div>
+
+                <div class="col-xs-12 btn-block-mobile soft-ends">
+                    <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Preview Your Group</button>
+                    <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div>
+    <pre>{{createGroupService.profileData | json }}</pre>
+</div>

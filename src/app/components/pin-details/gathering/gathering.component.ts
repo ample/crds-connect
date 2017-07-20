@@ -34,6 +34,8 @@ export class GatheringComponent implements OnInit {
   @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
+  @Input() previewMode: boolean = false;
+  @Input() leaders: Participant[] = [];
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
@@ -43,9 +45,8 @@ export class GatheringComponent implements OnInit {
   private ready = false;
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
-  private leaders: Participant[] = [];
   private participantEmails: string[];
-  public adjustedLeaderNames: string[];
+  public adjustedLeaderNames: string[] = [];
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -65,6 +66,7 @@ export class GatheringComponent implements OnInit {
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
 
   public ngOnInit() {
+    if (!this.previewMode) {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
@@ -122,6 +124,11 @@ export class GatheringComponent implements OnInit {
       console.log(err.message);
       this.blandPageService.goToDefaultError('');
     }
+    } else {
+      this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, false );
+      // this.doDisplayFullDesc = true;
+      this.ready = true;
+    }
   }
 
   private onContactLeaderClicked(): void {
@@ -136,13 +143,13 @@ export class GatheringComponent implements OnInit {
     let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
     return theTime.toDate();
   }
- 
+
   private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
      let adjustedLeaderNames: string[] = [];
      leaders.forEach((leader) => {
-       let adjustedName: string =  isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0,1) + "."}`;
+       let adjustedName: string =  isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0,1)}.`;
        adjustedLeaderNames.push(adjustedName);
-     })
+     });
      return adjustedLeaderNames;
   }
 

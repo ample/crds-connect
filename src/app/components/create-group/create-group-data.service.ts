@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Address, Attribute, AttributeType, Group } from '../../models';
+import { Address, Attribute, AttributeType, Group, Pin, pinType, Participant } from '../../models';
 import { Category } from '../../models/category';
 import { LookupService } from '../../services/lookup.service';
+import { ProfileService } from '../../services/profile.service';
 import { SessionService } from '../../services/session.service';
 import { attributeTypes } from '../../shared/constants';
+import * as _ from 'lodash';
 
 @Injectable()
 export class CreateGroupService {
     private pageOneInitialized: boolean = false;
+    private pageSixInitialized: boolean = false;
     public meetingTimeType: string = 'specific';
     public meetingIsInPerson: boolean = true;
 
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
     public group: Group;
+    public profileData: any = {};
 
     public selectedGroupGenderMix: Attribute = Attribute.constructor_create_group();
     public selectedAgeRanges: Attribute[] = [];
 
-    constructor(private lookupService: LookupService, private session: SessionService) {
+    constructor(private lookupService: LookupService, private session: SessionService,
+                private profileService: ProfileService) {
     }
 
     public initializePageOne(): Observable<Category[]> {
@@ -33,6 +38,19 @@ export class CreateGroupService {
             });
         } else {
             return Observable.of(this.categories);
+        }
+    }
+
+    public initializePageSix(): Observable<any> {
+        if (!this.pageSixInitialized) {
+            return this.profileService.getProfileData()
+            .map((response: any) => {
+                response.congregationId = null;
+                this.profileData = response;
+                this.pageSixInitialized = true;
+            });
+        } else {
+            return Observable.of(this.profileData);
         }
     }
 
@@ -79,6 +97,29 @@ export class CreateGroupService {
         };
 
         Object.assign(this.group.attributeTypes, this.group.attributeTypes, jsonObject);
+    }
+
+    public getSmallGroupPinFromGroupData(): Pin {
+        let pin = new Pin(this.profileData.nickName, this.profileData.lastName, this.profileData.emailAddress, this.profileData.contactId,
+                       this.profileData.participantId,
+                       this.group.address, 2, _.cloneDeep(this.group), null, pinType.SMALL_GROUP, 0, this.profileData.householdId);
+
+            this.selectedCategories.forEach((cat) => {
+                pin.gathering.categories.push(`${cat.name}:${cat.categoryDetail}`);
+            });
+
+            this.selectedAgeRanges.forEach((ageRange) => {
+                pin.gathering.ageRanges.push(ageRange.name);
+            });
+
+            pin.gathering.groupType = this.selectedGroupGenderMix.name;
+        return pin;
+    }
+
+    public getLeaders(): Participant[] {
+        let leaders: Participant[] = [];
+        leaders.push(new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null));
+        return leaders;
     }
 
     /* 
