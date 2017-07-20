@@ -25,6 +25,7 @@ dl {
 
       dt {
         float: left;
+        clear: left;
       }
 
       dt:not(:first-child) {
