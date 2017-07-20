@@ -234,31 +234,12 @@ describe('Component: Neighbors', () => {
 
   });
 
-  it('should navigate directly to group if there is only 1 result and we are in group mode and we werent just navigated to a group', () => {
-    let results = MockTestData.getAPinSearchResults(1);
-    this.component['pinSearchResults'] = results;
-    (mockStateService.getMyViewOrWorldView).and.returnValue('world');
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
-    this.component['state'].myStuffActive = false;
-    this.component['state'].navigatedDirectlyToGroup = false;
-
-    this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
-
-    expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
-    expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
-    expect(this.component['state'].myStuffActive).toBe(false);
-    expect(mockRouter.navigate).toHaveBeenCalledWith([`small-group/${results.pinSearchResults[0].gathering.groupId}/`]);
-    expect(this.component['state'].navigatedDirectlyToGroup).toBe(true);
-
-  });
-
   it('should set last search if results > 1 and everything is awesome (with lat / lng)', () => {
     this.component['pinSearchResults'] = MockTestData.getAPinSearchResults(10);
     (mockStateService.getMyViewOrWorldView).and.returnValue('world');
     (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', undefined, null));
     (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
     this.component['state'].myStuffActive = false;
-    this.component['state'].navigatedDirectlyToGroup = false;
 
     this.component.navigateAwayIfNecessary(null, 'keywordSearchString', 12, 32, undefined);
     expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', undefined, null));
@@ -270,7 +251,6 @@ describe('Component: Neighbors', () => {
     (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', undefined, null));
     (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
     this.component['state'].myStuffActive = false;
-    this.component['state'].navigatedDirectlyToGroup = false;
 
     this.component.navigateAwayIfNecessary(null, 'keywordSearchString',  null, undefined);
     expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', undefined, null));
