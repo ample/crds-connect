@@ -61,9 +61,9 @@ dl {
   white-space: normal;
 }
 
-participant-card {
-  .media {
-    .media-img-wrapper {
+.media {
+  .media-img-wrapper {
+    &.left-align {
       width: auto;
     }
   }
