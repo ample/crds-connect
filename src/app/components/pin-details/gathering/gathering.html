@@ -99,8 +99,13 @@
 
   <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 
-  <!-- 👇 is not tied to any functionality. -->
-  <div *ngIf="isLeader && !appSettingsService.isConnectApp()" class="soft-ends">
+
+  <leader-resources *ngIf="isLeader && !appSettingsService.isConnectApp()"></leader-resources>
+
+   <!-- 👇 is not tied to any functionality. -->
+  <!-- <div *ngIf="isLeader && !appSettingsService.isConnectApp()" class="soft-ends">
+
+
     <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Guidance</h3>
     <hr class="push-quarter-top flush-bottom">
 
@@ -123,5 +128,7 @@
 
       <button class="btn btn-outline btn-primary" type="button">Group resources</button>
     </div>
-  </div>
+
+  </div> -->
+
 </div>

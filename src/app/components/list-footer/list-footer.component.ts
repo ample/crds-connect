@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, Input, CUSTOM_ELEMENTS_SCHEMA } from '@an
 import { Router } from '@angular/router';
 
 import { Angulartics2 } from 'angulartics2';
+import { Subscription } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
@@ -12,7 +13,7 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
 import { Pin } from '../../models/pin';
-import { UserState } from '../../shared/constants';
+import { UserState, GroupResourcesUrl, LeaderResourcesUrl } from '../../shared/constants';
 
 @Component({
   selector: 'list-footer',
@@ -29,6 +30,8 @@ export class ListFooterComponent implements OnInit, OnChanges {
   public userContactId: number = null;
   public userMapState: UserState = undefined;
   public userMapStateEnum = UserState;
+  public isMyView: boolean = false;
+  private isMyStuffActiveSub: Subscription;
 
   constructor(private listHlpr: ListHelperService,
               private router: Router,
@@ -43,6 +46,10 @@ export class ListFooterComponent implements OnInit, OnChanges {
     this.isSmallGroupApp = this.appSettings.isSmallGroupApp();
     this.getNecessaryDataAndInit();
     this.isUserHostingAnyGatheringsOrGroups = this.pinLabelService.isHostingAny(this.pins);
+    this.isMyView = this.state.myStuffActive;
+    this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
+      this.isMyView = isMyStuffActive;
+    });
   }
 
   ngOnChanges(): void {
@@ -52,7 +59,7 @@ export class ListFooterComponent implements OnInit, OnChanges {
 
   public getNecessaryDataAndInit(): void {
 
-    if(this.isSmallGroupApp){
+    if (this.isSmallGroupApp) {
       this.participantService.doesUserLeadAnyGroups().subscribe(
         doesUserLeadAnyGroups => {
           this.doesUserLeadAnyGroups = doesUserLeadAnyGroups as boolean;
@@ -93,4 +100,11 @@ export class ListFooterComponent implements OnInit, OnChanges {
     this.router.navigateByUrl('/create-group');
   }
 
+  public onLeaderResourcesClicked() {
+    window.location.href = LeaderResourcesUrl;
+  }
+
+  public onGroupResourcesClicked() {
+    window.location.href = GroupResourcesUrl;
+  }
 }
