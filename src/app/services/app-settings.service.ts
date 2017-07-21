@@ -37,8 +37,4 @@ export class AppSettingsService {
     return baseUrlForApp;
   }
 
-  public appClass(): string {
-    return this.isConnectApp() ? 'connect' : 'groups';
-  }
-
 }

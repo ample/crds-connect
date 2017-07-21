@@ -1,33 +1,17 @@
-// Positions buttons in the header
+// Positions buttons on the map
 app-map-footer {
-  position: relative;
-  float: right;
-  padding-right: 6px;
-
-  .connect & {
-    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 5px;
+  right: 1rem;
+  z-index: 4;
+  @media (min-width: $screen-xs) {
+    top: 13px;
   }
-
-  .btn {
-    vertical-align: top;
-    padding: 8.5px 12px;
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: $cr-white;
-      text-decoration: none;
-    }
-  }
-
-  .pipe {
-    display: inline-block;
-    width: 1px;
-    height: 30px;
-    margin-top: 5px;
-    background-color: rgba($cr-gray-light, 0.5);
+  input {
+    float: right;
+    clear: both;
   }
 }
 
