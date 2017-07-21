@@ -62,10 +62,18 @@ export class FilterService {
     this.filterStringAgeGroups = addFilterString;
   }
 
-// TODO fix this!
-  public setFilterStringCategories(categories: Category[]): void {
-// TODO fix this!    
 
+  public setFilterStringCategories(categories: Category[]): void {
+    let addFilterString: string = ' (or';
+    for (let cat of categories) {
+      if (cat.selected) {
+        // need single quotes around each value since it is a string in aws
+        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\')  `;
+      }
+    }
+    addFilterString += ' )';
+
+    this.filterStringCategories = addFilterString;
   }
 
   public setFilterStringGroupTypes (groupTypes: GroupType[]): void {
