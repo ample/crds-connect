@@ -9,7 +9,7 @@ import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { CategoryComponent } from './category.component';
-import { Attribute } from '../../../models/attribute';
+import { Category } from '../../../models/category';
 
 describe('CategoryComponent', () => {
     let fixture: ComponentFixture<CategoryComponent>;
@@ -63,6 +63,15 @@ describe('CategoryComponent', () => {
     });
 
     it('should reset', () => {
+        let cat1 = new Category(1, null, 'Interest desc', 'example text', false, 'Interest');
+        cat1.selected = true;
+        let cat2 = new Category(2, null, 'Healing desc', 'example text', false, 'Healing');
+        cat2.selected = true;
 
+        comp['categories'] = [cat1, cat2];
+        comp.reset();
+
+        expect(comp['categories'][0].selected).toBe(false);
+        expect(comp['categories'][1].selected).toBe(false);
     });
 });
