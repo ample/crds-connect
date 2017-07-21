@@ -1,8 +1,8 @@
 <div class="connect-container connect-layout-container">
-    <div class="row">
-        <div class="col-sm-12">
-            <p class="media-meta">STEP 3 OF 9</p>
-            <h3 class="media-heading">Location</h3>
+    <div class="row soft-top">
+        <div class="col-sm-12 soft-top">
+            <p class="media-meta flush-bottom">STEP 3 OF 9</p>
+            <h3 class="media-heading font-family-condensed-extra text-uppercase">Location</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupMeetingLocationHelp"></crds-content-block>
         </div>
@@ -69,8 +69,8 @@
                             </div>
 
                             <div class="col-xs-6 hard-right">
-                                <input class="form-control" name="zip" 
-                                       formControlName="zip" placeholder="Zip" 
+                                <input class="form-control" name="zip"
+                                       formControlName="zip" placeholder="Zip"
                                        [(ngModel)]="createGroupService.group.address.zip"
                                        minlength="5" maxlength="5"
                                        type="tel"
@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="col-xs-12 btn-block-mobile soft-ends">
-                        <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
+                        <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
                         <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                     </div>
                 </div>
