@@ -99,4 +99,6 @@
   <invite-someone *ngIf="isLeader && appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></invite-someone>
 
   <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
+
+  <leader-resources *ngIf="isLeader && !appSettingsService.isConnectApp()"></leader-resources>
 </div>
