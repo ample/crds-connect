@@ -1,8 +1,8 @@
 <div class="connect-container connect-layout-container">
     <div class="row soft-top">
-        <div class="col-sm-12">
+        <div class="col-sm-12 soft-top">
             <p class="media-meta flush-bottom">STEP 1 OF 9</p>
-            <h3 class="media-heading">Group Category</h3>
+            <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Category</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
         </div>
@@ -17,7 +17,7 @@
 
                         <div class="text-left">{{ category.name }}</div>
                 </button>
-                    <div>
+                    <div class="help-block">
                         <i>{{category.desc}}</i>
                     </div>
 
@@ -42,7 +42,7 @@
                 </div>
                 <div class="soft-ends">
                     <hr>
-                    <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
+                    <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
                     <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                 </div>
             </form>
