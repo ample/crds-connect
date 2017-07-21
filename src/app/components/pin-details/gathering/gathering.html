@@ -1,11 +1,12 @@
 <div *ngIf="ready">
-  <div class="row pin-details-dark dark-theme"
-       [ngClass]="{ host_plain: !isInGathering && !isLeader }">
+  <div class="pin-details-bg"
+       [ngClass]="{ host_plain: !isInGathering && !isLeader && pin.pinType !== pinType.SMALL_GROUP}">
 
     <!--TODO: All this small group stuff should be a sub component.  all these ngIf's are going to get very hard to debug.-->
-    <div class="col-xs-12 soft">
-      <div class="media media-dark">
+    <div class="soft">
+      <div class="media">
         <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
+
         <div class="media-body">
           <pin-header [pin]="pin" [isPinOwner]="isPinOwner" [isLeader]="isLeader"></pin-header>
           <div class="media-meta">
@@ -45,41 +46,45 @@
         </span>
       </p>
 
-      <dl *ngIf="pin.pinType === pinType.SMALL_GROUP" class="group-meta-data border-top push-top">
-        <dt>Category</dt>
-        <dd *ngFor="let category of pin?.gathering?.categories">{{category.replace(":", ": ")}}</dd>
-
-        <dt>Where</dt>
-        <dd>
-          <readonly-address [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
-        </dd>
-
-        <dt>Group Type</dt>
-        <dd>{{pin?.gathering?.groupType}}</dd>
-
-        <dt>Age Range</dt>
-        <dd *ngFor="let age of pin?.gathering?.ageRanges">{{age}}</dd>
-
-        <dt>Leader{{adjustedLeaderNames.length > 1 ? 's' : ''}}</dt>
-        <dd *ngFor="let adjustedName of adjustedLeaderNames; let isLast = last">{{adjustedName}} {{isLast ? '' : ', '}}</dd>
-        <dt>Kids Welcome</dt>
-        <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
-      </dl>
-
-      <!--<button class="btn btn-gray btn-block push-half-top btn-block-mobile"-->
-              <!--*ngIf = "isInGroupApp"-->
-              <!--(click) = "onContactLeaderClicked();">Contact Leader</button>-->
-
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
-      <button class="btn btn-gray btn-block-mobile" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
-
-      <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
-        <button class="btn btn-secondary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
-        <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
-      </div>
-
-      <pin-login-actions *ngIf="!isLoggedIn && pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING"></pin-login-actions>
+      <button class="btn btn-secondary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
     </div>
+  </div>
+
+  <div class="soft-quarter">
+    <dl *ngIf="pin.pinType === pinType.SMALL_GROUP" class="group-meta-data flush-bottom">
+      <dt>Category</dt>
+      <dd *ngFor="let category of pin?.gathering?.categories">{{category.replace(":", ": ")}}</dd>
+
+      <dt>Where</dt>
+      <dd>
+        <readonly-address [isGathering]="pin.pinType === pinType.GATHERING" [isPinOwner]="isPinOwner" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
+      </dd>
+
+      <dt>Group Type</dt>
+      <dd>{{pin?.gathering?.groupType}}</dd>
+
+      <dt>Age Range</dt>
+      <dd *ngFor="let age of pin?.gathering?.ageRanges">{{age}}</dd>
+
+      <dt>Leader{{adjustedLeaderNames.length > 1 ? 's' : ''}}</dt>
+      <dd *ngFor="let adjustedName of adjustedLeaderNames; let isLast = last">{{adjustedName}} {{isLast ? '' : ', '}}</dd>
+      <dt>Kids Welcome</dt>
+      <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
+    </dl>
+
+     <!-- <div *ngIf="isInGroupApp" class="push-top push-half-bottom">
+      <button class="btn btn-primary btn-block-mobile">Try this group</button>
+      <button class="btn btn-outline btn-primary btn-block-mobile"
+              (click)="onContactLeaderClicked();">Contact leader</button>
+    </div> -->
+
+    <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
+      <button class="btn btn-primary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
+      <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
+    </div>
+
+    <pin-login-actions *ngIf="!isLoggedIn && pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING"></pin-login-actions>
   </div>
 
   <gathering-requests *ngIf="isLeader && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
