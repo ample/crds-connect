@@ -9,8 +9,10 @@ import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
-import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './age-groups/age-groups.component';
+import { GroupTypeComponent } from './group-type/group-type.component';
+import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
+import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/online-or-physical-group.component';
 
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
@@ -21,10 +23,13 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 })
 
 export class FiltersComponent implements OnInit {
+
   // Search string coming in will always be Keyword, not location, becuase filters are ONLY on groups, not connect
   @Input() searchKeywordString: string;
   @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
+  @ViewChild(OnlineOrPhysicalGroupComponent) public onlineOrPhysicalGroupComponent: OnlineOrPhysicalGroupComponent;
+  @ViewChild(GroupTypeComponent) public groupTypeComponent: GroupTypeComponent;
 
   public locationFormGroup: FormGroup;
   public location: string;
@@ -63,6 +68,8 @@ export class FiltersComponent implements OnInit {
     this.state.lastSearch.location = '';
     this.childKidsWelcomeComponent.reset();
     this.childAgeGroupsComponent.reset();
+    this.groupTypeComponent.reset();
+    this.onlineOrPhysicalGroupComponent.reset();
     this.filterService.resetFilterString();
     this.state.setIsFilterDialogOpen(false);
     this.onSubmit();
