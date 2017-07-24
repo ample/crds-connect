@@ -29,14 +29,16 @@
                 </div>
 
                 <div>
+                    <div>
                     <crds-content-block id="groupToolCreateGroupVisibilityHelp"></crds-content-block>
-                    <p class="control-label soft-ends">Set your group to public or private</p>
-                    <div *ngIf="createGroupService.group.availableOnline === false" class="soft-top">
-                        <crds-content-block id="groupToolPrivateGroupAlert" class="alert alert-warning"></crds-content-block>
                     </div>
-                    <div class="btn-group btn-group-block">
+                    <p class="control-label soft-ends">Set your group to public or private</p>
+                    <div *ngIf="createGroupService.group.availableOnline === false" class="alert-warning">
+                        <crds-content-block id="groupToolPrivateGroupAlert" class="alert"></crds-content-block>
+                    </div>
+                    <div class="btn-group btn-group-block soft-top">
                         <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }"
-                            formControlName="availableOnline" value="true" (click)="onClick(true)" ngDefaultControl>
+                            formControlName="availableOnline" value="true" (click)="onClick(true)" ngDefaultControl style="white-space: normal">
                     <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -50,7 +52,7 @@
                     </div>
                     </button>
                         <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }"
-                            formControlName="availableOnline" value="false" (click)="onClick(false)" ngDefaultControl>
+                            formControlName="availableOnline" value="false" (click)="onClick(false)" ngDefaultControl style="white-space: normal">
                     <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -77,4 +79,8 @@
         </div>
 
     </div>
+</div>
+
+<div>
+    <pre>{{createGroupService.group | json }}</pre>
 </div>

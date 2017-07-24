@@ -46,8 +46,9 @@ export class StateService {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
   }
 
-  public setIsMyStuffActive(isActive: boolean){
+  public setIsMyStuffActive(isActive: boolean) {
     this.myStuffActive = isActive;
+    this.myViewOrWorldView = 'my';
     this.emitMyStuffChanged();
   }
 

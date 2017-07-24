@@ -6,8 +6,9 @@ import { Category } from '../../models/category';
 import { LookupService } from '../../services/lookup.service';
 import { ProfileService } from '../../services/profile.service';
 import { SessionService } from '../../services/session.service';
-import { attributeTypes } from '../../shared/constants';
+import { attributeTypes, GroupRole, groupMeetingScheduleType } from '../../shared/constants';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 @Injectable()
 export class CreateGroupService {
@@ -25,17 +26,17 @@ export class CreateGroupService {
     public selectedAgeRanges: Attribute[] = [];
 
     constructor(private lookupService: LookupService, private session: SessionService,
-                private profileService: ProfileService) {
+        private profileService: ProfileService) {
     }
 
     public initializePageOne(): Observable<Category[]> {
         if (!this.pageOneInitialized) {
             this.group = Group.overload_Constructor_CreateGroup(this.session.getContactId());
             return this.lookupService.getCategories()
-            .do((cats: Category[]) => {
-                this.categories = cats;
-                this.pageOneInitialized = true;
-            });
+                .do((cats: Category[]) => {
+                    this.categories = cats;
+                    this.pageOneInitialized = true;
+                });
         } else {
             return Observable.of(this.categories);
         }
@@ -44,11 +45,11 @@ export class CreateGroupService {
     public initializePageSix(): Observable<any> {
         if (!this.pageSixInitialized) {
             return this.profileService.getProfileData()
-            .map((response: any) => {
-                response.congregationId = null;
-                this.profileData = response;
-                this.pageSixInitialized = true;
-            });
+                .map((response: any) => {
+                    response.congregationId = null;
+                    this.profileData = response;
+                    this.pageSixInitialized = true;
+                });
         } else {
             return Observable.of(this.profileData);
         }
@@ -101,18 +102,17 @@ export class CreateGroupService {
 
     public getSmallGroupPinFromGroupData(): Pin {
         let pin = new Pin(this.profileData.nickName, this.profileData.lastName, this.profileData.emailAddress, this.profileData.contactId,
-                       this.profileData.participantId,
-                       this.group.address, 2, _.cloneDeep(this.group), null, pinType.SMALL_GROUP, 0, this.profileData.householdId);
+                  null, this.group.address, 2, _.cloneDeep(this.group), null, pinType.SMALL_GROUP, 0, this.profileData.householdId);
 
-            this.selectedCategories.forEach((cat) => {
-                pin.gathering.categories.push(`${cat.name}:${cat.categoryDetail}`);
-            });
+        this.selectedCategories.forEach((cat) => {
+            pin.gathering.categories.push(`${cat.name}:${cat.categoryDetail}`);
+        });
 
-            this.selectedAgeRanges.forEach((ageRange) => {
-                pin.gathering.ageRanges.push(ageRange.name);
-            });
+        this.selectedAgeRanges.forEach((ageRange) => {
+            pin.gathering.ageRanges.push(ageRange.name);
+        });
 
-            pin.gathering.groupType = this.selectedGroupGenderMix.name;
+        pin.gathering.groupType = this.selectedGroupGenderMix.name;
         return pin;
     }
 
@@ -122,26 +122,48 @@ export class CreateGroupService {
         return leaders;
     }
 
+    public setParticipants(participant: Participant, group: Group) {
+        participant.groupRoleId = GroupRole.LEADER;
+        group.Participants = [participant];
+    }
+
+    public prepareForGroupSubmission(): Group {
+        let group = _.cloneDeep(this.group);
+        if (!this.meetingIsInPerson) {
+            group.address = null;
+        }
+        this.formatTimesAndDates(group);
+        return group;
+    }
+
     /* 
     * This will clear meeting day, meeting time, and meeting frequency
-    * this is called when meeting time type is flexible
+    * if the group is flexible
+    * else it will format the meeting time data the way it needs to be for submission
     */
-    public clearMeetingTimeData(): void {
-        this.group.meetingDayId = null;
-        this.group.meetingFrequencyId = null;
-        this.group.meetingTime = null;
-        this.group.meetingDay = null;
-        this.group.meetingFrequency = null;
+    private formatTimesAndDates(group): void {
+        if (this.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
+            group.meetingDayId = null;
+            group.meetingFrequencyId = null;
+            group.meetingTime = null;
+            group.meetingDay = null;
+            group.meetingFrequency = null;
+        } else {
+            let meetingTime = moment(group.meetingTime);
+            group.meetingTime = moment(group.meetingTime).format('LT');
+        }
+        let startDate = moment(group.startDate);
+        group.startDate = startDate.add(startDate.utcOffset(), 'm').utc().format();
     }
 
     private createCategoryDetailAttribute(category: Category): Attribute {
         let attribute = new Attribute(0, category.categoryDetail, category.desc, category.name,
-                            category.categoryId, null, 0, attributeTypes.GroupCategoryAttributeTypeId,
-                            null, null);
+            category.categoryId, null, 0, attributeTypes.GroupCategoryAttributeTypeId,
+            null, null);
 
         if (category.attribute != null) {
             attribute.startDate = category.attribute.startDate;
-            attribute.endDate  = category.attribute.endDate;
+            attribute.endDate = category.attribute.endDate;
         }
 
         return attribute;

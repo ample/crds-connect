@@ -1,6 +1,6 @@
+import { ParticipantService } from '../../../services/participant.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { LookupTable } from '../../../models';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
+import { usStatesList } from '../../../shared/constants';
 
 @Component({
     selector: 'create-group-page-6',
@@ -20,34 +21,39 @@ export class CreateGroupPage6Component implements OnInit {
     private isComponentReady: boolean = false;
     private isSubmitted: boolean = false;
     private groupVisabilityInvalid: boolean = false;
+    private stateList: Array<string>;
+    private lastPage = '/create-group/page-5';
 
     constructor(private blandPageService: BlandPageService,
                 private fb: FormBuilder,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router,
-                private lookupService: LookupService,
-                private locationService: Location) { }
+                private lookupService: LookupService) { }
 
     ngOnInit(): void {
-        this.state.setPageHeader('start a group', '/create-group/page-5');
+        this.state.setPageHeader('start a group', this.lastPage);
+        this.stateList = usStatesList;
         Observable.forkJoin(
             this.lookupService.getSites(),
             this.createGroupService.initializePageSix()
             )
-            .finally(() => {
+            .subscribe(dataArray => {
+                this.sites = dataArray[0];
                 this.profileForm = this.fb.group({
                     crossroadsSite: [null, Validators.required],
-                    gender: [this.createGroupService.profileData.genderId, Validators.required]
+                    gender: [this.createGroupService.profileData.genderId, Validators.required],
+                    addressLine1: [this.createGroupService.profileData.addressLine1, Validators.required],
+                    addressLine2: [this.createGroupService.profileData.addressLine2],
+                    city: [this.createGroupService.profileData.city, Validators.required],
+                    state: [this.createGroupService.profileData.state, Validators.required],
+                    zip: [this.createGroupService.profileData.postalCode, Validators.required]
                 });
                 this.isComponentReady = true;
                 this.state.setLoading(false);
-            })
-            .subscribe(sites => {
-                this.sites = sites[0];
             }, error => {
                 console.log(error);
-                this.blandPageService.goToDefaultError('/create-group/page-5');
+                this.blandPageService.goToDefaultError(this.lastPage);
             });
     }
 
@@ -65,6 +71,6 @@ export class CreateGroupPage6Component implements OnInit {
     }
 
     public back(): void {
-        this.locationService.back();
+        this.router.navigate([this.lastPage]);
     }
 }

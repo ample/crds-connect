@@ -18,4 +18,8 @@ export class ProfileService {
     public getProfileData() {
         return this.session.get(`${this.baseUrl}api/profile`);
     }
+
+    public postProfileData(profileData) {
+        return this.session.post(`${this.baseUrl}api/profile`, profileData);
+    }
 }
