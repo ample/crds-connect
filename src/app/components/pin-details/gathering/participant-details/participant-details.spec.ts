@@ -16,6 +16,7 @@ import { ParticipantDetailsComponent } from './participant-details.component';
 import { ToastsManager } from 'ng2-toastr';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AppSettingsService } from '../../../../services/app-settings.service';
 
 class ActivatedRouteStub {
   params = Observable.of({ groupId: 1234, groupParticipantId: 1 });
@@ -30,11 +31,16 @@ describe('ParticipantDetailsComponent', () => {
   let comp: ParticipantDetailsComponent;
   let el;
   let mockParticipantService, mockRouter,
-      mockStateService, mockBlandPageService, mockAddressService, mockToast, mockContent;
+      mockStateService, mockBlandPageService,
+      mockAddressService, mockToast,
+      mockContent, mockAppSettingsService;
   let mockRoute: ActivatedRouteStub;
 
   beforeEach(() => {
-    mockParticipantService = jasmine.createSpyObj('participantService', ['getGroupParticipant', 'getAllParticipantsOfRoleInGroup', 'updateParticipantRole']);
+    mockParticipantService = jasmine.createSpyObj('participantService',
+                                                 ['getGroupParticipant',
+                                                 'getAllParticipantsOfRoleInGroup',
+                                                 'updateParticipantRole']);
     mockRouter = {
       url: '/connect/gathering/1234', routerState:
       { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
@@ -45,6 +51,7 @@ describe('ParticipantDetailsComponent', () => {
     mockAddressService = jasmine.createSpyObj('addressService', ['getPartialPersonAddress']);
     mockToast = jasmine.createSpyObj('toast', ['warning']);
     mockContent = jasmine.createSpyObj('content', ['getContent']);
+    mockAppSettingsService = jasmine.createSpyObj('appSettings', ['isSmallGroupApp']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -60,7 +67,8 @@ describe('ParticipantDetailsComponent', () => {
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: AddressService, useValue: mockAddressService },
         { provide: ToastsManager, useValue: mockToast},
-        { provide: ContentService, useValue: mockContent}
+        { provide: ContentService, useValue: mockContent},
+        { provide: AppSettingsService, useValue: mockAppSettingsService}
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });

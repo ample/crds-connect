@@ -1,13 +1,18 @@
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { AddressService } from '../../../../services/address.service';
-import { BlandPageService } from '../../../../services/bland-page.service';
-import { StateService } from '../../../../services/state.service';
-import { Participant, Address } from '../../../../models';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ParticipantService } from '../../../../services/participant.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { GroupRole, MaxGroupApprentices, MaxGroupLeaders } from '../../../../shared/constants';
 import { ToastsManager } from 'ng2-toastr';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+
+import { AddressService } from '../../../../services/address.service';
+import { AppSettingsService } from '../../../../services/app-settings.service';
+import { BlandPageService } from '../../../../services/bland-page.service';
+import { ParticipantService } from '../../../../services/participant.service';
+import { StateService } from '../../../../services/state.service';
+
+import { GroupRole, MaxGroupApprentices, MaxGroupLeaders } from '../../../../shared/constants';
+import { Participant, Address } from '../../../../models';
+
+
 
 @Component({
   selector: 'participant-details',
@@ -34,7 +39,8 @@ export class ParticipantDetailsComponent implements OnInit {
               private blandPageService: BlandPageService,
               private addressService: AddressService,
               private toast: ToastsManager,
-              private content: ContentService) { }
+              private content: ContentService,
+              private appSettings: AppSettingsService) { }
 
   public ngOnInit() {
     this.state.setLoading(true);
