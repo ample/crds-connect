@@ -1,0 +1,81 @@
+<div class="connect-container connect-layout-container">
+    <div class="row soft-top">
+        <div class="col-sm-12 soft-top">
+            <p class="media-meta flush-bottom">STEP 5 OF 9</p>
+            <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Details</h3>
+            <hr>
+            <crds-content-block id="groupToolCreateGroupAboutHelp"></crds-content-block>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="control-label soft-ends">Tell us what your group is all about</p>
+            <form [formGroup]="groupDetailsForm" (ngSubmit)="onSubmit(groupDetailsForm)">
+
+                <div>
+                    <label class="control-label" for="groupName">Group name</label>
+                    <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers">
+                    <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupName'].valid" class="soft-top">
+                        <div class="alert alert-danger">This field is required.</div>
+                    </div>
+                </div>
+                <div class="soft-ends">
+                    <label class="control-label" for="groupDescription">Group description</label>
+                    <textarea id="groupDescription" class="form-control soft-ends" rows="6" maxLength="500" formControlName="groupDescription"
+                        [(ngModel)]="createGroupService.group.groupDescription" placeholder="Ex:This group is for men in their 30s who like to brew their own beer. We’ll meet regularly to come up with a new beer and brew it together, and share some beers while we build friendships. We’ll meet in Pleasant Ridge weekly in my home."></textarea>
+                    <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupDescription'].valid" class="soft-top">
+                        <div class="alert alert-danger">This field is required.</div>
+                    </div>
+                </div>
+
+                <div>
+                    <crds-content-block id="groupToolCreateGroupVisibilityHelp"></crds-content-block>
+                    <p class="control-label soft-ends">Set your group to public or private</p>
+                    <div *ngIf="createGroupService.group.availbleOnline === false" class="soft-top">
+                        <crds-content-block id="groupToolPrivateGroupAlert" class="alert alert-warning"></crds-content-block>
+                    </div>
+                    <div class="btn-group btn-group-block">
+                        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }"
+                            formControlName="availableOnline" value="true" (click)="onClick(true)" ngDefaultControl>
+                    <div class="btn-group-label text-left row">
+                        <span class="btn-group-icons">
+                            <svg class="icon circle-thin" viewBox="0 0 256 256">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                            </svg>
+                            <svg class="icon check-circle" viewBox="0 0 256 256">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                            </svg>
+                        </span>
+                        Public (Your group will be viewable in search results for everyone to see)
+                    </div>
+                    </button>
+                        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }"
+                            formControlName="availableOnline" value="false" (click)="onClick(false)" ngDefaultControl>
+                    <div class="btn-group-label text-left row">
+                        <span class="btn-group-icons">
+                            <svg class="icon circle-thin" viewBox="0 0 256 256">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                            </svg>
+                            <svg class="icon check-circle" viewBox="0 0 256 256">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                            </svg>
+                        </span>
+                        Private (Your group will NOT be publically viewable in search results.)
+                    </div>
+                    </button>
+                    </div>
+                    <div *ngIf="isSubmitted && groupVisabilityInvalid" class="soft-top">
+                        <div class="alert alert-danger">This field is required.</div>
+                    </div>
+                </div>
+
+                <div class="soft-ends">
+                    <hr>
+                    <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
+                    <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

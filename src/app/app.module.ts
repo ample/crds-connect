@@ -2,7 +2,7 @@ import {
     ParticipantDetailsComponent
 } from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,11 +23,12 @@ export class CustomOptions extends ToastOptions {
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule  } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
 
+import { ClipboardModule } from 'ngx-clipboard';
 import { PreloaderModule } from './preloader/preloader.module';
 import { SelectModule } from 'ng-select';
 
@@ -37,14 +38,28 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
+import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
+import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
+import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
+import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
+import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
+import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
+
+import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { GroupTypeComponent } from './components/filters/group-type/group-type.component';
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { AddSomeoneComponent } from './components/pin-details/gathering/add-someone/add-someone.component';
+import { LeaderResourcesComponent } from './components/pin-details/gathering/leader-resources/leader-resources.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
@@ -54,6 +69,7 @@ import { MapContentComponent } from './components/map-content/map-content.compon
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
+import { OnlineOrPhysicalGroupComponent } from './components/filters/online-or-physical-group/online-or-physical-group.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
@@ -67,6 +83,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent} from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
@@ -75,6 +92,8 @@ import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { CreateGroupService } from './components/create-group/create-group-data.service';
+import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
@@ -83,6 +102,7 @@ import { GroupService } from './services/group.service';
 import { IPService } from './services/ip.service';
 import { LocationService } from './services/location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
+import { LookupService } from './services/lookup.service';
 import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
 import { PinLabelService } from './services/pin-label.service';
@@ -101,6 +121,7 @@ import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { GroupLeaderApprovedGuard } from './route-guards/group-leader-approved.guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
@@ -126,12 +147,15 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CommonModule,
     DatepickerModule,
     HttpModule,
+    ClipboardModule,
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
     ModalModule.forRoot(),
+    AccordionModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
+    TimepickerModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
@@ -144,10 +168,22 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
+    ContactLeaderComponent,
+    CreateGroupSummaryComponent,
+    CreateGroupPage1Component,
+    CreateGroupPage2Component,
+    CreateGroupPage3Component,
+    CreateGroupPage4Component,
+    CreateGroupPage5Component,
+    EmailParticipantsComponent,
+    FiltersComponent,
+    KidsWelcomeComponent,
+    AgeGroupsComponent,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    GroupTypeComponent,
     HandleInviteComponent,
     HeaderComponent,
     HostApplicationComponent,
@@ -161,6 +197,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapFooterComponent,
     NeighborsComponent,
     NoResultsComponent,
+    OnlineOrPhysicalGroupComponent,
     OnlyTheseKeysDirective,
     PageNotFoundComponent,
     ParticipantCardComponent,
@@ -177,8 +214,10 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     RemovePersonPinComponent,
     SayHiComponent,
     SearchBarComponent,
+    SearchFilterComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
+    LeaderResourcesComponent,
     GoogleMapClusterDirective
   ],
   providers: [
@@ -189,12 +228,15 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BlandPageService,
     ContentService,
     CookieService,
+    CreateGroupService,
     DetailedUserDataResolver,
     IPService,
     SiteAddressService,
+    FilterService,
     GoogleMapsAPIWrapper,
     GoogleMapService,
     GroupLeaderGuard,
+    GroupLeaderApprovedGuard,
     Angulartics2GoogleAnalytics,
     GroupService,
     HostApplicationHelperService,
@@ -203,6 +245,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LoginRedirectService,
     LocationService,
     LoggedInGuard,
+    LookupService,
     NeighborsHelperService,
     ParticipantService,
     PinLabelService,

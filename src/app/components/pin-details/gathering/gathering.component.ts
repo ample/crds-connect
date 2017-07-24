@@ -21,6 +21,7 @@ import { ListHelperService } from '../../../services/list-helper.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { groupDescriptionLengthDetails } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
+import * as moment from 'moment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -37,13 +38,14 @@ export class GatheringComponent implements OnInit {
   private pinType: any = pinType;
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
+  public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
   private ready = false;
-  private address: Address = Address.overload_Constructor_One();
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private leaders: Participant[] = [];
-  public proximityToDisplay: string = '';
+  private participantEmails: string[];
+  public adjustedLeaderNames: string[];
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -60,19 +62,20 @@ export class GatheringComponent implements OnInit {
     private angulartics2: Angulartics2,
     public appSettingsService: AppSettingsService) { }
 
-  //ONINIT is doing WAY too much, needs to be simplified and broken up.
+  // ONINIT is doing WAY too much, needs to be simplified and broken up.
+
   public ngOnInit() {
     window.scrollTo(0, 0);
     this.requestToJoin = this.requestToJoin.bind(this);
     this.state.setLoading(true);
 
+    this.isInGroupApp = this.app.isSmallGroupApp();
     let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
     this.state.setPageHeader(pageTitleOnHeader, '/');
 
     if (this.pin.gathering != null) {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
-      this.proximityToDisplay = this.pin.proximity ? '(' + this.pin.proximity.toFixed(1) + ' MI)' : '';
     }
     try {
       this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
@@ -81,9 +84,12 @@ export class GatheringComponent implements OnInit {
             this.leaders = leaders;
           });
           this.pin.gathering.Participants = participants;
+          this.participantEmails = participants.map(p=>p.email);
+
           this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
             role => {
-              if (role !== GroupRole.NONE) {
+              let isInGroup: boolean = role !== GroupRole.NONE;
+              if (isInGroup) {
                 this.isInGathering = true;
                 this.isLeader = role === GroupRole.LEADER;
 
@@ -101,9 +107,11 @@ export class GatheringComponent implements OnInit {
                   }
                   );
               } else {
+                // Not a participant of this group.
                 this.state.setLoading(false);
                 this.ready = true;
               }
+              this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup );
             });
         },
         failure => {
@@ -111,9 +119,31 @@ export class GatheringComponent implements OnInit {
           this.blandPageService.goToDefaultError('');
         });
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
       this.blandPageService.goToDefaultError('');
     }
+  }
+
+  private onContactLeaderClicked(): void {
+
+    this.state.setLoading(true);
+    let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
+    this.router.navigate([contactLeaderOfThisGroupPageUrl]);
+
+  }
+
+  public getMeetingTime() {
+    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
+    return theTime.toDate();
+  }
+ 
+  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
+     let adjustedLeaderNames: string[] = [];
+     leaders.forEach((leader) => {
+       let adjustedName: string =  isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0,1) + "."}`;
+       adjustedLeaderNames.push(adjustedName);
+     })
+     return adjustedLeaderNames;
   }
 
   public requestToJoin() {

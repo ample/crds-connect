@@ -8,6 +8,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
+import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
+import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
+import { CreateGroupPage2Component } from './components/create-group/page-2/create-group-page-2.component';
+import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
+import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
+import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
+import { FiltersComponent } from './components/filters/filters.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
@@ -29,6 +37,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
+import { GroupLeaderApprovedGuard } from './route-guards/group-leader-approved.guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
@@ -57,6 +66,44 @@ const appRoutes: Routes = [
     data: [{
       accept: true
     }]
+  }, {
+    path: 'create-group',
+    canActivate: [
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
+    ],
+    children: [
+      {
+        path: '',
+        component: CreateGroupSummaryComponent
+      },
+      {
+        path: 'page-1',
+        component: CreateGroupPage1Component
+      },
+      {
+        path: 'page-2',
+        component: CreateGroupPage2Component
+      },
+      {
+        path: 'page-3',
+        component: CreateGroupPage3Component
+      },
+      {
+        path: 'page-4',
+        component: CreateGroupPage4Component
+      },
+      {
+        path: 'page-5',
+        component: CreateGroupPage5Component
+      }
+    ]
+  }, {
+    path: 'contact-leader/:groupId',
+    component: ContactLeaderComponent,
+    canActivate: [
+      LoggedInGuard,
+    ]
   }, {
     path: 'decline-invite/:groupId/:guid',
     component: HandleInviteComponent,
@@ -163,11 +210,15 @@ const appRoutes: Routes = [
     component: ParticipantDetailsComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove-self/:removeSelf',
+    component: ParticipantRemoveComponent,
+    canActivate: [LoggedInGuard]
+  }, {
     path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
     component: ParticipantRemoveComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
-    path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove',
+    path: 'gathering/:groupId/participant-detail/:groupParticipantId/remove',
     component: ParticipantRemoveComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {

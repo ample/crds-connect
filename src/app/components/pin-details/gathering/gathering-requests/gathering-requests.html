@@ -1,12 +1,14 @@
-<h3 class="title font-size-h5 soft-top">Pending</h3>
-<hr>
+<h3 class="component-header font-size-h5 text-uppercase flush-bottom soft-top">Pending</h3>
+<hr class="push-quarter-top flush-bottom">
+
 <div *ngIf="loading" [ngClass]="{'loading': loading}">
   <app-preloader></app-preloader>
 </div>
+
 <div *ngIf="inquiries.length > 0 && !loading">
   <div *ngFor="let inquiry of inquiries">
-    <div class="border-bottom soft-half-bottom">
-      <participant-card [participant]="convertToParticipant(inquiry)" [canBeHyperlinked]="false"></participant-card>
+    <div class="border-bottom">
+      <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
 
       <div class="pending-requests">
         <p class="text-muted font-size-smaller">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</p>

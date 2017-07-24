@@ -1,6 +1,6 @@
-<div class="row">
-  <!--LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
-  <div *ngIf="userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn"
+<div class="row" *ngIf = "isReadyToDisplayComponent">
+  <!--NOT SMALL GROUPS APP - LOGGED IN, NOT ON MAP OR NOT LOGGED IN-->
+  <div *ngIf="!isSmallGroupApp && (userMapState === userMapStateEnum.LoggedIn_NotOnMap || userMapState === userMapStateEnum.NotLoggedIn)"
         class="bg-gray col-xs-12 push-top soft">
     <crds-content-block id="promptToPutSelfOnMap"></crds-content-block>
     <button class="btn btn-default btn-block-mobile"(click)="addMeToTheMapClicked()">Add me to map</button>
@@ -15,6 +15,31 @@
       <button class="btn btn-default btn-block-mobile" (click)="whatsAHostBtnClicked()">What's a host?</button>
     </div>
   </div>
+
+  <div *ngIf="isSmallGroupApp"
+        class="bg-gray col-xs-12 push-top soft">    
+    <div class="btn-group full-width">
+      <button class="btn btn-default btn-block-mobile" (click)="onCreateAGroupClicked()">Create a group</button>
+
+      <button class="btn btn-default btn-block-mobile"
+              *ngIf = "!doesUserLeadAnyGroups"
+              (click)="onBecomeALeaderClicked()">
+              Become a Leader
+      </button>
+
+      <button class="btn btn-default btn-block-mobile" 
+              *ngIf = "isMyView && doesUserLeadAnyGroups"
+              (click)="onLeaderResourcesClicked()">
+              Leader resources
+      </button>
+
+      <button class="btn btn-default btn-block-mobile" 
+              *ngIf = "isMyView && doesUserLeadAnyGroups"
+              (click)="onGroupResourcesClicked()">
+              Group resources
+      </button>
+    </div>
+  </div>  
 
   <div class="col-xs-12 push-top">
     <p class="text-muted font-size-small">When interacting with others, please be smart. We know you've used the internet before. We're just saying we want you to feel safe and be safe!</p>

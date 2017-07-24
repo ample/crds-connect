@@ -30,8 +30,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
   public addMeToMapForm: FormGroup;
   public stateList: Array<string>;
   public ready: boolean;
-  public submissionError: boolean = false;
-  private submitting: boolean = false;
+  public isFormSubmitted: boolean = false;
 
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -54,19 +53,19 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
 
     this.ready = false;
     this.addressService.getFullAddress(this.userData.participantId, pinType.PERSON)
-      .finally(
+    .finally(
       () => {
         this.state.setLoading(false);
         this.ready = true;
-      })
-      .subscribe(
+    })
+    .subscribe(
       success => {
         this.userData.address = success;
       },
       error => {
         this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
       }
-      );
+    );
   }
 
   public ngAfterViewInit() {
@@ -75,41 +74,38 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     document.querySelector('body').classList.add('fauxdal-open');
   }
 
-  public onSubmit() {
-    this.submitting = true;
-    this.setSubmissionErrorWarningTo(false);
-    this.pinService.postPin(this.userData).subscribe(
-      pin => {
-        this.state.setMyViewOrWorldView('world');
-        this.state.setCurrentView('map');
-        this.state.setLastSearch(null);
-        this.session.clearCache();
+  public onSubmit({valid}: {valid: boolean}) {
+    this.isFormSubmitted = true;
 
-        this.state.navigatedFromAddToMapComponent = true;
-        this.state.postedPin = pin;
+    if (valid) {
+      this.pinService.postPin(this.userData).subscribe(
+        pin => {
+          this.state.setMyViewOrWorldView('world');
+          this.state.setCurrentView('map');
+          this.state.setLastSearch(null);
+          this.session.clearCache();
 
-        let nowAPin = new BlandPageDetails(
-          'See for yourself',
-          'finderNowAPin',
-          BlandPageType.ContentBlock,
-          BlandPageCause.Success,
-          '',
-          ''
-        );
-        this.blandPageService.primeAndGo(nowAPin);
-      },
-      err => {
-        this.setSubmissionErrorWarningTo(true);
-        this.submitting = false;
-      }
-    );
+          this.state.navigatedFromAddToMapComponent = true;
+          this.state.postedPin = pin;
+
+          let nowAPin = new BlandPageDetails(
+            'See for yourself',
+            'finderNowAPin',
+            BlandPageType.ContentBlock,
+            BlandPageCause.Success,
+            '',
+            ''
+          );
+          this.blandPageService.primeAndGo(nowAPin);
+        },
+        err => {
+          this.isFormSubmitted = false;
+        }
+      );
+    }
   }
 
   public closeClick() {
     this.location.back();
-  }
-
-  public setSubmissionErrorWarningTo(isErrorActive) {
-    this.submissionError = isErrorActive;
   }
 }
