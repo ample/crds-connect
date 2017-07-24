@@ -28,7 +28,7 @@ describe('CreateGroupPreviewComponent', () => {
         mockProfileService, mockRouter, mockToastr, mockParticipantService,
         mockBlandPageService, mockContentService;
     beforeEach(() => {
-        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission']);
+        mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupServ', ['createGroup', 'createParticipants']);
         mockProfileService = jasmine.createSpyObj<ProfileService>('profile', ['postProfileData']);
@@ -111,6 +111,7 @@ describe('CreateGroupPreviewComponent', () => {
         expect(mockStateService.setCurrentView).toHaveBeenCalledWith('list');
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
         expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();
+        expect(mockCreateGroupService.reset).toHaveBeenCalled();
     });
 
     it('should handle error on create group', () => {
@@ -128,6 +129,7 @@ describe('CreateGroupPreviewComponent', () => {
         expect(mockToastr.error).toHaveBeenCalledWith('stuff dont work');
         expect(mockContentService.getContent).toHaveBeenCalledWith('generalError');
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('/create-group/preview');
+        expect(mockCreateGroupService.reset).not.toHaveBeenCalled();
 
     });
 

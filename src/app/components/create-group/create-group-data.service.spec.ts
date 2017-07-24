@@ -201,7 +201,7 @@ describe('CreateGroupService', () => {
         })
     );
 
-    it('format times and dates flexible meeting schedule',
+    it('should format times and dates flexible meeting schedule',
         inject([CreateGroupService], (s: CreateGroupService) => {
             let group = MockTestData.getAGroup();
             group.meetingDay = 'Blah!';
@@ -221,7 +221,7 @@ describe('CreateGroupService', () => {
         })
     );
 
-    it('format times and dates specific meeting schedule',
+    it('should format times and dates specific meeting schedule',
         inject([CreateGroupService], (s: CreateGroupService) => {
             let group = MockTestData.getAGroup();
             group.meetingDay = 'Blah!';
@@ -239,6 +239,25 @@ describe('CreateGroupService', () => {
             expect(group.meetingTime).not.toBeNull();
             expect(group.startDate).toBe('1983-07-16T17:00:00Z');
             expect(group.meetingTime).toBe('5:00 PM');
+        })
+    );
+
+    it('should reset',
+        inject([CreateGroupService], (s: CreateGroupService) => {
+            let group = MockTestData.getAGroup();
+            group.meetingDay = 'Blah!';
+            group.meetingDayId = 3;
+            group.meetingFrequencyId = 2;
+            group.meetingFrequency = 'At times';
+            group.meetingTime = defaultGroupMeetingTime;
+            s.meetingTimeType = 'specific';
+            group.startDate = moment(defaultGroupMeetingTime).format();
+            s.group = group;
+            s.reset();
+            expect(s.group.meetingDay).toBeNull();
+            expect(s.initializePageOne).toBeFalsy();
+            expect(s.initializePageSix).toBeFalsy();
+            expect(s.meetingTimeType).toBe('specific');
         })
     );
 

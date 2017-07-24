@@ -168,5 +168,16 @@ export class CreateGroupService {
         return attribute;
     }
 
-}
+    public reset(): void {
+        this.pageOneInitialized = false;
+        this.pageSixInitialized = false;
+        this.profileData = {};
+        this.group = Group.overload_Constructor_CreateGroup(0);
+        this.selectedAgeRanges = [];
+        this.selectedCategories = [];
+        this.selectedGroupGenderMix = Attribute.constructor_create_group();
+        this.categories = [];
+        this.meetingTimeType = 'specific';
+    }
 
+}

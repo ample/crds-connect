@@ -49,7 +49,11 @@ export class CreateGroupPreviewComponent implements OnInit {
         .subscribe((returnData) => {
             group.groupId = returnData[0].groupId;
             this.createGroupService.setParticipants(returnData[1], group);
-            this.groupService.createParticipants(group).subscribe(() => {
+            this.groupService.createParticipants(group)
+            .finally(() => {
+                this.createGroupService.reset();
+            })
+            .subscribe(() => {
                 this.toastr.success('Successfully created group!');
                 this.state.postedPin = this.smallGroupPin;
                 this.state.setIsMyStuffActive(true);
