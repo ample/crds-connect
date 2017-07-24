@@ -126,7 +126,7 @@ export class GatheringComponent implements OnInit {
       }
     } else {
       this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, false);
-      // this.doDisplayFullDesc = true;
+      this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.ready = true;
     }
   }
