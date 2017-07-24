@@ -51,6 +51,9 @@ export const MaxGroupApprentices: number = 2;
 
 export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/onsitegroups`;
 
+export const GroupResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
+export const LeaderResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
+
 // TODO can we delete this? AppRoute
 export class AppRoute {
   CONNECT_ROUTE: string;

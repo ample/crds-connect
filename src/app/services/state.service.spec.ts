@@ -3,7 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
-
+import { SearchOptions } from '../models/search-options';
 import { App, AppRoute, appRoute, app } from '../shared/constants';
 
 describe('Service: State', () => {
@@ -12,6 +12,10 @@ describe('Service: State', () => {
       providers: [StateService]
     });
   });
+
+  it('should have instance of SearchOptions', inject([StateService], (service: any) => {
+    expect(service.lastSearch).toBeDefined();
+  }));
 
   it('should create an instance', inject([StateService], (service: any) => {
       expect(service).toBeTruthy();
@@ -48,4 +52,13 @@ describe('Service: State', () => {
     service.setLastSearchSearchString('crazy train');
     expect(service.getLastSearch().search).toBe('crazy train');
   }));
+
+  it('should clear search params', inject([StateService], (service: any) => {
+    service.searchBarText = 'search for stuff';
+    service.lastSearch = new SearchOptions('one', 'two', 'three');
+    service.clearLastSearch();
+    expect(service.searchBarText).toBe('');
+    expect(service.lastSearch.search).toBe('');
+  }));
+
 });

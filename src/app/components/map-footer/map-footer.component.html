@@ -1,10 +1,10 @@
 <input type="button"
-      class="btn btn-link flush text-white"
-      value="Get started"
-      (click)="gettingStartedBtnClicked()">
-<div class="pipe"></div>
+       class="btn btn-primary"
+       value="Get started"
+       (click)="gettingStartedBtnClicked()">
+
 <input type="button"
-      class="btn btn-link flush text-white"
-      value="My stuff"
-      [ngClass]="{'active': state.myStuffActive }"
-      (click)="myStuffBtnClicked()">
+       class="btn btn-primary"
+       value="My stuff"
+       [ngClass]="{'active': state.myStuffActive }"
+       (click)="myStuffBtnClicked()">

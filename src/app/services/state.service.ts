@@ -24,7 +24,6 @@ export class StateService {
   public lastSearch: SearchOptions;
   public myStuffActive: boolean = false;
   public navigatedBackToNeighbors: boolean = false;
-  public navigatedDirectlyToGroup: boolean   = false; // Did we navigate directly to a group (group mode) because there was only one?
   // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
   public navigatedFromAddToMapComponent: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
@@ -40,6 +39,10 @@ export class StateService {
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
+
+  constructor() {
+    this.lastSearch = new SearchOptions('', '', '');
+  }
 
 
   public emitMyStuffChanged(): void {
@@ -81,9 +84,6 @@ export class StateService {
   }
 
   public setLastSearchSearchString(value: string) {
-    if ( this.lastSearch === undefined ) {
-      this.lastSearch = new SearchOptions('', '', '');
-    }
     this.lastSearch.search = value;
   }
 
@@ -136,4 +136,8 @@ export class StateService {
     this.updatedPin = null;
   }
 
+  public clearLastSearch() {
+    this.lastSearch = new SearchOptions('', '', '');
+    this.searchBarText = '';
+  }
 }

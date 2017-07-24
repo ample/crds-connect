@@ -53,8 +53,8 @@ export class MapFooterComponent implements OnInit {
 
   public changeStateToAllResults() {
 
-    this.state.setIsMyStuffActive(false);
     this.state.lastSearch.search = '';
+    this.state.setIsMyStuffActive(false);
 
     this.pinService.clearPinCache();
 

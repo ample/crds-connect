@@ -1,8 +1,8 @@
 <div class="connect-container connect-layout-container">
-    <div class="row">
-        <div class="col-sm-12">
-            <p class="media-meta">STEP 2 OF 6</p>
-            <h3 class="media-heading">Meeting Time</h3>
+    <div class="row soft-top">
+        <div class="col-sm-12 soft-top">
+            <p class="media-meta flush-bottom">STEP 2 OF 6</p>
+            <h3 class="media-heading font-family-condensed-extra text-uppercase">Meeting Time</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupMeetingTimeHelp"></crds-content-block>
         </div>
@@ -51,7 +51,7 @@
                                 </svg>
                             </span>
                             <div class="border-ends border-sides soft-sides col-sm-12">
-                                 <timepicker [(ngModel)]="createGroupService.group.meetingTime" formControlName="meetingTime" [showMeridian]="true" [minuteStep]="15"></timepicker> 
+                                 <timepicker [(ngModel)]="createGroupService.group.meetingTime" formControlName="meetingTime" [showMeridian]="true" [minuteStep]="15"></timepicker>
                             </div>
                         </div>
                         <div class="soft-top custom-input">
@@ -87,14 +87,12 @@
                     </button>
                     </div>
                 </div>
-                <div class="col-xs-12 btn-block-mobile soft-ends">
-                    <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
+                <div class="soft-ends">
+                    <hr>
+                    <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
                     <button type="button" (click)="onBack()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                 </div>
             </form>
         </div>
     </div>
-</div>
-<div>
-    <pre>{{createGroupService.group | json }}</pre>
 </div>

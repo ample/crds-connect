@@ -61,6 +61,7 @@ import { HandleInviteComponent } from './components/handle-invite/handle-invite.
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { AddSomeoneComponent } from './components/pin-details/gathering/add-someone/add-someone.component';
+import { LeaderResourcesComponent } from './components/pin-details/gathering/leader-resources/leader-resources.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { ListFooterComponent } from './components/list-footer/list-footer.component';
 import { ListHelperService } from './services/list-helper.service';
@@ -221,6 +222,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchFilterComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
+    LeaderResourcesComponent,
     GoogleMapClusterDirective
   ],
   providers: [
