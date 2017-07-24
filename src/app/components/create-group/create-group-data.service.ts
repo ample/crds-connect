@@ -15,7 +15,6 @@ export class CreateGroupService {
     private pageOneInitialized: boolean = false;
     private pageSixInitialized: boolean = false;
     public meetingTimeType: string = 'specific';
-    public meetingIsInPerson: boolean = true;
 
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
@@ -129,7 +128,7 @@ export class CreateGroupService {
 
     public prepareForGroupSubmission(): Group {
         let group = _.cloneDeep(this.group);
-        if (!this.meetingIsInPerson) {
+        if (group.isVirtualGroup) {
             group.address = null;
         }
         this.formatTimesAndDates(group);

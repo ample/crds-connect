@@ -175,11 +175,11 @@ describe('CreateGroupService', () => {
         })
     );
 
-    it('should prepare group for submission meeting is in person',
+    it('should prepare group for submission isVirtualGroup false',
         inject([CreateGroupService], (s: CreateGroupService) => {
             s.group = MockTestData.getAGroup();
             s.group.address = MockTestData.getAnAddress();
-            s.meetingIsInPerson = true;
+            s.group.isVirtualGroup = false;
             spyOn(s, 'formatTimesAndDates');
             let result = s.prepareForGroupSubmission();
             expect(result.groupId).toBe(s.group.groupId);
@@ -188,11 +188,11 @@ describe('CreateGroupService', () => {
         })
     );
 
-     it('should prepare group for submission meeting is online',
+     it('should prepare group for submission isVirtualGroup true',
         inject([CreateGroupService], (s: CreateGroupService) => {
             s.group = MockTestData.getAGroup();
             s.group.address = MockTestData.getAnAddress();
-            s.meetingIsInPerson = false;
+            s.group.isVirtualGroup = true;
             spyOn(s, 'formatTimesAndDates');
             let result = s.prepareForGroupSubmission();
             expect(result.groupId).toBe(s.group.groupId);
