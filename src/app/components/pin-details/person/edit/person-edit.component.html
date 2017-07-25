@@ -1,36 +1,34 @@
-<div class="connect-container connect-layout-container dark-theme">
-  <div class="row">
-    <div class="col-xs-12 soft">
-      <div class="media">
-        <profile-picture imageClass="media-object img-size-6"
-                        wrapperClass="media-img-wrapper"
-                        [contactId]="pin.contactId"></profile-picture>
+<div class="connect-container connect-layout-container">
+  <div class="pin-details-bg person soft">
+    <div class="media">
+      <profile-picture imageClass="media-object img-size-6"
+                      wrapperClass="media-img-wrapper"
+                      [contactId]="pin.contactId"></profile-picture>
 
-        <div class="media-body">
-          <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
+      <div class="media-body">
+        <pin-header [pin]="pin" [isPinOwner]="isPinOwner"></pin-header>
+      </div>
+    </div>
+
+    <hr>
+
+    <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
+      <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
+
+      <footer class="row soft-top">
+        <div class="col-xs-12 btn-group">
+        <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary btn-block-mobile">Update my details</button>
+          <button type="button" (click)="cancel()" class="btn btn-default btn-block-mobile">Cancel</button>
         </div>
+      </footer>
+
+      <div>
+        <a class="pointer" (click)="removePersonPin()">Remove me from the map</a>
       </div>
 
-      <hr>
-
-      <form *ngIf="ready" novalidate [formGroup]="editPersonForm" (ngSubmit)="onSubmit()">
-        <address-form [parentForm]="editPersonForm" [address]="pin.address" [isFormSubmitted]="submissionError" groupName="editPersonForm"></address-form>
-
-        <footer class="row soft-top">
-          <div class="col-xs-12 btn-group">
-          <button type="submit" [disabled]="submitting || editPersonForm.invalid" class="btn btn-secondary btn-block-mobile">Update my details</button>
-            <button type="button" (click)="cancel()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
-          </div>
-        </footer>
-
-          <div>
-              <a class="pointer" (click)="removePersonPin()">Remove me from the map</a>
-          </div>
-
-        <div *ngIf="submissionError" class="alert alert-danger">
-          <crds-content-block id="generalError"></crds-content-block>
-        </div>
-      </form>
-    </div>
+      <div *ngIf="submissionError" class="alert alert-danger">
+        <crds-content-block id="generalError"></crds-content-block>
+      </div>
+    </form>
   </div>
 </div>

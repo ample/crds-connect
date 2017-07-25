@@ -45,9 +45,12 @@ import { CreateGroupPage2Component } from './components/create-group/page-2/crea
 import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
 import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
 import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
+import { CreateGroupPage6Component } from './components/create-group/page-6/create-group-page-6.component';
+import { CreateGroupPreviewComponent } from './components/create-group/preview/create-group-preview.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
+import { CategoryComponent } from './components/filters/category/category.component';
 
 import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -107,6 +110,7 @@ import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
 import { PinLabelService } from './services/pin-label.service';
 import { PinService } from './services/pin.service';
+import { ProfileService } from './services/profile.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
@@ -175,10 +179,13 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CreateGroupPage3Component,
     CreateGroupPage4Component,
     CreateGroupPage5Component,
+    CreateGroupPage6Component,
+    CreateGroupPreviewComponent,
     EmailParticipantsComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
+    CategoryComponent,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
@@ -252,6 +259,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PageNotFoundGuard,
     PinService,
     PinResolver,
+    ProfileService,
     SearchService,
     SessionService,
     StateService,

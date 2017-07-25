@@ -23,7 +23,7 @@ export class GroupMeetingScheduleType {
   }
 }
 
-export const groupMeetingScheduleType: any = new GroupMeetingScheduleType();
+export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
 
@@ -95,12 +95,14 @@ export enum AppType {
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
   GROUP_AGE_RANGE: string;
+  GROUP_CATEGORY: string;
   GROUP_TYPE: string;
   GROUP_VIRTUAL: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
     this.GROUP_AGE_RANGE = 'groupagerange';
+    this.GROUP_CATEGORY = 'groupcategory';
     this.GROUP_TYPE = 'grouptype';
     this.GROUP_VIRTUAL = 'groupvirtual';
   }

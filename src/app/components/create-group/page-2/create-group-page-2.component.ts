@@ -75,7 +75,6 @@ export class CreateGroupPage2Component implements OnInit {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid) {
-      this.removeMeetingInfoFromGroupIfFlexible();
       this.router.navigate(['/create-group/page-3']);
     } else {
       this.state.setLoading(false);
@@ -89,7 +88,7 @@ export class CreateGroupPage2Component implements OnInit {
       meetingTime: [this.createGroupService.group.meetingTime],
       meetingDay: [this.createGroupService.group.meetingDayId],
       meetingFrequency: [this.createGroupService.group.meetingFrequency]
-    })
+    });
   }
 
   private makeSpecificTimeFormSectionRequired(form: FormGroup): FormGroup {
@@ -98,12 +97,6 @@ export class CreateGroupPage2Component implements OnInit {
     form.controls['meetingFrequency'].setValidators(Validators.required);
 
     return form;
-  }
-
-  private removeMeetingInfoFromGroupIfFlexible(): void {
-    if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
-      this.createGroupService.clearMeetingTimeData();
-    }
   }
 
   private removeValidationOnSpecificTimeFormSection(form: FormGroup): FormGroup {
@@ -115,7 +108,7 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private setRequiredFormFields(form: FormGroup, meetingTimeType: string): FormGroup {
-    if(meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE){
+    if (meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE) {
       this.meetingTimeForm = this.makeSpecificTimeFormSectionRequired(this.meetingTimeForm);
     }
 
@@ -129,6 +122,20 @@ export class CreateGroupPage2Component implements OnInit {
     form.controls['meetingFrequency'].updateValueAndValidity();
 
     return form;
+  }
+
+  private onDayChange(value): void {
+    let day: LookupTable = this.daysOfTheWeek.find((aDay: LookupTable) => {
+      return aDay.dp_RecordID === +value;
+    });
+    this.createGroupService.group.meetingDay = day.dp_RecordName;
+  }
+
+  private onFrequencyChange(value): void {
+    let frequency = this.meetingFrequencies.find((freq) => {
+      return freq.meetingFrequencyId === +value;
+    });
+    this.createGroupService.group.meetingFrequency = frequency.meetingFrequencyDesc;
   }
 
 }

@@ -152,7 +152,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           : searchParams.userKeywordSearchString;
         this.state.setLastSearchSearchString(lastSearchString);
         this.state.setLoading(false);
-        this.goToErrorPage();
+        if (error.status === 412) {
+          this.goToNoResultsPage();
+        } else {
+          this.goToErrorPage();
+        }
       });
   }
 

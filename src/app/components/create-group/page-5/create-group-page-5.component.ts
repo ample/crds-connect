@@ -16,7 +16,7 @@ export class CreateGroupPage5Component implements OnInit {
 
     private isComponentReady: boolean = false;
     private isSubmitted: boolean = false;
-    private groupVisabilityInvalid: boolean = false;
+    private groupVisibilityInvalid: boolean = false;
 
     constructor(private fb: FormBuilder,
                 private state: StateService,
@@ -35,7 +35,7 @@ export class CreateGroupPage5Component implements OnInit {
     }
 
     private onClick(value: boolean): void {
-        this.groupVisabilityInvalid = false;
+        this.groupVisibilityInvalid = false;
         this.createGroupService.group.availableOnline = value;
     }
 
@@ -45,11 +45,10 @@ export class CreateGroupPage5Component implements OnInit {
         if (form.valid && this.createGroupService.group.availableOnline != null) {
             this.router.navigate(['/create-group/page-6']);
         } else {
-            this.groupVisabilityInvalid = true;
+            this.groupVisibilityInvalid = true;
             this.state.setLoading(false);
         }
     }
-
 
     public back(): void {
         this.locationService.back();
