@@ -1,6 +1,18 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
 
+export class PinsShown {
+  MY_STUFF: string;
+  EVERYONES_STUFF: string;
+
+  constructor() {
+    this.MY_STUFF = 'my';
+    this.EVERYONES_STUFF = 'world';
+  }
+}
+
+export const pinsShown: PinsShown = new PinsShown();
+
 export class GroupMeetingScheduleType {
   SPECIFIC_TIME_AND_DATE: string;
   FLEXIBLE: string;

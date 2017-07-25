@@ -212,6 +212,23 @@ describe('Service: Pin', () => {
 
     }));
 
+    it('should remove pin from results if the pin is deleted', inject([PinService], (service: PinService) => {
+      let mockIdOfPinToDelete: number = 9876543210;
+      let mockTypeOfPinToDelete: number = pinType.PERSON;
+      let mockDeletedPinIdentifier: PinIdentifier = new PinIdentifier(mockTypeOfPinToDelete, mockIdOfPinToDelete);
+      let mockPinOne: Pin = MockTestData.getAPin();
+      let mockPinTwo: Pin = MockTestData.getAPin(mockIdOfPinToDelete, 1, mockTypeOfPinToDelete, 5, 5);
+      let mockPins: Pin[] = [mockPinOne, mockPinTwo];
+      let filteredMockPins = service.removePinFromResultsIfDeleted(mockPins, mockDeletedPinIdentifier);
+
+      let expectedFilteredLength = 1;
+      let expectedRemaininingPin = filteredMockPins[0];
+
+      expect(filteredMockPins.length).toEqual(expectedFilteredLength);
+      expect(expectedRemaininingPin.contactId).toEqual(1);
+
+    }));
+
 
 }
 );
