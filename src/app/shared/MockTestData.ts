@@ -78,6 +78,8 @@ export class MockTestData {
         if (numOfParticipants === 0) {
             return null;
         }
+
+        let canBeHyperlinked: boolean = true;
         for (let index = 0; index < numOfParticipants; index++) {
             let participant = new Participant(
                 'congregation',
@@ -91,7 +93,8 @@ export class MockTestData {
                 'lastName' + index.toString(),
                 'nickName' + index.toString(),
                 index,
-                new Date(2016, 5).toDateString()
+                new Date(2016, 5).toDateString(),
+                canBeHyperlinked
             );
             participants.push(participant);
         };

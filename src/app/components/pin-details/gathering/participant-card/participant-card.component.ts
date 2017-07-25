@@ -16,7 +16,6 @@ export class ParticipantCardComponent implements OnInit {
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
   public isLeader: boolean = false;
-  public canBeHyperlinked: boolean = true;
   public isMe: boolean = false;
   public isApprentice: boolean = false;
 
@@ -27,12 +26,19 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public ngOnInit() {
+    if (this.participant.canBeHyperlinked === undefined) {
+      this.participant.canBeHyperlinked = true;
+    }
     if (this.session.getContactId() === this.participant.contactId) {
       this.isMe = true;
-      this.canBeHyperlinked = false;
+      this.participant.canBeHyperlinked = false;
     }
     this.isApprentice = (this.participant.groupRoleId === GroupRole.APPRENTICE);
     this.isLeader     = (this.participant.groupRoleId === GroupRole.LEADER);
+  }
+
+  public enableHyperlink(): boolean {
+    return this.participant.canBeHyperlinked;
   }
 
   public showLeaderLabel(): boolean {
@@ -48,8 +54,8 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public onParticipantClick(): void {
-    if (this.canBeHyperlinked) {
-      this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+      if (this.participant.canBeHyperlinked) {
+        this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
     }
   }
 
