@@ -250,14 +250,18 @@ describe('CreateGroupService', () => {
             group.meetingFrequencyId = 2;
             group.meetingFrequency = 'At times';
             group.meetingTime = defaultGroupMeetingTime;
-            s.meetingTimeType = 'specific';
+            s.meetingTimeType = 'flexible';
+            s['pageOneInitialized'] = true;
+            s['pageSixInitialized'] = true;
             group.startDate = moment(defaultGroupMeetingTime).format();
             s.group = group;
             s.reset();
             expect(s.group.meetingDay).toBeNull();
-            expect(s.initializePageOne).toBeFalsy();
-            expect(s.initializePageSix).toBeFalsy();
+            expect(s['pageOneInitialized']).toBeFalsy();
+            expect(s['pageSixInitialized']).toBeFalsy();
             expect(s.meetingTimeType).toBe('specific');
+            expect(s.selectedAgeRanges.length).toBe(0);
+            expect(s['selectedCategories'].length).toBe(0);
         })
     );
 
