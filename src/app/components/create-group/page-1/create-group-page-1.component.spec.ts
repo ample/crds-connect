@@ -133,6 +133,6 @@ describe('CreateGroupPage1Component', () => {
 
     it('should go back()', () => {
         comp.back();
-        expect(mockLocationService.back).toHaveBeenCalledTimes(1);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group']);
     });
 });
