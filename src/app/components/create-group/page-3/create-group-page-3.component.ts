@@ -28,25 +28,33 @@ export class CreateGroupPage3Component implements OnInit {
 
     ngOnInit() {
         this.state.setPageHeader('start a group', '/create-group/page-2');
+        this.makeSureModelHasAddress();
         this.locationForm = this.fb.group({
-            isInPerson: [this.createGroupService.meetingIsInPerson],
+            isVirtualGroup: [this.createGroupService.group.isVirtualGroup],
             address: [this.createGroupService.group.address.addressLine1],
             city: [this.createGroupService.group.address.city],
             state: [this.createGroupService.group.address.state],
             zip: [this.createGroupService.group.address.zip],
             kidsWelcome: [this.createGroupService.group.kidsWelcome]
         });
-        this.setRequiredFields(this.createGroupService.meetingIsInPerson);
+        this.setRequiredFields(this.createGroupService.group.isVirtualGroup);
         this.state.setLoading(false);
 
     }
-    private onClickIsOnline(value: boolean): void {
-        this.createGroupService.meetingIsInPerson = value;
+
+    private onClickIsVirtual(value: boolean): void {
+        this.createGroupService.group.isVirtualGroup = value;
         this.setRequiredFields(value);
     }
 
+    private makeSureModelHasAddress(): void {
+        if (this.createGroupService.group.address == null) {
+            this.createGroupService.group.address = Address.overload_Constructor_One();
+        }
+    }
+
     private setRequiredFields(required: boolean): void {
-        if (required) {
+        if (!required) {
             this.locationForm.controls['address'].setValidators(Validators.required);
             this.locationForm.controls['city'].setValidators(Validators.required);
             this.locationForm.controls['state'].setValidators(Validators.required);
@@ -67,20 +75,20 @@ export class CreateGroupPage3Component implements OnInit {
         this.locationForm.controls['kidsWelcome'].updateValueAndValidity();
     }
 
-    private onClickKidsWelcome(value: boolean) {
+    private onClickKidsWelcome(value: boolean): void {
         this.locationForm.controls['kidsWelcome'].setValue(value);
         this.createGroupService.group.kidsWelcome = value;
     }
 
 
-    public onSubmit(form: FormGroup) {
+    public onSubmit(form: FormGroup): void {
         this.isSubmitted = true;
         if (form.valid) {
             this.router.navigate(['/create-group/page-4']);
         }
     }
 
-    public back() {
+    public back(): void {
         this.locationService.back();
     }
 }

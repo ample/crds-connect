@@ -50,7 +50,6 @@ export class CreateGroupPage5Component implements OnInit {
         }
     }
 
-
     public back(): void {
         this.locationService.back();
     }
