@@ -45,7 +45,7 @@ export class RemovePersonPinComponent implements OnInit {
 
   private determineStateToReturnTo(countOfItemsReturnedByLastSearch: number, currentState: string): string {
 
-    if( currentState === pinsShown.EVERYONES_STUFF) {
+    if(currentState === pinsShown.EVERYONES_STUFF) {
       return pinsShown.EVERYONES_STUFF;
     }
 
@@ -66,7 +66,7 @@ export class RemovePersonPinComponent implements OnInit {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {
         this.state.removedSelf = true;
-        this.state.setDeletedPinIdentifierentifier(this.pin.contactId, this.pin.pinType);
+        this.state.setDeletedPinIdentifier(this.pin.contactId, this.pin.pinType);
         this.state.cleanUpStateAfterPinUpdate();
         this.session.clearCache();
         let countOfItemsInLastSearch: number = this.state.getlastSearchResults().pinSearchResults.length;

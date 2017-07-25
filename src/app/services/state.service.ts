@@ -154,7 +154,7 @@ export class StateService {
     this.searchBarText = '';
   }
   
-  public setDeletedPinIdentifierentifier(pinContactId: number, pinType: pinType): void {
+  public setDeletedPinIdentifier(pinContactId: number, pinType: pinType): void {
     let pinIdentifier: PinIdentifier = new PinIdentifier(pinType, pinContactId);
     this.deletedPinIdentifier = pinIdentifier; 
   }
