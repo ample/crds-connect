@@ -371,8 +371,9 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   };
 
   public removePinFromResultsIfDeleted(pinSearchResults: Pin[], removedPin: PinIdentifier): Pin[]{
+
     if (removedPin) {
-      pinSearchResults = pinSearchResults.filter(p => (p.contactId !== removedPin.id && p.pinType !== removedPin.type));
+      pinSearchResults = pinSearchResults.filter(p => p.contactId !== removedPin.id || p.pinType !== removedPin.type);
     }
     return pinSearchResults;
   }
@@ -402,7 +403,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     let uniquePins: Pin[] = pinSearchResults.filter( (p, index, self) => {
 
-      let isGroupOrGatheringPin: boolean = p.pinType === pinType.GATHERING || p.pinType === pinType.SMALL_GROUP;
+      let isGroupOrGatheringPin: boolean = p.pinType === pinType.GATHERING || p.pinType == pinType.SMALL_GROUP;
 
       if (isGroupOrGatheringPin) {
         lastIndex = -1;
