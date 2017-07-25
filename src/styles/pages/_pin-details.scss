@@ -24,6 +24,10 @@
     }
   }
 
+  .control-label {
+    color: $cr-white;
+  }
+
   &.person,
   &.host_plain {
     min-height: 100vh;
