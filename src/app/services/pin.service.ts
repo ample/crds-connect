@@ -403,7 +403,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     let uniquePins: Pin[] = pinSearchResults.filter( (p, index, self) => {
 
-      let isGroupOrGatheringPin: boolean = p.pinType === pinType.GATHERING || p.pinType == pinType.SMALL_GROUP;
+      let isGroupOrGatheringPin: boolean = p.pinType === pinType.GATHERING || p.pinType === pinType.SMALL_GROUP;
 
       if (isGroupOrGatheringPin) {
         lastIndex = -1;
