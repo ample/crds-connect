@@ -1,7 +1,7 @@
 <div class="connect-container connect-layout-container">
     <div class="row soft-top">
         <div class="col-sm-12 soft-top">
-            <p class="media-meta flush-bottom">STEP 3 OF 9</p>
+            <p class="media-meta flush-bottom">STEP 3 OF 6</p>
             <h3 class="media-heading font-family-condensed-extra text-uppercase">Location</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupMeetingLocationHelp"></crds-content-block>
@@ -12,8 +12,8 @@
             <p class="control-label soft-top">Where will your group meet?</p>
             <form [formGroup]="locationForm" (ngSubmit)="onSubmit(locationForm)">
                 <div class="btn-group btn-group-block">
-                    <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.meetingIsInPerson}"
-                        formControlName="isInPerson" value="true" (click)="onClickIsOnline(true)" ngDefaultControl>
+                    <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: !createGroupService.group.isVirtualGroup}"
+                        formControlName="isVirtualGroup" value="false" (click)="onClickIsVirtual(false)" ngDefaultControl>
                     <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -27,7 +27,7 @@
                     </div>
                     </button>
 
-                    <div *ngIf="createGroupService.meetingIsInPerson">
+                    <div *ngIf="!createGroupService.group.isVirtualGroup">
                         <div class="soft-top custom-input">
                             <span class="custom-input-icon">
                                 <svg class="icon icon-1" viewBox="0 0 256 256">
@@ -140,8 +140,8 @@
                     </div>
 
                     <div class="btn-group btn-group-block soft-top">
-                        <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: !createGroupService.meetingIsInPerson}"
-                            formControlName="isInPerson" value="false" (click)="onClickIsOnline(false)" ngDefaultControl>
+                        <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: createGroupService.group.isVirtualGroup}"
+                            formControlName="isVirtualGroup" value="true" (click)="onClickIsVirtual(true)" ngDefaultControl>
                         <div class="btn-group-label text-left row">
                         <span class="btn-group-icons">
                             <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -156,7 +156,8 @@
                     </button>
                     </div>
 
-                    <div class="col-xs-12 btn-block-mobile soft-ends">
+                    <div class="soft-ends">
+                        <hr>
                         <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
                         <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
                     </div>

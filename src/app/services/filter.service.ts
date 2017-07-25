@@ -1,6 +1,7 @@
 import { Injectable} from '@angular/core';
 
 import { AgeGroup } from '../models/age-group';
+import { Category } from '../models/category';
 import { GroupType } from '../models/group-type';
 
 import { awsFieldNames } from '../shared/constants';
@@ -12,6 +13,7 @@ export class FilterService {
   public filterStringAgeGroups: string = null;
   public filterStringGroupTypes: string = null;
   public filterStringGroupLocation: string = null;
+  public filterStringCategories: string = null;
 
   constructor() {}
 
@@ -22,6 +24,7 @@ export class FilterService {
     filterString = (this.filterStringAgeGroups != null) ? filterString + this.filterStringAgeGroups : filterString;
     filterString = (this.filterStringGroupTypes != null) ? filterString + this.filterStringGroupTypes : filterString;
     filterString = (this.filterStringGroupLocation != null) ? filterString + this.filterStringGroupLocation : filterString;
+    filterString = (this.filterStringCategories != null) ? filterString + this.filterStringCategories : filterString;
 
     return filterString;
   }
@@ -31,6 +34,7 @@ export class FilterService {
     this.filterStringKidsWelcome = null;
     this.filterStringGroupTypes = null;
     this.filterStringGroupLocation = null;
+    this.filterStringCategories = null;
   }
 
   public setFilterStringKidsWelcome(welcomeFlag: number, haveKidsWelcomeValue: boolean): void {
@@ -56,6 +60,20 @@ export class FilterService {
     addFilterString += ' )';
 
     this.filterStringAgeGroups = addFilterString;
+  }
+
+
+  public setFilterStringCategories(categories: Category[]): void {
+    let addFilterString: string = ' (or';
+    for (let cat of categories) {
+      if (cat.selected) {
+        // need single quotes around each value since it is a string in aws
+        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\')  `;
+      }
+    }
+    addFilterString += ' )';
+
+    this.filterStringCategories = addFilterString;
   }
 
   public setFilterStringGroupTypes (groupTypes: GroupType[]): void {
