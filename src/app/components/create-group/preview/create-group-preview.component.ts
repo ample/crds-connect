@@ -38,7 +38,7 @@ export class CreateGroupPreviewComponent implements OnInit {
         this.state.setLoading(false);
     }
 
-    createGroup() {
+    createGroup(): void {
         this.state.setLoading(true);
         let group = this.createGroupService.prepareForGroupSubmission();
         Observable.forkJoin(
@@ -65,5 +65,9 @@ export class CreateGroupPreviewComponent implements OnInit {
             this.toastr.error(this.contentService.getContent('generalError'));
             this.blandPageService.goToDefaultError('/create-group/preview');
         });
+    }
+
+    back(): void {
+        this.router.navigate(['/create-group/page-6']);
     }
 }
