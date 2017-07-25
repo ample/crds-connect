@@ -11,7 +11,7 @@ export class GroupMeetingScheduleType {
   }
 }
 
-export const groupMeetingScheduleType: any = new GroupMeetingScheduleType();
+export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
 

@@ -14,7 +14,7 @@ import * as moment from 'moment';
 export class CreateGroupService {
     private pageOneInitialized: boolean = false;
     private pageSixInitialized: boolean = false;
-    public meetingTimeType: string = 'specific';
+    public meetingTimeType: string = groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE;
 
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
@@ -177,7 +177,7 @@ export class CreateGroupService {
         this.selectedCategories = [];
         this.selectedGroupGenderMix = Attribute.constructor_create_group();
         this.categories = [];
-        this.meetingTimeType = 'specific';
+        this.meetingTimeType = groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE;
     }
 
 }
