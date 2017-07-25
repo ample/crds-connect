@@ -117,7 +117,7 @@ export class CreateGroupService {
 
     public getLeaders(): Participant[] {
         let leaders: Participant[] = [];
-        leaders.push(new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null));
+        leaders.push(new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null, true));
         return leaders;
     }
 
