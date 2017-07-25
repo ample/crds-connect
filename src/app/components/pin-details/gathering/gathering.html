@@ -73,11 +73,11 @@
       <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
     </dl>
 
-     <!-- <div *ngIf="isInGroupApp" class="push-top push-half-bottom">
+     <div *ngIf="isInGroupApp" class="push-top push-half-bottom">
       <button class="btn btn-primary btn-block-mobile">Try this group</button>
       <button class="btn btn-outline btn-primary btn-block-mobile"
               (click)="onContactLeaderClicked();">Contact leader</button>
-    </div> -->
+    </div>
 
     <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
       <button class="btn btn-primary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
