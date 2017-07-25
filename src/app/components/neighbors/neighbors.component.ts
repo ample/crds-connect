@@ -87,6 +87,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.pinSearchResults.pinSearchResults =
       this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
 
+    this.pinSearchResults.pinSearchResults =
+        this.pinService.removePinFromResultsIfDeleted(this.pinSearchResults.pinSearchResults);
+
     this.state.setLoading(false);
 
     if (this.mapViewActive) {
@@ -128,6 +131,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.pinService.getPinSearchResults(searchParams).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
+        this.state.setlastSearchResults(this.pinSearchResults);
         this.processAndDisplaySearchResults(searchParams.userLocationSearchString,
           searchParams.userKeywordSearchString,
           next.centerLocation.lat,
@@ -135,7 +139,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           searchParams.userFilterString);
         let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
-        this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
+        if(this.state.lastSearch){
+          this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
+        } else {
+          this.state.lastSearch = new SearchOptions('','','');
+        };
       },
       error => {
         console.log(`Error returned from getPinSearchResults: ${error} `);

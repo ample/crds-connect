@@ -14,6 +14,8 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 import { BlandPageService } from '../../../../services/bland-page.service';
 
+import {PinsShown, pinsShown } from '../../../../shared/constants';
+
 @Component({
   selector: 'remove-person-pin',
   templateUrl: './remove-person-pin.component.html'
@@ -41,13 +43,37 @@ export class RemovePersonPinComponent implements OnInit {
     document.querySelector('body').classList.add('fauxdal-open');
   }
 
+  private determineStateToReturnTo(countOfItemsReturnedByLastSearch: number, currentState: string): string {
+
+    if( currentState === pinsShown.EVERYONES_STUFF) {
+      return pinsShown.EVERYONES_STUFF;
+    }
+
+    let isLastMyStuffItemBeingRemoved: boolean = countOfItemsReturnedByLastSearch < 2;
+
+    let typeOfView: string = isLastMyStuffItemBeingRemoved ?
+                                pinsShown.EVERYONES_STUFF : pinsShown.EVERYONES_STUFF;
+
+    return typeOfView;
+  }
+
+  private turnOffMyStuffIfReturningToWorldView(currentState: string): void {
+    if (currentState === pinsShown.EVERYONES_STUFF) {
+      this.state.setIsMyStuffActive(false);
+    }
+  }
+
   public removePersonPin() {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {
         this.state.removedSelf = true;
+        this.state.setDeletedPinIdentifierentifier(this.pin.contactId, this.pin.pinType);
         this.state.cleanUpStateAfterPinUpdate();
         this.session.clearCache();
-        this.state.setMyViewOrWorldView('world');
+        let countOfItemsInLastSearch: number = this.state.getlastSearchResults().pinSearchResults.length;
+        let viewToReturnTo: string = this.determineStateToReturnTo(countOfItemsInLastSearch, this.state.getCurrentView());
+        this.turnOffMyStuffIfReturningToWorldView(viewToReturnTo);
+        this.state.setMyViewOrWorldView(viewToReturnTo);
         this.state.setCurrentView('map');
         this.state.setLastSearch(null);
         let bpd = new BlandPageDetails(

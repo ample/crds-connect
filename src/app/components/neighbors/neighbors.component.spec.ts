@@ -66,13 +66,13 @@ describe('Component: Neighbors', () => {
     mockPinService = jasmine.createSpyObj<PinService>('pinService',
                                                       ['getPinSearchResults', 'reSortBasedOnCenterCoords',
                                                        'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed',
-                                                       'sortPinsAndRemoveDuplicates', 'buildPinSearchRequest']);
+                                                       'sortPinsAndRemoveDuplicates', 'removePinFromResultsIfDeleted', 'buildPinSearchRequest']);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['emitRefreshMap']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['emitChange']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView',
                                                                     'getLastSearch', 'setCurrentView', 'setMapView', 'getMapView',
-                                                                    'setMyViewOrWorldView', 'setLastSearch',
+                                                                    'setMyViewOrWorldView', 'setLastSearch', 'setlastSearchResults',
                                                                     'isMapViewSet', 'setLastSearchSearchString']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
     mockPinService.pinSearchRequestEmitter = subject;
@@ -179,6 +179,7 @@ describe('Component: Neighbors', () => {
     (mockPinService.addNewPinToResultsIfNotUpdatedInAwsYet).and.returnValue(searchResults.pinSearchResults);
     (mockPinService.ensureUpdatedPinAddressIsDisplayed).and.returnValue(searchResults.pinSearchResults);
     (mockPinService.sortPinsAndRemoveDuplicates).and.returnValue(searchResults.pinSearchResults);
+    (mockPinService.removePinFromResultsIfDeleted).and.returnValue(searchResults.pinSearchResults);
     spyOn(this.component, 'navigateAwayIfNecessary');
 
     this.component.processAndDisplaySearchResults('Searchy Search', 42, 42);
