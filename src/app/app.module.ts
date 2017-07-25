@@ -48,6 +48,7 @@ import { CreateGroupPage5Component } from './components/create-group/page-5/crea
 import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
+import { CategoryComponent } from './components/filters/category/category.component';
 
 import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -179,6 +180,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
+    CategoryComponent,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
