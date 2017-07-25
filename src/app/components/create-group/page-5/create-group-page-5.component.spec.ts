@@ -64,14 +64,14 @@ describe('CreateGroupPage5Component', () => {
         comp['groupVisabiltityInvalid'] = true;
         comp['onClick'](true);
         expect(comp['createGroupService'].group.availableOnline).toBe(true);
-        expect(comp['groupVisabilityInvalid']).toBe(false);
+        expect(comp['groupVisibilityInvalid']).toBe(false);
     });
 
     it('onClick should set available online to false', () => {
         comp['groupVisabiltityInvalid'] = true;
         comp['onClick'](false);
         expect(comp['createGroupService'].group.availableOnline).toBe(false);
-        expect(comp['groupVisabilityInvalid']).toBe(false);
+        expect(comp['groupVisibilityInvalid']).toBe(false);
     });
 
     it('should submit if form is valid and available online is not null', () => {
