@@ -51,8 +51,7 @@ export class RemovePersonPinComponent implements OnInit {
 
     let isLastMyStuffItemBeingRemoved: boolean = countOfItemsReturnedByLastSearch < 2;
 
-    let typeOfView: string = isLastMyStuffItemBeingRemoved ?
-                                pinsShown.EVERYONES_STUFF : pinsShown.EVERYONES_STUFF;
+    let typeOfView: string = isLastMyStuffItemBeingRemoved ? pinsShown.EVERYONES_STUFF : pinsShown.MY_STUFF;
 
     return typeOfView;
   }
