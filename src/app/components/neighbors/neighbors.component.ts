@@ -88,7 +88,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
 
     this.pinSearchResults.pinSearchResults =
-        this.pinService.removePinFromResultsIfDeleted(this.pinSearchResults.pinSearchResults);
+        this.pinService.removePinFromResultsIfDeleted(this.pinSearchResults.pinSearchResults,
+                                                      this.state.getDeletedPinIdentifier());
 
     this.state.setLoading(false);
 

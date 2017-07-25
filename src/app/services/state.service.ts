@@ -159,7 +159,7 @@ export class StateService {
     this.deletedPinIdentifier = pinIdentifier; 
   }
   
-  public getDeletedPinIdentifierentifier(): PinIdentifier{
+  public getDeletedPinIdentifier(): PinIdentifier{
     return this.deletedPinIdentifier; 
   }
 }
