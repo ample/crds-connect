@@ -54,17 +54,6 @@ export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.cross
 export const GroupResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
 export const LeaderResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
 
-// TODO can we delete this? AppRoute
-export class AppRoute {
-  CONNECT_ROUTE: string;
-  SMALL_GROUPS_ROUTE: string;
-
-  constructor() {
-    this.CONNECT_ROUTE = '/';
-    this.SMALL_GROUPS_ROUTE = '/groupsv2';
-  }
-}
-
 export class App {
   CONNECT: string;
   SMALL_GROUPS: string;
@@ -130,8 +119,6 @@ export enum GroupRole {
   NONE = 0
 }
 
-
-export const appRoute: AppRoute = new AppRoute();
 export const app: App = new App();
 export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 

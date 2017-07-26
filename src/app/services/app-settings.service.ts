@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { AppType, app, AppRoute, appRoute, LeadershipApplicationType } from '../shared/constants';
+import { AppType, app, LeadershipApplicationType } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
@@ -12,10 +12,12 @@ export class AppSettingsService {
   setAppSettings(appType: AppType) {
     switch (appType) {
       case AppType.Connect:
+        this.appRoute = '/';
         this.finderType = app.CONNECT;
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
         break;
       case AppType.Groups:
+        this.appRoute = '/groupsv2';
         this.finderType = app.SMALL_GROUPS;
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
         break;
@@ -33,8 +35,7 @@ export class AppSettingsService {
   }
 
   public getBaseUrlForCurrentApp(): string {
-    let baseUrlForApp: string = this.isConnectApp() ? appRoute.CONNECT_ROUTE : appRoute.SMALL_GROUPS_ROUTE;
-    return baseUrlForApp;
+    return this.appRoute;
   }
 
 }
