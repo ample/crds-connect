@@ -3,7 +3,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AppSettingsService } from './app-settings.service';
 import { GoogleMapService } from './google-map.service';
 import { Address, Group, MapBoundingBox, MapView, Pin, pinType } from '../models';
-import { zoomAdjustment, minZoom, maxZoom } from '../shared/constants';
+import { initialMapZoom, zoomAdjustment, minZoom, maxZoom } from '../shared/constants';
 
 function generatePin(lat: number, lng: number, name: string): Pin {
   const newAddress = {
@@ -40,13 +40,12 @@ function generatePin(lat: number, lng: number, name: string): Pin {
 
 function testCalculateZoom(pins: Pin[], GoogleMapService: any) {
   // Parameters for calculateZoom:
-  const initialZoom: number = 10;
   const initialLat: number = 39.159398;   // Crossroads Oakley
   const initialLng: number = -84.423367;  // Crossroads Oakley
   const viewtype: string = 'world';
 
   // Calculate the zoom and get the resulting pinsInBounds:
-  const calculatedZoom: number = GoogleMapService['calculateZoom'](initialZoom, initialLat, initialLng, pins, viewtype);
+  const calculatedZoom: number = GoogleMapService['calculateZoom'](initialMapZoom, initialLat, initialLng, pins, viewtype);
   const mapParams: MapView = new MapView('testMapView', initialLat, initialLng, calculatedZoom);
   const geoBounds: MapBoundingBox = GoogleMapService['calculateGeoBounds'](mapParams);
   const pinsInBounds: Pin[] = GoogleMapService['getPinsInBounds'](geoBounds, pins);

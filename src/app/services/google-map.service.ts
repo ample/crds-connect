@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { GeoCoordinates, MapBoundingBox, MapView, Pin } from '../models/';
 import {AppSettingsService} from './app-settings.service';
-import { initialZoom, zoomAdjustment, minZoom, maxZoom, pinTargetGroups, pinTargetConnect } from '../shared/constants';
+import { initialMapZoom, zoomAdjustment, minZoom, maxZoom, pinTargetGroups, pinTargetConnect } from '../shared/constants';
 
 @Injectable()
 export class GoogleMapService {
@@ -52,7 +52,7 @@ export class GoogleMapService {
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
-    const mapParams: MapView = new MapView('zoomCalcView', lat, lng, initialZoom);
+    const mapParams: MapView = new MapView('zoomCalcView', lat, lng, initialMapZoom);
     const popTarget = this.getPopTarget(pins, viewtype);
 
     return this.calculateBestZoom(mapParams, pins, popTarget, {}) - zoomAdjustment;
