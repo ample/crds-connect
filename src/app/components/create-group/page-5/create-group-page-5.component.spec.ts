@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -17,13 +16,12 @@ describe('CreateGroupPage5Component', () => {
     let fixture: ComponentFixture<CreateGroupPage5Component>;
     let comp: CreateGroupPage5Component;
     let el;
-    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService;
+    let mockStateService, mockCreateGroupService, mockRouter;
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['addAgeRangesToGroupModel']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
         TestBed.configureTestingModule({
             declarations: [
@@ -34,8 +32,7 @@ describe('CreateGroupPage5Component', () => {
                 FormBuilder,
                 { provide: StateService, useValue: mockStateService },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
-                { provide: Router, useValue: mockRouter },
-                { provide: Location, useValue: mockLocationService }
+                { provide: Router, useValue: mockRouter }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -96,7 +93,7 @@ describe('CreateGroupPage5Component', () => {
 
     it('should go back', () => {
         comp.back();
-        expect(mockLocationService.back).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-4']);
     });
 
 });

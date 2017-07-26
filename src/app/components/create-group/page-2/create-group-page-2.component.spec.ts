@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { Location } from '@angular/common';
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { Group } from '../../../models';
@@ -21,7 +20,7 @@ describe('CreateGroupPage2Component', () => {
     let fixture: ComponentFixture<CreateGroupPage2Component>;
     let comp: CreateGroupPage2Component;
     let el;
-    let mockState, mockRouter, mockLocationService, mockLookupService, mockBlandPageService;
+    let mockState, mockRouter, mockLookupService, mockBlandPageService;
     let mockCreateGroupService: CreateGroupService;
     let daysOfTheWeek = [
         { dp_RecordID: 1, dp_RecordName: 'Sunday' },
@@ -31,12 +30,10 @@ describe('CreateGroupPage2Component', () => {
 
     beforeEach(() => {
         mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        //mockCreateGroupService = <CreateGroupService>{ meetingTimeType: 'specific', group: Group.overload_Constructor_One(0, []) },
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['clearMeetingTimeData']);
         mockCreateGroupService.meetingTimeType = 'specific';
         mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getDaysOfTheWeek']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
         (mockLookupService.getDaysOfTheWeek).and.returnValue(Observable.of(daysOfTheWeek));
@@ -50,7 +47,6 @@ describe('CreateGroupPage2Component', () => {
                 { provide: StateService, useValue: mockState },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
-                { provide: Location, useValue: mockLocationService },
                 { provide: LookupService, useValue: mockLookupService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 FormBuilder
@@ -102,7 +98,7 @@ describe('CreateGroupPage2Component', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockLocationService.back).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-1']);
     });
 
     it('should submit if valid', () => {

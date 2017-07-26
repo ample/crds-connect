@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { StateService } from '../../../services/state.service';
@@ -21,8 +20,7 @@ export class CreateGroupPage5Component implements OnInit {
     constructor(private fb: FormBuilder,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
-                private router: Router,
-                private locationService: Location) { }
+                private router: Router) { }
 
     ngOnInit(): void {
         this.state.setPageHeader('start a group', '/create-group/page-4');
@@ -51,6 +49,6 @@ export class CreateGroupPage5Component implements OnInit {
     }
 
     public back(): void {
-        this.locationService.back();
+        this.router.navigate(['/create-group/page-4']);
     }
 }
