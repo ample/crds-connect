@@ -153,6 +153,11 @@ export class CreateGroupService {
         }
         let startDate = moment(group.startDate);
         group.startDate = startDate.add(startDate.utcOffset(), 'm').utc().format();
+
+        // set start date of categories to group start date.
+        group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].attributes.forEach((cat) => {
+            cat.startDate = group.startDate;
+        })
     }
 
     private createCategoryDetailAttribute(category: Category): Attribute {
@@ -164,6 +169,8 @@ export class CreateGroupService {
             attribute.startDate = category.attribute.startDate;
             attribute.endDate = category.attribute.endDate;
         }
+
+        attribute.selected = true;
 
         return attribute;
     }
