@@ -1,41 +1,37 @@
 import { Injectable} from '@angular/core';
-import { AppType, app, LeadershipApplicationType } from '../shared/constants';
+import { AppType, LeadershipApplicationType } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
-
-  public finderType: string;
+  public finderType: AppType;
   public leadershipApplicationType: LeadershipApplicationType;
+  public appRoute: string;
 
   constructor() {}
 
   setAppSettings(appType: AppType) {
-    switch (appType) {
+    this.finderType = appType;
+    switch (this.finderType) {
       case AppType.Connect:
-        this.appRoute = '/';
-        this.finderType = app.CONNECT;
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
+        this.appRoute = '/';
         break;
       case AppType.Groups:
-        this.appRoute = '/groupsv2';
-        this.finderType = app.SMALL_GROUPS;
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
+        this.appRoute = '/groupsv2';
         break;
     }
   }
 
   public isConnectApp(): boolean {
-      let isConnectApp: boolean = this.finderType === app.CONNECT;
-      return isConnectApp;
+    return this.finderType === AppType.Connect;
   }
 
   public isSmallGroupApp(): boolean {
-    let isSmallGroupApp: boolean = this.finderType === app.SMALL_GROUPS;
-    return isSmallGroupApp;
+    return this.finderType === AppType.Groups;
   }
 
   public getBaseUrlForCurrentApp(): string {
     return this.appRoute;
   }
-
 }

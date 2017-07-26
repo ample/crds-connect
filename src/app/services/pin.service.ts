@@ -34,7 +34,7 @@ import { User } from '../models/user';
 
 import * as _ from 'lodash';
 
-import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
+import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
 
 
 @Injectable()
@@ -92,11 +92,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       let pin: Pin = cachedPins.pinSearchResults.find(aPin => {
         if (aPin.pinType === pinIdentifier.type) {
           if (pinIdentifier.type === pinType.PERSON) {
-            return (aPin.participantId == pinIdentifier.id);  // need == not === here b/c have string and number		
+            return (aPin.participantId == pinIdentifier.id);  // need == not === here b/c have string and number
           } else if (pinIdentifier.type === pinType.GATHERING) {
-            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number		
+            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number
           } else if (pinIdentifier.type === pinType.SMALL_GROUP) {
-            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number		
+            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number
           }
         }
       });
@@ -188,7 +188,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
     let isMyStuff: boolean = this.state.myStuffActive;
-    let finderType: string = this.appSetting.finderType;
+    let finderType: AppType = this.appSetting.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
     centerGeoCoords = this.clearGeoCoordsIfSearchingLoc(params.userLocationSearchString, centerGeoCoords);
@@ -283,7 +283,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId);
   }
 
-  public inviteToGroup(groupId: number, someone: Person, finderType: string): Observable<boolean> {
+  public inviteToGroup(groupId: number, someone: Person, finderType: AppType): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/invitetogroup/${groupId}/${finderType}`, someone);
   }
 

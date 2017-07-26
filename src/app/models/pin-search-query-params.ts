@@ -1,19 +1,19 @@
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { MapBoundingBox } from '../models/map-bounding-box';
+import { AppType } from '../shared/constants'
 
 export class PinSearchQueryParams {
-
   userLocationSearchString: string;
   userKeywordSearchString: string;
   userFilterString: string;
   isMyStuff: boolean;
-  finderType: string;
+  finderType: AppType;
   contactId: number;
   centerGeoCoords: GeoCoordinates;
   boundingBox: MapBoundingBox;
 
   constructor(userLocationSearchString: string, userKeywordSearchString: string
-              , isMyStuff: boolean, finderType: string, contactId: number, centerGeoCoords: GeoCoordinates
+              , isMyStuff: boolean, finderType: AppType, contactId: number, centerGeoCoords: GeoCoordinates
               , boundingBox: MapBoundingBox, userFilterString: string) {
     this.userLocationSearchString = userLocationSearchString;
     this.userKeywordSearchString = userKeywordSearchString;
@@ -24,5 +24,4 @@ export class PinSearchQueryParams {
     this.centerGeoCoords = centerGeoCoords;
     this.boundingBox = boundingBox;
   }
-
 }

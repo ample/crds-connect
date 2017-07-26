@@ -12,7 +12,7 @@ import { StateService } from '../../services/state.service';
 import { FilterService } from '../../services/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
-import { app, placeholderTextForSearchBar } from '../../shared/constants';
+import { placeholderTextForSearchBar } from '../../shared/constants';
 
 class StateServiceStub {
   public myStuffActive: boolean = false;

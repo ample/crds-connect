@@ -28,12 +28,13 @@ describe('Service: App Settings', () => {
     });
 
     it('should set correct settings for Connect', inject([AppSettingsService], (service: any) => {
+      console.log(service);
       service.setAppSettings(AppType.Connect);
-      expect(service.finderType).toEqual('CONNECT');
+      expect(service.finderType).toEqual(AppType.Connect);
     }));
 
     it('should set correct settings for Groups', inject([AppSettingsService], (service: any) => {
       service.setAppSettings(AppType.Groups);
-      expect(service.finderType).toEqual('SMALL_GROUPS');
+      expect(service.finderType).toEqual(AppType.Groups);
     }));
 });

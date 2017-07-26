@@ -1,10 +1,7 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 import { SearchOptions } from '../models/search-options';
-import { App, app } from '../shared/constants';
 
 describe('Service: State', () => {
   beforeEach(() => {

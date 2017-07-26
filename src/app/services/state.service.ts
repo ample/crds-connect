@@ -7,8 +7,6 @@ import { MapView } from '../models/map-view';
 import { Pin, pinType } from '../models/pin';
 import { SearchOptions } from '../models/search-options';
 
-import { App, app} from '../shared/constants';
-
 // TODO: This class has a lot of flags.
 // Investigate to see if they belong here and/or add some documentation.
 @Injectable()

@@ -15,7 +15,7 @@ import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
-import { app, placeholderTextForSearchBar } from '../../shared/constants';
+import { placeholderTextForSearchBar } from '../../shared/constants';
 
 @Component({
   selector: 'app-search-bar',
