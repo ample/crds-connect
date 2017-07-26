@@ -1,19 +1,41 @@
-.pin-details-dark {
-  background: rgba($cr-black, .9);
-  color: $cr-gray-light;
+.pin-details-bg {
+  background: $cr-blue;
+  color: rgba($cr-white, .6);
+  margin-left: -15px;
+  margin-right: -15px;
 
   hr,
   .border-top,
   .border-bottom,
   .border-ends,
   .border-sides {
-    border-color: rgba(darken($cr-gray-lighter, 10), .4);
+    border-color: rgba($cr-white, .6);
+  }
+
+  .media {
+    .media-heading,
+    .pin-details-greeting {
+      color: $cr-white;
+    }
+
+    .media-meta {
+      color: rgba($cr-white, .4);
+      font-weight: 400;
+    }
   }
 
   &.person,
   &.host_plain {
     min-height: 100vh;
     margin-bottom: -1rem;
+  }
+
+  a {
+    color: $cr-cyan-light;
+
+    &:hover {
+      color: rgba($cr-cyan-light, .7);
+    }
   }
 }
 
@@ -24,6 +46,25 @@
   white-space: normal;
 }
 
+dl {
+  &.group-meta-data {
+    font-size: $font-size-small;
+
+    dt {
+      color: $cr-gray-darker;
+      font-weight: 400;
+
+      &:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+
+    dd {
+      color: $cr-gray-dark;
+    }
+  }
+}
+
 .group-meta-data {
   color: $cr-gray-lighter;
   padding-top: 1rem;
@@ -32,9 +73,9 @@
   white-space: normal;
 }
 
-participant-card {
-  .media {
-    .media-img-wrapper {
+.media {
+  .media-img-wrapper {
+    &.left-align {
       width: auto;
     }
   }

@@ -1,52 +1,54 @@
-<div class="soft connect-container connect-layout-container dark-theme">
-  <div class="media">
-    <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
+<div class="connect-container connect-layout-container">
+  <div class="pin-details-bg soft" [ngClass]="{ host_plain: !isInGathering && !isLeader && pin.pinType !== pinType.SMALL_GROUP}">
+    <div class="media">
+      <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 
-    <div class="media-body">
-      <pin-header [pin]="pin" [isPinOwner]="true"></pin-header>
-    </div>
-  </div>
-
-  <hr>
-
-  <form *ngIf="ready" novalidate [formGroup]="editGatheringForm" (ngSubmit)="onSubmit()">
-    <span class="control-label">Meets at:</span>
-    <address-form [parentForm]="editGatheringForm" [address]="pin.gathering.address" [isFormSubmitted]="submissionError" groupName="editGatheringForm"></address-form>
-    <!-- Description -->
-    <div class="row">
-      <div class="form-group col-xs-12">
-        <label class="sr-only" for="description">Description</label>
-        <textarea tabindex="6" type="text" class="form-control" maxlength="255" placeholder="Description" id="description" formControlName="description"
-          name="description" [(ngModel)]='pin.gathering.groupDescription' rows="15" cols="100"></textarea>
-        <p class="error help-block" *ngIf="editGatheringForm.controls['description'].touched && !editGatheringForm.controls['description'].valid">
-          Description is required!
-        </p>
+      <div class="media-body">
+        <pin-header [pin]="pin" [isPinOwner]="true"></pin-header>
       </div>
     </div>
-    <!--Update home address? -->
-    <div class="row">
-      <div class="form-group col-xs-12">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"
-                    tabindex="7"
-                    [(ngModel)]="pin.updateHomeAddress"
-                    name="updateHomeAddress"
-                    formControlName="updateHomeAddress">
-            This is my home address
-          </label>
+
+    <hr>
+
+    <form *ngIf="ready" novalidate [formGroup]="editGatheringForm" (ngSubmit)="onSubmit()">
+      <span class="control-label">Meets at:</span>
+      <address-form [parentForm]="editGatheringForm" [address]="pin.gathering.address" [isFormSubmitted]="submissionError" groupName="editGatheringForm"></address-form>
+      <!-- Description -->
+      <div class="row">
+        <div class="form-group col-xs-12">
+          <label class="sr-only" for="description">Description</label>
+          <textarea tabindex="6" type="text" class="form-control" maxlength="255" placeholder="Description" id="description" formControlName="description"
+            name="description" [(ngModel)]='pin.gathering.groupDescription' rows="15" cols="100"></textarea>
+          <p class="error help-block" *ngIf="editGatheringForm.controls['description'].touched && !editGatheringForm.controls['description'].valid">
+            Description is required!
+          </p>
         </div>
       </div>
-    </div>
-    <footer class="row soft-top">
-      <div class="col-xs-12 btn-group">
-        <button type="submit" [disabled]="submitting || editGatheringForm.invalid" class="btn btn-secondary btn-block-mobile">Update my gathering</button>
-        <button type="button" (click)="cancel()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
+      <!--Update home address? -->
+      <div class="row">
+        <div class="form-group col-xs-12">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"
+                      tabindex="7"
+                      [(ngModel)]="pin.updateHomeAddress"
+                      name="updateHomeAddress"
+                      formControlName="updateHomeAddress">
+              This is my home address
+            </label>
+          </div>
+        </div>
       </div>
-    </footer>
+      <footer class="row soft-top">
+        <div class="col-xs-12 btn-group">
+          <button type="submit" [disabled]="submitting || editGatheringForm.invalid" class="btn btn-secondary btn-block-mobile">Update my gathering</button>
+          <button type="button" (click)="cancel()" class="btn btn-default btn-block-mobile">Cancel</button>
+        </div>
+      </footer>
 
-    <div *ngIf="submissionError" class="alert alert-danger">
-      <crds-content-block id="generalError"></crds-content-block>
-    </div>
-  </form>
+      <div *ngIf="submissionError" class="alert alert-danger">
+        <crds-content-block id="generalError"></crds-content-block>
+      </div>
+    </form>
+  </div>
 </div>

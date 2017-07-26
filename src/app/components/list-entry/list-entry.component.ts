@@ -11,7 +11,8 @@ import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
-import { proximityUnavailableDefaultNum, groupDescriptionLenth } from '../../shared/constants';
+import { groupDescriptionLength } from '../../shared/constants';
+import * as moment from 'moment';
 
 @Component({
   selector: 'list-entry',
@@ -64,10 +65,26 @@ export class ListEntryComponent implements OnInit {
 
   public formatName() {
     if (this.isSmallGroup) {
-      return this.groupTitle ? this.listHelper.truncateTextEllipsis(this.groupTitle.toUpperCase(), groupDescriptionLenth) : '';
+      return this.groupTitle ? this.listHelper.truncateTextEllipsis(this.groupTitle.toUpperCase(), groupDescriptionLength) : '';
     } else {
       return (this.firstName + ' ' + this.lastName.charAt(0) + '.').toUpperCase();
     }
+  }
+
+  public leaderName() {
+    if (this.lastName === undefined || this.lastName === null) {
+      this.lastName = '';
+    }
+    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
+  }
+
+   public getMeetingTime() {
+    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
+    return theTime.toDate();
+  }
+
+  public isMySmallGroup() {
+    return this.type === pinType.SMALL_GROUP && this.contactId === this.currentContactId;
   }
 
   public getPicByPinType() {
@@ -109,10 +126,6 @@ export class ListEntryComponent implements OnInit {
   public displayPinDetails(pin: Pin) {
     this.state.setCurrentView('list');
     this.pinService.navigateToPinDetailsPage(pin);
-  }
-
-  public roundedProximity() {
-    return this.proximity ? this.proximity.toFixed(1) : proximityUnavailableDefaultNum;
   }
 
 }

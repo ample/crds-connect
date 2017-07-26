@@ -1,9 +1,6 @@
-import { Pin } from '../models/pin';
-import { Address } from '../models/address';
-import { Group } from '../models/group';
-import { Participant } from '../models/participant';
-import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { GeoCoordinates } from '../models/geo-coordinates';
+import { attachEmbeddedView } from '@angular/core/src/view/view_attach';
+
+import { Address, Category, DetailedUserData, GeoCoordinates, Group, Participant, Pin, PinSearchResultsDto, AttributeType, Attribute } from '../models';
 export class MockTestData {
 
     public static getAPinSearchResults(numPins: number = 1, lat: number = 123, long: number = 123, designatorStart: number = 1,
@@ -111,7 +108,7 @@ export class MockTestData {
             'congregation' + designator.toString(),
             designator,
             designator,
-            new Date(2016, 5).toDateString(),
+            new Date(2016, 5).getUTCDate(),
             null,
             0,
             true,
@@ -132,6 +129,66 @@ export class MockTestData {
             this.getAParticipantsArray(numParticipantsInGathering),
             30
         );
+    }
+
+    public static getSomeCategories(numOfCategories: number = 5): Category[] {
+        let categories = new Array<Category>();
+        if (numOfCategories === 0) {
+            return null;
+        }
+        for (let index = 0; index < numOfCategories; index++) {
+            let category = new Category(
+                index,
+                null,
+                `Category #${index} description`,
+                `Example Text #${index}`,
+                false,
+                `Category #${index}`
+            );
+            categories.push(category);
+        };
+        return categories;
+    }
+
+    public static getADetailedUserData(designator: number = 1): DetailedUserData {
+        return new DetailedUserData(
+            designator,
+            `firstName${designator}`,
+            `lastName${designator}`,
+            `${designator}112223333`,
+            '3332221111',
+            `email${designator}@email.com`,
+            this.getAnAddress(designator)
+        );
+    }
+
+    /**
+     * This call with return an AttributeType object
+     * That contains an array of attributes for Gender Mix Types.
+     * This is mocking what the AttributeType API call returns
+     */
+    public static getGroupGenderMixAttributeTypeWithAttributes(): AttributeType {
+        let attributes: Attribute[] = [
+            new Attribute(1, 'Errbody welcome', '(errbody)', null, null, null, 0, 73, null, null ),
+            new Attribute(2, 'Ladies in da house', '(guuurl)', null, null, null, 1, 73, null, null ),
+            new Attribute(3, 'dudebros', '(bros)', null, null, null, 2, 73, null, null)
+        ];
+        return new AttributeType('group type', 73, false, attributes);
+    }
+
+    /**
+     * This call with return an AttributeType object
+     * That contains an array of attributes for age ranges.
+     * This is mocking what the AttributeType API call returns
+     */
+    public static getAgeRangeAttributeTypeWithAttributes(): AttributeType {
+        let attributes: Attribute[] = [
+            <Attribute>{attributeId: 7089, name: 'middle skool', sortOrder: 0, attributeTypeId: 91},
+            new Attribute(7090, 'High Scho', null, null, null, null, 1, 91, null, null),
+            new Attribute(7091, 'College and stuff', null, null, null, null, 2, 91, null, null),
+            new Attribute(7092, 'Dead', null, null, null, null, 3, 91, null, null)
+        ];
+        return new AttributeType('Age Range', 91, true, attributes);
     }
 
     constructor() {}

@@ -11,7 +11,7 @@ export class Address {
     latitude: number;
 
     public static overload_Constructor_One() {
-        return new Address(null, null, null, null, null, null, null, null, null, null);
+        return new Address(0, null, null, null, null, null, null, null, null, null);
     }
 
     constructor(addressId: number, addressLine1: string, addressLine2: string,

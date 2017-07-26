@@ -39,7 +39,7 @@ describe('MapFooterComponent', () => {
         mockSearchService, mockAngulartics2;
 
     beforeEach(() => {
-        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
+        mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest', 'clearPinCache']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
             ['redirectToTarget', 'redirectToLogin']);
@@ -94,7 +94,7 @@ describe('MapFooterComponent', () => {
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('my');
         expect(mockState.setIsMyStuffActive).toHaveBeenCalledWith(true);
-        expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(true, null));
+        expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
     });
 
     it('myStuffBtnClicked should redirect to login when not logged in', () => {
@@ -120,7 +120,7 @@ describe('MapFooterComponent', () => {
         expect(mockState.setLoading).toHaveBeenCalledWith(true);
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
-        expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(true, null));
+        expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
     });
 
     it('redirectThenChangeToMyStuff should do change to mystuff and redirect to target', () => {
@@ -131,9 +131,11 @@ describe('MapFooterComponent', () => {
         expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalledTimes(1);
     });
 
-    it('should set state and go to getting started when gettingStartedBtnClicked', () =>{
+    it('should set state and go to getting started when gettingStartedBtnClicked', () => {
+        (mockAppSettings.isConnectApp).and.returnValue(true);
         comp.gettingStartedBtnClicked();
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockBlandPageService.goToGettingStarted).toHaveBeenCalledTimes(1);
     });
+
 });

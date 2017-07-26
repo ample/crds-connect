@@ -13,7 +13,6 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
-import { PinSearchQueryParams } from '../../models/pin-search-query-params';
 
 @Component({
   selector: 'app-map-footer',
@@ -54,8 +53,8 @@ export class MapFooterComponent implements OnInit {
 
   public changeStateToAllResults() {
 
-    this.state.setIsMyStuffActive(false);
     this.state.lastSearch.search = '';
+    this.state.setIsMyStuffActive(false);
 
     this.pinService.clearPinCache();
 
@@ -63,7 +62,7 @@ export class MapFooterComponent implements OnInit {
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
 
-    let pinSearchRequest = new PinSearchRequestParams(true, null);
+    let pinSearchRequest = new PinSearchRequestParams(null, null, null);
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
@@ -86,7 +85,7 @@ export class MapFooterComponent implements OnInit {
       this.state.setMyViewOrWorldView('my');
       this.state.setIsMyStuffActive(true);
 
-      let pinSearchRequest = new PinSearchRequestParams(true, null);
+      let pinSearchRequest = new PinSearchRequestParams(null, null, null);
 
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }

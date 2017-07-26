@@ -7,6 +7,7 @@ import { MapContentComponent } from '../../components/map-content/map-content.co
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { Pin } from '../../models/pin';
+import { ParticipantService } from '../../services/participant.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -16,6 +17,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BlandPageService } from '../../services/bland-page.service';
 import { PinLabelService } from '../../services/pin-label.service';
 import { MockComponent } from '../../shared/mock.component';
+import { AppSettingsService } from '../../services/app-settings.service';
 
 describe('Component: List View', () => {
   let mockStateService,
@@ -24,15 +26,19 @@ describe('Component: List View', () => {
     mockNeighborsHelperService,
     mockBlandPageService,
     mockSessionService,
-    mockPinLabelService;
+    mockPinLabelService,
+    mockParticipantService,
+    mockAppSettingsService;
 
   beforeEach(() => {
+    mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['doesUserLeadAnyGroups']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
     mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelperService', ['constructor']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
     mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['constructor']);
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -47,12 +53,14 @@ describe('Component: List View', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        { provide: ParticipantService, useValue: mockParticipantService },
         { provide: StateService, useValue: mockStateService },
         { provide: ListHelperService, useValue: mockListHelperService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: SessionService, useValue: mockSessionService },
-        { provide: PinLabelService, useValue: mockPinLabelService }
+        { provide: PinLabelService, useValue: mockPinLabelService },
+        { provide: AppSettingsService, useValue: mockAppSettingsService }
       ]
     });
     this.fixture = TestBed.createComponent(ListViewComponent);

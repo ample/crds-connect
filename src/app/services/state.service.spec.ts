@@ -3,7 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
-
+import { SearchOptions } from '../models/search-options';
 import { App, AppRoute, appRoute, app } from '../shared/constants';
 
 describe('Service: State', () => {
@@ -12,6 +12,10 @@ describe('Service: State', () => {
       providers: [StateService]
     });
   });
+
+  it('should have instance of SearchOptions', inject([StateService], (service: any) => {
+    expect(service.lastSearch).toBeDefined();
+  }));
 
   it('should create an instance', inject([StateService], (service: any) => {
       expect(service).toBeTruthy();
@@ -44,15 +48,17 @@ describe('Service: State', () => {
     expect(service.getUseZoom()).toEqual(10);
   }));
 
-  it('should determine that the app is in the groupsv2 state', inject([StateService], (service: any) => {
-    service.setActiveApp(appRoute.SMALL_GROUPS_ROUTE);
-    expect(service.activeApp).toEqual(app.SMALL_GROUPS);
+  it('should set last search search string', inject([StateService], (service: any) => {
+    service.setLastSearchSearchString('crazy train');
+    expect(service.getLastSearch().search).toBe('crazy train');
   }));
 
-  it('should determine that the app is in the finder state', inject([StateService], (service: any) => {
-    service.setActiveApp(appRoute.CONNECT_ROUTE);
-    expect(service.activeApp).toEqual(app.CONNECT);
+  it('should clear search params', inject([StateService], (service: any) => {
+    service.searchBarText = 'search for stuff';
+    service.lastSearch = new SearchOptions('one', 'two', 'three');
+    service.clearLastSearch();
+    expect(service.searchBarText).toBe('');
+    expect(service.lastSearch.search).toBe('');
   }));
-
 
 });

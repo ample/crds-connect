@@ -26,6 +26,14 @@ app-preloader {
   }
 }
 
+section {
+  @include make-row;
+}
+
+article, aside {
+  @include make-md-column(6);
+}
+
 app-neighbors {
   display: block;
 }
@@ -101,5 +109,30 @@ app-neighbors {
 
   &.dark-theme {
     background: $cr-black;
+  }
+}
+
+.search-filter {
+  background: $cr-white;
+  min-height: 100vh;
+
+  .btn-group-block {
+    .row {
+      > div {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.search-filter-header {
+  border-bottom: 1px solid $cr-gray-lighter;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .component-header {
+    margin: 1rem;
   }
 }

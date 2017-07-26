@@ -27,7 +27,7 @@ describe('Service: Pin', () => {
   let fixture, mockAddressService, mockAppSettings, mockSessionService, mockStateService, mockBlandPageService, mockGoogleMapService, mockRouter;
 
   mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['clearCache']);
-  mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
+  mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
   mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
@@ -206,8 +206,8 @@ describe('Service: Pin', () => {
     }));
 
     it('should create valid search params', inject([PinService], (service: PinService) => {
-      let expectedSearchParams = new PinSearchRequestParams(true, 'ayy');
-      let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest(true, 'ayy');
+      let expectedSearchParams = new PinSearchRequestParams('ayy', null, '');
+      let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest('ayy', null);
       expect(actualSearchParams).toEqual(expectedSearchParams);
 
     }));

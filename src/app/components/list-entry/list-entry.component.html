@@ -5,11 +5,11 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-4"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}<span class="media-label">
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">{{formatName()}}<span class="media-label">
         <span *ngIf="isMe()" class="label label-warning">ME</span>
       </span></h3>
     <p class="media-meta">
-      <span>{{roundedProximity()}} MI</span>
+      <span>{{pin?.proximity |  number : '1.2-2' }} MI</span>
     </p>
   </div>
 </div>
@@ -21,19 +21,19 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">{{formatName()}}
       <span class="media-label">
         <span class="label label-primary">HOST</span>
         <span *ngIf="isMyGathering()" class="label label-warning">ME</span>
       </span>
     </h3>
     <p class="media-meta">
-      <span>{{roundedProximity()}} MI</span>
+      <span>{{pin?.proximity |  number : '1.2-2' }} MI</span>
       <!--This functionality is being removed due to DE3433 and will be completed in USUS7759
      <span>JOINED BY {{count()}}</span>
      -->
-    </p>    
-    <p class="media-description">{{gatheringDescription()}}</p> 
+    </p>
+    <p class="media-description">{{gatheringDescription()}}</p>
 
   </div>
 </div>
@@ -45,7 +45,7 @@
     <div class="media-object-overlay img-circle media-object img-size-5" style="background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/SITE.png');"></div>
   </div>
   <div class="media-body">
-    <h3 class="media-heading">Crossroads {{siteName}}</h3>
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">Crossroads {{siteName}}</h3>
     <readonly-address [isPinOwner]="true" [address]="address" [distance]="proximity"></readonly-address>
   </div>
 </div>
@@ -57,25 +57,28 @@
                    wrapperClass="media-img-wrapper"
                    imageClass="media-object img-size-5"></profile-picture>
   <div class="media-body">
-    <h3 class="media-heading">{{formatName()}}
+    <h3 class="media-heading text-uppercase font-family-condensed-extra">{{formatName()}}
       <span class="media-label">
         <!-- Placeholder for custom labels, the logic for which is not yet available in groups-->
       </span>
     </h3>
     <p class="media-meta">
-      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ pin?.gathering?.meetingTime }}, {{pin?.gathering?.meetingFrequency}}</span>
-      <span *ngIf="pin?.gathering?.meetingDay == null">Flexible Meeting Time</span> 
+      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTime() | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}}</span>
+      <span *ngIf="pin?.gathering?.meetingDay == null">Flexible Meeting Time</span>
       <br>
-      <span *ngIf="address.addressId !== 0">({{roundedProximity()}} MI)</span>
-      <span *ngIf="address.addressId === 0">Online Group</span>       
+      <span *ngIf="address.addressId !== 0">({{pin?.proximity |  number : '1.2-2' }} MI)</span>
+      <span *ngIf="address.addressId === 0">Online Group</span>
     </p>
-    <p class="media-description">
-      <strong>Category: </strong><span *ngFor="let category of pin?.gathering?.categories"> {{category}}<br></span>
-      <span *ngIf="pin?.gathering?.categories == null"><br></span>
-      <strong>Type: </strong> {{pin?.gathering?.groupType}}
-      <br>
-      <strong>Leader: </strong> {{pin?.gathering?.primaryContactFirstName}} {{pin?.gathering?.primaryContactLastName}}
-   </p>
+
+    <dl class="media-description">
+      <dt>Category:</dt>
+      <dd *ngFor="let category of pin?.gathering?.categories">{{category.replace(":", ": ")}}</dd>
+      <dd *ngIf="pin?.gathering?.categories == null">&nbsp;</dd>
+      <dt>Type:</dt>
+      <dd>{{pin?.gathering?.groupType || '&nbsp;'}}</dd>
+      <dt>Leader:</dt>
+      <dd>{{leaderName() || '&nbsp;'}}</dd>
+    </dl>
   </div>
 
 </div>
