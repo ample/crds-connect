@@ -141,6 +141,6 @@ describe('CreateGroupPage3Component', () => {
 
     it('should go back', () => {
         comp.back();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['create-group/page-2']);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-2']);
     });
 });
