@@ -71,16 +71,13 @@ describe('ListEntryComponent', () => {
     });
 
     it('should return proper name format', () => {
-        let participants = new Array<Participant>();
-        let participant1 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
-                                           'Smith', 'Jason', 1, new Date(2016, 5).toDateString(), true);
-        let participant2 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
-                                           'Flipe', 'Robert', 1, new Date(2016, 5).toDateString(), true);
-        participants.push(participant1);
-        participants.push(participant2);
+        let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         fixture.detectChanges();
-        expect(comp.adjustedLeaderNames).toBe('Jason S., Robert F.');
+        comp.type = pinType.GATHERING;
+        comp.firstName = 'Bob';
+        comp.lastName = 'Johnson';
+        expect(comp.formatName()).toBe('BOB J.');
     });
 
     it('should return proper count string', () => {
@@ -92,11 +89,16 @@ describe('ListEntryComponent', () => {
     });
 
     it('should adjust leader names', () => {
-        let participants = MockTestData.getAParticipantsArray(3);
+        let participants = new Array<Participant>();
+        let participant1 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
+                                           'Smith', 'Jason', 1, new Date(2016, 5).toDateString(), true);
+        let participant2 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
+                                           'Flipe', 'Robert', 1, new Date(2016, 5).toDateString(), true);
+        participants.push(participant1);
+        participants.push(participant2);
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         fixture.detectChanges();
-        comp.participantCount = 10;
-        expect(comp.count()).toBe('10 OTHERS');
+        expect(comp.adjustedLeaderNames).toBe('Jason S., Robert F.');
     });
 
     it('should redirect to groups in group mode', () => {
