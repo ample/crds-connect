@@ -11,96 +11,63 @@
         <div class="col-sm-12">
             <p class="control-label soft-top">Where will your group meet?</p>
             <form [formGroup]="locationForm" (ngSubmit)="onSubmit(locationForm)">
-                <div class="btn-group btn-group-block">
+                <div class="btn-group-block">
                     <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: !createGroupService.group.isVirtualGroup}"
                         formControlName="isVirtualGroup" value="false" (click)="onClickIsVirtual(false)" ngDefaultControl>
-                    <div class="btn-group-label text-left row">
-                        <span class="btn-group-icons">
-                            <svg class="icon circle-thin" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                            </svg>
-                            <svg class="icon check-circle" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                            </svg>
-                        </span>
-                        In Person
-                    </div>
-                    </button>
-
-                    <div *ngIf="!createGroupService.group.isVirtualGroup">
-                        <div class="soft-top custom-input">
-                            <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
+                        <div class="btn-group-label text-left row">
+                            <span class="btn-group-icons">
+                                <svg class="icon circle-thin" viewBox="0 0 256 256">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                                </svg>
+                                <svg class="icon check-circle" viewBox="0 0 256 256">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
                                 </svg>
                             </span>
-                            <input class="form-control" name="address" formControlName="address" placeholder="Address" [(ngModel)]="createGroupService.group.address.addressLine1">
+                            In Person
                         </div>
+                    </button>
+
+                    <div class="custom-input push-top" *ngIf="!createGroupService.group.isVirtualGroup">
+                        <input class="form-control" name="address" formControlName="address" placeholder="Address" [(ngModel)]="createGroupService.group.address.addressLine1">
                         <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['address'].valid">
                             <p>Address is required</p>
                         </div>
-
-                        <div class="soft-top custom-input">
-                            <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
-                                </svg>
-                            </span>
-                            <input class="form-control" name="city" formControlName="city" placeholder="City" [(ngModel)]="createGroupService.group.address.city">
-                        </div>
+                        <input class="push-top form-control" name="city" formControlName="city" placeholder="City" [(ngModel)]="createGroupService.group.address.city">
                         <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['city'].valid">
                             <p>City is required</p>
                         </div>
-                        <div class="soft-top custom-input">
-                            <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
-                                </svg>
-                            </span>
-                            <div class="col-xs-6 hard-left soft-right">
-                                <select class="form-control" name="state" formControlName="state" placeholder="State" [(ngModel)]="createGroupService.group.address.state">
-                                <option value="null" disabled="true" [selected]="!createGroupService.group.address.state">State</option>
-                                <option *ngFor="let state of usStatesList" [value]="state">{{state}}</option>
-                            </select>
-
-                                <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
-                                    <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                        <div>
+                            <div class="push-top row">
+                                <div class="col-xs-6 hard-left soft-right">
+                                    <select class="form-control" name="state" formControlName="state" placeholder="State" [(ngModel)]="createGroupService.group.address.state">
+                                        <option value="null" disabled="true" [selected]="!createGroupService.group.address.state">State</option>
+                                        <option *ngFor="let state of usStatesList" [value]="state">{{state}}</option>
+                                    </select>
+                                    <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
+                                        <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-xs-6 hard-right">
-                                <input class="form-control" name="zip"
-                                       formControlName="zip" placeholder="Zip"
-                                       [(ngModel)]="createGroupService.group.address.zip"
-                                       minlength="5" maxlength="5"
-                                       type="tel"
-                                       onlyTheseKeys="[0-9]">
-
-                                <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
-                                    <crds-content-block id="invalidZip"></crds-content-block>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="pull-left">
-                                    <div class="custom-input">
-                                        <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
-                                </svg>
-                            </span>
-                                        <label class="control-label custom-input-icon">Are kids welcome at the group?</label>
+                                <div class="col-xs-6 hard-right">
+                                    <input class="form-control" name="zip"
+                                            formControlName="zip" placeholder="Zip"
+                                            [(ngModel)]="createGroupService.group.address.zip"
+                                            minlength="5" maxlength="5"
+                                            type="tel"
+                                            onlyTheseKeys="[0-9]">
+                                    <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
+                                        <crds-content-block id="invalidZip"></crds-content-block>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 hard-right">
-                            <div class="push-left btn-group btn-group-block">
-                                <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.kidsWelcome}"
-                                    formControlName="kidsWelcome" value="true" (click)="onClickKidsWelcome(true)" ngDefaultControl
-                                    style="white-space: normal">
-                                    <div class="btn-group-label text-left row">
+                        <div class="push-top">
+                            <label class="control-label">Are kids welcome at the group?</label>
+                        </div>
+                        <div class="btn-group-block">
+                            <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.kidsWelcome}"
+                                formControlName="kidsWelcome" value="true" (click)="onClickKidsWelcome(true)" ngDefaultControl
+                                style="white-space: normal">
+                                <div class="btn-group-label text-left row">
                                     <span class="btn-group-icons">
                                         <svg class="icon circle-thin" viewBox="0 0 256 256">
                                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
@@ -109,16 +76,32 @@
                                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
                                         </svg>
                                     </span>
-                                        Yep. Kids are welcome. As a group, we'll decide what to do with them.
-                                    </div>
-                                </button>
+                                    Yep. Kids are welcome. As a group, we'll decide what to do with them.
+                                </div>
+                            </button>
+                            <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.kidsWelcome === false}"
+                                formControlName="kidsWelcome" value="false" (click)="onClickKidsWelcome(false)" ngDefaultControl>
+                                <div class="btn-group-label text-left row">
+                                    <span class="btn-group-icons">
+                                        <svg class="icon circle-thin" viewBox="0 0 256 256">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                                        </svg>
+                                        <svg class="icon check-circle" viewBox="0 0 256 256">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                                        </svg>
+                                    </span>
+                                    No. Adults only please.
+                                </div>
+                            </button>
+                            <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
+                                <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-sm-12 hard-right">
-                            <div class="push-left btn-group btn-group-block">
-                                <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.kidsWelcome === false}"
-                                    formControlName="kidsWelcome" value="false" (click)="onClickKidsWelcome(false)" ngDefaultControl>
+                    <div class="btn-group btn-group-block soft-top">
+                        <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: createGroupService.group.isVirtualGroup}"
+                            formControlName="isVirtualGroup" value="true" (click)="onClickIsVirtual(true)" ngDefaultControl>
                             <div class="btn-group-label text-left row">
                                 <span class="btn-group-icons">
                                     <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -128,32 +111,9 @@
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
                                     </svg>
                                 </span>
-                                No. Adults only please.
+                                Online
                             </div>
-                            </button>
-                            </div>
-                            <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
-                                    <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
-                                </div>
-                        </div>
-
-                    </div>
-
-                    <div class="btn-group btn-group-block soft-top">
-                        <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: createGroupService.group.isVirtualGroup}"
-                            formControlName="isVirtualGroup" value="true" (click)="onClickIsVirtual(true)" ngDefaultControl>
-                        <div class="btn-group-label text-left row">
-                        <span class="btn-group-icons">
-                            <svg class="icon circle-thin" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                            </svg>
-                            <svg class="icon check-circle" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                            </svg>
-                        </span>
-                        Online
-                    </div>
-                    </button>
+                        </button>
                     </div>
 
                     <div class="soft-ends">
