@@ -1,7 +1,7 @@
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
-import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics} from 'angulartics2';
+import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment} from 'angulartics2';
 
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
+    private angulartics2Segment: Angulartics2Segment,
     private state: StateService,
     private content: ContentService,
     public toastr: ToastsManager,
