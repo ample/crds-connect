@@ -42,7 +42,6 @@ export class StateService {
     this.lastSearch = new SearchOptions('', '', '');
   }
 
-
   public emitMyStuffChanged(): void {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
   }

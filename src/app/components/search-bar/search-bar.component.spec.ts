@@ -12,8 +12,6 @@ import { StateService } from '../../services/state.service';
 import { FilterService } from '../../services/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
-import { placeholderTextForSearchBar } from '../../shared/constants';
-
 class StateServiceStub {
   public myStuffActive: boolean = false;
   setMyViewOrWorldView = jasmine.createSpy('setMyViewOrWorldView').and.returnValue(true);
@@ -88,13 +86,13 @@ describe('SearchBarComponent', () => {
   it('It should set the placeholder text to "Address..." on CONNECT component init', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
-    expect(comp.placeholderTextForSearchBar).toBe(placeholderTextForSearchBar.ADDRESS);
+    expect(comp.placeholderTextForSearchBar).toBe(appSettings.placeholderTextForSearchBar);
   });
 
   it('It should set the placeholder text to "Keyword..." on GROUPS component init', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(false);
     comp.ngOnInit();
-    expect(comp.placeholderTextForSearchBar).toBe(placeholderTextForSearchBar.KEYWORD);
+    expect(comp.placeholderTextForSearchBar).toBe(appSettings.placeholderTextForSearchBar);
   });
 
   it('It should show the "clear search" button if there is text in the search bar ', () => {

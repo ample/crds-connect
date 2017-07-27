@@ -6,6 +6,7 @@ export class AppSettingsService {
   public finderType: AppType;
   public leadershipApplicationType: LeadershipApplicationType;
   public appRoute: string;
+  public placeholderTextForSearchBar: string;
 
   constructor() {}
 
@@ -15,10 +16,12 @@ export class AppSettingsService {
       case AppType.Connect:
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
         this.appRoute = '/';
+        this.placeholderTextForSearchBar = 'Address...';
         break;
       case AppType.Groups:
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
         this.appRoute = '/groupsv2';
+        this.placeholderTextForSearchBar = 'Keyword...';
         break;
     }
   }

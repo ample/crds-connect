@@ -1,6 +1,5 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
-
 export class GroupMeetingScheduleType {
   SPECIFIC_TIME_AND_DATE: string;
   FLEXIBLE: string;
@@ -38,8 +37,6 @@ export const crdsOakleyCoords: any = {
   lng: -84.423367
 };
 
-
-
 export const earthsRadiusInMiles: number = 3443.9;
 
 export const groupDescriptionLength: number = 44;
@@ -53,16 +50,6 @@ export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.cross
 
 export const GroupResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
 export const LeaderResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
-
-export class App {
-  CONNECT: string;
-  SMALL_GROUPS: string;
-
-  constructor() {
-    this.CONNECT = 'CONNECT';
-    this.SMALL_GROUPS = 'SMALL_GROUPS';
-  }
-}
 
 export enum AppType {
   Connect,
@@ -102,16 +89,6 @@ export class LeaderStatus {
   status: number;
 }
 
-export class PlaceholderTextForSearchBar {
-  ADDRESS: string;
-  KEYWORD: string;
-
-  constructor () {
-    this.ADDRESS = 'Address...';
-    this.KEYWORD = 'Keyword...';
-  }
-}
-
 export enum GroupRole {
   MEMBER = 16,
   LEADER = 22,
@@ -119,8 +96,6 @@ export enum GroupRole {
   NONE = 0
 }
 
-export const app: App = new App();
-export const placeholderTextForSearchBar: PlaceholderTextForSearchBar = new PlaceholderTextForSearchBar();
 
 // Zoom Constants:
 export const initialMapZoom: number = 9;    // Starting zoom used when calculating best zoom for a given search
