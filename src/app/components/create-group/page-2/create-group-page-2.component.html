@@ -1,7 +1,7 @@
 <div class="connect-container connect-layout-container">
     <div class="row soft-top">
         <div class="col-sm-12 soft-top">
-            <p class="media-meta flush-bottom">STEP 2 OF 9</p>
+            <p class="media-meta flush-bottom">STEP 2 OF 6</p>
             <h3 class="media-heading font-family-condensed-extra text-uppercase">Meeting Time</h3>
             <hr>
             <crds-content-block id="groupToolCreateGroupMeetingTimeHelp"></crds-content-block>
@@ -36,7 +36,7 @@
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
                                 </svg>
                             </span>
-                            <select class="form-control" name="meetingDay" [(ngModel)]="createGroupService.group.meetingDayId" formControlName="meetingDay">
+                            <select class="form-control" name="meetingDay" [(ngModel)]="createGroupService.group.meetingDayId" formControlName="meetingDay"  (change)="onDayChange($event.target.value)">
                             <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day..</option>
                             <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
                         </select>
@@ -60,7 +60,7 @@
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
                                 </svg>
                             </span>
-                            <select class="form-control" name="meetingFrequency" [(ngModel)]="createGroupService.group.meetingFrequencyId" formControlName="meetingFrequency">
+                            <select class="form-control" name="meetingFrequency" [(ngModel)]="createGroupService.group.meetingFrequencyId" formControlName="meetingFrequency" (change)="onFrequencyChange($event.target.value)">
                             <option value="null" disabled="true" [selected]="!createGroupService.group.meetingFrequencyId">Select a frequency</option>
                             <option *ngFor="let frequency of meetingFrequencies" [value]="frequency.meetingFrequencyId">{{frequency.meetingFrequencyDesc}}</option>
                         </select>

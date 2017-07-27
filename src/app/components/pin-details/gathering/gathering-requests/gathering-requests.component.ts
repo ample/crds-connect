@@ -45,9 +45,10 @@ export class GatheringRequestsComponent implements OnInit {
   }
 
   public convertToParticipant(inquiry: Inquiry): Participant {
+    let canBeHyperlinked: boolean = false;
     return new Participant(null, inquiry.contactId, null,
       inquiry.emailAddress, null, null, null, null,
-      inquiry.lastName, inquiry.firstName, null, null);
+      inquiry.lastName, inquiry.firstName, null, null, canBeHyperlinked);
   }
 
   public acceptOrDenyInquiry(inquiry: Inquiry, approve: boolean) {

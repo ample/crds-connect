@@ -1,5 +1,17 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
+export class PinsShown {
+  MY_STUFF: string;
+  EVERYONES_STUFF: string;
+
+  constructor() {
+    this.MY_STUFF = 'my';
+    this.EVERYONES_STUFF = 'world';
+  }
+}
+
+export const pinsShown: PinsShown = new PinsShown();
+
 export class GroupMeetingScheduleType {
   SPECIFIC_TIME_AND_DATE: string;
   FLEXIBLE: string;
@@ -10,7 +22,7 @@ export class GroupMeetingScheduleType {
   }
 }
 
-export const groupMeetingScheduleType: any = new GroupMeetingScheduleType();
+export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
 
@@ -59,12 +71,14 @@ export enum AppType {
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
   GROUP_AGE_RANGE: string;
+  GROUP_CATEGORY: string;
   GROUP_TYPE: string;
   GROUP_VIRTUAL: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
     this.GROUP_AGE_RANGE = 'groupagerange';
+    this.GROUP_CATEGORY = 'groupcategory';
     this.GROUP_TYPE = 'grouptype';
     this.GROUP_VIRTUAL = 'groupvirtual';
   }

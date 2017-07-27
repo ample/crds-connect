@@ -26,8 +26,11 @@ export class LookupService {
     }
 
     public getGroupGenderMixTypes(): Observable<AttributeType> {
-        console.log(attributeTypes.GroupGenderMixTypeAttributeId);
         return this.session.get(`${this.baseUrl}api/v1.0.0/attribute-type/${attributeTypes.GroupGenderMixTypeAttributeId}`);
+    }
+
+    public getSites(): Observable<LookupTable[]> {
+        return this.session.get(`${this.baseUrl}api/v1.0.0/lookup/sites`);
     }
 
     public getDaysOfTheWeek(): Observable<LookupTable[]> {

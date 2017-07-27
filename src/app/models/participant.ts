@@ -12,11 +12,12 @@ export class Participant {
     nickName: string;
     participantId: number;
     startDate: string;
+    canBeHyperlinked: boolean = true;
 
     constructor($congregation: string, $contactId: number, $displayName: string,
                 $email: string, $groupParticipantId: number, $groupRoleId: number,
                 $groupRoleTitle: string, $isApprovedLeader: boolean, $lastName: string,
-                $nickName: string, $participantId: number, $startDate: string) {
+                $nickName: string, $participantId: number, $startDate: string, canBeHyperlinked: boolean) {
         this.congregation = $congregation;
         this.contactId = $contactId;
         this.displayName = $displayName;
@@ -29,6 +30,7 @@ export class Participant {
         this.nickName = $nickName;
         this.participantId = $participantId;
         this.startDate = $startDate;
+        this.canBeHyperlinked = canBeHyperlinked;
     }
 
 

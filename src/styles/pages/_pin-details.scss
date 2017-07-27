@@ -24,6 +24,10 @@
     }
   }
 
+  .control-label {
+    color: $cr-white;
+  }
+
   &.person,
   &.host_plain {
     min-height: 100vh;
@@ -82,6 +86,6 @@ dl {
 }
 
 .pending-requests {
-  margin-left: 97px;
+  margin-left: 80px;
   margin-top: -1.5rem;
 }

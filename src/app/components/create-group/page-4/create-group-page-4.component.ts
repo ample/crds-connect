@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
 import { Observable } from 'rxjs';
@@ -32,7 +31,6 @@ export class CreateGroupPage4Component implements OnInit {
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router,
-                private locationService: Location,
                 private lookupService: LookupService,
                 private blandPageService: BlandPageService) { }
 
@@ -136,6 +134,6 @@ export class CreateGroupPage4Component implements OnInit {
     }
 
     public back() {
-        this.locationService.back();
+        this.router.navigate(['/create-group/page-3']);
     }
 }

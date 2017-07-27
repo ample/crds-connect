@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -20,14 +19,13 @@ describe('CreateGroupPage4Component', () => {
     let fixture: ComponentFixture<CreateGroupPage4Component>;
     let comp: CreateGroupPage4Component;
     let el;
-    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService,
+    let mockStateService, mockCreateGroupService, mockRouter,
         mockLookupService, mockBlandPageService;
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['addAgeRangesToGroupModel', 'addGroupGenderMixTypeToGroupModel']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
         mockLookupService = jasmine.createSpyObj<LookupService>('lookupService', ['getGroupGenderMixTypes', 'getAgeRanges']);
         mockCreateGroupService.selectedGroupGenderMix = Attribute.constructor_create_group();
@@ -42,7 +40,6 @@ describe('CreateGroupPage4Component', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
-                { provide: Location, useValue: mockLocationService, },
                 { provide: LookupService, useValue: mockLookupService },
                 { provide: BlandPageService, useValue: mockBlandPageService }
             ],
@@ -225,7 +222,7 @@ describe('CreateGroupPage4Component', () => {
 
     it('should go back', () => {
         comp.back();
-        expect(mockLocationService.back).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-3']);
     });
 
 });

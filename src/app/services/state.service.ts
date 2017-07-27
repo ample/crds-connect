@@ -4,7 +4,9 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
+import { PinIdentifier } from '../models/pin-identifier';
 import { Pin, pinType } from '../models/pin';
+import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { SearchOptions } from '../models/search-options';
 
 // TODO: This class has a lot of flags.
@@ -15,11 +17,13 @@ export class StateService {
   public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
 
   public appForWhichWeRanLastSearch: string = undefined;
+  public deletedPinIdentifier: PinIdentifier = null;
   public hasBrandBar: boolean = true;
   public hasPageHeader: boolean = false;
   public is_loading: boolean = false;
   public isFilterDialogOpen: boolean = false;
   public lastSearch: SearchOptions;
+  private lastSearchResults: PinSearchResultsDto;
   public myStuffActive: boolean = false;
   public navigatedBackToNeighbors: boolean = false;
   // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates.
@@ -38,6 +42,7 @@ export class StateService {
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
 
+
   constructor() {
     this.lastSearch = new SearchOptions('', '', '');
   }
@@ -46,8 +51,9 @@ export class StateService {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
   }
 
-  public setIsMyStuffActive(isActive: boolean){
+  public setIsMyStuffActive(isActive: boolean) {
     this.myStuffActive = isActive;
+    this.myViewOrWorldView = 'my';
     this.emitMyStuffChanged();
   }
 
@@ -77,6 +83,14 @@ export class StateService {
 
   public setLastSearch(ls: SearchOptions) {
     this.lastSearch = ls;
+  }
+
+  public getlastSearchResults(): PinSearchResultsDto {
+    return this.lastSearchResults;
+  }
+
+  public setlastSearchResults(searchResults: PinSearchResultsDto): void {
+    this.lastSearchResults = searchResults;
   }
 
   public setLastSearchSearchString(value: string) {
@@ -135,5 +149,14 @@ export class StateService {
   public clearLastSearch() {
     this.lastSearch = new SearchOptions('', '', '');
     this.searchBarText = '';
+  }
+  
+  public setDeletedPinIdentifier(pinContactId: number, pinType: pinType): void {
+    let pinIdentifier: PinIdentifier = new PinIdentifier(pinType, pinContactId);
+    this.deletedPinIdentifier = pinIdentifier; 
+  }
+  
+  public getDeletedPinIdentifier(): PinIdentifier{
+    return this.deletedPinIdentifier; 
   }
 }

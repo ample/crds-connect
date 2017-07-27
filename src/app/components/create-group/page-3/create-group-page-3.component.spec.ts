@@ -1,14 +1,14 @@
-import { Location } from '@angular/common';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { Group } from '../../../models/group';
 import { StateService } from '../../../services/state.service';
 import { MockComponent } from '../../../shared/mock.component';
+import { MockTestData } from '../../../shared/MockTestData';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage3Component } from './create-group-page-3.component';
 
@@ -20,9 +20,8 @@ describe('CreateGroupPage3Component', () => {
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        mockCreateGroupService = <CreateGroupService>{ group: Group.overload_Constructor_CreateGroup(1), meetingIsInPerson: false };
+        mockCreateGroupService = <CreateGroupService>{ group: Group.overload_Constructor_CreateGroup(1) };
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         TestBed.configureTestingModule({
             declarations: [
                 CreateGroupPage3Component,
@@ -32,8 +31,7 @@ describe('CreateGroupPage3Component', () => {
                 FormBuilder,
                 { provide: StateService, useValue: mockStateService },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
-                { provide: Router, useValue: mockRouter },
-                { provide: Location, useValue: mockLocationService }
+                { provide: Router, useValue: mockRouter }
 
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
@@ -52,46 +50,51 @@ describe('CreateGroupPage3Component', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('should init (meetingIsInPerson set to false)', () => {
+    it('should init (isVirtualGroup set to true)', () => {
+        comp['createGroupService'].group.isVirtualGroup = true;
         spyOn(comp, 'setRequiredFields');
+        spyOn(comp, 'makeSureModelHasAddress');
         comp.ngOnInit();
-        expect(comp.locationForm.controls['isInPerson']).toBeTruthy();
+        expect(comp.locationForm.controls['isVirtualGroup']).toBeTruthy();
+        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
+        expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
+        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(comp['makeSureModelHasAddress']).toHaveBeenCalled();
+    });
+
+    it('should init (isVirtualGroup set to false)', () => {
+        comp['createGroupService'].group.isVirtualGroup = false;
+        spyOn(comp, 'setRequiredFields');
+        spyOn(comp, 'makeSureModelHasAddress');
+        comp.ngOnInit();
+        expect(comp.locationForm.controls['isVirtualGroup']).toBeTruthy();
         expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(false);
-        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(comp['makeSureModelHasAddress']).toHaveBeenCalled();
     });
 
-    it('should init (meetingIsInPerson set to true)', () => {
-        comp['createGroupService'].meetingIsInPerson = true;
+    it('onClickIsVirtual(true)', () => {
         spyOn(comp, 'setRequiredFields');
-        comp.ngOnInit();
-        expect(comp.locationForm.controls['isInPerson']).toBeTruthy();
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
+        comp['onClickIsVirtual'](true);
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
     });
 
-    it('onClickIsOnline(true)', () => {
+    it('onClickIsVirtual(false)', () => {
         spyOn(comp, 'setRequiredFields');
-        comp['onClickIsOnline'](true);
-        expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
-    });
-
-    it('onClickIsOnline(false)', () => {
-        spyOn(comp, 'setRequiredFields');
-        comp['onClickIsOnline'](false);
+        comp['onClickIsVirtual'](false);
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(false);
     });
 
     it('should set required fields to required', () => {
         comp.ngOnInit();
-        comp['setRequiredFields'](true);
+        comp['setRequiredFields'](false);
         expect(comp.locationForm.controls['address'].validator).toBeTruthy();
         expect(comp.locationForm.controls['kidsWelcome'].validator).toBeTruthy();
     });
 
     it('should set required fields to not required', () => {
         comp.ngOnInit();
-        comp['setRequiredFields'](false);
+        comp['setRequiredFields'](true);
         expect(comp.locationForm.controls['address'].validator).toBeFalsy();
         expect(comp.locationForm.controls['kidsWelcome'].validator).toBeFalsy();
     });
@@ -111,18 +114,33 @@ describe('CreateGroupPage3Component', () => {
     });
 
     it('should go to next page if the form is valid', () => {
-        comp.ngOnInit();
-        comp['setRequiredFields'](false);
-        comp.onSubmit(comp.locationForm);
+        let form = new FormGroup({});
+        comp.onSubmit(form);
         expect(comp['isSubmitted']).toBeTruthy();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-4']);
     });
 
     it('should NOT go to next page if the form is valid', () => {
-        comp.ngOnInit();
-        comp['setRequiredFields'](true);
-        comp.onSubmit(comp.locationForm);
+        let form = new FormGroup({field: new FormControl('', Validators.required)});
+        comp.onSubmit(form);
         expect(comp['isSubmitted']).toBeTruthy();
         expect(mockRouter.navigate).not.toHaveBeenCalled();
+    });
+
+    it('makeSureModelHasAddress should set an address if model doesnt have one', () => {
+        comp['createGroupService'].group.address = null;
+        comp['makeSureModelHasAddress']();
+        expect(comp['createGroupService'].group.address).not.toBeNull();
+    });
+
+    it('makeSureModelHasAddress should set an address if model doesnt have one', () => {
+        comp['createGroupService'].group.address = MockTestData.getAnAddress(20);
+        comp['makeSureModelHasAddress']();
+        expect(comp['createGroupService'].group.address.addressId).toBe(20);
+    });
+
+    it('should go back', () => {
+        comp.back();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-2']);
     });
 });
