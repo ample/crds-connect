@@ -10,19 +10,20 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListEntryComponent } from './list-entry.component';
-
+import { Observable } from 'rxjs/Rx';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { ParticipantService } from '../../services/participant.service';
 import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
-
+import { Participant } from '../../models/participant';
 import { MockTestData } from '../../shared/MockTestData';
 
 describe('ListEntryComponent', () => {
-    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService, mockRouter;
+    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService, mockRouter, mockParticipantService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
     let router: Router;
@@ -35,6 +36,7 @@ describe('ListEntryComponent', () => {
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId']);
         mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+        mockParticipantService = jasmine.createSpyObj<Router>('participantService', ['getAllLeaders']);
 
 
         TestBed.configureTestingModule({
@@ -49,7 +51,8 @@ describe('ListEntryComponent', () => {
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: Router, useValue: mockRouter },
-                { provide: AppSettingsService, useValue: mockAppSettings }
+                { provide: AppSettingsService, useValue: mockAppSettings },
+                { provide: ParticipantService, useValue: mockParticipantService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -68,14 +71,29 @@ describe('ListEntryComponent', () => {
     });
 
     it('should return proper name format', () => {
+        let participants = new Array<Participant>();
+        let participant1 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
+                                           'Smith', 'Jason', 1, new Date(2016, 5).toDateString(), true);
+        let participant2 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
+                                           'Flipe', 'Robert', 1, new Date(2016, 5).toDateString(), true);
+        participants.push(participant1);
+        participants.push(participant2);
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         fixture.detectChanges();
-        comp.type = pinType.GATHERING;
-        comp.firstName = 'Bob';
-        comp.lastName = 'Johnson';
-        expect(comp.formatName()).toBe('BOB J.');
+        expect(comp.adjustedLeaderNames).toBe('Jason S., Robert F.');
     });
 
     it('should return proper count string', () => {
+        let participants = MockTestData.getAParticipantsArray(3);
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
+        fixture.detectChanges();
+        comp.participantCount = 10;
+        expect(comp.count()).toBe('10 OTHERS');
+    });
+
+    it('should adjust leader names', () => {
+        let participants = MockTestData.getAParticipantsArray(3);
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         fixture.detectChanges();
         comp.participantCount = 10;
         expect(comp.count()).toBe('10 OTHERS');
