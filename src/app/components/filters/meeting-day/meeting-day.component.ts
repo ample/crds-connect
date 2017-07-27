@@ -7,7 +7,8 @@ import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { AgeGroup } from '../../../models/age-group';
-import { awsFieldNames } from '../../../shared/constants';
+import { awsFieldNames, daysOfWeek } from '../../../shared/constants';
+import {SimpleSelectable} from "../../../models/simple-selectable";
 
 @Component({
   selector: 'meeting-day',
@@ -16,48 +17,29 @@ import { awsFieldNames } from '../../../shared/constants';
 
 
 export class MeetingDayComponent implements OnInit {
-  private selected: boolean = false;
-  private ageGroups: AgeGroup[];
 
-  constructor( private appSettings: AppSettingsService,
-               private lookupService: LookupService,
-               private filterService: FilterService) { }
+  private selected: boolean = false;
+  private selectableDaysOfWeek: SimpleSelectable[] = [];
+
+  constructor(private filterService: FilterService) { }
 
   public ngOnInit(): void {
-    this.initializeAgeGroups();
+    this.selectableDaysOfWeek = this.filterService.getSelectableDaysOfTheWeek(daysOfWeek);
   }
 
-  public clickToSelect(value: string) {
-    this.setSelection(value);
-    this.setFilterString();
+  private onClickToSelect(selectedDay: SimpleSelectable) {
+    selectedDay.isSelected = true;
   }
 
- private initializeAgeGroups(): void {
-      this.lookupService.getAgeRanges().subscribe(
-          ages => {
-            this.ageGroups = [];
-            for (let age of ages.attributes) {
-                let theAge = new AgeGroup(age);
-                this.ageGroups.push(theAge);
-            }
-          }
-      );
-  }
-
-  private setSelection(selectedValue: string) {
-    let group = this.ageGroups.find(i => i.attribute.name === selectedValue);
-    if ( group != null) {
-      group.selected = !group.selected;
-    }
-  }
 
   private setFilterString(): void {
-    this.filterService.setFilterStringAgeGroups(this.ageGroups);
+    this.filterService.setFilterStringMeetingDays(this.selectableDaysOfWeek);
   }
 
+
   public reset() {
-    for (let age of this.ageGroups) {
-      age.selected = false;
+    for (let day of this.selectableDaysOfWeek) {
+      day.isSelected = false;
     }
   }
 }

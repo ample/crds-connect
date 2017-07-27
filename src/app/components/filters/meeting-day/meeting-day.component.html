@@ -1,8 +1,8 @@
 <div class="btn-group">
-  <button *ngFor="let ageGroup of ageGroups" 
-          (click)="clickToSelect(ageGroup.attribute.name)" 
-          class="btn btn-option btn-outline" 
-          type="button" 
-          [class.active]="ageGroup.selected">{{ageGroup.attribute.name}}
+  <button *ngFor="let day of daysOfWeek"
+          (click)="onClickToSelect(day)"
+          class="btn btn-option btn-outline"
+          type="button"
+          [class.active]="day.isSelected">{{day.value}}
   </button>
 </div>

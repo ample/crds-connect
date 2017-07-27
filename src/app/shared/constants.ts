@@ -23,6 +23,28 @@ export class GroupMeetingScheduleType {
   }
 }
 
+export class DaysOfWeek{
+  public MONDAY: string;
+  public TUESDAY: string;
+  public WEDNESDAY: string;
+  public THURSDAY: string;
+  public FRIDAY: string;
+  public SATURDAY: string;
+  public SUNDAY: string;
+
+    constructor() {
+      this.MONDAY = 'Monday';
+      this.TUESDAY = 'Tuesday';
+      this.WEDNESDAY = 'Wednesday';
+      this.THURSDAY = 'Thursday';
+      this.FRIDAY = 'Friday';
+      this.SATURDAY = 'Saturday';
+      this.SUNDAY = 'Sunday';
+    }
+}
+
+export const daysOfWeek = new DaysOfWeek();
+
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
@@ -98,6 +120,9 @@ export class AwsFieldNames {
   GROUP_CATEGORY: string;
   GROUP_TYPE: string;
   GROUP_VIRTUAL: string;
+  MEETING_DAY: string;
+  MEETING_FREQUENCY: string;
+  MEETING_TIME: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
@@ -105,6 +130,9 @@ export class AwsFieldNames {
     this.GROUP_CATEGORY = 'groupcategory';
     this.GROUP_TYPE = 'grouptype';
     this.GROUP_VIRTUAL = 'groupvirtual';
+    this.MEETING_DAY = 'groupmeetingday';
+    this.MEETING_FREQUENCY = 'groupmeetingfrequency';
+    this.MEETING_TIME = 'groupmeetingtime';
   }
 }
 

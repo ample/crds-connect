@@ -3,8 +3,9 @@ import { Injectable} from '@angular/core';
 import { AgeGroup } from '../models/age-group';
 import { Category } from '../models/category';
 import { GroupType } from '../models/group-type';
+import { SimpleSelectable} from '../models/simple-selectable';
 
-import { awsFieldNames } from '../shared/constants';
+import { awsFieldNames, DaysOfWeek, daysOfWeek } from '../shared/constants';
 
 @Injectable()
 export class FilterService {
@@ -14,6 +15,7 @@ export class FilterService {
   public filterStringGroupTypes: string = null;
   public filterStringGroupLocation: string = null;
   public filterStringCategories: string = null;
+  public filterStringMeetingDays: string = null;
 
   constructor() {}
 
@@ -25,6 +27,7 @@ export class FilterService {
     filterString = (this.filterStringGroupTypes != null) ? filterString + this.filterStringGroupTypes : filterString;
     filterString = (this.filterStringGroupLocation != null) ? filterString + this.filterStringGroupLocation : filterString;
     filterString = (this.filterStringCategories != null) ? filterString + this.filterStringCategories : filterString;
+    filterString = (this.filterStringMeetingDays != null) ? filterString + this.filterStringMeetingDays : filterString;
 
     return filterString;
   }
@@ -35,6 +38,7 @@ export class FilterService {
     this.filterStringGroupTypes = null;
     this.filterStringGroupLocation = null;
     this.filterStringCategories = null;
+    this.filterStringMeetingDays = null;
   }
 
   public setFilterStringKidsWelcome(welcomeFlag: number, haveKidsWelcomeValue: boolean): void {
@@ -87,6 +91,44 @@ export class FilterService {
     addFilterString += ' )';
 
     this.filterStringGroupTypes = addFilterString;
+  }
+
+    public setFilterStringMeetingDays (daysOfWeek: SimpleSelectable[]): void {
+
+      let addFilterString: string = ' (or';
+      for (let day of daysOfWeek) {
+        if (day.isSelected) {
+          // need single quotes around each value since it is a string in aws
+          addFilterString += ` ${awsFieldNames.MEETING_DAY}: \'${day.value}\' `;
+        }
+      }
+      addFilterString += ' )';
+
+      this.filterStringMeetingDays = addFilterString;
+    }
+
+  public getDayNamesArrayFromClass(daysOfWeekClass: DaysOfWeek): string[]{
+
+    let daysOfWeek: string[] = [];
+
+    for (var property in daysOfWeekClass) {
+      if (daysOfWeekClass.hasOwnProperty(property)) {
+        daysOfWeek.push(daysOfWeekClass[property.toString()]);
+      }
+    }
+
+    return daysOfWeek;
+  }
+
+  public buildSelectableObjectsFromStringArray(valueStrings: string[]): SimpleSelectable[] {
+    let selectables: SimpleSelectable[] = valueStrings.map(vs => new SimpleSelectable(vs));
+    return selectables;
+  }
+
+  public getSelectableDaysOfTheWeek(daysOfWeekClass: DaysOfWeek): SimpleSelectable[] {
+    let dayOfWeekNames: string[] = this.getDayNamesArrayFromClass(daysOfWeek);
+    let selectableDaysOfTheWeek: SimpleSelectable[] = this.buildSelectableObjectsFromStringArray(dayOfWeekNames);
+    return selectableDaysOfTheWeek;
   }
 
 }
