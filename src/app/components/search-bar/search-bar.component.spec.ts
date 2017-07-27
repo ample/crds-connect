@@ -86,13 +86,13 @@ describe('SearchBarComponent', () => {
   it('It should set the placeholder text to "Address..." on CONNECT component init', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
-    expect(comp.placeholderTextForSearchBar).toBe(appSettings.placeholderTextForSearchBar);
+    expect(comp.placeholderTextForSearchBar).toBe(mockAppSettingsService.placeholderTextForSearchBar);
   });
 
   it('It should set the placeholder text to "Keyword..." on GROUPS component init', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(false);
     comp.ngOnInit();
-    expect(comp.placeholderTextForSearchBar).toBe(appSettings.placeholderTextForSearchBar);
+    expect(comp.placeholderTextForSearchBar).toBe(mockAppSettingsService.placeholderTextForSearchBar);
   });
 
   it('It should show the "clear search" button if there is text in the search bar ', () => {
