@@ -12,7 +12,6 @@ import { daysOfWeek } from '../../../shared/constants';
 
 export class MeetingDayComponent implements OnInit {
 
-  private selected: boolean = false;
   private selectableDaysOfWeek: SimpleSelectable[] = [];
 
   constructor(private filterService: FilterService) { }

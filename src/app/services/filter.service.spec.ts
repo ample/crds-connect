@@ -5,7 +5,7 @@ import { FilterService } from '../services/filter.service';
 
 import { SimpleSelectable} from '../models/simple-selectable';
 
-import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings} from '../shared/constants';
+import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings, meetingFrequencyNames} from '../shared/constants';
 
 describe('Service: Filters ', () => {
 
@@ -99,6 +99,20 @@ describe('Service: Filters ', () => {
       let actualAwsMeetingTimeRangesSearchString: string = service.filterStringMeetingTimes;
 
       expect(actualAwsMeetingTimeRangesSearchString).toEqual(expectedAwsTimeRangeSearchString);
+
+    }));
+
+    xit('should return a valid search string for a single meeting frequency',
+      inject([FilterService], (service: any) => {
+
+        let selectedFrequencies: SimpleSelectable[] = [new SimpleSelectable(meetingFrequencyNames.BI_WEEKLY)];
+        selectedFrequencies[0].isSelected = true;
+
+        let expectedAwsFrequenciesSearchString: string = ` (or groupmeetingfrequency: 'Every other week' )`;
+        service.setFilterStringMeetingFrequencies(selectedFrequencies);
+        let actualAwsMeetingFrequenciesSearchString: string = service.filterStringMeetingFrequencies;
+
+        expect(actualAwsMeetingFrequenciesSearchString).toEqual(expectedAwsFrequenciesSearchString);
 
     }));
 

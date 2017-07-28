@@ -214,16 +214,31 @@ export const maxZoom: number = 15;          // The maximum zoom before zoomAdjus
 export const pinTargetGroups: number = 1;   // The target number of pins for group app; used when calculating the best zoom
 export const pinTargetConnect: number = 10; // The target number of pins for connect app; used when calculating the best zoom
 
+export class MeetingFrequencyNames
+{
+  WEEKLY: string;
+  BI_WEEKLY: string;
+  MONTHLY: string;
+
+  constructor () {
+    this.WEEKLY = 'Every week';
+    this.BI_WEEKLY = 'Every other week';
+    this.MONTHLY = 'Every month';
+  }
+}
+
+export const meetingFrequencyNames = new MeetingFrequencyNames();
+
 export const meetingFrequencies = [{
-            meetingFrequencyId: 1,
-            meetingFrequencyDesc: 'Every week'
-        }, {
-            meetingFrequencyId: 2,
-            meetingFrequencyDesc: 'Every other week'
-        }, {
-            meetingFrequencyId: 8,
-            meetingFrequencyDesc: 'Every month'
-        }];
+  meetingFrequencyId: 1,
+  meetingFrequencyDesc: meetingFrequencyNames.WEEKLY
+}, {
+  meetingFrequencyId: 2,
+  meetingFrequencyDesc: meetingFrequencyNames.BI_WEEKLY
+}, {
+  meetingFrequencyId: 8,
+  meetingFrequencyDesc: meetingFrequencyNames.MONTHLY
+}];
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',

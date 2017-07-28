@@ -18,6 +18,7 @@ export class FilterService {
   public filterStringCategories: string = null;
   public filterStringMeetingDays: string = null;
   public filterStringMeetingTimes: string = null;
+  public filterStringMeetingFrequencies: string = null;
 
   constructor() {}
 
@@ -31,6 +32,7 @@ export class FilterService {
     filterString = (this.filterStringCategories != null) ? filterString + this.filterStringCategories : filterString;
     filterString = (this.filterStringMeetingDays != null) ? filterString + this.filterStringMeetingDays : filterString;
     filterString = (this.filterStringMeetingTimes != null) ? filterString + this.filterStringMeetingTimes : filterString;
+    filterString = (this.filterStringMeetingFrequencies != null) ? filterString + this.filterStringMeetingFrequencies : filterString;
 
     return filterString;
   }
@@ -43,6 +45,7 @@ export class FilterService {
     this.filterStringCategories = null;
     this.filterStringMeetingDays = null;
     this.filterStringMeetingTimes = null;
+    this.filterStringMeetingFrequencies = null;
   }
 
   public setFilterStringKidsWelcome(welcomeFlag: number, haveKidsWelcomeValue: boolean): void {
@@ -69,7 +72,6 @@ export class FilterService {
 
     this.filterStringAgeGroups = addFilterString;
   }
-
 
   public setFilterStringCategories(categories: Category[]): void {
     let addFilterString: string = ' (or';
@@ -112,22 +114,22 @@ export class FilterService {
   }
 
 
-    public getAwsTimeRangeFilterString(meetingTimeRange: string): string {
-      let filter: string = undefined;
+  public getAwsTimeRangeFilterString(meetingTimeRange: string): string {
+    let filter: string = undefined;
 
-      switch(meetingTimeRange) {
-        case groupMeetingTimeRanges.MORNINGS:
-          filter = awsMeetingTimeSearchStrings.MORNINGS;
-          break;
-        case groupMeetingTimeRanges.AFTERNOONS:
-          filter = awsMeetingTimeSearchStrings.AFTERNOONS;
-          break;
-        default:
-          filter = awsMeetingTimeSearchStrings.EVENINGS;
-      }
-
-      return filter;
+    switch(meetingTimeRange) {
+      case groupMeetingTimeRanges.MORNINGS:
+        filter = awsMeetingTimeSearchStrings.MORNINGS;
+        break;
+      case groupMeetingTimeRanges.AFTERNOONS:
+        filter = awsMeetingTimeSearchStrings.AFTERNOONS;
+        break;
+      default:
+        filter = awsMeetingTimeSearchStrings.EVENINGS;
     }
+
+    return filter;
+  }
 
   public setFilterStringMeetingTimes (meetingTimeRanges: SimpleSelectable[]): void {
 
@@ -135,7 +137,6 @@ export class FilterService {
 
     for (let r of meetingTimeRanges) {
       if (r.isSelected) {
-        // need single quotes around each value since it is a string in aws
         addFilterString += ` ${awsFieldNames.MEETING_TIME}: ${this.getAwsTimeRangeFilterString(r.value)} `;
       }
     }
@@ -143,6 +144,22 @@ export class FilterService {
     addFilterString += ' )';
 
     this.filterStringMeetingTimes = addFilterString;
+  }
+
+  public setFilterStringMeetingFrequencies (meetingFrequencies: SimpleSelectable[]): void {
+
+    let addFilterString: string = ' (or';
+
+    for (let freq of meetingFrequencies) {
+      if (freq.isSelected) {
+      // need single quotes around each value since it is a string in aws
+      addFilterString += ` ${awsFieldNames.MEETING_FREQUENCY}: ${this.getAwsTimeRangeFilterString(freq.value)} `;
+      }
+    }
+
+    addFilterString += ' )';
+
+    this.filterStringMeetingFrequencies = addFilterString;
   }
 
   /*
