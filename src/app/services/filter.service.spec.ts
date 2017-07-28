@@ -59,7 +59,6 @@ describe('Service: Filters ', () => {
 
     }));
 
-    //TODO: Check if leading spaces are necessary
     it('should return a valid search string when searching for one day', inject([FilterService], (service: any) => {
 
         let selectedDays: SimpleSelectable[] = [new SimpleSelectable('Monday')];

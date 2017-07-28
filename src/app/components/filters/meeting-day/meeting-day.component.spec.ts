@@ -9,6 +9,7 @@ import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MeetingDayComponent} from './meeting-day.component';
+import { SimpleSelectable } from '../../../models/simple-selectable';
 import { AgeGroup } from '../../../models/age-group';
 import { Attribute } from '../../../models/attribute';
 
@@ -56,13 +57,13 @@ describe('AgeGroupsComponent', () => {
         expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
     });
 
-    // it('should call setSelection', () => {
-    //     spyOn(comp, 'setSelection');
-    //     spyOn(comp, 'setFilterString');
-    //     comp.clickToSelect('123');
-    //     expect(comp['setSelection']).toHaveBeenCalledTimes(1);
-    //     expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
-    // });
+    it('should call onClickToSelect', () => {
+        spyOn(comp, 'setSelection');
+        spyOn(comp, 'setFilterString');
+        comp['onClickToSelect'](new SimpleSelectable('Monday'));
+        expect(comp['setSelection']).toHaveBeenCalledTimes(1);
+        expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
+    });
 
     it('should reset', () => {
         let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, 1, null, null);

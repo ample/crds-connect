@@ -1,20 +1,14 @@
 import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs/Rx';
-import { Router } from '@angular/router';
 
-import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../../../services/filter.service';
-import { LookupService } from '../../../services/lookup.service';
-import { AgeGroup } from '../../../models/age-group';
-import { awsFieldNames, daysOfWeek } from '../../../shared/constants';
-import {SimpleSelectable} from "../../../models/simple-selectable";
+import { SimpleSelectable } from "../../../models/simple-selectable";
+import { daysOfWeek } from '../../../shared/constants';
 
 @Component({
   selector: 'meeting-day',
   templateUrl: '/meeting-day.component.html'
 })
-
 
 export class MeetingDayComponent implements OnInit {
 
@@ -27,19 +21,18 @@ export class MeetingDayComponent implements OnInit {
     this.selectableDaysOfWeek = this.filterService.getSelectableDaysOfTheWeek(daysOfWeek);
   }
 
-  private onClickToSelect(selectedDay: SimpleSelectable) {
-    selectedDay.isSelected = true;
+  private onClickToSelect(selectedDay: SimpleSelectable): void {
+    selectedDay.isSelected = !selectedDay.isSelected;
   }
-
 
   private setFilterString(): void {
     this.filterService.setFilterStringMeetingDays(this.selectableDaysOfWeek);
   }
 
-
-  public reset() {
+  public reset(): void {
     for (let day of this.selectableDaysOfWeek) {
       day.isSelected = false;
     }
   }
+
 }
