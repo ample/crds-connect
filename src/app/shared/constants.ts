@@ -1,5 +1,19 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
+export class AwsMeetingTimeSearchStrings {
+  MORNINGS: string;
+  AFTERNOONS: string;
+  EVENINGS: string;
+
+  constructor() {
+    this.MORNINGS = "['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']";
+    this.AFTERNOONS = "['0001-01-01T12:00:00Z', '0001-01-01T17:00:00Z']";
+    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']";
+  }
+}
+
+export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
+
 export class GroupMeetingTimeRanges {
 
   MORNINGS: string;

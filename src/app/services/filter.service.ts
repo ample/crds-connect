@@ -5,7 +5,8 @@ import { Category } from '../models/category';
 import { GroupType } from '../models/group-type';
 import { SimpleSelectable} from '../models/simple-selectable';
 
-import { awsFieldNames, DaysOfWeek, daysOfWeek } from '../shared/constants';
+import { awsFieldNames, DaysOfWeek, daysOfWeek, groupMeetingTimeRanges,
+         awsMeetingTimeSearchStrings } from '../shared/constants';
 
 @Injectable()
 export class FilterService {
@@ -16,6 +17,7 @@ export class FilterService {
   public filterStringGroupLocation: string = null;
   public filterStringCategories: string = null;
   public filterStringMeetingDays: string = null;
+  public filterStringMeetingTimes: string = null;
 
   constructor() {}
 
@@ -28,6 +30,7 @@ export class FilterService {
     filterString = (this.filterStringGroupLocation != null) ? filterString + this.filterStringGroupLocation : filterString;
     filterString = (this.filterStringCategories != null) ? filterString + this.filterStringCategories : filterString;
     filterString = (this.filterStringMeetingDays != null) ? filterString + this.filterStringMeetingDays : filterString;
+    filterString = (this.filterStringMeetingTimes != null) ? filterString + this.filterStringMeetingTimes : filterString;
 
     return filterString;
   }
@@ -39,6 +42,7 @@ export class FilterService {
     this.filterStringGroupLocation = null;
     this.filterStringCategories = null;
     this.filterStringMeetingDays = null;
+    this.filterStringMeetingTimes = null;
   }
 
   public setFilterStringKidsWelcome(welcomeFlag: number, haveKidsWelcomeValue: boolean): void {
@@ -93,19 +97,53 @@ export class FilterService {
     this.filterStringGroupTypes = addFilterString;
   }
 
-    public setFilterStringMeetingDays (daysOfWeek: SimpleSelectable[]): void {
+  public setFilterStringMeetingDays (daysOfWeek: SimpleSelectable[]): void {
 
-      let addFilterString: string = ' (or';
-      for (let day of daysOfWeek) {
-        if (day.isSelected) {
-          // need single quotes around each value since it is a string in aws
-          addFilterString += ` ${awsFieldNames.MEETING_DAY}: \'${day.value}\' `;
-        }
+    let addFilterString: string = ' (or';
+    for (let day of daysOfWeek) {
+      if (day.isSelected) {
+        // need single quotes around each value since it is a string in aws
+        addFilterString += ` ${awsFieldNames.MEETING_DAY}: \'${day.value}\' `;
       }
-      addFilterString += ' )';
-
-      this.filterStringMeetingDays = addFilterString;
     }
+    addFilterString += ' )';
+
+    this.filterStringMeetingDays = addFilterString;
+  }
+
+
+    public getAwsTimeRangeFilterString(meetingTimeRange: string): string {
+      let filter: string = undefined;
+
+      switch(meetingTimeRange) {
+        case groupMeetingTimeRanges.MORNINGS:
+          filter = awsMeetingTimeSearchStrings.MORNINGS;
+          break;
+        case groupMeetingTimeRanges.AFTERNOONS:
+          filter = awsMeetingTimeSearchStrings.AFTERNOONS;
+          break;
+        default:
+          filter = awsMeetingTimeSearchStrings.EVENINGS;
+      }
+
+      return filter;
+    }
+
+  public setFilterStringMeetingTimes (meetingTimeRanges: SimpleSelectable[]): void {
+
+    let addFilterString: string = ' (or';
+
+    for (let r of meetingTimeRanges) {
+      if (r.isSelected) {
+        // need single quotes around each value since it is a string in aws
+        addFilterString += ` ${awsFieldNames.MEETING_TIME}: ${this.getAwsTimeRangeFilterString(r.value)} `;
+      }
+    }
+
+    addFilterString += ' )';
+
+    this.filterStringMeetingTimes = addFilterString;
+  }
 
   /*
    * Given an object with all own properties of type string,
@@ -142,3 +180,4 @@ export class FilterService {
   }
 
 }
+
