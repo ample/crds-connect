@@ -35,12 +35,12 @@ describe('Service: Filters ', () => {
 
     it('should return an array of days of the week', inject([FilterService], (service: any) => {
       let expectedDaysOfTheWeek: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-      let actualDaysOfTheWeek: string[] = service.getDayNamesArrayFromClass(daysOfWeek);
+      let actualDaysOfTheWeek: string[] = service.buildAnArrayOfPropertyValuesFromObject(daysOfWeek);
       expect(actualDaysOfTheWeek).toEqual(expectedDaysOfTheWeek);
     }));
 
     it('should return an array of selectable values', inject([FilterService], (service: any) => {
-      let dayOfWeekNames: string[] = service.getDayNamesArrayFromClass(daysOfWeek);
+      let dayOfWeekNames: string[] = service.buildAnArrayOfPropertyValuesFromObject(daysOfWeek);
 
       let expectedFirstSelectableElement: SimpleSelectable = new SimpleSelectable('Monday');
       let actualFirstSelectableElement: SimpleSelectable = service.buildSelectableObjectsFromStringArray(dayOfWeekNames)[0];
@@ -51,7 +51,7 @@ describe('Service: Filters ', () => {
 
     it('should return an array of selectable days of the week', inject([FilterService], (service: any) => {
 
-        let selectableDaysOfTheWeek: SimpleSelectable[] = service.getSelectableDaysOfTheWeek(daysOfWeek);
+        let selectableDaysOfTheWeek: SimpleSelectable[] = service.buildArrayOfSelectables(daysOfWeek);
         let expectedFirstSelectableElement: SimpleSelectable = new SimpleSelectable('Monday');
         let actualFirstSelectableElement = selectableDaysOfTheWeek[0];
 

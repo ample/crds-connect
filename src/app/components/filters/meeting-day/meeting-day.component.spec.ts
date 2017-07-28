@@ -13,7 +13,9 @@ import { SimpleSelectable } from '../../../models/simple-selectable';
 import { AgeGroup } from '../../../models/age-group';
 import { Attribute } from '../../../models/attribute';
 
-describe('AgeGroupsComponent', () => {
+import { daysOfWeek } from '../../../shared/constants';
+
+describe('MeetingDayComponent', () => {
     let fixture: ComponentFixture<MeetingDayComponent>;
     let comp: MeetingDayComponent;
     let el;
@@ -47,35 +49,34 @@ describe('AgeGroupsComponent', () => {
     }));
 
     it('should create an instance', () => {
-        spyOn(comp, 'initializeAgeGroups');
         expect(comp).toBeTruthy();
     });
 
-    it('should init', () => {
-        spyOn(comp, 'initializeAgeGroups');
-        comp.ngOnInit();
-        expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call onClickToSelect', () => {
-        spyOn(comp, 'setSelection');
-        spyOn(comp, 'setFilterString');
-        comp['onClickToSelect'](new SimpleSelectable('Monday'));
-        expect(comp['setSelection']).toHaveBeenCalledTimes(1);
-        expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
-    });
-
-    it('should reset', () => {
-        let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, 1, null, null);
-        let a1 = new AgeGroup(attr);
-        a1.selected = true;
-        let a2 = new AgeGroup(attr);
-        a2.selected = true;
-
-        comp['ageGroups'] = [a1, a2];
-        comp.reset();
-
-        expect(comp['ageGroups'][0].selected).toBe(false);
-        expect(comp['ageGroups'][1].selected).toBe(false);
-    });
+    // xit('should init', () => {
+    //     spyOn(comp, 'initializeAgeGroups');
+    //     comp.ngOnInit();
+    //     expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
+    // });
+    //
+    // it('should call onClickToSelect', () => {
+    //     spyOn(comp, 'setSelection');
+    //     spyOn(comp, 'setFilterString');
+    //     comp['onClickToSelect'](new SimpleSelectable('Monday'));
+    //     expect(comp['onClickToSelect']).toHaveBeenCalledTimes(1);
+    //     expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
+    // });
+    //
+    // it('should reset', () => {
+    //     let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, 1, null, null);
+    //     let a1 = new AgeGroup(attr);
+    //     a1.selected = true;
+    //     let a2 = new AgeGroup(attr);
+    //     a2.selected = true;
+    //
+    //     comp['ageGroups'] = [a1, a2];
+    //     comp.reset();
+    //
+    //     expect(comp['ageGroups'][0].selected).toBe(false);
+    //     expect(comp['ageGroups'][1].selected).toBe(false);
+    // });
 });

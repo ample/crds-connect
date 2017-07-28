@@ -1,5 +1,19 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
+export class GroupMeetingTimeRanges {
+
+  MORNINGS: string;
+  AFTERNOONS: string;
+  EVENINGS: string;
+
+  constructor() {
+    this.MORNINGS = 'Mornings (before noon)';
+    this.AFTERNOONS = 'Afternoons (12-5pm)';
+    this.EVENINGS = 'Evenings (after 5pm)';
+  }
+}
+
+export const groupMeetingTimeRanges = new GroupMeetingTimeRanges();
 
 export class PinsShown {
   MY_STUFF: string;
@@ -32,15 +46,15 @@ export class DaysOfWeek{
   public SATURDAY: string;
   public SUNDAY: string;
 
-    constructor() {
-      this.MONDAY = 'Monday';
-      this.TUESDAY = 'Tuesday';
-      this.WEDNESDAY = 'Wednesday';
-      this.THURSDAY = 'Thursday';
-      this.FRIDAY = 'Friday';
-      this.SATURDAY = 'Saturday';
-      this.SUNDAY = 'Sunday';
-    }
+  constructor() {
+    this.MONDAY = 'Monday';
+    this.TUESDAY = 'Tuesday';
+    this.WEDNESDAY = 'Wednesday';
+    this.THURSDAY = 'Thursday';
+    this.FRIDAY = 'Friday';
+    this.SATURDAY = 'Saturday';
+    this.SUNDAY = 'Sunday';
+  }
 }
 
 export const daysOfWeek = new DaysOfWeek();
@@ -62,6 +76,7 @@ export class AttributeTypes {
 }
 
 export const attributeTypes: any = new AttributeTypes();
+
 export const MiddleSchoolAgeRangeAttributeId: number = 7089;
 export const HighSchoolAgeRangeAttributeId: number = 7090;
 export const SpiritualGrowthCongregationId: number = 8;

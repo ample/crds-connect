@@ -18,7 +18,7 @@ export class MeetingDayComponent implements OnInit {
   constructor(private filterService: FilterService) { }
 
   public ngOnInit(): void {
-    this.selectableDaysOfWeek = this.filterService.getSelectableDaysOfTheWeek(daysOfWeek);
+    this.selectableDaysOfWeek = this.filterService.buildArrayOfSelectables(daysOfWeek);
   }
 
   private onClickToSelect(selectedDay: SimpleSelectable): void {

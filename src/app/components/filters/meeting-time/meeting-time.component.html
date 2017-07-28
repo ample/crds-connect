@@ -1,8 +1,10 @@
+<h3>TIME</h3>
+
 <div class="btn-group">
-  <button *ngFor="let ageGroup of ageGroups" 
-          (click)="clickToSelect(ageGroup.attribute.name)" 
-          class="btn btn-option btn-outline" 
-          type="button" 
-          [class.active]="ageGroup.selected">{{ageGroup.attribute.name}}
+  <button *ngFor="let timeRange of selectableTimeRanges"
+          (click)="onClickToSelect(timeRange)"
+          class="btn btn-option btn-outline"
+          type="button"
+          [class.active]="timeRange.isSelected">{{timeRange.value}}
   </button>
 </div>

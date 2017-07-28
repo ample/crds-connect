@@ -24,7 +24,7 @@ export class MeetingFrequencyComponent implements OnInit {
                private filterService: FilterService) { }
 
   public ngOnInit(): void {
-    this.initializeAgeGroups();
+    //this.initializeAgeGroups();
   }
 
   public clickToSelect(value: string) {

@@ -107,17 +107,22 @@ export class FilterService {
       this.filterStringMeetingDays = addFilterString;
     }
 
-  public getDayNamesArrayFromClass(daysOfWeekClass: DaysOfWeek): string[]{
+  /*
+   * Given an object with all own properties of type string,
+   * return the values of all properties as a string array
+   * Used on properties of classes in constants.ts
+   */
+  public buildAnArrayOfPropertyValuesFromObject(obj: Object): string[]{
 
-    let daysOfWeek: string[] = [];
+    let objectPropValues: string[] = [];
 
-    for (var property in daysOfWeekClass) {
-      if (daysOfWeekClass.hasOwnProperty(property)) {
-        daysOfWeek.push(daysOfWeekClass[property.toString()]);
+    for (var property in obj) {
+      if (obj.hasOwnProperty(property)) {
+        objectPropValues.push(obj[property.toString()]);
       }
     }
 
-    return daysOfWeek;
+    return objectPropValues;
   }
 
   public buildSelectableObjectsFromStringArray(valueStrings: string[]): SimpleSelectable[] {
@@ -125,10 +130,15 @@ export class FilterService {
     return selectables;
   }
 
-  public getSelectableDaysOfTheWeek(daysOfWeekClass: DaysOfWeek): SimpleSelectable[] {
-    let dayOfWeekNames: string[] = this.getDayNamesArrayFromClass(daysOfWeek);
-    let selectableDaysOfTheWeek: SimpleSelectable[] = this.buildSelectableObjectsFromStringArray(dayOfWeekNames);
-    return selectableDaysOfTheWeek;
+  /*
+   * Given an array of strings, such as ['Monday', 'Tuesday', 'Wednesday'],
+   * build an array of selectables, e.g. [{value: 'Monday', isSelected: false}, {value: 'Tuesday', isSelected: false}..]
+   * These can be used on the UI to display and select / unselect values
+   */
+  public buildArrayOfSelectables(obj: Object): SimpleSelectable[] {
+    let objPropertyNames: string[] = this.buildAnArrayOfPropertyValuesFromObject(obj);
+    let selectableObjArray: SimpleSelectable[] = this.buildSelectableObjectsFromStringArray(objPropertyNames);
+    return selectableObjArray;
   }
 
 }
