@@ -1,7 +1,7 @@
 <div class="connect-container connect-layout-container" *ngIf="componentIsReady">
   <div class="pin-details-bg" [ngClass]="{ person: !appSettings.isSmallGroupApp() }">
     <div class="soft">
-      <div class="media">
+      <div class="media border-bottom push-half-bottom">
         <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="participant.contactId"></profile-picture>
         <div class="media-body">
           <h2 class="media-heading media-heading-stacked text-uppercase font-family-condensed-extra">
@@ -19,7 +19,6 @@
           </div>
         </div>
       </div>
-
       <button (click)="onRemoveParticipant()" class="btn btn-secondary">Remove Participant</button>
     </div>
   </div>
