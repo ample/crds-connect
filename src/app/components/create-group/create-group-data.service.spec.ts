@@ -227,7 +227,7 @@ describe('CreateGroupService', () => {
             expect(group.meetingFrequency).toBeNull();
             expect(group.meetingFrequencyId).toBeNull();
             expect(group.meetingTime).toBeNull();
-            expect(group.startDate).toBe('1983-07-16T17:00:00Z');
+            expect(group.startDate).toBe('0001-01-01T12:00:00Z');
         })
     );
 
@@ -257,8 +257,8 @@ describe('CreateGroupService', () => {
             expect(group.meetingFrequency).not.toBeNull();
             expect(group.meetingFrequencyId).not.toBeNull();
             expect(group.meetingTime).not.toBeNull();
-            expect(group.startDate).toBe('1983-07-16T17:00:00Z');
-            expect(group.meetingTime).toBe('5:00 PM');
+            expect(group.startDate).toBe('0001-01-01T12:00:00Z');
+            expect(group.meetingTime).toBe('12:00 PM');
         })
     );
 

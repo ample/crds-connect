@@ -75,7 +75,7 @@ export const daysOfWeek = new DaysOfWeek();
 
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
-export const defaultGroupMeetingTime: string = '0001-01-01T22:00:00.000Z';
+export const defaultGroupMeetingTime: string = '0001-01-01T17:00:00.000Z';
 
 export class AttributeTypes {
   AgeRangeAttributeTypeId: number;

@@ -14,7 +14,6 @@ import { AgeGroupsComponent } from './age-groups/age-groups.component';
 import { GroupTypeComponent } from './group-type/group-type.component';
 import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
 import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/online-or-physical-group.component';
-
 import { MeetingTimeComponent } from './meeting-time/meeting-time.component';
 import { MeetingDayComponent } from './meeting-day/meeting-day.component';
 import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency.component';
@@ -38,7 +37,7 @@ export class FiltersComponent implements OnInit {
   @ViewChild(CategoryComponent) public childCategoryComponent: CategoryComponent;
   @ViewChild(MeetingTimeComponent) public meetingTimeComponent: MeetingTimeComponent;
   @ViewChild(MeetingDayComponent) public meetingDayComponent: MeetingDayComponent;
-  @ViewChild(MeetingFrequencyComponent) public meetingFrequency: MeetingFrequencyComponent;
+  @ViewChild(MeetingFrequencyComponent) public meetingFrequencyComponent: MeetingFrequencyComponent;
 
 
   public locationFormGroup: FormGroup;
@@ -82,7 +81,7 @@ export class FiltersComponent implements OnInit {
     this.groupTypeComponent.reset();
     this.meetingTimeComponent.reset();
     this.meetingDayComponent.reset();
-    this.meetingFrequency.reset();
+    this.meetingFrequencyComponent.reset();
     this.onlineOrPhysicalGroupComponent.reset();
     this.filterService.resetFilterString();
     this.state.setIsFilterDialogOpen(false);
