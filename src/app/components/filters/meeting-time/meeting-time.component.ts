@@ -13,7 +13,7 @@ import { groupMeetingTimeRanges } from '../../../shared/constants';
 export class MeetingTimeComponent implements OnInit {
 
     private selected: boolean = false;
-    private selectableTimeRanges: SimpleSelectable[] = [];
+    public selectableTimeRanges: SimpleSelectable[] = [];
 
     constructor(private filterService: FilterService) { }
 
@@ -21,12 +21,12 @@ export class MeetingTimeComponent implements OnInit {
         this.selectableTimeRanges = this.filterService.buildArrayOfSelectables(groupMeetingTimeRanges);
     }
 
-    private onClickToSelect(selectedTime: SimpleSelectable): void {
+    public onClickToSelect(selectedTime: SimpleSelectable): void {
         selectedTime.isSelected = !selectedTime.isSelected;
         this.setFilterString();
     }
 
-    private setFilterString(): void {
+    public setFilterString(): void {
         this.filterService.setFilterStringMeetingTimes(this.selectableTimeRanges);
     }
 
