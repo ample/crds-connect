@@ -15,8 +15,6 @@ import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
-import { app, placeholderTextForSearchBar } from '../../shared/constants';
-
 @Component({
   selector: 'app-search-bar',
   templateUrl: 'search-bar.component.html',
@@ -39,8 +37,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public ngOnInit(): void {
-
-    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS : placeholderTextForSearchBar.KEYWORD;
+    this.placeholderTextForSearchBar = this.appSettings.placeholderTextForSearchBar;
 
     this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
 
@@ -81,7 +78,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.lastSearch.search = search;
     this.state.searchBarText = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
-
   }
 
   private setButtonText() {
@@ -93,7 +89,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
     } else {
-      this.state.searchBarText = 'My Stuff';
+      this.state.searchBarText = this.appSettings.myStuffName;
     }
   }
 

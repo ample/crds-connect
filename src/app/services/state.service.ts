@@ -9,10 +9,8 @@ import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { SearchOptions } from '../models/search-options';
 
-import { App, AppRoute, appRoute, app} from '../shared/constants';
-
-// TODO: This class has a lot of flags. 
-// Investigate to see if they belong here and/or add some documentation. 
+// TODO: This class has a lot of flags.
+// Investigate to see if they belong here and/or add some documentation.
 @Injectable()
 export class StateService {
 
@@ -28,7 +26,7 @@ export class StateService {
   private lastSearchResults: PinSearchResultsDto;
   public myStuffActive: boolean = false;
   public navigatedBackToNeighbors: boolean = false;
-  // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates. 
+  // TODO: Rename. Perhaps shouldReplaceAwsPin. It is nice when booleans are predicates.
   public navigatedFromAddToMapComponent: boolean = false;
   public pageHeader: Object = { routerLink: null, title: null };
   public postedPin: Pin;
@@ -48,7 +46,6 @@ export class StateService {
   constructor() {
     this.lastSearch = new SearchOptions('', '', '');
   }
-
 
   public emitMyStuffChanged(): void {
     this.myStuffStateChangedEmitter.next(this.myStuffActive);
