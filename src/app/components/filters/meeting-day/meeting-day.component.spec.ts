@@ -52,31 +52,18 @@ describe('MeetingDayComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    // xit('should init', () => {
-    //     spyOn(comp, 'initializeAgeGroups');
-    //     comp.ngOnInit();
-    //     expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
-    // });
-    //
-    // it('should call onClickToSelect', () => {
-    //     spyOn(comp, 'setSelection');
-    //     spyOn(comp, 'setFilterString');
-    //     comp['onClickToSelect'](new SimpleSelectable('Monday'));
-    //     expect(comp['onClickToSelect']).toHaveBeenCalledTimes(1);
-    //     expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
-    // });
-    //
-    // it('should reset', () => {
-    //     let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, 1, null, null);
-    //     let a1 = new AgeGroup(attr);
-    //     a1.selected = true;
-    //     let a2 = new AgeGroup(attr);
-    //     a2.selected = true;
-    //
-    //     comp['ageGroups'] = [a1, a2];
-    //     comp.reset();
-    //
-    //     expect(comp['ageGroups'][0].selected).toBe(false);
-    //     expect(comp['ageGroups'][1].selected).toBe(false);
-    // });
+    it('should call onClickToSelect', () => {
+        spyOn(comp, 'onClickToSelect');
+        comp['onClickToSelect'](new SimpleSelectable('Monday'));
+        expect(comp['onClickToSelect']).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reset', () => {
+        comp.selectableDaysOfWeek = [new SimpleSelectable('Monday')];
+        comp.selectableDaysOfWeek[0].isSelected = true;
+
+        comp.reset();
+
+        expect(comp.selectableDaysOfWeek[0].isSelected).toBe(false);
+    });
 });
