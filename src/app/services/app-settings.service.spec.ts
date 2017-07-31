@@ -34,7 +34,7 @@ describe('Service: App Settings', () => {
       expect(service.appRoute).toEqual('/');
       expect(service.placeholderTextForSearchBar).toEqual('Address...');
       expect(service.myStuffName).toEqual('My Stuff');
-      expect(service.noSearchResultsContent).toEqual('noSearchResults');
+      expect(service.noSearchResultsContent).toEqual('noConnectSearchResults');
       expect(service.myStuffNotFoundContent).toEqual('myStuffNotFound');
       expect(service.leaderTitle).toEqual('Host');
     }));
