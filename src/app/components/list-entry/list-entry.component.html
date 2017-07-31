@@ -76,8 +76,9 @@
       <dd *ngIf="pin?.gathering?.categories == null">&nbsp;</dd>
       <dt>Type:</dt>
       <dd>{{pin?.gathering?.groupType || '&nbsp;'}}</dd>
-      <dt>Leader:</dt>
-      <dd>{{leaderName() || '&nbsp;'}}</dd>
+      <dt>Leader(s):</dt>
+      <dd >{{adjustedLeaderNames || '&nbsp;'}}</dd>
+     
     </dl>
   </div>
 

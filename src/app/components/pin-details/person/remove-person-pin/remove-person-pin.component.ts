@@ -70,7 +70,7 @@ export class RemovePersonPinComponent implements OnInit {
         this.state.cleanUpStateAfterPinUpdate();
         this.session.clearCache();
         let countOfItemsInLastSearch: number = this.state.getlastSearchResults().pinSearchResults.length;
-        let viewToReturnTo: string = this.determineStateToReturnTo(countOfItemsInLastSearch, this.state.getCurrentView());
+        let viewToReturnTo: string = this.determineStateToReturnTo(countOfItemsInLastSearch, this.state.getMyViewOrWorldView());
         this.turnOffMyStuffIfReturningToWorldView(viewToReturnTo);
         this.state.setMyViewOrWorldView(viewToReturnTo);
         this.state.setCurrentView('map');
