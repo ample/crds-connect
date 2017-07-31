@@ -12,7 +12,7 @@ import { meetingFrequencyNames } from '../../../shared/constants';
 
 export class MeetingFrequencyComponent implements OnInit {
 
-  private selectableMeetingFrequencies: SimpleSelectable[] = [];
+  public selectableMeetingFrequencies: SimpleSelectable[] = [];
 
   constructor(private filterService: FilterService) { }
 
@@ -20,12 +20,12 @@ export class MeetingFrequencyComponent implements OnInit {
     this.selectableMeetingFrequencies = this.filterService.buildArrayOfSelectables(meetingFrequencyNames);
   }
 
-  private onClickToSelect(selectedFrequency: SimpleSelectable): void {
+  public onClickToSelect(selectedFrequency: SimpleSelectable): void {
     selectedFrequency.isSelected = !selectedFrequency.isSelected;
     this.setFilterString();
   }
 
-  private setFilterString(): void {
+  public setFilterString(): void {
     this.filterService.setFilterStringMeetingFrequencies(this.selectableMeetingFrequencies);
   }
 

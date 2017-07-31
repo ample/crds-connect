@@ -9,8 +9,10 @@ import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MeetingFrequencyComponent } from './meeting-frequency.component';
+
 import { AgeGroup } from '../../../models/age-group';
 import { Attribute } from '../../../models/attribute';
+import { SimpleSelectable} from '../../../models/simple-selectable';
 
 describe('MeetingFrequencyComponent', () => {
     let fixture: ComponentFixture<MeetingFrequencyComponent>;
@@ -48,32 +50,19 @@ describe('MeetingFrequencyComponent', () => {
     it('should create an instance', () => {
         expect(comp).toBeTruthy();
     });
-    //
-    // it('should init', () => {
-    //     spyOn(comp, 'initializeAgeGroups');
-    //     comp.ngOnInit();
-    //     expect(comp['initializeAgeGroups']).toHaveBeenCalledTimes(1);
-    // });
-    //
-    // it('should call setSelection', () => {
-    //     spyOn(comp, 'setSelection');
-    //     spyOn(comp, 'setFilterString');
-    //     comp.clickToSelect('123');
-    //     expect(comp['setSelection']).toHaveBeenCalledTimes(1);
-    //     expect(comp['setFilterString']).toHaveBeenCalledTimes(1);
-    // });
-    //
-    // it('should reset', () => {
-    //     let attr = new Attribute(1, 'attr', 'desc', 'cat', 2, 'catdesc', 3, 1, null, null);
-    //     let a1 = new AgeGroup(attr);
-    //     a1.selected = true;
-    //     let a2 = new AgeGroup(attr);
-    //     a2.selected = true;
-    //
-    //     comp['ageGroups'] = [a1, a2];
-    //     comp.reset();
-    //
-    //     expect(comp['ageGroups'][0].selected).toBe(false);
-    //     expect(comp['ageGroups'][1].selected).toBe(false);
-    // });
+
+    it('should call setSelection', () => {
+        spyOn(comp, 'onClickToSelect');
+        comp.onClickToSelect(new SimpleSelectable('Every Week'));
+        expect(comp['onClickToSelect']).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reset', () => {
+        comp.selectableMeetingFrequencies = [new SimpleSelectable('Every Week')];
+        comp.selectableMeetingFrequencies[0].isSelected = true;
+
+        comp.reset();
+
+        expect(comp.selectableMeetingFrequencies[0].isSelected ).toBe(false);
+    });
 });
