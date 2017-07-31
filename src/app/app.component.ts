@@ -8,7 +8,7 @@ import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr'
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { StateService } from './services/state.service';
 import { AppSettingsService } from './services/app-settings.service';
-import { appType } from './shared/constants';
+import { AppType } from './shared/constants';
 
 @Component({
   selector: 'app-root',
@@ -70,9 +70,9 @@ export class AppComponent implements OnInit {
     let isInGroupsApp: boolean = this.isInSpecifiedApp('groupsv2', root, url);
 
     if (isInConnectApp) {
-      this.appsettings.setAppSettings(appType.Connect);
+      this.appsettings.setAppSettings(AppType.Connect);
     } else if (isInGroupsApp) {
-      this.appsettings.setAppSettings(appType.Groups);
+      this.appsettings.setAppSettings(AppType.Groups);
     } else {
       this.defaultToGroupAppType();
     }
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
   }
 
   private defaultToGroupAppType(): void {
-    this.appsettings.setAppSettings(appType.Groups);
+    this.appsettings.setAppSettings(AppType.Groups);
   }
 
 }

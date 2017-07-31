@@ -44,6 +44,7 @@ export class RemovePersonPinComponent implements OnInit {
   }
 
   private determineStateToReturnTo(countOfItemsReturnedByLastSearch: number, currentState: string): string {
+
     if(currentState === pinsShown.EVERYONES_STUFF) {
       return pinsShown.EVERYONES_STUFF;
     }
