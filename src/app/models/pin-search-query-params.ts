@@ -7,13 +7,13 @@ export class PinSearchQueryParams {
   userKeywordSearchString: string;
   userFilterString: string;
   isMyStuff: boolean;
-  finderType: AppType;
+  finderType: string;
   contactId: number;
   centerGeoCoords: GeoCoordinates;
   boundingBox: MapBoundingBox;
 
   constructor(userLocationSearchString: string, userKeywordSearchString: string
-              , isMyStuff: boolean, finderType: AppType, contactId: number, centerGeoCoords: GeoCoordinates
+              , isMyStuff: boolean, finderType: string, contactId: number, centerGeoCoords: GeoCoordinates
               , boundingBox: MapBoundingBox, userFilterString: string) {
     this.userLocationSearchString = userLocationSearchString;
     this.userKeywordSearchString = userKeywordSearchString;

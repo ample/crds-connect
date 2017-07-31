@@ -51,7 +51,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   constructor(
     private addressService: AddressService,
-    private appSetting: AppSettingsService,
+    private appSettings: AppSettingsService,
     private gatheringService: SiteAddressService,
     private router: Router,
     private session: SessionService,
@@ -76,7 +76,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private setPinTypeAsGroupIfInGroupApp(pin: Pin) {
-    if (this.appSetting.isSmallGroupApp()) {
+    if (this.appSettings.isSmallGroupApp()) {
       pin.pinType = pinType.SMALL_GROUP;
     }
     return pin;
@@ -133,7 +133,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {
-    let lastSearchString = this.appSetting.isConnectApp() ? srchParams.userLocationSearchString
+    let lastSearchString = this.appSettings.isConnectApp() ? srchParams.userLocationSearchString
                                                                 : srchParams.userKeywordSearchString;
     let lat: number = srchRes.centerLocation.lat;
     let lng: number = srchRes.centerLocation.lng;
@@ -188,7 +188,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
     let isMyStuff: boolean = this.state.myStuffActive;
-    let finderType: AppType = this.appSetting.finderType;
+    let finderType: string = this.appSettings.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
     centerGeoCoords = this.clearGeoCoordsIfSearchingLoc(params.userLocationSearchString, centerGeoCoords);
@@ -283,7 +283,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/gatheringjoinrequest`, gatheringId);
   }
 
-  public inviteToGroup(groupId: number, someone: Person, finderType: AppType): Observable<boolean> {
+  public inviteToGroup(groupId: number, someone: Person, finderType: string): Observable<boolean> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/invitetogroup/${groupId}/${finderType}`, someone);
   }
 

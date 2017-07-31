@@ -9,7 +9,6 @@ export class PinsShown {
     this.EVERYONES_STUFF = 'world';
   }
 }
-
 export const pinsShown: PinsShown = new PinsShown();
 
 export class GroupMeetingScheduleType {
@@ -21,7 +20,6 @@ export class GroupMeetingScheduleType {
     this.FLEXIBLE = 'flexible';
   }
 }
-
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
@@ -37,8 +35,8 @@ export class AttributeTypes {
     this.GroupCategoryAttributeTypeId = 90;
   }
 }
-
 export const attributeTypes: any = new AttributeTypes();
+
 export const MiddleSchoolAgeRangeAttributeId: number = 7089;
 export const HighSchoolAgeRangeAttributeId: number = 7090;
 export const SpiritualGrowthCongregationId: number = 8;
@@ -63,10 +61,16 @@ export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.cross
 export const GroupResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
 export const LeaderResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
 
-export enum AppType {
-  Connect,
-  Groups
-}
+export class AppType {
+  Connect: string;
+  Groups: string;
+
+  constructor () {
+    this.Connect = 'CONNECT';
+    this.Groups = 'SMALL_GROUPS';
+  }
+};
+export const appType: AppType = new AppType();
 
 export class AwsFieldNames {
   GROUP_KIDS_WELCOME: string;
@@ -83,7 +87,6 @@ export class AwsFieldNames {
     this.GROUP_VIRTUAL = 'groupvirtual';
   }
 }
-
 export const awsFieldNames: AwsFieldNames = new AwsFieldNames();
 
 export enum LeadershipApplicationType {
@@ -109,7 +112,6 @@ export enum GroupRole {
   APPRENTICE = 66,
   NONE = 0
 }
-
 
 // Zoom Constants:
 export const initialMapZoom: number = 9;    // Starting zoom used when calculating best zoom for a given search
