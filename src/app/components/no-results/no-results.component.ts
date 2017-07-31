@@ -3,6 +3,7 @@ import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { StateService } from '../../services/state.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class NoResultsComponent implements OnInit {
   private groupUrl: string;
 
   constructor(private router: Router,
-              private state: StateService) {}
+              private state: StateService,
+              private appSettings: AppSettingsService) {}
 
   public ngOnInit(): void {
     this.state.clearLastSearch();

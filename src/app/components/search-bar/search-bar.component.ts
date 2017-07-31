@@ -78,7 +78,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.lastSearch.search = search;
     this.state.searchBarText = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
-
   }
 
   private setButtonText() {
@@ -90,7 +89,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
     } else {
-      this.state.searchBarText = 'My Stuff';
+      this.state.searchBarText = this.appSettings.myStuffName;
     }
   }
 

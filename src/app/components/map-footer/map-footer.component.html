@@ -5,6 +5,6 @@
 
 <input type="button"
        class="btn btn-primary"
-       value="My stuff"
+       value="{{appSettings.myStuffName}}"
        [ngClass]="{'active': state.myStuffActive }"
        (click)="myStuffBtnClicked()">
