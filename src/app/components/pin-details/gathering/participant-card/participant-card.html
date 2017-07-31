@@ -5,13 +5,12 @@
     <h4 (click)="onParticipantClick()" [ngClass]="{'no-pointer': !participant.canBeHyperlinked}" class="media-heading font-size-base">{{participant.nickName}} {{participant.lastName}}
       <span class="media-label">
         <span *ngIf="isMe" class="label label-warning">Me</span>
-        <span *ngIf="showHostLabel()" class="label label-primary">Host</span>
-        <span *ngIf="showLeaderLabel()" class="label label-primary">Leader</span>
+        <span *ngIf="showLeaderLabel()" class="label label-primary">{{appSettings.leaderTitle}}</span>
         <span *ngIf="showApprenticeLabel()" class="label label-default">Apprentice</span>
         <!-- <span *ngIf="showCoachLabel()" class="label label-default">Coach</span> -->
       </span>
     </h4>
     <p class="text-muted font-size-small flush-bottom">{{participant.email}}</p>
     <span *ngIf="isMe && !isLeader"><a class="pointer" (click)="onRemoveParticipant()">Leave this group</a></span>
-  </div> 
+  </div>
 </div>

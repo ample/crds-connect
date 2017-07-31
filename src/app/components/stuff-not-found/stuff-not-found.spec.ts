@@ -7,22 +7,26 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { StuffNotFoundComponent } from './stuff-not-found.component';
+import { AppSettingsService } from '../../services/app-settings.service'
 
 describe('StuffNotFoundComponent', () => {
     let fixture: ComponentFixture<StuffNotFoundComponent>;
     let comp: StuffNotFoundComponent;
     let el;
     let mockStateService;
+    let mockAppSettingsService;
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
+        mockAppSettingsService = jasmine.createSpyObj('appSettings', ['myStuffName']);
         TestBed.configureTestingModule({
             declarations: [
                 StuffNotFoundComponent,
                 MockComponent({selector: 'crds-content-block', inputs: ['id']})
             ],
             providers: [
-                { provide: StateService, useValue: mockStateService }
+                { provide: StateService, useValue: mockStateService },
+                { provide: AppSettingsService, useValue: mockAppSettingsService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -41,7 +45,6 @@ describe('StuffNotFoundComponent', () => {
         fixture.detectChanges();
         expect(comp).toBeTruthy();
         expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('my stuff', '/');
-
+        expect(mockStateService.setPageHeader).toHaveBeenCalledWith(mockAppSettingsService.myStuffName, '/');
     });
 });
