@@ -92,15 +92,15 @@ describe('ParticipantCardComponent', () => {
     expect(comp.showApprenticeLabel()).toBe(true);
   });
 
-  it('showHostLabel should return true when pinParticipant id matches the participants id', () => {
+  it('showLeader should return true when pinParticipant id matches the participants id', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     mockAppSettings.isConnectApp.and.returnValue(true);
-    expect(comp.showHostLabel()).toBe(true);
+    expect(comp.showLeaderLabel()).toBe(true);
   });
 
-  it('showHostLabel should return false when pinParticipant doesnt match participant', () => {
-    expect(comp.showHostLabel()).toBe(false);
+  it('showLeaderLabel should return false when pinParticipant doesnt match participant', () => {
+    expect(comp.showLeaderLabel()).toBe(false);
   });
 
   it('should navigate on card click', () => {
