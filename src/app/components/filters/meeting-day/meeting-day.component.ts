@@ -22,6 +22,7 @@ export class MeetingDayComponent implements OnInit {
 
   private onClickToSelect(selectedDay: SimpleSelectable): void {
     selectedDay.isSelected = !selectedDay.isSelected;
+    this.setFilterString();
   }
 
   private setFilterString(): void {

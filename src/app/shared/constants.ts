@@ -221,9 +221,9 @@ export class MeetingFrequencyNames
   MONTHLY: string;
 
   constructor () {
-    this.WEEKLY = 'Every week';
-    this.BI_WEEKLY = 'Every other week';
-    this.MONTHLY = 'Every month';
+    this.WEEKLY = 'Every Week';
+    this.BI_WEEKLY = 'Every Other Week';
+    this.MONTHLY = 'Every Month';
   }
 }
 

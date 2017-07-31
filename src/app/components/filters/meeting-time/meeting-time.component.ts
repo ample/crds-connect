@@ -23,10 +23,11 @@ export class MeetingTimeComponent implements OnInit {
 
     private onClickToSelect(selectedTime: SimpleSelectable): void {
         selectedTime.isSelected = !selectedTime.isSelected;
+        this.setFilterString();
     }
 
     private setFilterString(): void {
-        this.filterService.setFilterStringMeetingDays(this.selectableTimeRanges);
+        this.filterService.setFilterStringMeetingTimes(this.selectableTimeRanges);
     }
 
     public reset(): void {

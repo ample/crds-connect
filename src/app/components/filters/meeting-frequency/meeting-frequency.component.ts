@@ -22,10 +22,11 @@ export class MeetingFrequencyComponent implements OnInit {
 
   private onClickToSelect(selectedFrequency: SimpleSelectable): void {
     selectedFrequency.isSelected = !selectedFrequency.isSelected;
+    this.setFilterString();
   }
 
   private setFilterString(): void {
-    this.filterService.setFilterStringMeetingDays(this.selectableMeetingFrequencies);
+    this.filterService.setFilterStringMeetingFrequencies(this.selectableMeetingFrequencies);
   }
 
   public reset(): void {

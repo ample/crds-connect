@@ -102,6 +102,7 @@ export class FilterService {
   public setFilterStringMeetingDays (daysOfWeek: SimpleSelectable[]): void {
 
     let addFilterString: string = ' (or';
+
     for (let day of daysOfWeek) {
       if (day.isSelected) {
         // need single quotes around each value since it is a string in aws
@@ -135,9 +136,9 @@ export class FilterService {
 
     let addFilterString: string = ' (or';
 
-    for (let r of meetingTimeRanges) {
-      if (r.isSelected) {
-        addFilterString += ` ${awsFieldNames.MEETING_TIME}: ${this.getAwsTimeRangeFilterString(r.value)} `;
+    for (let range of meetingTimeRanges) {
+      if (range.isSelected) {
+        addFilterString += ` ${awsFieldNames.MEETING_TIME}: ${this.getAwsTimeRangeFilterString(range.value)} `;
       }
     }
 
@@ -153,7 +154,7 @@ export class FilterService {
     for (let freq of meetingFrequencies) {
       if (freq.isSelected) {
       // need single quotes around each value since it is a string in aws
-      addFilterString += ` ${awsFieldNames.MEETING_FREQUENCY}: ${this.getAwsTimeRangeFilterString(freq.value)} `;
+      addFilterString += ` ${awsFieldNames.MEETING_FREQUENCY}: '${freq.value}' `;
       }
     }
 
