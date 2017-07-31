@@ -42,7 +42,8 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public showLeaderLabel(): boolean {
-    return (this.appSettings.isSmallGroupApp() && this.isLeader);
+    return (this.appSettings.isSmallGroupApp() && this.isLeader) ||
+    ((this.pinParticipantId === this.participant.participantId) && this.appSettings.isConnectApp());
   }
 
   public showApprenticeLabel(): boolean {
