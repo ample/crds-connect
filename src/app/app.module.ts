@@ -70,6 +70,9 @@ import { ListEntryComponent } from './components/list-entry/list-entry.component
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
+import { MeetingDayComponent } from './components/filters/meeting-day/meeting-day.component';
+import { MeetingFrequencyComponent} from './components/filters/meeting-frequency/meeting-frequency.component';
+import { MeetingTimeComponent } from './components/filters/meeting-time/meeting-time.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { OnlineOrPhysicalGroupComponent } from './components/filters/online-or-physical-group/online-or-physical-group.component';
@@ -201,6 +204,9 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
+    MeetingDayComponent,
+    MeetingFrequencyComponent,
+    MeetingTimeComponent,
     NeighborsComponent,
     NoResultsComponent,
     OnlineOrPhysicalGroupComponent,

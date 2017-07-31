@@ -127,7 +127,7 @@ describe('CreateGroupPage2Component', () => {
         comp['meetingFrequencies'] = meetingFrequencies;
         comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(1);
         comp['onFrequencyChange'](2);
-        expect(comp['createGroupService'].group.meetingFrequency).toBe('Every other week');
+        expect(comp['createGroupService'].group.meetingFrequency).toBe('Every Other Week');
     });
 
     it('should update group model when meeting day is selected', () => {
