@@ -18,6 +18,7 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppSettingsService } from './services/app-settings.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { MapFooterComponent } from './components/map-footer/map-footer.component';
 
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
@@ -27,7 +28,8 @@ describe('App: CrdsConnect', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        HeaderComponent
+        HeaderComponent,
+        MapFooterComponent
       ],
       imports: [
         PreloaderModule,
