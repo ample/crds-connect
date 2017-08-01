@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
 
     // Uncomment the following line to force Connect app when running outside
     // Maestro. But be sure not to commit!
-    // this.appsettings.setAppSettings(AppType.Connect);
+    // this.appsettings.setAppSettings(appType.Connect);
   }
 
   public isInSpecifiedApp(appRoute: string, root: string, url: string) {
