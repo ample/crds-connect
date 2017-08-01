@@ -150,13 +150,13 @@ export class StateService {
     this.lastSearch = new SearchOptions('', '', '');
     this.searchBarText = '';
   }
-  
+
   public setDeletedPinIdentifier(pinContactId: number, pinType: pinType): void {
     let pinIdentifier: PinIdentifier = new PinIdentifier(pinType, pinContactId);
-    this.deletedPinIdentifier = pinIdentifier; 
+    this.deletedPinIdentifier = pinIdentifier;
   }
-  
+
   public getDeletedPinIdentifier(): PinIdentifier{
-    return this.deletedPinIdentifier; 
+    return this.deletedPinIdentifier;
   }
 }
