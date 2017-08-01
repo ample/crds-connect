@@ -111,7 +111,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private centerMapOnNewPin(pin) {
+  private centerMapOnNewPin(pin): void {
     let zoom = this.mapHlpr.calculateZoom(initialMapZoom, pin.address.latitude, pin.address.longitude, [pin], this.state.getMyViewOrWorldView());
     let mapViewUpdate = new MapView('newPin', pin.address.latitude, pin.address.longitude, zoom);
     this.state.setMapView(mapViewUpdate);
