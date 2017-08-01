@@ -1,6 +1,8 @@
 app-filters {
   display: block;
   padding-bottom: 1rem;
+  position: absolute;
+  z-index: 5;
 
   h2 {
     margin: 0;

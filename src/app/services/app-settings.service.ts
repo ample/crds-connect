@@ -21,16 +21,16 @@ export class AppSettingsService {
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
         this.appRoute = '/';
         this.placeholderTextForSearchBar = 'Address...';
-        this.myStuffName = 'My Stuff';
+        this.myStuffName = 'My connections';
         this.noSearchResultsContent = 'noConnectSearchResults';
-        this.myStuffNotFoundContent = 'myStuffNotFound';
+        this.myStuffNotFoundContent = 'myConnectionsNotFound';
         this.leaderTitle = 'Host';
         break;
       case appType.Groups:
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
         this.appRoute = '/groupsv2';
         this.placeholderTextForSearchBar = 'Keyword...';
-        this.myStuffName = 'My Groups';
+        this.myStuffName = 'My groups';
         this.noSearchResultsContent = 'noGroupsSearchResults';
         this.myStuffNotFoundContent = 'myGroupsNotFound';
         this.leaderTitle = 'Leader';
