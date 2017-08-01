@@ -22,8 +22,9 @@ export class CustomOptions extends ToastOptions {
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule  } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -70,6 +71,9 @@ import { ListEntryComponent } from './components/list-entry/list-entry.component
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
+import { MeetingDayComponent } from './components/filters/meeting-day/meeting-day.component';
+import { MeetingFrequencyComponent} from './components/filters/meeting-frequency/meeting-frequency.component';
+import { MeetingTimeComponent } from './components/filters/meeting-time/meeting-time.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { OnlineOrPhysicalGroupComponent } from './components/filters/online-or-physical-group/online-or-physical-group.component';
@@ -159,6 +163,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SelectModule,
     ToastModule.forRoot(),
     TimepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
@@ -201,6 +206,9 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
+    MeetingDayComponent,
+    MeetingFrequencyComponent,
+    MeetingTimeComponent,
     NeighborsComponent,
     NoResultsComponent,
     OnlineOrPhysicalGroupComponent,

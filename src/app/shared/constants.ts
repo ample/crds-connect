@@ -1,5 +1,34 @@
 export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
 
+export class AwsMeetingTimeSearchStrings {
+  MORNINGS: string;
+  AFTERNOONS: string;
+  EVENINGS: string;
+
+  constructor() {
+    this.MORNINGS = "['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']";
+    this.AFTERNOONS = "['0001-01-01T12:00:00Z', '0001-01-01T17:00:00Z']";
+    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']";
+  }
+}
+
+export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
+
+export class GroupMeetingTimeRanges {
+
+  MORNINGS: string;
+  AFTERNOONS: string;
+  EVENINGS: string;
+
+  constructor() {
+    this.MORNINGS = 'Mornings (before noon)';
+    this.AFTERNOONS = 'Afternoons (12-5pm)';
+    this.EVENINGS = 'Evenings (after 5pm)';
+  }
+}
+
+export const groupMeetingTimeRanges = new GroupMeetingTimeRanges();
+
 export class PinsShown {
   MY_STUFF: string;
   EVERYONES_STUFF: string;
@@ -9,6 +38,7 @@ export class PinsShown {
     this.EVERYONES_STUFF = 'world';
   }
 }
+
 export const pinsShown: PinsShown = new PinsShown();
 
 export class GroupMeetingScheduleType {
@@ -20,9 +50,32 @@ export class GroupMeetingScheduleType {
     this.FLEXIBLE = 'flexible';
   }
 }
+
+export class DaysOfWeek{
+  public MONDAY: string;
+  public TUESDAY: string;
+  public WEDNESDAY: string;
+  public THURSDAY: string;
+  public FRIDAY: string;
+  public SATURDAY: string;
+  public SUNDAY: string;
+
+  constructor() {
+    this.MONDAY = 'Monday';
+    this.TUESDAY = 'Tuesday';
+    this.WEDNESDAY = 'Wednesday';
+    this.THURSDAY = 'Thursday';
+    this.FRIDAY = 'Friday';
+    this.SATURDAY = 'Saturday';
+    this.SUNDAY = 'Sunday';
+  }
+}
+
+export const daysOfWeek = new DaysOfWeek();
+
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
-export const defaultGroupMeetingTime: string = '1983-07-16T21:00:00.000Z';
+export const defaultGroupMeetingTime: string = '0001-01-01T17:00:00.000Z';
 
 export class AttributeTypes {
   AgeRangeAttributeTypeId: number;
@@ -35,6 +88,7 @@ export class AttributeTypes {
     this.GroupCategoryAttributeTypeId = 90;
   }
 }
+
 export const attributeTypes: any = new AttributeTypes();
 
 export const MiddleSchoolAgeRangeAttributeId: number = 7089;
@@ -78,6 +132,9 @@ export class AwsFieldNames {
   GROUP_CATEGORY: string;
   GROUP_TYPE: string;
   GROUP_VIRTUAL: string;
+  MEETING_DAY: string;
+  MEETING_FREQUENCY: string;
+  MEETING_TIME: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
@@ -85,6 +142,9 @@ export class AwsFieldNames {
     this.GROUP_CATEGORY = 'groupcategory';
     this.GROUP_TYPE = 'grouptype';
     this.GROUP_VIRTUAL = 'groupvirtual';
+    this.MEETING_DAY = 'groupmeetingday';
+    this.MEETING_FREQUENCY = 'groupmeetingfrequency';
+    this.MEETING_TIME = 'groupmeetingtime';
   }
 }
 export const awsFieldNames: AwsFieldNames = new AwsFieldNames();
@@ -121,16 +181,31 @@ export const maxZoom: number = 15;          // The maximum zoom before zoomAdjus
 export const pinTargetGroups: number = 1;   // The target number of pins for group app; used when calculating the best zoom
 export const pinTargetConnect: number = 10; // The target number of pins for connect app; used when calculating the best zoom
 
+export class MeetingFrequencyNames
+{
+  WEEKLY: string;
+  BI_WEEKLY: string;
+  MONTHLY: string;
+
+  constructor () {
+    this.WEEKLY = 'Every Week';
+    this.BI_WEEKLY = 'Every Other Week';
+    this.MONTHLY = 'Every Month';
+  }
+}
+
+export const meetingFrequencyNames = new MeetingFrequencyNames();
+
 export const meetingFrequencies = [{
-            meetingFrequencyId: 1,
-            meetingFrequencyDesc: 'Every week'
-        }, {
-            meetingFrequencyId: 2,
-            meetingFrequencyDesc: 'Every other week'
-        }, {
-            meetingFrequencyId: 8,
-            meetingFrequencyDesc: 'Every month'
-        }];
+  meetingFrequencyId: 1,
+  meetingFrequencyDesc: meetingFrequencyNames.WEEKLY
+}, {
+  meetingFrequencyId: 2,
+  meetingFrequencyDesc: meetingFrequencyNames.BI_WEEKLY
+}, {
+  meetingFrequencyId: 8,
+  meetingFrequencyDesc: meetingFrequencyNames.MONTHLY
+}];
 
 export const usStatesList: string[] = [
   'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA',
