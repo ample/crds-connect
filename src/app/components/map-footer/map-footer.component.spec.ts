@@ -16,7 +16,7 @@ import { UserLocationService } from '../../services/user-location.service';
 import { MapFooterComponent } from './map-footer.component';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
-fdescribe('MapFooterComponent', () => {
+describe('MapFooterComponent', () => {
     class Angulartics2Stub {
         eventTrack = {
             next: jasmine.createSpy('next')
@@ -46,7 +46,7 @@ fdescribe('MapFooterComponent', () => {
         mockState = new StateStub();
         mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToGettingStarted']);
-        // mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+        mockRouter = jasmine.createSpy('navigate')
         mockAngulartics2 = new Angulartics2Stub();
 
         TestBed.configureTestingModule({
@@ -58,8 +58,13 @@ fdescribe('MapFooterComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 {
-                    provide: Router,
-                    useValue: { routerState: { snapshot: { url: '/map-footer-component' } } },
+                  provide: Router,
+                  useValue: {
+                    navigate: mockRouter,
+                    routerState: {
+                      snapshot: { url: '/map-footer-component' }
+                    }
+                  },
                 },
                 { provide: StateService, useValue: mockState },
                 { provide: SessionService, useValue: mockSession },
@@ -119,7 +124,6 @@ fdescribe('MapFooterComponent', () => {
         expect(mockState.setIsMyStuffActive).toHaveBeenCalledWith(false);
         expect(mockState.lastSearch.search).toBe('');
         expect(mockState.setLoading).toHaveBeenCalledWith(true);
-        // expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
         expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
