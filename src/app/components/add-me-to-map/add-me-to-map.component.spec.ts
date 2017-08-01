@@ -49,7 +49,7 @@ describe('Component: Add Me to the Map', () => {
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
-    mockMapHlpr = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['calculateZoom', 'emitMapViewUpdated']);
+    mockMapHlpr = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['calculateZoom']);
 
 
     TestBed.configureTestingModule({
@@ -127,7 +127,6 @@ describe('Component: Add Me to the Map', () => {
     expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
     expect(mockState.setLastSearch).toHaveBeenCalledWith(null);
     expect(mockSessionService.clearCache).toHaveBeenCalled();
-    expect(mockMapHlpr.emitMapViewUpdated).toHaveBeenCalled();
     expect(mockState.setMapView).toHaveBeenCalled();
   });
 

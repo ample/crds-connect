@@ -102,17 +102,19 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
           );
           this.blandPageService.primeAndGo(nowAPin);
 
-          // Center the map on the new pin:
-          const zoom = this.mapHlpr.calculateZoom(initialMapZoom, pin.address.latitude, pin.address.longitude, [pin], this.state.getMyViewOrWorldView());
-          const mapViewUpdate = new MapView('newPin', pin.address.latitude, pin.address.longitude, zoom);
-          this.mapHlpr.emitMapViewUpdated(mapViewUpdate);
-          this.state.setMapView(mapViewUpdate);
+          this.centerMapOnNewPin(pin);
         },
         err => {
           this.isFormSubmitted = false;
         }
       );
     }
+  }
+
+  private centerMapOnNewPin(pin) {
+    let zoom = this.mapHlpr.calculateZoom(initialMapZoom, pin.address.latitude, pin.address.longitude, [pin], this.state.getMyViewOrWorldView());
+    let mapViewUpdate = new MapView('newPin', pin.address.latitude, pin.address.longitude, zoom);
+    this.state.setMapView(mapViewUpdate);
   }
 
   public closeClick() {
