@@ -17,16 +17,20 @@
 
                         <div class="text-left">{{ category.name }}</div>
                 </button>
-                    <div class="help-block">
-                        <i>{{category.desc}}</i>
+                    <div class="soft-quarter-left flush-bottom help-block text-muted">
+                        <p>{{category.desc}}</p>
                     </div>
 
                     <div *ngIf="category.selected" class="form-group">
-                        <div class="input-group input-group-block input-group-left custom-input">
+              <label class="sr-only" for="email">Email</label>
+              <input class="form-control" name="email" placeholder="Email" type="email" value="">
+
+
+                        <!-- <div class="input-group input-group-block input-group-left custom-input"> -->
                             <input type="text" class="form-control" placeholder="{{category.exampleText}}" id="{{category.name}}-detail" maxlength="25"
                                 value="{{category.categoryDetail}}" formControlName="{{category.name}}-detail" [(ngModel)]="category.categoryDetail"
                                 required>
-                        </div>
+                        <!-- </div> -->
                         <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
                     </div>
                 </div>
