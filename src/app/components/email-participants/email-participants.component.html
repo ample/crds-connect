@@ -1,16 +1,24 @@
 <div *ngIf="areThereAnyParticipantsInGroup" class="push-half-top">
-  <!-- COPY PARTICIPANT EMAIL ADDRESSES TO CLIPBOARD -->
-  <button class="btn btn-outline btn-primary" type="button"
-          ngxClipboard
-          (click) = "copyEmailAddressesClicked(commaSeparatedParticipantEmails)"
-          [cbContent]="participantEmails">
-    Copy Email Addresses
-  </button>
-
-  <!-- EMAIL PARTICIPANTS -->
-  <button class="btn btn-outline btn-primary"
-          type="button"
-          (click) = "emailParticipantsClicked(commaSeparatedParticipantEmails)">
-    Email Participants
-  </button>
+  <div class="dropdown" dropdown>
+    <button dropdownToggle type="button" class="btn btn-outline btn-primary dropdown-toggle">
+      Contact Participants
+      <svg class="icon icon-1 pull-right push-left" viewBox="0 0 256 256">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-down"></use>
+      </svg>
+    </button>
+    <ul *dropdownMenu class="crds-list dropdown-menu" role="menu">
+      <li>
+        <!-- COPY PARTICIPANT EMAIL ADDRESSES TO CLIPBOARD -->
+        <a ngxClipboard
+           (click) = "copyEmailAddressesClicked(commaSeparatedParticipantEmails)"
+           [cbContent]="participantEmails">Copy Email Addresses</a>
+      </li>
+      <li>
+        <!-- EMAIL PARTICIPANTS -->
+        <a (click) = "emailParticipantsClicked(commaSeparatedParticipantEmails)">
+          Email Participants
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
