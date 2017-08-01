@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <p class="gathering-description border-top push-top">
+      <p class="gathering-description border-top push-half-top">
         {{descriptionToDisplay}}
         <a *ngIf="!doDisplayFullDesc" (click)="expandGroupDescription()" class="pointer">More</a>
 
-        <span *ngIf="doDisplayFullDesc">
+        <!-- <span *ngIf="doDisplayFullDesc">
           <ul class="list-inline push-top">
             <li>
               <a href="#">
@@ -43,7 +43,7 @@
               </a>
             </li>
           </ul>
-        </span>
+        </span> -->
       </p>
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
@@ -78,7 +78,7 @@
       <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
     </dl>
 
-     <div *ngIf="isInGroupApp" class="push-top push-half-bottom">
+    <div *ngIf="!isLeader && isInGroupApp" class="push-half-ends soft-ends">
       <button class="btn btn-primary btn-block-mobile">Try this group</button>
       <button class="btn btn-outline btn-primary btn-block-mobile"
               (click)="onContactLeaderClicked();">Contact leader</button>
@@ -89,7 +89,7 @@
 
   <gathering-requests *ngIf="isLeader && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
 
-  <div *ngIf="isInGathering" class="soft-top">
+  <div *ngIf="isInGathering" class="soft-half-ends">
     <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Participants</h3>
     <hr class="push-quarter-top flush-bottom">
     <div *ngFor="let participant of pin.gathering.Participants">

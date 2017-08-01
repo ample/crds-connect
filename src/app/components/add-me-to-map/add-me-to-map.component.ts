@@ -11,14 +11,16 @@ import { StateService } from '../../services/state.service';
 import { LocationService } from '../../services/location.service';
 import { LookupTable } from '../../models/lookup-table';
 import { Pin, pinType } from '../../models/pin';
+import { MapView } from '../../models/map-view';
 
 import { Address } from '../../models/address';
 import { AddressService } from '../../services/address.service';
-import { usStatesList } from '../../shared/constants';
+import { initialMapZoom, usStatesList } from '../../shared/constants';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
 import { SessionService } from '../../services/session.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { UserLocationService } from '../../services/user-location.service';
+import { GoogleMapService } from '../../services/google-map.service';
 
 @Component({
   selector: 'app-add-me-to-map',
@@ -43,7 +45,9 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     private content: ContentService,
     private toast: ToastsManager,
     private location: Location,
-    private pinService: PinService) { }
+    private pinService: PinService,
+    private mapHlpr: GoogleMapService
+  ) {}
 
 
   public ngOnInit(): void {
@@ -97,12 +101,20 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
             ''
           );
           this.blandPageService.primeAndGo(nowAPin);
+
+          this.centerMapOnNewPin(pin);
         },
         err => {
           this.isFormSubmitted = false;
         }
       );
     }
+  }
+
+  private centerMapOnNewPin(pin): void {
+    let zoom = this.mapHlpr.calculateZoom(initialMapZoom, pin.address.latitude, pin.address.longitude, [pin], this.state.getMyViewOrWorldView());
+    let mapViewUpdate = new MapView('newPin', pin.address.latitude, pin.address.longitude, zoom);
+    this.state.setMapView(mapViewUpdate);
   }
 
   public closeClick() {

@@ -1,0 +1,10 @@
+<h3>FREQUENCY</h3>
+
+<div class="btn-group">
+  <button *ngFor="let freq of selectableMeetingFrequencies"
+          (click)="onClickToSelect(freq)"
+          class="btn btn-option btn-outline" 
+          type="button" 
+          [class.active]="freq.isSelected">{{freq.value}}
+  </button>
+</div>

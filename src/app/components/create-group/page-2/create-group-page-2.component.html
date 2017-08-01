@@ -16,75 +16,60 @@
                             [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE}"
                         formControlName="meetingTimeType" value="specific"
                         (click)="onClick(groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE)" ngDefaultControl>
-                    <div class="btn-group-label text-left row">
-                        <span class="btn-group-icons">
-                            <svg class="icon circle-thin" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                            </svg>
-                            <svg class="icon check-circle" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                            </svg>
-                        </span>
-                        Specific Day and Time
-                    </div>
+                        <div class="btn-group-label text-left row">
+                            <span class="btn-group-icons">
+                                <svg class="icon circle-thin" viewBox="0 0 256 256">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                                </svg>
+                                <svg class="icon check-circle" viewBox="0 0 256 256">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                                </svg>
+                            </span>
+                            Specific Day and Time
+                        </div>
                     </button>
 
                     <div *ngIf="createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE">
-                        <div class="soft-top custom-input">
-                            <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
-                                </svg>
-                            </span>
+                        <div class="push-top custom-input">
                             <select class="form-control" name="meetingDay" [(ngModel)]="createGroupService.group.meetingDayId" formControlName="meetingDay"  (change)="onDayChange($event.target.value)">
-                            <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day..</option>
-                            <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
-                        </select>
-                        </div>
-                        <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
-                            <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
-                        </div>
-                        <div class="soft-top custom-input">
-                            <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
-                                </svg>
-                            </span>
-                            <div class="border-ends border-sides soft-sides col-sm-12">
-                                 <timepicker [(ngModel)]="createGroupService.group.meetingTime" formControlName="meetingTime" [showMeridian]="true" [minuteStep]="15"></timepicker>
+                                <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day..</option>
+                                <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
+                            </select>
+                            <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
+                                <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
                             </div>
-                        </div>
-                        <div class="soft-top custom-input">
-                            <span class="custom-input-icon">
-                                <svg class="icon icon-1" viewBox="0 0 256 256">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-right"></use>
-                                </svg>
-                            </span>
-                            <select class="form-control" name="meetingFrequency" [(ngModel)]="createGroupService.group.meetingFrequencyId" formControlName="meetingFrequency" (change)="onFrequencyChange($event.target.value)">
-                            <option value="null" disabled="true" [selected]="!createGroupService.group.meetingFrequencyId">Select a frequency</option>
-                            <option *ngFor="let frequency of meetingFrequencies" [value]="frequency.meetingFrequencyId">{{frequency.meetingFrequencyDesc}}</option>
-                        </select>
-                        </div>
-                        <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingFrequency'].valid">
-                            <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                            <div class="soft-top">
+                                <div class="border-ends border-sides soft-sides">
+                                    <timepicker [(ngModel)]="createGroupService.group.meetingTime" formControlName="meetingTime" [showMeridian]="true" [minuteStep]="15"></timepicker>
+                                </div>
+                            </div>
+                            <div class="soft-top">
+                                <select class="form-control" name="meetingFrequency" [(ngModel)]="createGroupService.group.meetingFrequencyId" formControlName="meetingFrequency" (change)="onFrequencyChange($event.target.value)">
+                                    <option value="null" disabled="true" [selected]="!createGroupService.group.meetingFrequencyId">Select a frequency</option>
+                                    <option *ngFor="let frequency of meetingFrequencies" [value]="frequency.meetingFrequencyId">{{frequency.meetingFrequencyDesc}}</option>
+                                </select>
+                            </div>
+                            <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingFrequency'].valid">
+                                <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="btn-group btn-group-block soft-top">
+                    <div class="btn-group-block soft-top">
                         <button type="button" class="btn btn-option btn-flex btn-outline" id="flexible" [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE}"
-                            formControlName="meetingTimeType" value="flexible" (click)="onClick(groupMeetingScheduleType.FLEXIBLE)" ngDefaultControl>
-                        <div class="btn-group-label text-left row">
-                        <span class="btn-group-icons">
-                            <svg class="icon circle-thin" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                            </svg>
-                            <svg class="icon check-circle" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                            </svg>
-                        </span>
-                        Flexible Meeting Time/Not Sure Yet
-                    </div>
-                    </button>
+                                formControlName="meetingTimeType" value="flexible" (click)="onClick(groupMeetingScheduleType.FLEXIBLE)" ngDefaultControl>
+                            <div class="btn-group-label text-left row">
+                                <span class="btn-group-icons">
+                                    <svg class="icon circle-thin" viewBox="0 0 256 256">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                                    </svg>
+                                    <svg class="icon check-circle" viewBox="0 0 256 256">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                                    </svg>
+                                </span>
+                                Flexible Meeting Time/Not Sure Yet
+                            </div>
+                        </button>
                     </div>
                 </div>
                 <div class="soft-ends">

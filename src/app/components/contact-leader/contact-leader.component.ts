@@ -56,6 +56,9 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
   }
 
   public onSubmit({ value, valid }: { value: MsgToLeader, valid: boolean }) {
+    // Touch all the fields so we get correct validation styles for pristine, required fields
+    Object.values(this.contactLeaderForm.controls).filter(control => control.markAsTouched());
+
     this.isFormSubmitted = true;
     if (valid) {
       this.sendLeaderMessage(value);

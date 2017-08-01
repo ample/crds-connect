@@ -34,7 +34,7 @@ import { User } from '../models/user';
 
 import * as _ from 'lodash';
 
-import { app, App, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
+import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
 
 
 @Injectable()
@@ -51,7 +51,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   constructor(
     private addressService: AddressService,
-    private appSetting: AppSettingsService,
+    private appSettings: AppSettingsService,
     private gatheringService: SiteAddressService,
     private router: Router,
     private session: SessionService,
@@ -76,7 +76,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private setPinTypeAsGroupIfInGroupApp(pin: Pin) {
-    if (this.appSetting.isSmallGroupApp()) {
+    if (this.appSettings.isSmallGroupApp()) {
       pin.pinType = pinType.SMALL_GROUP;
     }
     return pin;
@@ -92,11 +92,11 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       let pin: Pin = cachedPins.pinSearchResults.find(aPin => {
         if (aPin.pinType === pinIdentifier.type) {
           if (pinIdentifier.type === pinType.PERSON) {
-            return (aPin.participantId == pinIdentifier.id);  // need == not === here b/c have string and number		
+            return (aPin.participantId == pinIdentifier.id);  // need == not === here b/c have string and number
           } else if (pinIdentifier.type === pinType.GATHERING) {
-            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number		
+            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number
           } else if (pinIdentifier.type === pinType.SMALL_GROUP) {
-            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number		
+            return (aPin.gathering.groupId == pinIdentifier.id); // need == not === here b/c have string and number
           }
         }
       });
@@ -133,7 +133,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {
-    let lastSearchString = this.appSetting.isConnectApp() ? srchParams.userLocationSearchString
+    let lastSearchString = this.appSettings.isConnectApp() ? srchParams.userLocationSearchString
                                                                 : srchParams.userKeywordSearchString;
     let lat: number = srchRes.centerLocation.lat;
     let lng: number = srchRes.centerLocation.lng;
@@ -188,7 +188,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
     let isMyStuff: boolean = this.state.myStuffActive;
-    let finderType: string = this.appSetting.finderType;
+    let finderType: string = this.appSettings.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
     centerGeoCoords = this.clearGeoCoordsIfSearchingLoc(params.userLocationSearchString, centerGeoCoords);

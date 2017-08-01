@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
+import { Participant } from '../../models/participant';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { ParticipantService } from '../../services/participant.service';
 
 import { groupDescriptionLength } from '../../shared/constants';
 import * as moment from 'moment';
@@ -38,13 +40,16 @@ export class ListEntryComponent implements OnInit {
   public isPerson: boolean;
   public isSite: boolean;
   public isSmallGroup: boolean;
+  public adjustedLeaderNames: string = '';
+  public leaders: Participant[] = [];
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
               private session: SessionService,
               private router: Router,
               private state: StateService,
-              private listHelper: ListHelperService) {
+              private listHelper: ListHelperService,
+              private participantService: ParticipantService) {
               this.currentContactId = this.session.getContactId();
   }
 
@@ -53,6 +58,10 @@ export class ListEntryComponent implements OnInit {
     this.isGathering = this.type === pinType.GATHERING;
     this.isSite = this.type === pinType.SITE;
     this.isSmallGroup = this.type === pinType.SMALL_GROUP;
+    this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+      this.leaders = leaders;
+      this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
+    });
   }
 
   public isMe() {
@@ -128,4 +137,12 @@ export class ListEntryComponent implements OnInit {
     this.pinService.navigateToPinDetailsPage(pin);
   }
 
+  private getAdjustedLeaderNames(leaders: Participant[]): string {
+    let adjustedLeaderNames: string = '';
+    for (let i = 0, len = leaders.length; i < len; i++) {
+      let adjustedName: string = `${leaders[i].nickName} ${leaders[i].lastName.slice(0, 1)}.`;
+      adjustedLeaderNames += adjustedName + (i === len - 1 ? '' : ', ');
+    }
+    return adjustedLeaderNames;
+  }
 }

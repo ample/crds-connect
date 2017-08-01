@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-xs-4"><a class="btn-link pull-left font-size-small push-ends pointer" (click)="locationForm.ngSubmit.emit()">Apply</a></div>
-  <div class="col-xs-4"><h2 class="component-header text-center push-half-ends">Filter</h2></div>
+  <div class="col-xs-4">
+    <h2 class="component-header text-center push-half-ends">Filter</h2>
+  </div>
   <div class="col-xs-4"><a class="btn-link pull-right font-size-small push-ends pointer" (click)="resetFilters()">Reset</a></div>
 </div>
 
@@ -9,23 +11,24 @@
     <div class="form-group">
       <label class="sr-only" for="customAmount">Amount (in dollars)</label>
       <div class="input-group input-group-block input-group-left">
-        <span class="input-group-addon">
-          <svg class="icon" viewBox="0 0 256 256">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
-          </svg>
-        </span>
+			<span class="input-group-addon">
+				<svg class="icon" viewBox="0 0 256 256">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
+				</svg>
+			</span>
         <input class="form-control"
-              name="location"
-              placeholder="Current Location"
-              type="search"
-              value=""
-              formControlName="location">
+               name="location"
+               placeholder="Current Location"
+               type="search"
+               value=""
+               formControlName="location">
       </div>
     </div>
   </div>
 </form>
 
 <accordion class="accordion">
+
   <accordion-group>
     <div accordion-heading>
       Age Groups
@@ -38,7 +41,7 @@
     <age-groups></age-groups>
   </accordion-group>
 
-<accordion class="accordion">
+
   <accordion-group>
     <div accordion-heading>
       Category
@@ -49,7 +52,7 @@
       </i>
     </div>
     <category></category>
-  </accordion-group>  
+  </accordion-group>
 
   <accordion-group>
     <div accordion-heading>
@@ -86,4 +89,19 @@
     </div>
     <online-or-physical-group></online-or-physical-group>
   </accordion-group>
+
+  <accordion-group>
+    <div accordion-heading>
+      Day / Time / Frequency
+      <i class="pull-right float-xs-right">
+        <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#chevron-down"></use>
+        </svg>
+      </i>
+    </div>
+    <meeting-day></meeting-day>
+    <meeting-time></meeting-time>
+    <meeting-frequency></meeting-frequency>
+  </accordion-group>
+
 </accordion>

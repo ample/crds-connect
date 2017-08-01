@@ -22,7 +22,7 @@ export class ParticipantCardComponent implements OnInit {
   constructor(private session: SessionService,
               private router: Router,
               private route: ActivatedRoute,
-              private appSettingsService: AppSettingsService) {
+              private appSettings: AppSettingsService) {
   }
 
   public ngOnInit() {
@@ -42,15 +42,12 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public showLeaderLabel(): boolean {
-    return (this.appSettingsService.isSmallGroupApp() && this.isLeader);
+    return (this.appSettings.isSmallGroupApp() && this.isLeader) ||
+    ((this.pinParticipantId === this.participant.participantId) && this.appSettings.isConnectApp());
   }
 
   public showApprenticeLabel(): boolean {
-    return (this.appSettingsService.isSmallGroupApp() && this.isApprentice);
-  }
-
-  public showHostLabel(): boolean {
-      return (this.pinParticipantId === this.participant.participantId) && this.appSettingsService.isConnectApp();
+    return (this.appSettings.isSmallGroupApp() && this.isApprentice);
   }
 
   public onParticipantClick(): void {

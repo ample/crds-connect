@@ -203,7 +203,17 @@ describe('CreateGroupService', () => {
 
     it('should format times and dates flexible meeting schedule',
         inject([CreateGroupService], (s: CreateGroupService) => {
+            let categories = MockTestData.getSomeCategories();
             let group = MockTestData.getAGroup();
+            group.attributeTypes = {};
+            s.group = group;
+            s.categories = categories;
+            s['pageOneInitialized'] = true;
+            s.categories[0].selected = true;
+            s.categories[1].selected = true;
+            s.validateCategories();
+            s.addSelectedCategoriesToGroupModel();           
+            group = s.group;
             group.meetingDay = 'Blah!';
             group.meetingDayId = 3;
             group.meetingFrequencyId = 2;
@@ -217,13 +227,23 @@ describe('CreateGroupService', () => {
             expect(group.meetingFrequency).toBeNull();
             expect(group.meetingFrequencyId).toBeNull();
             expect(group.meetingTime).toBeNull();
-            expect(group.startDate).toBe('1983-07-16T17:00:00Z');
+            expect(group.startDate).toBe('0001-01-01T12:00:00Z');
         })
     );
 
     it('should format times and dates specific meeting schedule',
         inject([CreateGroupService], (s: CreateGroupService) => {
+            let categories = MockTestData.getSomeCategories();
             let group = MockTestData.getAGroup();
+            group.attributeTypes = {};
+            s.group = group;
+            s.categories = categories;
+            s['pageOneInitialized'] = true;
+            s.categories[0].selected = true;
+            s.categories[1].selected = true;
+            s.validateCategories();
+            s.addSelectedCategoriesToGroupModel();           
+            group = s.group;
             group.meetingDay = 'Blah!';
             group.meetingDayId = 3;
             group.meetingFrequencyId = 2;
@@ -237,8 +257,8 @@ describe('CreateGroupService', () => {
             expect(group.meetingFrequency).not.toBeNull();
             expect(group.meetingFrequencyId).not.toBeNull();
             expect(group.meetingTime).not.toBeNull();
-            expect(group.startDate).toBe('1983-07-16T17:00:00Z');
-            expect(group.meetingTime).toBe('5:00 PM');
+            expect(group.startDate).toBe('0001-01-01T12:00:00Z');
+            expect(group.meetingTime).toBe('12:00 PM');
         })
     );
 
