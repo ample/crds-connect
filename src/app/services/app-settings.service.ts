@@ -49,4 +49,8 @@ export class AppSettingsService {
   public getBaseUrlForCurrentApp(): string {
     return this.appRoute;
   }
+
+  public appClass(): string {
+    return this.isConnectApp() ? 'connect' : 'groups';
+  }
 }

@@ -6,9 +6,17 @@
     position: relative;
     height: 40px;
     overflow: hidden;
-    background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
-    background-repeat: repeat-x;
-    background-size: auto 100%;
+    &.connect {
+      background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-bg.jpg');
+      background-repeat: repeat-x;
+      background-size: auto 100%;
+    }
+    &.groups {
+      background-image: url('//crds-cms-uploads.imgix.net/media/stills/groups-header-background.png');
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      background-position: left center;
+    }
   }
 
   .app-logo {
@@ -22,10 +30,19 @@
     background-image: url('//crds-cms-uploads.s3.amazonaws.com/connect/brandbanner-logo-bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+
     svg {
       width: 75px;
       height: 15px;
       padding: 0;
+    }
+  }
+
+  .groups .app-logo {
+    background: none;
+
+    svg {
+      height: 18px;
     }
   }
 
@@ -45,8 +62,8 @@
     h1 {
       display: inline-block;
       margin: 0 auto;
-      line-height: .5;
-      font-size: 2rem;
+      line-height: 1;
+      font-size: 1.5rem;
     }
   }
 }
