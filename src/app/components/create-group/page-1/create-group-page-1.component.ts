@@ -9,6 +9,7 @@ import { Category } from '../../../models/category';
 import { CreateGroupService } from '../create-group-data.service';
 import { StateService } from '../../../services/state.service';
 
+
 @Component({
     selector: 'create-group-page-1',
     templateUrl: './create-group-page-1.component.html',
@@ -84,6 +85,26 @@ export class CreateGroupPage1Component implements OnInit {
 
     public onCancel() {
         console.log('oncancel click');
+
+      /*   this.swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then(function(isConfirm) {
+            if (isConfirm) {
+                swal(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+                );
+            }
+            }); */
+        
+        this.router.navigate(['/']);
     }
 
     public back() {
