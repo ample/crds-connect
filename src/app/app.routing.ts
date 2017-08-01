@@ -70,10 +70,10 @@ const appRoutes: Routes = [
     }]
   }, {
     path: 'create-group',
-    // canActivate: [
-    //   LoggedInGuard,
-    //   GroupLeaderApprovedGuard
-    // ],
+    canActivate: [
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
+    ],
     children: [
       {
         path: '',
