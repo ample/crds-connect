@@ -109,6 +109,46 @@ const appRoutes: Routes = [
       }
     ]
   }, {
+        path: 'edit-group/:groupId',
+        canActivate: [
+            LoggedInGuard,
+            GroupLeaderApprovedGuard
+        ],
+        children: [
+            {
+                path: '',
+                component: CreateGroupSummaryComponent
+            },
+            {
+                path: 'page-1',
+                component: CreateGroupPage1Component
+            },
+            {
+                path: 'page-2',
+                component: CreateGroupPage2Component
+            },
+            {
+                path: 'page-3',
+                component: CreateGroupPage3Component
+            },
+            {
+                path: 'page-4',
+                component: CreateGroupPage4Component
+            },
+            {
+                path: 'page-5',
+                component: CreateGroupPage5Component
+            },
+            {
+                path: 'page-6',
+                component: CreateGroupPage6Component
+            },
+            {
+                path: 'preview',
+                component: CreateGroupPreviewComponent
+            }
+        ]
+    }, {
     path: 'contact-leader/:groupId',
     component: ContactLeaderComponent,
     canActivate: [
