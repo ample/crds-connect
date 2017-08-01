@@ -10,13 +10,10 @@
 
   <p class="control-label soft-top">When will you meet?</p>
   <form [formGroup]="meetingTimeForm" (ngSubmit)="onSubmit(meetingTimeForm)">
-
-
-
     <div class="btn-group btn-group-block">
       <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE}" formControlName="meetingTimeType" value="specific" (click)="onClick(groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE)" ngDefaultControl>
         <div class="row">
-          <div class="btn-group-label">
+          <div class="btn-group-label text-left">
             <span class="btn-group-icons">
               <svg class="icon circle-thin" viewBox="0 0 256 256">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
@@ -28,7 +25,7 @@
             Option 1:
           </div>
 
-          <div class="font-size-large">Pick Day/Time</div>
+          <div class="text-right font-size-large">Pick Day/Time</div>
         </div>
       </button>
 
@@ -60,7 +57,7 @@
     <div class="btn-group btn-group-block soft-half-top">
       <button type="button" class="btn btn-option btn-flex btn-outline" id="flexible" [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE}" formControlName="meetingTimeType" value="flexible" (click)="onClick(groupMeetingScheduleType.FLEXIBLE)" ngDefaultControl>
         <div class="row">
-          <div class="btn-group-label">
+          <div class="btn-group-label text-left">
             <span class="btn-group-icons">
               <svg class="icon circle-thin" viewBox="0 0 256 256">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
@@ -71,7 +68,7 @@
             </span>
             Option 2:
           </div>
-          <div class="font-size-large">Flexible/Not Sure Yet</div>
+          <div class="font-size-large text-right">Flexible/Not Sure Yet</div>
         </div>
       </button>
     </div>
