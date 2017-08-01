@@ -1,87 +1,83 @@
 <form [formGroup]="parentForm">
-    <!--ADDRESS LINE 1-->
-    <div class="row">
-        <div class="form-group col-xs-12" [formGroupName]="groupName">
-            <label class="sr-only" for="addressLine1">Address Line 1</label>
-            <input type="text"
-                   class="form-control"
-                   maxlength="75"
-                   placeholder="Address Line 1"
-                   id = "addressLine1"
-                   formControlName="addressLine1"
-                   name="addressLine1"
-                   [(ngModel)]="address.addressLine1">
-            <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine1'].valid">Address Line 1 is required!</p>
-        </div>
+  <!--ADDRESS LINE 1-->
+  <div class="row">
+    <div class="form-group col-xs-12" [formGroupName]="groupName">
+      <label class="sr-only" for="addressLine1">Address Line 1</label>
+      <input type="text"
+             class="form-control"
+             maxlength="75"
+             placeholder="Address Line 1"
+             id = "addressLine1"
+             formControlName="addressLine1"
+             name="addressLine1"
+             [(ngModel)]="address.addressLine1">
+      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine1'].valid">Address Line 1 is required!</p>
     </div>
+  </div>
 
     <!--ADDRESS LINE 2-->
     <div class="row" [formGroupName]="groupName">
-        <div class="form-group col-xs-12">
-            <label class="sr-only" for="addressLine2">Address Line 2</label>
-            <input type="text"
-                   class="form-control"
-                   maxlength="75"
-                   placeholder="Address Line 2"
-                   id = "addressLine2"
-                   formControlName="addressLine2"
-                   name="addressLine2"
-                   [(ngModel)]="address.addressLine2">
-            <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine2'].valid">Address Line 2 is invalid</p>
-        </div>
+      <div class="form-group col-xs-12">
+        <label class="sr-only" for="addressLine2">Address Line 2</label>
+        <input type="text"
+               class="form-control"
+               maxlength="75"
+               placeholder="Address Line 2"
+               id = "addressLine2"
+               formControlName="addressLine2"
+               name="addressLine2"
+               [(ngModel)]="address.addressLine2">
+        <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine2'].valid">Address Line 2 is invalid</p>
+      </div>
     </div>
 
-    <!--CITY-->
-    <div class="row" [formGroupName]="groupName">
-        <div class="form-group col-xs-12">
-            <label class="sr-only" for="city">City2</label>
-            <input type="text"
-                   class="form-control"
-                   onlyTheseKeys="[a-zA-Z\-\.]"
-                   maxlength="22"
-                   placeholder="City"
-                   id = "city"
-                   formControlName="city"
-                   name="city"
-                   [(ngModel)]="address.city">
-            <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['city'].valid">City is required!</p>
-        </div>
+  <!--CITY-->
+  <div class="row" [formGroupName]="groupName">
+    <div class="form-group col-xs-12">
+      <label class="sr-only" for="city">City2</label>
+      <input type="text"
+             class="form-control"
+             onlyTheseKeys="[a-zA-Z\-\.]"
+             maxlength="22"
+             placeholder="City"
+             id = "city"
+             formControlName="city"
+             name="city"
+             [(ngModel)]="address.city">
+      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['city'].valid">City is required!</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!--STATE-->
+    <div class="form-group col-xs-6" [formGroupName]="groupName">
+      <label class="sr-only" for="state">State</label>
+      <select formControlName="state"
+              class="form-control override-styles-for-dropdown"
+              placeholder="State"
+              id = "state"
+              [(ngModel)]="address.state">
+        <option *ngFor="let state of stateList" [value]="state">{{state}}</option>
+      </select>
+
+      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['state'].valid">State is required!</p>
     </div>
 
-    <div class="row">
-        <!--STATE-->
-        <div class="form-group col-xs-6" [formGroupName]="groupName">
-            <label class="sr-only" for="state">State</label>
-            <select formControlName="state"
-                    class="form-control override-styles-for-dropdown"
-                    placeholder="State"
-                    id = "state"
-                    [(ngModel)]="address.state">
-                <option *ngFor="let state of stateList" [value]="state">{{state}}</option>
-            </select>
-        </div>
+    <!--ZIP-->
+    <div class="form-group col-xs-6" [formGroupName]="groupName">
+      <label class="sr-only" for="zip">Zip Code</label>
+      <input type="tel"
+             onlyTheseKeys="[0-9]"
+             class="form-control"
+             maxlength="10"
+             placeholder="Zip Code"
+             formControlName="zip"
+             id = "zip"
+             name="zip"
+             pattern="^(\d{5}|\d{5}-\d{4})$"
+             [(ngModel)]="address.zip">
 
-        <!--ZIP-->
-        <div class="form-group col-xs-6" [formGroupName]="groupName">
-            <label class="sr-only" for="zip">Zip Code</label>
-            <input type="tel"
-                   onlyTheseKeys="[0-9]"
-                   class="form-control"
-                   maxlength="10"
-                   placeholder="Zip Code"
-                   formControlName="zip"
-                   id = "zip"
-                   name="zip"
-                   pattern="^(\d{5}|\d{5}-\d{4})$"
-                   [(ngModel)]="address.zip">
-        </div>
-
-        <div class="col-xs-12 error help-block" *ngIf="(isFormSubmitted && !addressFormGroup.controls['state'].valid )
-        || (isFormSubmitted && !addressFormGroup.controls['zip'].valid)">
-            <ul>
-                <li [class]="errorClasses" *ngIf="isFormSubmitted  && !addressFormGroup.controls['state'].valid">State is required.</li>
-                <li [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['zip'].valid">Zip is required.</li>
-            </ul>
-        </div>
+      <p [class]="errorClasses" *ngIf= "isFormSubmitted && !addressFormGroup.controls['zip'].valid">Zip is required!</p>
     </div>
+  </div>
 </form>
