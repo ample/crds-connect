@@ -33,9 +33,9 @@ describe('Service: App Settings', () => {
       expect(service.leadershipApplicationType).toEqual(LeadershipApplicationType.ANYWHERE_HOST);
       expect(service.appRoute).toEqual('/');
       expect(service.placeholderTextForSearchBar).toEqual('Address...');
-      expect(service.myStuffName).toEqual('My Stuff');
+      expect(service.myStuffName).toEqual('My connections');
       expect(service.noSearchResultsContent).toEqual('noConnectSearchResults');
-      expect(service.myStuffNotFoundContent).toEqual('myStuffNotFound');
+      expect(service.myStuffNotFoundContent).toEqual('myConnectionsNotFound');
       expect(service.leaderTitle).toEqual('Host');
     }));
 
@@ -46,7 +46,7 @@ describe('Service: App Settings', () => {
       expect(service.leadershipApplicationType).toEqual(LeadershipApplicationType.GROUP_LEADER);
       expect(service.appRoute).toEqual('/groupsv2');
       expect(service.placeholderTextForSearchBar).toEqual('Keyword...');
-      expect(service.myStuffName).toEqual('My Groups');
+      expect(service.myStuffName).toEqual('My groups');
       expect(service.noSearchResultsContent).toEqual('noGroupsSearchResults');
       expect(service.myStuffNotFoundContent).toEqual('myGroupsNotFound');
       expect(service.leaderTitle).toEqual('Leader');
