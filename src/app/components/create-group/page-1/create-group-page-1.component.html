@@ -35,10 +35,9 @@
                         <crds-content-block id="finderCategoriesInvalid"></crds-content-block>
                     </div>
                 </div>
-                <div class="soft-ends">
-                    <hr>
-                    <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
-                </div>
+
+               <create-group-footer (cancelevent)="onCancel($event)" [showbackbutton]="false"></create-group-footer>
+                
             </form>
         </div>
     </div>
