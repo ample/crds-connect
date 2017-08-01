@@ -16,7 +16,7 @@ import { UserLocationService } from '../../services/user-location.service';
 import { MapFooterComponent } from './map-footer.component';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
-describe('MapFooterComponent', () => {
+fdescribe('MapFooterComponent', () => {
     class Angulartics2Stub {
         eventTrack = {
             next: jasmine.createSpy('next')
@@ -46,6 +46,7 @@ describe('MapFooterComponent', () => {
         mockState = new StateStub();
         mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToGettingStarted']);
+        // mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockAngulartics2 = new Angulartics2Stub();
 
         TestBed.configureTestingModule({
@@ -118,6 +119,7 @@ describe('MapFooterComponent', () => {
         expect(mockState.setIsMyStuffActive).toHaveBeenCalledWith(false);
         expect(mockState.lastSearch.search).toBe('');
         expect(mockState.setLoading).toHaveBeenCalledWith(true);
+        // expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
         expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
         expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
