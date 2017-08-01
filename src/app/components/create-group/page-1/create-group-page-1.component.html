@@ -37,7 +37,7 @@
                 value="{{category.categoryDetail}}"
                 [(ngModel)]="category.categoryDetail"
                 required>
-          <div class="alert alert-danger"
+          <div class="alert alert-danger flush-bottom"
                role="alert"
                [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
         </div>
