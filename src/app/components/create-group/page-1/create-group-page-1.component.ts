@@ -84,7 +84,6 @@ export class CreateGroupPage1Component implements OnInit {
     }
 
     public onCancel() {
-        console.log('oncancel click');
         this.router.navigate(['/']);
     }
 
