@@ -20,7 +20,7 @@ import { MockComponent } from '../../../shared/mock.component';
 
 import { CreateGroupPreviewComponent } from './create-group-preview.component';
 
-describe('CreateGroupPreviewComponent', () => {
+fdescribe('CreateGroupPreviewComponent', () => {
     let fixture: ComponentFixture<CreateGroupPreviewComponent>;
     let comp: CreateGroupPreviewComponent;
     let el;
@@ -98,7 +98,7 @@ describe('CreateGroupPreviewComponent', () => {
         (mockCreateGroupService.prepareForGroupSubmission).and.returnValue(mockCreateGroupService.group);
         (mockProfileService.postProfileData).and.returnValue(Observable.of({}));
         (mockGroupService.createParticipants).and.returnValue(Observable.of({}));
-        comp['createGroup']();
+        comp['onSubmit']();
         expect(mockGroupService.createGroup).toHaveBeenCalled();
         expect(mockParticipantService.getLoggedInUsersParticipantRecord).toHaveBeenCalled();
         expect(mockCreateGroupService.setParticipants).toHaveBeenCalled();
@@ -123,7 +123,7 @@ describe('CreateGroupPreviewComponent', () => {
         (mockGroupService.createGroup).and.returnValue(Observable.of(mockCreateGroupService.group));
         (mockProfileService.postProfileData).and.returnValue(Observable.of({}));
         (mockContentService.getContent).and.returnValue('stuff dont work');
-        comp['createGroup']();
+        comp['onSubmit']();
         expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();
         expect(mockToastr.success).not.toHaveBeenCalled();
         expect(mockToastr.error).toHaveBeenCalledWith('stuff dont work');
