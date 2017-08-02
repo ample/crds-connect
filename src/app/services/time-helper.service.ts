@@ -20,8 +20,6 @@ export class TimeHelperService {
     utcStringAsArray.splice(startOfHourSegmentIdx, lengthOfUtcHourSegment, adjustedHourSegment);
     let adjustedUtcString: string = utcStringAsArray.join('');
 
-    console.log(adjustedUtcString); //Here for testing
-
     return adjustedUtcString;
   }
 
