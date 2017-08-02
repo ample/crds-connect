@@ -1,7 +1,8 @@
 <div class="connect-container connect-layout-container">
+
   <div *ngIf="isMyStuffView()">
     <h2 class="title flush-top soft-top" *ngIf="isMyStuffView()">
-      <crds-content-block id="{{appSettings.myStuffName}}"></crds-content-block>
+      {{appSettings.myStuffName}}
     </h2>
     <hr>
   </div>

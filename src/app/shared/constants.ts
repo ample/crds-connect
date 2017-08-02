@@ -12,6 +12,18 @@ export class AwsMeetingTimeSearchStrings {
   }
 }
 
+export class TextConstants {
+  MY_GROUPS: string;
+  MY_CONNECTIONS: string;
+
+  constructor() {
+    this.MY_GROUPS = 'My Groups';
+    this.MY_CONNECTIONS = 'My Connections';
+  }
+}
+
+export const textConstants = new TextConstants();
+
 export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
 
 export class GroupMeetingTimeRanges {
@@ -123,7 +135,8 @@ export class AppType {
     this.Connect = 'CONNECT';
     this.Groups = 'SMALL_GROUPS';
   }
-};
+}
+
 export const appType: AppType = new AppType();
 
 export class AwsFieldNames {
