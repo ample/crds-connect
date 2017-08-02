@@ -26,7 +26,7 @@ export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
-  private pinsToMap: Pin[] ;
+  public pinsToMap: Pin[] ;
 
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
@@ -66,12 +66,12 @@ export class MapComponent implements OnInit {
     }
   }
 
-  public getPinsToMap(): Pin[] {
-    let rc = new Array<Pin>();
+  private getPinsToMap(): Pin[] {
+    let pinsWithAddresses = new Array<Pin>();
     if ( this.searchResults ) {
-      rc = this.searchResults.pinSearchResults.filter(x => x.address.addressId !==  null);
+      pinsWithAddresses = this.searchResults.pinSearchResults.filter(x => x.address.addressId !==  null);
     }
-    return rc;
+    return pinsWithAddresses;
   }
 
   private pinClicked(pin: Pin) {
