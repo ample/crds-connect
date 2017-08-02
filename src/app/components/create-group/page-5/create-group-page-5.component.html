@@ -8,21 +8,21 @@
     </div>
   </div>
 
-  <p class="control-label soft-top">Tell us what your group is all about</p>
+  <p><strong>Tell us what your group is all about.</strong></p>
 
   <form [formGroup]="groupDetailsForm" (ngSubmit)="onSubmit(groupDetailsForm)">
     <div>
-      <label class="control-label soft-top" for="groupName">Group name</label>
+      <label class="control-label soft-top soft-quarter-bottom" for="groupName">Group name</label>
       <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers" maxlength="35">
-      <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupName'].valid" class="soft-top">
+      <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupName'].valid">
         <div class="alert alert-danger">This field is required.</div>
       </div>
     </div>
 
     <div>
-      <label class="control-label soft-top" for="groupDescription">Group description</label>
-      <textarea id="groupDescription" class="form-control soft-ends" rows="6" maxLength="500" formControlName="groupDescription" [(ngModel)]="createGroupService.group.groupDescription" placeholder="Ex: This group is for men in their 30s who like to brew their own beer. We’ll meet regularly to come up with a new beer and brew it together, and share some beers while we build friendships. We’ll meet in Pleasant Ridge weekly in my home."></textarea>
-      <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupDescription'].valid" class="soft-top">
+      <label class="control-label soft-top soft-quarter-bottom" for="groupDescription">Group description</label>
+      <textarea id="groupDescription" class="form-control" rows="6" maxLength="500" formControlName="groupDescription" [(ngModel)]="createGroupService.group.groupDescription" placeholder="Ex: This group is for men in their 30s who like to brew their own beer. We’ll meet regularly to come up with a new beer and brew it together, and share some beers while we build friendships. We’ll meet in Pleasant Ridge weekly in my home."></textarea>
+      <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupDescription'].valid">
         <div class="alert alert-danger">This field is required.</div>
       </div>
     </div>
@@ -33,11 +33,11 @@
 
     <p class="control-label soft-top">Set your group to public or private</p>
 
-    <div *ngIf="createGroupService.group.availableOnline === false" class="alert-warning">
+    <div *ngIf="createGroupService.group.availableOnline === false" class="alert alert-warning">
       <crds-content-block id="groupToolPrivateGroupAlert" class="alert"></crds-content-block>
     </div>
 
-    <div class="btn-group btn-group-block soft-top">
+    <div class="btn-group btn-group-block">
       <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }" formControlName="availableOnline" value="true" (click)="onClick(true)" ngDefaultControl style="white-space: normal">
         <div class="row">
           <div class="text-left btn-group-label">
