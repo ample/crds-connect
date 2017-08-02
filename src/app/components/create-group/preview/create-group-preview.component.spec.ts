@@ -20,7 +20,7 @@ import { MockComponent } from '../../../shared/mock.component';
 
 import { CreateGroupPreviewComponent } from './create-group-preview.component';
 
-fdescribe('CreateGroupPreviewComponent', () => {
+describe('CreateGroupPreviewComponent', () => {
     let fixture: ComponentFixture<CreateGroupPreviewComponent>;
     let comp: CreateGroupPreviewComponent;
     let el;
