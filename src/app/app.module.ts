@@ -118,6 +118,7 @@ import { ProfileService } from './services/profile.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
+import { TimeHelperService } from './services/time-helper.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
@@ -272,6 +273,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SessionService,
     StateService,
     StoreService,
+    TimeHelperService,
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,
