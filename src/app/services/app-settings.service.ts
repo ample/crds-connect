@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { AppType, appType, LeadershipApplicationType } from '../shared/constants';
+import { AppType, appType, LeadershipApplicationType, textConstants } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
@@ -21,16 +21,16 @@ export class AppSettingsService {
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
         this.appRoute = '/';
         this.placeholderTextForSearchBar = 'Address...';
-        this.myStuffName = 'My Stuff';
+        this.myStuffName = textConstants.MY_CONNECTIONS;
         this.noSearchResultsContent = 'noConnectSearchResults';
-        this.myStuffNotFoundContent = 'myStuffNotFound';
+        this.myStuffNotFoundContent = 'myConnectionsNotFound';
         this.leaderTitle = 'Host';
         break;
       case appType.Groups:
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
         this.appRoute = '/groupsv2';
         this.placeholderTextForSearchBar = 'Keyword...';
-        this.myStuffName = 'My Groups';
+        this.myStuffName = textConstants.MY_GROUPS;
         this.noSearchResultsContent = 'noGroupsSearchResults';
         this.myStuffNotFoundContent = 'myGroupsNotFound';
         this.leaderTitle = 'Leader';
