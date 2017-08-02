@@ -134,7 +134,7 @@ describe('CreateGroupPreviewComponent', () => {
     });
 
     it('should go back', () => {
-        comp.back();
+        comp.onBack();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-6']);
     });
 });

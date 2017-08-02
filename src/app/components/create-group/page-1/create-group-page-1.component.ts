@@ -85,30 +85,10 @@ export class CreateGroupPage1Component implements OnInit {
 
     public onCancel() {
         console.log('oncancel click');
-
-      /*   this.swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then(function(isConfirm) {
-            if (isConfirm) {
-                swal(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-                );
-            }
-            }); */
-        
         this.router.navigate(['/']);
     }
 
-    public back() {
-        console.log('back clicked');
+    public onBack() {
         this.router.navigate(['/create-group']);
     }
 }
