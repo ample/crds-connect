@@ -26,6 +26,8 @@ export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
+  private pinsToMap: Pin[] ;
+
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
@@ -37,8 +39,12 @@ export class MapComponent implements OnInit {
               private session: SessionService) {}
 
   public ngOnInit(): void {
+
     let haveResults = !!this.searchResults;
     if (haveResults) {
+
+      this.pinsToMap = this.getPinsToMap();
+
       let lat = this.searchResults.centerLocation.lat;
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
@@ -58,6 +64,14 @@ export class MapComponent implements OnInit {
         this.mapSettings.zoom = priorMapView.zoom;
       }
     }
+  }
+
+  public getPinsToMap(): Pin[] {
+    let rc = new Array<Pin>();
+    if ( this.searchResults ) {
+      rc = this.searchResults.pinSearchResults.filter(x => x.address.addressId !==  null);
+    }
+    return rc;
   }
 
   private pinClicked(pin: Pin) {
