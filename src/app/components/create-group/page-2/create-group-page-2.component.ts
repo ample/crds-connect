@@ -54,7 +54,7 @@ export class CreateGroupPage2Component implements OnInit {
       });
 
       this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
-          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, true)
+          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
   }
 
   public onClick(scheduleType: string): void {
