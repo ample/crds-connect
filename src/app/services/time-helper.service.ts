@@ -1,6 +1,13 @@
 import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
+import { Pin } from '../models/pin';
+
+import * as moment from 'moment';
+
+const msInMinute: number = 60000;
+const minutesAddedInexplicably: number = 3;
+
 @Injectable()
 export class TimeHelperService {
 
@@ -54,5 +61,17 @@ export class TimeHelperService {
       hours = `0${hours}`;
     }
     return hours;
+  }
+
+  /*
+   * This is a hack to fix time preview being returned as the actual time in the model + 3 minutes
+   * Note that this is, and should, only be used in a function generating data for the view (not saved)
+   * ¯\_(ツ)_/¯
+   */
+  public hackTime(utcDate: string): any{
+    let momentJsTime: any = moment(utcDate, 'HH:mm A');
+    let timeAsDate: any = momentJsTime.toDate();
+    let meetingTime = new Date(timeAsDate - (minutesAddedInexplicably * msInMinute));
+    return meetingTime;
   }
 }

@@ -22,6 +22,7 @@ import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { MockComponent } from '../../../shared/mock.component';
 import { ListHelperService } from '../../../services/list-helper.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
 import { GroupRole } from '../../../shared/constants'
 
 function fakenext(param: any) { return 1; }
@@ -48,6 +49,7 @@ let mockToast;
 let mockContentService;
 let mockAddressService;
 let mockListHelperService;
+let mockTimeService;
 let mockAngulartics2;
 let mockRouter;
 
@@ -65,6 +67,7 @@ describe('Gathering component redirect error', () => {
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
+        mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
         mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
         mockAngulartics2 = new MockAngulartic();
         mockRouter = {
@@ -90,6 +93,7 @@ describe('Gathering component redirect error', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: ListHelperService, useValue: mockListHelperService },
+                { provide: TimeHelperService, useValue: mockTimeService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
                     provide: Router,
@@ -153,6 +157,7 @@ describe('GatheringComponent', () => {
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
         mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
+        mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
         mockAngulartics2 = new MockAngulartic();
         mockRouter = { url: 'abc123', routerState: { snapshot: { url: 'abc123' } }, navigate: jasmine.createSpy('navigate') };
 
@@ -174,6 +179,7 @@ describe('GatheringComponent', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: ContentService, useValue: mockContentService },
+                { provide: TimeHelperService, useValue: mockTimeService },
                 { provide: Angulartics2, useValue: mockAngulartics2 },
                 {
                     provide: Router,
