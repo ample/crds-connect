@@ -17,8 +17,8 @@ export class TextConstants {
   MY_CONNECTIONS: string;
 
   constructor() {
-    this.MY_GROUPS = 'My Groups';
-    this.MY_CONNECTIONS = 'My Connections';
+    this.MY_GROUPS = 'My groups';
+    this.MY_CONNECTIONS = 'My connections';
   }
 }
 
