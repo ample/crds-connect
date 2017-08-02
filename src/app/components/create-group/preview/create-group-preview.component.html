@@ -1,21 +1,17 @@
 <div class="connect-container connect-layout-container">
-  <div class="row soft-top">
-    <div class="col-sm-12 soft-top">
+  <div class="soft-ends">
+    <div class="soft-top">
       <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Preview</h3>
       <hr>
       <crds-content-block id="groupToolDetailPageAboutHeadingSubtext"></crds-content-block>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <gathering *ngIf="isComponentReady" [user]="smallGroupPin" [pin]="smallGroupPin" [isLoggedIn]="false" [isPinOwner]="false"
-        [previewMode]="true" [leaders]="leaders">
-      </gathering>
-      <div class="soft-ends">
-        <hr>
-        <button type="submit" (click)="createGroup()" class="btn btn-secondary btn-block-mobile pull-right">Submit Group</button>
-        <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
-      </div>
-    </div>
+  <gathering *ngIf="isComponentReady" [user]="smallGroupPin" [pin]="smallGroupPin" [isLoggedIn]="false" [isPinOwner]="false"
+    [previewMode]="true" [leaders]="leaders">
+  </gathering>
+  <div class="soft-ends">
+    <hr>
+    <button type="submit" (click)="createGroup()" class="btn btn-secondary btn-block-mobile pull-right">Submit Group</button>
+    <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
   </div>
 </div>
