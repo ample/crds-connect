@@ -31,7 +31,7 @@
 
       <div *ngIf="createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE" class="push-half-top custom-input">
         <select class="form-control" name="meetingDay" [(ngModel)]="createGroupService.group.meetingDayId" formControlName="meetingDay" (change)="onDayChange($event.target.value)">
-          <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day..</option>
+          <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day</option>
           <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
         </select>
         <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
