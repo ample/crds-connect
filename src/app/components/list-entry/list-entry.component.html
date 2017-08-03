@@ -66,8 +66,7 @@
       <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTime(pin.gathering.meetingTime) | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}}</span>
       <span *ngIf="pin?.gathering?.meetingDay == null">Flexible Meeting Time</span>
       <br>
-      <span *ngIf="address.addressId !== 0">({{pin?.proximity |  number : '1.2-2' }} MI)</span>
-      <span *ngIf="address.addressId === 0">Online Group</span>
+      <span>{{proximityInfo}}</span>
     </p>
 
     <dl class="media-description">
