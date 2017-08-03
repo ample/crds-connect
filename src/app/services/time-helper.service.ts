@@ -23,6 +23,16 @@ export class TimeHelperService {
     return adjustedUtcString;
   }
 
+    public getLocalTimeFromUtcStringOrDefault(meetingTimeUtc: string): Date {
+      if(!!meetingTimeUtc){
+        let utcStringAdjustedForTimeZone: string = this.adjustUtcStringToAccountForLocalOffSet(meetingTimeUtc, false);
+        let meetingTimeAsDate: Date = new Date(utcStringAdjustedForTimeZone);
+        return meetingTimeAsDate;
+      } else {
+        return new Date();
+      }
+    }
+
   private adjustHourSegmentForOffset(hours: number, localOffSetInHrs: number, isConvertingToLocal: boolean): number{
     let adjustedHours: number = undefined;
 
