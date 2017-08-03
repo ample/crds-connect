@@ -94,7 +94,7 @@ describe('Service: Filters ', () => {
       selectedTimeRanges[0].isSelected = true;
       selectedTimeRanges[1].isSelected = true;
 
-      let expectedAwsTimeRangeSearchString: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']  )`;
+      let expectedAwsTimeRangeSearchString: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']  )`;
       service.setFilterStringMeetingTimes(selectedTimeRanges);
       let actualAwsMeetingTimeRangesSearchString: string = service.filterStringMeetingTimes;
 

@@ -142,13 +142,12 @@ export class GatheringComponent implements OnInit {
 
   }
 
-  public getMeetingTime() {
+  public getMeetingTime(meetingTimeUtc: string) {
     // Sorry this is here. We don't need to do moment when we're doing create group :(
     if (!this.previewMode) {
-      let theTime = moment(this.pin.gathering.meetingTime, 'HH:mm A');
-      return theTime.toDate();
+      return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
     } else {
-      return this.timeHlpr.hackTime(this.pin.gathering.meetingTime);
+      return this.timeHlpr.hackTime(meetingTimeUtc);
     }
   }
 
