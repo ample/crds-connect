@@ -11,6 +11,7 @@ import { ListHelperService } from '../../services/list-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { TimeHelperService} from '../../services/time-helper.service';
 import { ParticipantService } from '../../services/participant.service';
 
 import { groupDescriptionLength } from '../../shared/constants';
@@ -49,7 +50,8 @@ export class ListEntryComponent implements OnInit {
               private router: Router,
               private state: StateService,
               private listHelper: ListHelperService,
-              private participantService: ParticipantService) {
+              private participantService: ParticipantService,
+              private timeHlpr: TimeHelperService) {
               this.currentContactId = this.session.getContactId();
   }
 
@@ -87,9 +89,8 @@ export class ListEntryComponent implements OnInit {
     return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
   }
 
-   public getMeetingTime() {
-    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
-    return theTime.toDate();
+   public getMeetingTime(meetingTimeUtc: string): Date {
+    return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
   }
 
   public isMySmallGroup() {
