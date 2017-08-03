@@ -1,7 +1,7 @@
 <div class="connect-container connect-layout-container" *ngIf="componentIsReady">
   <div class="pin-details-bg" [ngClass]="{ person: !appSettings.isSmallGroupApp() }">
     <div class="soft">
-      <div class="media">
+      <div class="media border-bottom push-half-bottom">
         <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="participant.contactId"></profile-picture>
         <div class="media-body">
           <h2 class="media-heading media-heading-stacked text-uppercase font-family-condensed-extra">
@@ -19,97 +19,89 @@
           </div>
         </div>
       </div>
-
       <button (click)="onRemoveParticipant()" class="btn btn-secondary">Remove Participant</button>
     </div>
   </div>
 
   <!-- START - Group Participant Role Changes - Group Specific -->
-    <div *ngIf="appSettings.isSmallGroupApp()">
-        <br>
-        <div>ROLE IN THE GROUP</div>
-        <hr>
-        <div class="btn-group btn-group-block">
-            <button type="button"
-                        class="btn btn-option btn-flex btn-outline"
-                        (click)="onSelectRole(GroupRole.MEMBER)"
-                        [class.active]="selectedRole === GroupRole.MEMBER">
-            <div class="row">
-                <div class="btn-group-label">
-                    <span class="btn-group-icons">
-                    <svg class="icon circle-thin" viewBox="0 0 256 256">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                    </svg>
+  <div *ngIf="appSettings.isSmallGroupApp()" class="soft-ends">
+    <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Role in the Group</h3>
+    <hr>
+    <div class="btn-group btn-group-block">
+      <button type="button"
+              class="btn btn-option btn-flex btn-outline"
+              (click)="onSelectRole(GroupRole.MEMBER)"
+              [class.active]="selectedRole === GroupRole.MEMBER">
+        <div class="row">
+          <div class="btn-group-label text-left">
+            <span class="btn-group-icons">
+              <svg class="icon circle-thin" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+              </svg>
 
-                    <svg class="icon check-circle" viewBox="0 0 256 256">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                    </svg>
-                    </span>
-                    Participant
-                </div>
-                <div></div>
-            </div>
-            </button>
-
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                <crds-content-block id="finderRoleParticipant"></crds-content-block>
-            </div>
-
-            <button type="button"
-                    class="btn btn-option btn-flex btn-outline"
-                    (click)="onSelectRole(GroupRole.LEADER)"
-                    [class.active]="selectedRole === GroupRole.LEADER"
-                    *ngIf="isParticipantApprovedLeader()">
-            <div class="row">
-                <div class="btn-group-label">
-                    <span class="btn-group-icons">
-                    <svg class="icon circle-thin" viewBox="0 0 256 256">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                    </svg>
-
-                    <svg class="icon check-circle" viewBox="0 0 256 256">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                    </svg>
-                    </span>
-                    Leader
-                </div>
-                <div></div>
-            </div>
-            </button>
-
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2" *ngIf="isParticipantApprovedLeader()">
-                <crds-content-block id="finderRoleLeader"></crds-content-block>
-            </div>
-
-            <button type="button"
-                    class="btn btn-option btn-flex btn-outline"
-                    (click)="onSelectRole(GroupRole.APPRENTICE)"
-                    [class.active]="selectedRole === GroupRole.APPRENTICE">
-            <div class="row">
-                <div class="btn-group-label">
-                    <span class="btn-group-icons">
-                    <svg class="icon circle-thin" viewBox="0 0 256 256">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                    </svg>
-
-                    <svg class="icon check-circle" viewBox="0 0 256 256">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                    </svg>
-                    </span>
-                    Apprentice
-                </div>
-                <div></div>
-            </div>
-            </button>
-
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                <crds-content-block id="finderRoleApprentice"></crds-content-block>
-            </div>
+              <svg class="icon check-circle" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+              </svg>
+            </span>Participant
+          </div>
         </div>
+      </button>
 
-        <div>
-            <a class="btn btn-primary" (click)="saveChanges()">Save Changes</a>
+      <div class="push-bottom push-half-top font-family-accent text-muted">
+        <crds-content-block id="finderRoleParticipant"></crds-content-block>
+      </div>
+
+      <button type="button"
+              class="btn btn-option btn-flex btn-outline"
+              (click)="onSelectRole(GroupRole.LEADER)"
+              [class.active]="selectedRole === GroupRole.LEADER"
+              *ngIf="isParticipantApprovedLeader()">
+        <div class="row">
+          <div class="btn-group-label text-left">
+            <span class="btn-group-icons">
+              <svg class="icon circle-thin" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+              </svg>
+
+              <svg class="icon check-circle" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+              </svg>
+            </span>Leader
+          </div>
         </div>
-    </div> <!-- END - Group Participant Role Changes - Group Specific -->
+      </button>
 
+      <div *ngIf="isParticipantApprovedLeader()" class="push-bottom push-half-top font-family-accent text-muted">
+        <crds-content-block id="finderRoleLeader"></crds-content-block>
+      </div>
+
+      <button type="button"
+              class="btn btn-option btn-flex btn-outline"
+              (click)="onSelectRole(GroupRole.APPRENTICE)"
+              [class.active]="selectedRole === GroupRole.APPRENTICE">
+        <div class="row">
+          <div class="btn-group-label text-left">
+            <span class="btn-group-icons">
+              <svg class="icon circle-thin" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+              </svg>
+
+              <svg class="icon check-circle" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+              </svg>
+            </span>Apprentice
+          </div>
+        </div>
+      </button>
+
+      <div class="push-half-top font-family-accent text-muted">
+        <crds-content-block id="finderRoleApprentice"></crds-content-block>
+      </div>
+    </div>
+
+    <div class="push-top">
+      <a class="btn btn-primary" (click)="saveChanges()">Save changes</a>
+    </div>
+  </div>
+  <!-- END - Group Participant Role Changes - Group Specific -->
 </div>
