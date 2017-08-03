@@ -44,6 +44,7 @@ export class ListEntryComponent implements OnInit {
   public isSmallGroup: boolean;
   public adjustedLeaderNames: string = '';
   public leaders: Participant[] = [];
+  public proximityInfo: string;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -65,6 +66,7 @@ export class ListEntryComponent implements OnInit {
       this.leaders = leaders;
       this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
     });
+    this.proximityInfo = this.getProximityDisplayString(this.pin);
   }
 
   public isMe() {
