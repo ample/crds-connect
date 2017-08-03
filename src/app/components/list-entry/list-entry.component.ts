@@ -90,7 +90,7 @@ export class ListEntryComponent implements OnInit {
   }
 
    public getMeetingTime(meetingTimeUtc: string): Date {
-    return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc);
+    return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
   }
 
   public isMySmallGroup() {
