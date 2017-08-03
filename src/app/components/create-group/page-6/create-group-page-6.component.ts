@@ -70,7 +70,7 @@ export class CreateGroupPage6Component implements OnInit {
         }
     }
 
-    public back(): void {
+    public onBack(): void {
         this.router.navigate([this.lastPage]);
     }
 }

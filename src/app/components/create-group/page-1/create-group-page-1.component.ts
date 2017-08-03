@@ -9,6 +9,7 @@ import { Category } from '../../../models/category';
 import { CreateGroupService } from '../create-group-data.service';
 import { StateService } from '../../../services/state.service';
 
+
 @Component({
     selector: 'create-group-page-1',
     templateUrl: './create-group-page-1.component.html',
@@ -81,7 +82,11 @@ export class CreateGroupPage1Component implements OnInit {
         }
     }
 
-    public back() {
+    public onCancel() {
+        this.router.navigate(['/']);
+    }
+
+    public onBack() {
         this.router.navigate(['/create-group']);
     }
 }
