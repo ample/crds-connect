@@ -15,7 +15,7 @@ export class CreateGroupPage5Component implements OnInit {
 
   private isComponentReady: boolean = false;
   private isSubmitted: boolean = false;
-  public groupVisibilityInvalid: boolean = true;
+  private groupVisibilityInvalid: boolean = true;
 
   constructor(private fb: FormBuilder,
     private state: StateService,
@@ -32,7 +32,7 @@ export class CreateGroupPage5Component implements OnInit {
     this.state.setLoading(false);
   }
 
-  private setGroupPrivacy(value: boolean): void {
+  public setGroupPrivacy(value: boolean): void {
     this.groupVisibilityInvalid = false;
     this.createGroupService.group.availableOnline = value;
   }

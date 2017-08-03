@@ -12,7 +12,7 @@ import { MockTestData } from '../../../shared/MockTestData';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage5Component } from './create-group-page-5.component';
 
-describe('CreateGroupPage5Component', () => {
+fdescribe('CreateGroupPage5Component', () => {
   let fixture: ComponentFixture<CreateGroupPage5Component>;
   let comp: CreateGroupPage5Component;
   let el;
@@ -60,7 +60,7 @@ describe('CreateGroupPage5Component', () => {
     comp.ngOnInit();
     expect(comp.groupDetailsForm.controls['groupName'].valid).toBe(false);
     expect(comp.groupDetailsForm.controls['groupDescription'].valid).toBe(false);
-    expect(comp.groupVisibilityInvalid).toBe(true);
+    expect(comp['groupVisibilityInvalid']).toBe(true);
   });
 
   it('setGroupPrivacy should set available online to true', () => {
