@@ -14,7 +14,8 @@ import { StateService } from '../../services/state.service';
 import { TimeHelperService} from '../../services/time-helper.service';
 import { ParticipantService } from '../../services/participant.service';
 
-import { groupDescriptionLength } from '../../shared/constants';
+import { groupDescriptionLength, textConstants, maxValidProximity,
+    desiredPrecisionForProximityNumber } from '../../shared/constants';
 import * as moment from 'moment';
 
 @Component({
@@ -145,5 +146,32 @@ export class ListEntryComponent implements OnInit {
       adjustedLeaderNames += adjustedName + (i === len - 1 ? '' : ', ');
     }
     return adjustedLeaderNames;
+  }
+
+  public getProximityDisplayString(pin: Pin): string {
+    let proximityOrDesignation: string;
+
+    let isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
+    let invalidAddress: boolean = !this.isAddressValid(pin.address);
+
+    if(isOnlineGroup) {
+      proximityOrDesignation = textConstants.ONLINE_GROUP;
+    } else if (invalidAddress) {
+      proximityOrDesignation = textConstants.INVALID_OR_MISSING_ADDRESS;
+    } else {
+      proximityOrDesignation = `(${pin.proximity.toFixed(desiredPrecisionForProximityNumber).toString()} MI)`;
+    }
+
+    return proximityOrDesignation;
+  }
+
+  public isAddressValid(add: Address): boolean {
+    if(!add) return false;
+
+    let isLatIvalid: boolean = add.latitude === null || add.latitude === undefined || add.latitude === 0;
+    let isLngInvalid: boolean = add.latitude === null || add.latitude === undefined || add.latitude === 0;
+
+    let isAddValid = !isLatIvalid && !isLngInvalid;
+    return isAddValid;
   }
 }
