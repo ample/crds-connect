@@ -8,7 +8,7 @@
                  [zoomControl]="mapSettings.zoomControl"
                  [streetViewControl]="false">
 
-  <sebm-google-map-marker *ngFor="let pin of searchResults?.pinSearchResults; let i = index"
+  <sebm-google-map-marker *ngFor="let pin of pinsToMap; let i = index"
                           [latitude]="pin.address.latitude"
                           [longitude]="pin.address.longitude"
                           [iconUrl] = "pin.iconUrl"

@@ -8,9 +8,21 @@ export class AwsMeetingTimeSearchStrings {
   constructor() {
     this.MORNINGS = "['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']";
     this.AFTERNOONS = "['0001-01-01T12:00:00Z', '0001-01-01T17:00:00Z']";
-    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']";
+    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']";
   }
 }
+
+export class TextConstants {
+  MY_GROUPS: string;
+  MY_CONNECTIONS: string;
+
+  constructor() {
+    this.MY_GROUPS = 'My groups';
+    this.MY_CONNECTIONS = 'My connections';
+  }
+}
+
+export const textConstants = new TextConstants();
 
 export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
 
@@ -123,7 +135,8 @@ export class AppType {
     this.Connect = 'CONNECT';
     this.Groups = 'SMALL_GROUPS';
   }
-};
+}
+
 export const appType: AppType = new AppType();
 
 export class AwsFieldNames {

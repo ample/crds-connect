@@ -22,8 +22,9 @@ export class CustomOptions extends ToastOptions {
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule  } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -93,6 +94,7 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
+import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
 import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
@@ -117,6 +119,7 @@ import { ProfileService } from './services/profile.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
+import { TimeHelperService } from './services/time-helper.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
@@ -162,6 +165,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SelectModule,
     ToastModule.forRoot(),
     TimepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
@@ -230,7 +234,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchLocalComponent,
     StuffNotFoundComponent,
     LeaderResourcesComponent,
-    GoogleMapClusterDirective
+    GoogleMapClusterDirective,
+    CreateGroupFooterComponent
   ],
   providers: [
     AddressService,
@@ -270,6 +275,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SessionService,
     StateService,
     StoreService,
+    TimeHelperService,
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,

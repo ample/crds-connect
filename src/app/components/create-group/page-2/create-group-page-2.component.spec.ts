@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { Group } from '../../../models';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
+
 import { MockComponent } from '../../../shared/mock.component';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage2Component } from './create-group-page-2.component';
@@ -45,6 +47,7 @@ describe('CreateGroupPage2Component', () => {
             ],
             providers: [
                 { provide: StateService, useValue: mockState },
+                TimeHelperService,
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
                 { provide: LookupService, useValue: mockLookupService },
@@ -117,11 +120,14 @@ describe('CreateGroupPage2Component', () => {
         expect(mockState.setLoading).toHaveBeenCalledTimes(2);
     });
 
-    it('should set the time to the default time if the time in the group service creation is null', () => {
+    it('should set the time to the default time if the time in the group service creation is null\'',
+      inject([TimeHelperService], (hlpr: TimeHelperService) => {
         comp['createGroupService']['meetingTime'] = null;
         comp['initializeGroupMeetingScheduleForm']();
-        expect(comp['createGroupService']['group']['meetingTime']).toEqual(defaultGroupMeetingTime);
-    });
+        expect(comp['createGroupService']['group']['meetingTime'])
+            .toEqual(hlpr.adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false));
+      })
+    );
 
     it('should update group model when meeting frequency is selected', () => {
         comp['meetingFrequencies'] = meetingFrequencies;
