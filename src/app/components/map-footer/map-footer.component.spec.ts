@@ -46,6 +46,7 @@ describe('MapFooterComponent', () => {
         mockState = new StateStub();
         mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['goToGettingStarted']);
+        mockRouter = jasmine.createSpy('navigate')
         mockAngulartics2 = new Angulartics2Stub();
 
         TestBed.configureTestingModule({
@@ -57,8 +58,13 @@ describe('MapFooterComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 {
-                    provide: Router,
-                    useValue: { routerState: { snapshot: { url: '/map-footer-component' } } },
+                  provide: Router,
+                  useValue: {
+                    navigate: mockRouter,
+                    routerState: {
+                      snapshot: { url: '/map-footer-component' }
+                    }
+                  },
                 },
                 { provide: StateService, useValue: mockState },
                 { provide: SessionService, useValue: mockSession },

@@ -17,7 +17,14 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppSettingsService } from './services/app-settings.service';
+import { PinService } from './services/pin.service';
+import { AddressService } from './services/address.service';
+import { LoginRedirectService } from './services/login-redirect.service';
+import { SiteAddressService } from './services/site-address.service';
+import { BlandPageService } from './services/bland-page.service';
+import { GoogleMapService } from './services/google-map.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { MapFooterComponent } from './components/map-footer/map-footer.component';
 
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
@@ -27,7 +34,8 @@ describe('App: CrdsConnect', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        HeaderComponent
+        HeaderComponent,
+        MapFooterComponent
       ],
       imports: [
         PreloaderModule,
@@ -49,6 +57,12 @@ describe('App: CrdsConnect', () => {
         ToastsManager,
         ToastOptions,
         AppSettingsService,
+        PinService,
+        AddressService,
+        LoginRedirectService,
+        SiteAddressService,
+        BlandPageService,
+        GoogleMapService,
         Location, {provide: LocationStrategy, useClass: PathLocationStrategy},
         {provide: APP_BASE_HREF, useValue: '/'}
       ]
