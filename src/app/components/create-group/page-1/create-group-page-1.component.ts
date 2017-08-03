@@ -71,7 +71,6 @@ export class CreateGroupPage1Component implements OnInit {
     }
 
     public onSubmit(form) {
-        console.log('onSubmit clicked');
         this.areCategoriesValid = this.createGroupService.validateCategories();
         this.isSubmitted = true;
         this.state.setLoading(true);
