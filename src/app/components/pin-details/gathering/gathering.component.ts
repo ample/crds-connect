@@ -134,9 +134,8 @@ export class GatheringComponent implements OnInit {
     }
   }
 
-  public onEditGroupClicked(groupId: number): void{
-    console.log(`Edit group clicked, groupId: ${groupId}`);
-    this.router.navigate([`edit-group/:${groupId}`]);
+  public onEditGroupClicked(groupId: number): void {
+    this.router.navigate([`edit-group/${groupId}`]);
   }
 
   private onContactLeaderClicked(): void {

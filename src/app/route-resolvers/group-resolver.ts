@@ -15,7 +15,7 @@ export class GroupResolver implements Resolve<any> {
   constructor(private session: SessionService) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Group> {
-    let groupId: number = route.params['id'];
+    let groupId: number = route.params['groupId'];
     let getGroupByIdUrl: string = `${this.baseUrl}api/v1.0.0/group/${groupId}`;
 
     return this.session.get(getGroupByIdUrl);

@@ -124,6 +124,7 @@ import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
+import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -247,6 +248,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CookieService,
     CreateGroupService,
     DetailedUserDataResolver,
+    GroupResolver,
     IPService,
     SiteAddressService,
     FilterService,
