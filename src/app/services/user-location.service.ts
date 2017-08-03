@@ -26,10 +26,6 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
   }
 
   public GetUserLocation(): Observable<any> {
-    let contactId = this.session.getContactId();
-    if ( !this.state.navigatedFromAddToMapComponent && super.isCachedForUser(contactId)) {
-      return Observable.of(super.getCache());
-    }
     let locObs = new Observable(observer => {
       if (this.session.isLoggedIn()) {
         let contactid: number = this.session.getContactId();
