@@ -98,7 +98,7 @@ describe('CreateGroupPage5Component', () => {
   });
 
   it('should go back', () => {
-    comp.back();
+    comp.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-4']);
   });
 

@@ -30,6 +30,23 @@ export class TimeHelperService {
     return adjustedUtcString;
   }
 
+  public getLocalTimeFromUtcStringOrDefault(meetingTimeUtc: string, doUseThreeMinHack: boolean): Date {
+
+    let meetingTimeAsDate: Date = new Date();
+
+    if(!!meetingTimeUtc){
+      let utcStringAdjustedForTimeZone: string = this.adjustUtcStringToAccountForLocalOffSet(meetingTimeUtc, false);
+      if(doUseThreeMinHack) {
+        meetingTimeAsDate = this.hackTime(utcStringAdjustedForTimeZone);
+      } else {
+        meetingTimeAsDate = new Date(utcStringAdjustedForTimeZone);
+      }
+    }
+
+    return meetingTimeAsDate;
+
+  }
+
   private adjustHourSegmentForOffset(hours: number, localOffSetInHrs: number, isConvertingToLocal: boolean): number{
     let adjustedHours: number = undefined;
 
@@ -69,10 +86,9 @@ export class TimeHelperService {
    * Was tested with edge times like 6:02PM - somehow that time does NOT incorrectly get pushed to 5:59
    * ¯\_(ツ)_/¯
    */
-  public hackTime(utcDate: string): any {
-    let momentJsTime: any = moment(utcDate, 'HH:mm A');
-    let timeAsDate: any = momentJsTime.toDate();
-    let meetingTime: any = new Date(timeAsDate - (minutesAddedInexplicably * msInMinute));
+  public hackTime(utcDate: string): Date {
+    let timeAsDate: any = new Date(utcDate);
+    let meetingTime: Date = new Date(timeAsDate - (minutesAddedInexplicably * msInMinute));
     return meetingTime;
   }
 }

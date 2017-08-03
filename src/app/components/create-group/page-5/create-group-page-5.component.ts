@@ -48,7 +48,7 @@ export class CreateGroupPage5Component implements OnInit {
     }
   }
 
-  public back(): void {
+  public onBack(): void {
     this.router.navigate(['/create-group/page-4']);
   }
 }
