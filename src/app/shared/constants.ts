@@ -12,6 +12,18 @@ export class AwsMeetingTimeSearchStrings {
   }
 }
 
+export class GroupPaths {
+  ADD: string;
+  EDIT: string;
+
+  constructor() {
+    this.ADD = 'edit-group';
+    this.EDIT = 'create-group';
+  }
+}
+
+export const groupPaths = new GroupPaths();
+
 export class TextConstants {
   MY_GROUPS: string;
   MY_CONNECTIONS: string;

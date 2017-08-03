@@ -27,6 +27,7 @@ export class CreateGroupPage1Component implements OnInit {
                 private content: ContentService) { }
 
     ngOnInit() {
+        this.setGroupPathInState();
         this.state.setLoading(true);
         this.state.setPageHeader('start a group', '/create-group');
         this.groupCategoryForm = new FormGroup({});
@@ -88,5 +89,11 @@ export class CreateGroupPage1Component implements OnInit {
 
     public onBack() {
         this.router.navigate(['/create-group']);
+    }
+
+    private setGroupPathInState(): void {
+      let pathWithParamsAndChildren: string = this.router.url;
+      let path: string = pathWithParamsAndChildren.split('/')[1];
+      this.state.setGroupPath(path);
     }
 }
