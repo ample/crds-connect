@@ -1,44 +1,38 @@
 <div class="connect-container connect-layout-container">
-    <div class="row soft-top">
-        <div class="col-sm-12 soft-top">
-            <p class="media-meta flush-bottom">STEP 1 OF 6</p>
-            <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Category</h3>
-            <hr>
-            <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
+  <div class="soft-top">
+      <div class="soft-top">
+        <p class="media-meta flush-bottom">STEP 1 OF 6</p>
+        <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Category</h3>
+        <hr>
+        <crds-content-block id="groupToolCreateGroupCategoryHelp"></crds-content-block>
+      </div>
+  </div>
+
+  <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
+    <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block soft-top">
+      <button type="button" class="btn btn-option btn-flex btn-outline" [id]="category.name" [ngClass]="{active: category.selected}" (click)="onSelect(category)" formControlName="{{category.name}}" value="{{category}}" ngDefaultControl>
+        <div class="text-left">{{ category.name }}</div>
+      </button>
+
+      <div class="soft-quarter-left flush-bottom help-block text-muted">
+        <p>{{category.desc}}</p>
+      </div>
+
+      <div *ngIf="category.selected" class="form-group">
+        <div class="custom-input">
+          <label class="sr-only" for="{{category.name}}-detail">{{category.name}}-detail</label>
+          <input class="form-control" name="{{category.name}}-detail" formControlName="{{category.name}}-detail" placeholder="{{category.exampleText}}" type="text" maxlength="25" value="{{category.categoryDetail}}" id="{{category.name}}-detail" [(ngModel)]="category.categoryDetail" required>
+          <div class="alert alert-danger flush-bottom" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
         </div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
-                <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block soft-top">
-                    <button type="button" class="btn btn-option btn-flex btn-outline" [id]="category.name" [ngClass]="{active: category.selected}"
-                        (click)="onSelect(category)" formControlName="{{category.name}}" value="{{category}}"
-                        ngDefaultControl>
 
-                        <div class="text-left">{{ category.name }}</div>
-                </button>
-                    <div class="help-block">
-                        <i>{{category.desc}}</i>
-                    </div>
-
-                    <div *ngIf="category.selected" class="form-group">
-                        <div class="input-group input-group-block input-group-left custom-input">
-                            <input type="text" class="form-control" placeholder="{{category.exampleText}}" id="{{category.name}}-detail" maxlength="25"
-                                value="{{category.categoryDetail}}" formControlName="{{category.name}}-detail" [(ngModel)]="category.categoryDetail"
-                                required>
-                        </div>
-                        <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
-                    </div>
-                </div>
-                <div class="soft-top" *ngIf="isSubmitted && !areCategoriesValid">
-                    <div class="alert alert-danger" role="alert">
-                        <crds-content-block id="finderCategoriesInvalid"></crds-content-block>
-                    </div>
-                </div>
-
-               <create-group-footer [showbackbutton]="false"></create-group-footer>
-                
-            </form>
-        </div>
+    <div class="soft-top" *ngIf="isSubmitted && !areCategoriesValid">
+      <div class="alert alert-danger" role="alert">
+        <crds-content-block id="finderCategoriesInvalid"></crds-content-block>
+      </div>
     </div>
+
+    <create-group-footer [showbackbutton]="false"></create-group-footer>
+  </form>
 </div>

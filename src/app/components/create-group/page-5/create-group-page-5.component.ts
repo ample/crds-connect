@@ -7,8 +7,9 @@ import { CreateGroupService } from '../create-group-data.service';
 
 
 @Component({
-  selector: 'create-group-page-5',
-  templateUrl: './create-group-page-5.component.html',
+    selector: 'create-group-page-5',
+    templateUrl: './create-group-page-5.component.html',
+    styles: ['.btn-group-block .row > div { width: 100%; }']
 })
 export class CreateGroupPage5Component implements OnInit {
   public groupDetailsForm: FormGroup;
