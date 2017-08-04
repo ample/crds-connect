@@ -17,7 +17,8 @@ import { MsgToLeader } from '../../models/msg-to-leader';
 
 @Component({
     selector: 'contact-leader',
-    templateUrl: 'contact-leader.component.html'
+    templateUrl: 'contact-leader.component.html',
+    styles: ['.fauxdal-wrapper { overflow-y: auto; }']
 })
 export class ContactLeaderComponent implements OnInit, AfterViewInit {
 
