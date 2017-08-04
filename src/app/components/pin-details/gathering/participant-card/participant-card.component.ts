@@ -1,5 +1,4 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { SessionService } from '../../../../services/session.service';

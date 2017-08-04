@@ -1,5 +1,4 @@
 import { Router } from '@angular/router';
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 

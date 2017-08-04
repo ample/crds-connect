@@ -2,7 +2,6 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitt
 import { FormsModule }   from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Angulartics2 } from 'angulartics2';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';

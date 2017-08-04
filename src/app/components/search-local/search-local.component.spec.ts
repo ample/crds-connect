@@ -1,43 +1,43 @@
-/* tslint:disable:no-unused-variable */
-
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { AnalyticsService } from '../../services/analytics.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { UserLocationService } from '../../services/user-location.service';
-import { MapComponent } from '../../components/map/map.component';
-import { SearchLocalComponent } from '../search-local/search-local.component';
-import { MapContentComponent } from '../../components/map-content/map-content.component';
-import { MapFooterComponent } from '../map-footer/map-footer.component';
-
-import { SessionService } from '../../services/session.service';
-import { StateService } from '../../services/state.service';
-import { GoogleMapService } from '../../services/google-map.service';
-import { Angulartics2 } from 'angulartics2';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MapSettings } from '../../models/map-settings';
-import { SearchService } from '../../services/search.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import { EventEmitter } from '@angular/core';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
-import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
+import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule, JsonpModule } from '@angular/http';
-import { IPService } from '../../services/ip.service';
-import { PinService } from '../../services/pin.service';
-import { SiteAddressService } from '../../services/site-address.service';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
+import { GoogleMapService } from '../../services/google-map.service';
+import { IPService } from '../../services/ip.service';
 import { LocationService } from '../../services/location.service';
-import { PinLabelService } from '../../services/pin-label.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
-import { EventEmitter } from '@angular/core';
+import { PinLabelService } from '../../services/pin-label.service';
+import { PinService } from '../../services/pin.service';
+import { SearchService } from '../../services/search.service';
+import { SessionService } from '../../services/session.service';
+import { SiteAddressService } from '../../services/site-address.service';
+import { StateService } from '../../services/state.service';
+import { UserLocationService } from '../../services/user-location.service';
+
+import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
+
+import { MapComponent } from '../../components/map/map.component';
+import { MapContentComponent } from '../../components/map-content/map-content.component';
+import { MapFooterComponent } from '../map-footer/map-footer.component';
+import { SearchLocalComponent } from '../search-local/search-local.component';
+import { MapSettings } from '../../models/map-settings';
 import { MapView } from '../../models/map-view';
-import { AppSettingsService } from '../../services/app-settings.service';
 
 describe('Component: SearchLocal', () => {
   let fixture: ComponentFixture<SearchLocalComponent>;
   let comp: SearchLocalComponent;
   let mockStateService,
     mockSessionService,
-    mockAngulartics2,
+    mockAnaltyics,
     mockUserLocationService,
     mockLocationService,
     mockSiteAddressService,
@@ -58,7 +58,7 @@ describe('Component: SearchLocal', () => {
   beforeEach(() => {
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setCurrentView', 'setMyViewOrWorldView', 'getCurrentView']);
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
-    mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['eventTrack']);
+    mockAnaltyics = jasmine.createSpyObj<AnalyticsService>('analytics', ['updateResultsPressed']);
     mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
     mockLocationService = jasmine.createSpyObj<LocationService>('locationService', ['getCurrentPosition']);
@@ -83,6 +83,7 @@ describe('Component: SearchLocal', () => {
         MapContentComponent,
         MapFooterComponent,
         GoogleMapClusterDirective,
+        // TODO: Components above this line should use mock component. Will reduce number of mocks all around.
         SearchLocalComponent
       ],
       imports: [
@@ -100,7 +101,7 @@ describe('Component: SearchLocal', () => {
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: StateService, useValue: mockStateService },
         { provide: SessionService, useValue: mockSessionService },
-        { provide: Angulartics2, useValue: mockAngulartics2 },
+        { provide: AnalyticsService, useValue: mockAnaltyics },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: GoogleMapsAPIWrapper, useValue: mockGoogleMapsAPIWrapper },

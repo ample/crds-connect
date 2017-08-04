@@ -1,5 +1,4 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { Angulartics2 } from 'angulartics2';
 
 import { FilterService } from '../../../services/filter.service';
 
@@ -13,7 +12,7 @@ export class OnlineOrPhysicalGroupComponent {
   public isAnOptionSelected: boolean = false;
 
   constructor( private filterService: FilterService) { }
-  
+
   public isVirtualGroupOptionClicked(isVirtualGroup: boolean): void {
     this.isAnOptionSelected = true;
     this.isVirtualGroup = isVirtualGroup;

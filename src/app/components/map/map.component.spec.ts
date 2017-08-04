@@ -1,3 +1,4 @@
+import { AnalyticsService } from '../../services/analytics.service';
 import { Observable } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 /* tslint:disable:no-unused-variable */
@@ -16,7 +17,6 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
-import { Angulartics2 } from 'angulartics2';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -41,7 +41,7 @@ describe('Component: Map', () => {
         mockStateService,
         mockSessionService,
         mockCookieService,
-        mockAngulartics2,
+        mockAnalytics,
         mockLoginRedirectService,
         mockBlandPageService,
         mockIPService,
@@ -60,7 +60,7 @@ describe('Component: Map', () => {
         mockStateService = jasmine.createSpyObj<StateService>('googleMapService', ['constructor']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
         mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-        mockAngulartics2 = jasmine.createSpyObj<Angulartics2>('angulartics2', ['constructor']);
+        mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['constructor']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['constructor']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
         mockIPService = jasmine.createSpyObj<IPService>('ipService', ['constructor']);
@@ -90,7 +90,7 @@ describe('Component: Map', () => {
         { provide: StateService, useValue: mockStateService },
         { provide: SessionService, useValue: mockSessionService },
         { provide: CookieService, useValue: mockCookieService },
-        { provide: Angulartics2, useValue: mockAngulartics2 },
+        { provide: AnalyticsService, useValue: mockAnalytics },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: IPService, useValue: mockIPService },
