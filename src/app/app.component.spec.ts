@@ -1,3 +1,4 @@
+import { AnalyticsService } from './services/analytics.service';
 /* tslint:disable:no-unused-variable */
 import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
@@ -29,8 +30,10 @@ import { MapFooterComponent } from './components/map-footer/map-footer.component
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let mockAnalytics;
 
   beforeEach(async(() => {
+    mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['myStuff']);
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -50,6 +53,8 @@ describe('App: CrdsConnect', () => {
         CookieService,
         StateService,
         ContentService,
+        { provide: AnalyticsService, useValue: mockAnalytics },
+        // TODO: The angulartics modules should probably be mocked so they don't cause a page view to be logged.
         Angulartics2,
         Angulartics2GoogleTagManager,
         Angulartics2GoogleAnalytics,
