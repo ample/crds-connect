@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 
-
 @Component({
   selector: 'create-group-page-5',
   templateUrl: './create-group-page-5.component.html',
