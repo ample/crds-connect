@@ -1,8 +1,7 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
 import { FilterService } from '../../../services/filter.service';
-import { SimpleSelectable } from "../../../models/simple-selectable";
+import { SimpleSelectable } from '../../../models/simple-selectable';
 import { meetingFrequencyNames } from '../../../shared/constants';
 
 @Component({

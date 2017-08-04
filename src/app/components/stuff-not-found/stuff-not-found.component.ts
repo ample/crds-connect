@@ -1,5 +1,4 @@
 import { StateService } from '../../services/state.service';
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
