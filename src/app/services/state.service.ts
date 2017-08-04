@@ -35,7 +35,7 @@ export class StateService {
   public searchBarText: string;
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
-  private groupPath: string;
+  private activeGroupPath: string;
 
   private mapOrListView: string = 'map';
   private showingPinCount: number = 10;
@@ -75,12 +75,12 @@ export class StateService {
   }
 
 
-  public setGroupPath(path: string): void {
-    this.groupPath = path;
+  public setActiveGroupPath(path: string): void {
+    this.activeGroupPath = path;
   }
 
-  public getGroupPath(): string {
-    return this.groupPath;
+  public getActiveGroupPath(): string {
+    return this.activeGroupPath;
   }
 
   public setIsFilterDialogOpen(val: boolean) {

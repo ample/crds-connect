@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { Category } from '../../../models/category';
+import { GroupService} from '../../../services/group.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { StateService } from '../../../services/state.service';
+
+import { GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
 
 
 @Component({
@@ -19,12 +22,15 @@ export class CreateGroupPage1Component implements OnInit {
     private isSubmitted: boolean = false;
     private areCategoriesValid: boolean = false;
 
-    constructor(private state: StateService,
-                private createGroupService: CreateGroupService,
-                private router: Router,
-                private locationService: Location,
-                private toast: ToastsManager,
-                private content: ContentService) { }
+    constructor(
+        private content: ContentService,
+        private createGroupService: CreateGroupService,
+        private groupService: GroupService,
+        private locationService: Location,
+        private route: ActivatedRoute,
+        private router: Router,
+        private state: StateService,
+        private toast: ToastsManager){ }
 
     ngOnInit() {
         this.setGroupPathInState();
@@ -38,6 +44,7 @@ export class CreateGroupPage1Component implements OnInit {
         .subscribe(cats => {
             this.initializeCategories(cats);
         });
+        this.createGroupService.group = this.route.snapshot.data['group'];
     }
 
     private initializeCategories(categories): void {
@@ -71,13 +78,13 @@ export class CreateGroupPage1Component implements OnInit {
         }
     }
 
-    public onSubmit(form) {
+    public onSubmit(form, inEditOrCreateMode: string) {
         this.areCategoriesValid = this.createGroupService.validateCategories();
         this.isSubmitted = true;
         this.state.setLoading(true);
         if (form.valid && this.areCategoriesValid) {
             this.createGroupService.addSelectedCategoriesToGroupModel();
-            this.router.navigate(['/create-group/page-2']);
+            this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath());
         } else {
             this.state.setLoading(false);
         }
@@ -94,6 +101,6 @@ export class CreateGroupPage1Component implements OnInit {
     private setGroupPathInState(): void {
       let pathWithParamsAndChildren: string = this.router.url;
       let path: string = pathWithParamsAndChildren.split('/')[1];
-      this.state.setGroupPath(path);
+      this.state.setActiveGroupPath(path);
     }
 }

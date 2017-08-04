@@ -22,6 +22,15 @@ export class GroupPaths {
   }
 }
 
+export enum GroupPageNumber {
+  ONE = 1,
+  TWO,
+  THREEt,
+  FOUR,
+  FIVE,
+  SIX
+}
+
 export const groupPaths = new GroupPaths();
 
 export class TextConstants {

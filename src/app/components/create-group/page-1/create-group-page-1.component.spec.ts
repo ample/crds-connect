@@ -4,41 +4,60 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
+import { CreateGroupPage1Component } from './create-group-page-1.component';
+import { CreateGroupService } from '../create-group-data.service';
+import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { MockTestData } from '../../../shared/MockTestData';
-import { CreateGroupPage1Component } from './create-group-page-1.component';
-import { CreateGroupService } from '../create-group-data.service';
+
+import { Group } from '../../../models/group';
+
+import { GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
 
 describe('CreateGroupPage1Component', () => {
     let fixture: ComponentFixture<CreateGroupPage1Component>;
     let comp: CreateGroupPage1Component;
     let el;
-    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService, mockToastsManager, mockContentService;
+    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService,
+        mockToastsManager, mockGroupService, mockContentService, mockRoute;
     let categories;
 
     beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
                                                      'validateCategories', 'addSelectedCategoriesToGroupModel']);
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         categories = MockTestData.getSomeCategories();
         (mockCreateGroupService.initializePageOne).and.returnValue(Observable.of(categories));
+        mockRouter = {
+            url: '/groupsv2/create-group/page-1', routerState:
+            { snapshot:
+                { url: '/groupsv2/create-group/page-1',
+                  data: {group: Observable.of(Group.overload_Constructor_CreateGroup(123))}}
+            }, navigate: jasmine.createSpy('navigate')
+        };
         TestBed.configureTestingModule({
             declarations: [
                 CreateGroupPage1Component
             ],
             providers: [
+                {
+                    provide: ActivatedRoute,
+                    useValue: { snapshot: { data: { group: Group.overload_Constructor_CreateGroup(123) } } },
+                },
                 { provide: StateService, useValue: mockStateService },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
+                { provide: GroupService, useValue: mockGroupService },
                 { provide: Router, useValue: mockRouter },
                 { provide: Location, useValue: mockLocationService },
                 { provide: ToastsManager, useValue: mockToastsManager },
@@ -113,10 +132,9 @@ describe('CreateGroupPage1Component', () => {
         (mockCreateGroupService.validateCategories).and.returnValue(true);
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
-        comp.onSubmit(comp.groupCategoryForm);
+        comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
         expect(comp['isSubmitted']).toBeTruthy();
         expect(comp['areCategoriesValid']).toBeTruthy();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-2']);
         expect(mockCreateGroupService.validateCategories).toHaveBeenCalled();
         expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).toHaveBeenCalled();
     });
@@ -126,7 +144,7 @@ describe('CreateGroupPage1Component', () => {
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
         comp.onSelect(categories[0]);
-        comp.onSubmit(comp.groupCategoryForm);
+        comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
         expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
 
     });
