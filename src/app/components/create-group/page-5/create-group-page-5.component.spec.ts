@@ -12,7 +12,7 @@ import { MockTestData } from '../../../shared/MockTestData';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage5Component } from './create-group-page-5.component';
 
-fdescribe('CreateGroupPage5Component', () => {
+describe('CreateGroupPage5Component', () => {
   let fixture: ComponentFixture<CreateGroupPage5Component>;
   let comp: CreateGroupPage5Component;
   let el;
