@@ -97,6 +97,7 @@ import { RemovePersonPinComponent } from './components/pin-details/person/remove
 
 import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
+import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
@@ -238,6 +239,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AddressService,
     AppSettingsService,
     appRoutingProviders,
+    AnalyticsService,
     BlandPageGuard,
     BlandPageService,
     ContentService,

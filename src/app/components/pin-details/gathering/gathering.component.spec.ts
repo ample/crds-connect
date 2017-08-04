@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { Angulartics2 } from 'angulartics2';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockTestData } from '../../../shared/MockTestData';
@@ -10,6 +9,7 @@ import { GatheringComponent } from './gathering.component';
 
 import { Pin, Address, Group, Participant, BlandPageCause, BlandPageDetails, BlandPageType } from '../../../models';
 
+import { AnalyticsService } from '../../../services/analytics.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
@@ -22,17 +22,8 @@ import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { MockComponent } from '../../../shared/mock.component';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { GroupRole } from '../../../shared/constants'
+import { GroupRole } from '../../../shared/constants';
 
-function fakenext(param: any) { return 1; }
-
-class MockEventTrack {
-    next = fakenext;
-}
-
-class MockAngulartic {
-    eventTrack = new MockEventTrack();
-};
 
 let fixture: ComponentFixture<GatheringComponent>;
 let comp: GatheringComponent;
@@ -48,7 +39,7 @@ let mockToast;
 let mockContentService;
 let mockAddressService;
 let mockListHelperService;
-let mockAngulartics2;
+let mockAnalytics;
 let mockRouter;
 
 describe('Gathering component redirect error', () => {
@@ -66,7 +57,7 @@ describe('Gathering component redirect error', () => {
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
         mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
-        mockAngulartics2 = new MockAngulartic();
+        mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analtyics', ['joinGathering', 'joinGroup']);
         mockRouter = {
             url: '/connect/gathering/1234', routerState:
                 { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
@@ -90,7 +81,7 @@ describe('Gathering component redirect error', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ContentService, useValue: mockContentService },
                 { provide: ListHelperService, useValue: mockListHelperService },
-                { provide: Angulartics2, useValue: mockAngulartics2 },
+                { provide: AnalyticsService, useValue: mockAnalytics },
                 {
                     provide: Router,
                     useValue: mockRouter
@@ -153,7 +144,7 @@ describe('GatheringComponent', () => {
         mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
         mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
         mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
-        mockAngulartics2 = new MockAngulartic();
+        mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['joinGroup', 'joinGathering']);
         mockRouter = { url: 'abc123', routerState: { snapshot: { url: 'abc123' } }, navigate: jasmine.createSpy('navigate') };
 
         TestBed.configureTestingModule({
@@ -174,7 +165,7 @@ describe('GatheringComponent', () => {
                 { provide: AddressService, useValue: mockAddressService },
                 { provide: ListHelperService, useValue: mockListHelperService },
                 { provide: ContentService, useValue: mockContentService },
-                { provide: Angulartics2, useValue: mockAngulartics2 },
+                { provide: AnalyticsService, useValue: mockAnalytics },
                 {
                     provide: Router,
                     useValue: mockRouter
@@ -260,7 +251,7 @@ describe('GatheringComponent', () => {
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('abc123', jasmine.any(Function));
     });
 
-    it('should succeed while requesting to join', () => {
+    it('should succeed while requesting to join gathering', () => {
         comp.isLoggedIn = true;
         mockSessionService.isLoggedIn.and.returnValue(true);
         (<jasmine.Spy>mockAppSettingsService.isConnectApp).and.returnValue(true);
@@ -277,6 +268,30 @@ describe('GatheringComponent', () => {
 
 
         comp.requestToJoin();
+        expect(mockAnalytics.joinGathering).toHaveBeenCalled();
+        expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
+        expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
+        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);
+    });
+
+    it('should succeed while requesting to join group', () => {
+        comp.isLoggedIn = true;
+        mockSessionService.isLoggedIn.and.returnValue(true);
+        (<jasmine.Spy>mockAppSettingsService.isConnectApp).and.returnValue(false);
+        let pin = MockTestData.getAPin(1);
+        let expectedBPD = new BlandPageDetails(
+            'Return to map',
+            'finderGroupJoinRequestSent',
+            BlandPageType.ContentBlock,
+            BlandPageCause.Success,
+            ''
+        );
+        (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.of([{}]));
+        comp.pin = pin;
+
+
+        comp.requestToJoin();
+        expect(mockAnalytics.joinGroup).toHaveBeenCalled();
         expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
         expect(<jasmine.Spy>mockPinService.requestToJoinGathering).toHaveBeenCalledWith(pin.gathering.groupId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBPD);

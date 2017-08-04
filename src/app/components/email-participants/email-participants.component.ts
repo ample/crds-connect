@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { Angulartics2 } from 'angulartics2';
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({

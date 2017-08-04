@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit } from '@angular/core';
 
 import { Category } from '../../../models/category';

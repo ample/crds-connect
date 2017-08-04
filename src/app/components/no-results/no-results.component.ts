@@ -1,5 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
-
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 

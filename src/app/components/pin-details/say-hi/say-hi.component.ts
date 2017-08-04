@@ -1,17 +1,16 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { PinService } from '../../../services/pin.service';
+import { AnalyticsService } from '../../../services/analytics.service';
+import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
+import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
-import { BlandPageService } from '../../../services/bland-page.service';
 
-
+import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 import { Pin } from '../../../models/pin';
 import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
 
 @Component({
   selector: 'say-hi',
@@ -34,7 +33,7 @@ export class SayHiComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private blandPageService: BlandPageService,
-    private angulartics2: Angulartics2) { }
+    private analytics: AnalyticsService) { }
 
   // TODO: Rename methods?
   ngOnInit() {
@@ -42,7 +41,7 @@ export class SayHiComponent implements OnInit {
   }
 
   public sayHi() {
-    this.angulartics2.eventTrack.next({ action: this.buttonText + ' Button Click', properties: { category: 'Connect' }});
+    this.analytics.sayHiButtonPressed(`${this.buttonText} Button Click`, 'Connect');
     if (!this.isLoggedIn) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.getUserDetailsThenSayHi);
     } else {

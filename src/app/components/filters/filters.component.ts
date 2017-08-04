@@ -1,5 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
-
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';

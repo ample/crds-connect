@@ -1,13 +1,14 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { AppSettingsService } from '../../services/app-settings.service';
+import { BlandPageService } from '../../services/bland-page.service';
 import { PinService } from '../../services/pin.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
-import { BlandPageService } from '../../services/bland-page.service';
+
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
@@ -29,7 +30,7 @@ export class MapFooterComponent implements OnInit {
               private state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
-              private angulartics2: Angulartics2) { }
+              private analytics: AnalyticsService) { }
 
   public ngOnInit() {
     this.redirectThenChangeToMyStuff = this.redirectThenChangeToMyStuff.bind(this);
@@ -41,8 +42,7 @@ export class MapFooterComponent implements OnInit {
   }
 
   public myStuffBtnClicked(): void {
-
-    this.angulartics2.eventTrack.next({ action: 'myStuff Button Click', properties: { category: 'Connect' }});
+    this.appSettings.isConnectApp() ? this.analytics.myConnections() : this.analytics.myGroups();
 
     if (this.state.myStuffActive) {
       this.changeStateToAllResults();
