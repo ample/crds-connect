@@ -94,12 +94,38 @@ describe('Service: Filters ', () => {
       selectedTimeRanges[0].isSelected = true;
       selectedTimeRanges[1].isSelected = true;
 
-      let expectedAwsTimeRangeSearchString: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']  )`;
+      let expectedAwsTimeRangeSearchString: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']  )`;
       service.setFilterStringMeetingTimes(selectedTimeRanges);
       let actualAwsMeetingTimeRangesSearchString: string = service.filterStringMeetingTimes;
 
       expect(actualAwsMeetingTimeRangesSearchString).toEqual(expectedAwsTimeRangeSearchString);
 
+    }));
+
+    it('should not return and empty filter after change',
+      inject([FilterService], (service: any) => {
+
+      let selectedTimeRanges: SimpleSelectable[] = [new SimpleSelectable(groupMeetingTimeRanges.MORNINGS),
+                                                  new SimpleSelectable(groupMeetingTimeRanges.EVENINGS)];
+      selectedTimeRanges[0].isSelected = true;
+      selectedTimeRanges[1].isSelected = true;
+
+      let selectedFreq: SimpleSelectable[] = [new SimpleSelectable(meetingFrequencyNames.BI_WEEKLY)];
+      selectedFreq[0].isSelected = true;
+
+      let expectedstring1: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']  ) (or groupmeetingfrequency: 'Every Other Week'  )`;
+      service.setFilterStringMeetingTimes(selectedTimeRanges);
+      let actualAwsMeetingTimeRangesSearchString: string = service.filterStringMeetingTimes;
+
+      service.setFilterStringMeetingFrequencies(selectedFreq);
+      let rc = service.buildFilters();
+      expect(rc).toEqual(expectedstring1);
+
+      selectedFreq[0].isSelected = false;
+      service.setFilterStringMeetingFrequencies(selectedFreq);
+      rc = service.buildFilters();
+      let expectedstring2: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']  )`;
+      expect(rc).toEqual(expectedstring2);
     }));
 
     xit('should return a valid search string for a single meeting frequency',

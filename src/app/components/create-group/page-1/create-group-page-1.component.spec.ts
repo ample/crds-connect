@@ -132,7 +132,7 @@ describe('CreateGroupPage1Component', () => {
     });
 
     it('should go back()', () => {
-        comp.back();
+        comp.onBack();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group']);
     });
 });

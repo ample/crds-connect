@@ -61,7 +61,7 @@ describe('AddressService', () => {
             });
         }));
 
-        it('should  get full group address without cache',
+    it('should  get full group address without cache',
         inject([AddressService], (addressService: AddressService) => {
             let address: Address = MockTestData.getAnAddress(5);
 

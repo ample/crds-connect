@@ -6,12 +6,12 @@
       <crds-content-block id="groupToolDetailPageAboutHeadingSubtext"></crds-content-block>
     </div>
   </div>
+
   <gathering *ngIf="isComponentReady" [user]="smallGroupPin" [pin]="smallGroupPin" [isLoggedIn]="false" [isPinOwner]="false"
     [previewMode]="true" [leaders]="leaders">
   </gathering>
-  <div class="soft-ends">
-    <hr>
-    <button type="submit" (click)="createGroup()" class="btn btn-secondary btn-block-mobile pull-right">Submit Group</button>
-    <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
-  </div>
+
+  <form (ngSubmit)="onSubmit()">
+    <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
+  </form>
 </div>

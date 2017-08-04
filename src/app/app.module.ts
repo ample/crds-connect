@@ -94,6 +94,7 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
+import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
 import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
@@ -118,6 +119,7 @@ import { ProfileService } from './services/profile.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
+import { TimeHelperService } from './services/time-helper.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
@@ -232,7 +234,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchLocalComponent,
     StuffNotFoundComponent,
     LeaderResourcesComponent,
-    GoogleMapClusterDirective
+    GoogleMapClusterDirective,
+    CreateGroupFooterComponent
   ],
   providers: [
     AddressService,
@@ -272,6 +275,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SessionService,
     StateService,
     StoreService,
+    TimeHelperService,
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,

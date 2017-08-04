@@ -44,10 +44,11 @@
 }
 
 .gathering-description {
-  padding-top: 1rem;
-  word-wrap: break-word;
+  color: rgba($cr-white, .8);
   overflow-wrap: break-word;
+  padding-top: 1rem;
   white-space: normal;
+  word-wrap: break-word;
 }
 
 dl {
@@ -55,7 +56,7 @@ dl {
     font-size: $font-size-small;
 
     dt {
-      color: $cr-gray-darker;
+      color: $cr-gray-dark;
       font-weight: 400;
 
       &:not(:first-child) {
@@ -64,7 +65,7 @@ dl {
     }
 
     dd {
-      color: $cr-gray-dark;
+      color: $cr-gray;
     }
   }
 }

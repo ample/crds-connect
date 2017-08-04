@@ -19,6 +19,8 @@ import { ParticipantService } from '../../../services/participant.service';
 import { AddressService } from '../../../services/address.service';
 import { ListHelperService } from '../../../services/list-helper.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
+
 import { groupDescriptionLengthDetails } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
@@ -60,6 +62,7 @@ export class GatheringComponent implements OnInit {
     private addressService: AddressService,
     private listHelperService: ListHelperService,
     private content: ContentService,
+    private timeHlpr: TimeHelperService,
     private angulartics2: Angulartics2,
     public appSettingsService: AppSettingsService) { }
 
@@ -139,13 +142,12 @@ export class GatheringComponent implements OnInit {
 
   }
 
-  public getMeetingTime() {
+  public getMeetingTime(meetingTimeUtc: string) {
     // Sorry this is here. We don't need to do moment when we're doing create group :(
     if (!this.previewMode) {
-      let theTime = moment(this.pin.gathering.meetingTime, 'HH:mm A');
-      return theTime.toDate();
+      return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
     } else {
-      return this.pin.gathering.meetingTime;
+      return this.timeHlpr.hackTime(meetingTimeUtc);
     }
   }
 

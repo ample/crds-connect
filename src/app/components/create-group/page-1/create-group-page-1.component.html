@@ -10,14 +10,7 @@
 
   <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
     <div *ngFor="let category of createGroupService.categories" class="btn-group btn-group-block soft-top">
-      <button type="button"
-              class="btn btn-option btn-flex btn-outline"
-              [id]="category.name"
-              [ngClass]="{active: category.selected}"
-              (click)="onSelect(category)"
-              formControlName="{{category.name}}"
-              value="{{category}}"
-              ngDefaultControl>
+      <button type="button" class="btn btn-option btn-flex btn-outline" [id]="category.name" [ngClass]="{active: category.selected}" (click)="onSelect(category)" formControlName="{{category.name}}" value="{{category}}" ngDefaultControl>
         <div class="text-left">{{ category.name }}</div>
       </button>
 
@@ -28,18 +21,8 @@
       <div *ngIf="category.selected" class="form-group">
         <div class="custom-input">
           <label class="sr-only" for="{{category.name}}-detail">{{category.name}}-detail</label>
-          <input class="form-control"
-                name="{{category.name}}-detail"
-                formControlName="{{category.name}}-detail"
-                placeholder="{{category.exampleText}}"
-                type="text"
-                maxlength="25"
-                value="{{category.categoryDetail}}"
-                [(ngModel)]="category.categoryDetail"
-                required>
-          <div class="alert alert-danger flush-bottom"
-               role="alert"
-               [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
+          <input class="form-control" name="{{category.name}}-detail" formControlName="{{category.name}}-detail" placeholder="{{category.exampleText}}" type="text" maxlength="25" value="{{category.categoryDetail}}" id="{{category.name}}-detail" [(ngModel)]="category.categoryDetail" required>
+          <div class="alert alert-danger flush-bottom" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
         </div>
       </div>
     </div>
@@ -50,9 +33,6 @@
       </div>
     </div>
 
-    <div class="soft-ends clearfix">
-      <hr>
-      <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
-    </div>
+    <create-group-footer [showbackbutton]="false"></create-group-footer>
   </form>
 </div>

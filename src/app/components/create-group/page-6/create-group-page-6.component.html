@@ -85,11 +85,7 @@
           </ul>
         </div>
 
-        <div class="soft-ends">
-          <hr>
-          <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Preview Your Group</button>
-          <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
-        </div>
+        <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
       </div>
     </form>
   </div>

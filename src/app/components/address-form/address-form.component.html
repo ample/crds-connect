@@ -67,7 +67,7 @@
     <div class="form-group col-xs-6" [formGroupName]="groupName">
       <label class="sr-only" for="zip">Zip Code</label>
       <input type="tel"
-             onlyTheseKeys="[0-9]"
+             onlyTheseKeys="[0-9\-]"
              class="form-control"
              maxlength="10"
              placeholder="Zip Code"
@@ -79,5 +79,7 @@
 
       <p [class]="errorClasses" *ngIf= "isFormSubmitted && !addressFormGroup.controls['zip'].valid">Zip is required!</p>
     </div>
+
+
   </div>
 </form>

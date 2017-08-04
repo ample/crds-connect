@@ -31,7 +31,7 @@ export class StateService {
   public pageHeader: Object = { routerLink: null, title: null };
   public postedPin: Pin;
   public removedSelf: boolean = false;
-  public savedMapView: MapView;
+  private savedMapView: MapView;
   public searchBarText: string;
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
@@ -62,6 +62,10 @@ export class StateService {
   }
 
   public setMapView(mv: MapView) {
+    if ( this.isMapViewSet() && mv.lat === 0 && mv.lng === 0) {
+      mv.lat = this.savedMapView.lat;
+      mv.lng = this.savedMapView.lng;
+    }
     this.savedMapView = mv;
   }
 

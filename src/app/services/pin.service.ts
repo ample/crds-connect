@@ -105,10 +105,9 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       }
     }
     let corsFriendlyGeoCodeParams = '';
-    if (this.state.savedMapView != null && this.state.savedMapView != undefined)
-    {
-      let lat = this.state.savedMapView.lat;
-      let lng = this.state.savedMapView.lng;
+    if (this.state.getMapView() != null && this.state.getMapView() != undefined) {
+      let lat = this.state.getMapView().lat;
+      let lng = this.state.getMapView().lng;
       const geoCodeParamsString = `/${lat}/${lng}`;
       corsFriendlyGeoCodeParams = geoCodeParamsString.toString().split('.').join('$');
     }

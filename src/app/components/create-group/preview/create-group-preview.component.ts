@@ -11,6 +11,8 @@ import { CreateGroupService } from '../create-group-data.service';
 import { Pin, Participant } from '../../../models';
 import { Component, OnInit } from '@angular/core';
 
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+
 @Component({
     selector: 'create-group-preview',
     templateUrl: './create-group-preview.component.html'
@@ -38,7 +40,7 @@ export class CreateGroupPreviewComponent implements OnInit {
         this.state.setLoading(false);
     }
 
-    createGroup(): void {
+    onSubmit(): void {
         this.state.setLoading(true);
         let group = this.createGroupService.prepareForGroupSubmission();
         Observable.forkJoin(
@@ -67,7 +69,7 @@ export class CreateGroupPreviewComponent implements OnInit {
         });
     }
 
-    back(): void {
+    onBack(): void {
         this.router.navigate(['/create-group/page-6']);
     }
 }
