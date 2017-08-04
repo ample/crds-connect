@@ -21,7 +21,7 @@
           </button>
         </span>
 
-        <span class="addon-btn">
+        <span class="addon-btn" *ngIf="appSettings.isSmallGroupApp()">
           <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen">
             <svg class="icon icon-1" viewBox="0 0 256 256">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
