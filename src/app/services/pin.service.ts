@@ -156,6 +156,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     let findPinsEndpointUrl: string =  this.getApiEndpointUrl();
 
+    if (this.state.myStuffActive) {
+      super.clearCache();
+    }
+
     let apiQueryParams: PinSearchQueryParams = this.buildSearchPinQueryParams(params);
     if (super.cacheIsReadyAndValid(searchOptionsForCache, CacheLevel.Full, contactId)) {
       console.log('PinService got full cached PinSearchResultsDto');
