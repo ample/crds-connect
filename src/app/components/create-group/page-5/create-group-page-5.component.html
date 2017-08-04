@@ -11,22 +11,27 @@
   <p><strong>Tell us what your group is all about.</strong></p>
 
   <form [formGroup]="groupDetailsForm" (ngSubmit)="onSubmit(groupDetailsForm)">
+    <!-- Set Group Name: -->
     <div>
       <label class="control-label soft-top soft-quarter-bottom" for="groupName">Group name</label>
       <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers" maxlength="35">
+      <!-- Name Omitted Error: -->
       <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupName'].valid">
         <div class="alert alert-danger">This field is required.</div>
       </div>
     </div>
 
+    <!-- Set Group Description: -->
     <div>
       <label class="control-label soft-top soft-quarter-bottom" for="groupDescription">Group description</label>
       <textarea id="groupDescription" class="form-control" rows="6" maxLength="500" formControlName="groupDescription" [(ngModel)]="createGroupService.group.groupDescription" placeholder="Ex: This group is for men in their 30s who like to brew their own beer. We’ll meet regularly to come up with a new beer and brew it together, and share some beers while we build friendships. We’ll meet in Pleasant Ridge weekly in my home."></textarea>
+      <!-- Description Omitted Error: -->
       <div *ngIf="isSubmitted && !groupDetailsForm.controls['groupDescription'].valid">
         <div class="alert alert-danger">This field is required.</div>
       </div>
     </div>
 
+    <!-- Set Group Privacy: -->
     <div class="soft-top push-half-top">
       <crds-content-block id="groupToolCreateGroupVisibilityHelp"></crds-content-block>
     </div>
@@ -38,7 +43,8 @@
     </div>
 
     <div class="btn-group btn-group-block">
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }" formControlName="availableOnline" value="true" (click)="onClick(true)" ngDefaultControl style="white-space: normal">
+      <!-- Group Public Button -->
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }" formControlName="availableOnline" value="true" (click)="setGroupPrivacy(true)" ngDefaultControl style="white-space: normal">
         <div class="row">
           <div class="text-left btn-group-label">
             <span class="btn-group-icons">
@@ -53,7 +59,8 @@
           </div>
         </div>
       </button>
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }" formControlName="availableOnline" value="false" (click)="onClick(false)" ngDefaultControl style="white-space: normal">
+      <!-- Group Private Button -->
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }" formControlName="availableOnline" value="false" (click)="setGroupPrivacy(false)" ngDefaultControl style="white-space: normal">
         <div class="row">
           <div class="btn-group-label text-left">
             <span class="btn-group-icons">
@@ -70,10 +77,12 @@
       </button>
     </div>
 
-    <div *ngIf="isSubmitted && groupVisabilityInvalid" class="soft-top">
+    <!-- Group Privacy Omitted Error: -->
+    <div *ngIf="isSubmitted && groupVisibilityInvalid" class="soft-top">
       <div class="alert alert-danger">This field is required.</div>
     </div>
 
+    <!-- Footer: -->
     <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
   </form>
 </div>
