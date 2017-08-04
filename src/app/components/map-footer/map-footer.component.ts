@@ -59,6 +59,7 @@ export class MapFooterComponent implements OnInit {
     this.pinService.clearPinCache();
 
     this.state.setLoading(true);
+    this.router.navigate(['/']);
     this.state.setCurrentView('map');
     this.state.setMyViewOrWorldView('world');
 
@@ -81,6 +82,7 @@ export class MapFooterComponent implements OnInit {
     if (!this.session.isLoggedIn()) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.redirectThenChangeToMyStuff);
     } else {
+      this.router.navigate(['/']);
       this.state.setCurrentView('map');
       this.state.setMyViewOrWorldView('my');
       this.state.setIsMyStuffActive(true);

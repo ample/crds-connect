@@ -51,8 +51,13 @@ describe('MapFooterComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 {
-                    provide: Router,
-                    useValue: { routerState: { snapshot: { url: '/map-footer-component' } } },
+                  provide: Router,
+                  useValue: {
+                    navigate: jasmine.createSpy('navigate'),
+                    routerState: {
+                      snapshot: { url: '/map-footer-component' }
+                    }
+                  },
                 },
                 { provide: StateService, useValue: mockState },
                 { provide: SessionService, useValue: mockSession },

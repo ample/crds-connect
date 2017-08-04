@@ -133,7 +133,7 @@ export class CreateGroupPage4Component implements OnInit {
         return returnValue;
     }
 
-    public back() {
+    public onBack() {
         this.router.navigate(['/create-group/page-3']);
     }
 }

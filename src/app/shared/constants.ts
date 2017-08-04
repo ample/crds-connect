@@ -8,17 +8,22 @@ export class AwsMeetingTimeSearchStrings {
   constructor() {
     this.MORNINGS = "['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']";
     this.AFTERNOONS = "['0001-01-01T12:00:00Z', '0001-01-01T17:00:00Z']";
-    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']";
+    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']";
   }
 }
 
 export class TextConstants {
   MY_GROUPS: string;
   MY_CONNECTIONS: string;
+  ONLINE_GROUP: string;
+  INVALID_OR_MISSING_ADDRESS: string;
+
 
   constructor() {
-    this.MY_GROUPS = 'My Groups';
-    this.MY_CONNECTIONS = 'My Connections';
+    this.MY_GROUPS = 'My groups';
+    this.MY_CONNECTIONS = 'My connections';
+    this.ONLINE_GROUP = 'Online Group';
+    this.INVALID_OR_MISSING_ADDRESS = 'Invalid or Missing Address';
   }
 }
 
@@ -114,6 +119,10 @@ export const crdsOakleyCoords: any = {
 };
 
 export const earthsRadiusInMiles: number = 3443.9;
+
+export const desiredPrecisionForProximityNumber: number = 2;
+
+export const maxValidProximity: number = 5000;
 
 export const groupDescriptionLength: number = 44;
 
