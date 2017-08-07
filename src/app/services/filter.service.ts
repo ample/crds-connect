@@ -61,6 +61,12 @@ export class FilterService {
   }
 
   public setFilterStringAgeGroups(ageGroups: AgeGroup[]): void {
+
+    if ( ageGroups.filter(x => x.selected === true).length === 0) {
+      this.filterStringAgeGroups = null;
+      return;
+    }
+
     let addFilterString: string = ' (or';
     for (let age of ageGroups) {
       if (age.selected) {
@@ -74,6 +80,12 @@ export class FilterService {
   }
 
   public setFilterStringCategories(categories: Category[]): void {
+
+    if ( categories.filter(x => x.selected === true).length === 0) {
+      this.filterStringCategories = null;
+      return;
+    }
+
     let addFilterString: string = ' (or';
     for (let cat of categories) {
       if (cat.selected) {
@@ -87,6 +99,12 @@ export class FilterService {
   }
 
   public setFilterStringGroupTypes (groupTypes: GroupType[]): void {
+
+    if ( groupTypes.filter(x => x.selected === true).length === 0) {
+      this.filterStringGroupTypes = null;
+      return;
+    }
+
     let addFilterString: string = ' (or';
     for (let groupType of groupTypes) {
       if (groupType.selected) {
@@ -100,6 +118,11 @@ export class FilterService {
   }
 
   public setFilterStringMeetingDays (daysOfWeek: SimpleSelectable[]): void {
+
+    if ( daysOfWeek.filter(x => x.isSelected === true).length === 0) {
+      this.filterStringMeetingDays = null;
+      return;
+    }
 
     let addFilterString: string = ' (or';
 
@@ -118,7 +141,7 @@ export class FilterService {
   public getAwsTimeRangeFilterString(meetingTimeRange: string): string {
     let filter: string = undefined;
 
-    switch(meetingTimeRange) {
+    switch (meetingTimeRange) {
       case groupMeetingTimeRanges.MORNINGS:
         filter = awsMeetingTimeSearchStrings.MORNINGS;
         break;
@@ -134,6 +157,11 @@ export class FilterService {
 
   public setFilterStringMeetingTimes (meetingTimeRanges: SimpleSelectable[]): void {
 
+    if ( meetingTimeRanges.filter(x => x.isSelected === true).length === 0) {
+        this.filterStringMeetingTimes = null;
+      return;
+    }
+
     let addFilterString: string = ' (or';
 
     for (let range of meetingTimeRanges) {
@@ -148,6 +176,11 @@ export class FilterService {
   }
 
   public setFilterStringMeetingFrequencies (meetingFrequencies: SimpleSelectable[]): void {
+
+    if ( meetingFrequencies.filter(x => x.isSelected === true).length === 0) {
+        this.filterStringMeetingFrequencies = null;
+      return;
+    }
 
     let addFilterString: string = ' (or';
 

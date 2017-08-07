@@ -13,47 +13,48 @@ import {  GroupPaths, groupPaths, GroupPageNumber  } from '../../../shared/const
 @Component({
     selector: 'create-group-page-5',
     templateUrl: './create-group-page-5.component.html',
+    styles: ['.btn-group-block .row > div { width: 100%; }']
 })
 export class CreateGroupPage5Component implements OnInit {
-    public groupDetailsForm: FormGroup;
+  public groupDetailsForm: FormGroup;
 
-    private isComponentReady: boolean = false;
-    private isSubmitted: boolean = false;
-    private groupVisibilityInvalid: boolean = false;
+  private isComponentReady: boolean = false;
+  private isSubmitted: boolean = false;
+  private groupVisibilityInvalid: boolean = true;
 
-    constructor(private fb: FormBuilder,
-                private groupService: GroupService,
-                private state: StateService,
-                private createGroupService: CreateGroupService,
-                private router: Router) { }
+  constructor(private fb: FormBuilder,
+    private groupService: GroupService,
+    private state: StateService,
+    private createGroupService: CreateGroupService,
+    private router: Router) {}
 
-    ngOnInit(): void {
-        this.state.setPageHeader('start a group', '/create-group/page-4');
-        this.groupDetailsForm = this.fb.group({
-            groupName: [this.createGroupService.group.groupName, Validators.required],
-            groupDescription: [this.createGroupService.group.groupDescription, Validators.required],
-            availableOnline: [this.createGroupService.group.availableOnline]
-        });
-        this.state.setLoading(false);
+  ngOnInit(): void {
+    this.state.setPageHeader('start a group', '/create-group/page-4');
+    this.groupDetailsForm = this.fb.group({
+      groupName: [this.createGroupService.group.groupName, Validators.required],
+      groupDescription: [this.createGroupService.group.groupDescription, Validators.required],
+      availableOnline: [this.createGroupService.group.availableOnline]
+    });
+    this.state.setLoading(false);
+  }
+
+  public setGroupPrivacy(value: boolean): void {
+    this.groupVisibilityInvalid = false;
+    this.createGroupService.group.availableOnline = value;
+  }
+
+  public onSubmit(form: FormGroup): void {
+    this.state.setLoading(true);
+    this.isSubmitted = true;
+    if (form.valid && this.createGroupService.group.availableOnline != null) {
+      this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    } else {
+      this.groupVisibilityInvalid = true;
+      this.state.setLoading(false);
     }
+  }
 
-    private onClick(value: boolean): void {
-        this.groupVisibilityInvalid = false;
-        this.createGroupService.group.availableOnline = value;
-    }
-
-    public onSubmit(form: FormGroup): void {
-        this.state.setLoading(true);
-        this.isSubmitted = true;
-        if (form.valid && this.createGroupService.group.availableOnline != null) {
-            this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
-        } else {
-            this.groupVisibilityInvalid = true;
-            this.state.setLoading(false);
-        }
-    }
-
-    public onBack(): void {
-        this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
-    }
+  public onBack(): void {
+    this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+  }
 }

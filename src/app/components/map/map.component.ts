@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';

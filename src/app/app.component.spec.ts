@@ -1,3 +1,4 @@
+import { AnalyticsService } from './services/analytics.service';
 /* tslint:disable:no-unused-variable */
 import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
@@ -17,17 +18,27 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppSettingsService } from './services/app-settings.service';
+import { PinService } from './services/pin.service';
+import { AddressService } from './services/address.service';
+import { LoginRedirectService } from './services/login-redirect.service';
+import { SiteAddressService } from './services/site-address.service';
+import { BlandPageService } from './services/bland-page.service';
+import { GoogleMapService } from './services/google-map.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { MapFooterComponent } from './components/map-footer/map-footer.component';
 
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let mockAnalytics;
 
   beforeEach(async(() => {
+    mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['myStuff']);
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        HeaderComponent
+        HeaderComponent,
+        MapFooterComponent
       ],
       imports: [
         PreloaderModule,
@@ -42,6 +53,8 @@ describe('App: CrdsConnect', () => {
         CookieService,
         StateService,
         ContentService,
+        { provide: AnalyticsService, useValue: mockAnalytics },
+        // TODO: The angulartics modules should probably be mocked so they don't cause a page view to be logged.
         Angulartics2,
         Angulartics2GoogleTagManager,
         Angulartics2GoogleAnalytics,
@@ -49,6 +62,12 @@ describe('App: CrdsConnect', () => {
         ToastsManager,
         ToastOptions,
         AppSettingsService,
+        PinService,
+        AddressService,
+        LoginRedirectService,
+        SiteAddressService,
+        BlandPageService,
+        GoogleMapService,
         Location, {provide: LocationStrategy, useClass: PathLocationStrategy},
         {provide: APP_BASE_HREF, useValue: '/'}
       ]

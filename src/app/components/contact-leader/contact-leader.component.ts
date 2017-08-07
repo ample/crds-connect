@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -17,7 +16,8 @@ import { MsgToLeader } from '../../models/msg-to-leader';
 
 @Component({
     selector: 'contact-leader',
-    templateUrl: 'contact-leader.component.html'
+    templateUrl: 'contact-leader.component.html',
+    styles: ['.fauxdal-wrapper { overflow-y: auto; }']
 })
 export class ContactLeaderComponent implements OnInit, AfterViewInit {
 

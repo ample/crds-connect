@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 
+import { AppSettingsService } from '../../services/app-settings.service';
 import { StateService } from '../../services/state.service';
 
 @Component({
@@ -9,8 +10,9 @@ import { StateService } from '../../services/state.service';
 })
 export class HeaderComponent {
 
-  constructor(private state: StateService,
-              private router: Router) {
+  constructor(private appSettings: AppSettingsService,
+              private router: Router,
+              private state: StateService) {
     this.listenForRouteChange();
   }
 
