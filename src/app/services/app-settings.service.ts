@@ -1,40 +1,56 @@
 import { Injectable} from '@angular/core';
-import { AppType, app, AppRoute, appRoute, LeadershipApplicationType } from '../shared/constants';
+import { AppType, appType, LeadershipApplicationType, textConstants } from '../shared/constants';
 
 @Injectable()
 export class AppSettingsService {
-
   public finderType: string;
   public leadershipApplicationType: LeadershipApplicationType;
+  public appRoute: string;
+  public placeholderTextForSearchBar: string;
+  public myStuffName: string;
+  public noSearchResultsContent: string;
+  public myStuffNotFoundContent: string;
+  public leaderTitle: string;
 
   constructor() {}
 
-  setAppSettings(appType: AppType) {
-    switch (appType) {
-      case AppType.Connect:
-        this.finderType = app.CONNECT;
+  public setAppSettings (thisAppsType: string) {
+    this.finderType = thisAppsType;
+    switch (this.finderType) {
+      case appType.Connect:
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
+        this.appRoute = '/';
+        this.placeholderTextForSearchBar = 'Address...';
+        this.myStuffName = textConstants.MY_CONNECTIONS;
+        this.noSearchResultsContent = 'noConnectSearchResults';
+        this.myStuffNotFoundContent = 'myConnectionsNotFound';
+        this.leaderTitle = 'Host';
         break;
-      case AppType.Groups:
-        this.finderType = app.SMALL_GROUPS;
+      case appType.Groups:
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
+        this.appRoute = '/groupsv2';
+        this.placeholderTextForSearchBar = 'Keyword...';
+        this.myStuffName = textConstants.MY_GROUPS;
+        this.noSearchResultsContent = 'noGroupsSearchResults';
+        this.myStuffNotFoundContent = 'myGroupsNotFound';
+        this.leaderTitle = 'Leader';
         break;
     }
   }
 
   public isConnectApp(): boolean {
-      let isConnectApp: boolean = this.finderType === app.CONNECT;
-      return isConnectApp;
+    return this.finderType === appType.Connect;
   }
 
   public isSmallGroupApp(): boolean {
-    let isSmallGroupApp: boolean = this.finderType === app.SMALL_GROUPS;
-    return isSmallGroupApp;
+    return this.finderType === appType.Groups;
   }
 
   public getBaseUrlForCurrentApp(): string {
-    let baseUrlForApp: string = this.isConnectApp() ? appRoute.CONNECT_ROUTE : appRoute.SMALL_GROUPS_ROUTE;
-    return baseUrlForApp;
+    return this.appRoute;
   }
 
+  public appClass(): string {
+    return this.isConnectApp() ? 'connect' : 'groups';
+  }
 }

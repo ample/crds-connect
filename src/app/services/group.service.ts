@@ -1,3 +1,4 @@
+import { Group } from '../models/group';
 import { Injectable, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, RequestOptions } from '@angular/http';
@@ -63,5 +64,13 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
     return this.session.get (url)
       .do((res) => console.log(res))
       .catch((error: any) => Observable.throw(error || 'Server error'));
+  }
+
+  public createGroup(group: Group) {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/group`, group);
+  }
+
+  public createParticipants(group: Group) {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/group/${group.groupId}/participants`, group.Participants);
   }
 }

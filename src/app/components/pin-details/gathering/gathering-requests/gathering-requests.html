@@ -10,12 +10,12 @@
     <div class="border-bottom">
       <participant-card [participant]="convertToParticipant(inquiry)"></participant-card>
 
-      <div class="pending-requests">
+      <div class="pending-requests push-half-bottom">
         <p class="text-muted font-size-smaller">Requested to join on {{ inquiry.requestDate | date:"MM/dd/yyyy" }}</p>
 
         <div class="btn-group">
-          <button class="btn btn-primary btn-block-mobile" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
-          <button class="btn btn-default btn-outline btn-block-mobile" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
+          <button class="btn btn-primary" (click)="acceptOrDenyInquiry(inquiry, true)">Accept</button>
+          <button class="btn btn-default btn-outline" (click)="acceptOrDenyInquiry(inquiry, false)">Deny</button>
         </div>
 
         <div *ngIf="inquiry.error" class="error help-block">

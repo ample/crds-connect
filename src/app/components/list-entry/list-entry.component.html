@@ -63,11 +63,10 @@
       </span>
     </h3>
     <p class="media-meta">
-      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTime() | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}}</span>
+      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTime(pin.gathering.meetingTime) | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}}</span>
       <span *ngIf="pin?.gathering?.meetingDay == null">Flexible Meeting Time</span>
       <br>
-      <span *ngIf="address.addressId !== 0">({{pin?.proximity |  number : '1.2-2' }} MI)</span>
-      <span *ngIf="address.addressId === 0">Online Group</span>
+      <span>{{proximityInfo}}</span>
     </p>
 
     <dl class="media-description">
@@ -76,8 +75,9 @@
       <dd *ngIf="pin?.gathering?.categories == null">&nbsp;</dd>
       <dt>Type:</dt>
       <dd>{{pin?.gathering?.groupType || '&nbsp;'}}</dd>
-      <dt>Leader:</dt>
-      <dd>{{leaderName() || '&nbsp;'}}</dd>
+      <dt>Leader(s):</dt>
+      <dd >{{adjustedLeaderNames || '&nbsp;'}}</dd>
+     
     </dl>
   </div>
 

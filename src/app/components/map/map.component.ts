@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
@@ -26,6 +25,8 @@ export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
 
+  public pinsToMap: Pin[] ;
+
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
@@ -37,8 +38,12 @@ export class MapComponent implements OnInit {
               private session: SessionService) {}
 
   public ngOnInit(): void {
+
     let haveResults = !!this.searchResults;
     if (haveResults) {
+
+      this.pinsToMap = this.getPinsToMap();
+
       let lat = this.searchResults.centerLocation.lat;
       let lng = this.searchResults.centerLocation.lng;
       let zoomToUse = this.state.getUseZoom();
@@ -58,6 +63,14 @@ export class MapComponent implements OnInit {
         this.mapSettings.zoom = priorMapView.zoom;
       }
     }
+  }
+
+  private getPinsToMap(): Pin[] {
+    let pinsWithAddresses = new Array<Pin>();
+    if ( this.searchResults ) {
+      pinsWithAddresses = this.searchResults.pinSearchResults.filter(x => x.address.addressId !==  null);
+    }
+    return pinsWithAddresses;
   }
 
   private pinClicked(pin: Pin) {

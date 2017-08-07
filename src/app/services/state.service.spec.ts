@@ -1,10 +1,8 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 import { SearchOptions } from '../models/search-options';
-import { App, AppRoute, appRoute, app } from '../shared/constants';
+import { MapView } from '../models/map-view';
 
 describe('Service: State', () => {
   beforeEach(() => {
@@ -61,4 +59,15 @@ describe('Service: State', () => {
     expect(service.lastSearch.search).toBe('');
   }));
 
+  it('should not update to 0,0 lat,lng', inject([StateService], (service: any) => {
+    let mv = new MapView('value', 34, -84, 2);
+    service.setMapView(mv);
+    let mv2 = new MapView('new value', 0, 0, 10);
+    service.setMapView(mv2);
+    let rc: MapView = service.getMapView();
+    expect(rc.value).toBe('new value');
+    expect(rc.zoom).toBe(10);
+    expect(rc.lat).toBe(34);
+    expect(rc.lng).toBe(-84);
+  }));
 });

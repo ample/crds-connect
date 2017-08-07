@@ -1,14 +1,16 @@
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
-import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics} from 'angulartics2';
+import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment} from 'angulartics2';
 
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { StateService } from './services/state.service';
 import { AppSettingsService } from './services/app-settings.service';
-import { AppType } from './shared/constants';
+import { appType } from './shared/constants';
+
+declare var svg4everybody: any;
 
 @Component({
   selector: 'app-root',
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
+    private angulartics2Segment: Angulartics2Segment,
     private state: StateService,
     private content: ContentService,
     public toastr: ToastsManager,
@@ -51,6 +54,7 @@ export class AppComponent implements OnInit {
     router.events.subscribe((val) => {
       this.removeFauxdalClasses(val);
       document.body.scrollTop = document.documentElement.scrollTop = 0;
+      svg4everybody();
     });
   }
 
@@ -69,13 +73,16 @@ export class AppComponent implements OnInit {
     let isInGroupsApp: boolean = this.isInSpecifiedApp('groupsv2', root, url);
 
     if (isInConnectApp) {
-      this.appsettings.setAppSettings(AppType.Connect);
+      this.appsettings.setAppSettings(appType.Connect);
     } else if (isInGroupsApp) {
-      this.appsettings.setAppSettings(AppType.Groups);
+      this.appsettings.setAppSettings(appType.Groups);
     } else {
       this.defaultToGroupAppType();
     }
 
+    // Uncomment the following line to force Connect app when running outside
+    // Maestro. But be sure not to commit!
+    // this.appsettings.setAppSettings(appType.Connect);
   }
 
   public isInSpecifiedApp(appRoute: string, root: string, url: string) {
@@ -93,7 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   private defaultToGroupAppType(): void {
-    this.appsettings.setAppSettings(AppType.Groups);
+    this.appsettings.setAppSettings(appType.Groups);
   }
 
 }

@@ -1,5 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
-
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
@@ -14,7 +12,7 @@ import { MapMarker } from '../../models/map-marker';
 import { PinLabelData, PinLabel } from '../../models/pin-label-data';
 import { pinType } from '../../models/pin';
 
-import { app, App, googleMapStyles } from '../../shared/constants';
+import { googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
 function PinLabelOverlay(bounds, map, labelData) {

@@ -1,17 +1,20 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Pin, pinType } from '../../models/pin';
 import { Address } from '../../models/address';
+import { Participant } from '../../models/participant';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { TimeHelperService} from '../../services/time-helper.service';
+import { ParticipantService } from '../../services/participant.service';
 
-import { groupDescriptionLength } from '../../shared/constants';
+import { groupDescriptionLength, textConstants, maxValidProximity,
+    desiredPrecisionForProximityNumber } from '../../shared/constants';
 import * as moment from 'moment';
 
 @Component({
@@ -38,13 +41,18 @@ export class ListEntryComponent implements OnInit {
   public isPerson: boolean;
   public isSite: boolean;
   public isSmallGroup: boolean;
+  public adjustedLeaderNames: string = '';
+  public leaders: Participant[] = [];
+  public proximityInfo: string;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
               private session: SessionService,
               private router: Router,
               private state: StateService,
-              private listHelper: ListHelperService) {
+              private listHelper: ListHelperService,
+              private participantService: ParticipantService,
+              private timeHlpr: TimeHelperService) {
               this.currentContactId = this.session.getContactId();
   }
 
@@ -53,6 +61,11 @@ export class ListEntryComponent implements OnInit {
     this.isGathering = this.type === pinType.GATHERING;
     this.isSite = this.type === pinType.SITE;
     this.isSmallGroup = this.type === pinType.SMALL_GROUP;
+    this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+      this.leaders = leaders;
+      this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
+    });
+    this.proximityInfo = this.getProximityDisplayString(this.pin);
   }
 
   public isMe() {
@@ -78,9 +91,8 @@ export class ListEntryComponent implements OnInit {
     return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
   }
 
-   public getMeetingTime() {
-    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
-    return theTime.toDate();
+   public getMeetingTime(meetingTimeUtc: string): Date {
+    return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
   }
 
   public isMySmallGroup() {
@@ -128,4 +140,39 @@ export class ListEntryComponent implements OnInit {
     this.pinService.navigateToPinDetailsPage(pin);
   }
 
+  private getAdjustedLeaderNames(leaders: Participant[]): string {
+    let adjustedLeaderNames: string = '';
+    for (let i = 0, len = leaders.length; i < len; i++) {
+      let adjustedName: string = `${leaders[i].nickName} ${leaders[i].lastName.slice(0, 1)}.`;
+      adjustedLeaderNames += adjustedName + (i === len - 1 ? '' : ', ');
+    }
+    return adjustedLeaderNames;
+  }
+
+  public getProximityDisplayString(pin: Pin): string {
+    let proximityOrDesignation: string;
+
+    let isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
+    let invalidAddress: boolean = !this.isAddressValid(pin.address);
+
+    if(isOnlineGroup) {
+      proximityOrDesignation = textConstants.ONLINE_GROUP;
+    } else if (invalidAddress) {
+      proximityOrDesignation = textConstants.INVALID_OR_MISSING_ADDRESS;
+    } else {
+      proximityOrDesignation = `(${pin.proximity.toFixed(desiredPrecisionForProximityNumber).toString()} MI)`;
+    }
+
+    return proximityOrDesignation;
+  }
+
+  public isAddressValid(add: Address): boolean {
+    if(!add) return false;
+
+    let isLatIvalid: boolean = add.latitude === null || add.latitude === undefined || add.latitude === 0;
+    let isLngInvalid: boolean = add.latitude === null || add.latitude === undefined || add.latitude === 0;
+
+    let isAddValid = !isLatIvalid && !isLngInvalid;
+    return isAddValid;
+  }
 }

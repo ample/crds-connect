@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { Angulartics2 } from 'angulartics2';
-
 import { AddressService } from '../../services/address.service';
 import { Address } from '../../models/address';
 
@@ -17,6 +15,7 @@ export class AddressFormComponent implements OnInit {
   @Input() groupName: string;
   @Input() address: Address;
   @Input() isFormSubmitted;
+  @Input() errorClasses: string = 'error help-block';
   private addressFormGroup: FormGroup;
   private formName: string;
   private stateList: Array<string>;

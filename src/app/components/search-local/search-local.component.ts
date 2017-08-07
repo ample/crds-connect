@@ -1,6 +1,6 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { SearchService } from '../../services/search.service';
 import { StateService } from '../../services/state.service';
@@ -20,7 +20,7 @@ export class SearchLocalComponent implements OnInit {
   constructor(public mapHelper: GoogleMapService,
     private state: StateService,
     public search: SearchService,
-    private angulartics2: Angulartics2) {
+    private analytics: AnalyticsService) {
   }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class SearchLocalComponent implements OnInit {
   }
 
   public doLocalSearch() {
-    this.angulartics2.eventTrack.next({ action: 'Update Results Button Click', properties: { category: 'Connect' } });
+    this.analytics.updateResultsPressed('Connect');
     this.state.myStuffActive = false;
   }
 }

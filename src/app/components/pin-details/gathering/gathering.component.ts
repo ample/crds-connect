@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
@@ -9,16 +8,19 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 import { Participant } from '../../../models/participant';
 import { Address } from '../../../models/address';
 
+import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
-import { AddressService } from '../../../services/address.service';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
+
 import { groupDescriptionLengthDetails } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
@@ -34,6 +36,8 @@ export class GatheringComponent implements OnInit {
   @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
+  @Input() previewMode: boolean = false;
+  @Input() leaders: Participant[] = [];
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
@@ -43,9 +47,8 @@ export class GatheringComponent implements OnInit {
   private ready = false;
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
-  private leaders: Participant[] = [];
   private participantEmails: string[];
-  public adjustedLeaderNames: string[];
+  public adjustedLeaderNames: string[] = [];
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -59,68 +62,75 @@ export class GatheringComponent implements OnInit {
     private addressService: AddressService,
     private listHelperService: ListHelperService,
     private content: ContentService,
-    private angulartics2: Angulartics2,
+    private timeHlpr: TimeHelperService,
+    private analtyics: AnalyticsService,
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
 
   public ngOnInit() {
-    window.scrollTo(0, 0);
-    this.requestToJoin = this.requestToJoin.bind(this);
-    this.state.setLoading(true);
+    if (!this.previewMode) {
+      window.scrollTo(0, 0);
+      this.requestToJoin = this.requestToJoin.bind(this);
+      this.state.setLoading(true);
 
-    this.isInGroupApp = this.app.isSmallGroupApp();
-    let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
-    this.state.setPageHeader(pageTitleOnHeader, '/');
+      this.isInGroupApp = this.app.isSmallGroupApp();
+      let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
+      this.state.setPageHeader(pageTitleOnHeader, '/');
 
-    if (this.pin.gathering != null) {
-      this.descriptionToDisplay = this.getDescriptionDisplayText();
-      this.doDisplayFullDesc = this.displayFullDesc();
-    }
-    try {
-      this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
-        participants => {
-          this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
-            this.leaders = leaders;
-          });
-          this.pin.gathering.Participants = participants;
-          this.participantEmails = participants.map(p=>p.email);
-
-          this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
-            role => {
-              let isInGroup: boolean = role !== GroupRole.NONE;
-              if (isInGroup) {
-                this.isInGathering = true;
-                this.isLeader = role === GroupRole.LEADER;
-
-                this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
-                  .finally(() => {
-                    this.state.setLoading(false);
-                    this.ready = true;
-                  })
-                  .subscribe(
-                  address => {
-                    this.pin.gathering.address = address;
-                  },
-                  error => {
-                    this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
-                  }
-                  );
-              } else {
-                // Not a participant of this group.
-                this.state.setLoading(false);
-                this.ready = true;
-              }
-              this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup );
+      if (this.pin.gathering != null) {
+        this.descriptionToDisplay = this.getDescriptionDisplayText();
+        this.doDisplayFullDesc = this.displayFullDesc();
+      }
+      try {
+        this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
+          participants => {
+            this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+              this.leaders = leaders;
             });
-        },
-        failure => {
-          console.log('Could not get participants');
-          this.blandPageService.goToDefaultError('');
-        });
-    } catch (err) {
-      console.log(err.message);
-      this.blandPageService.goToDefaultError('');
+            this.pin.gathering.Participants = participants;
+            this.participantEmails = participants.map(p => p.email);
+
+            this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
+              role => {
+                let isInGroup: boolean = role !== GroupRole.NONE;
+                if (isInGroup) {
+                  this.isInGathering = true;
+                  this.isLeader = role === GroupRole.LEADER;
+
+                  this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+                    .finally(() => {
+                      this.state.setLoading(false);
+                      this.ready = true;
+                    })
+                    .subscribe(
+                    address => {
+                      this.pin.gathering.address = address;
+                    },
+                    error => {
+                      this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+                    }
+                    );
+                } else {
+                  // Not a participant of this group.
+                  this.state.setLoading(false);
+                  this.ready = true;
+                }
+                this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
+              });
+          },
+          failure => {
+            console.log('Could not get participants');
+            this.blandPageService.goToDefaultError('');
+          });
+      } catch (err) {
+        console.log(err.message);
+        this.blandPageService.goToDefaultError('');
+      }
+    } else {
+      this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, false);
+      this.descriptionToDisplay = this.getDescriptionDisplayText();
+      this.ready = true;
     }
   }
 
@@ -132,23 +142,30 @@ export class GatheringComponent implements OnInit {
 
   }
 
-  public getMeetingTime() {
-    let theTime = moment( this.pin.gathering.meetingTime, 'HH:mm A');
-    return theTime.toDate();
+  public getMeetingTime(meetingTimeUtc: string) {
+    // Sorry this is here. We don't need to do moment when we're doing create group :(
+    if (!this.previewMode) {
+      return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
+    } else {
+      return this.timeHlpr.hackTime(meetingTimeUtc);
+    }
   }
- 
+
   private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
-     let adjustedLeaderNames: string[] = [];
-     leaders.forEach((leader) => {
-       let adjustedName: string =  isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0,1) + "."}`;
-       adjustedLeaderNames.push(adjustedName);
-     })
-     return adjustedLeaderNames;
+    let adjustedLeaderNames: string[] = [];
+    leaders.forEach((leader) => {
+      let adjustedName: string = isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
+      adjustedLeaderNames.push(adjustedName);
+    });
+    return adjustedLeaderNames;
   }
 
   public requestToJoin() {
-    let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
-    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' } });
+    let isConnectApp = this.app.isConnectApp();
+    let successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
+
+    (isConnectApp) ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
+
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId)

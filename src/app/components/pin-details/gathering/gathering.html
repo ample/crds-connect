@@ -12,7 +12,7 @@
           <div class="media-meta">
             <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay != null">
-              <span>{{pin?.gathering?.meetingDay}} at {{ getMeetingTime() | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}} ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
+              <span>{{pin?.gathering?.meetingDay}} at {{ getMeetingTime(pin.gathering.meetingTime) | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}} ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
             </span>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay == null">
               <span>Flexible Meeting Time ({{pin?.proximity |  number : '1.2-2' }} MI)</span>
@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <p class="gathering-description border-top push-top">
+      <p class="gathering-description border-top push-half-top">
         {{descriptionToDisplay}}
         <a *ngIf="!doDisplayFullDesc" (click)="expandGroupDescription()" class="pointer">More</a>
 
-        <span *ngIf="doDisplayFullDesc">
+        <span>
           <ul class="list-inline push-top">
             <li>
               <a href="#">
@@ -42,12 +42,25 @@
                 </svg>
               </a>
             </li>
+
+            <li>
+              <a href="#">
+                <svg class="icon icon-2" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#link"></use>
+                </svg>
+              </a>
+            </li>
           </ul>
         </span>
       </p>
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn btn-secondary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
+
+      <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
+        <button class="btn btn-secondary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
+        <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
+      </div>
     </div>
   </div>
 
@@ -73,15 +86,10 @@
       <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
     </dl>
 
-     <!-- <div *ngIf="isInGroupApp" class="push-top push-half-bottom">
+    <div *ngIf="!isLeader && isInGroupApp" class="push-half-ends soft-ends">
       <button class="btn btn-primary btn-block-mobile">Try this group</button>
       <button class="btn btn-outline btn-primary btn-block-mobile"
               (click)="onContactLeaderClicked();">Contact leader</button>
-    </div> -->
-
-    <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
-      <button class="btn btn-primary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
-      <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
     </div>
 
     <pin-login-actions *ngIf="!isLoggedIn && pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING"></pin-login-actions>
@@ -89,7 +97,7 @@
 
   <gathering-requests *ngIf="isLeader && appSettingsService.isConnectApp()" [pin]="pin"></gathering-requests>
 
-  <div *ngIf="isInGathering" class="soft-top">
+  <div *ngIf="isInGathering" class="soft-half-ends">
     <h3 class="component-header font-size-h5 text-uppercase flush-bottom">Participants</h3>
     <hr class="push-quarter-top flush-bottom">
     <div *ngFor="let participant of pin.gathering.Participants">

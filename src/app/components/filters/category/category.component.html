@@ -1,0 +1,8 @@
+<div class="btn-group">
+  <button *ngFor="let cat of categories" 
+          (click)="clickToSelect(cat.name)" 
+          class="btn btn-option btn-outline" 
+          type="button" 
+          [class.active]="cat.selected">{{cat.name}}
+  </button>
+</div>

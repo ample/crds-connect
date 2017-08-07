@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { BlandPageService } from '../../../../services/bland-page.service';
@@ -45,9 +44,10 @@ export class GatheringRequestsComponent implements OnInit {
   }
 
   public convertToParticipant(inquiry: Inquiry): Participant {
+    let canBeHyperlinked: boolean = false;
     return new Participant(null, inquiry.contactId, null,
       inquiry.emailAddress, null, null, null, null,
-      inquiry.lastName, inquiry.firstName, null, null);
+      inquiry.lastName, inquiry.firstName, null, null, canBeHyperlinked);
   }
 
   public acceptOrDenyInquiry(inquiry: Inquiry, approve: boolean) {

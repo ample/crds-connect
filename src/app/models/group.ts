@@ -1,6 +1,12 @@
 import { Address } from './address';
 import { Participant } from './participant';
+
+import { TimeHelperService} from '../services/time-helper.service';
+
 import { defaultGroupMeetingTime, SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
+import * as moment from 'moment';
+
+let hlpr: TimeHelperService = new TimeHelperService();
 
 export class Group {
 
@@ -17,7 +23,7 @@ export class Group {
     contactId: number;
     primaryContactId: number;
     primaryContactEmail: number;
-    startDate: number;
+    startDate: string;
     endDate: string;
     reasonEndedId: number;
     availableOnline: boolean;
@@ -40,8 +46,8 @@ export class Group {
     participantCount: number;
     minorAgeGroupsAdded: boolean;
 
-    categories: string[];
-    ageRanges: string[];
+    categories: string[] = [];
+    ageRanges: string[] = [];
     primaryContactFirstName: string;
     primaryContactLastName: string;
     isVirtualGroup: boolean;
@@ -55,14 +61,17 @@ export class Group {
     }
 
     public static overload_Constructor_CreateGroup(contactId: number) {
-        return new Group(0, null, null, null, SpiritualGrowthCongregationId, null, null, contactId, null, new Date().getDate(), null,
+        let today = moment.utc(new Date());
+        let group = new Group(0, null, null, null, SpiritualGrowthCongregationId, null, null, contactId, null, today.utc().format(), null,
         null, null, null, null, null, null, null, null, null, defaultGroupMeetingTime,
         null, null, Address.overload_Constructor_One(), null, null, null, null, SmallGroupTypeId, null, null);
+        group.isVirtualGroup = false;
+        return group;
     }
 
     constructor($groupId?: number, $groupName?: string, $groupDescription?: string, $groupTypeName?: string, $ministryId?: number,
     $congregationId?: number, $congregationName?: string, $primaryContactId?: number,
-    $primaryContactEmail?: number, $startDate?: number, $endDate?: string, $reasonEndedId?: number, $availableOnline?: boolean,
+    $primaryContactEmail?: number, $startDate?: string, $endDate?: string, $reasonEndedId?: number, $availableOnline?: boolean,
     $remainingCapacity?: number, $groupFullInd?: boolean, $waitListInd?: boolean, $waitListGroupId?: number,
     $childCareInd?: boolean, $meetingDayId?: number, $meetingDay?: string, $meetingTime?: string, $meetingFrequency?: string,
     $meetingFrequencyId?: number, $address?: Address, $targetSize?: number, $kidsWelcome?: boolean, $proximity?: number,
@@ -88,7 +97,8 @@ export class Group {
         this.childCareInd = $childCareInd;
         this.meetingDayId = $meetingDayId;
         this.meetingDay = $meetingDay;
-        this.meetingTime = $meetingTime;
+        this.meetingTime = hlpr.adjustUtcStringToAccountForLocalOffSet($meetingTime || defaultGroupMeetingTime,
+            false);
         this.meetingFrequency = $meetingFrequency;
         this.meetingFrequencyId = $meetingFrequencyId;
         this.address = $address;
