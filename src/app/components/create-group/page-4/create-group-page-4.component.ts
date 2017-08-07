@@ -6,10 +6,12 @@ import { Observable } from 'rxjs';
 
 import { Address, Attribute } from '../../../models';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { MiddleSchoolAgeRangeAttributeId, HighSchoolAgeRangeAttributeId } from '../../../shared/constants';
+import { MiddleSchoolAgeRangeAttributeId, HighSchoolAgeRangeAttributeId, GroupPaths, groupPaths,
+    GroupPageNumber  } from '../../../shared/constants';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class CreateGroupPage4Component implements OnInit {
     constructor(private fb: FormBuilder,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
+                private groupService: GroupService,
                 private router: Router,
                 private lookupService: LookupService,
                 private blandPageService: BlandPageService) { }
@@ -113,7 +116,7 @@ export class CreateGroupPage4Component implements OnInit {
             this.createGroupService.addAgeRangesToGroupModel();
             this.createGroupService.addGroupGenderMixTypeToGroupModel();
             this.createGroupService.group.minorAgeGroupsAdded = this.isStudentMinistrySelected;
-            this.router.navigate(['/create-group/page-5']);
+            this.groupService.navigateInGroupFlow(GroupPageNumber.FIVE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
         } else {
             this.state.setLoading(false);
         }
@@ -134,6 +137,6 @@ export class CreateGroupPage4Component implements OnInit {
     }
 
     public onBack() {
-        this.router.navigate(['/create-group/page-3']);
+        this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     }
 }

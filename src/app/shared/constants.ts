@@ -12,23 +12,23 @@ export class AwsMeetingTimeSearchStrings {
   }
 }
 
-export class GroupPaths {
-  ADD: string;
-  EDIT: string;
-
-  constructor() {
-    this.ADD = 'edit-group';
-    this.EDIT = 'create-group';
-  }
-}
-
 export enum GroupPageNumber {
   ONE = 1,
   TWO,
-  THREEt,
+  THREE,
   FOUR,
   FIVE,
   SIX
+}
+
+export class GroupPaths {
+    ADD: string;
+    EDIT: string;
+
+    constructor() {
+        this.ADD = 'create-group';
+        this.EDIT = 'edit-group';
+    }
 }
 
 export const groupPaths = new GroupPaths();

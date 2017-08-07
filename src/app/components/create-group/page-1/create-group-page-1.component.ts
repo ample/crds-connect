@@ -84,7 +84,7 @@ export class CreateGroupPage1Component implements OnInit {
         this.state.setLoading(true);
         if (form.valid && this.areCategoriesValid) {
             this.createGroupService.addSelectedCategoriesToGroupModel();
-            this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath());
+            this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
         } else {
             this.state.setLoading(false);
         }

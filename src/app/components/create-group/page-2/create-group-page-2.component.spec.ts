@@ -6,20 +6,27 @@ import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { BlandPageService } from '../../../services/bland-page.service';
-import { Group } from '../../../models';
-import { LookupService } from '../../../services/lookup.service';
-import { StateService } from '../../../services/state.service';
-import { TimeHelperService} from '../../../services/time-helper.service';
 
 import { MockComponent } from '../../../shared/mock.component';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage2Component } from './create-group-page-2.component';
 
-import { defaultGroupMeetingTime, meetingFrequencies } from '../../../shared/constants';
+import { BlandPageService } from '../../../services/bland-page.service';
+import { GroupService} from '../../../services/group.service';
+import { LookupService } from '../../../services/lookup.service';
+import { StateService } from '../../../services/state.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
+
+import { Group } from '../../../models';
+
+import { defaultGroupMeetingTime, meetingFrequencies,
+    groupMeetingScheduleType, GroupMeetingScheduleType,
+    GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+
 
 describe('CreateGroupPage2Component', () => {
     let fixture: ComponentFixture<CreateGroupPage2Component>;
+    let mockGroupService: GroupService;
     let comp: CreateGroupPage2Component;
     let el;
     let mockState, mockRouter, mockLookupService, mockBlandPageService;
@@ -31,7 +38,7 @@ describe('CreateGroupPage2Component', () => {
     ];
 
     beforeEach(() => {
-        mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['clearMeetingTimeData']);
         mockCreateGroupService.meetingTimeType = 'specific';
         mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
@@ -39,15 +46,18 @@ describe('CreateGroupPage2Component', () => {
         mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getDaysOfTheWeek']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
         (mockLookupService.getDaysOfTheWeek).and.returnValue(Observable.of(daysOfTheWeek));
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
         TestBed.configureTestingModule({
             declarations: [
                 CreateGroupPage2Component,
+
                 MockComponent({selector: 'crds-content-block', inputs: ['id']}),
                 MockComponent({selector: 'timepicker', inputs: ['ngModel', 'showMeridian', 'minuteStep', 'formControlName'] })
             ],
             providers: [
                 { provide: StateService, useValue: mockState },
                 TimeHelperService,
+                { provide: GroupService, useValue: mockGroupService },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
                 { provide: LookupService, useValue: mockLookupService },
@@ -101,13 +111,13 @@ describe('CreateGroupPage2Component', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-1']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(1, undefined, 0);
     });
 
     it('should submit if valid', () => {
         let form = new FormGroup({});
         comp.onSubmit(form);
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-3']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(3, undefined, 0);
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
     });
 

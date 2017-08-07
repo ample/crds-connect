@@ -130,6 +130,7 @@ describe('CreateGroupPage1Component', () => {
 
     it('should submit the form if valid', () => {
         (mockCreateGroupService.validateCategories).and.returnValue(true);
+        comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(123);
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
         comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);

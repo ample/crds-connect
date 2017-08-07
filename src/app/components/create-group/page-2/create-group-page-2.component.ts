@@ -5,6 +5,7 @@ import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagi
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../create-group-data.service';
+import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { TimeHelperService} from '../../../services/time-helper.service';
@@ -12,7 +13,8 @@ import { TimeHelperService} from '../../../services/time-helper.service';
 import { LookupTable } from '../../../models';
 
 import { defaultGroupMeetingTime, meetingFrequencies,
-         groupMeetingScheduleType, GroupMeetingScheduleType } from '../../../shared/constants';
+         groupMeetingScheduleType, GroupMeetingScheduleType,
+         GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class CreateGroupPage2Component implements OnInit {
   constructor(private fb: FormBuilder,
               private state: StateService,
               private createGroupService: CreateGroupService,
+              private groupService: GroupService,
               private router: Router,
               private lookupService: LookupService,
               private blandPageService: BlandPageService,
@@ -72,14 +75,14 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   public onBack(): void {
-    this.router.navigate(['/create-group/page-1']);
+    this.groupService.navigateInGroupFlow(GroupPageNumber.ONE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
   }
 
   public onSubmit(form: FormGroup) {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid) {
-      this.router.navigate(['/create-group/page-3']);
+      this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
       this.state.setLoading(false);
     }

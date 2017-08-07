@@ -3,9 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
 import { Router } from '@angular/router';
 
 import { Address } from '../../../models';
+import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { meetingFrequencies, usStatesList } from '../../../shared/constants';
+import { meetingFrequencies, usStatesList, GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class CreateGroupPage3Component implements OnInit {
     private meetingFrequencies: Array<any> = meetingFrequencies;
 
     constructor(private fb: FormBuilder,
+                private groupService: GroupService,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router) { }
@@ -82,11 +84,11 @@ export class CreateGroupPage3Component implements OnInit {
     public onSubmit(form: FormGroup): void {
         this.isSubmitted = true;
         if (form.valid) {
-            this.router.navigate(['/create-group/page-4']);
+            this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
         }
     }
 
     public onBack(): void {
-        this.router.navigate(['/create-group/page-2']);
+        this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     }
 }

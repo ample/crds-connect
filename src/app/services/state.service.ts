@@ -76,10 +76,12 @@ export class StateService {
 
 
   public setActiveGroupPath(path: string): void {
+    console.log('Setting active group path to: ' + path);
     this.activeGroupPath = path;
   }
 
   public getActiveGroupPath(): string {
+    console.log(`Getting active path: ` + this.activeGroupPath);
     return this.activeGroupPath;
   }
 

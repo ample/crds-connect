@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
+
+import {  GroupPaths, groupPaths, GroupPageNumber  } from '../../../shared/constants';
+
 
 
 @Component({
@@ -18,6 +22,7 @@ export class CreateGroupPage5Component implements OnInit {
     private groupVisibilityInvalid: boolean = false;
 
     constructor(private fb: FormBuilder,
+                private groupService: GroupService,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router) { }
@@ -41,7 +46,7 @@ export class CreateGroupPage5Component implements OnInit {
         this.state.setLoading(true);
         this.isSubmitted = true;
         if (form.valid && this.createGroupService.group.availableOnline != null) {
-            this.router.navigate(['/create-group/page-6']);
+            this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
         } else {
             this.groupVisibilityInvalid = true;
             this.state.setLoading(false);
@@ -49,6 +54,6 @@ export class CreateGroupPage5Component implements OnInit {
     }
 
     public onBack(): void {
-        this.router.navigate(['/create-group/page-4']);
+        this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     }
 }
