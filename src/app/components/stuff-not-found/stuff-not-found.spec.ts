@@ -7,7 +7,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { StuffNotFoundComponent } from './stuff-not-found.component';
-import { AppSettingsService } from '../../services/app-settings.service'
+import { AppSettingsService } from '../../services/app-settings.service';
+import { GroupService } from '../../services/group.service';
 
 describe('StuffNotFoundComponent', () => {
     let fixture: ComponentFixture<StuffNotFoundComponent>;
@@ -15,10 +16,13 @@ describe('StuffNotFoundComponent', () => {
     let el;
     let mockStateService;
     let mockAppSettingsService;
+    let mockGroupService;
 
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
         mockAppSettingsService = jasmine.createSpyObj('appSettings', ['myStuffName']);
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['getLeaderStatus']);
+
         TestBed.configureTestingModule({
             declarations: [
                 StuffNotFoundComponent,
@@ -26,7 +30,8 @@ describe('StuffNotFoundComponent', () => {
             ],
             providers: [
                 { provide: StateService, useValue: mockStateService },
-                { provide: AppSettingsService, useValue: mockAppSettingsService }
+                { provide: AppSettingsService, useValue: mockAppSettingsService },
+                { provide: GroupService, useValue: mockGroupService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
