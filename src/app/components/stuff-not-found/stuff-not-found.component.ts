@@ -33,4 +33,8 @@ export class StuffNotFoundComponent implements OnInit {
 
   }
 
+  public onGroupResourcesClicked() {
+    window.location.href = GroupResourcesUrl;
+  }
+
 }
