@@ -79,7 +79,7 @@ export class PersonEditComponent implements OnInit {
             .subscribe(
             (pin) => {
                 this.addressService.clearCache();
-                this.toastr.success(this.content.getContent('personSavedSuccess'));
+                this.toastr.success(this.content.getContent('finderPersonSavedSuccess'));
                 this.pin = pin;
                 this.state.navigatedFromAddToMapComponent = true;
                 this.state.postedPin = pin;
@@ -87,7 +87,7 @@ export class PersonEditComponent implements OnInit {
                 this.router.navigate(['/person', this.pin.participantId]);
             },
             (error) => {
-                this.toastr.error(this.content.getContent('personSavedError'));
+                this.toastr.error(this.content.getContent('finderPersonSavedError'));
                 this.submissionError = true;
                 console.log(error);
             }
