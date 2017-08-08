@@ -52,30 +52,32 @@
     </div>
   </div>
 
-  <div bsModal #resultsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 *ngIf="matchFound" class="modal-title pull-left">Adding Existing User</h4>
-          <h4 *ngIf="!matchFound" class="modal-title pull-left">Adding New User</h4>
-          <button type="button" class="close pull-right" (click)="hideResultsModal()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="modal-body">
-          <div *ngIf="matchFound">
-             The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
-             <br>
-             <button type="button" class="btn btn-primary"  (click)="modalUseSelected()">OK</button>
-             <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+  <div bsModal #resultsModal="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="fauxdal-wrapper">
+      <div  class="fauxdal-fullscreen">  
+        <div class="fauxdal-content">
+          <div class="modal-header">
+            <h4 *ngIf="matchFound" class="modal-title pull-left">Adding Existing User</h4>
+            <h4 *ngIf="!matchFound" class="modal-title pull-left">Adding New User</h4>
+            <button type="button" class="close pull-right" (click)="hideResultsModal()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
 
-          <div *ngIf="!matchFound">
-             The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
-             <br>
-             <button type="button" class="btn btn-primary" (click)="modalUseEntered()">OK</button>
-             <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+          <div class="modal-body">
+            <div *ngIf="matchFound">
+              The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
+              <br>
+              <button type="button" class="btn btn-primary"  (click)="modalUseSelected()">OK</button>
+              <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+            </div>
+
+            <div *ngIf="!matchFound">
+              The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.
+              <br>
+              <button type="button" class="btn btn-primary" (click)="modalUseEntered()">OK</button>
+              <button type="button" class="btn btn-primary" (click)="hideResultsModal()">Cancel</button>
+            </div>
           </div>
         </div>
       </div>
