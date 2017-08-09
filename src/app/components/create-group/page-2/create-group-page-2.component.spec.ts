@@ -1,27 +1,28 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { Location } from '@angular/common';
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { Group } from '../../../models';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
+
 import { MockComponent } from '../../../shared/mock.component';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage2Component } from './create-group-page-2.component';
 
-import { defaultGroupMeetingTime } from '../../../shared/constants';
+import { defaultGroupMeetingTime, meetingFrequencies } from '../../../shared/constants';
 
 describe('CreateGroupPage2Component', () => {
     let fixture: ComponentFixture<CreateGroupPage2Component>;
     let comp: CreateGroupPage2Component;
     let el;
-    let mockState, mockRouter, mockLocationService, mockLookupService, mockBlandPageService;
+    let mockState, mockRouter, mockLookupService, mockBlandPageService;
     let mockCreateGroupService: CreateGroupService;
     let daysOfTheWeek = [
         { dp_RecordID: 1, dp_RecordName: 'Sunday' },
@@ -31,12 +32,10 @@ describe('CreateGroupPage2Component', () => {
 
     beforeEach(() => {
         mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-        //mockCreateGroupService = <CreateGroupService>{ meetingTimeType: 'specific', group: Group.overload_Constructor_One(0, []) },
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['clearMeetingTimeData']);
         mockCreateGroupService.meetingTimeType = 'specific';
         mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-        mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
         mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getDaysOfTheWeek']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
         (mockLookupService.getDaysOfTheWeek).and.returnValue(Observable.of(daysOfTheWeek));
@@ -48,9 +47,9 @@ describe('CreateGroupPage2Component', () => {
             ],
             providers: [
                 { provide: StateService, useValue: mockState },
+                TimeHelperService,
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
-                { provide: Location, useValue: mockLocationService },
                 { provide: LookupService, useValue: mockLookupService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 FormBuilder
@@ -102,14 +101,12 @@ describe('CreateGroupPage2Component', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockLocationService.back).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-1']);
     });
 
     it('should submit if valid', () => {
         let form = new FormGroup({});
-        spyOn(comp, 'removeMeetingInfoFromGroupIfFlexible');
         comp.onSubmit(form);
-        expect(comp['removeMeetingInfoFromGroupIfFlexible']).toHaveBeenCalled();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-3']);
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
     });
@@ -118,23 +115,32 @@ describe('CreateGroupPage2Component', () => {
         let form  = new FormGroup({
             stuff: new FormControl('', Validators.required)
         });
-
-        spyOn(comp, 'removeMeetingInfoFromGroupIfFlexible');
         comp.onSubmit(form);
-        expect(comp['removeMeetingInfoFromGroupIfFlexible']).not.toHaveBeenCalled();
         expect(mockRouter.navigate).not.toHaveBeenCalled();
         expect(mockState.setLoading).toHaveBeenCalledTimes(2);
     });
 
-    it('should call clearMeetingTimeData if removeMeetingInfoFromGroupIfFlexible', () => {
-        comp['createGroupService'].meetingTimeType = 'flexible';
-        comp['removeMeetingInfoFromGroupIfFlexible']();
-    });
-
-    it('should set the time to the default time if the time in the group service creation is null', () => {
+    it('should set the time to the default time if the time in the group service creation is null\'',
+      inject([TimeHelperService], (hlpr: TimeHelperService) => {
         comp['createGroupService']['meetingTime'] = null;
         comp['initializeGroupMeetingScheduleForm']();
-        expect(comp['createGroupService']['group']['meetingTime']).toEqual(defaultGroupMeetingTime);
+        expect(comp['createGroupService']['group']['meetingTime'])
+            .toEqual(hlpr.adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false));
+      })
+    );
+
+    it('should update group model when meeting frequency is selected', () => {
+        comp['meetingFrequencies'] = meetingFrequencies;
+        comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(1);
+        comp['onFrequencyChange'](2);
+        expect(comp['createGroupService'].group.meetingFrequency).toBe('Every Other Week');
+    });
+
+    it('should update group model when meeting day is selected', () => {
+        comp['daysOfTheWeek'] = daysOfTheWeek;
+        comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(1);
+        comp['onDayChange'](3);
+        expect(comp['createGroupService'].group.meetingDay).toBe('Nope');
     });
 
 });

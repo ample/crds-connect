@@ -23,6 +23,7 @@ import { AddressService } from '../../services/address.service';
 import { Location } from '@angular/common';
 import { MockTestData } from '../../shared/MockTestData';
 
+import { GoogleMapService } from '../../services/google-map.service';
 
 describe('Component: Add Me to the Map', () => {
 
@@ -34,7 +35,8 @@ describe('Component: Add Me to the Map', () => {
     mockUserLocationServicee,
     mockAddressService,
     mockToastsManager,
-    mockPinService;
+    mockPinService,
+    mockMapHlpr;
 
 
   beforeEach(() => {
@@ -43,10 +45,11 @@ describe('Component: Add Me to the Map', () => {
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['clearCache']);
-    mockState = jasmine.createSpyObj<StateService>('state', ['setMyViewOrWorldView', 'setCurrentView', 'setLoading', 'setLastSearch']);
+    mockState = jasmine.createSpyObj<StateService>('state', ['getMyViewOrWorldView', 'setMyViewOrWorldView', 'setCurrentView', 'setLoading', 'setLastSearch', 'setMapView']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
+    mockMapHlpr = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['calculateZoom']);
 
 
     TestBed.configureTestingModule({
@@ -73,7 +76,8 @@ describe('Component: Add Me to the Map', () => {
         { provide: AddressService, useValue: mockAddressService },
         { provide: ToastsManager, useValue: mockToastsManager },
         { provide: UserLocationService, useValue: mockUserLocationServicee },
-        { provide: PinService, useValue: mockPinService }
+        { provide: PinService, useValue: mockPinService },
+        { provide: GoogleMapService, useValue: mockMapHlpr}
       ]
     });
     this.fixture = TestBed.createComponent(AddMeToMapComponent);
@@ -103,27 +107,27 @@ describe('Component: Add Me to the Map', () => {
   });
 
   it('should submit', () => {
-        let pin = MockTestData.getAPin(1);
-        this.component['userData'] = pin;
-        let expectedBpd = new BlandPageDetails(
-          'See for yourself',
-          'finderNowAPin',
-          BlandPageType.ContentBlock,
-          BlandPageCause.Success,
-          '',
-          ''
-        );
+    let pin = MockTestData.getAPin(1);
+    this.component['userData'] = pin;
+    let expectedBpd = new BlandPageDetails(
+      'See for yourself',
+      'finderNowAPin',
+      BlandPageType.ContentBlock,
+      BlandPageCause.Success,
+      '',
+      ''
+    );
 
-        (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
-        pin['valid'] = true;
-        this.component.onSubmit(pin);
-        expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
-        expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
-        expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
-        expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
-        expect(mockState.setLastSearch).toHaveBeenCalledWith(null);
-        expect(mockSessionService.clearCache).toHaveBeenCalled();
-
-    });
+    (<jasmine.Spy>mockPinService.postPin).and.returnValue(Observable.of(pin));
+    pin['valid'] = true;
+    this.component.onSubmit(pin);
+    expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
+    expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
+    expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+    expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
+    expect(mockState.setLastSearch).toHaveBeenCalledWith(null);
+    expect(mockSessionService.clearCache).toHaveBeenCalled();
+    expect(mockState.setMapView).toHaveBeenCalled();
+  });
 
 });

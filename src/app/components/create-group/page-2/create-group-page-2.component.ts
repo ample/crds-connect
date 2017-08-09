@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
 
@@ -8,6 +7,7 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
 
 import { LookupTable } from '../../../models';
 
@@ -21,6 +21,7 @@ import { defaultGroupMeetingTime, meetingFrequencies,
 })
 export class CreateGroupPage2Component implements OnInit {
   public meetingTimeForm: FormGroup;
+  private timeZoneAdjustedDefaultGroupMeetingTime: string;
   private isSubmitted: boolean = false;
   private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
   private daysOfTheWeek: LookupTable[] = [];
@@ -30,9 +31,9 @@ export class CreateGroupPage2Component implements OnInit {
               private state: StateService,
               private createGroupService: CreateGroupService,
               private router: Router,
-              private locationService: Location,
               private lookupService: LookupService,
-              private blandPageService: BlandPageService) { }
+              private blandPageService: BlandPageService,
+              private timeHlpr: TimeHelperService) { }
 
   ngOnInit() {
     this.state.setPageHeader('start a group', '/create-group/page-1');
@@ -51,6 +52,9 @@ export class CreateGroupPage2Component implements OnInit {
         console.log(err);
         this.blandPageService.goToDefaultError('/');
       });
+
+      this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
+          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
   }
 
   public onClick(scheduleType: string): void {
@@ -68,14 +72,13 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   public onBack(): void {
-    this.locationService.back();
+    this.router.navigate(['/create-group/page-1']);
   }
 
   public onSubmit(form: FormGroup) {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid) {
-      this.removeMeetingInfoFromGroupIfFlexible();
       this.router.navigate(['/create-group/page-3']);
     } else {
       this.state.setLoading(false);
@@ -83,13 +86,14 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private initializeGroupMeetingScheduleForm(): FormGroup {
-    this.createGroupService.group.meetingTime = this.createGroupService.group.meetingTime || defaultGroupMeetingTime;
+    this.createGroupService.group.meetingTime = this.createGroupService.group.meetingTime
+                                                || this.timeZoneAdjustedDefaultGroupMeetingTime;
     return this.fb.group({
       meetingTimeType: [this.createGroupService.meetingTimeType, Validators.required],
       meetingTime: [this.createGroupService.group.meetingTime],
       meetingDay: [this.createGroupService.group.meetingDayId],
       meetingFrequency: [this.createGroupService.group.meetingFrequency]
-    })
+    });
   }
 
   private makeSpecificTimeFormSectionRequired(form: FormGroup): FormGroup {
@@ -98,12 +102,6 @@ export class CreateGroupPage2Component implements OnInit {
     form.controls['meetingFrequency'].setValidators(Validators.required);
 
     return form;
-  }
-
-  private removeMeetingInfoFromGroupIfFlexible(): void {
-    if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
-      this.createGroupService.clearMeetingTimeData();
-    }
   }
 
   private removeValidationOnSpecificTimeFormSection(form: FormGroup): FormGroup {
@@ -115,7 +113,7 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private setRequiredFormFields(form: FormGroup, meetingTimeType: string): FormGroup {
-    if(meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE){
+    if (meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE) {
       this.meetingTimeForm = this.makeSpecificTimeFormSectionRequired(this.meetingTimeForm);
     }
 
@@ -129,6 +127,20 @@ export class CreateGroupPage2Component implements OnInit {
     form.controls['meetingFrequency'].updateValueAndValidity();
 
     return form;
+  }
+
+  private onDayChange(value): void {
+    let day: LookupTable = this.daysOfTheWeek.find((aDay: LookupTable) => {
+      return aDay.dp_RecordID === +value;
+    });
+    this.createGroupService.group.meetingDay = day.dp_RecordName;
+  }
+
+  private onFrequencyChange(value): void {
+    let frequency = this.meetingFrequencies.find((freq) => {
+      return freq.meetingFrequencyId === +value;
+    });
+    this.createGroupService.group.meetingFrequency = frequency.meetingFrequencyDesc;
   }
 
 }

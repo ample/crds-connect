@@ -1,0 +1,10 @@
+<h4 class="accordion-subheader text-uppercase font-size-smaller flush-top">Day</h4>
+
+<div class="btn-group">
+  <button *ngFor="let day of selectableDaysOfWeek"
+          (click)="onClickToSelect(day)"
+          class="btn btn-option btn-outline"
+          type="button"
+          [class.active]="day.isSelected">{{day.value}}
+  </button>
+</div>

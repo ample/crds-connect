@@ -2,7 +2,6 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitt
 import { FormsModule }   from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Angulartics2 } from 'angulartics2';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
@@ -10,12 +9,12 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
+import { textConstants } from '../../shared/constants';
+
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-
-import { app, placeholderTextForSearchBar } from '../../shared/constants';
 
 @Component({
   selector: 'app-search-bar',
@@ -39,8 +38,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public ngOnInit(): void {
-
-    this.placeholderTextForSearchBar = this.appSettings.isConnectApp() ? placeholderTextForSearchBar.ADDRESS : placeholderTextForSearchBar.KEYWORD;
+    this.placeholderTextForSearchBar = this.appSettings.placeholderTextForSearchBar;
 
     this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
 
@@ -60,7 +58,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit(!this.isMapHidden);
 
-    if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== 'My Stuff') {
+    if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== this.appSettings.myStuffName) {
       this.onSearch(this.state.searchBarText);
     }
 
@@ -81,7 +79,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.lastSearch.search = search;
     this.state.searchBarText = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
-
   }
 
   private setButtonText() {
@@ -93,7 +90,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
     } else {
-      this.state.searchBarText = 'My Stuff';
+      this.state.searchBarText = this.appSettings.myStuffName;
     }
   }
 

@@ -1,0 +1,10 @@
+<h4 class="accordion-subheader text-uppercase font-size-smaller push-top">Time</h4>
+
+<div class="btn-group">
+  <button *ngFor="let timeRange of selectableTimeRanges"
+          (click)="onClickToSelect(timeRange)"
+          class="btn btn-option btn-outline"
+          type="button"
+          [class.active]="timeRange.isSelected">{{timeRange.value}}
+  </button>
+</div>

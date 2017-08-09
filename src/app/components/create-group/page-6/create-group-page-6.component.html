@@ -1,0 +1,92 @@
+<div class="connect-container connect-layout-container">
+  <div class="soft-top">
+    <div class="soft-top">
+      <p class="media-meta flush-bottom">STEP 6 OF 6</p>
+      <h3 class="media-heading font-family-condensed-extra text-uppercase">Tell us about yourself</h3>
+      <hr>
+    </div>
+  </div>
+  <div *ngIf="isComponentReady">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm)">
+      <p class="control-label soft-top">What site do you regularly attend</p>
+      <select class="form-control" name="crossroadsSite" formControlName="crossroadsSite" [(ngModel)]="createGroupService.profileData.congregationId">
+        <option value="null" disabled="true">Select a site...</option>
+        <option *ngFor="let site of sites" [value]="site.dp_RecordID">{{site.dp_RecordName}}</option>
+      </select>
+
+      <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
+        <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+      </div>
+
+      <p class="control-label soft-top push-quarter-bottom">Gender</p>
+      <div class="radio radio-inline">
+        <input id="inlineRadioBtn1" name="gender" type="radio" [value]="1" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
+        <label for="inlineRadioBtn1">Male</label>
+
+        <div class="check" tabindex="0"></div>
+      </div>
+
+      <div class="radio radio-inline">
+        <input id="inlineRadioBtn2" name="gender" type="radio" [value]="2" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
+        <label for="inlineRadioBtn2">Female</label>
+        <div class="check" tabindex="0"></div>
+      </div>
+
+      <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
+        <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+      </div>
+
+      <div class="soft-top">
+        <p class="control-label push-quarter-bottom">What's your address?</p>
+        <crds-content-block id="groupToolCreateGroupAddressHelp"></crds-content-block>
+        <!--ADDRESS LINE 1-->
+        <div class="form-group soft-half-top">
+          <label class="sr-only" for="addressLine1">Address Line 1</label>
+          <input type="text" class="form-control" maxlength="75" placeholder="Address Line 1" id="addressLine1" formControlName="addressLine1"
+            name="addressLine1" [(ngModel)]="createGroupService.profileData.addressLine1">
+          <p class="alert alert-danger" *ngIf="isSubmitted && !profileForm.controls['addressLine1'].valid">Address Line 1 is required!</p>
+        </div>
+
+        <!--ADDRESS LINE 2-->
+        <div class="form-group">
+          <label class="sr-only" for="addressLine2">Address Line 2</label>
+          <input type="text" class="form-control" maxlength="75" placeholder="Address Line 2" id="addressLine2" formControlName="addressLine2"
+            name="addressLine2" [(ngModel)]="createGroupService.profileData.addressLine2">
+          <p class="alert alert-danger" *ngIf="isSubmitted && !profileForm.controls['addressLine2'].valid">Address Line 2 is invalid</p>
+        </div>
+
+        <!--CITY-->
+        <div class="form-group">
+          <label class="sr-only" for="city">City2</label>
+          <input type="text" class="form-control" maxlength="22" placeholder="City" id="city" formControlName="city" name="city" [(ngModel)]="createGroupService.profileData.city">
+          <p class="alert alert-danger" *ngIf="isSubmitted && !profileForm.controls['city'].valid">City is required!</p>
+        </div>
+
+        <div class="row">
+          <!--STATE-->
+          <div class="form-group col-xs-6 flush-bottom">
+            <label class="sr-only" for="state">State</label>
+            <select formControlName="state" class="form-control override-styles-for-dropdown" placeholder="State" id="state" [(ngModel)]="createGroupService.profileData.state">
+              <option *ngFor="let state of stateList" [value]="state">{{state}}</option>
+            </select>
+          </div>
+
+          <!--ZIP-->
+          <div class="form-group col-xs-6 flush-bottom">
+            <label class="sr-only" for="zip">Zip Code</label>
+            <input type="tel" onlyTheseKeys="[0-9]" class="form-control" maxlength="10" placeholder="Zip Code" formControlName="zip" id="zip" name="zip" pattern="^(\d{5}|\d{5}-\d{4})$" [(ngModel)]="createGroupService.profileData.postalCode">
+          </div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="(isSubmitted && !profileForm.controls['state'].valid ) || (isSubmitted && !profileForm.controls['zip'].valid)">
+          <ul class="list-unstyled text-center">
+            <li class="" *ngIf="isSubmitted  && !profileForm.controls['state'].valid">State is required.</li>
+            <li class="" *ngIf="isSubmitted && !profileForm.controls['zip'].valid">Zip is required.</li>
+          </ul>
+        </div>
+
+        <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
+      </div>
+    </form>
+  </div>
+</div>

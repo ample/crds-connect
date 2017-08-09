@@ -1,0 +1,17 @@
+<div class="connect-container connect-layout-container">
+  <div class="soft-ends">
+    <div class="soft-top">
+      <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Preview</h3>
+      <hr>
+      <crds-content-block id="groupToolDetailPageAboutHeadingSubtext"></crds-content-block>
+    </div>
+  </div>
+
+  <gathering *ngIf="isComponentReady" [user]="smallGroupPin" [pin]="smallGroupPin" [isLoggedIn]="false" [isPinOwner]="false"
+    [previewMode]="true" [leaders]="leaders">
+  </gathering>
+
+  <form (ngSubmit)="onSubmit()">
+    <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
+  </form>
+</div>

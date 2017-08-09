@@ -22,8 +22,9 @@ export class CustomOptions extends ToastOptions {
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule  } from 'ngx-bootstrap';
+
+import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -45,9 +46,12 @@ import { CreateGroupPage2Component } from './components/create-group/page-2/crea
 import { CreateGroupPage3Component } from './components/create-group/page-3/create-group-page-3.component';
 import { CreateGroupPage4Component } from './components/create-group/page-4/create-group-page-4.component';
 import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
+import { CreateGroupPage6Component } from './components/create-group/page-6/create-group-page-6.component';
+import { CreateGroupPreviewComponent } from './components/create-group/preview/create-group-preview.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { KidsWelcomeComponent } from './components/filters/kids-welcome/kids-welcome.component';
 import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.component';
+import { CategoryComponent } from './components/filters/category/category.component';
 
 import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
@@ -67,6 +71,9 @@ import { ListEntryComponent } from './components/list-entry/list-entry.component
 import { MapComponent } from './components/map/map.component';
 import { MapContentComponent } from './components/map-content/map-content.component';
 import { MapFooterComponent } from './components/map-footer/map-footer.component';
+import { MeetingDayComponent } from './components/filters/meeting-day/meeting-day.component';
+import { MeetingFrequencyComponent} from './components/filters/meeting-frequency/meeting-frequency.component';
+import { MeetingTimeComponent } from './components/filters/meeting-time/meeting-time.component';
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { OnlineOrPhysicalGroupComponent } from './components/filters/online-or-physical-group/online-or-physical-group.component';
@@ -87,9 +94,11 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
+import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
 import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
+import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
@@ -107,9 +116,11 @@ import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
 import { PinLabelService } from './services/pin-label.service';
 import { PinService } from './services/pin.service';
+import { ProfileService } from './services/profile.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
+import { TimeHelperService } from './services/time-helper.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
@@ -138,8 +149,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
     RouterModule.forRoot(appRoutingProviders),
-    Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
-    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
+    Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment]),
     BrowserModule,
     BrowserAnimationsModule,
     ButtonsModule,
@@ -156,6 +166,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SelectModule,
     ToastModule.forRoot(),
     TimepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
@@ -175,10 +186,13 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CreateGroupPage3Component,
     CreateGroupPage4Component,
     CreateGroupPage5Component,
+    CreateGroupPage6Component,
+    CreateGroupPreviewComponent,
     EmailParticipantsComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
+    CategoryComponent,
     GatheringComponent,
     GatheringEditComponent,
     GatheringRequestsComponent,
@@ -195,6 +209,9 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     MapComponent,
     MapContentComponent,
     MapFooterComponent,
+    MeetingDayComponent,
+    MeetingFrequencyComponent,
+    MeetingTimeComponent,
     NeighborsComponent,
     NoResultsComponent,
     OnlineOrPhysicalGroupComponent,
@@ -218,12 +235,14 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchLocalComponent,
     StuffNotFoundComponent,
     LeaderResourcesComponent,
-    GoogleMapClusterDirective
+    GoogleMapClusterDirective,
+    CreateGroupFooterComponent
   ],
   providers: [
     AddressService,
     AppSettingsService,
     appRoutingProviders,
+    AnalyticsService,
     BlandPageGuard,
     BlandPageService,
     ContentService,
@@ -238,6 +257,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GroupLeaderGuard,
     GroupLeaderApprovedGuard,
     Angulartics2GoogleAnalytics,
+    Angulartics2Segment,
     GroupService,
     HostApplicationHelperService,
     IFrameParentService,
@@ -252,10 +272,12 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PageNotFoundGuard,
     PinService,
     PinResolver,
+    ProfileService,
     SearchService,
     SessionService,
     StateService,
     StoreService,
+    TimeHelperService,
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,

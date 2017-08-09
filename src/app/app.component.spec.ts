@@ -1,3 +1,4 @@
+import { AnalyticsService } from './services/analytics.service';
 /* tslint:disable:no-unused-variable */
 import { async, inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
@@ -10,24 +11,34 @@ import { StateService } from './services/state.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { Angulartics2, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Angulartics2, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
 import { HeaderComponent } from './layout/header/header.component';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppSettingsService } from './services/app-settings.service';
+import { PinService } from './services/pin.service';
+import { AddressService } from './services/address.service';
+import { LoginRedirectService } from './services/login-redirect.service';
+import { SiteAddressService } from './services/site-address.service';
+import { BlandPageService } from './services/bland-page.service';
+import { GoogleMapService } from './services/google-map.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { MapFooterComponent } from './components/map-footer/map-footer.component';
 
 describe('App: CrdsConnect', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let mockAnalytics;
 
   beforeEach(async(() => {
+    mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['myStuff']);
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        HeaderComponent
+        HeaderComponent,
+        MapFooterComponent
       ],
       imports: [
         PreloaderModule,
@@ -42,12 +53,21 @@ describe('App: CrdsConnect', () => {
         CookieService,
         StateService,
         ContentService,
+        { provide: AnalyticsService, useValue: mockAnalytics },
+        // TODO: The angulartics modules should probably be mocked so they don't cause a page view to be logged.
         Angulartics2,
         Angulartics2GoogleTagManager,
         Angulartics2GoogleAnalytics,
+        Angulartics2Segment,
         ToastsManager,
         ToastOptions,
         AppSettingsService,
+        PinService,
+        AddressService,
+        LoginRedirectService,
+        SiteAddressService,
+        BlandPageService,
+        GoogleMapService,
         Location, {provide: LocationStrategy, useClass: PathLocationStrategy},
         {provide: APP_BASE_HREF, useValue: '/'}
       ]

@@ -1,5 +1,4 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { SessionService } from '../../../../services/session.service';
@@ -16,40 +15,43 @@ export class ParticipantCardComponent implements OnInit {
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
   public isLeader: boolean = false;
-  public canBeHyperlinked: boolean = true;
   public isMe: boolean = false;
   public isApprentice: boolean = false;
 
   constructor(private session: SessionService,
               private router: Router,
               private route: ActivatedRoute,
-              private appSettingsService: AppSettingsService) {
+              private appSettings: AppSettingsService) {
   }
 
   public ngOnInit() {
+    if (this.participant.canBeHyperlinked === undefined) {
+      this.participant.canBeHyperlinked = true;
+    }
     if (this.session.getContactId() === this.participant.contactId) {
       this.isMe = true;
-      this.canBeHyperlinked = false;
+      this.participant.canBeHyperlinked = false;
     }
     this.isApprentice = (this.participant.groupRoleId === GroupRole.APPRENTICE);
     this.isLeader     = (this.participant.groupRoleId === GroupRole.LEADER);
   }
 
+  public enableHyperlink(): boolean {
+    return this.participant.canBeHyperlinked;
+  }
+
   public showLeaderLabel(): boolean {
-    return (this.appSettingsService.isSmallGroupApp() && this.isLeader);
+    return (this.appSettings.isSmallGroupApp() && this.isLeader) ||
+    ((this.pinParticipantId === this.participant.participantId) && this.appSettings.isConnectApp());
   }
 
   public showApprenticeLabel(): boolean {
-    return (this.appSettingsService.isSmallGroupApp() && this.isApprentice);
-  }
-
-  public showHostLabel(): boolean {
-      return (this.pinParticipantId === this.participant.participantId) && this.appSettingsService.isConnectApp();
+    return (this.appSettings.isSmallGroupApp() && this.isApprentice);
   }
 
   public onParticipantClick(): void {
-    if (this.canBeHyperlinked) {
-      this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+      if (this.participant.canBeHyperlinked) {
+        this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
     }
   }
 

@@ -29,7 +29,7 @@ describe('Service: Pin', () => {
   mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['clearCache']);
   mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
   mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
-  mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+  mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'getMapView']);
   mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
   mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googlemapservice', ['get', 'post', 'getContactId']);
   mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
@@ -209,6 +209,23 @@ describe('Service: Pin', () => {
       let expectedSearchParams = new PinSearchRequestParams('ayy', null, '');
       let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest('ayy', null);
       expect(actualSearchParams).toEqual(expectedSearchParams);
+
+    }));
+
+    it('should remove pin from results if the pin is deleted', inject([PinService], (service: PinService) => {
+      let mockIdOfPinToDelete: number = 9876543210;
+      let mockTypeOfPinToDelete: number = pinType.PERSON;
+      let mockDeletedPinIdentifier: PinIdentifier = new PinIdentifier(mockTypeOfPinToDelete, mockIdOfPinToDelete);
+      let mockPinOne: Pin = MockTestData.getAPin();
+      let mockPinTwo: Pin = MockTestData.getAPin(mockIdOfPinToDelete, 1, mockTypeOfPinToDelete, 5, 5);
+      let mockPins: Pin[] = [mockPinOne, mockPinTwo];
+      let filteredMockPins = service.removePinFromResultsIfDeleted(mockPins, mockDeletedPinIdentifier);
+
+      let expectedFilteredLength = 1;
+      let expectedRemaininingPin = filteredMockPins[0];
+
+      expect(filteredMockPins.length).toEqual(expectedFilteredLength);
+      expect(expectedRemaininingPin.contactId).toEqual(1);
 
     }));
 

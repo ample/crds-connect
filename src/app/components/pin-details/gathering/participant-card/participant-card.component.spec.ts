@@ -31,8 +31,9 @@ describe('ParticipantCardComponent', () => {
     mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp','isConnectApp']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockRoute = new ActivatedRouteStub();
+    let canBeHyperlinked: boolean = true;
     participant = new Participant('Mason', 321, 'Kerstanoff, Joeker', 'email@email.com', 111, 22, 'Leader', true, 'Kerstanoff',
-      'JoeKer', 123, '1943-02-03');
+      'JoeKer', 123, '1943-02-03', canBeHyperlinked);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -65,18 +66,18 @@ describe('ParticipantCardComponent', () => {
 
   it('should init and set isMe to true', () => {
     mockSessionService.getContactId.and.returnValue(321);
-    comp.canBeHyperlinked = true;
+    comp['participant'].canBeHyperlinked = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(true);
-    expect(comp.canBeHyperlinked).toBe(false);
+    expect(comp['participant'].canBeHyperlinked).toBe(false);
   });
 
   it('should init and set isMe to false', () => {
     mockSessionService.getContactId.and.returnValue(747648367);
-    comp.canBeHyperlinked = true;
+    comp['participant'].canBeHyperlinked = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(false);
-    expect(comp.canBeHyperlinked).toBe(true);
+    expect(comp['participant'].canBeHyperlinked).toBe(true);
   });
 
   it('showLeaderLabel should return true', () => {
@@ -91,22 +92,22 @@ describe('ParticipantCardComponent', () => {
     expect(comp.showApprenticeLabel()).toBe(true);
   });
 
-  it('showHostLabel should return true when pinParticipant id matches the participants id', () => {
+  it('showLeader should return true when pinParticipant id matches the participants id', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     mockAppSettings.isConnectApp.and.returnValue(true);
-    expect(comp.showHostLabel()).toBe(true);
+    expect(comp.showLeaderLabel()).toBe(true);
   });
 
-  it('showHostLabel should return false when pinParticipant doesnt match participant', () => {
-    expect(comp.showHostLabel()).toBe(false);
+  it('showLeaderLabel should return false when pinParticipant doesnt match participant', () => {
+    expect(comp.showLeaderLabel()).toBe(false);
   });
 
   it('should navigate on card click', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
-    comp.canBeHyperlinked = true;
+    comp['participant'].canBeHyperlinked = true;
 
     comp.onParticipantClick();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['./participant-detail/' + 777], { relativeTo: mockRoute });
@@ -116,7 +117,7 @@ describe('ParticipantCardComponent', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
-    comp.canBeHyperlinked = false;
+    comp['participant'].canBeHyperlinked = false;
 
     comp.onParticipantClick();
     expect(mockRouter.navigate).not.toHaveBeenCalled();
