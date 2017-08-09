@@ -3,16 +3,15 @@ import { Component, Output, EventEmitter, Input, ViewChild } from '@angular/core
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ModalDirective } from 'ngx-bootstrap/modal';
-
 @Component({
   selector: 'create-group-footer',
   templateUrl: './create-group-footer.component.html',
 })
 export class CreateGroupFooterComponent {
-  @ViewChild('cancelModal') public cancelModal: ModalDirective;
   @Input() showbackbutton: boolean = true;
   @Output() backevent: EventEmitter<number> = new EventEmitter<number>();
+
+  public showFauxdal: boolean = false;
 
   constructor(private router: Router, private createGroupService: CreateGroupService) { }
   public OnBack() {
@@ -20,25 +19,24 @@ export class CreateGroupFooterComponent {
   }
 
   public OnCancel() {
-    this.showCancelModal();
+    this.showCancelFauxdal();
   }
 
   public cancelDeclined(): void {
-     this.cancelModal.hide();
+      this.hideCancelFauxdal();
   }
 
-  private showCancelModal(): void {
-    this.cancelModal.show();
+  private showCancelFauxdal(): void {
+    this.showFauxdal = true;
   }
 
-  private hideCancelModal(): void {
-     this.cancelModal.hide();
+  private hideCancelFauxdal(): void {
+     this.showFauxdal = false;
   }
 
   private cancelConfirmed(): void {
     this.createGroupService.reset();
-    this.cancelModal.hide();
+    this.hideCancelFauxdal();
      this.router.navigate(['/create-group']);
   }
-
 }

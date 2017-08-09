@@ -2,14 +2,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { ToastsManager } from 'ng2-toastr';
-import { ModalModule } from 'ngx-bootstrap';
 
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupFooterComponent } from './create-group-footer.component';
 
-import { ModalDirective } from 'ngx-bootstrap/modal';
 
 describe('CreateGroupFooterComponent', () => {
     let fixture: ComponentFixture<CreateGroupFooterComponent>;
@@ -23,12 +19,7 @@ describe('CreateGroupFooterComponent', () => {
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['reset']);
 
-        mockModal = jasmine.createSpyObj<ModalDirective>('md', ['show']);
-
         TestBed.configureTestingModule({
-            imports: [
-                ModalModule.forRoot()
-            ],
             declarations: [
                 CreateGroupFooterComponent
             ],
@@ -51,15 +42,14 @@ describe('CreateGroupFooterComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('should show modal', () => {
-        comp.cancelModal = jasmine.createSpyObj<ModalDirective>('modalDir', ['show', 'hide']);
+    it('should show fauxdal', () => {
         comp.OnCancel();
-        expect(comp.cancelModal.show).toHaveBeenCalled();
+        expect(comp.showFauxdal).toBeTruthy();
     });
 
-    it('should hide modal', () => {
-        comp.cancelModal = jasmine.createSpyObj<ModalDirective>('modalDir', ['show', 'hide']);
+    it('should hide fauxdal', () => {
+        comp.showFauxdal = true;
         comp.cancelDeclined();
-        expect(comp.cancelModal.hide).toHaveBeenCalled();
+        expect(comp.showFauxdal).toBeFalsy();
     });
 });
