@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { GroupService } from '../../services/group.service';
+import { PinService } from '../../services/pin.service';
 
 import { GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
@@ -16,7 +17,9 @@ export class StuffNotFoundComponent implements OnInit {
 
   constructor(private state: StateService,
               private appSettings: AppSettingsService,
-              private groupService: GroupService ) { }
+              private groupService: GroupService,
+              private pinService: PinService,
+              private router: Router ) { }
 
   public ngOnInit() {
     this.state.setPageHeader(this.appSettings.myStuffName, '/');
@@ -31,6 +34,12 @@ export class StuffNotFoundComponent implements OnInit {
           }
         });
 
+  }
+
+  public onFindAGroupClicked() {
+    // clear is required is user is prompted to log in when click "My Groups"" for the first time
+    this.pinService.clearPinCache();
+    this.router.navigate(['/']);
   }
 
   public onGroupResourcesClicked() {
