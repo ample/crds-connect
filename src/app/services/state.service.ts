@@ -9,11 +9,12 @@ import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { SearchOptions } from '../models/search-options';
 
+import { mapViewType } from '../shared/constants';
+
 // TODO: This class has a lot of flags.
 // Investigate to see if they belong here and/or add some documentation.
 @Injectable()
 export class StateService {
-
   public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
 
   public appForWhichWeRanLastSearch: string = undefined;
@@ -36,7 +37,7 @@ export class StateService {
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
 
-  private mapOrListView: string = 'map';
+  private mapOrListView: string = mapViewType;
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';

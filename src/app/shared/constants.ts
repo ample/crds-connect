@@ -146,6 +146,10 @@ export class AppType {
   }
 }
 
+// View Types:
+export const mapViewType: string = 'map';
+export const listViewType: string = 'list';
+
 export const appType: AppType = new AppType();
 
 export class AwsFieldNames {
