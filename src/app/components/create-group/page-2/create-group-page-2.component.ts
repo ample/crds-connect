@@ -14,7 +14,8 @@ import { LookupTable } from '../../../models';
 
 import { defaultGroupMeetingTime, meetingFrequencies,
          groupMeetingScheduleType, GroupMeetingScheduleType,
-         GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+         GroupPaths, groupPaths, GroupPageNumber,
+         defaultGroupMeetingTimePrefix, defaultGroupMeetingTimeSuffix } from '../../../shared/constants';
 
 
 @Component({
@@ -55,6 +56,10 @@ export class CreateGroupPage2Component implements OnInit {
         console.log(err);
         this.blandPageService.goToDefaultError('/');
       });
+
+      if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+        this.setFieldsFromExistingGroup();
+      }
 
       this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
           .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
@@ -144,6 +149,12 @@ export class CreateGroupPage2Component implements OnInit {
       return freq.meetingFrequencyId === +value;
     });
     this.createGroupService.group.meetingFrequency = frequency.meetingFrequencyDesc;
+  }
+
+  private setFieldsFromExistingGroup(): void {
+    this.createGroupService.group.meetingFrequencyId = +this.createGroupService.group['meetingFrequencyID'];
+    this.createGroupService.group.meetingTime =
+        this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.group.meetingTime)
   }
 
 }
