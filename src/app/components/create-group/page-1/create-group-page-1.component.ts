@@ -11,7 +11,7 @@ import { GroupService} from '../../../services/group.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { StateService } from '../../../services/state.service';
 
-import { GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
 
 
 @Component({
@@ -52,9 +52,12 @@ export class CreateGroupPage1Component implements OnInit {
     categories.forEach((category) => {
       this.groupCategoryForm.addControl(category.name, new FormControl('', []));
       this.groupCategoryForm.addControl(`${category.name}-detail`, new FormControl('', []));
-      //find category in group categories
+
+      if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+        this.populateFormWithValuesFromGroupBeingEdited(category);
+      }
     });
-}
+  }
 
   public onSelect(category: Category): void {
     (!category.selected) ? this.addCategory(category) : this.removeCategory(category);
@@ -105,4 +108,17 @@ export class CreateGroupPage1Component implements OnInit {
     let path: string = pathWithParamsAndChildren.split('/')[1];
     this.state.setActiveGroupPath(path);
   }
+
+  private populateFormWithValuesFromGroupBeingEdited (category: Category): void {
+    let attributesMatchingCat: Attribute[] =
+      this.createGroupService.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
+        .filter(attribute => attribute.category === category.name
+                             && attribute.selected === true);
+    if(attributesMatchingCat.length > 0){
+      let attribute: Attribute = attributesMatchingCat[0];
+      category.selected = true;
+      category.categoryDetail = attribute.name;
+    }
+  }
+
 }
