@@ -36,13 +36,13 @@ export class StuffNotFoundComponent implements OnInit {
 
   }
 
-  public onFindAGroupClicked() {
+  public onFindAGroupClicked(): void {
     // clear is required is user is prompted to log in when click "My Groups"" for the first time
     this.pinService.clearPinCache();
     this.router.navigate(['/']);
   }
 
-  public onGroupResourcesClicked() {
+  public onGroupResourcesClicked(): void {
     window.location.href = GroupResourcesUrl;
   }
 
