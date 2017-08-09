@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from
 import { Router } from '@angular/router';
 import { EmailAddressValidator } from '../../../../validators/email-address.validator';
 import { ToastsManager } from 'ng2-toastr';
-import { ModalModule } from 'ngx-bootstrap';
 
 import { AppSettingsService } from '../../../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
@@ -14,7 +13,6 @@ import { StateService } from '../../../../services/state.service';
 
 import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'add-someone',
@@ -22,10 +20,10 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 
 export class AddSomeoneComponent implements OnInit {
-  @ViewChild('resultsModal') public resultsModal: ModalDirective;
   @Input() gatheringId: number;
   @Input() participantId: number;
 
+  public showFauxdal = false;
   public addFormGroup: FormGroup;
   public isFormSubmitted: boolean = false;
   public selectedMatch: Person = new Person();
@@ -48,22 +46,22 @@ export class AddSomeoneComponent implements OnInit {
       });
     }
 
-    private showResultsModal(): void {
-      this.resultsModal.show();
+    private showResultsFauxdal(): void {
+      this.showFauxdal = true;
     }
 
-    private hideResultsModal(): void {
-      this.resultsModal.hide();
+    private hideResultsFauxdal(): void {
+      this.showFauxdal = false;
     }
 
-    public modalUseSelected(): void {
-      this.resultsModal.hide();
+    public fauxdalUseSelected(): void {
+      this.hideResultsFauxdal();
       this.state.setLoading(true);
       this.addToGroup(this.selectedMatch);
     }
 
-    public modalUseEntered(): void {
-      this.resultsModal.hide();
+    public fauxdalUseEntered(): void {
+      this.hideResultsFauxdal();
       this.state.setLoading(true);
       this.addToGroup(this.selectedMatch);
     }
@@ -78,11 +76,11 @@ export class AddSomeoneComponent implements OnInit {
         // get matches
         this.pinService.getMatch(someone).subscribe(
           isMatchFound => {
-            // display the modal so the user can choose
+            // display the fauxdal so the user can decide
             this.state.setLoading(false);
             isMatchFound === true ? this.matchFound = true : this.matchFound = false;
             this.selectedMatch = someone;
-            this.showResultsModal();
+            this.showResultsFauxdal();
           },
           failure => {
             this.state.setLoading(false);

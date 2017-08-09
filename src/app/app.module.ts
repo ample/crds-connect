@@ -24,7 +24,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -161,7 +161,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
-    ModalModule.forRoot(),
     AccordionModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),

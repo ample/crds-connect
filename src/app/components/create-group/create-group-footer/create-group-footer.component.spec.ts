@@ -12,8 +12,7 @@ describe('CreateGroupFooterComponent', () => {
     let comp: CreateGroupFooterComponent;
     let el;
 
-    let mockRouter, mockModal, mockCreateGroupService;
-    let mockBlandPageService, mockStateService, mockToast, mockAppSettings, mockParticipantService;
+    let mockRouter, mockCreateGroupService;
 
     beforeEach(() => {
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
