@@ -7,24 +7,26 @@
   <input class="center-block btn btn-link btn-gray" (click)="OnCancel()" type="button" value="Cancel">
 </div>
 
-<div bsModal #cancelModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-  [config]="{backdrop: 'static'}">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Cancel and lose all changes?</h4>
-        <button type="button" class="close pull-right" (click)="hideCancelModal()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+<div bsModal #cancelModal="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="fauxdal-wrapper">
+    <div  class="fauxdal-fullscreen">   
+      <div class="fauxdal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Cancel and lose all changes?</h4>
+          <button type="button" class="close pull-right" (click)="hideCancelModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
-      <div class="modal-body">
-        <div>
-          Select Yes to proceed and lose current changes. Select No to abort?
-          <button type="button" class="btn btn-primary" (click)="cancelConfirmed()">Yes</button>
-          <button type="button" class="btn btn-primary" (click)="cancelDeclined()">No</button>
+        <div class="modal-body">
+          <div>
+            Select Yes to proceed and lose current changes. Select No to abort?
+            <br>
+            <button type="button" class="btn btn-primary" (click)="cancelConfirmed()">Yes</button>
+            <button type="button" class="btn btn-primary" (click)="cancelDeclined()">No</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 </div>
