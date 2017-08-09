@@ -373,4 +373,13 @@ describe('GatheringComponent', () => {
         comp.edit();
         expect(comp['router'].navigate).toHaveBeenCalledWith(['/gathering', pin.gathering.groupId, 'edit']);
     });
+
+    it('should show online group string', () => {
+        let pin = MockTestData.getAPin(1);
+        pin.gathering = new Group();
+        pin.gathering.isVirtualGroup = true;
+        comp['pin'] = pin;
+        let rc = comp.getProximityString();
+        expect(rc).toBe('ONLINE GROUP');
+    });
 });
