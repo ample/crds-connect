@@ -70,6 +70,7 @@ app-neighbors {
 .connect-container {
   background: $cr-white;
   min-height: 381px;
+  overflow: hidden;
 
   @for $idx from 5 to 30 {
     $height: $idx * 100;

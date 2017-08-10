@@ -134,6 +134,18 @@ export class GatheringComponent implements OnInit {
     }
   }
 
+  public getProximityString(): string {
+    if (this.isOnlineGroup()) {
+      return 'ONLINE GROUP';
+    } else {
+      return `${this.pin.proximity.toFixed(1)} MI`;
+    }
+  }
+
+  public isOnlineGroup(): boolean {
+    return this.pin.gathering.isVirtualGroup;
+  }
+
   public onEditGroupClicked(groupId: number): void {
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
