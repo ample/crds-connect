@@ -15,16 +15,17 @@ describe('Service: App Settings', () => {
                             mockAddress, 0, null, '', pinType.PERSON, 0, 999);
     const mockPinArray: Array<Pin> = [mockPin];
     const mockEmptyPinArray: Array<Pin> = [];
-let
- mockRouter;
- mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                HttpModule
-            ],
-            providers: [AppSettingsService,
-            { provide: Router, useValue: mockRouter }]
+let mockRouter;
+    mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
+        beforeEach(() => {
+            TestBed.configureTestingModule({
+              imports: [
+                   HttpModule
+             ],
+             providers: [
+             AppSettingsService,
+             { provide: Router, useValue: mockRouter }
+             ]
         });
     });
 
