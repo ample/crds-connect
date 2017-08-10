@@ -1,6 +1,8 @@
 import { Injectable} from '@angular/core';
 import { AppType, appType, LeadershipApplicationType } from '../shared/constants';
-
+import { appRoutingProviders, routing } from '../app.routing';
+import { StuffNotFoundComponent } from '../components/stuff-not-found/stuff-not-found.component';
+import { Router } from '@angular/router';
 @Injectable()
 export class AppSettingsService {
   public finderType: string;
@@ -12,7 +14,7 @@ export class AppSettingsService {
   public myStuffNotFoundContent: string;
   public leaderTitle: string;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   public setAppSettings (thisAppsType: string) {
     this.finderType = thisAppsType;
@@ -49,4 +51,12 @@ export class AppSettingsService {
   public getBaseUrlForCurrentApp(): string {
     return this.appRoute;
   }
+
+  public routeToNotFoundPage(): void {
+    if(this.finderType === appType.Groups){
+      this.router.navigate(['groups-not-found']);
+    } else {
+      this.router.navigate(['connections-not-found']);
+    } 
+   }
 }
