@@ -122,18 +122,20 @@ export class AttributeTypes {
   AgeRangeAttributeTypeId: number;
   GroupGenderMixTypeAttributeId: number;
   GroupCategoryAttributeTypeId: number;
+  MiddleSchoolAgeRangeAttributeId: number;
+  HighSchoolAgeRangeAttributeId: number;
 
   constructor() {
     this.AgeRangeAttributeTypeId = 91;
     this.GroupGenderMixTypeAttributeId = 73;
     this.GroupCategoryAttributeTypeId = 90;
+    this.MiddleSchoolAgeRangeAttributeId = 7089;
+    this.HighSchoolAgeRangeAttributeId= 7090;
   }
 }
 
 export const attributeTypes: any = new AttributeTypes();
 
-export const MiddleSchoolAgeRangeAttributeId: number = 7089;
-export const HighSchoolAgeRangeAttributeId: number = 7090;
 export const SpiritualGrowthCongregationId: number = 8;
 export const SmallGroupTypeId: number = 1;
 

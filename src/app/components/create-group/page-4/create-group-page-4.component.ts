@@ -10,8 +10,7 @@ import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { MiddleSchoolAgeRangeAttributeId, HighSchoolAgeRangeAttributeId, GroupPaths, groupPaths,
-    GroupPageNumber  } from '../../../shared/constants';
+import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber  } from '../../../shared/constants';
 
 
 @Component({
@@ -58,6 +57,37 @@ export class CreateGroupPage4Component implements OnInit {
                     this.ageRanges = lookupResults[1].attributes;
                     this.setSelectedAgeRanges();
                     this.setIsStudentMinistrySelected();
+
+                    if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+                      console.log('CHECKING IF ANY ATTRIBUTES MATCH');
+                      this.ageRanges.forEach((ageRange: Attribute) => {
+                        let ageRangeAttributesAttachedToGroup: Attribute[] =
+                          this.createGroupService.group
+                            .attributeTypes[attributeTypes.AgeRangeAttributeTypeId.toString()].attributes;
+
+                        let groupAttributeMatchingSpecificAgeRangeCat: Attribute[] = ageRangeAttributesAttachedToGroup
+                          .filter(attribute => attribute.name === ageRange.name && attribute.selected === true);
+
+                          if(groupAttributeMatchingSpecificAgeRangeCat.length > 0){
+
+                            let attribute: Attribute = groupAttributeMatchingSpecificAgeRangeCat[0];
+                            this.onClickAgeRange(attribute);
+
+
+                            this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
+                              let foundRange = this.ageRanges.find((range: Attribute) => {
+                                return range.attributeId === attribute.attributeId;
+                              });
+                              if (foundRange) {
+                                foundRange.selected = true;
+                              }
+                            });
+                          }
+
+
+                      });
+                    }
+
                 },
                 error => {
                     this.blandPageService.goToDefaultError('/create-group/page-3');
@@ -105,7 +135,8 @@ export class CreateGroupPage4Component implements OnInit {
 
     private setIsStudentMinistrySelected() {
         this.isStudentMinistrySelected = this.createGroupService.selectedAgeRanges.find((ageRange) => {
-            return ageRange.attributeId === MiddleSchoolAgeRangeAttributeId || ageRange.attributeId === HighSchoolAgeRangeAttributeId;
+            return ageRange.attributeId === attributeTypes.MiddleSchoolAgeRangeAttributeId
+                || ageRange.attributeId === attributeTypes.HighSchoolAgeRangeAttributeId;
         }) != null;
     }
 
