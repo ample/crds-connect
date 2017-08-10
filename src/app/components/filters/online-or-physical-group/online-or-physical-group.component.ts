@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 
 import { FilterService } from '../../../services/filter.service';
+import { StateService } from '../../../services/state.service';
 
 @Component({
   selector: 'online-or-physical-group',
@@ -8,10 +9,10 @@ import { FilterService } from '../../../services/filter.service';
 })
 
 export class OnlineOrPhysicalGroupComponent {
-  public isVirtualGroup: boolean = null;
+  private isVirtualGroup: boolean = null;
   public isAnOptionSelected: boolean = false;
 
-  constructor( private filterService: FilterService) { }
+  constructor( private filterService: FilterService, private stateService: StateService) { }
 
   public isVirtualGroupOptionClicked(isVirtualGroup: boolean): void {
     this.isAnOptionSelected = true;
@@ -30,4 +31,11 @@ export class OnlineOrPhysicalGroupComponent {
     this.filterService.setFilterStringIsVirtualGroup(isVirtualGroupFlag, haveIsVirtualGroupValue);
   }
 
+  public setIsVirtualGroup(isVirtualGroup: boolean): void {
+    this.isVirtualGroup = isVirtualGroup;
+  }
+
+  public getIsVirtualGroup(): boolean {
+    return this.isVirtualGroup;
+  }
 }
