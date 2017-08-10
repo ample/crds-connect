@@ -1,6 +1,6 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-
+import { Router } from '@angular/router';
 import { Address } from '../models/address';
 import { AppSettingsService } from '../services/app-settings.service';
 import { Pin, pinType } from '../models/pin';
@@ -15,13 +15,16 @@ describe('Service: App Settings', () => {
                             mockAddress, 0, null, '', pinType.PERSON, 0, 999);
     const mockPinArray: Array<Pin> = [mockPin];
     const mockEmptyPinArray: Array<Pin> = [];
-
+let
+ mockRouter;
+ mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpModule
             ],
-            providers: [AppSettingsService]
+            providers: [AppSettingsService,
+            { provide: Router, useValue: mockRouter }]
         });
     });
 

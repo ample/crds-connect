@@ -49,6 +49,7 @@ import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bl
 import { PinIdentifier } from "../../models/pin-identifier";
 import { pinType } from "../../models/pin";
 
+
 describe('Component: Neighbors', () => {
   let mockAppSettingsService,
     mockUserLocationService,
@@ -64,7 +65,7 @@ describe('Component: Neighbors', () => {
 
   beforeEach(() => {
     subject = new Subject();
-    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp', 'routeToNotFoundPage']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService',
                                                       ['getPinSearchResults', 'reSortBasedOnCenterCoords',
                                                        'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed',
@@ -218,7 +219,7 @@ describe('Component: Neighbors', () => {
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['add-me-to-the-map']);
+    expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
     expect(this.component['state'].myStuffActive).toBe(false);
   });
 
@@ -233,8 +234,36 @@ describe('Component: Neighbors', () => {
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['stuff-not-found']);
+    expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
     expect(this.component['state'].myStuffActive).toBe(false);
+
+  });
+ 
+  it('should navigate to groups-not-found when in my groups and no results', () => {
+    this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
+    (mockStateService.getMyViewOrWorldView).and.returnValue('my');   
+    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    this.component['state'].myStuffActive = true;
+
+    this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
+  
+    expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
+    expect(mockRouter.navigate).toBeTruthy(['groups-not-found']);
+    expect(this.component['state'].myStuffActive).toBe(false);
+
+  });
+
+ it('should navigate to connections-not-found when in my connections and no results', () => {
+   this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
+   (mockStateService.getMyViewOrWorldView).and.returnValue('my');   
+   (mockAppSettingsService.isSmallGroupApp).and.returnValue(false);
+   this.component['state'].myStuffActive = true;
+
+   this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
+  
+   expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
+   expect(mockRouter.navigate).toBeTruthy(['connections-not-found']);
+   expect(this.component['state'].myStuffActive).toBe(false);
 
   });
 

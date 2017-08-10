@@ -111,16 +111,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
-    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp()) {
+    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my') {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
-      this.router.navigate(['add-me-to-the-map']);
-      this.state.myStuffActive = false;
-    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
-      this.state.setLoading(false);
-      this.state.setMyViewOrWorldView('world');
-      this.router.navigate(['stuff-not-found']);
-      this.state.myStuffActive = false;
+      this.appSettings.routeToNotFoundPage();
+      this.state.myStuffActive = false;    
     } else {
       this.state.setLastSearch(new SearchOptions(searchKeywordString, filterString, searchLocationString));
     }
