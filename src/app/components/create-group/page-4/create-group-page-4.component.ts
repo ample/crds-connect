@@ -59,7 +59,26 @@ export class CreateGroupPage4Component implements OnInit {
                     this.setIsStudentMinistrySelected();
 
                     if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
-                      console.log('CHECKING IF ANY ATTRIBUTES MATCH');
+
+                      let groupSingleAttributes: any = this.createGroupService.group.singleAttributes;
+
+                      for (let i = 0; i < this.genderMixTypes.length; i++){
+                        let genderMixType: Attribute = this.genderMixTypes[i];
+
+                        for (var property in groupSingleAttributes) {
+                          if (groupSingleAttributes.hasOwnProperty(property)) {
+
+                            let singleAttributeOnGroup = groupSingleAttributes[property].attribute;
+                            if(singleAttributeOnGroup){
+                              if (genderMixType.attributeId === singleAttributeOnGroup.attributeId){
+                                this.createGroupService.selectedGroupGenderMix = genderMixType;
+                              }
+                            }
+                          }
+                        }
+                      }
+
+
                       this.ageRanges.forEach((ageRange: Attribute) => {
                         let ageRangeAttributesAttachedToGroup: Attribute[] =
                           this.createGroupService.group
