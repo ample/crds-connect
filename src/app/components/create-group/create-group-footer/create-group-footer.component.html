@@ -1,0 +1,36 @@
+<div class="soft-ends">
+  <div class="clearfix">
+    <button *ngIf="showbackbutton" type="button" (click)="OnBack()" class="btn btn-gray btn-default btn-block-mobile pull-left">Back</button>
+    <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
+  </div>
+
+  <input class="center-block btn btn-link btn-gray" (click)="OnCancel()" type="button" value="Cancel">
+</div>
+
+
+<div *ngIf="showFauxdal" class="fauxdal-wrapper">
+  <div class="fauxdal fauxdal-center">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="cancelDeclined()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
+
+      <br>
+
+      <div class="fauxdal-content">
+        <div class="text-center">Select Yes to proceed and lose current changes. Select No to abort?</div>
+      </div>
+
+      <br>
+
+      <footer class="page-footer btn-group-horizontal ">
+        <button type="button" class="btn btn-primary btn-block-mobile" (click)="cancelConfirmed()">Yes</button>
+        <button type="button" class="btn btn-secondary btn-default btn-block-mobile" (click)="cancelDeclined()">No</button>
+      </footer>
+    </div>
+  </div>
+</div>

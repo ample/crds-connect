@@ -1,73 +1,61 @@
 <div class="connect-container connect-layout-container">
-    <div class="row soft-top">
-        <div class="col-sm-12 soft-top">
-            <p class="media-meta flush-bottom">STEP 4 OF 6</p>
-            <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Type</h3>
-            <hr>
-            <crds-content-block id="groupToolCreateGroupTypeHelp"></crds-content-block>
-        </div>
+  <div class="soft-top">
+    <div class="soft-top">
+      <p class="media-meta flush-bottom">STEP 4 OF 6</p>
+      <h3 class="media-heading font-family-condensed-extra text-uppercase">Group Type</h3>
+      <hr>
+      <crds-content-block id="groupToolCreateGroupTypeHelp"></crds-content-block>
     </div>
-    <div class="row" *ngIf="isComponentReady">
-        <div class="col-sm-12">
-            <p class="control-label soft-ends">What kind of group would you like to lead??</p>
-            <form [formGroup]="groupMetaDataForm" (ngSubmit)="onSubmit(groupMetaDataForm)">
+  </div>
+  <div *ngIf="isComponentReady">
+    <p class="control-label push-top soft-half-top">What kind of group would you like to lead??</p>
+    <form [formGroup]="groupMetaDataForm" (ngSubmit)="onSubmit(groupMetaDataForm)">
+      <div *ngFor="let mixType of genderMixTypes" class="btn-group btn-group-block">
+        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.selectedGroupGenderMix.attributeId === mixType.attributeId }" formControlName="groupGenderMixType" (click)="onClickMixType(mixType)" ngDefaultControl>
+          <div class="row">
+            <div class="text-left btn-group-label">
+              <span class="btn-group-icons">
+                <svg class="icon circle-thin" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                </svg>
+                <svg class="icon check-circle" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                </svg>
+              </span>
+              {{ mixType.name }} {{ mixType.description }}
+            </div>
+          </div>
+        </button>
+      </div>
 
-                <div>
-                    <div *ngFor="let mixType of genderMixTypes" class="btn-group btn-group-block">
-                        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.selectedGroupGenderMix.attributeId === mixType.attributeId }"
-                            formControlName="groupGenderMixType" (click)="onClickMixType(mixType)" ngDefaultControl>
-                    <div class="btn-group-label text-left row">
-                        <span class="btn-group-icons">
-                            <svg class="icon circle-thin" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                            </svg>
-                            <svg class="icon check-circle" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                            </svg>
-                        </span>
-                        {{ mixType.name }} {{ mixType.description }}
-                    </div>
-                    </button>
-                    </div>
-                    <div *ngIf="groupGenderMixInvalid" class="alert alert-danger soft-ends">
-                        This field is required.
-                    </div>
-                </div>
+      <div *ngIf="groupGenderMixInvalid" class="alert alert-danger soft-ends">This field is required.</div>
 
-                <div class="soft-ends">
-                    <crds-content-block id="groupToolCreateGroupAge" class="control-label"></crds-content-block>
-                </div>
-                <div *ngIf="isStudentMinistrySelected" class="soft-ends alert alert-warning">
-                    <crds-content-block id="groupToolStudentMinistryAlert"></crds-content-block>
-                </div>
-                <div>
-                    <div *ngFor="let ageRange of ageRanges" class="btn-group btn-group-block">
-                        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: ageRange.selected }"
-                            formControlName="groupAgeRanges" value="ageRange.selected" (click)="onClickAgeRange(ageRange)" ngDefaultControl>
-                    <div class="btn-group-label text-left row">
-                        <span class="btn-group-icons">
-                            <svg class="icon circle-thin" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
-                            </svg>
-                            <svg class="icon check-circle" viewBox="0 0 256 256">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
-                            </svg>
-                        </span>
-                        {{ ageRange.name }}
-                    </div>
-                    </button>
-                    </div>
-                    <div *ngIf="selectedAgeRangesInvalid" class="alert alert-danger soft-ends">
-                        This field is required.
-                    </div>
-                </div>
-                <div class="soft-ends">
-                    <hr>
-                    <button type="submit" class="btn btn-primary btn-block-mobile pull-right">Next</button>
-                    <button type="button" (click)="back()" class="btn btn-gray btn-default btn-block-mobile">Back</button>
-                </div>
+      <div class="push-top soft-half-top">
+        <crds-content-block id="groupToolCreateGroupAge" class="control-label"></crds-content-block>
+      </div>
+      <div *ngIf="isStudentMinistrySelected" class="soft-ends alert alert-warning">
+        <crds-content-block id="groupToolStudentMinistryAlert"></crds-content-block>
+      </div>
+      <div *ngFor="let ageRange of ageRanges" class="btn-group btn-group-block">
+        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: ageRange.selected }" formControlName="groupAgeRanges" value="ageRange.selected" (click)="onClickAgeRange(ageRange)" ngDefaultControl>
+          <div class="row">
+            <div class="btn-group-label text-left">
+              <span class="btn-group-icons">
+                <svg class="icon circle-thin" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#circle-thin" height="256" width="256"></use>
+                </svg>
+                <svg class="icon check-circle" viewBox="0 0 256 256">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#check-circle" height="256" width="256"></use>
+                </svg>
+              </span>
+              {{ ageRange.name }}
+            </div>
+          </div>
+        </button>
+      </div>
+      <div *ngIf="selectedAgeRangesInvalid" class="alert alert-danger soft-top">This field is required.</div>
 
-            </form>
-        </div>
-    </div>
+      <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
+    </form>
+  </div>
 </div>

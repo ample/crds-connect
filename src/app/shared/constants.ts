@@ -8,9 +8,26 @@ export class AwsMeetingTimeSearchStrings {
   constructor() {
     this.MORNINGS = "['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']";
     this.AFTERNOONS = "['0001-01-01T12:00:00Z', '0001-01-01T17:00:00Z']";
-    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T00:00:00Z']";
+    this.EVENINGS = "['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']";
   }
 }
+
+export class TextConstants {
+  MY_GROUPS: string;
+  MY_CONNECTIONS: string;
+  ONLINE_GROUP: string;
+  INVALID_OR_MISSING_ADDRESS: string;
+
+
+  constructor() {
+    this.MY_GROUPS = 'My groups';
+    this.MY_CONNECTIONS = 'My connections';
+    this.ONLINE_GROUP = 'Online Group';
+    this.INVALID_OR_MISSING_ADDRESS = 'Invalid or Missing Address';
+  }
+}
+
+export const textConstants = new TextConstants();
 
 export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
 
@@ -103,6 +120,10 @@ export const crdsOakleyCoords: any = {
 
 export const earthsRadiusInMiles: number = 3443.9;
 
+export const desiredPrecisionForProximityNumber: number = 2;
+
+export const maxValidProximity: number = 5000;
+
 export const groupDescriptionLength: number = 44;
 
 export const groupDescriptionLengthDetails: number = 265;
@@ -123,7 +144,8 @@ export class AppType {
     this.Connect = 'CONNECT';
     this.Groups = 'SMALL_GROUPS';
   }
-};
+}
+
 export const appType: AppType = new AppType();
 
 export class AwsFieldNames {

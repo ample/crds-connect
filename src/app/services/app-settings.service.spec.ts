@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Address } from '../models/address';
 import { AppSettingsService } from '../services/app-settings.service';
 import { Pin, pinType } from '../models/pin';
-import { AppType, appType, LeadershipApplicationType } from '../shared/constants';
+import { AppType, appType, LeadershipApplicationType, textConstants } from '../shared/constants';
 
 describe('Service: App Settings', () => {
     const mockContactIdOnMap: number  = 111;
@@ -37,7 +37,7 @@ let mockRouter;
       expect(service.leadershipApplicationType).toEqual(LeadershipApplicationType.ANYWHERE_HOST);
       expect(service.appRoute).toEqual('/');
       expect(service.placeholderTextForSearchBar).toEqual('Address...');
-      expect(service.myStuffName).toEqual('My connections');
+      expect(service.myStuffName).toEqual(textConstants.MY_CONNECTIONS);
       expect(service.noSearchResultsContent).toEqual('noConnectSearchResults');
       expect(service.myStuffNotFoundContent).toEqual('myConnectionsNotFound');
       expect(service.leaderTitle).toEqual('Host');
@@ -50,7 +50,7 @@ let mockRouter;
       expect(service.leadershipApplicationType).toEqual(LeadershipApplicationType.GROUP_LEADER);
       expect(service.appRoute).toEqual('/groupsv2');
       expect(service.placeholderTextForSearchBar).toEqual('Keyword...');
-      expect(service.myStuffName).toEqual('My groups');
+      expect(service.myStuffName).toEqual(textConstants.MY_GROUPS);
       expect(service.noSearchResultsContent).toEqual('noGroupsSearchResults');
       expect(service.myStuffNotFoundContent).toEqual('myGroupsNotFound');
       expect(service.leaderTitle).toEqual('Leader');

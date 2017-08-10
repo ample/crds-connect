@@ -7,6 +7,7 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
 
 import { LookupTable } from '../../../models';
 
@@ -17,9 +18,21 @@ import { defaultGroupMeetingTime, meetingFrequencies,
 @Component({
   selector: 'create-group-page-2',
   templateUrl: './create-group-page-2.component.html',
+  styles: [`
+    form > div:nth-child(2) .row div:last-child {
+      white-space: normal;
+      text-align: left;
+    }
+    @media (min-width: 600px) {
+      form > div:nth-child(2) .row div:last-child {
+        text-align: right;
+      }
+    }
+  `]
 })
 export class CreateGroupPage2Component implements OnInit {
   public meetingTimeForm: FormGroup;
+  private timeZoneAdjustedDefaultGroupMeetingTime: string;
   private isSubmitted: boolean = false;
   private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
   private daysOfTheWeek: LookupTable[] = [];
@@ -30,7 +43,8 @@ export class CreateGroupPage2Component implements OnInit {
               private createGroupService: CreateGroupService,
               private router: Router,
               private lookupService: LookupService,
-              private blandPageService: BlandPageService) { }
+              private blandPageService: BlandPageService,
+              private timeHlpr: TimeHelperService) { }
 
   ngOnInit() {
     this.state.setPageHeader('start a group', '/create-group/page-1');
@@ -49,6 +63,9 @@ export class CreateGroupPage2Component implements OnInit {
         console.log(err);
         this.blandPageService.goToDefaultError('/');
       });
+
+      this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
+          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
   }
 
   public onClick(scheduleType: string): void {
@@ -80,7 +97,8 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private initializeGroupMeetingScheduleForm(): FormGroup {
-    this.createGroupService.group.meetingTime = this.createGroupService.group.meetingTime || defaultGroupMeetingTime;
+    this.createGroupService.group.meetingTime = this.createGroupService.group.meetingTime
+                                                || this.timeZoneAdjustedDefaultGroupMeetingTime;
     return this.fb.group({
       meetingTimeType: [this.createGroupService.meetingTimeType, Validators.required],
       meetingTime: [this.createGroupService.group.meetingTime],

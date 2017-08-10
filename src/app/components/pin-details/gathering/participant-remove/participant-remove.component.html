@@ -1,49 +1,48 @@
 <div class="fauxdal-wrapper">
-    <div class="fauxdal fauxdal-fullscreen">
-        <div class="container-fluid">
-            <div class="pull-right close">
-                <a (click)="closeClick()">
-                    <svg class="icon icon-1" viewBox="0 0 256 256">
-                        <use xlink:href="/assets/svgs/icons.svg#close"></use>
-                    </svg>
-                </a>
-            </div>
+  <div class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="closeClick()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
 
-            <br>
+      <br>
 
-            <div class="fauxdal-content">
-                <div class="row">
-                    <div *ngIf="isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
-                        <crds-content-block id="finderRemoveMyParticipantSubheaderText"></crds-content-block>                             
-                    </div>
-                    <div *ngIf="!isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
-                        <crds-content-block id="groupToolRemoveParticipantSubheaderText"></crds-content-block>
-                    </div>                    
-                </div>
-
-                <form novalidate [formGroup]="removeParticipantForm" (ngSubmit)="onSubmit(removeParticipantForm)">
-                    <div *ngIf="!isRemovingSelf" class="row">
-                        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
-                            <!-- Reason for Participant Removal-->
-                            <div class="row">
-                                <div class="form-group col-xs-12">
-                                    <label class="sr-only" for="removalMessage">Your Message</label>
-                                    <textarea type="text" class="form-control" maxlength="255" placeholder="" id="removalMessage" formControlName="removalMessage"
-                                        name="removalMessage" [(ngModel)]="message" rows="15" cols="100"></textarea>
-                                    <p class="error help-block" *ngIf="isFormSubmitted && !removeParticipantForm.controls['removalMessage'].valid">Message is required!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <footer class="row soft-top">
-                        <div class="col-xs-12 col-sm-6 col-sm-offset-3 btn-group">
-                            <button type="submit" [disabled]="submitting" class="btn btn-secondary">Remove Participant</button>
-                            <button type="button" (click)="closeClick()" class="btn btn-outline btn-default">Cancel</button>
-                        </div>
-                    </footer>
-                </form>
-            </div>
+      <div class="fauxdal-content">
+        <div class="row">
+          <div *ngIf="isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <crds-content-block id="groupToolRemoveMyParticipantSubheaderText"></crds-content-block>
+          </div>
+          <div *ngIf="!isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <crds-content-block id="groupToolRemoveParticipantSubheaderText"></crds-content-block>
+          </div>
         </div>
+
+        <form novalidate [formGroup]="removeParticipantForm" (ngSubmit)="onSubmit(removeParticipantForm)">
+          <div *ngIf="!isRemovingSelf" class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
+              <!-- Reason for Participant Removal-->
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label class="sr-only" for="removalMessage">Your Message</label>
+                  <textarea type="text" class="form-control" maxlength="255" placeholder="" id="removalMessage" formControlName="removalMessage"
+                  name="removalMessage" [(ngModel)]="message" rows="15" cols="100"></textarea>
+                  <p class="error help-block" *ngIf="isFormSubmitted && !removeParticipantForm.controls['removalMessage'].valid">Message is required!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="row soft-top">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3" [ngClass]="{'text-left': !isRemovingSelf}">
+              <button type="submit" [disabled]="submitting" class="btn btn-secondary">{{isRemovingSelf ? "Remove Me" : "Remove Participant"}}</button>
+              <button type="button" (click)="closeClick()" class="btn btn-outline btn-default">Cancel</button>
+            </div>
+          </footer>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

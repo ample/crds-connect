@@ -9,7 +9,6 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
-import { ModalModule } from 'ngx-bootstrap';
 
 import { AddSomeoneComponent } from './add-someone.component';
 
@@ -22,14 +21,13 @@ import { ParticipantService } from '../../../../services/participant.service';
 
 import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 
 describe('AddSomeoneComponent', () => {
     let fixture: ComponentFixture<AddSomeoneComponent>;
     let comp: AddSomeoneComponent;
     let el;
 
-    let mockContentService, mockPinService, mockFormBuilder, mockRouter, mockModal;
+    let mockContentService, mockPinService, mockFormBuilder, mockRouter;
     let mockBlandPageService, mockStateService, mockToast, mockAppSettings, mockParticipantService;
 
     beforeEach(() => {
@@ -46,12 +44,8 @@ describe('AddSomeoneComponent', () => {
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['']);
 
-        mockModal = jasmine.createSpyObj<ModalDirective>('md', ['show']);
 
         TestBed.configureTestingModule({
-            imports: [
-                ModalModule.forRoot()
-            ],
             declarations: [
                 AddSomeoneComponent
             ],
@@ -120,7 +114,6 @@ describe('AddSomeoneComponent', () => {
         let participantId = 456;
         let param = { value: someone, valid: isValid };
 
-        comp.resultsModal = jasmine.createSpyObj<ModalDirective>('modalDir', ['show', 'hide']);
         (<jasmine.Spy>mockPinService.getMatch).and.returnValue(Observable.of({}));
 
         comp.gatheringId = gatheringId;

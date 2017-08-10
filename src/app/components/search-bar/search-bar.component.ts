@@ -2,13 +2,14 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, Output, EventEmitt
 import { FormsModule }   from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Angulartics2 } from 'angulartics2';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+
+import { textConstants } from '../../shared/constants';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
@@ -57,7 +58,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit(!this.isMapHidden);
 
-    if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== 'My Stuff') {
+    if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== this.appSettings.myStuffName) {
       this.onSearch(this.state.searchBarText);
     }
 

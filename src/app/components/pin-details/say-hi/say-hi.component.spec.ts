@@ -1,46 +1,32 @@
-/* tslint:disable:no-unused-variable */
-
+import { AnalyticsService } from '../../../services/analytics.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SayHiComponent } from './say-hi.component';
 
+import { BlandPageService } from '../../../services/bland-page.service';
+import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StateService } from '../../../services/state.service';
-import { HttpModule } from '@angular/http';
-import { BlandPageService } from '../../../services/bland-page.service';
-
-import { Angulartics2 } from 'angulartics2';
-import { LoginRedirectService } from '../../../services/login-redirect.service';
-
-function fakenext(param: any) { return 1; }
-
-class MockEventTrack {
-    next = fakenext;
-}
-
-class MockAngulartic {
-    eventTrack = new MockEventTrack();
-};
 
 describe('SayHiComponent', () => {
     let fixture: ComponentFixture<SayHiComponent>;
     let comp: SayHiComponent;
 
-    let mockPinService, 
-        mockLoginRedirectService, 
-        mockSessionService, 
+    let mockPinService,
+        mockLoginRedirectService,
+        mockSessionService,
         mockBlandPageService,
-        mockAngulartics2;
+        mockAnalytics;
 
     beforeEach(() => {
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['sendHiEmail']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getUserData']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-        mockAngulartics2 = new MockAngulartic();
+        mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['sayHiButtonPressed']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -51,10 +37,10 @@ describe('SayHiComponent', () => {
                 { provide: PinService, useValue: mockPinService },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
                 { provide: SessionService, useValue: mockSessionService},
-                { provide: Angulartics2, useValue: mockAngulartics2 },
+                { provide: AnalyticsService, useValue: mockAnalytics },
                 { provide: BlandPageService, useValue: mockBlandPageService},
              ],
-            imports: [RouterTestingModule.withRoutes([]), HttpModule],
+            imports: [RouterTestingModule.withRoutes([])],
 
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -71,11 +57,33 @@ describe('SayHiComponent', () => {
         expect(comp).toBeTruthy();
     });
 
-    it('should call login redirect if not logged in', inject([Angulartics2], (angulartics2) => {
+    it('should call login redirect if not logged in', () => {
         let mockRoute = 'mockRoute';
         let sendSayHiFunc = comp['sendSayHi'];
         comp.isLoggedIn = false;
         comp.sayHi();
         expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalled();
-    }));
+    });
+
+    it('should doSayHi if logged in and call analytics', () => {
+        comp['isLoggedIn'] = true;
+        comp['buttonText'] = 'BackInTheDayItsLikeCatsCatsCats';
+        spyOn(comp, 'doSayHi');
+        comp.sayHi();
+        expect(comp['doSayHi']).toHaveBeenCalled();
+        expect(mockAnalytics.sayHiButtonPressed).toHaveBeenCalledWith('BackInTheDayItsLikeCatsCatsCats Button Click', 'Connect');
+    });
+
+    xit('should getUserDetailsThenSayHi in person mode', () => {
+        // TODO
+    });
+
+    xit('should getUserDetailsThenSayHi in gathering mode', () => {
+        // TODO
+    });
+
+
+    xit('should doSayHi', () => {
+        // TODO
+    });
 });

@@ -1,8 +1,9 @@
 import { Injectable} from '@angular/core';
-import { AppType, appType, LeadershipApplicationType } from '../shared/constants';
+import { AppType, appType, LeadershipApplicationType, textConstants } from '../shared/constants';
 import { appRoutingProviders, routing } from '../app.routing';
 import { StuffNotFoundComponent } from '../components/stuff-not-found/stuff-not-found.component';
 import { Router } from '@angular/router';
+
 @Injectable()
 export class AppSettingsService {
   public finderType: string;
@@ -23,7 +24,7 @@ export class AppSettingsService {
         this.leadershipApplicationType = LeadershipApplicationType.ANYWHERE_HOST;
         this.appRoute = '/';
         this.placeholderTextForSearchBar = 'Address...';
-        this.myStuffName = 'My connections';
+        this.myStuffName = textConstants.MY_CONNECTIONS;
         this.noSearchResultsContent = 'noConnectSearchResults';
         this.myStuffNotFoundContent = 'myConnectionsNotFound';
         this.leaderTitle = 'Host';
@@ -32,7 +33,7 @@ export class AppSettingsService {
         this.leadershipApplicationType = LeadershipApplicationType.GROUP_LEADER;
         this.appRoute = '/groupsv2';
         this.placeholderTextForSearchBar = 'Keyword...';
-        this.myStuffName = 'My groups';
+        this.myStuffName = textConstants.MY_GROUPS;
         this.noSearchResultsContent = 'noGroupsSearchResults';
         this.myStuffNotFoundContent = 'myGroupsNotFound';
         this.leaderTitle = 'Leader';
@@ -59,4 +60,8 @@ export class AppSettingsService {
       this.router.navigate(['connections-not-found']);
     } 
    }
+
+  public appClass(): string {
+    return this.isConnectApp() ? 'connect' : 'groups';
+  }
 }

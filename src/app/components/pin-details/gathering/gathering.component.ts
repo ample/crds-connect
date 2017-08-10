@@ -1,4 +1,3 @@
-import { Angulartics2 } from 'angulartics2';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
@@ -9,16 +8,19 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models
 import { Participant } from '../../../models/participant';
 import { Address } from '../../../models/address';
 
+import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
-import { AddressService } from '../../../services/address.service';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { TimeHelperService} from '../../../services/time-helper.service';
+
 import { groupDescriptionLengthDetails } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
@@ -60,7 +62,8 @@ export class GatheringComponent implements OnInit {
     private addressService: AddressService,
     private listHelperService: ListHelperService,
     private content: ContentService,
-    private angulartics2: Angulartics2,
+    private timeHlpr: TimeHelperService,
+    private analtyics: AnalyticsService,
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
@@ -131,6 +134,18 @@ export class GatheringComponent implements OnInit {
     }
   }
 
+  public getProximityString(): string {
+    if (this.isOnlineGroup()) {
+      return 'ONLINE GROUP';
+    } else {
+      return `${this.pin.proximity.toFixed(1)} MI`;
+    }
+  }
+
+  public isOnlineGroup(): boolean {
+    return this.pin.gathering.isVirtualGroup;
+  }
+
   private onContactLeaderClicked(): void {
 
     this.state.setLoading(true);
@@ -139,13 +154,12 @@ export class GatheringComponent implements OnInit {
 
   }
 
-  public getMeetingTime() {
+  public getMeetingTime(meetingTimeUtc: string) {
     // Sorry this is here. We don't need to do moment when we're doing create group :(
     if (!this.previewMode) {
-      let theTime = moment(this.pin.gathering.meetingTime, 'HH:mm A');
-      return theTime.toDate();
+      return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
     } else {
-      return this.pin.gathering.meetingTime;
+      return this.timeHlpr.hackTime(meetingTimeUtc);
     }
   }
 
@@ -159,8 +173,11 @@ export class GatheringComponent implements OnInit {
   }
 
   public requestToJoin() {
-    let successBodyContentBlock: string = this.app.isConnectApp() ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
-    this.angulartics2.eventTrack.next({ action: 'Join Gathering Button Click', properties: { category: 'Connect' } });
+    let isConnectApp = this.app.isConnectApp();
+    let successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
+
+    (isConnectApp) ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
+
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
       this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
