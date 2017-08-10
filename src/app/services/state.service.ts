@@ -38,6 +38,7 @@ export class StateService {
   public updatedPin: Pin;
 
   private mapOrListView: string = mapViewType;
+  public viewButtonText: string = "List";
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
@@ -108,6 +109,7 @@ export class StateService {
 
   public setCurrentView(view: string) {
     this.mapOrListView = view;
+    this.viewButtonText = view === mapViewType ? 'List' : 'Map';
   }
 
   public getCurrentView(): string {
@@ -161,7 +163,7 @@ export class StateService {
     this.deletedPinIdentifier = pinIdentifier;
   }
 
-  public getDeletedPinIdentifier(): PinIdentifier{
+  public getDeletedPinIdentifier(): PinIdentifier {
     return this.deletedPinIdentifier;
   }
 }

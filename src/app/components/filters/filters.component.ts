@@ -15,7 +15,6 @@ import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/onlin
 import { MeetingTimeComponent } from './meeting-time/meeting-time.component';
 import { MeetingDayComponent } from './meeting-day/meeting-day.component';
 import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency.component';
-import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
@@ -45,8 +44,7 @@ export class FiltersComponent implements OnInit {
   constructor( private filterService: FilterService,
                private router: Router,
                private pinService: PinService,
-               private state: StateService,
-               private searchBar: SearchBarComponent ) {}
+               private state: StateService ) {}
 
   ngOnInit() {
     let savedSearch = this.state.lastSearch;
@@ -54,7 +52,7 @@ export class FiltersComponent implements OnInit {
         location: new FormControl(this.location, []),
     });
 
-    if ((savedSearch) && savedSearch.location != null){
+    if ((savedSearch) && savedSearch.location != null) {
       this.locationFormGroup.controls['location'].setValue(savedSearch.location);
     }
   }
@@ -65,9 +63,8 @@ export class FiltersComponent implements OnInit {
     this.state.setIsFilterDialogOpen(false);
 
     // Switch to list view if the user is searching for only online groups:
-    if(this.onlineOrPhysicalGroupComponent.getIsVirtualGroup()) {
+    if (this.onlineOrPhysicalGroupComponent.getIsVirtualGroup()) {
       this.state.setCurrentView(listViewType);
-      this.searchBar.setButtonText();
     }
 
     let filterString: string = this.filterService.buildFilters();

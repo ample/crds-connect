@@ -27,7 +27,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
 
   private isMyStuffActiveSub: Subscription;
-  public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
 
@@ -44,13 +43,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
-      this.setButtonText();
       this.setSearchText();
     });
   }
 
   public ngOnChanges(): void {
-    this.setButtonText();
     this.setSearchText();
   }
 
@@ -62,8 +59,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
     if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== this.appSettings.myStuffName) {
       this.onSearch(this.state.searchBarText);
     }
-
-    this.setButtonText();
   }
 
   public onSearch(search: string) {
@@ -71,7 +66,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
 
-    //This needs to go away soon -- you can have location filter and keyword search in connect.
+    // This needs to go away soon -- you can have location filter and keyword search in connect.
     let locationFilter = this.appSettings.isConnectApp() ? search : null;
     let keywordString = this.appSettings.isSmallGroupApp() ? search : null;
     let filterString: string = this.filterService.buildFilters();
@@ -80,10 +75,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.lastSearch.search = search;
     this.state.searchBarText = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
-  }
-
-  public setButtonText() {
-    this.buttontext = this.state.getCurrentView() === mapViewType ? 'List' : 'Map';
   }
 
   private setSearchText() {

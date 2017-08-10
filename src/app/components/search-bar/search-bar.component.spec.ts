@@ -81,18 +81,6 @@ describe('SearchBarComponent', () => {
     expect(comp.isMapHidden).toEqual(false);
   });
 
-  it('should set the button text', () => {
-    expect(comp.buttontext).toBe(undefined);
-
-    mockStateService.getCurrentView = jasmine.createSpy('getCurrentView').and.returnValue(mapViewType);
-    comp.setButtonText();
-    expect(comp.buttontext).toBe('List');
-
-    (mockStateService.getCurrentView).and.returnValue(listViewType);
-    comp.setButtonText();
-    expect(comp.buttontext).toBe('Map');
-  });
-
   it('should emit search event', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
