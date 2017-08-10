@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'create-group-footer',
   templateUrl: './create-group-footer.component.html',
+  styles: ['.fauxdal-wrapper { overflow-y: hidden; } ']
 })
 export class CreateGroupFooterComponent {
   @Input() showbackbutton: boolean = true;
