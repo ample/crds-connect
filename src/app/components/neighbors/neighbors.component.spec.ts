@@ -15,7 +15,7 @@ import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.d
 import { GoogleMapService } from '../../services/google-map.service';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule } from '@angular/http';
-import { initialMapZoom } from '../../shared/constants';
+import { initialMapZoom, mapViewType, listViewType } from '../../shared/constants';
 import { IPService } from '../../services/ip.service';
 import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
@@ -73,7 +73,7 @@ describe('Component: Neighbors', () => {
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['emitChange']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getDeletedPinIdentifier',
-                                                                    'getLastSearch', 'setCurrentView', 'setMapView', 'getMapView',
+                                                                    'getLastSearch', 'setCurrentView', 'getCurrentView', 'setMapView', 'getMapView',
                                                                     'setMyViewOrWorldView', 'setLastSearch', 'setlastSearchResults',
                                                                     'isMapViewSet', 'setLastSearchSearchString']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
@@ -143,42 +143,36 @@ describe('Component: Neighbors', () => {
     expect(this.component.doSearch).toHaveBeenCalledWith(searchParams);
   });
 
-  it('setView should set mapViewActive to true', () => {
-    this.component.setViewToMapOrList('map');
-    expect(this.component['mapViewActive']).toBe(true);
-  });
-
-  it('setView should set mapViewActive to false', () => {
-    this.component.setViewToMapOrList('list');
-    expect(this.component['mapViewActive']).toBe(false);
-  });
-
-  it('if viewChanged map view is not active should reSortBasedOnCenterCoords with location', () => {
+  it('viewChanged toggles the view, reSortBasedOnCenterCoords is called when view is toggled to list', () => {
     let mapView: MapView = new MapView('test', 42, 42, 6);
     let searchOptions: SearchOptions = new SearchOptions('searchy Search', 'filter me', null);
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
     (mockStateService.getMapView).and.returnValue(mapView);
     (mockStateService.getLastSearch).and.returnValue(searchOptions);
-    (mockPinService.reSortBasedOnCenterCoords).and.returnValue(searchResults.pinSearchResults .slice());
+    (mockPinService.reSortBasedOnCenterCoords).and.returnValue(searchResults.pinSearchResults.slice());
     this.component['pinSearchResults'] = searchResults;
 
-    this.component.viewChanged(false);
-    expect(this.component['mapViewActive']).toBe(false);
+    // Toggle from map to list:
+    (mockStateService.getCurrentView).and.returnValue(mapViewType);
+    this.component.viewChanged();
+    expect(mockStateService.setCurrentView).toHaveBeenCalledWith(listViewType);
+    expect(mockStateService.getMapView).toHaveBeenCalled();
     expect(mockPinService.reSortBasedOnCenterCoords).toHaveBeenCalledWith(searchResults.pinSearchResults, new GeoCoordinates(42, 42));
-  });
 
-  it('if viewCHanged and map view is active reSortBasedOnCenterCoords should not be called', () => {
-    this.component.viewChanged(true);
-    expect(mockStateService.getMapView).not.toHaveBeenCalled();
-    expect(mockStateService.getLastSearch).not.toHaveBeenCalled();
-    expect(mockPinService.reSortBasedOnCenterCoords).not.toHaveBeenCalled();
+    // Toggle from list to map:
+    (mockStateService.getCurrentView).and.returnValue(listViewType);
+    this.component.viewChanged();
+    expect(mockStateService.setCurrentView).toHaveBeenCalledWith(mapViewType);
+    expect(mockStateService.getMapView).toHaveBeenCalledTimes(1);               // Check that getMapView was not called again
+    expect(mockPinService.reSortBasedOnCenterCoords).toHaveBeenCalledTimes(1);  // Check that reSortBasedOnCenterCoords was not called again
   });
 
   it('should processAndDisplaySearchResults', () => {
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
     this.component['pinSearchResults'] = searchResults;
-    this.component['mapViewActive'] = true;
+    // this.component['mapViewActive'] = true;
     (mockStateService.getDeletedPinIdentifier).and.returnValue(new PinIdentifier(pinType.PERSON, 123));
+    (mockStateService.getCurrentView).and.returnValue(mapViewType);
     (mockPinService.addNewPinToResultsIfNotUpdatedInAwsYet).and.returnValue(searchResults.pinSearchResults);
     (mockPinService.ensureUpdatedPinAddressIsDisplayed).and.returnValue(searchResults.pinSearchResults);
     (mockPinService.sortPinsAndRemoveDuplicates).and.returnValue(searchResults.pinSearchResults);
@@ -287,18 +281,8 @@ describe('Component: Neighbors', () => {
     expect(this.component.goToErrorPage).toHaveBeenCalledTimes(1);
   });
 
-  it('goToNoResultsPage should setMapViewActive to true and route', () => {
-    this.component['mapViewActive'] = true;
+  it('goToNoResultsPage should route', () => {
     this.component.goToNoResultsPage();
-    expect(mockStateService.setCurrentView).toHaveBeenCalledWith('map');
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/no-results');
   });
-
-  it('goToNoResultsPage should setMapViewActive to false and route', () => {
-    this.component['mapViewActive'] = false;
-    this.component.goToNoResultsPage();
-    expect(mockStateService.setCurrentView).toHaveBeenCalledWith('list');
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/no-results');
-  });
-
 });

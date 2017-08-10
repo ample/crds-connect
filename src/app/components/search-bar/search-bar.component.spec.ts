@@ -12,6 +12,8 @@ import { StateService } from '../../services/state.service';
 import { FilterService } from '../../services/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
+import { mapViewType, listViewType } from '../../shared/constants';
+
 class StateServiceStub {
   public myStuffActive: boolean = false;
   setMyViewOrWorldView = jasmine.createSpy('setMyViewOrWorldView').and.returnValue(true);
@@ -32,6 +34,7 @@ describe('SearchBarComponent', () => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp', 'isSmallGroupApp']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters']);
+    // mockStateService = jasmine.createSpyObj<StateService>('stateService', ['getCurrentView', 'myStuffStateChangedEmitter', 'setMyViewOrWorldView']);
     mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
@@ -67,8 +70,26 @@ describe('SearchBarComponent', () => {
   });
 
   it('should toggle view', () => {
-    expect(comp.buttontext).toBe(undefined);
+    mockStateService.getCurrentView = jasmine.createSpy('getCurrentView');
+
+    expect(comp.isMapHidden).toEqual(false);
+
     comp.toggleView();
+    expect(comp.isMapHidden).toEqual(true);
+
+    comp.toggleView();
+    expect(comp.isMapHidden).toEqual(false);
+  });
+
+  it('should set the button text', () => {
+    expect(comp.buttontext).toBe(undefined);
+
+    mockStateService.getCurrentView = jasmine.createSpy('getCurrentView').and.returnValue(mapViewType);
+    comp.setButtonText();
+    expect(comp.buttontext).toBe('List');
+
+    (mockStateService.getCurrentView).and.returnValue(listViewType);
+    comp.setButtonText();
     expect(comp.buttontext).toBe('Map');
   });
 
