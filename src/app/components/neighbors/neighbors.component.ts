@@ -21,7 +21,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { SearchOptions } from '../../models/search-options';
 
-import { initialMapZoom } from '../../shared/constants';
+import { initialMapZoom, mapViewType, listViewType } from '../../shared/constants';
 
 @Component({
   selector: 'app-neighbors',
@@ -31,7 +31,6 @@ import { initialMapZoom } from '../../shared/constants';
 export class NeighborsComponent implements OnInit, OnDestroy {
   public isMyStuffSearch: boolean = false;
   public isMapHidden: boolean = false;
-  public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
   private pinSearchSub: Subscription;
 
@@ -43,7 +42,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private filterService: FilterService,
+    private F: FilterService,
     private blandPageService: BlandPageService) { }
 
   public ngOnDestroy(): void {
@@ -53,24 +52,22 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-
     this.subscribeToListenForSearchRequests();
-    this.setViewToMapOrList(this.state.getCurrentView());
     this.runInitialPinSearch();
-
   }
 
-  private setViewToMapOrList(mapOrListView): void {
-    this.mapViewActive = mapOrListView === 'map';
+  private isMapViewSet() {
+    return this.state.getCurrentView() === mapViewType;
   }
 
-  viewChanged(isMapViewActive: boolean) {
-    this.mapViewActive = isMapViewActive;
-    if (!isMapViewActive) {
+  viewChanged() {
+    if (this.isMapViewSet()) {
+      this.state.setCurrentView(listViewType);
       let location: MapView = this.state.getMapView();
       let coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
-      this.pinSearchResults.pinSearchResults =
-        this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
+      this.pinSearchResults.pinSearchResults = this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
+    } else {
+      this.state.setCurrentView(mapViewType);
     }
   }
 
@@ -91,7 +88,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.state.setLoading(false);
 
-    if (this.mapViewActive) {
+    if (this.isMapViewSet()) {
       this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
     }
 
@@ -105,6 +102,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.navigateAwayIfNecessary(searchLocationString, searchKeywordString, lat, lng, filterString);
   }
+
   private navigateAwayIfNecessary(searchLocationString: string, searchKeywordString: string, lat: number, lng: number, filterString: string): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
@@ -156,7 +154,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         } else {
           this.goToErrorPage();
         }
-      });
+      }
+    );
   }
 
   private goToErrorPage() {
@@ -173,7 +172,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     );
   }
   private goToNoResultsPage() {
-    this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
     this.router.navigateByUrl('/no-results');
   }
 

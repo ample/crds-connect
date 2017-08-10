@@ -9,7 +9,7 @@ import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
-import { textConstants } from '../../shared/constants';
+import { textConstants, mapViewType } from '../../shared/constants';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { FilterService } from '../../services/filter.service';
@@ -56,8 +56,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public toggleView() {
     this.isMapHidden = !this.isMapHidden;
-    this.viewMap.emit(!this.isMapHidden);
+    this.viewMap.emit();
 
+    // Perform a search unless the search bar is blank or we are viewing My Stuff:
     if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== this.appSettings.myStuffName) {
       this.onSearch(this.state.searchBarText);
     }
@@ -81,8 +82,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
-  private setButtonText() {
-    this.buttontext = this.isMapHidden ? 'Map' : 'List';
+  public setButtonText() {
+    this.buttontext = this.state.getCurrentView() === mapViewType ? 'List' : 'Map';
   }
 
   private setSearchText() {
