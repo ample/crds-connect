@@ -15,8 +15,11 @@ import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/onlin
 import { MeetingTimeComponent } from './meeting-time/meeting-time.component';
 import { MeetingDayComponent } from './meeting-day/meeting-day.component';
 import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency.component';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+
+import { listViewType } from '../../shared/constants';
 
 
 @Component({
@@ -25,7 +28,6 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 })
 
 export class FiltersComponent implements OnInit {
-
   // Search string coming in will always be Keyword, not location, becuase filters are ONLY on groups, not connect
   @Input() searchKeywordString: string;
   @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
@@ -37,14 +39,14 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MeetingDayComponent) public meetingDayComponent: MeetingDayComponent;
   @ViewChild(MeetingFrequencyComponent) public meetingFrequencyComponent: MeetingFrequencyComponent;
 
-
   public locationFormGroup: FormGroup;
   public location: string;
 
   constructor( private filterService: FilterService,
                private router: Router,
                private pinService: PinService,
-               private state: StateService) { }
+               private state: StateService,
+               private searchBar: SearchBarComponent ) {}
 
   ngOnInit() {
     let savedSearch = this.state.lastSearch;
@@ -62,12 +64,17 @@ export class FiltersComponent implements OnInit {
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
 
+    // Switch to list view if the user is searching for only online groups:
+    if(this.onlineOrPhysicalGroupComponent.getIsVirtualGroup()) {
+      this.state.setCurrentView(listViewType);
+      this.searchBar.setButtonText();
+    }
+
     let filterString: string = this.filterService.buildFilters();
     this.router.navigate([], { queryParams: {filterString: filterString } });
     let pinSearchRequest = new PinSearchRequestParams(this.location, this.searchKeywordString, filterString);
     this.state.lastSearch.search = this.searchKeywordString;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
-
   }
 
   public resetFilters(): void {
