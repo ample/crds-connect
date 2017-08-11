@@ -20,7 +20,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { SearchOptions } from '../../models/search-options';
 
-import { initialMapZoom, mapViewType, listViewType } from '../../shared/constants';
+import { initialMapZoom, ViewType } from '../../shared/constants';
 
 @Component({
   selector: 'app-neighbors',
@@ -55,17 +55,17 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private isMapViewSet() {
-    return this.state.getCurrentView() === mapViewType;
+    return this.state.getCurrentView() === ViewType.MAP;
   }
 
   viewChanged() {
     if (this.isMapViewSet()) {
-      this.state.setCurrentView(listViewType);
+      this.state.setCurrentView(ViewType.LIST);
       let location: MapView = this.state.getMapView();
       let coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
       this.pinSearchResults.pinSearchResults = this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
     } else {
-      this.state.setCurrentView(mapViewType);
+      this.state.setCurrentView(ViewType.MAP);
     }
   }
 

@@ -16,6 +16,7 @@ import { ParticipantService } from '../../../services/participant.service';
 import { Pin, pinType, Group } from '../../../models';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MockComponent } from '../../../shared/mock.component';
+import { ViewType } from '../../../shared/constants';
 
 
 import { CreateGroupPreviewComponent } from './create-group-preview.component';
@@ -108,7 +109,7 @@ describe('CreateGroupPreviewComponent', () => {
         expect(mockStateService.setLoading).toHaveBeenCalled();
         expect(mockToastr.success).toHaveBeenCalledWith('Successfully created group!');
         expect(mockStateService.setIsMyStuffActive).toHaveBeenCalledWith(true);
-        expect(mockStateService.setCurrentView).toHaveBeenCalledWith('list');
+        expect(mockStateService.setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
         expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();
         expect(mockCreateGroupService.reset).toHaveBeenCalled();

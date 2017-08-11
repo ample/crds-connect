@@ -9,7 +9,7 @@ import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { SearchOptions } from '../models/search-options';
 
-import { mapViewType } from '../shared/constants';
+import { ViewType } from '../shared/constants';
 
 // TODO: This class has a lot of flags.
 // Investigate to see if they belong here and/or add some documentation.
@@ -37,7 +37,7 @@ export class StateService {
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
 
-  private mapOrListView: string = mapViewType;
+  private mapOrListView: ViewType = ViewType.MAP;
   public viewButtonText: string = 'List';
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
@@ -107,12 +107,12 @@ export class StateService {
     this.is_loading = val;
   }
 
-  public setCurrentView(view: string) {
+  public setCurrentView(view: ViewType): void {
     this.mapOrListView = view;
-    this.viewButtonText = view === mapViewType ? 'List' : 'Map';
+    this.viewButtonText = view === ViewType.MAP ? 'List' : 'Map';
   }
 
-  public getCurrentView(): string {
+  public getCurrentView(): ViewType {
     return this.mapOrListView;
   }
 

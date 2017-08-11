@@ -22,7 +22,7 @@ import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency
 
 import { SearchOptions } from '../../models';
 
-import { listViewType } from '../../shared/constants';
+import { ViewType } from '../../shared/constants';
 
 describe('FiltersComponent', () => {
   let fixture: ComponentFixture<FiltersComponent>;
@@ -102,7 +102,7 @@ describe('FiltersComponent', () => {
 
     (this.comp.onlineOrPhysicalGroupComponent.getIsVirtualGroup).and.returnValue(true);
     this.comp.onSubmit();
-    expect(this.comp['state'].setCurrentView).toHaveBeenCalledWith(listViewType);
+    expect(this.comp['state'].setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
   });
 
   describe('Reset', () => {

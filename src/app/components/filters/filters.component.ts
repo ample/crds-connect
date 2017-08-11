@@ -18,7 +18,7 @@ import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency
 
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
-import { listViewType } from '../../shared/constants';
+import { ViewType } from '../../shared/constants';
 
 
 @Component({
@@ -64,7 +64,7 @@ export class FiltersComponent implements OnInit {
 
     // Switch to list view if the user is searching for only online groups:
     if (this.onlineOrPhysicalGroupComponent.getIsVirtualGroup()) {
-      this.state.setCurrentView(listViewType);
+      this.state.setCurrentView(ViewType.LIST);
     }
 
     let filterString: string = this.filterService.buildFilters();

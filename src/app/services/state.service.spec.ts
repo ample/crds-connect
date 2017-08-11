@@ -3,7 +3,7 @@ import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 import { SearchOptions } from '../models/search-options';
 import { MapView } from '../models/map-view';
-import { mapViewType, listViewType } from '../shared/constants';
+import { ViewType } from '../shared/constants';
 
 describe('Service: State', () => {
   beforeEach(() => {
@@ -21,13 +21,13 @@ describe('Service: State', () => {
   }));
 
   it('should get a default current view', inject([StateService], (service: any) => {
-    expect(service.getCurrentView()).toEqual(mapViewType);
+    expect(service.getCurrentView()).toEqual(ViewType.MAP);
     expect(service.viewButtonText).toEqual('List');
   }));
 
   it('should set the current view', inject([StateService], (service: any) => {
-    service.setCurrentView(listViewType);
-    expect(service.getCurrentView()).toEqual(listViewType);
+    service.setCurrentView(ViewType.LIST);
+    expect(service.getCurrentView()).toEqual(ViewType.LIST);
     expect(service.viewButtonText).toEqual('Map');
   }));
 

@@ -147,8 +147,10 @@ export class AppType {
 }
 
 // View Types:
-export const mapViewType: string = 'map';
-export const listViewType: string = 'list';
+export enum ViewType {
+  MAP = 1,
+  LIST = 2
+}
 
 export const appType: AppType = new AppType();
 

@@ -12,8 +12,6 @@ import { StateService } from '../../services/state.service';
 import { FilterService } from '../../services/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
-import { mapViewType, listViewType } from '../../shared/constants';
-
 class StateServiceStub {
   public myStuffActive: boolean = false;
   setMyViewOrWorldView = jasmine.createSpy('setMyViewOrWorldView').and.returnValue(true);

@@ -15,7 +15,7 @@ import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.d
 import { GoogleMapService } from '../../services/google-map.service';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule } from '@angular/http';
-import { initialMapZoom, mapViewType, listViewType } from '../../shared/constants';
+import { initialMapZoom, ViewType } from '../../shared/constants';
 import { IPService } from '../../services/ip.service';
 import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
@@ -72,7 +72,7 @@ describe('Component: Neighbors', () => {
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['emitRefreshMap']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['emitChange']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
-    mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getDeletedPinIdentifier',
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getDeletedPinIdentifier',
                                                                     'getLastSearch', 'setCurrentView', 'getCurrentView', 'setMapView', 'getMapView',
                                                                     'setMyViewOrWorldView', 'setLastSearch', 'setlastSearchResults',
                                                                     'isMapViewSet', 'setLastSearchSearchString']);
@@ -118,7 +118,7 @@ describe('Component: Neighbors', () => {
 
   it('should init map and get new results', () => {
     (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
-    (mockStateService.getCurrentView).and.returnValue('map');
+    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
     (mockStateService.getLastSearch).and.returnValue(null);
     (mockPinService.buildPinSearchRequest).and.returnValue(new PinSearchRequestParams(null, null, null));
 
@@ -132,7 +132,7 @@ describe('Component: Neighbors', () => {
 
   it('should doSearch when pinSearchRequestEmitter emits', () => {
     (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
-    (mockStateService.getCurrentView).and.returnValue('map');
+    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
     (mockStateService.getLastSearch).and.returnValue(null);
 
     spyOn(this.component, 'doSearch');
@@ -153,16 +153,16 @@ describe('Component: Neighbors', () => {
     this.component['pinSearchResults'] = searchResults;
 
     // Toggle from map to list:
-    (mockStateService.getCurrentView).and.returnValue(mapViewType);
+    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
     this.component.viewChanged();
-    expect(mockStateService.setCurrentView).toHaveBeenCalledWith(listViewType);
+    expect(mockStateService.setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
     expect(mockStateService.getMapView).toHaveBeenCalled();
     expect(mockPinService.reSortBasedOnCenterCoords).toHaveBeenCalledWith(searchResults.pinSearchResults, new GeoCoordinates(42, 42));
 
     // Toggle from list to map:
-    (mockStateService.getCurrentView).and.returnValue(listViewType);
+    (mockStateService.getCurrentView).and.returnValue(ViewType.LIST);
     this.component.viewChanged();
-    expect(mockStateService.setCurrentView).toHaveBeenCalledWith(mapViewType);
+    expect(mockStateService.setCurrentView).toHaveBeenCalledWith(ViewType.MAP);
     expect(mockStateService.getMapView).toHaveBeenCalledTimes(1);               // Check that getMapView was not called again
     expect(mockPinService.reSortBasedOnCenterCoords).toHaveBeenCalledTimes(1);  // Check that reSortBasedOnCenterCoords was not called again
   });
@@ -171,7 +171,7 @@ describe('Component: Neighbors', () => {
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
     this.component['pinSearchResults'] = searchResults;
     (mockStateService.getDeletedPinIdentifier).and.returnValue(new PinIdentifier(pinType.PERSON, 123));
-    (mockStateService.getCurrentView).and.returnValue(mapViewType);
+    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
     (mockPinService.addNewPinToResultsIfNotUpdatedInAwsYet).and.returnValue(searchResults.pinSearchResults);
     (mockPinService.ensureUpdatedPinAddressIsDisplayed).and.returnValue(searchResults.pinSearchResults);
     (mockPinService.sortPinsAndRemoveDuplicates).and.returnValue(searchResults.pinSearchResults);
