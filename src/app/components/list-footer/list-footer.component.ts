@@ -11,7 +11,7 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 
 import { Pin } from '../../models/pin';
-import { UserState, GroupResourcesUrl, LeaderResourcesUrl } from '../../shared/constants';
+import { UserState, GroupResourcesUrl, LeaderResourcesUrl, ViewType } from '../../shared/constants';
 
 @Component({
   selector: 'list-footer',
@@ -74,27 +74,27 @@ export class ListFooterComponent implements OnInit, OnChanges {
   }
 
   public addMeToTheMapClicked()  {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.router.navigateByUrl('/add-me-to-the-map');
   }
 
   public becomeAHostClicked()  {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.router.navigateByUrl('/host-signup');
   }
 
   public whatsAHostBtnClicked()  {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.blandPageService.goToWhatsAHost();
   }
 
   public onBecomeALeaderClicked() {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.router.navigateByUrl('/create-group');
   }
 
   public onCreateAGroupClicked() {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.router.navigateByUrl('/create-group');
   }
 

@@ -14,7 +14,7 @@ import { TimeHelperService} from '../../services/time-helper.service';
 import { ParticipantService } from '../../services/participant.service';
 
 import { groupDescriptionLength, textConstants, maxValidProximity,
-    desiredPrecisionForProximityNumber } from '../../shared/constants';
+    desiredPrecisionForProximityNumber, ViewType } from '../../shared/constants';
 import * as moment from 'moment';
 
 @Component({
@@ -131,12 +131,12 @@ export class ListEntryComponent implements OnInit {
   }
 
   public sayHi(id) {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.router.navigate([`person/${id}/`]);
   }
 
   public displayPinDetails(pin: Pin) {
-    this.state.setCurrentView('list');
+    this.state.setCurrentView(ViewType.LIST);
     this.pinService.navigateToPinDetailsPage(pin);
   }
 

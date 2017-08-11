@@ -12,6 +12,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
+import { ViewType } from '../../../../shared/constants';
+
 @Component({
     selector: 'person-edit',
     templateUrl: './person-edit.component.html'
@@ -95,12 +97,12 @@ export class PersonEditComponent implements OnInit {
     }
 
     public removePersonPin() {
-        this.state.setCurrentView('map');
+        this.state.setCurrentView(ViewType.MAP);
         this.router.navigate(['/remove-person-pin', this.pin.participantId]);
     }
 
     public cancel() {
-        this.state.setCurrentView('list');
+        this.state.setCurrentView(ViewType.LIST);
         this.router.navigate(['/person', this.pin.participantId]);
     }
 

@@ -134,6 +134,18 @@ export class GatheringComponent implements OnInit {
     }
   }
 
+  public getProximityString(): string {
+    if (this.isOnlineGroup()) {
+      return 'ONLINE GROUP';
+    } else {
+      return `${this.pin.proximity.toFixed(1)} MI`;
+    }
+  }
+
+  public isOnlineGroup(): boolean {
+    return this.pin.gathering.isVirtualGroup;
+  }
+
   private onContactLeaderClicked(): void {
 
     this.state.setLoading(true);

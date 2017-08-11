@@ -1,5 +1,16 @@
-<div class="connect-layout-container connect-container">
-  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>
-  <button class="btn btn-primary btn-block-mobile" routerLink="/getting-started">Getting Started</button>
-  <button class="btn btn-default btn-outline btn-block-mobile" routerLink="/">Find a group</button>
+<!-- isApprovedLeader or not - change style and order of buttons -->
+<div *ngIf="!isApprovedLeader"class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
+  
+  <button class="btn btn-primary btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>  
+  <button class="btn btn-default btn-outline btn-block-mobile" routerLink="/create-group">Start a group</button>
+</div>
+
+<!-- isApprovedLeader or not - change style and order of buttons -->
+<div *ngIf="isApprovedLeader" class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
+  
+  <button class="btn btn-primary btn-block-mobile" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" (click)="onGroupResourcesClicked()">Group resources</button>
 </div>
