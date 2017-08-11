@@ -4,7 +4,8 @@ import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'email-participants',
-  templateUrl: 'email-participants.component.html'
+  templateUrl: 'email-participants.component.html',
+  styleUrls: ['email-participants.component.scss']
 })
 export class EmailParticipantsComponent implements OnInit {
 
