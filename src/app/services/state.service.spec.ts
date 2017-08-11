@@ -22,7 +22,7 @@ describe('Service: State', () => {
 
   it('should get a default current view', inject([StateService], (service: any) => {
     expect(service.getCurrentView()).toEqual(mapViewType);
-    expect(service.viewButtonText).toEqual('List')
+    expect(service.viewButtonText).toEqual('List');
   }));
 
   it('should set the current view', inject([StateService], (service: any) => {

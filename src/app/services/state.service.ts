@@ -38,7 +38,7 @@ export class StateService {
   public updatedPin: Pin;
 
   private mapOrListView: string = mapViewType;
-  public viewButtonText: string = "List";
+  public viewButtonText: string = 'List';
   private showingPinCount: number = 10;
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';

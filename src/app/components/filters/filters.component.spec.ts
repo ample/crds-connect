@@ -9,7 +9,7 @@ import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { FiltersComponent } from './filters.component';
-import { SearchBarComponent } from '../search-bar/search-bar.component'
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 import { AgeGroupsComponent } from './age-groups/age-groups.component';
 import { CategoryComponent } from './category/category.component';
