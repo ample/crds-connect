@@ -27,7 +27,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
 
   private isMyStuffActiveSub: Subscription;
-  public buttontext: string;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
 
@@ -44,33 +43,30 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
       this.isMyStuffSearch = isMyStuffActive;
-      this.setButtonText();
       this.setSearchText();
     });
   }
 
   public ngOnChanges(): void {
-    this.setButtonText();
     this.setSearchText();
   }
 
-  public toggleView() {
+  public toggleView(): void {
     this.isMapHidden = !this.isMapHidden;
-    this.viewMap.emit(!this.isMapHidden);
+    this.viewMap.emit();
 
+    // Perform a search unless the search bar is blank or we are viewing My Stuff:
     if (this.state.searchBarText && this.state.searchBarText.length > 0 && this.state.searchBarText !== this.appSettings.myStuffName) {
       this.onSearch(this.state.searchBarText);
     }
-
-    this.setButtonText();
   }
 
-  public onSearch(search: string) {
+  public onSearch(search: string): void {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
 
-    //This needs to go away soon -- you can have location filter and keyword search in connect.
+    // This needs to go away soon -- you can have location filter and keyword search in connect.
     let locationFilter = this.appSettings.isConnectApp() ? search : null;
     let keywordString = this.appSettings.isSmallGroupApp() ? search : null;
     let filterString: string = this.filterService.buildFilters();
@@ -81,11 +77,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
-  private setButtonText() {
-    this.buttontext = this.isMapHidden ? 'Map' : 'List';
-  }
-
-  private setSearchText() {
+  private setSearchText(): void {
     if (!this.state.myStuffActive) {
       this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
@@ -94,26 +86,26 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
-  public clearSearchText() {
+  public clearSearchText(): void {
     this.state.searchBarText = '';
     this.onSearch('');
   }
 
-  public resetSearchInput(event) {
+  public resetSearchInput(event): void {
     event.preventDefault();
     this.clearSearchText();
     this.focusSearchInput();
   }
 
-  public searchKeyUp() {
+  public searchKeyUp(): void {
     this.isSearchClearHidden = false;
   }
 
-  public focusSearchInput() {
+  public focusSearchInput(): void {
     document.getElementById('search-bar-input').focus();
   }
 
-  public toggleFilters() {
+  public toggleFilters(): void {
     this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
   }
 

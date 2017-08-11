@@ -3,6 +3,7 @@ import { StateService } from './state.service';
 import { CookieService } from 'angular2-cookie/core';
 import { SearchOptions } from '../models/search-options';
 import { MapView } from '../models/map-view';
+import { ViewType } from '../shared/constants';
 
 describe('Service: State', () => {
   beforeEach(() => {
@@ -20,12 +21,14 @@ describe('Service: State', () => {
   }));
 
   it('should get a default current view', inject([StateService], (service: any) => {
-    expect(service.getCurrentView()).toEqual('map');
+    expect(service.getCurrentView()).toEqual(ViewType.MAP);
+    expect(service.viewButtonText).toEqual('List');
   }));
 
-  it('should get a set current view', inject([StateService], (service: any) => {
-    service.setCurrentView('list');
-    expect(service.getCurrentView()).toEqual('list');
+  it('should set the current view', inject([StateService], (service: any) => {
+    service.setCurrentView(ViewType.LIST);
+    expect(service.getCurrentView()).toEqual(ViewType.LIST);
+    expect(service.viewButtonText).toEqual('Map');
   }));
 
   it('should get a default showing pin count', inject([StateService], (service: any) => {
