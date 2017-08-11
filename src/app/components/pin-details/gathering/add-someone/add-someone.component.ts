@@ -47,10 +47,12 @@ export class AddSomeoneComponent implements OnInit {
     }
 
     private showResultsFauxdal(): void {
+      document.querySelector('body').style.overflowY = 'hidden';
       this.showFauxdal = true;
     }
 
     private hideResultsFauxdal(): void {
+      document.querySelector('body').style.overflowY = 'auto';
       this.showFauxdal = false;
     }
 

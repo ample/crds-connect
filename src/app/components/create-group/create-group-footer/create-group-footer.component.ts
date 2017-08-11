@@ -28,11 +28,13 @@ export class CreateGroupFooterComponent {
   }
 
   private showCancelFauxdal(): void {
+    document.querySelector('body').style.overflowY = 'hidden';
     this.showFauxdal = true;
   }
 
   private hideCancelFauxdal(): void {
-     this.showFauxdal = false;
+    document.querySelector('body').style.overflowY = 'auto';
+    this.showFauxdal = false;
   }
 
   private cancelConfirmed(): void {
