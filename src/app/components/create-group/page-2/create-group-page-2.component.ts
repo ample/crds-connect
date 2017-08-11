@@ -46,6 +46,10 @@ export class CreateGroupPage2Component implements OnInit {
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
 
+    if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+      this.setFieldsFromExistingGroup();
+    }
+
     this.lookupService.getDaysOfTheWeek()
       .finally(() => {
         this.state.setLoading(false);
@@ -56,10 +60,6 @@ export class CreateGroupPage2Component implements OnInit {
         console.log(err);
         this.blandPageService.goToDefaultError('/');
       });
-
-      if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
-        this.setFieldsFromExistingGroup();
-      }
 
       this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
           .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
@@ -152,9 +152,15 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private setFieldsFromExistingGroup(): void {
-    this.createGroupService.group.meetingFrequencyId = +this.createGroupService.group['meetingFrequencyID'];
-    this.createGroupService.group.meetingTime =
+    let isGroupVirtual: boolean = this.createGroupService.group.meetingDayId === null;
+
+    if(isGroupVirtual) {
+      this.onClick(groupMeetingScheduleType.FLEXIBLE);
+    } else {
+      this.createGroupService.group.meetingFrequencyId = +this.createGroupService.group['meetingFrequencyID'];
+      this.createGroupService.group.meetingTime =
         this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.group.meetingTime)
+    }
   }
 
 }

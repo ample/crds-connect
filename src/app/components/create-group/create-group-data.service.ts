@@ -64,11 +64,13 @@ export class CreateGroupService {
 
     public addSelectedCategoriesToGroupModel(): void {
         let attributes: Attribute[] = [];
+
         this.selectedCategories.forEach((cat) => {
             attributes.push(this.createCategoryDetailAttribute(cat));
         });
 
         let jsonObject = {};
+
         jsonObject[attributeTypes.GroupCategoryAttributeTypeId] = {
             attributeTypeId: attributeTypes.GroupCategoryAttributeTypeId,
             name: 'Group Category',

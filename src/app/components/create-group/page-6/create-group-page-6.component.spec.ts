@@ -93,7 +93,7 @@ describe('CreateGroupPage6Component', () => {
         comp['onSubmit'](form);
         expect(comp['createGroupService'].group.congregationId).toBe(mockCreateGroupService.profileData.congregationId);
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/preview']);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/edit-group/preview']);
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
     });
 

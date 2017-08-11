@@ -45,7 +45,10 @@ export class CreateGroupPage1Component implements OnInit {
     .subscribe(cats => {
         this.initializeCategories(cats);
     });
-    this.createGroupService.group = this.route.snapshot.data['group'];
+
+    if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+      this.createGroupService.group = this.route.snapshot.data['group'];
+    }
   }
 
   private initializeCategories(categories: Category[]): void {
@@ -119,6 +122,8 @@ export class CreateGroupPage1Component implements OnInit {
       category.selected = true;
       category.categoryDetail = attribute.name;
     }
+
+    this.createGroupService.addSelectedCategoriesToGroupModel();
   }
 
 }
