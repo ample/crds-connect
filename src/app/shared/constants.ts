@@ -189,7 +189,7 @@ export class LeaderStatus {
 }
 
 export enum GroupRole {
-  TRIAL_MEMBER = 15,
+  TRIAL_MEMBER = 67,
   MEMBER = 16,
   LEADER = 22,
   APPRENTICE = 66,
