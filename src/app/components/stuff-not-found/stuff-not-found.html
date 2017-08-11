@@ -1,13 +1,16 @@
-<div class="connect-layout-container connect-container">
+<!-- isApprovedLeader or not - change style and order of buttons -->
+<div *ngIf="!isApprovedLeader"class="connect-layout-container connect-container">
   <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
   
-  <!-- change to standard styles if isApprovedLeader -->
-  <button *ngIf="!isApprovedLeader" class="btn btn-primary btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>
-  <button *ngIf="isApprovedLeader" class="btn btn-default btn-outline btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>
+  <button class="btn btn-primary btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>  
+  <button class="btn btn-default btn-outline btn-block-mobile" routerLink="/create-group">Start a group</button>
+</div>
+
+<!-- isApprovedLeader or not - change style and order of buttons -->
+<div *ngIf="isApprovedLeader" class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
   
-  <button *ngIf="isApprovedLeader" class="btn btn-default btn-outline btn-block-mobile" (click)="onGroupResourcesClicked()">Group resources</button>
-  
-  <!-- change to default styles if isApprovedLeader -->
-  <button *ngIf="isApprovedLeader" class="btn btn-primary btn-block-mobile" routerLink="/create-group">Start a group</button>
-  <button *ngIf="!isApprovedLeader" class="btn btn-default btn-outline btn-block-mobile" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-primary btn-block-mobile" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" (click)="onGroupResourcesClicked()">Group resources</button>
 </div>
