@@ -57,7 +57,7 @@ export class AppSettingsService {
     if(this.finderType === appType.Groups){
       this.router.navigate(['groups-not-found']);
     } else {
-      this.router.navigate(['connections-not-found']);
+      this.router.navigateByUrl('/add-me-to-the-map');
     } 
    }
 

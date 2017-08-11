@@ -68,7 +68,7 @@ export class GroupMeetingScheduleType {
   }
 }
 
-export class DaysOfWeek{
+export class DaysOfWeek {
   public MONDAY: string;
   public TUESDAY: string;
   public WEDNESDAY: string;
@@ -146,6 +146,12 @@ export class AppType {
   }
 }
 
+// View Types:
+export enum ViewType {
+  MAP = 1,
+  LIST = 2
+}
+
 export const appType: AppType = new AppType();
 
 export class AwsFieldNames {
@@ -203,8 +209,7 @@ export const maxZoom: number = 15;          // The maximum zoom before zoomAdjus
 export const pinTargetGroups: number = 1;   // The target number of pins for group app; used when calculating the best zoom
 export const pinTargetConnect: number = 10; // The target number of pins for connect app; used when calculating the best zoom
 
-export class MeetingFrequencyNames
-{
+export class MeetingFrequencyNames {
   WEEKLY: string;
   BI_WEEKLY: string;
   MONTHLY: string;

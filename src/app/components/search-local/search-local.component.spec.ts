@@ -56,7 +56,7 @@ describe('Component: SearchLocal', () => {
 
 
   beforeEach(() => {
-    mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setCurrentView', 'setMyViewOrWorldView', 'getCurrentView']);
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['']);
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
     mockAnaltyics = jasmine.createSpyObj<AnalyticsService>('analytics', ['updateResultsPressed']);
     mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['']);
@@ -67,7 +67,6 @@ describe('Component: SearchLocal', () => {
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googleMapService', ['constructor', 'setDidUserAllowGeoLoc']);
     mockGoogleMapsAPIWrapper = jasmine.createSpyObj<GoogleMapsAPIWrapper>('googleMapAPIWrapper', ['constructor']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getCurrentView', 'getLastSearch', 'setCurrentView']);
     mockSearchService = jasmine.createSpyObj<SearchService>('searchService', ['']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId', 'get', 'isLoggedIn']);
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['']);
