@@ -64,8 +64,8 @@
       </div>
       <br>
       <div class="fauxdal-content">
-        <div class="text-center" *ngIf="matchFound">The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.</div>
-        <div class="text-center" *ngIf="!matchFound">The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.</div>
+        <div class="text-center" *ngIf="matchFound">The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK.<br>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</div>
+        <div class="text-center" *ngIf="!matchFound">The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK.<br>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</div>
       </div>
       <br>
       <footer class="page-footer btn-group-horizontal ">
