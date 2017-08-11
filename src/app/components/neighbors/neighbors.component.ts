@@ -3,7 +3,6 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -42,7 +41,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private F: FilterService,
     private blandPageService: BlandPageService) { }
 
   public ngOnDestroy(): void {
@@ -139,7 +137,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         if (this.state.lastSearch) {
           this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
         } else {
-          this.state.lastSearch = new SearchOptions('','','');
+          this.state.lastSearch = new SearchOptions('', '', '');
         };
       },
       error => {
