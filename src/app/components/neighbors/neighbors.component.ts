@@ -54,11 +54,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.runInitialPinSearch();
   }
 
-  private isMapViewSet() {
+  private isMapViewSet(): boolean {
     return this.state.getCurrentView() === ViewType.MAP;
   }
 
-  viewChanged() {
+  private viewChanged(): void {
     if (this.isMapViewSet()) {
       this.state.setCurrentView(ViewType.LIST);
       let location: MapView = this.state.getMapView();
@@ -156,7 +156,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     );
   }
 
-  private goToErrorPage() {
+  private goToErrorPage(): void {
     let errorText = 'Oops, looks like there was a problem. Please try again.';
 
     this.blandPageService.primeAndGo(
@@ -169,16 +169,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         )
     );
   }
-  private goToNoResultsPage() {
+
+  private goToNoResultsPage(): void {
     this.router.navigateByUrl('/no-results');
   }
 
   private subscribeToListenForSearchRequests(): void {
-
     this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
       this.doSearch(srchParams);
     });
-
   }
 
   private runInitialPinSearch(): void {

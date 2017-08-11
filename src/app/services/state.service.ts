@@ -75,19 +75,19 @@ export class StateService {
     return this.savedMapView;
   }
 
-  public setIsFilterDialogOpen(val: boolean) {
+  public setIsFilterDialogOpen(val: boolean): void {
     this.isFilterDialogOpen = val;
   }
 
-  public getIsFilteredDialogOpen() {
+  public getIsFilteredDialogOpen(): boolean {
     return this.isFilterDialogOpen;
   }
 
-  public getLastSearch() {
+  public getLastSearch(): SearchOptions {
     return this.lastSearch;
   }
 
-  public setLastSearch(ls: SearchOptions) {
+  public setLastSearch(ls: SearchOptions): void {
     this.lastSearch = ls;
   }
 
@@ -99,11 +99,11 @@ export class StateService {
     this.lastSearchResults = searchResults;
   }
 
-  public setLastSearchSearchString(value: string) {
+  public setLastSearchSearchString(value: string): void {
     this.lastSearch.search = value;
   }
 
-  public setLoading(val: boolean) {
+  public setLoading(val: boolean): void {
     this.is_loading = val;
   }
 
@@ -117,7 +117,7 @@ export class StateService {
   }
 
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
-  public setMyViewOrWorldView(view: string) {
+  public setMyViewOrWorldView(view: string): void {
     this.myViewOrWorldView = view;
   }
 
@@ -129,31 +129,31 @@ export class StateService {
     this.showingPinCount = count;
   }
 
-  public getShowingPinCount() {
+  public getShowingPinCount(): number {
     return this.showingPinCount;
   }
 
-  public setPageHeader(title, routerLink) {
+  public setPageHeader(title, routerLink): void {
     this.hasPageHeader = true;
     this.pageHeader['title'] = title;
     this.pageHeader['routerLink'] = routerLink;
   }
 
-  public setUseZoom(zoom: number) {
+  public setUseZoom(zoom: number): void {
     this.zoomToUse = zoom;
   }
 
-  public getUseZoom() {
+  public getUseZoom(): number {
     return this.zoomToUse;
   }
 
-  public cleanUpStateAfterPinUpdate() {
+  public cleanUpStateAfterPinUpdate(): void {
     this.navigatedFromAddToMapComponent = false;
     this.updatedPinOldAddress = null;
     this.updatedPin = null;
   }
 
-  public clearLastSearch() {
+  public clearLastSearch(): void {
     this.lastSearch = new SearchOptions('', '', '');
     this.searchBarText = '';
   }

@@ -51,7 +51,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.setSearchText();
   }
 
-  public toggleView() {
+  public toggleView(): void {
     this.isMapHidden = !this.isMapHidden;
     this.viewMap.emit();
 
@@ -61,7 +61,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
-  public onSearch(search: string) {
+  public onSearch(search: string): void {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
@@ -77,7 +77,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
-  private setSearchText() {
+  private setSearchText(): void {
     if (!this.state.myStuffActive) {
       this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
                         ? this.state.lastSearch.search : '';
@@ -86,26 +86,26 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
-  public clearSearchText() {
+  public clearSearchText(): void {
     this.state.searchBarText = '';
     this.onSearch('');
   }
 
-  public resetSearchInput(event) {
+  public resetSearchInput(event): void {
     event.preventDefault();
     this.clearSearchText();
     this.focusSearchInput();
   }
 
-  public searchKeyUp() {
+  public searchKeyUp(): void {
     this.isSearchClearHidden = false;
   }
 
-  public focusSearchInput() {
+  public focusSearchInput(): void {
     document.getElementById('search-bar-input').focus();
   }
 
-  public toggleFilters() {
+  public toggleFilters(): void {
     this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
   }
 

@@ -20,7 +20,7 @@ export class OnlineOrPhysicalGroupComponent {
     this.setFilterString(this.isVirtualGroup);
   }
 
-  public reset() {
+  public reset(): void {
     this.isVirtualGroup = null;
     this.isAnOptionSelected = false;
   }

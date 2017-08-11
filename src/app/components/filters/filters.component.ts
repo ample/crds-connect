@@ -46,7 +46,7 @@ export class FiltersComponent implements OnInit {
                private pinService: PinService,
                private state: StateService ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     let savedSearch = this.state.lastSearch;
     this.locationFormGroup = new FormGroup({
         location: new FormControl(this.location, []),
