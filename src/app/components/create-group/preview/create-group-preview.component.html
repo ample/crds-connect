@@ -7,9 +7,11 @@
     </div>
   </div>
 
-  <gathering *ngIf="isComponentReady" [user]="smallGroupPin" [pin]="smallGroupPin" [isLoggedIn]="false" [isPinOwner]="false"
-    [previewMode]="true" [leaders]="leaders">
-  </gathering>
+  <div class="gathering-preview">
+    <gathering *ngIf="isComponentReady" [user]="smallGroupPin" [pin]="smallGroupPin" [isLoggedIn]="false" [isPinOwner]="false"
+      [previewMode]="true" [leaders]="leaders">
+    </gathering>
+  </div>
 
   <form (ngSubmit)="onSubmit()">
     <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
