@@ -3,7 +3,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { crdsOakleyCoords } from '../../shared/constants';
+import { crdsOakleyCoords, ViewType } from '../../shared/constants';
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
@@ -74,7 +74,7 @@ export class MapComponent implements OnInit {
   }
 
   private pinClicked(pin: Pin) {
-    this.state.setCurrentView('map');
+    this.state.setCurrentView(ViewType.MAP);
     this.pinHlpr.navigateToPinDetailsPage(pin);
   }
 
