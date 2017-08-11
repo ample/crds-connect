@@ -88,8 +88,6 @@ export class GatheringEditComponent implements OnInit {
 
     public onSubmit() {
         this.submitting = true;
-        // need to clear out meeting time, due to helper function in group model setting value for group tool
-        this.pin.gathering.meetingTime = null;
         this.pinService.updateGathering(this.pin)
         .finally(() => {
             this.submitting = false;
