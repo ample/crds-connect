@@ -34,7 +34,6 @@ describe('SearchBarComponent', () => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp', 'isSmallGroupApp']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['emitPinSearchRequest']);
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['buildFilters']);
-    // mockStateService = jasmine.createSpyObj<StateService>('stateService', ['getCurrentView', 'myStuffStateChangedEmitter', 'setMyViewOrWorldView']);
     mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
       declarations: [

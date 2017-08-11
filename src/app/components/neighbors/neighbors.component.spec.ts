@@ -46,8 +46,8 @@ import { UserLocationService } from '../../services/user-location.service';
 import { FilterService } from '../../services/filter.service';
 import { BlandPageComponent } from '../bland-page/bland-page.component';
 import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
-import { PinIdentifier } from "../../models/pin-identifier";
-import { pinType } from "../../models/pin";
+import { PinIdentifier } from '../../models/pin-identifier';
+import { pinType } from '../../models/pin';
 
 describe('Component: Neighbors', () => {
   let mockAppSettingsService,
@@ -170,7 +170,6 @@ describe('Component: Neighbors', () => {
   it('should processAndDisplaySearchResults', () => {
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
     this.component['pinSearchResults'] = searchResults;
-    // this.component['mapViewActive'] = true;
     (mockStateService.getDeletedPinIdentifier).and.returnValue(new PinIdentifier(pinType.PERSON, 123));
     (mockStateService.getCurrentView).and.returnValue(mapViewType);
     (mockPinService.addNewPinToResultsIfNotUpdatedInAwsYet).and.returnValue(searchResults.pinSearchResults);
