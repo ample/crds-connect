@@ -38,6 +38,11 @@ export class CreateGroupPage3Component implements OnInit {
             kidsWelcome: [this.createGroupService.group.kidsWelcome]
         });
         this.setRequiredFields(this.createGroupService.group.isVirtualGroup);
+
+        if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+            this.setFieldsFromExistingGroup();
+        }
+
         this.state.setLoading(false);
 
     }
@@ -90,5 +95,14 @@ export class CreateGroupPage3Component implements OnInit {
 
     public onBack(): void {
         this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    }
+
+    private setFieldsFromExistingGroup(): void {
+      let isGroupVirtual: boolean = this.createGroupService.group.address === null
+                                 || this.createGroupService.group.address.addressLine1 === null;
+
+      if(isGroupVirtual) {
+        this.onClickIsVirtual(true);
+      }
     }
 }

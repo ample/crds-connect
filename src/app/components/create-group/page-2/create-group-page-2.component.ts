@@ -152,9 +152,9 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private setFieldsFromExistingGroup(): void {
-    let isGroupVirtual: boolean = this.createGroupService.group.meetingDayId === null;
+    let isGroupOnFlexibleScedule: boolean = this.createGroupService.group.meetingDayId === null;
 
-    if(isGroupVirtual) {
+    if(isGroupOnFlexibleScedule) {
       this.onClick(groupMeetingScheduleType.FLEXIBLE);
     } else {
       this.createGroupService.group.meetingFrequencyId = +this.createGroupService.group['meetingFrequencyID'];
