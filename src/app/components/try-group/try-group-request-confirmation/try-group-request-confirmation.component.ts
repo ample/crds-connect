@@ -33,8 +33,14 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
 
   public onSubmit(): void {
     this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
-    .do(() => {
-      this.router.navigate(['/try-group-request-success']);  // Redirect to success page
-    });
+    .subscribe(
+      success => {
+        console.log(`TryGroupRequestConfirmation: Submit succeeded, ${success}`);
+        this.router.navigate([`/try-group-request-success/${this.groupId}`]);  // Redirect to success page
+      },
+      failure => {
+        console.log(`TryGroupRequestConfirmation: Submit failed, ${failure}`);
+      }
+    );
   }
 }

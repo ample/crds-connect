@@ -117,8 +117,8 @@ const appRoutes: Routes = [
       LoggedInGuard
     ]
   }, {
-    path: 'try-group-request-confirmation/:groupId',
-    component: TryGroupRequestConfirmationComponent,
+    path: 'try-group-request-success/:groupId',
+    component: TryGroupRequestSuccessComponent,
     canActivate: [
       LoggedInGuard
     ]
@@ -183,7 +183,7 @@ const appRoutes: Routes = [
     }
   },
   { path: 'groups-not-found', component: StuffNotFoundComponent },
-  { path: 'connections-not-found', component: StuffNotFoundComponent },  
+  { path: 'connections-not-found', component: StuffNotFoundComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
