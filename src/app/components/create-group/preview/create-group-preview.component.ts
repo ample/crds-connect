@@ -46,30 +46,53 @@ export class CreateGroupPreviewComponent implements OnInit {
     onSubmit(): void {
         this.state.setLoading(true);
         let group = this.createGroupService.prepareForGroupSubmission();
-        Observable.forkJoin(
-            this.groupService.createGroup(group),
-            this.participantService.getLoggedInUsersParticipantRecord(),
-            this.profileService.postProfileData(this.createGroupService.profileData)
-        )
-        .subscribe((returnData) => {
-            group.groupId = returnData[0].groupId;
-            this.createGroupService.setParticipants(returnData[1], group);
-            this.groupService.createParticipants(group)
-            .finally(() => {
-                this.createGroupService.reset();
-            })
-            .subscribe(() => {
-                this.toastr.success('Successfully created group!');
-                this.state.postedPin = this.smallGroupPin;
-                this.state.setIsMyStuffActive(true);
-                this.state.setCurrentView(ViewType.LIST);
-                this.router.navigate(['/']);
-            });
+
+        if (this.state.getActiveGroupPath() === groupPaths.EDIT) {
+            Observable.forkJoin(
+                this.groupService.editGroup(group),
+                this.profileService.postProfileData(this.createGroupService.profileData)
+            )
+            .subscribe((returnData) => {
+                    this.toastr.success('Successfully edited group!');
+                    this.state.postedPin = this.smallGroupPin;
+                    this.state.setIsMyStuffActive(true);
+                    this.state.setCurrentView(ViewType.LIST);
+                    this.router.navigate(['/']);
         }, (error) => {
             console.log(error);
             this.toastr.error(this.contentService.getContent('generalError'));
             this.blandPageService.goToDefaultError('/create-group/preview');
         });
+
+        this.createGroupService.reset();
+
+    } else if (this.state.getActiveGroupPath() === groupPaths.ADD) {
+            Observable.forkJoin(
+                this.groupService.createGroup(group),
+                this.participantService.getLoggedInUsersParticipantRecord(),
+                this.profileService.postProfileData(this.createGroupService.profileData)
+            )
+            .subscribe((returnData) => {
+                group.groupId = returnData[0].groupId;
+                this.createGroupService.setParticipants(returnData[1], group);
+                this.groupService.createParticipants(group)
+                .finally(() => {
+                    this.createGroupService.reset();
+                })
+                .subscribe(() => {
+                    this.toastr.success('Successfully created group!');
+                    this.state.postedPin = this.smallGroupPin;
+                    this.state.setIsMyStuffActive(true);
+                    this.state.setCurrentView(ViewType.LIST);
+                    this.router.navigate(['/']);
+                });
+            }, (error) => {
+                console.log(error);
+                this.toastr.error(this.contentService.getContent('generalError'));
+                this.blandPageService.goToDefaultError('/create-group/preview');
+            });
+        }
+
     }
 
     onBack(): void {

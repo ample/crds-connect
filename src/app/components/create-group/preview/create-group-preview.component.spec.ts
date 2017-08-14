@@ -41,6 +41,11 @@ describe('CreateGroupPreviewComponent', () => {
         mockStateService.postedPin = null;
         mockCreateGroupService.group = MockTestData.getAGroup();
         mockCreateGroupService.profileData = MockTestData.getProfileData();
+        mockRouter = {
+            url: '/groupsv2/create-group/create-group-preview',
+            navigate: jasmine.createSpy('navigate')
+        };
+
         TestBed.configureTestingModule({
             declarations: [
                 CreateGroupPreviewComponent,

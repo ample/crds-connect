@@ -71,7 +71,7 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-  public createGroup(group: Group) {
+  public createGroup(group: Group): Observable<Group> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/group`, group);
   }
 
@@ -79,8 +79,12 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/group/${group.groupId}/participants`, group.Participants);
   }
 
+  public editGroup(group: Group): Observable<Group> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/group/edit`, group);
+  }
+
   public navigateInGroupFlow(pageToGoTo: number, editOrCreateMode: string, groupId: number): void {
-    if(editOrCreateMode === groupPaths.ADD){
+    if (editOrCreateMode === groupPaths.ADD){
         console.log('NAVIGATING TO ADD GROUP PAGE');
       this.router.navigate([`/create-group/page-${pageToGoTo}`]);
     } else if (editOrCreateMode === groupPaths.EDIT) {
