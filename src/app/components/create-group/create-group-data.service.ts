@@ -18,6 +18,7 @@ export class CreateGroupService {
 
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
+    public groupBeingEdited: Group;
     public group: Group;
     public profileData: any = {};
 
@@ -26,6 +27,14 @@ export class CreateGroupService {
 
     constructor(private lookupService: LookupService, private session: SessionService,
         private profileService: ProfileService) {
+    }
+
+    public setGroupFieldsFromGroupBeingEdited(groupBeingEdited: Group): void {
+      this.groupBeingEdited = groupBeingEdited;
+      this.group.groupId = groupBeingEdited.groupId;
+      this.group.groupName = groupBeingEdited.groupName;
+      this.group.groupDescription = groupBeingEdited.groupDescription;
+      this.group.availableOnline = this.groupBeingEdited.availableOnline;
     }
 
     public initializePageOne(): Observable<Category[]> {

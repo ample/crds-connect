@@ -98,11 +98,13 @@ export class CreateGroupPage3Component implements OnInit {
     }
 
     private setFieldsFromExistingGroup(): void {
-      let isGroupVirtual: boolean = this.createGroupService.group.address === null
-                                 || this.createGroupService.group.address.addressLine1 === null;
+      let isGroupVirtual: boolean = this.createGroupService.groupBeingEdited.address === null
+                                 || this.createGroupService.groupBeingEdited.address.addressLine1 === null;
 
       if(isGroupVirtual) {
         this.onClickIsVirtual(true);
       }
+        this.createGroupService.group.address = this.createGroupService.groupBeingEdited.address
+        this.onClickKidsWelcome(this.createGroupService.groupBeingEdited.kidsWelcome);
     }
 }

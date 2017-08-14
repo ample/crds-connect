@@ -163,14 +163,17 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private setFieldsFromExistingGroup(): void {
-    let isGroupOnFlexibleScedule: boolean = this.createGroupService.group.meetingDayId === null;
+    let isGroupOnFlexibleScedule: boolean = this.createGroupService.groupBeingEdited.meetingDayId === null;
 
     if(isGroupOnFlexibleScedule) {
       this.onClick(groupMeetingScheduleType.FLEXIBLE);
     } else {
-      this.createGroupService.group.meetingFrequencyId = +this.createGroupService.group['meetingFrequencyID'];
+      this.createGroupService.group.meetingFrequencyId =
+        +this.createGroupService.groupBeingEdited['meetingFrequencyID'];
       this.createGroupService.group.meetingTime =
-        this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.group.meetingTime)
+        this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.groupBeingEdited.meetingTime);
+      this.createGroupService.group.meetingDay = this.createGroupService.groupBeingEdited.meetingDay;
+      this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;
     }
   }
 

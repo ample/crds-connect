@@ -11,6 +11,8 @@ import { GroupService} from '../../../services/group.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { StateService } from '../../../services/state.service';
 
+import { Group} from '../../../models/group';
+
 import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
 
 
@@ -47,7 +49,8 @@ export class CreateGroupPage1Component implements OnInit {
     });
 
     if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
-      this.createGroupService.group = this.route.snapshot.data['group'];
+      let groupBeingEdited: Group = this.route.snapshot.data['group'];
+      this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
   }
 
@@ -114,16 +117,15 @@ export class CreateGroupPage1Component implements OnInit {
 
   private populateFormWithValuesFromGroupBeingEdited (category: Category): void {
     let attributesMatchingCat: Attribute[] =
-      this.createGroupService.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
+      this.createGroupService.groupBeingEdited.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
         .filter(attribute => attribute.category === category.name
                              && attribute.selected === true);
+
     if(attributesMatchingCat.length > 0){
       let attribute: Attribute = attributesMatchingCat[0];
       category.selected = true;
       category.categoryDetail = attribute.name;
     }
-
-    this.createGroupService.addSelectedCategoriesToGroupModel();
   }
 
 }

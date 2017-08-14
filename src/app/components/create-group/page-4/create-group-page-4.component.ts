@@ -55,56 +55,13 @@ export class CreateGroupPage4Component implements OnInit {
                 lookupResults => {
                     this.genderMixTypes = lookupResults[0].attributes;
                     this.ageRanges = lookupResults[1].attributes;
+
                     this.setSelectedAgeRanges();
                     this.setIsStudentMinistrySelected();
 
                     if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
-
-                      let groupSingleAttributes: any = this.createGroupService.group.singleAttributes;
-
-                      for (let i = 0; i < this.genderMixTypes.length; i++){
-                        let genderMixType: Attribute = this.genderMixTypes[i];
-
-                        for (var property in groupSingleAttributes) {
-                          if (groupSingleAttributes.hasOwnProperty(property)) {
-
-                            let singleAttributeOnGroup = groupSingleAttributes[property].attribute;
-                            if(singleAttributeOnGroup){
-                              if (genderMixType.attributeId === singleAttributeOnGroup.attributeId){
-                                this.createGroupService.selectedGroupGenderMix = genderMixType;
-                              }
-                            }
-                          }
-                        }
-                      }
-
-
-                      this.ageRanges.forEach((ageRange: Attribute) => {
-                        let ageRangeAttributesAttachedToGroup: Attribute[] =
-                          this.createGroupService.group
-                            .attributeTypes[attributeTypes.AgeRangeAttributeTypeId.toString()].attributes;
-
-                        let groupAttributeMatchingSpecificAgeRangeCat: Attribute[] = ageRangeAttributesAttachedToGroup
-                          .filter(attribute => attribute.name === ageRange.name && attribute.selected === true);
-
-                          if(groupAttributeMatchingSpecificAgeRangeCat.length > 0){
-
-                            let attribute: Attribute = groupAttributeMatchingSpecificAgeRangeCat[0];
-                            this.onClickAgeRange(attribute);
-
-
-                            this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
-                              let foundRange = this.ageRanges.find((range: Attribute) => {
-                                return range.attributeId === attribute.attributeId;
-                              });
-                              if (foundRange) {
-                                foundRange.selected = true;
-                              }
-                            });
-                          }
-
-
-                      });
+                      this.setAgeRangesFromExistingGroup();
+                      this.setGenderMixesFromExistingGroup();
                     }
 
                 },
@@ -120,15 +77,64 @@ export class CreateGroupPage4Component implements OnInit {
         this.createGroupService.selectedGroupGenderMix = value;
     }
 
+    private setGenderMixesFromExistingGroup(): void {
+      let groupSingleAttributes: any = this.createGroupService.groupBeingEdited.singleAttributes;
+
+      for (let i = 0; i < this.genderMixTypes.length; i++){
+        let genderMixType: Attribute = this.genderMixTypes[i];
+
+        for (var property in groupSingleAttributes) {
+          if (groupSingleAttributes.hasOwnProperty(property)) {
+
+            let singleAttributeOnGroup = groupSingleAttributes[property].attribute;
+            if(singleAttributeOnGroup){
+              if (genderMixType.attributeId === singleAttributeOnGroup.attributeId){
+                this.onClickMixType(genderMixType);
+              }
+            }
+          }
+        }
+      }
+    }
+
     private setSelectedAgeRanges(): void {
-        this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
+      this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
+        let foundRange = this.ageRanges.find((range: Attribute) => {
+          return range.attributeId === ageRange.attributeId;
+        });
+        if (foundRange) {
+          foundRange.selected = true;
+        }
+      });
+    }
+
+    private setAgeRangesFromExistingGroup(): void {
+      this.ageRanges.forEach((ageRange: Attribute) => {
+
+        let ageRangeAttributesAttachedToGroup: Attribute[] =
+          this.createGroupService.groupBeingEdited
+            .attributeTypes[attributeTypes.AgeRangeAttributeTypeId.toString()].attributes;
+
+        let groupAttributeMatchingSpecificAgeRangeCat: Attribute[] = ageRangeAttributesAttachedToGroup
+          .filter(attribute => attribute.name === ageRange.name && attribute.selected === true);
+
+        if(groupAttributeMatchingSpecificAgeRangeCat.length > 0){
+
+          let attribute: Attribute = groupAttributeMatchingSpecificAgeRangeCat[0];
+          this.onClickAgeRange(attribute);
+
+
+          this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
             let foundRange = this.ageRanges.find((range: Attribute) => {
-                return range.attributeId === ageRange.attributeId;
+              return range.attributeId === attribute.attributeId;
             });
             if (foundRange) {
-                foundRange.selected = true;
+              foundRange.selected = true;
             }
-        });
+          });
+
+        }
+    });
     }
 
     private onClickAgeRange(value: Attribute): void {
