@@ -68,12 +68,12 @@
           <div class="col-sm-8 col-sm-offset-2">
             <div *ngIf="!matchFound">
               <div class="font-size-small font-family-base-light">
-                <p>The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.</p>
+                <p>The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK.<p>>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</p>
               </div>
             </div>
             <div *ngIf="matchFound">
               <div class="font-size-small font-family-base-light">
-                <p>The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group.</p>
+                <p>The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK. <p>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</p>
               </div>
             </div>
           </div>
