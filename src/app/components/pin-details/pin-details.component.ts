@@ -29,7 +29,10 @@ export class PinDetailsComponent implements OnInit {
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: Pin;
+
+  // Attributes used for trial member approval:
   private approved: boolean;
+  private trialMemberId: number;
 
   constructor(
     private location: PlatformLocation,
@@ -48,6 +51,9 @@ export class PinDetailsComponent implements OnInit {
     this.user = this.route.snapshot.data['user'];
     if(this.route.snapshot.queryParamMap.get('approved')) {
       this.approved = this.route.snapshot.queryParamMap.get('approved').toLowerCase() === 'true';
+    }
+    if(this.route.snapshot.queryParamMap.get('trialMemberId')) {
+      this.trialMemberId = Number(this.route.snapshot.queryParamMap.get('trialMemberId'));
     }
 
     if (this.pin.pinType === pinType.GATHERING) {
