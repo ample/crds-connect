@@ -16,7 +16,7 @@ import { ParticipantService } from '../../../services/participant.service';
 import { Pin, pinType, Group } from '../../../models';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MockComponent } from '../../../shared/mock.component';
-import { ViewType } from '../../../shared/constants';
+import { ViewType, groupPaths } from '../../../shared/constants';
 
 
 import { CreateGroupPreviewComponent } from './create-group-preview.component';
@@ -30,7 +30,7 @@ describe('CreateGroupPreviewComponent', () => {
         mockBlandPageService, mockContentService;
     beforeEach(() => {
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath', 'setActiveGroupPath']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupServ', ['createGroup', 'createParticipants']);
         mockProfileService = jasmine.createSpyObj<ProfileService>('profile', ['postProfileData']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
@@ -39,8 +39,14 @@ describe('CreateGroupPreviewComponent', () => {
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bpd', ['goToDefaultError']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
         mockStateService.postedPin = null;
+        mockStateService.setActiveGroupPath(groupPaths.ADD);
         mockCreateGroupService.group = MockTestData.getAGroup();
         mockCreateGroupService.profileData = MockTestData.getProfileData();
+        mockRouter = {
+            url: '/groupsv2/search/create-group/create-group-preview',
+            navigate: jasmine.createSpy('navigate')
+        };
+
         TestBed.configureTestingModule({
             declarations: [
                 CreateGroupPreviewComponent,
