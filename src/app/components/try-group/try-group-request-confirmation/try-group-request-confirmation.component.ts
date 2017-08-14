@@ -43,4 +43,9 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
       }
     );
   }
+
+  public onClose(): void {
+    window.history.back();
+    // this.router.navigate([`/foo/${this.groupId}`]);
+  }
 }
