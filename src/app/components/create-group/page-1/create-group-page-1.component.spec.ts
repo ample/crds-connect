@@ -31,7 +31,7 @@ describe('CreateGroupPage1Component', () => {
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
-                                                     'validateCategories', 'addSelectedCategoriesToGroupModel']);
+                                                     'validateCategories', 'addSelectedCategoriesToGroupModel', 'markPageAsPresetWithExistingData']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);

@@ -61,9 +61,11 @@ export class CreateGroupPage4Component implements OnInit {
                     this.setSelectedAgeRanges();
                     this.setIsStudentMinistrySelected();
 
-                    if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+                    if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                                        && !this.createGroupService.wasPagePresetWithExistingData.page4) {
                       this.setAgeRangesFromExistingGroup();
                       this.setGenderMixesFromExistingGroup();
+                      this.createGroupService.wasPagePresetWithExistingData.page4 = true;
                     }
 
                 },

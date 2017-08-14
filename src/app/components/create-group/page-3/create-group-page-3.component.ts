@@ -41,7 +41,8 @@ export class CreateGroupPage3Component implements OnInit {
         });
         this.setRequiredFields(this.createGroupService.group.isVirtualGroup);
 
-        if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+        if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                            && !this.createGroupService.wasPagePresetWithExistingData.page3) {
             this.setFieldsFromExistingGroup();
         }
 
@@ -106,7 +107,9 @@ export class CreateGroupPage3Component implements OnInit {
       if(isGroupVirtual) {
         this.onClickIsVirtual(true);
       }
-        this.createGroupService.group.address = this.createGroupService.groupBeingEdited.address
-        this.onClickKidsWelcome(this.createGroupService.groupBeingEdited.kidsWelcome);
+      this.createGroupService.group.address = this.createGroupService.groupBeingEdited.address
+      this.onClickKidsWelcome(this.createGroupService.groupBeingEdited.kidsWelcome);
+
+      this.createGroupService.wasPagePresetWithExistingData.page3 = true;
     }
 }

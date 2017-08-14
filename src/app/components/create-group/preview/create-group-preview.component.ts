@@ -9,6 +9,8 @@ import { GroupService } from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { Pin, Participant } from '../../../models';
+import { Group } from '../../../models/group';
+import { GroupEditPresetTracker } from '../../../models/group-edit-preset-tracker';
 import { Component, OnInit } from '@angular/core';
 import { ViewType, groupPaths } from '../../../shared/constants';
 
@@ -23,6 +25,7 @@ export class CreateGroupPreviewComponent implements OnInit {
     private leaders: Participant[];
     private isComponentReady: boolean = false;
     private submitting: boolean = true;
+
     constructor(private createGroupService: CreateGroupService,
                 private state: StateService,
                 private groupService: GroupService,
@@ -45,7 +48,7 @@ export class CreateGroupPreviewComponent implements OnInit {
 
     onSubmit(): void {
         this.state.setLoading(true);
-        let group = this.createGroupService.prepareForGroupSubmission();
+        let group: Group = this.createGroupService.prepareForGroupSubmission();
         Observable.forkJoin(
             this.groupService.createGroup(group),
             this.participantService.getLoggedInUsersParticipantRecord(),

@@ -49,9 +49,11 @@ export class CreateGroupPage1Component implements OnInit {
     })
     .subscribe(cats => {
         this.initializeCategories(cats);
+        this.createGroupService.markPageAsPresetWithExistingData(GroupPageNumber.ONE);
+        //this.createGroupService.wasPagePresetWithExistingData.page1 = true;
     });
 
-    if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+    if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
       let groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
@@ -62,7 +64,8 @@ export class CreateGroupPage1Component implements OnInit {
       this.groupCategoryForm.addControl(category.name, new FormControl('', []));
       this.groupCategoryForm.addControl(`${category.name}-detail`, new FormControl('', []));
 
-      if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+      if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                          && !this.createGroupService.wasPagePresetWithExistingData.page1) {
         this.populateFormWithValuesFromGroupBeingEdited(category);
       }
     });
