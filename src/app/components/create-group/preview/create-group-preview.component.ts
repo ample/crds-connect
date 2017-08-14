@@ -10,6 +10,7 @@ import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { Pin, Participant } from '../../../models';
 import { Component, OnInit } from '@angular/core';
+import { ViewType } from '../../../shared/constants';
 
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 
@@ -59,7 +60,7 @@ export class CreateGroupPreviewComponent implements OnInit {
                 this.toastr.success('Successfully created group!');
                 this.state.postedPin = this.smallGroupPin;
                 this.state.setIsMyStuffActive(true);
-                this.state.setCurrentView('list');
+                this.state.setCurrentView(ViewType.LIST);
                 this.router.navigate(['/']);
             });
         }, (error) => {

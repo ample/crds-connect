@@ -66,4 +66,10 @@
       font-size: 1.5rem;
     }
   }
+
+  app-map-footer {
+    .btn-link.active {
+      color: $cr-cyan-light;
+    }
+  }
 }

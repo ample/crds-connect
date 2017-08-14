@@ -212,7 +212,8 @@ const appRoutes: Routes = [
       userData: DetailedUserDataResolver
     }
   },
-  { path: 'stuff-not-found', component: StuffNotFoundComponent },
+  { path: 'groups-not-found', component: StuffNotFoundComponent },
+  { path: 'connections-not-found', component: StuffNotFoundComponent },  
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {

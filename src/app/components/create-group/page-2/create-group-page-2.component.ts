@@ -21,6 +21,17 @@ import { defaultGroupMeetingTime, meetingFrequencies,
 @Component({
   selector: 'create-group-page-2',
   templateUrl: './create-group-page-2.component.html',
+  styles: [`
+    form > div:nth-child(2) .row div:last-child {
+      white-space: normal;
+      text-align: left;
+    }
+    @media (min-width: 600px) {
+      form > div:nth-child(2) .row div:last-child {
+        text-align: right;
+      }
+    }
+  `]
 })
 export class CreateGroupPage2Component implements OnInit {
   public meetingTimeForm: FormGroup;

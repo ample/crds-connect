@@ -130,6 +130,7 @@ export class GatheringComponent implements OnInit {
     } else {
       this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, false);
       this.descriptionToDisplay = this.getDescriptionDisplayText();
+      this.doDisplayFullDesc = this.displayFullDesc();
       this.ready = true;
     }
   }
@@ -204,7 +205,7 @@ export class GatheringComponent implements OnInit {
           } else {
             this.toast.error(this.content.getContent('generalError'));
           }
-          // If we're at the signin or register page, come back to the gathering details. 
+          // If we're at the signin or register page, come back to the gathering details.
           if (!this.router.url.includes('gathering')) {
             this.loginRedirectService.redirectToTarget();
           }
