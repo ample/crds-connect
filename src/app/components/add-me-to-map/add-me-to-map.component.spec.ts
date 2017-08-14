@@ -22,8 +22,10 @@ import { UserLocationService } from '../../services/user-location.service';
 import { AddressService } from '../../services/address.service';
 import { Location } from '@angular/common';
 import { MockTestData } from '../../shared/MockTestData';
+import { ViewType } from '../../shared/constants';
 
 import { GoogleMapService } from '../../services/google-map.service';
+
 
 describe('Component: Add Me to the Map', () => {
 
@@ -124,7 +126,7 @@ describe('Component: Add Me to the Map', () => {
     expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
     expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(expectedBpd);
     expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
-    expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
+    expect(mockState.setCurrentView).toHaveBeenCalledWith(ViewType.MAP);
     expect(mockState.setLastSearch).toHaveBeenCalledWith(null);
     expect(mockSessionService.clearCache).toHaveBeenCalled();
     expect(mockState.setMapView).toHaveBeenCalled();
