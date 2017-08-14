@@ -36,7 +36,9 @@ export class CreateGroupPage6Component implements OnInit {
                 private lookupService: LookupService) { }
 
     ngOnInit(): void {
-        this.state.setPageHeader('start a group', this.lastPage);
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        this.state.setPageHeader(pageHeader, this.lastPage);
+
         this.stateList = usStatesList;
         Observable.forkJoin(
             this.lookupService.getSites(),

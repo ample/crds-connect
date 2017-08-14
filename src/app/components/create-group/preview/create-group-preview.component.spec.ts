@@ -30,7 +30,7 @@ describe('CreateGroupPreviewComponent', () => {
         mockBlandPageService, mockContentService;
     beforeEach(() => {
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupServ', ['createGroup', 'createParticipants']);
         mockProfileService = jasmine.createSpyObj<ProfileService>('profile', ['postProfileData']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);

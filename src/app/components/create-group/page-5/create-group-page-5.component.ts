@@ -29,7 +29,9 @@ export class CreateGroupPage5Component implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    this.state.setPageHeader('start a group', '/create-group/page-4');
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+    this.state.setPageHeader(pageHeader, '/create-group/page-4');
+
     this.groupDetailsForm = this.fb.group({
       groupName: [this.createGroupService.group.groupName, Validators.required],
       groupDescription: [this.createGroupService.group.groupDescription, Validators.required],

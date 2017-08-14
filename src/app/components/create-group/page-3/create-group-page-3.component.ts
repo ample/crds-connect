@@ -27,7 +27,9 @@ export class CreateGroupPage3Component implements OnInit {
                 private router: Router) { }
 
     ngOnInit() {
-        this.state.setPageHeader('start a group', '/create-group/page-2');
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        this.state.setPageHeader(pageHeader, '/create-group/page-2');
+        
         this.makeSureModelHasAddress();
         this.locationForm = this.fb.group({
             isVirtualGroup: [this.createGroupService.group.isVirtualGroup],
