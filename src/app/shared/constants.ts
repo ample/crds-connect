@@ -249,6 +249,10 @@ export enum UserState {
   NotLoggedIn
 }
 
+export enum HttpStatusCodes {
+  CONFLICT = 409
+}
+
 // The default value for proximity to user's current location when no location data is available
 export let proximityUnavailableDefaultNum: number = 999;
 
