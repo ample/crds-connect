@@ -49,11 +49,12 @@ export class PinDetailsComponent implements OnInit {
 
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
-    if(this.route.snapshot.queryParamMap.get('approved')) {
-      this.approved = this.route.snapshot.queryParamMap.get('approved').toLowerCase() === 'true';
+
+    if(this.route.snapshot.paramMap.get('approved')) {
+      this.approved = this.route.snapshot.paramMap.get('approved').toLowerCase() === 'true';
     }
-    if(this.route.snapshot.queryParamMap.get('trialMemberId')) {
-      this.trialMemberId = Number(this.route.snapshot.queryParamMap.get('trialMemberId'));
+    if(this.route.snapshot.paramMap.get('trialMemberId')) {
+      this.trialMemberId = Number(this.route.snapshot.paramMap.get('trialMemberId'));
     }
 
     if (this.pin.pinType === pinType.GATHERING) {
