@@ -147,12 +147,15 @@ export class GatheringComponent implements OnInit {
     return this.pin.gathering.isVirtualGroup;
   }
 
-  private onContactLeaderClicked(): void {
+  private onTryThisGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
+  }
 
+  private onContactLeaderClicked(): void {
     this.state.setLoading(true);
     let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
-
   }
 
   public getMeetingTime(meetingTimeUtc: string) {

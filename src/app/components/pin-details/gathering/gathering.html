@@ -89,7 +89,8 @@
     </dl>
 
     <div *ngIf="!isLeader && isInGroupApp" class="push-half-ends soft-ends">
-      <button class="btn btn-primary btn-block-mobile">Try this group</button>
+      <button class="btn btn-primary btn-block-mobile"
+              (click)="onTryThisGroupClicked()">Try this group</button>
       <button class="btn btn-outline btn-primary btn-block-mobile"
               (click)="onContactLeaderClicked();">Contact leader</button>
     </div>

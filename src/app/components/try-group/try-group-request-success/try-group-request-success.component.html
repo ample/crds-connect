@@ -1,0 +1,35 @@
+<div class="fauxdal-wrapper">
+  <div class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="closeClick()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
+
+      <div class="fauxdal-content">
+        <crds-content-block *ngIf="contentBlock" id="tryAGroupRequestSuccess"></crds-content-block>
+      </div>
+
+      <br>
+
+      <footer class="page-footer btn-group-horizontal">
+        <!-- Back to group Button: -->
+        <button type="button"
+                class="btn btn-secondary btn-block-mobile"
+                (click)="onBackToGroup()">
+          Back to group
+        </button>
+
+        <!-- Find another group Button: -->
+        <button type="button"
+                class="btn btn-secondary btn-block-mobile"
+                (click)="onFindAnotherGroup()">
+          Find another group
+        </button>
+      </footer>
+    </div>
+  </div>
+</div>
