@@ -72,7 +72,7 @@ export class CreateGroupPage6Component implements OnInit {
             if(this.state.getActiveGroupPath() === groupPaths.EDIT){
                 this.router.navigate([`/edit-group/${this.createGroupService.group.groupId}/preview`]);
             } else {
-                this.router.navigate(['/edit-group/preview']);
+                this.router.navigate(['/create-group/preview']);
             }
         } else {
             this.groupVisabilityInvalid = true;
