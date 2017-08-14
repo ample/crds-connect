@@ -19,10 +19,14 @@ export class TryGroupRequestSuccessComponent implements OnInit {
   }
 
   public onBackToGroup(): void {
-    this.router.navigate([`/foo/${this.groupId}`]);
+    this.router.navigate([`/small-group/${this.groupId}`]);
   }
 
   public onFindAnotherGroup(): void {
-    this.router.navigate([`/foo/`]);
+    this.router.navigate([`/`]);
+  }
+
+  public onClose(): void {
+    this.router.navigate([`/small-group/${this.groupId}`]);
   }
 }
