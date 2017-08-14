@@ -51,7 +51,8 @@ export class CreateGroupPage2Component implements OnInit {
               private timeHlpr: TimeHelperService) { }
 
   ngOnInit() {
-    this.state.setPageHeader('start a group', '/create-group/page-1');
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+    this.state.setPageHeader(pageHeader, '/create-group/page-1');
 
     this.meetingTimeForm = this.initializeGroupMeetingScheduleForm();
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);

@@ -10,7 +10,7 @@ import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { Pin, Participant } from '../../../models';
 import { Component, OnInit } from '@angular/core';
-import { ViewType } from '../../../shared/constants';
+import { ViewType, groupPaths } from '../../../shared/constants';
 
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 
@@ -34,7 +34,9 @@ export class CreateGroupPreviewComponent implements OnInit {
                 private contentService: ContentService) { }
 
     ngOnInit() {
-        this.state.setPageHeader('start a group', '/create-group/page-6');
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        this.state.setPageHeader(pageHeader, '/create-group/page-6');
+
         this.smallGroupPin = this.createGroupService.getSmallGroupPinFromGroupData();
         this.leaders = this.createGroupService.getLeaders();
         this.isComponentReady = true;

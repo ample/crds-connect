@@ -36,7 +36,10 @@ export class CreateGroupPage1Component implements OnInit {
   ngOnInit() {
     this.setGroupPathInState();
     this.state.setLoading(true);
-    this.state.setPageHeader('start a group', '/create-group');
+
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+    this.state.setPageHeader(pageHeader, '/create-group');
+
     this.groupCategoryForm = new FormGroup({});
     this.createGroupService.initializePageOne()
     .finally(() => {

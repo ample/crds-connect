@@ -37,7 +37,9 @@ export class CreateGroupPage4Component implements OnInit {
                 private blandPageService: BlandPageService) { }
 
     ngOnInit() {
-        this.state.setPageHeader('start a group', '/create-group/page-3');
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        this.state.setPageHeader(pageHeader, '/create-group/page-3');
+
         this.groupMetaDataForm = this.fb.group({
             groupGenderMixType: ['', Validators.required],
             groupAgeRanges: ['', Validators.required]
