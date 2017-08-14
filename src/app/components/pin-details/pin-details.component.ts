@@ -29,6 +29,7 @@ export class PinDetailsComponent implements OnInit {
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: Pin;
+  private approved: boolean;
 
   constructor(
     private location: PlatformLocation,
@@ -45,6 +46,9 @@ export class PinDetailsComponent implements OnInit {
 
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
+    if(this.route.snapshot.queryParamMap.get('approved')) {
+      this.approved = this.route.snapshot.queryParamMap.get('approved').toLowerCase() === 'true';
+    }
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
