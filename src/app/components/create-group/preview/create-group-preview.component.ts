@@ -23,6 +23,7 @@ export class CreateGroupPreviewComponent implements OnInit {
     private leaders: Participant[];
     private isComponentReady: boolean = false;
     private submitting: boolean = true;
+
     constructor(private createGroupService: CreateGroupService,
                 private state: StateService,
                 private groupService: GroupService,

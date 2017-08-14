@@ -58,8 +58,10 @@ export class CreateGroupPage2Component implements OnInit {
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
 
-    if(this.state.getActiveGroupPath() === groupPaths.EDIT) {
+    if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                        && !this.createGroupService.wasPagePresetWithExistingData.page2) {
       this.setFieldsFromExistingGroup();
+      this.createGroupService.wasPagePresetWithExistingData.page2 = true;
     }
 
     this.lookupService.getDaysOfTheWeek()
