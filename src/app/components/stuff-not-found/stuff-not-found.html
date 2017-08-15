@@ -1,26 +1,25 @@
 <!-- isApprovedLeader or not - change style and order of buttons -->
-<div *ngIf="!isApprovedLeader && isSmallGroupApp"class="connect-layout-container connect-container">
-  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
-  
-  <button class="btn btn-primary btn-block-mobile" name="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>  
-  <button class="btn btn-default btn-outline btn-block-mobile" name="startGroupBtn" routerLink="/create-group">Start a group</button>
+<div *ngIf="!isConnectApp && !isApprovedLeader"class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>   
+  <button class="btn btn-primary btn-block-mobile" id="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>  
+  <button class="btn btn-default btn-outline btn-block-mobile" id="startGroupBtn" routerLink="/create-group">Start a group</button>
 </div>
 
 <!-- isApprovedLeader or not - change style and order of buttons -->
-<div *ngIf="isApprovedLeader && isSmallGroupApp" class="connect-layout-container connect-container">
-  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
-  
-  <button class="btn btn-primary btn-block-mobile" name="startGroupBtn" routerLink="/create-group">Start a group</button>
-  <button class="btn btn-default btn-outline btn-block-mobile" name="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>
-  <button class="btn btn-default btn-outline btn-block-mobile" name="groupResources" (click)="onGroupResourcesClicked()">Group resources</button>
+<div *ngIf="!isConnectApp && isApprovedLeader" class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>   
+  <button class="btn btn-primary btn-block-mobile" id="startGroupBtn" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" id="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" id="groupResourcesBtn" (click)="onGroupResourcesClicked()">Group resources</button>
 </div>
 
+<!-- if isConnectApp send connect buttons -->
 <div *ngIf = "isConnectApp" class="connect-layout-container connect-container">
     <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block> 
-    <button class="btn btn-default btn-outline btn-block-mobile" name="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
-    <button class="btn btn-default btn-outline btn-block-mobile" name="becomeHosteBtn" routerLink="/host-signup">Sign up to Host</button>
-    <button class="btn btn-default btn-outline btn-block-mobile" name="whatsHostBtn" routerLink="/whats-a-host">What's a Host</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" id="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" id="signUpHostBtn" routerLink="/host-signup">Sign up to Host</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" id="whatsHostBtn" routerLink="/whats-a-host">What's a Host</button>
 </div> 
 
-<pre>{{isConnectApp|json}}
+
     
