@@ -222,11 +222,24 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
     let endPointUrl: string = this.baseUrl;
 
-    if (!this.state.myStuffActive) {
+    // need the safe gaurd here in case myStuff is toggled on and user cancels login
+    if (this.state.myStuffActive && this.session.isLoggedIn()) {
+      endPointUrl += 'api/v1.0.0/finder/findmypinsbycontactid/';
+    } else if (this.state.myStuffActive && !this.session.isLoggedIn()) {
+      // also need to reset some state variables for my stuff
+      this.clearPinCache();
+      this.state.setIsMyStuffActive(false);
+      this.state.setMyViewOrWorldView('world');
       endPointUrl += 'api/v1.0.0/finder/findpinsbyaddress/';
     } else {
-      endPointUrl += 'api/v1.0.0/finder/findmypinsbycontactid/';
+      endPointUrl += 'api/v1.0.0/finder/findpinsbyaddress/';
     }
+
+    // if (!this.state.myStuffActive) {
+    //   endPointUrl += 'api/v1.0.0/finder/findpinsbyaddress/';
+    // } else {
+    //   endPointUrl += 'api/v1.0.0/finder/findmypinsbycontactid/';
+    // }
 
     return endPointUrl;
   }

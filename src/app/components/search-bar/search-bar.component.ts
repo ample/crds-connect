@@ -39,6 +39,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public ngOnInit(): void {
     this.placeholderTextForSearchBar = this.appSettings.placeholderTextForSearchBar;
 
+    // this.state.searchBarText is getting stuck and not cleared out for My Groups/My Connections
     this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
 
     this.isMyStuffActiveSub = this.state.myStuffStateChangedEmitter.subscribe((isMyStuffActive) => {
