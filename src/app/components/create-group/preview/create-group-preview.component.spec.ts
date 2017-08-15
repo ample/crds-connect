@@ -13,6 +13,7 @@ import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { ParticipantService } from '../../../services/participant.service';
+import { PinService } from '../../../services/pin.service';
 import { Pin, pinType, Group } from '../../../models';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MockComponent } from '../../../shared/mock.component';
@@ -28,7 +29,7 @@ describe('CreateGroupPreviewComponent', () => {
     let el;
     let mockCreateGroupService, mockStateService, mockGroupService,
         mockProfileService, mockRouter, mockToastr, mockParticipantService,
-        mockBlandPageService, mockContentService;
+        mockBlandPageService, mockContentService, mockPinService;
     beforeEach(() => {
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath', 'setActiveGroupPath']);
@@ -43,6 +44,7 @@ describe('CreateGroupPreviewComponent', () => {
         mockStateService.setActiveGroupPath(groupPaths.ADD);
         mockCreateGroupService.group = MockTestData.getAGroup();
         mockCreateGroupService.profileData = MockTestData.getProfileData();
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['setEditedSmallGroupPin', 'getEditedSmallGroupPin']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -54,6 +56,7 @@ describe('CreateGroupPreviewComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: GroupService, useValue: mockGroupService },
                 { provide: ProfileService, useValue: mockProfileService },
+                { provide: PinService, useValue: mockPinService },
                 { provide: Router, useValue: mockRouter },
                 { provide: ToastsManager, useValue: mockToastr },
                 { provide: ParticipantService, useValue: mockParticipantService },

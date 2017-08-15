@@ -5,6 +5,7 @@ import {ToastsManager} from 'ng2-toastr';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Rx';
 import {ContentService} from 'crds-ng2-content-block/src/content-block/content.service';
+import {PinService} from '../../../services/pin.service';
 import {ProfileService} from '../../../services/profile.service';
 import {GroupService} from '../../../services/group.service';
 import {StateService} from '../../../services/state.service';
@@ -31,6 +32,7 @@ export class CreateGroupPreviewComponent implements OnInit {
               private router: Router,
               private toastr: ToastsManager,
               private participantService: ParticipantService,
+              private pinService: PinService,
               private blandPageService: BlandPageService,
               private contentService: ContentService) {
   }
@@ -61,6 +63,8 @@ export class CreateGroupPreviewComponent implements OnInit {
           this.state.setIsMyStuffActive(true);
           this.state.setCurrentView(ViewType.LIST);
           this.router.navigate(['/']);
+          this.pinService.setEditedSmallGroupPin(this.smallGroupPin);
+          this.router.navigate([`/small-group/${group.groupId}`]);
         }, (error) => {
           console.log(error);
           this.toastr.error(this.contentService.getContent('generalError'));
