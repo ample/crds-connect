@@ -16,7 +16,7 @@
 <!-- BUTTONS FOR CONNECT APP ONLY -->
 <div *ngIf = "isConnectApp" class="connect-layout-container connect-container">
     <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block> 
-    <button class="btn btn-default btn-outline btn-block-mobile" id="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
+    <button class="btn btn-primary btn-block-mobile" id="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
     <button class="btn btn-default btn-outline btn-block-mobile" id="signUpHostBtn" routerLink="/host-signup">Sign up to Host</button>
     <button class="btn btn-default btn-outline btn-block-mobile" id="whatsHostBtn" routerLink="/whats-a-host">What's a Host</button>
 </div> 
