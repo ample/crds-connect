@@ -2,15 +2,25 @@
 <div *ngIf="!isApprovedLeader"class="connect-layout-container connect-container">
   <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
   
-  <button class="btn btn-primary btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>  
-  <button class="btn btn-default btn-outline btn-block-mobile" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-primary btn-block-mobile" name="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>  
+  <button class="btn btn-default btn-outline btn-block-mobile" name="startGroupBtn" routerLink="/create-group">Start a group</button>
 </div>
 
 <!-- isApprovedLeader or not - change style and order of buttons -->
 <div *ngIf="isApprovedLeader" class="connect-layout-container connect-container">
   <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>  
   
-  <button class="btn btn-primary btn-block-mobile" routerLink="/create-group">Start a group</button>
-  <button class="btn btn-default btn-outline btn-block-mobile" (click)="onFindAGroupClicked()">Find a group</button>
-  <button class="btn btn-default btn-outline btn-block-mobile" (click)="onGroupResourcesClicked()">Group resources</button>
+  <button class="btn btn-primary btn-block-mobile" name="startGroupBtn" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" name="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" name="groupResources" (click)="onGroupResourcesClicked()">Group resources</button>
 </div>
+simeon is awesome!!!
+<div *ngIf = "isConnectApp" class="connect-layout-container connect-container">
+    <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block> 
+    <button class="btn btn-default btn-outline btn-block-mobile" name="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" name="becomeHosteBtn" routerLink="/host-signup">Sign up to Host</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" name="whatsHostBtn" routerLink="/whats-a-host">What's a Host</button>
+</div> 
+
+<pre>{{isConnectApp|json}}
+    
