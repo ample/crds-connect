@@ -86,7 +86,8 @@ export class CreateGroupPage1Component implements OnInit {
         this.router.navigate(['/']);
     }
 
-    public onBack() {
+    public onBack(): void {
         this.router.navigate(['/create-group']);
     }
+
 }
