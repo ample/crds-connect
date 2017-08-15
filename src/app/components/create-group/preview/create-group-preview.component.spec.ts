@@ -42,10 +42,6 @@ describe('CreateGroupPreviewComponent', () => {
         mockStateService.setActiveGroupPath(groupPaths.ADD);
         mockCreateGroupService.group = MockTestData.getAGroup();
         mockCreateGroupService.profileData = MockTestData.getProfileData();
-        mockRouter = {
-            url: '/groupsv2/search/create-group/create-group-preview',
-            navigate: jasmine.createSpy('navigate')
-        };
 
         TestBed.configureTestingModule({
             declarations: [
@@ -105,6 +101,7 @@ describe('CreateGroupPreviewComponent', () => {
         (mockCreateGroupService.prepareForGroupSubmission).and.returnValue(mockCreateGroupService.group);
         (mockProfileService.postProfileData).and.returnValue(Observable.of({}));
         (mockGroupService.createParticipants).and.returnValue(Observable.of({}));
+        (mockStateService.getActiveGroupPath).and.returnValue(groupPaths.ADD);
         comp['onSubmit']();
         expect(mockGroupService.createGroup).toHaveBeenCalled();
         expect(mockParticipantService.getLoggedInUsersParticipantRecord).toHaveBeenCalled();
@@ -130,6 +127,7 @@ describe('CreateGroupPreviewComponent', () => {
         (mockGroupService.createGroup).and.returnValue(Observable.of(mockCreateGroupService.group));
         (mockProfileService.postProfileData).and.returnValue(Observable.of({}));
         (mockContentService.getContent).and.returnValue('stuff dont work');
+        (mockStateService.getActiveGroupPath).and.returnValue(groupPaths.ADD);
         comp['onSubmit']();
         expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();
         expect(mockToastr.success).not.toHaveBeenCalled();
