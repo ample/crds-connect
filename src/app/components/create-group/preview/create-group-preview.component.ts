@@ -12,7 +12,7 @@ import {StateService} from '../../../services/state.service';
 import {CreateGroupService} from '../create-group-data.service';
 import {Pin, Participant} from '../../../models';
 import {Component, OnInit} from '@angular/core';
-import {ViewType, groupPaths, textConstants} from '../../../shared/constants';
+import {ViewType, groupPaths, GroupPageNumber, textConstants} from '../../../shared/constants';
 
 
 @Component({
@@ -103,6 +103,6 @@ export class CreateGroupPreviewComponent implements OnInit {
   }
 
   onBack(): void {
-    this.router.navigate(['/create-group/page-6']);
+    this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
   }
 }

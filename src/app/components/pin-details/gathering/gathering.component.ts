@@ -148,6 +148,7 @@ export class GatheringComponent implements OnInit {
   }
 
   public onEditGroupClicked(groupId: number): void {
+    this.state.setLoading(true);
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
