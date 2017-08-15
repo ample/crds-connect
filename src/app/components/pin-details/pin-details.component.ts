@@ -29,6 +29,7 @@ export class PinDetailsComponent implements OnInit {
   public isInGathering: boolean = false;
   public user: Pin;
   private trialMemberApprovalMessage: string;
+  private trialMemberApprovalError: boolean = false;
 
   constructor(
     private location: PlatformLocation,
@@ -75,7 +76,10 @@ export class PinDetailsComponent implements OnInit {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
       .subscribe(
         success => this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved',
-        failure => this.trialMemberApprovalMessage = 'Error approving trial member'
+        failure => {
+          this.trialMemberApprovalMessage = 'Error approving trial member';
+          this.trialMemberApprovalError = true;
+        }
       );
     }
   }

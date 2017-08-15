@@ -37,6 +37,8 @@ export class GatheringComponent implements OnInit {
   @Input() isLoggedIn: boolean = false;
   @Input() previewMode: boolean = false;
   @Input() leaders: Participant[] = [];
+  @Input() trialMemberApprovalMessage: string;
+  @Input() trialMemberApprovalError: boolean;
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
