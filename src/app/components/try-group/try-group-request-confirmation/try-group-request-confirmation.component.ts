@@ -6,7 +6,6 @@ import { StateService } from '../../../services/state.service';
 
 import { HttpStatusCodes } from '../../../shared/constants';
 
-// TODO: Add error handling to HTTP post
 // TODO: Define the URL of the backend endpoint and success page as constants
 // import { TryGroupRequestBackendURL, TryGroupRequestSuccessURL } from '../../shared/constants';
 
@@ -43,9 +42,9 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
       },
       failure => {
         if(failure.status === HttpStatusCodes.CONFLICT) {
-          this.errorMessage = 'You have already requested to try this group.'
+          this.errorMessage = 'tryGroupRequestAlreadyRequestedFailureMessage'
         } else {
-          this.errorMessage = 'Request to try this group failed.'
+          this.errorMessage = 'tryGroupRequestGeneralFailureMessage';
         }
       }
     );

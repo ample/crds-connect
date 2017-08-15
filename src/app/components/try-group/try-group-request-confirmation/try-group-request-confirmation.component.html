@@ -31,8 +31,8 @@
         </button>
 
         <!-- Error Message: -->
-        <div *ngIf="errorMessage">
-          <div class="alert alert-danger">{{errorMessage}}</div>
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          <crds-content-block id="{{errorMessage}}"></crds-content-block>
         </div>
       </footer>
     </div>
