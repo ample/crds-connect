@@ -13,7 +13,7 @@
   <button class="btn btn-default btn-outline btn-block-mobile" id="groupResourcesBtn" (click)="onGroupResourcesClicked()">Group resources</button>
 </div>
 
-<!-- if isConnectApp send connect buttons -->
+<!-- BUTTONS FOR CONNECT APP ONLY -->
 <div *ngIf = "isConnectApp" class="connect-layout-container connect-container">
     <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block> 
     <button class="btn btn-default btn-outline btn-block-mobile" id="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
