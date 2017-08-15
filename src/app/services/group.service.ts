@@ -85,10 +85,8 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
 
   public navigateInGroupFlow(pageToGoTo: number, editOrCreateMode: string, groupId: number): void {
     if (editOrCreateMode === groupPaths.ADD){
-        console.log('NAVIGATING TO ADD GROUP PAGE');
       this.router.navigate([`/create-group/page-${pageToGoTo}`]);
     } else if (editOrCreateMode === groupPaths.EDIT) {
-      console.log('NAVIGATING TO EDIT GROUP PAGE');
       this.router.navigate([`/edit-group/${groupId}/page-${pageToGoTo}`]);
     }
   }
