@@ -109,7 +109,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
       this.appSettings.routeToNotFoundPage();
-      this.state.myStuffActive = false;    
+      this.state.myStuffActive = false;
     } else {
       this.state.setLastSearch(new SearchOptions(searchKeywordString, filterString, searchLocationString));
     }
@@ -152,7 +152,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private goToErrorPage(): void {
-    let errorText = 'Oops, looks like there was a problem. Please try again.';
+    let errorText = `<h1 class="title soft-half-bottom">Oops</h1><div class="font-size-small font-family-base-light"><p>It looks like there was a problem. Please try again.</p></div>`;
 
     this.blandPageService.primeAndGo(
         new BlandPageDetails(
