@@ -46,16 +46,16 @@ export class MapFooterComponent implements OnInit {
     this.appSettings.isConnectApp() ? this.analytics.myConnections() : this.analytics.myGroups();
 
     if (this.state.myStuffActive) {
+      this.state.setIsMyStuffActive(false);
       this.changeStateToAllResults();
     } else {
+      this.state.setIsMyStuffActive(true);
       this.changeStateToMyStuff();
     }
-  };
+  }
 
   public changeStateToAllResults() {
-
     this.state.lastSearch.search = '';
-    this.state.setIsMyStuffActive(false);
 
     this.pinService.clearPinCache();
 
@@ -75,7 +75,6 @@ export class MapFooterComponent implements OnInit {
   }
 
   public changeStateToMyStuff(): void {
-
     this.pinService.clearPinCache();
 
     this.state.setLoading(true);
@@ -86,7 +85,6 @@ export class MapFooterComponent implements OnInit {
       this.router.navigate(['/']);
       this.state.setCurrentView(ViewType.MAP);
       this.state.setMyViewOrWorldView('my');
-      this.state.setIsMyStuffActive(true);
 
       let pinSearchRequest = new PinSearchRequestParams(null, null, null);
 
