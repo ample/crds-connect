@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
-import { Attribute } from '../../../models/attribute';
-import { Category } from '../../../models/category';
-import { GroupService} from '../../../services/group.service';
 import { CreateGroupService } from '../create-group-data.service';
+import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 
+import { Attribute } from '../../../models/attribute';
+import { Category } from '../../../models/category';
 import { Group} from '../../../models/group';
 
-import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+import { attributeTypes, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 
 @Component({
@@ -29,7 +28,6 @@ export class CreateGroupPage1Component implements OnInit {
     private content: ContentService,
     private createGroupService: CreateGroupService,
     private groupService: GroupService,
-    private locationService: Location,
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,
@@ -39,7 +37,8 @@ export class CreateGroupPage1Component implements OnInit {
     this.setGroupPathInState();
     this.state.setLoading(true);
 
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                           : textConstants.GROUP_PAGE_HEADERS.ADD;
     this.state.setPageHeader(pageHeader, '/create-group');
 
     this.groupCategoryForm = new FormGroup({});
@@ -48,9 +47,8 @@ export class CreateGroupPage1Component implements OnInit {
         this.state.setLoading(false);
     })
     .subscribe(cats => {
-        this.initializeCategories(cats);
-        this.createGroupService.markPageAsPresetWithExistingData(GroupPageNumber.ONE);
-        //this.createGroupService.wasPagePresetWithExistingData.page1 = true;
+      this.initializeCategories(cats);
+      this.createGroupService.markPageAsPresetWithExistingData(GroupPageNumber.ONE);
     });
 
     if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {

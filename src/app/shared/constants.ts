@@ -33,11 +33,22 @@ export class GroupPaths {
 
 export const groupPaths = new GroupPaths();
 
+export class GroupPageHeaders {
+  ADD: string;
+  EDIT: string;
+
+  constructor() {
+    this.ADD = 'edit my group';
+    this.EDIT = 'start a group';
+  }
+}
+
 export class TextConstants {
   MY_GROUPS: string;
   MY_CONNECTIONS: string;
   ONLINE_GROUP: string;
   INVALID_OR_MISSING_ADDRESS: string;
+  GROUP_PAGE_HEADERS: GroupPageHeaders;
 
 
   constructor() {
@@ -45,6 +56,7 @@ export class TextConstants {
     this.MY_CONNECTIONS = 'My connections';
     this.ONLINE_GROUP = 'Online Group';
     this.INVALID_OR_MISSING_ADDRESS = 'Invalid or Missing Address';
+    this.GROUP_PAGE_HEADERS = new GroupPageHeaders();
   }
 }
 
