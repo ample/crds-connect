@@ -20,6 +20,7 @@ import { ViewType, groupPaths } from '../../../shared/constants';
 
 
 import { CreateGroupPreviewComponent } from './create-group-preview.component';
+import { textConstants } from '../../../shared/constants';
 
 describe('CreateGroupPreviewComponent', () => {
     let fixture: ComponentFixture<CreateGroupPreviewComponent>;
@@ -87,7 +88,7 @@ describe('CreateGroupPreviewComponent', () => {
         expect(mockCreateGroupService.getSmallGroupPinFromGroupData).toHaveBeenCalled();
         expect(mockCreateGroupService.getLeaders).toHaveBeenCalled();
         expect(mockStateService.setLoading).toHaveBeenCalled();
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-6');
+        expect(mockStateService.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-6');
         expect(comp['leaders']).toBe(leaders);
         expect(comp['smallGroupPin']).toBe(pin);
     });

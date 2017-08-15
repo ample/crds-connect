@@ -13,6 +13,8 @@ import { MockTestData } from '../../../shared/MockTestData';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage3Component } from './create-group-page-3.component';
 
+import { textConstants} from '../../../shared/constants';
+
 describe('CreateGroupPage3Component', () => {
     let fixture: ComponentFixture<CreateGroupPage3Component>;
     let mockGroupService: GroupService;
@@ -60,7 +62,7 @@ describe('CreateGroupPage3Component', () => {
         spyOn(comp, 'makeSureModelHasAddress');
         comp.ngOnInit();
         expect(comp.locationForm.controls['isVirtualGroup']).toBeTruthy();
-        expect(mockState.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-2');
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
         expect(mockState.setLoading).toHaveBeenCalledWith(false);
         expect(comp['makeSureModelHasAddress']).toHaveBeenCalled();
@@ -72,7 +74,7 @@ describe('CreateGroupPage3Component', () => {
         spyOn(comp, 'makeSureModelHasAddress');
         comp.ngOnInit();
         expect(comp.locationForm.controls['isVirtualGroup']).toBeTruthy();
-        expect(mockState.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-2');
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(false);
         expect(comp['makeSureModelHasAddress']).toHaveBeenCalled();
     });

@@ -38,8 +38,8 @@ export class GroupPageHeaders {
   EDIT: string;
 
   constructor() {
-    this.ADD = 'edit my group';
-    this.EDIT = 'start a group';
+    this.ADD = 'start a group';
+    this.EDIT = 'edit my group';
   }
 }
 

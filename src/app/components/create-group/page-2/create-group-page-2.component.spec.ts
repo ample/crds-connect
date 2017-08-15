@@ -21,7 +21,7 @@ import { Group } from '../../../models';
 
 import { defaultGroupMeetingTime, meetingFrequencies,
     groupMeetingScheduleType, GroupMeetingScheduleType,
-    GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+    GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 
 describe('CreateGroupPage2Component', () => {
@@ -87,7 +87,7 @@ describe('CreateGroupPage2Component', () => {
         expect(mockLookupService.getDaysOfTheWeek).toHaveBeenCalled();
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
         expect(comp['daysOfTheWeek']).toEqual(daysOfTheWeek);
-        expect(mockState.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-1');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-1');
     });
 
     it('init should handle error', () => {

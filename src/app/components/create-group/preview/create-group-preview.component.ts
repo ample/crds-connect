@@ -1,3 +1,4 @@
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ToastsManager } from 'ng2-toastr';
@@ -10,9 +11,8 @@ import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { Pin, Participant } from '../../../models';
 import { Component, OnInit } from '@angular/core';
-import { ViewType, groupPaths } from '../../../shared/constants';
+import { ViewType, groupPaths, textConstants } from '../../../shared/constants';
 
-import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 
 @Component({
     selector: 'create-group-preview',
@@ -35,7 +35,8 @@ export class CreateGroupPreviewComponent implements OnInit {
                 private contentService: ContentService) { }
 
     ngOnInit() {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
         this.state.setPageHeader(pageHeader, '/create-group/page-6');
 
         this.smallGroupPin = this.createGroupService.getSmallGroupPinFromGroupData();

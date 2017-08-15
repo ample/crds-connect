@@ -12,7 +12,8 @@ import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
 import { usStatesList } from '../../../shared/constants';
 
-import { GroupPaths, groupPaths, GroupPageNumber  } from '../../../shared/constants';
+import { GroupPaths, groupPaths, GroupPageNumber,
+         textConstants  } from '../../../shared/constants';
 
 @Component({
     selector: 'create-group-page-6',
@@ -36,7 +37,8 @@ export class CreateGroupPage6Component implements OnInit {
                 private lookupService: LookupService) { }
 
     ngOnInit(): void {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
         this.state.setPageHeader(pageHeader, this.lastPage);
 
         this.stateList = usStatesList;

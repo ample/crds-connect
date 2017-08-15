@@ -18,7 +18,7 @@ import { MockTestData } from '../../../shared/MockTestData';
 
 import { Group } from '../../../models/group';
 
-import { GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+import { GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 describe('CreateGroupPage1Component', () => {
     let fixture: ComponentFixture<CreateGroupPage1Component>;
@@ -84,7 +84,7 @@ describe('CreateGroupPage1Component', () => {
         spyOn(comp, 'initializeCategories');
         comp.ngOnInit();
 
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group');
+        expect(mockStateService.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group');
         expect(comp['initializeCategories']).toHaveBeenCalledTimes(1);
         expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
     });

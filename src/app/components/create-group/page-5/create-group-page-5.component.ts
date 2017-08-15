@@ -6,7 +6,8 @@ import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 
-import {  GroupPaths, groupPaths, GroupPageNumber  } from '../../../shared/constants';
+import {  GroupPaths, groupPaths, GroupPageNumber,
+          textConstants  } from '../../../shared/constants';
 
 
 
@@ -29,7 +30,8 @@ export class CreateGroupPage5Component implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                           : textConstants.GROUP_PAGE_HEADERS.ADD;
     this.state.setPageHeader(pageHeader, '/create-group/page-4');
 
     this.groupDetailsForm = this.fb.group({

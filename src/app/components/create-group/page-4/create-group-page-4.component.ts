@@ -10,7 +10,8 @@ import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber  } from '../../../shared/constants';
+import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber,
+         textConstants  } from '../../../shared/constants';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class CreateGroupPage4Component implements OnInit {
                 private blandPageService: BlandPageService) { }
 
     ngOnInit() {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
         this.state.setPageHeader(pageHeader, '/create-group/page-3');
 
         this.groupMetaDataForm = this.fb.group({

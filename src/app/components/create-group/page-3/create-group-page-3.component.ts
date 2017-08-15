@@ -6,7 +6,8 @@ import { Address } from '../../../models';
 import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { meetingFrequencies, usStatesList, GroupPaths, groupPaths, GroupPageNumber } from '../../../shared/constants';
+import { meetingFrequencies, usStatesList, GroupPaths, groupPaths,
+         GroupPageNumber, textConstants } from '../../../shared/constants';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class CreateGroupPage3Component implements OnInit {
                 private router: Router) { }
 
     ngOnInit() {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
         this.state.setPageHeader(pageHeader, '/create-group/page-2');
         
         this.makeSureModelHasAddress();

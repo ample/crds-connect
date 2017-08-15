@@ -15,7 +15,8 @@ import { LookupTable } from '../../../models';
 import { defaultGroupMeetingTime, meetingFrequencies,
          groupMeetingScheduleType, GroupMeetingScheduleType,
          GroupPaths, groupPaths, GroupPageNumber,
-         defaultGroupMeetingTimePrefix, defaultGroupMeetingTimeSuffix } from '../../../shared/constants';
+         defaultGroupMeetingTimePrefix, defaultGroupMeetingTimeSuffix,
+         textConstants } from '../../../shared/constants';
 
 
 @Component({
@@ -51,7 +52,8 @@ export class CreateGroupPage2Component implements OnInit {
               private timeHlpr: TimeHelperService) { }
 
   ngOnInit() {
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? 'edit my group' : 'start a group';
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                           : textConstants.GROUP_PAGE_HEADERS.ADD;
     this.state.setPageHeader(pageHeader, '/create-group/page-1');
 
     this.meetingTimeForm = this.initializeGroupMeetingScheduleForm();

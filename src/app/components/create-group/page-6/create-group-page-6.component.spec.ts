@@ -15,6 +15,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { CreateGroupPage6Component } from './create-group-page-6.component';
+import { textConstants } from '../../../shared/constants';
 
 describe('CreateGroupPage6Component', () => {
     let fixture: ComponentFixture<CreateGroupPage6Component>;
@@ -68,7 +69,7 @@ describe('CreateGroupPage6Component', () => {
         mockLookupService.getSites.and.returnValue(Observable.of(MockTestData.getSitesList()));
         mockCreateGroupService.initializePageSix.and.returnValue(Observable.of({}));
         comp.ngOnInit();
-        expect(mockState.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-5');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-5');
         expect(mockLookupService.getSites).toHaveBeenCalled();
         expect(mockCreateGroupService.initializePageSix).toHaveBeenCalled();
         expect(mockBlandPageService.goToDefaultError).not.toHaveBeenCalled();
