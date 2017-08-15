@@ -33,7 +33,7 @@ describe('CreateGroupPreviewComponent', () => {
     beforeEach(() => {
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath', 'setActiveGroupPath']);
-        mockGroupService = jasmine.createSpyObj<GroupService>('groupServ', ['createGroup', 'createParticipants']);
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupServ', ['createGroup', 'createParticipants', 'navigateInGroupFlow']);
         mockProfileService = jasmine.createSpyObj<ProfileService>('profile', ['postProfileData']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
@@ -144,6 +144,6 @@ describe('CreateGroupPreviewComponent', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-6']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(6, undefined, 1);
     });
 });
