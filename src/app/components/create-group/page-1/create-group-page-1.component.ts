@@ -116,14 +116,6 @@ export class CreateGroupPage1Component implements OnInit {
     this.router.navigate(['/']);
   }
 
-  public onBack(): void {
-    if(this.state.getActiveGroupPath() === groupPaths.EDIT){
-      this.router.navigate([`/small-group/${this.createGroupService.groupBeingEdited.groupId}`]);
-    } else {
-      this.router.navigate(['/create-group']);
-    }
-  }
-
   private setGroupPathInState(): void {
     let pathWithParamsAndChildren: string = this.router.url;
     let path: string = pathWithParamsAndChildren.split('/')[1];

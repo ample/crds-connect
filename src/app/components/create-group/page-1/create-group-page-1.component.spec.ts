@@ -149,9 +149,4 @@ describe('CreateGroupPage1Component', () => {
         expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
 
     });
-
-    it('should go back()', () => {
-        comp.onBack();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group']);
-    });
 });
