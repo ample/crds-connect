@@ -11,6 +11,7 @@ import { Pin, Address, Group, Participant, BlandPageCause, BlandPageDetails, Bla
 
 import { AnalyticsService } from '../../../services/analytics.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
+import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -34,6 +35,7 @@ let mockSessionService;
 let mockPinService;
 let mockLoginRedirectService;
 let mockBlandPageService;
+let mockCreateGroupService;
 let mockStateService;
 let mockParticipantService;
 let mockToast;
@@ -61,6 +63,7 @@ describe('Gathering component redirect error', () => {
     mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
     mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
     mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analtyics', ['joinGathering', 'joinGroup']);
+    mockCreateGroupService= jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
     mockRouter = {
       url: '/connect/gathering/1234', routerState:
       { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
@@ -78,6 +81,7 @@ describe('Gathering component redirect error', () => {
         { provide: SessionService, useValue: mockSessionService },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: StateService, useValue: mockStateService },
         { provide: ParticipantService, useValue: mockParticipantService },
         { provide: ToastsManager, useValue: mockToast },
@@ -141,6 +145,7 @@ describe('GatheringComponent', () => {
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
     ['redirectToLogin', 'redirectToTarget']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
+    mockCreateGroupService= jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
     ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
@@ -164,6 +169,7 @@ describe('GatheringComponent', () => {
         { provide: SessionService, useValue: mockSessionService },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: StateService, useValue: mockStateService },
         { provide: ParticipantService, useValue: mockParticipantService },
         { provide: ToastsManager, useValue: mockToast },

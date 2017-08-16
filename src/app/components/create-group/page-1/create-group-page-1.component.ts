@@ -65,6 +65,7 @@ export class CreateGroupPage1Component implements OnInit {
       if(this.state.getActiveGroupPath() === groupPaths.EDIT
                                           && !this.createGroupService.wasPagePresetWithExistingData.page1) {
         this.populateFormWithValuesFromGroupBeingEdited(category);
+        this.createGroupService.wasPagePresetWithExistingData.page1 = true;
       }
     });
   }

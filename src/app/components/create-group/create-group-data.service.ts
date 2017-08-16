@@ -212,6 +212,10 @@ export class CreateGroupService {
         }
     }
 
+    public clearPresetDataFlagsOnGroupEdit(): void {
+      this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
+    }
+
     public reset(): void {
         this.pageOneInitialized = false;
         this.pageSixInitialized = false;
