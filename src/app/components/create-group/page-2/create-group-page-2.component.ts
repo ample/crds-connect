@@ -16,7 +16,7 @@ import { defaultGroupMeetingTime, meetingFrequencies,
          groupMeetingScheduleType, GroupMeetingScheduleType,
          GroupPaths, groupPaths, GroupPageNumber,
          defaultGroupMeetingTimePrefix, defaultGroupMeetingTimeSuffix,
-         textConstants } from '../../../shared/constants';
+         textConstants, daysOfWeekList } from '../../../shared/constants';
 
 
 @Component({
@@ -184,7 +184,7 @@ export class CreateGroupPage2Component implements OnInit {
         +this.createGroupService.groupBeingEdited['meetingFrequencyID'];
       this.createGroupService.group.meetingTime =
         this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.groupBeingEdited.meetingTime);
-      this.createGroupService.group.meetingDay = this.createGroupService.groupBeingEdited.meetingDay;
+      this.createGroupService.group.meetingDay = daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
       this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;
     }
   }
