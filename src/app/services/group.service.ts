@@ -9,10 +9,11 @@ import { SmartCacheableService, CacheLevel } from './base-service/cacheable.serv
 import { IFrameParentService } from './iframe-parent.service';
 import { SessionService } from './session.service';
 import { ParticipantService } from './participant.service';
-import { LeaderStatus } from '../shared/constants';
 
 import { Pin } from '../models/pin';
 import { Inquiry } from '../models/inquiry';
+
+import { LeaderStatus, GroupPaths, groupPaths } from '../shared/constants';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -31,7 +32,11 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
     authorized: null
   };
 
-  constructor(private http: Http, private session: SessionService, private participantService: ParticipantService) {
+  constructor(
+    private http: Http,
+    private session: SessionService,
+    private participantService: ParticipantService,
+    private router: Router) {
     super();
   }
 
@@ -66,11 +71,24 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
-  public createGroup(group: Group) {
+  public createGroup(group: Group): Observable<Group> {
     return this.session.post(`${this.baseUrl}api/v1.0.0/group`, group);
   }
 
   public createParticipants(group: Group) {
     return this.session.post(`${this.baseUrl}api/v1.0.0/group/${group.groupId}/participants`, group.Participants);
   }
+
+  public editGroup(group: Group): Observable<Group> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/group/edit`, group);
+  }
+
+  public navigateInGroupFlow(pageToGoTo: number, editOrCreateMode: string, groupId: number): void {
+    if (editOrCreateMode === groupPaths.ADD){
+      this.router.navigate([`/create-group/page-${pageToGoTo}`]);
+    } else if (editOrCreateMode === groupPaths.EDIT) {
+      this.router.navigate([`/edit-group/${groupId}/page-${pageToGoTo}`]);
+    }
+  }
+
 }

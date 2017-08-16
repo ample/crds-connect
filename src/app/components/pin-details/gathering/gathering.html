@@ -27,6 +27,15 @@
 
       <p class="gathering-description border-top push-half-top">
         {{descriptionToDisplay}}
+
+        <!-- EDIT GROUP BUTTON -->
+        <br>
+        <input *ngIf = "isLeader"
+               type="button"
+               class="btn btn-primary"
+               value="Edit Group"
+               (click)="onEditGroupClicked(pin.gathering.groupId)">
+
         <a *ngIf="!doDisplayFullDesc" (click)="expandGroupDescription()" class="pointer">More</a>
 <!--
         <span>

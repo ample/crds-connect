@@ -6,6 +6,8 @@ import { DebugElement } from '@angular/core';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupSummaryComponent } from './create-group-summary.component';
 
+import { textConstants } from '../../../shared/constants';
+
 describe('CreateGroupSummaryComponent', () => {
     let fixture: ComponentFixture<CreateGroupSummaryComponent>;
     let comp: CreateGroupSummaryComponent;
@@ -41,7 +43,7 @@ describe('CreateGroupSummaryComponent', () => {
 
     it('should init', () => {
         comp.ngOnInit();
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/');
+        expect(mockStateService.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/');
         expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     });
 });

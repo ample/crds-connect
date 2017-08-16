@@ -6,7 +6,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { GroupService } from '../../services/group.service';
 import { PinService } from '../../services/pin.service';
 
-import { GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
+import {appType, GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
 @Component({
   selector: 'stuff-not-found',
@@ -14,7 +14,7 @@ import { GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/co
 })
 export class StuffNotFoundComponent implements OnInit {
   public isApprovedLeader: boolean = false;
-
+  public isConnectApp : boolean;
   constructor(private state: StateService,
               private appSettings: AppSettingsService,
               private groupService: GroupService,
@@ -22,6 +22,7 @@ export class StuffNotFoundComponent implements OnInit {
               private router: Router ) { }
 
   public ngOnInit() {
+    this.isConnectApp = this.appSettings.isConnectApp();
     this.state.setPageHeader(this.appSettings.myStuffName, '/');
     this.state.setLoading(false);
 
@@ -45,5 +46,7 @@ export class StuffNotFoundComponent implements OnInit {
   public onGroupResourcesClicked(): void {
     window.location.href = GroupResourcesUrl;
   }
-
+  public onAddMeToMapClicked(): void {
+    this.router.navigateByUrl('/add-me-to-the-map');
+  }
 }
