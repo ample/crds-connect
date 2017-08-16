@@ -39,7 +39,12 @@ export class CreateGroupPage6Component implements OnInit {
     ngOnInit(): void {
         let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                                : textConstants.GROUP_PAGE_HEADERS.ADD;
-        this.state.setPageHeader(pageHeader, this.lastPage);
+
+      let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+        `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
+        : '/create-group/page-5';
+
+      this.state.setPageHeader(pageHeader, headerBackRoute);
 
         this.stateList = usStatesList;
         Observable.forkJoin(

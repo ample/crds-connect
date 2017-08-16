@@ -54,6 +54,13 @@ export class CreateGroupPage2Component implements OnInit {
   ngOnInit() {
     let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                            : textConstants.GROUP_PAGE_HEADERS.ADD;
+
+    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-1`
+      : '/create-group/page-1';
+
+    this.state.setPageHeader(pageHeader, headerBackRoute);
+
     this.state.setPageHeader(pageHeader, '/create-group/page-1');
 
     this.meetingTimeForm = this.initializeGroupMeetingScheduleForm();
