@@ -37,10 +37,6 @@ export class CreateGroupPage1Component implements OnInit {
     this.setGroupPathInState();
     this.state.setLoading(true);
 
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-                                                                           : textConstants.GROUP_PAGE_HEADERS.ADD;
-    this.state.setPageHeader(pageHeader, '/create-group');
-
     this.groupCategoryForm = new FormGroup({});
     this.createGroupService.initializePageOne()
     .finally(() => {
@@ -55,6 +51,15 @@ export class CreateGroupPage1Component implements OnInit {
       let groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
+
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+      : textConstants.GROUP_PAGE_HEADERS.ADD;
+
+    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
+      :'/create-group';
+
+    this.state.setPageHeader(pageHeader, headerBackRoute);
   }
 
   private initializeCategories(categories: Category[]): void {
