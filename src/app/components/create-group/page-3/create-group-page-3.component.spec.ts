@@ -6,20 +6,25 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { Group } from '../../../models/group';
+import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { MockComponent } from '../../../shared/mock.component';
 import { MockTestData } from '../../../shared/MockTestData';
 import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage3Component } from './create-group-page-3.component';
 
+import { textConstants} from '../../../shared/constants';
+
 describe('CreateGroupPage3Component', () => {
     let fixture: ComponentFixture<CreateGroupPage3Component>;
+    let mockGroupService: GroupService;
     let comp: CreateGroupPage3Component;
     let el;
-    let mockStateService, mockCreateGroupService, mockRouter, mockLocationService;
+    let mockState, mockCreateGroupService, mockRouter, mockLocationService;
 
     beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
+        mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = <CreateGroupService>{ group: Group.overload_Constructor_CreateGroup(1) };
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         TestBed.configureTestingModule({
@@ -29,7 +34,8 @@ describe('CreateGroupPage3Component', () => {
             ],
             providers: [
                 FormBuilder,
-                { provide: StateService, useValue: mockStateService },
+                { provide: GroupService, useValue: mockGroupService },
+                { provide: StateService, useValue: mockState },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter }
 
@@ -56,9 +62,9 @@ describe('CreateGroupPage3Component', () => {
         spyOn(comp, 'makeSureModelHasAddress');
         comp.ngOnInit();
         expect(comp.locationForm.controls['isVirtualGroup']).toBeTruthy();
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-2');
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(true);
-        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(mockState.setLoading).toHaveBeenCalledWith(false);
         expect(comp['makeSureModelHasAddress']).toHaveBeenCalled();
     });
 
@@ -68,7 +74,7 @@ describe('CreateGroupPage3Component', () => {
         spyOn(comp, 'makeSureModelHasAddress');
         comp.ngOnInit();
         expect(comp.locationForm.controls['isVirtualGroup']).toBeTruthy();
-        expect(mockStateService.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-2');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-2');
         expect(comp['setRequiredFields']).toHaveBeenCalledWith(false);
         expect(comp['makeSureModelHasAddress']).toHaveBeenCalled();
     });
@@ -117,7 +123,7 @@ describe('CreateGroupPage3Component', () => {
         let form = new FormGroup({});
         comp.onSubmit(form);
         expect(comp['isSubmitted']).toBeTruthy();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-4']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(4, undefined, 0);
     });
 
     it('should NOT go to next page if the form is valid', () => {
@@ -141,6 +147,6 @@ describe('CreateGroupPage3Component', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-2']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(2, undefined, 0);
     });
 });

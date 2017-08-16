@@ -31,7 +31,6 @@ import * as moment from 'moment';
   templateUrl: 'gathering.html'
 })
 export class GatheringComponent implements OnInit {
-
   @Input() pin: Pin;
   @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
@@ -67,7 +66,6 @@ export class GatheringComponent implements OnInit {
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
-
   public ngOnInit() {
     if (!this.previewMode) {
       window.scrollTo(0, 0);
@@ -137,14 +135,21 @@ export class GatheringComponent implements OnInit {
 
   public getProximityString(): string {
     if (this.isOnlineGroup()) {
-      return 'ONLINE GROUP';
+      return '(ONLINE GROUP)';
+    } else if (this.pin.proximity) {
+      return `(${this.pin.proximity.toFixed(1)} MI)`;
     } else {
-      return `${this.pin.proximity.toFixed(1)} MI`;
+      return '';
     }
   }
 
   public isOnlineGroup(): boolean {
     return this.pin.gathering.isVirtualGroup;
+  }
+
+  public onEditGroupClicked(groupId: number): void {
+    this.state.setLoading(true);
+    this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
   private onContactLeaderClicked(): void {

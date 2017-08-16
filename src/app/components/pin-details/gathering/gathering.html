@@ -12,10 +12,10 @@
           <div class="media-meta">
             <readonly-address *ngIf="pin.pinType !== pinType.SMALL_GROUP" [isGathering]="pin.pinType === pinType.GATHERING" [isLeader]="isLeader" [isInGathering]="isInGathering" [address]="pin.gathering.address" [distance]="pin.proximity"></readonly-address>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay != null">
-              <span>{{pin?.gathering?.meetingDay}} at {{ getMeetingTime(pin.gathering.meetingTime) | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}} ({{ getProximityString() }})</span>
+              <span>{{pin?.gathering?.meetingDay}} at {{ getMeetingTime(pin.gathering.meetingTime) | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}} {{ getProximityString() }}</span>
             </span>
             <span *ngIf="pin.pinType === pinType.SMALL_GROUP && pin?.gathering?.meetingDay == null">
-              <span>Flexible Meeting Time ({{ getProximityString() }})</span>
+              <span>Flexible Meeting Time {{ getProximityString() }}</span>
             </span>
           </div>
         </div>
@@ -23,6 +23,15 @@
 
       <p class="gathering-description border-top push-half-top">
         {{descriptionToDisplay}}
+
+        <!-- EDIT GROUP BUTTON -->
+        <br>
+        <input *ngIf = "isLeader"
+               type="button"
+               class="btn btn-primary"
+               value="Edit Group"
+               (click)="onEditGroupClicked(pin.gathering.groupId)">
+
         <a *ngIf="!doDisplayFullDesc" (click)="expandGroupDescription()" class="pointer">More</a>
 <!--
         <span>

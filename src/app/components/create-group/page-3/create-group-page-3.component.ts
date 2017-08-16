@@ -3,9 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
 import { Router } from '@angular/router';
 
 import { Address } from '../../../models';
+import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { meetingFrequencies, usStatesList } from '../../../shared/constants';
+import { meetingFrequencies, usStatesList, GroupPaths, groupPaths,
+         GroupPageNumber, textConstants } from '../../../shared/constants';
 
 
 @Component({
@@ -20,12 +22,16 @@ export class CreateGroupPage3Component implements OnInit {
     private meetingFrequencies: Array<any> = meetingFrequencies;
 
     constructor(private fb: FormBuilder,
+                private groupService: GroupService,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router) { }
 
     ngOnInit() {
-        this.state.setPageHeader('start a group', '/create-group/page-2');
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
+        this.state.setPageHeader(pageHeader, '/create-group/page-2');
+        
         this.makeSureModelHasAddress();
         this.locationForm = this.fb.group({
             isVirtualGroup: [this.createGroupService.group.isVirtualGroup],
@@ -36,6 +42,12 @@ export class CreateGroupPage3Component implements OnInit {
             kidsWelcome: [this.createGroupService.group.kidsWelcome]
         });
         this.setRequiredFields(this.createGroupService.group.isVirtualGroup);
+
+        if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                            && !this.createGroupService.wasPagePresetWithExistingData.page3) {
+            this.setFieldsFromExistingGroup();
+        }
+
         this.state.setLoading(false);
 
     }
@@ -82,11 +94,24 @@ export class CreateGroupPage3Component implements OnInit {
     public onSubmit(form: FormGroup): void {
         this.isSubmitted = true;
         if (form.valid) {
-            this.router.navigate(['/create-group/page-4']);
+            this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
         }
     }
 
     public onBack(): void {
-        this.router.navigate(['/create-group/page-2']);
+        this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    }
+
+    private setFieldsFromExistingGroup(): void {
+      let isGroupVirtual: boolean = this.createGroupService.groupBeingEdited.address === null
+                                 || this.createGroupService.groupBeingEdited.address.addressLine1 === null;
+
+      if(isGroupVirtual) {
+        this.onClickIsVirtual(true);
+      }
+      this.createGroupService.group.address = this.createGroupService.groupBeingEdited.address
+      this.onClickKidsWelcome(this.createGroupService.groupBeingEdited.kidsWelcome);
+
+      this.createGroupService.wasPagePresetWithExistingData.page3 = true;
     }
 }
