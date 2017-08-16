@@ -15,6 +15,7 @@ import { ViewType } from '../shared/constants';
 // Investigate to see if they belong here and/or add some documentation.
 @Injectable()
 export class StateService {
+
   public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
 
   public appForWhichWeRanLastSearch: string = undefined;
@@ -36,6 +37,7 @@ export class StateService {
   public searchBarText: string;
   public updatedPinOldAddress: Address;
   public updatedPin: Pin;
+  private activeGroupPath: string;
 
   private mapOrListView: ViewType = ViewType.MAP;
   public viewButtonText: string = 'List';
@@ -73,6 +75,15 @@ export class StateService {
 
   public getMapView(): MapView {
     return this.savedMapView;
+  }
+
+
+  public setActiveGroupPath(path: string): void {
+    this.activeGroupPath = path;
+  }
+
+  public getActiveGroupPath(): string {
+    return this.activeGroupPath;
   }
 
   public setIsFilterDialogOpen(val: boolean): void {

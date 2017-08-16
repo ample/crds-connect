@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Rx';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MockComponent } from '../../../shared/mock.component';
 import { Group } from '../../../models/group';
+import { GroupService} from '../../../services/group.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LookupService } from '../../../services/lookup.service';
 import { Router } from '@angular/router';
@@ -14,16 +15,19 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { CreateGroupPage6Component } from './create-group-page-6.component';
+import { textConstants } from '../../../shared/constants';
 
 describe('CreateGroupPage6Component', () => {
     let fixture: ComponentFixture<CreateGroupPage6Component>;
     let comp: CreateGroupPage6Component;
     let el;
+    let mockGroupService: GroupService;
     let mockBlandPageService, mockState, mockCreateGroupService, mockRouter, mockLookupService, mockLocationService;
     let profileData;
     beforeEach(() => {
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
-        mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = {profileData: MockTestData.getProfileData(1), group: Group.overload_Constructor_CreateGroup(1), initializePageSix: jasmine.createSpy('initPageSix')};
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getSites']);
@@ -36,6 +40,7 @@ describe('CreateGroupPage6Component', () => {
                 MockComponent({selector: 'crds-content-block', inputs: ['id']})
             ],
             providers: [
+                { provide: GroupService, useValue: mockGroupService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
                 { provide: StateService, useValue: mockState },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
@@ -64,7 +69,7 @@ describe('CreateGroupPage6Component', () => {
         mockLookupService.getSites.and.returnValue(Observable.of(MockTestData.getSitesList()));
         mockCreateGroupService.initializePageSix.and.returnValue(Observable.of({}));
         comp.ngOnInit();
-        expect(mockState.setPageHeader).toHaveBeenCalledWith('start a group', '/create-group/page-5');
+        expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-5');
         expect(mockLookupService.getSites).toHaveBeenCalled();
         expect(mockCreateGroupService.initializePageSix).toHaveBeenCalled();
         expect(mockBlandPageService.goToDefaultError).not.toHaveBeenCalled();
@@ -81,7 +86,7 @@ describe('CreateGroupPage6Component', () => {
 
     it('should go back', () => {
         comp.onBack();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-5']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(5, undefined, 0);
     });
 
     it('should submit if form is valid', () => {

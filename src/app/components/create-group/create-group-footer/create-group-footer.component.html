@@ -7,7 +7,6 @@
   <input class="center-block btn btn-link btn-gray" (click)="OnCancel()" type="button" value="Cancel">
 </div>
 
-
 <div *ngIf="showFauxdal" class="fauxdal-wrapper">
   <div class="fauxdal fauxdal-center">
     <div class="container-fluid">
@@ -18,19 +17,16 @@
           </svg>
         </a>
       </div>
-
       <br>
-
       <div class="fauxdal-content">
-        <div class="text-center">Select Yes to proceed and lose current changes. Select No to abort?</div>
+        <h1 class="title soft-half-bottom">Leave form?</h1>
+        <div class="font-size-small font-size-base-light text-center">Select Yes to proceed and lose current changes. Select No to abort?</div>
+        <br>
+        <footer class="page-footer">
+          <button type="button" class="btn btn-secondary btn-block-mobile" (click)="cancelConfirmed()">Yes</button>
+          <button type="button" class="btn btn-default btn-outline btn-block-mobile" (click)="cancelDeclined()">No</button>
+        </footer>
       </div>
-
-      <br>
-
-      <footer class="page-footer btn-group-horizontal ">
-        <button type="button" class="btn btn-primary btn-block-mobile" (click)="cancelConfirmed()">Yes</button>
-        <button type="button" class="btn btn-secondary btn-default btn-block-mobile" (click)="cancelDeclined()">No</button>
-      </footer>
     </div>
   </div>
 </div>

@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { Group } from '../../../models';
+import { GroupService} from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 import { MockComponent } from '../../../shared/mock.component';
 import { MockTestData } from '../../../shared/MockTestData';
@@ -15,11 +16,13 @@ import { CreateGroupPage5Component } from './create-group-page-5.component';
 describe('CreateGroupPage5Component', () => {
   let fixture: ComponentFixture<CreateGroupPage5Component>;
   let comp: CreateGroupPage5Component;
+  let mockGroupService: GroupService;
   let el;
-  let mockStateService, mockCreateGroupService, mockRouter;
+  let mockState, mockCreateGroupService, mockRouter;
 
   beforeEach(() => {
-    mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+    mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
+    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'getActiveGroupPath']);
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['addAgeRangesToGroupModel']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
@@ -30,7 +33,8 @@ describe('CreateGroupPage5Component', () => {
       ],
       providers: [
         FormBuilder,
-        { provide: StateService, useValue: mockStateService },
+        { provide: GroupService, useValue: mockGroupService },
+        { provide: StateService, useValue: mockState },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter }
       ],
@@ -53,7 +57,7 @@ describe('CreateGroupPage5Component', () => {
   it('should init', () => {
     comp.ngOnInit();
     expect(comp.groupDetailsForm.controls).toBeDefined();
-    expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+    expect(mockState.setLoading).toHaveBeenCalledWith(false);
   });
 
   it('form field contents should be invalid before user input', () => {
@@ -80,26 +84,26 @@ describe('CreateGroupPage5Component', () => {
   it('should submit if form is valid and available online is not null', () => {
     comp['createGroupService'].group.availableOnline = true;
     comp['onSubmit'](new FormGroup({}));
-    expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-6']);
+    expect(mockState.setLoading).toHaveBeenCalledTimes(1);
+      expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(6, undefined, 0);
   });
 
   it('should not submit if available online is null', () => {
     comp['onSubmit'](new FormGroup({}));
-    expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
+    expect(mockState.setLoading).toHaveBeenCalledTimes(2);
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should not submit if form is invalid', () => {
     let form: FormGroup = new FormGroup({groupName: new FormControl('', Validators.required)});
     comp['onSubmit'](form);
-    expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
+    expect(mockState.setLoading).toHaveBeenCalledTimes(2);
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should go back', () => {
     comp.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-4']);
+      expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(4, undefined, 0);
   });
 
 });

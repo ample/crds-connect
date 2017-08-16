@@ -4,12 +4,16 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import { GroupService} from '../../../services/group.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LookupTable } from '../../../models';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
 import { usStatesList } from '../../../shared/constants';
+
+import { GroupPaths, groupPaths, GroupPageNumber,
+         textConstants  } from '../../../shared/constants';
 
 @Component({
     selector: 'create-group-page-6',
@@ -26,13 +30,22 @@ export class CreateGroupPage6Component implements OnInit {
 
     constructor(private blandPageService: BlandPageService,
                 private fb: FormBuilder,
+                private groupService: GroupService,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
                 private router: Router,
                 private lookupService: LookupService) { }
 
     ngOnInit(): void {
-        this.state.setPageHeader('start a group', this.lastPage);
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
+
+      let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+        `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
+        : '/create-group/page-5';
+
+      this.state.setPageHeader(pageHeader, headerBackRoute);
+
         this.stateList = usStatesList;
         Observable.forkJoin(
             this.lookupService.getSites(),
@@ -63,7 +76,11 @@ export class CreateGroupPage6Component implements OnInit {
         if (form.valid) {
             this.createGroupService.group.congregationId =
                 this.createGroupService.group.congregationId || this.createGroupService.profileData.congregationId;
-            this.router.navigate(['/create-group/preview']);
+            if(this.state.getActiveGroupPath() === groupPaths.EDIT){
+                this.router.navigate([`/edit-group/${this.createGroupService.group.groupId}/preview`]);
+            } else {
+                this.router.navigate(['/create-group/preview']);
+            }
         } else {
             this.groupVisabilityInvalid = true;
             this.state.setLoading(false);
@@ -71,6 +88,6 @@ export class CreateGroupPage6Component implements OnInit {
     }
 
     public onBack(): void {
-        this.router.navigate([this.lastPage]);
+        this.groupService.navigateInGroupFlow(GroupPageNumber.FIVE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     }
 }

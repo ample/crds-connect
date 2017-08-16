@@ -48,6 +48,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
+  private editedSmallGroupPin: Pin = null;
 
   constructor(
     private addressService: AddressService,
@@ -62,7 +63,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     super();
     this.SayHiTemplateId = sayHiTemplateId;
   }
-
 
   public emitPinSearchRequest(requestParams: PinSearchRequestParams): void {
     this.pinSearchRequestEmitter.next(requestParams);
@@ -129,6 +129,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
         this.state.setLoading(false);
         return Observable.throw(error || 'Server error');
       });
+  }
+
+  public getEditedSmallGroupPin(): Pin {
+    return this.editedSmallGroupPin;
+  }
+
+  public setEditedSmallGroupPin(smallGroupPin: Pin){
+    this.editedSmallGroupPin = smallGroupPin;
   }
 
   private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {

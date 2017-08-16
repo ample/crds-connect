@@ -12,6 +12,7 @@ import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
@@ -31,7 +32,6 @@ import * as moment from 'moment';
   templateUrl: 'gathering.html'
 })
 export class GatheringComponent implements OnInit {
-
   @Input() pin: Pin;
   @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
@@ -56,6 +56,7 @@ export class GatheringComponent implements OnInit {
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
+    private createGroupService: CreateGroupService,
     private state: StateService,
     private participantService: ParticipantService,
     private toast: ToastsManager,
@@ -67,7 +68,6 @@ export class GatheringComponent implements OnInit {
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
-
   public ngOnInit() {
     if (!this.previewMode) {
       window.scrollTo(0, 0);
@@ -137,14 +137,24 @@ export class GatheringComponent implements OnInit {
 
   public getProximityString(): string {
     if (this.isOnlineGroup()) {
-      return 'ONLINE GROUP';
+      return '(ONLINE GROUP)';
+    } else if (this.pin.proximity) {
+      return `(${this.pin.proximity.toFixed(1)} MI)`;
     } else {
-      return `${this.pin.proximity.toFixed(1)} MI`;
+      return '';
     }
   }
 
   public isOnlineGroup(): boolean {
     return this.pin.gathering.isVirtualGroup;
+  }
+
+  public onEditGroupClicked(groupId: number): void {
+    this.state.setLoading(true);
+    this.createGroupService.clearPresetDataFlagsOnGroupEdit();
+    this.createGroupService.groupBeingEdited = null;
+    this.createGroupService.reset();
+    this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
   private onContactLeaderClicked(): void {

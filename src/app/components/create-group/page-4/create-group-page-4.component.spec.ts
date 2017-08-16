@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { Attribute, Group } from '../../../models';
+import { GroupService} from '../../../services/group.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
@@ -17,13 +18,15 @@ import { CreateGroupPage4Component } from './create-group-page-4.component';
 
 describe('CreateGroupPage4Component', () => {
     let fixture: ComponentFixture<CreateGroupPage4Component>;
+    let mockGroupService: GroupService;
     let comp: CreateGroupPage4Component;
     let el;
-    let mockStateService, mockCreateGroupService, mockRouter,
+    let mockState, mockCreateGroupService, mockRouter,
         mockLookupService, mockBlandPageService;
 
     beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
+        mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['addAgeRangesToGroupModel', 'addGroupGenderMixTypeToGroupModel']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
@@ -37,7 +40,8 @@ describe('CreateGroupPage4Component', () => {
             ],
             providers: [
                 FormBuilder,
-                { provide: StateService, useValue: mockStateService },
+                { provide: GroupService, useValue: mockGroupService },
+                { provide: StateService, useValue: mockState },
                 { provide: CreateGroupService, useValue: mockCreateGroupService },
                 { provide: Router, useValue: mockRouter },
                 { provide: LookupService, useValue: mockLookupService },
@@ -66,7 +70,7 @@ describe('CreateGroupPage4Component', () => {
         spyOn(comp, 'setSelectedAgeRanges');
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp.ngOnInit();
-        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(mockState.setLoading).toHaveBeenCalledWith(false);
         expect(comp['isComponentReady']).toBeTruthy();
         expect(mockLookupService.getGroupGenderMixTypes).toHaveBeenCalledTimes(1);
         expect(mockLookupService.getAgeRanges).toHaveBeenCalledTimes(1);
@@ -80,7 +84,7 @@ describe('CreateGroupPage4Component', () => {
         spyOn(comp, 'setSelectedAgeRanges');
         spyOn(comp, 'setIsStudentMinistrySelected');
         comp.ngOnInit();
-        expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
+        expect(mockState.setLoading).toHaveBeenCalledWith(false);
         expect(comp['isComponentReady']).toBeTruthy();
         expect(mockLookupService.getGroupGenderMixTypes).toHaveBeenCalledTimes(1);
         expect(mockLookupService.getAgeRanges).toHaveBeenCalledTimes(1);
@@ -177,8 +181,8 @@ describe('CreateGroupPage4Component', () => {
         expect(mockCreateGroupService.addAgeRangesToGroupModel).toHaveBeenCalled();
         expect(mockCreateGroupService.addGroupGenderMixTypeToGroupModel).toHaveBeenCalled();
         expect(comp['createGroupService'].group.minorAgeGroupsAdded).toBe(true);
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-5']);
-        expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(5, undefined, 0);
+        expect(mockState.setLoading).toHaveBeenCalledTimes(1);
     });
 
     it('should not submit if invalid', () => {
@@ -190,7 +194,7 @@ describe('CreateGroupPage4Component', () => {
         expect(mockCreateGroupService.addGroupGenderMixTypeToGroupModel).not.toHaveBeenCalled();
         expect(comp['createGroupService'].group.minorAgeGroupsAdded).toBe(null);
         expect(mockRouter.navigate).not.toHaveBeenCalled();
-        expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
+        expect(mockState.setLoading).toHaveBeenCalledTimes(2);
     })
 
     it('validate form should return false if selectedGroupGenderMix is not selected', () => {
@@ -221,8 +225,9 @@ describe('CreateGroupPage4Component', () => {
     });
 
     it('should go back', () => {
+        comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(123);
         comp.onBack();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/create-group/page-3']);
+        expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(3, undefined, 0);
     });
 
 });

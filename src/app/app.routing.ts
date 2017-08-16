@@ -34,6 +34,7 @@ import { RemovePersonPinComponent } from './components/pin-details/person/remove
 import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
+import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -109,6 +110,49 @@ const appRoutes: Routes = [
       }
     ]
   }, {
+    path: 'edit-group/:groupId',
+    canActivate: [
+      LoggedInGuard,
+      GroupLeaderApprovedGuard
+    ],
+    resolve: {
+      group: GroupResolver
+    },
+    children: [
+      {
+          path: '',
+          component: CreateGroupPage1Component
+      },
+      {
+          path: 'page-1',
+          component: CreateGroupPage1Component
+      },
+      {
+          path: 'page-2',
+          component: CreateGroupPage2Component
+      },
+      {
+          path: 'page-3',
+          component: CreateGroupPage3Component
+      },
+      {
+          path: 'page-4',
+          component: CreateGroupPage4Component
+      },
+      {
+          path: 'page-5',
+          component: CreateGroupPage5Component
+      },
+      {
+          path: 'page-6',
+          component: CreateGroupPage6Component
+      },
+      {
+          path: 'preview',
+          component: CreateGroupPreviewComponent
+      }
+    ]
+    }, {
     path: 'contact-leader/:groupId',
     component: ContactLeaderComponent,
     canActivate: [

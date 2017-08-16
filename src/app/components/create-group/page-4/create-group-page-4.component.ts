@@ -6,10 +6,12 @@ import { Observable } from 'rxjs';
 
 import { Address, Attribute } from '../../../models';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { MiddleSchoolAgeRangeAttributeId, HighSchoolAgeRangeAttributeId } from '../../../shared/constants';
+import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber,
+         textConstants  } from '../../../shared/constants';
 
 
 @Component({
@@ -30,12 +32,21 @@ export class CreateGroupPage4Component implements OnInit {
     constructor(private fb: FormBuilder,
                 private state: StateService,
                 private createGroupService: CreateGroupService,
+                private groupService: GroupService,
                 private router: Router,
                 private lookupService: LookupService,
                 private blandPageService: BlandPageService) { }
 
     ngOnInit() {
-        this.state.setPageHeader('start a group', '/create-group/page-3');
+        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+                                                                               : textConstants.GROUP_PAGE_HEADERS.ADD;
+
+        let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+          `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-3`
+          : '/create-group/page-3';
+
+        this.state.setPageHeader(pageHeader, headerBackRoute);
+
         this.groupMetaDataForm = this.fb.group({
             groupGenderMixType: ['', Validators.required],
             groupAgeRanges: ['', Validators.required]
@@ -53,8 +64,17 @@ export class CreateGroupPage4Component implements OnInit {
                 lookupResults => {
                     this.genderMixTypes = lookupResults[0].attributes;
                     this.ageRanges = lookupResults[1].attributes;
+
                     this.setSelectedAgeRanges();
                     this.setIsStudentMinistrySelected();
+
+                    if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                                        && !this.createGroupService.wasPagePresetWithExistingData.page4) {
+                      this.setAgeRangesFromExistingGroup();
+                      this.setGenderMixesFromExistingGroup();
+                      this.createGroupService.wasPagePresetWithExistingData.page4 = true;
+                    }
+
                 },
                 error => {
                     this.blandPageService.goToDefaultError('/create-group/page-3');
@@ -68,15 +88,64 @@ export class CreateGroupPage4Component implements OnInit {
         this.createGroupService.selectedGroupGenderMix = value;
     }
 
+    private setGenderMixesFromExistingGroup(): void {
+      let groupSingleAttributes: any = this.createGroupService.groupBeingEdited.singleAttributes;
+
+      for (let i = 0; i < this.genderMixTypes.length; i++){
+        let genderMixType: Attribute = this.genderMixTypes[i];
+
+        for (var property in groupSingleAttributes) {
+          if (groupSingleAttributes.hasOwnProperty(property)) {
+
+            let singleAttributeOnGroup = groupSingleAttributes[property].attribute;
+            if(singleAttributeOnGroup){
+              if (genderMixType.attributeId === singleAttributeOnGroup.attributeId){
+                this.onClickMixType(genderMixType);
+              }
+            }
+          }
+        }
+      }
+    }
+
     private setSelectedAgeRanges(): void {
-        this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
+      this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
+        let foundRange = this.ageRanges.find((range: Attribute) => {
+          return range.attributeId === ageRange.attributeId;
+        });
+        if (foundRange) {
+          foundRange.selected = true;
+        }
+      });
+    }
+
+    private setAgeRangesFromExistingGroup(): void {
+      this.ageRanges.forEach((ageRange: Attribute) => {
+
+        let ageRangeAttributesAttachedToGroup: Attribute[] =
+          this.createGroupService.groupBeingEdited
+            .attributeTypes[attributeTypes.AgeRangeAttributeTypeId.toString()].attributes;
+
+        let groupAttributeMatchingSpecificAgeRangeCat: Attribute[] = ageRangeAttributesAttachedToGroup
+          .filter(attribute => attribute.name === ageRange.name && attribute.selected === true);
+
+        if(groupAttributeMatchingSpecificAgeRangeCat.length > 0){
+
+          let attribute: Attribute = groupAttributeMatchingSpecificAgeRangeCat[0];
+          this.onClickAgeRange(attribute);
+
+
+          this.createGroupService.selectedAgeRanges.forEach((ageRange: Attribute) => {
             let foundRange = this.ageRanges.find((range: Attribute) => {
-                return range.attributeId === ageRange.attributeId;
+              return range.attributeId === attribute.attributeId;
             });
             if (foundRange) {
-                foundRange.selected = true;
+              foundRange.selected = true;
             }
-        });
+          });
+
+        }
+    });
     }
 
     private onClickAgeRange(value: Attribute): void {
@@ -102,7 +171,8 @@ export class CreateGroupPage4Component implements OnInit {
 
     private setIsStudentMinistrySelected() {
         this.isStudentMinistrySelected = this.createGroupService.selectedAgeRanges.find((ageRange) => {
-            return ageRange.attributeId === MiddleSchoolAgeRangeAttributeId || ageRange.attributeId === HighSchoolAgeRangeAttributeId;
+            return ageRange.attributeId === attributeTypes.MiddleSchoolAgeRangeAttributeId
+                || ageRange.attributeId === attributeTypes.HighSchoolAgeRangeAttributeId;
         }) != null;
     }
 
@@ -113,7 +183,7 @@ export class CreateGroupPage4Component implements OnInit {
             this.createGroupService.addAgeRangesToGroupModel();
             this.createGroupService.addGroupGenderMixTypeToGroupModel();
             this.createGroupService.group.minorAgeGroupsAdded = this.isStudentMinistrySelected;
-            this.router.navigate(['/create-group/page-5']);
+            this.groupService.navigateInGroupFlow(GroupPageNumber.FIVE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
         } else {
             this.state.setLoading(false);
         }
@@ -134,6 +204,6 @@ export class CreateGroupPage4Component implements OnInit {
     }
 
     public onBack() {
-        this.router.navigate(['/create-group/page-3']);
+        this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     }
 }
