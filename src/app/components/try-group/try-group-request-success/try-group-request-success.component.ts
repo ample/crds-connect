@@ -8,14 +8,16 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: 'try-group-request-success.component.html'
 })
 export class TryGroupRequestSuccessComponent implements OnInit {
-  private groupId: string;
+  public groupId: string;
 
   constructor(private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.groupId = this.route.snapshot.paramMap.get('groupId');
+// TODO - TEST - does this still run as expected?
+    // this.groupId = this.route.snapshot.paramMap.get('groupId'); 
+    this.groupId = this.route.snapshot.params['groupId'];
   }
 
   public onClose(): void {

@@ -8,8 +8,8 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute } from '@angular/router';
-// import { Injector } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { PlatformLocation } from '@angular/common';
 import { SessionService } from '../../services/session.service';
@@ -21,12 +21,14 @@ import { MockComponent } from '../../shared/mock.component';
 import { MockTestData } from '../../shared/MockTestData';
 import { pinType } from '../../models/pin';
 
-fdescribe('PinDetailsComponent', () => {
+describe('PinDetailsComponent', () => {
   let fixture: ComponentFixture<PinDetailsComponent>;
   let comp: PinDetailsComponent;
   let el;
   let pin;
   let mockPlatformLocation, mockSession, mockState, mockPinService;
+
+  let route: ActivatedRoute;
 
   beforeEach(() => {
     pin = MockTestData.getAPin();
@@ -34,6 +36,12 @@ fdescribe('PinDetailsComponent', () => {
     mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin']);
+
+    // route = new ActivatedRoute();
+    // route.snapshot = new ActivatedRouteSnapshot();
+    // route.snapshot.params = { approved: 'true', trialMemberId: '123'  };
+    // route.snapshot.data =  { pin: pin, user: {} };
+
 
     TestBed.configureTestingModule({
       declarations: [
@@ -48,7 +56,10 @@ fdescribe('PinDetailsComponent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { data: { pin: pin, user: {} } } },
+          useValue: // route -- does not work??
+           { snapshot: { data: { pin: pin, user: {} } },
+                      params: Observable.from([{ approved: 'true', trialMemberId: '123' }])
+         },
         },
         { provide: PlatformLocation, useValue: mockPlatformLocation },
         { provide: SessionService, useValue: mockSession },
@@ -67,12 +78,13 @@ fdescribe('PinDetailsComponent', () => {
   }));
 
   describe('Person Pin', () => {
-    fit('should create an instance', () => {
-      fixture.detectChanges();
+
+    it('should create an instance', () => {
+      // fixture.detectChanges();
       expect(comp).toBeTruthy();
     });
 
-    fit('doesLoggedInUserOwnPin() should return true if contactId matches', () => {
+    it('doesLoggedInUserOwnPin() should return true if contactId matches', () => {
       mockPinService.doesLoggedInUserOwnPin.and.returnValue(true);
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
@@ -80,14 +92,14 @@ fdescribe('PinDetailsComponent', () => {
 
     });
 
-    fit('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', () => {
+    it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', () => {
       mockPinService.doesLoggedInUserOwnPin.and.returnValue(false);
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
       expect(returnValue).toBe(false);
     });
 
-    fit('should init while not logged in', () => {
+   it('should init while not logged in', () => {
       mockSession.isLoggedIn.and.returnValue(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
@@ -96,7 +108,7 @@ fdescribe('PinDetailsComponent', () => {
       expect(comp.isPinOwner).toBe(false);
     });
 
-    fit('shouldInit while logged in', () => {
+    it('shouldInit while logged in', () => {
       mockSession.isLoggedIn.and.returnValue(true);
       expect(comp.isGatheringPin).toBe(false);
       comp.ngOnInit();
@@ -110,11 +122,11 @@ fdescribe('PinDetailsComponent', () => {
       pin.pinType = pinType.GATHERING;
     });
 
-    fit('should create an instance', () => {
+    it('should create an instance', () => {
       expect(comp).toBeTruthy();
     });
 
-   fit('shouldInit while not logged in', () => {
+    it('shouldInit while not logged in', () => {
       mockSession.isLoggedIn.and.returnValue(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);

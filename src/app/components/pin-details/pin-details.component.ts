@@ -70,8 +70,10 @@ export class PinDetailsComponent implements OnInit {
   }
 
   private approveOrDisapproveTrialMember() {
-    const approved: boolean = (this.route.snapshot.paramMap.get('approved') === 'true');
-    const trialMemberId: string = this.route.snapshot.paramMap.get('trialMemberId');
+// TODO - TEST - does this still run as expected? instead of snapshot.paramMap.get('
+    const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
+    const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
+
     const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     if(approved && trialMemberId) {
