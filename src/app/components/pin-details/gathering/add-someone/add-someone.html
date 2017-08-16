@@ -64,20 +64,26 @@
       </div>
       <br>
       <div class="fauxdal-content">
-        <div class="text-center" *ngIf="matchFound">The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK. <p>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</p></div>
-        <div class="text-center" *ngIf="!matchFound">The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK.<p>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</p></div>
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <div *ngIf="!matchFound">
+              <div class="font-size-small font-family-base-light">
+                <p>The new user <strong>{{selectedMatch.firstname}} {{selectedMatch.lastname}}</strong> with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK.<p>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</p>
+              </div>
+            </div>
+            <div *ngIf="matchFound">
+              <div class="font-size-small font-family-base-light">
+                <p>The existing Crossroads user with email address <strong>{{selectedMatch.email}}</strong> will be added to your group when you click OK. <p>Clicking OK will send an email to <strong>{{selectedMatch.firstname}}</strong> that contains the group details (address for where the group meets) and your contact info (email and phone number) in case they have questions about the group.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <footer class="row soft-top">
+          <button type="button" class="btn btn-secondary btn-block-mobile"  (click)="fauxdalUseSelected()">OK</button>
+          <button type="button" class="btn btn-default btn-outline btn-block-mobile" (click)="hideResultsFauxdal()">Cancel</button>
+        </footer>
       </div>
-      <br>
-      <footer class="page-footer btn-group-horizontal ">
-        <div *ngIf="matchFound">
-          <button type="button" class="btn btn-primary"  (click)="fauxdalUseSelected()">OK</button>
-          <button type="button" class="btn btn-primary" (click)="hideResultsFauxdal()">Cancel</button>
-        </div>
-        <div *ngIf="!matchFound">
-          <button type="button" class="btn btn-primary" (click)="fauxdalUseEntered()">OK</button>
-          <button type="button" class="btn btn-primary" (click)="hideResultsFauxdal()">Cancel</button>
-        </div>
-      </footer>
     </div>
   </div>
 </div>
