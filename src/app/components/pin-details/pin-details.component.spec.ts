@@ -66,12 +66,12 @@ describe('PinDetailsComponent', () => {
 
   describe('Person Pin', () => {
 
-    it('should create an instance', () => {
+    fit('should create an instance', () => {
       fixture.detectChanges();
       expect(comp).toBeTruthy();
     });
 
-    it('doesLoggedInUserOwnPin() should return true if contactId matches', () => {
+    fit('doesLoggedInUserOwnPin() should return true if contactId matches', () => {
       mockPinService.doesLoggedInUserOwnPin.and.returnValue(true);
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
@@ -79,14 +79,14 @@ describe('PinDetailsComponent', () => {
 
     });
 
-    it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', () => {
+    fit('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', () => {
       mockPinService.doesLoggedInUserOwnPin.and.returnValue(false);
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
       expect(returnValue).toBe(false);
     });
 
-    it('should init while not logged in', () => {
+    fit('should init while not logged in', () => {
       mockSession.isLoggedIn.and.returnValue(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
@@ -95,7 +95,7 @@ describe('PinDetailsComponent', () => {
       expect(comp.isPinOwner).toBe(false);
     });
 
-    it('shouldInit while logged in', () => {
+    fit('shouldInit while logged in', () => {
       mockSession.isLoggedIn.and.returnValue(true);
       expect(comp.isGatheringPin).toBe(false);
       comp.ngOnInit();
@@ -109,11 +109,11 @@ describe('PinDetailsComponent', () => {
       pin.pinType = pinType.GATHERING;
     });
 
-    it('should create an instance', () => {
+    fit('should create an instance', () => {
       expect(comp).toBeTruthy();
     });
 
-    it('shouldInit while not logged in', () => {
+   fit('shouldInit while not logged in', () => {
       mockSession.isLoggedIn.and.returnValue(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
