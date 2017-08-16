@@ -34,6 +34,7 @@ export class CreateGroupPage1Component implements OnInit {
     private toast: ToastsManager){ }
 
   ngOnInit() {
+
     this.setGroupPathInState();
     this.state.setLoading(true);
 
