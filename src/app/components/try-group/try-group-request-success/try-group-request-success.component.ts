@@ -18,15 +18,15 @@ export class TryGroupRequestSuccessComponent implements OnInit {
     this.groupId = this.route.snapshot.paramMap.get('groupId');
   }
 
+  public onClose(): void {
+    this.router.navigate([`/small-group/${this.groupId}`]);
+  }
+
   public onBackToGroup(): void {
     this.router.navigate([`/small-group/${this.groupId}`]);
   }
 
   public onFindAnotherGroup(): void {
     this.router.navigate([`/`]);
-  }
-
-  public onClose(): void {
-    this.router.navigate([`/small-group/${this.groupId}`]);
   }
 }

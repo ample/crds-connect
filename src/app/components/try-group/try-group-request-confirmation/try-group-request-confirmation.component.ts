@@ -29,6 +29,10 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
     this.groupId = this.route.snapshot.paramMap.get('groupId');
   }
 
+  public onClose(): void {
+    window.history.back();
+  }
+
   public onCancel(): void {
     window.history.back();
   }
@@ -42,15 +46,11 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
       },
       failure => {
         if(failure.status === HttpStatusCodes.CONFLICT) {
-          this.errorMessage = 'tryGroupRequestAlreadyRequestedFailureMessage'
+          this.errorMessage = 'tryGroupRequestAlreadyRequestedFailureMessage';
         } else {
           this.errorMessage = 'tryGroupRequestGeneralFailureMessage';
         }
       }
     );
-  }
-
-  public onClose(): void {
-    window.history.back();
   }
 }
