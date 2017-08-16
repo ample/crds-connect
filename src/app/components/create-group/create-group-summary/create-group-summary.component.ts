@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from '../../../services/state.service';
+import { textConstants} from '../../../shared/constants';
 
 @Component({
     selector: 'create-group-summary',
@@ -10,7 +11,7 @@ export class CreateGroupSummaryComponent implements OnInit {
 
     ngOnInit() {
         this.state.setLoading(true);
-        this.state.setPageHeader('start a group', '/');
+        this.state.setPageHeader(textConstants.GROUP_PAGE_HEADERS.ADD, '/');
         this.state.setLoading(false);
     }
 }

@@ -147,6 +147,11 @@ export class GatheringComponent implements OnInit {
     return this.pin.gathering.isVirtualGroup;
   }
 
+  public onEditGroupClicked(groupId: number): void {
+    this.state.setLoading(true);
+    this.router.navigate([`edit-group/${groupId}/page-1`]);
+  }
+
   private onContactLeaderClicked(): void {
 
     this.state.setLoading(true);
