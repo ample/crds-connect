@@ -9,6 +9,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
+// import { Injector } from '@angular/core';
 
 import { PlatformLocation } from '@angular/common';
 import { SessionService } from '../../services/session.service';
@@ -20,7 +21,7 @@ import { MockComponent } from '../../shared/mock.component';
 import { MockTestData } from '../../shared/MockTestData';
 import { pinType } from '../../models/pin';
 
-describe('PinDetailsComponent', () => {
+fdescribe('PinDetailsComponent', () => {
   let fixture: ComponentFixture<PinDetailsComponent>;
   let comp: PinDetailsComponent;
   let el;
@@ -33,6 +34,7 @@ describe('PinDetailsComponent', () => {
     mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin']);
+
     TestBed.configureTestingModule({
       declarations: [
         PinDetailsComponent,
@@ -65,7 +67,6 @@ describe('PinDetailsComponent', () => {
   }));
 
   describe('Person Pin', () => {
-
     fit('should create an instance', () => {
       fixture.detectChanges();
       expect(comp).toBeTruthy();
@@ -123,4 +124,59 @@ describe('PinDetailsComponent', () => {
       expect(comp.isPinOwner).toBe(false);
     });
   });
+
+  // xdescribe('Trial member approval', () => {
+  //   let $httpBackend;
+  //   let mockBackend;
+  //   beforeEach(inject(($injector) => {
+  //     $httpBackend = $injector.get('$httpBackend');
+  //   }));
+  //
+  //   comp.groupId = 12345;
+  //   spyOn(ActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams);
+  //
+  //   let mockParams: object;
+  //   const returnMockParams = function (key: string): string {
+  //     return mockParams[key];
+  //   }
+  //
+  //   it('Should not post to the backend if approved or trialMember are not defined', () => {
+  //     mockParams = {approved: 'true', trialMember: undefined};
+  //     comp.approveOrDisapproveTrialMember();
+  //     expect(comp.session.post).not.toHaveBeenCalled();
+  //
+  //     mockParams = {approved: undefined, trialMember: '6789'};
+  //     comp.approveOrDisapproveTrialMember();
+  //     expect(comp.session.post).not.toHaveBeenCalled();
+  //   });
+  //
+  //   it('Should post to the backend to approve or disapprove a trial member', () => {
+  //     const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  //     const getUrl = () => `${baseUrl}api/v1.0.0/finder/pin/tryagroup/${pin.gathering.groupId}/${mockParams.approved}/${mockParams.trialMemberId}`;
+  //
+  //     // Approved:
+  //     mockParams = {approved: 'true', trialMember: '6789'};
+  //     mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
+  //     comp.approveOrDisapproveTrialMember();
+  //     $httpBackend.expectPost(getUrl());
+  //     $httpBackend.flush();
+  //     expect(comp.trialMemberApprovalMessage).toEqual('Trial member was approved');
+  //
+  //     // Disapproved:
+  //     mockParams.approved = 'false';
+  //     mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
+  //     comp.approveOrDisapproveTrialMember();
+  //     $httpBackend.expectPost(getUrl());
+  //     $httpBackend.flush();
+  //     expect(comp.trialMemberApprovalMessage).toEqual('Trial member was disapproved');
+  //   });
+  //
+  //   it('Should handle http errors', () => {
+  //     mockBackend.respond(404);
+  //     comp.approveOrDisapproveTrialMember();
+  //     expect(comp.trialMemberApprovalMessage).toEqual('Error approving trial member');
+  //     expect(comp.trialMemberApprovalError).toEqual(true);
+  //     $httpBackend.flush();  // I'm not completely sure if this is needed.
+  //   });
+  // });
 });
