@@ -72,7 +72,6 @@ export class PinDetailsComponent implements OnInit {
   }
 
   private approveOrDisapproveTrialMember() {
-// TODO - TEST - does this still run as expected? instead of snapshot.paramMap.get('
     const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
     const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
 

@@ -6,9 +6,6 @@ import { StateService } from '../../../services/state.service';
 
 import { HttpStatusCodes } from '../../../shared/constants';
 
-// TODO: Define the URL of the backend endpoint and success page as constants
-// import { TryGroupRequestBackendURL, TryGroupRequestSuccessURL } from '../../shared/constants';
-
 @Component({
   selector: 'app-try-group-request-confirmation',
   templateUrl: 'try-group-request-confirmation.component.html'
@@ -41,7 +38,7 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
     this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
     .subscribe(
       success => {
-        this.router.navigate([`/try-group-request-success/${this.groupId}`]);  // Redirect to success page
+        this.router.navigate([`/try-group-request-success/${this.groupId}`]);
         this.errorMessage = undefined;
       },
       failure => {
