@@ -11,7 +11,7 @@
   <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
     <div *ngFor="let category of createGroupService.categories" class="controls-stacked soft-top">
       <label class="control checkbox">
-        <input type="checkbox" [id]="category.name" (click)="onSelect(category)" formControlName="{{category.name}}" [ngClass]="{active: category.selected}" ngDefaultControl>
+        <input type="checkbox" [id]="category.name" (click)="onSelect(category)" formControlName="{{category.name}}" [ngClass]="{active: category.selected}" ngDefaultControl [checked]="category.selected">
         <span class="control-indicator"></span>
         {{ category.name }}
       </label>
