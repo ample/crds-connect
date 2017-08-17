@@ -32,7 +32,12 @@ export class CreateGroupPage5Component implements OnInit {
   ngOnInit(): void {
     let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                            : textConstants.GROUP_PAGE_HEADERS.ADD;
-    this.state.setPageHeader(pageHeader, '/create-group/page-4');
+
+    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-4`
+      : '/create-group/page-4';
+
+    this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.groupDetailsForm = this.fb.group({
       groupName: [this.createGroupService.group.groupName, Validators.required],

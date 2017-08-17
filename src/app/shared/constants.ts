@@ -121,6 +121,8 @@ export class DaysOfWeek {
   }
 }
 
+export const daysOfWeekList: string[] = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
 export const daysOfWeek = new DaysOfWeek();
 
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();

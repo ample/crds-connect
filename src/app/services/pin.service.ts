@@ -49,6 +49,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
   private editedSmallGroupPin: Pin = null;
+  private editedGatheringPin: Pin = null;
 
   constructor(
     private addressService: AddressService,
@@ -137,6 +138,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
 
   public setEditedSmallGroupPin(smallGroupPin: Pin){
     this.editedSmallGroupPin = smallGroupPin;
+  }
+
+  public setEditedGatheringPin(gatheringPin: Pin){
+    this.editedGatheringPin = gatheringPin;
+  }
+
+  public getEditedGatheringPin(): Pin {
+    return this.editedGatheringPin;
   }
 
   private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {

@@ -40,7 +40,12 @@ export class CreateGroupPreviewComponent implements OnInit {
   ngOnInit() {
     let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
       : textConstants.GROUP_PAGE_HEADERS.ADD;
-    this.state.setPageHeader(pageHeader, '/create-group/page-6');
+
+    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-6`
+      : '/create-group/page-6';
+
+    this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.smallGroupPin = this.createGroupService.getSmallGroupPinFromGroupData();
     this.leaders = this.createGroupService.getLeaders();
