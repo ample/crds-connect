@@ -21,12 +21,12 @@ import { MockComponent } from '../../shared/mock.component';
 import { MockTestData } from '../../shared/MockTestData';
 import { pinType } from '../../models/pin';
 
-describe('PinDetailsComponent', () => {
+fdescribe('PinDetailsComponent', () => {
   let fixture: ComponentFixture<PinDetailsComponent>;
   let comp: PinDetailsComponent;
   let el;
   let pin;
-  let mockPlatformLocation, mockSession, mockState, mockPinService;
+  let mockPlatformLocation, mockSession, mockState, mockPinService, mockActivatedRoute;
 
   let route: ActivatedRoute;
 
@@ -36,6 +36,13 @@ describe('PinDetailsComponent', () => {
     mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin']);
+
+    mockActivatedRoute = {
+      snapshot: {
+        data: { pin: pin, user: {} },
+        paramMap: { get: jasmine.createSpy('mockParams')}
+      }
+    };
 
     // route = new ActivatedRoute();
     // route.snapshot = new ActivatedRouteSnapshot();
@@ -54,13 +61,7 @@ describe('PinDetailsComponent', () => {
         RouterTestingModule.withRoutes([]),
       ],
       providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: // route -- does not work??
-           { snapshot: { data: { pin: pin, user: {} } },
-                      params: Observable.from([{ approved: 'true', trialMemberId: '123' }])
-         },
-        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute},
         { provide: PlatformLocation, useValue: mockPlatformLocation },
         { provide: SessionService, useValue: mockSession },
         { provide: StateService, useValue: mockState },
@@ -137,58 +138,64 @@ describe('PinDetailsComponent', () => {
     });
   });
 
-  // xdescribe('Trial member approval', () => {
-  //   let $httpBackend;
-  //   let mockBackend;
-  //   beforeEach(inject(($injector) => {
-  //     $httpBackend = $injector.get('$httpBackend');
-  //   }));
-  //
-  //   comp.groupId = 12345;
-  //   spyOn(ActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams);
-  //
-  //   let mockParams: object;
-  //   const returnMockParams = function (key: string): string {
-  //     return mockParams[key];
-  //   }
-  //
-  //   it('Should not post to the backend if approved or trialMember are not defined', () => {
-  //     mockParams = {approved: 'true', trialMember: undefined};
-  //     comp.approveOrDisapproveTrialMember();
-  //     expect(comp.session.post).not.toHaveBeenCalled();
-  //
-  //     mockParams = {approved: undefined, trialMember: '6789'};
-  //     comp.approveOrDisapproveTrialMember();
-  //     expect(comp.session.post).not.toHaveBeenCalled();
-  //   });
-  //
-  //   it('Should post to the backend to approve or disapprove a trial member', () => {
-  //     const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-  //     const getUrl = () => `${baseUrl}api/v1.0.0/finder/pin/tryagroup/${pin.gathering.groupId}/${mockParams.approved}/${mockParams.trialMemberId}`;
-  //
-  //     // Approved:
-  //     mockParams = {approved: 'true', trialMember: '6789'};
-  //     mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
-  //     comp.approveOrDisapproveTrialMember();
-  //     $httpBackend.expectPost(getUrl());
-  //     $httpBackend.flush();
-  //     expect(comp.trialMemberApprovalMessage).toEqual('Trial member was approved');
-  //
-  //     // Disapproved:
-  //     mockParams.approved = 'false';
-  //     mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
-  //     comp.approveOrDisapproveTrialMember();
-  //     $httpBackend.expectPost(getUrl());
-  //     $httpBackend.flush();
-  //     expect(comp.trialMemberApprovalMessage).toEqual('Trial member was disapproved');
-  //   });
-  //
-  //   it('Should handle http errors', () => {
-  //     mockBackend.respond(404);
-  //     comp.approveOrDisapproveTrialMember();
-  //     expect(comp.trialMemberApprovalMessage).toEqual('Error approving trial member');
-  //     expect(comp.trialMemberApprovalError).toEqual(true);
-  //     $httpBackend.flush();  // I'm not completely sure if this is needed.
-  //   });
-  // });
+  fdescribe('Trial member approval', () => {
+    let $httpBackend;
+    let mockBackend;
+
+    beforeEach(() => {
+      comp.groupId = 12345;
+    });
+    // beforeEach(inject(($injector) => {
+    //   $httpBackend = $injector.get('$httpBackend');
+    //   comp.groupId = 12345;
+    // }));
+
+    // spyOn(ActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams);
+
+    let mockParams: object;
+    const returnMockParams = function (key: string): string {
+      return mockParams[key];
+    }
+
+    it('Should not post to the backend if approved or trialMember are not defined', () => {
+      mockParams = {approved: 'true', trialMember: undefined};
+      spyOn(mockActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams);
+      comp.approveOrDisapproveTrialMember();
+      expect(comp.session.post).not.toHaveBeenCalled();
+
+      mockParams = {approved: undefined, trialMember: '6789'};
+      comp.approveOrDisapproveTrialMember();
+      expect(comp.session.post).not.toHaveBeenCalled();
+    });
+
+    // it('Should post to the backend to approve or disapprove a trial member', () => {
+    //   const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    //   const getUrl = () => `${baseUrl}api/v1.0.0/finder/pin/tryagroup/${pin.gathering.groupId}/${mockParams.approved}/${mockParams.trialMemberId}`;
+    //
+    //   // Approved:
+    //   mockParams = {approved: 'true', trialMember: '6789'};
+    //   spyOn(ActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams)
+    //   mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
+    //   comp.approveOrDisapproveTrialMember();
+    //   $httpBackend.expectPost(getUrl());
+    //   $httpBackend.flush();
+    //   expect(comp.trialMemberApprovalMessage).toEqual('Trial member was approved');
+    //
+    //   // Disapproved:
+    //   mockParams.approved = 'false';
+    //   mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
+    //   comp.approveOrDisapproveTrialMember();
+    //   $httpBackend.expectPost(getUrl());
+    //   $httpBackend.flush();
+    //   expect(comp.trialMemberApprovalMessage).toEqual('Trial member was disapproved');
+    // });
+
+    // it('Should handle http errors', () => {
+    //   mockBackend.respond(404);
+    //   comp.approveOrDisapproveTrialMember();
+    //   expect(comp.trialMemberApprovalMessage).toEqual('Error approving trial member');
+    //   expect(comp.trialMemberApprovalError).toEqual(true);
+    //   $httpBackend.flush();  // I'm not completely sure if this is needed.
+    // });
+  });
 });

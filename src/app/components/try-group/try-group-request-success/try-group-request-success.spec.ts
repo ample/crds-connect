@@ -7,8 +7,6 @@ import { Observable } from 'rxjs/Rx';
 
 import {TryGroupRequestSuccessComponent} from './try-group-request-success.component';
 
-
-
 let fixture: ComponentFixture<TryGroupRequestSuccessComponent>;
 let comp: TryGroupRequestSuccessComponent;
 let mockRouter;
@@ -16,7 +14,6 @@ let route;
 
 describe('TryGroupRequestSuccessComponent', () => {
   beforeEach(() => {
-
     mockRouter = {
       url: '/small-group/1234', routerState:
       { snapshot: { url: '/small-group/1234' } }, navigate: jasmine.createSpy('navigate')
@@ -83,10 +80,3 @@ describe('TryGroupRequestSuccessComponent', () => {
   });
 
 });
-
-
-
-
-
-
-
