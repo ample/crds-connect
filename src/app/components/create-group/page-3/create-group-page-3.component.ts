@@ -18,6 +18,7 @@ export class CreateGroupPage3Component implements OnInit {
     public locationForm: FormGroup;
     private usStatesList: string[] = usStatesList;
     private isSubmitted: boolean = false;
+    private isAddressInitializedInEdit: boolean = false;
 
     private meetingFrequencies: Array<any> = meetingFrequencies;
 
@@ -52,13 +53,27 @@ export class CreateGroupPage3Component implements OnInit {
             this.setFieldsFromExistingGroup();
         }
 
+        this.isAddressInitializedInEdit = !!this.createGroupService.group.address;
+
         this.state.setLoading(false);
 
     }
 
-    private onClickIsVirtual(value: boolean): void {
-        this.createGroupService.group.isVirtualGroup = value;
-        this.setRequiredFields(value);
+    private initializeAddressIfInEditAndNotInitialized(isVirtual: boolean): void{
+      if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.isAddressInitializedInEdit){
+        if(isVirtual === false ){
+          this.createGroupService.group.address = Address.overload_Constructor_One();
+          this.isAddressInitializedInEdit = true;
+        }
+      }
+    }
+
+    private onClickIsVirtual(isVirtual: boolean): void {
+
+      this.initializeAddressIfInEditAndNotInitialized(isVirtual);
+
+      this.createGroupService.group.isVirtualGroup = isVirtual;
+      this.setRequiredFields(isVirtual);
     }
 
     private makeSureModelHasAddress(): void {
