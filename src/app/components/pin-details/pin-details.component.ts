@@ -17,7 +17,6 @@ import { User } from '../../models/user';
   templateUrl: 'pin-details.html'
 })
 export class PinDetailsComponent implements OnInit {
-
   @Input() pin: Pin;
   public submitted: boolean = false;
   public errorMessage: string = '';
@@ -29,6 +28,8 @@ export class PinDetailsComponent implements OnInit {
   public sayHiText: string = '';
   public isInGathering: boolean = false;
   public user: Pin;
+  private trialMemberApprovalMessage: string;
+  private trialMemberApprovalError: boolean = false;
 
   constructor(
     private location: PlatformLocation,
@@ -37,7 +38,7 @@ export class PinDetailsComponent implements OnInit {
     private session: SessionService,
     private state: StateService,
     private pinService: PinService
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.state.setLoading(true);
@@ -45,6 +46,8 @@ export class PinDetailsComponent implements OnInit {
 
     this.pin = this.route.snapshot.data['pin'];
     this.user = this.route.snapshot.data['user'];
+
+    this.approveOrDisapproveTrialMember();
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
@@ -60,10 +63,29 @@ export class PinDetailsComponent implements OnInit {
       this.isLoggedIn = true;
       this.isPinOwner = this.doesLoggedInUserOwnPin();
     }
+
     this.state.setLoading(false);
   }
 
   private doesLoggedInUserOwnPin() {
     return this.pinService.doesLoggedInUserOwnPin(this.pin);
+  }
+
+  private approveOrDisapproveTrialMember() {
+    const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
+    const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
+
+    const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+
+    if (approved !== undefined && trialMemberId) {
+      this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
+      .subscribe(
+        success => this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved',
+        failure => {
+          this.trialMemberApprovalMessage = 'Error approving trial member';
+          this.trialMemberApprovalError = true;
+        }
+      );
+    }
   }
 }

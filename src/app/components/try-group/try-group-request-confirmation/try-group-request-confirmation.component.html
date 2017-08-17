@@ -1,0 +1,40 @@
+<div class="fauxdal-wrapper">
+  <div class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="onClose()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
+
+      <div class="fauxdal-content">
+        <crds-content-block id="tryGroupRequestConfirmation"></crds-content-block>
+      </div>
+
+      <br>
+
+      <footer class="page-footer btn-group-horizontal">
+        <!-- Submit Button: -->
+        <button type="button"
+                class="btn btn-secondary btn-block-mobile"
+                (click)="onSubmit()">
+          Sounds great!
+        </button>
+
+        <!-- Cancel Button: -->
+        <button type="button"
+                class="btn btn-secondary btn-block-mobile"
+                (click)="onCancel()">
+          Cancel
+        </button>
+
+        <!-- Error Message: -->
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          <crds-content-block id="{{errorMessage}}"></crds-content-block>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
