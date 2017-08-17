@@ -2,6 +2,10 @@
   <div class="pin-details-bg"
        [ngClass]="{ host_plain: !isInGathering && !isLeader && pin.pinType !== pinType.SMALL_GROUP}">
 
+    <div *ngIf="trialMemberApprovalMessage">
+      <div class="alert {{trialMemberApprovalError ? 'alert-danger' : 'alert-success'}}">{{trialMemberApprovalMessage}}</div>
+    </div>
+
     <!--TODO: All this small group stuff should be a sub component.  all these ngIf's are going to get very hard to debug.-->
     <div class="soft">
       <div class="media">
@@ -26,9 +30,9 @@
 
         <!-- EDIT GROUP BUTTON -->
         <br>
-        <input *ngIf = "isLeader"
+        <input *ngIf = "app.isSmallGroupApp() && isLeader"
                type="button"
-               class="btn btn-primary"
+               class="btn btn-secondary"
                value="Edit Group"
                (click)="onEditGroupClicked(pin.gathering.groupId)">
 
@@ -98,7 +102,8 @@
     </dl>
 
     <div *ngIf="!isLeader && isInGroupApp" class="push-half-ends soft-ends">
-      <button class="btn btn-primary btn-block-mobile">Try this group</button>
+      <button class="btn btn-primary btn-block-mobile"
+              (click)="onTryThisGroupClicked()">Try this group</button>
       <button class="btn btn-outline btn-primary btn-block-mobile"
               (click)="onContactLeaderClicked();">Contact leader</button>
     </div>

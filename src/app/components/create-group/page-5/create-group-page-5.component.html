@@ -58,7 +58,8 @@
 
     <div class="btn-group btn-group-block">
       <!-- Group Public Button -->
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }" formControlName="availableOnline" value="true" (click)="setGroupPrivacy(true)" ngDefaultControl style="white-space: normal">
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }"
+      formControlName="availableOnline" value="true" (click)="onSetGroupPrivacy(true)" ngDefaultControl style="white-space: normal">
         <div class="row">
           <div class="text-left btn-group-label">
             <span class="btn-group-icons">
@@ -74,7 +75,8 @@
         </div>
       </button>
       <!-- Group Private Button -->
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }" formControlName="availableOnline" value="false" (click)="setGroupPrivacy(false)" ngDefaultControl style="white-space: normal">
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }"
+      formControlName="availableOnline" value="false" (click)="onSetGroupPrivacy(false)" ngDefaultControl style="white-space: normal">
         <div class="row">
           <div class="btn-group-label text-left">
             <span class="btn-group-icons">
@@ -92,7 +94,7 @@
     </div>
 
     <!-- Group Privacy Omitted Error: -->
-    <div *ngIf="isSubmitted && groupVisibilityInvalid" class="soft-top">
+    <div *ngIf="isSubmitted && !createGroupService.group.availableOnline" class="soft-top">
       <div class="alert alert-danger">This field is required.</div>
     </div>
 

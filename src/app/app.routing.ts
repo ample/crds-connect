@@ -26,6 +26,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { PinDetailsComponent } from './components/pin-details/pin-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { TryGroupRequestConfirmationComponent } from './components/try-group/try-group-request-confirmation/try-group-request-confirmation.component';
+import { TryGroupRequestSuccessComponent } from './components/try-group/try-group-request-success/try-group-request-success.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
@@ -108,6 +110,18 @@ const appRoutes: Routes = [
         path: 'preview',
         component: CreateGroupPreviewComponent
       }
+    ]
+  }, {
+    path: 'try-group-request-confirmation/:groupId',
+    component: TryGroupRequestConfirmationComponent,
+    canActivate: [
+      LoggedInGuard
+    ]
+  }, {
+    path: 'try-group-request-success/:groupId',
+    component: TryGroupRequestSuccessComponent,
+    canActivate: [
+      LoggedInGuard
     ]
   }, {
     path: 'edit-group/:groupId',
@@ -213,7 +227,7 @@ const appRoutes: Routes = [
     }
   },
   { path: 'groups-not-found', component: StuffNotFoundComponent },
-  { path: 'connections-not-found', component: StuffNotFoundComponent },  
+  { path: 'connections-not-found', component: StuffNotFoundComponent },
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
@@ -260,6 +274,14 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
+  }, {
+    path: 'small-group/:groupId/:approved/:trialMemberId',
+    component: PinDetailsComponent,
+    resolve: {
+      pin: PinResolver,
+      user: UserDataResolver
+    },
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
     path: 'small-group/:groupId/participant-detail/:groupParticipantId',
     component: ParticipantDetailsComponent,
