@@ -35,11 +35,13 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    this.state.setLoading(true);
     this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
     .subscribe(
       success => {
         this.router.navigate([`/try-group-request-success/${this.groupId}`]);
         this.errorMessage = undefined;
+        this.state.setLoading(false);
       },
       failure => {
         if(failure.status === HttpStatusCodes.CONFLICT) {
