@@ -26,9 +26,9 @@
 
         <!-- EDIT GROUP BUTTON -->
         <br>
-        <input *ngIf = "isLeader"
+        <input *ngIf = "app.isSmallGroupApp() && isLeader"
                type="button"
-               class="btn btn-primary"
+               class="btn btn-secondary"
                value="Edit Group"
                (click)="onEditGroupClicked(pin.gathering.groupId)">
 
