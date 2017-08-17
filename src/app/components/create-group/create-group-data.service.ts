@@ -145,7 +145,7 @@ export class CreateGroupService {
         if (group.isVirtualGroup) {
             group.address = null;
         }
-        this.formatTimesAndDates(group);
+        this.formatTimesAndDates(group); // here
         return group;
     }
 
@@ -174,6 +174,12 @@ export class CreateGroupService {
         });
     }
 
+// TODO Call this above on line 165
+    public getTimeFromDate(fullDateTime: any): string {
+        return moment(fullDateTime).format('LT');
+    }
+
+    
     private createCategoryDetailAttribute(category: Category): Attribute {
         let attribute = new Attribute(0, category.categoryDetail, category.desc, category.name,
             category.categoryId, null, 0, attributeTypes.GroupCategoryAttributeTypeId,

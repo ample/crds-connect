@@ -165,6 +165,7 @@ export class GatheringComponent implements OnInit {
 
   }
 
+// getting entire big long date and time object here after edit
   public getMeetingTime(meetingTimeUtc: string) {
     // Sorry this is here. We don't need to do moment when we're doing create group :(
     if (!this.previewMode) {
