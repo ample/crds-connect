@@ -49,6 +49,7 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
         } else {
           this.errorMessage = 'tryGroupRequestGeneralFailureMessage';
         }
+        this.state.setLoading(false);
       }
     );
   }
