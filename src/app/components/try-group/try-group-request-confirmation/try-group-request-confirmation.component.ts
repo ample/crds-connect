@@ -26,7 +26,7 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
 
   ngOnInit() {
     this.state.setLoading(false);
-    this.groupId = this.route.snapshot.paramMap.get('groupId');
+    this.groupId = this.route.snapshot.params['groupId'];
   }
 
   public onClose(): void {

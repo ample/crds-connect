@@ -1,18 +1,30 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { Router, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockComponent } from '../../../shared/mock.component';
+import { Observable } from 'rxjs/Rx';
+import { SessionService } from '../../../services/session.service';
+import { StateService } from '../../../services/state.service';
+
+import {TryGroupRequestConfirmationComponent} from './try-group-request-confirmation.component';
+
+
 let fixture: ComponentFixture<TryGroupRequestConfirmationComponent>;
 let comp: TryGroupRequestConfirmationComponent;
-let mockRouter;
+let mockRouter, mockSessionService, mockState;
 let route;
 
 describe('try-group-request-confirmation.component', () => {
   beforeEach(() => {
-    mockRouter = {
-      url: '/small-group/1234', routerState:
-      { snapshot: { url: '/small-group/1234' } }, navigate: jasmine.createSpy('navigate')
-    };
 
-    route = new ActivatedRoute();
-    route.snapshot = new ActivatedRouteSnapshot();
-    route.snapshot.params = { groupId: '1234' };
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
+    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+    mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+    /* mockRouter = {
+      url: '/small-group/1234', routerState:
+      { snapshot: { url: '/small-group/1234' } }, navigate: jasmine.createSpy('navigate') 
+    };*/
 
     TestBed.configureTestingModule({
       declarations: [
@@ -20,12 +32,10 @@ describe('try-group-request-confirmation.component', () => {
       ],
       imports: [],
       providers: [
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: StateService, useValue: mockState },
         { provide: Router, useValue: mockRouter},
-        {
-          provide: ActivatedRoute,
-          useValue: { snapshot: { params: { groupId: 1234 } } }, // this passes
-          // useValue: route, // this fails?
-         },
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { groupId: 1234 } } } },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -38,37 +48,37 @@ describe('try-group-request-confirmation.component', () => {
     });
   }));
 
+  it('should create an instance', () => {
+      expect(comp).toBeTruthy();
+  });
 
   it('Submits', () => {
-    const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-    const groupId = 12345;
+    const groupId = 1234;
 
-    const mockBackend = $httpBackend.when('POST', `${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`).respond(200);
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
 
-    $httpBackend.expectPost(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, groupId);
-    $httpBackend.flush();
-
-    expect(this.router.navigate).toHaveBeenCalledWith([`/try-group-request-success/${this.groupId}`]);
+    comp.ngOnInit();
+    comp.onSubmit();
+    expect(mockRouter.navigate).toHaveBeenCalledWith([`/try-group-request-success/${groupId}`]);
   });
 
-  it('Handles submission errors', () => {
-    // 409 Error:
-    const mockBackend = $httpBackend.when('POST', `${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`)
-    .respond(409);
-    expect(comp.errorMessage).toEqual('tryGroupRequestAlreadyRequestedFailureMessage');
+  it('Handles submission errors - 409', () => {
+    const groupId = 1234;
 
-    // Other Error:
-    mockBackend.respond(400);
-    expect(comp.errorMessage).toEqual('tryGroupRequestGeneralFailureMessage');
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 409}));
+
+    comp.ngOnInit();
+    comp.onSubmit();
+    expect(comp['errorMessage']).toBe('tryGroupRequestAlreadyRequestedFailureMessage');
   });
 
-  it('Navigates "back" when close ("x") is clicked', () => {
-    comp.onClose();
-    expect(window.history.back).toHaveBeenCalled();
-  });
+  it('Handles submission errors - other', () => {
+    const groupId = 1234;
 
-  it('Navigates "back" when cancel is clicked', () => {
-    comp.onCancel();
-    expect(window.history.back).toHaveBeenCalled();
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 404}));
+
+    comp.ngOnInit();
+    comp.onSubmit();
+    expect(comp['errorMessage']).toBe('tryGroupRequestGeneralFailureMessage');
   });
 });

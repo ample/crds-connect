@@ -76,7 +76,7 @@ export class PinDetailsComponent implements OnInit {
 
     const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
-    if(approved && trialMemberId) {
+    if (approved !== undefined && trialMemberId) {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
       .subscribe(
         success => this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved',

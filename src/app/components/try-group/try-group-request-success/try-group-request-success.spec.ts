@@ -10,18 +10,15 @@ import {TryGroupRequestSuccessComponent} from './try-group-request-success.compo
 let fixture: ComponentFixture<TryGroupRequestSuccessComponent>;
 let comp: TryGroupRequestSuccessComponent;
 let mockRouter;
-let route;
+let route: ActivatedRoute;
 
 describe('TryGroupRequestSuccessComponent', () => {
   beforeEach(() => {
+
     mockRouter = {
       url: '/small-group/1234', routerState:
       { snapshot: { url: '/small-group/1234' } }, navigate: jasmine.createSpy('navigate')
     };
-
-    route = new ActivatedRoute();
-    route.snapshot = new ActivatedRouteSnapshot();
-    route.snapshot.params = { groupId: '1234' };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -35,8 +32,7 @@ describe('TryGroupRequestSuccessComponent', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { groupId: 1234 } } }, // this passes
-          // useValue: route, // this fails?
+          useValue: { snapshot: { params: { groupId: 1234 } } },
          },
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -55,21 +51,13 @@ describe('TryGroupRequestSuccessComponent', () => {
   });
 
   it('Navigates to the group details when close ("x") is clicked', () => {
-    mockRouter = {
-      url: '/small-group/1234', routerState:
-      { snapshot: { url: '/small-group/1234' } }, navigate: jasmine.createSpy('navigate')
-    };
-    // mockRouter.routerState.snapshot.url = '/small-group/1234';
-    mockRouter.routerState.snapshot.params = { snapshot: { params: { groupId: 1234 } } };
-    //route.snapshot.params = { groupId: '1234' };
-
-    comp.groupId = '1234';  // TODO need to get this from route params instead??
+    comp.ngOnInit();
     comp.onClose();
     expect(comp['router'].navigate).toHaveBeenCalledWith(['/small-group/1234']);
   });
 
   it('Navigates to the group details when "Back to group" is clicked', () => {
-    comp.groupId = '1234';  // TODO need to get this from route params instead??
+    comp.ngOnInit();
     comp.onBackToGroup();
     expect(comp['router'].navigate).toHaveBeenCalledWith(['/small-group/1234']);
   });

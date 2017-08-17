@@ -21,7 +21,7 @@ import { MockComponent } from '../../shared/mock.component';
 import { MockTestData } from '../../shared/MockTestData';
 import { pinType } from '../../models/pin';
 
-fdescribe('PinDetailsComponent', () => {
+describe('PinDetailsComponent', () => {
   let fixture: ComponentFixture<PinDetailsComponent>;
   let comp: PinDetailsComponent;
   let el;
@@ -33,22 +33,16 @@ fdescribe('PinDetailsComponent', () => {
   beforeEach(() => {
     pin = MockTestData.getAPin();
     mockPlatformLocation = jasmine.createSpyObj<PlatformLocation>('location', ['reload']);
-    mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
+    mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn',  'post']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin']);
 
     mockActivatedRoute = {
       snapshot: {
         data: { pin: pin, user: {} },
-        paramMap: { get: jasmine.createSpy('mockParams')}
+        params: { approved: 'true', trialMemberId: '123'}
       }
     };
-
-    // route = new ActivatedRoute();
-    // route.snapshot = new ActivatedRouteSnapshot();
-    // route.snapshot.params = { approved: 'true', trialMemberId: '123'  };
-    // route.snapshot.data =  { pin: pin, user: {} };
-
 
     TestBed.configureTestingModule({
       declarations: [
@@ -87,6 +81,7 @@ fdescribe('PinDetailsComponent', () => {
 
     it('doesLoggedInUserOwnPin() should return true if contactId matches', () => {
       mockPinService.doesLoggedInUserOwnPin.and.returnValue(true);
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
       expect(returnValue).toBe(true);
@@ -95,6 +90,7 @@ fdescribe('PinDetailsComponent', () => {
 
     it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match', () => {
       mockPinService.doesLoggedInUserOwnPin.and.returnValue(false);
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
       comp.ngOnInit();
       let returnValue = comp['doesLoggedInUserOwnPin']();
       expect(returnValue).toBe(false);
@@ -102,6 +98,7 @@ fdescribe('PinDetailsComponent', () => {
 
    it('should init while not logged in', () => {
       mockSession.isLoggedIn.and.returnValue(false);
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
       expect(comp.pin.firstName).toBe('firstName1');
@@ -111,6 +108,7 @@ fdescribe('PinDetailsComponent', () => {
 
     it('shouldInit while logged in', () => {
       mockSession.isLoggedIn.and.returnValue(true);
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
       expect(comp.isGatheringPin).toBe(false);
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(true);
@@ -129,6 +127,7 @@ fdescribe('PinDetailsComponent', () => {
 
     it('shouldInit while not logged in', () => {
       mockSession.isLoggedIn.and.returnValue(false);
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
       comp.ngOnInit();
       expect(comp.isLoggedIn).toBe(false);
       expect(comp.isGatheringPin).toBe(true);
@@ -136,66 +135,49 @@ fdescribe('PinDetailsComponent', () => {
       expect(mockSession.isLoggedIn.calls.count()).toEqual(1);
       expect(comp.isPinOwner).toBe(false);
     });
+
   });
 
-  fdescribe('Trial member approval', () => {
-    let $httpBackend;
+   describe('Trial member approval', () => {
     let mockBackend;
-
-    beforeEach(() => {
-      comp.groupId = 12345;
-    });
-    // beforeEach(inject(($injector) => {
-    //   $httpBackend = $injector.get('$httpBackend');
-    //   comp.groupId = 12345;
-    // }));
-
-    // spyOn(ActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams);
 
     let mockParams: object;
     const returnMockParams = function (key: string): string {
       return mockParams[key];
-    }
+    };
 
-    it('Should not post to the backend if approved or trialMember are not defined', () => {
-      mockParams = {approved: 'true', trialMember: undefined};
-      spyOn(mockActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams);
-      comp.approveOrDisapproveTrialMember();
-      expect(comp.session.post).not.toHaveBeenCalled();
+    it('test approveOrDisapproveTrialMember success approve = true', () => {
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
 
-      mockParams = {approved: undefined, trialMember: '6789'};
-      comp.approveOrDisapproveTrialMember();
-      expect(comp.session.post).not.toHaveBeenCalled();
+      comp.ngOnInit();
+      expect(comp['trialMemberApprovalMessage']).toBe('Trial member was approved');
     });
 
-    // it('Should post to the backend to approve or disapprove a trial member', () => {
-    //   const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-    //   const getUrl = () => `${baseUrl}api/v1.0.0/finder/pin/tryagroup/${pin.gathering.groupId}/${mockParams.approved}/${mockParams.trialMemberId}`;
-    //
-    //   // Approved:
-    //   mockParams = {approved: 'true', trialMember: '6789'};
-    //   spyOn(ActivatedRoute, 'snapshot.paramMap').and.callFake(getMockParams)
-    //   mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
-    //   comp.approveOrDisapproveTrialMember();
-    //   $httpBackend.expectPost(getUrl());
-    //   $httpBackend.flush();
-    //   expect(comp.trialMemberApprovalMessage).toEqual('Trial member was approved');
-    //
-    //   // Disapproved:
-    //   mockParams.approved = 'false';
-    //   mockBackend = $httpBackend.when('POST', getUrl()).respond(200);
-    //   comp.approveOrDisapproveTrialMember();
-    //   $httpBackend.expectPost(getUrl());
-    //   $httpBackend.flush();
-    //   expect(comp.trialMemberApprovalMessage).toEqual('Trial member was disapproved');
-    // });
+    it('test approveOrDisapproveTrialMember success approve = false', () => {
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
 
-    // it('Should handle http errors', () => {
-    //   mockBackend.respond(404);
-    //   comp.approveOrDisapproveTrialMember();
-    //   expect(comp.trialMemberApprovalMessage).toEqual('Error approving trial member');
-    //   expect(comp.trialMemberApprovalError).toEqual(true);
-    //   $httpBackend.flush();  // I'm not completely sure if this is needed.
-    // });
+      comp['route'].snapshot.params['approved'] = 'false';
+      comp.ngOnInit();
+      expect(comp['trialMemberApprovalMessage']).toBe('Trial member was disapproved');
+    });
+
+    it('test approveOrDisapproveTrialMember failure', () => {
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.throw({status: 404}));
+
+      comp.ngOnInit();
+      expect(comp['trialMemberApprovalMessage']).toBe('Error approving trial member');
+      expect(comp['trialMemberApprovalError']).toEqual(true);
+    });
+
+    it('test approveOrDisapproveTrialMember post not called', () => {
+      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
+
+      comp['route'].snapshot.params['approved'] = undefined;
+      comp['route'].snapshot.params['trialMemberId'] = undefined;
+      comp.ngOnInit();
+      expect(comp['trialMemberApprovalMessage']).toEqual(undefined);
+      expect(comp['session'].post).not.toHaveBeenCalled();
+    });
+
   });
 });
