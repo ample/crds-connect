@@ -24,6 +24,7 @@ export class StateService {
   public hasPageHeader: boolean = false;
   public is_loading: boolean = false;
   public isFilterDialogOpen: boolean = false;
+  public isFilterActive: boolean = false;
   public lastSearch: SearchOptions;
   private lastSearchResults: PinSearchResultsDto;
   public myStuffActive: boolean = false;
