@@ -37,8 +37,8 @@ export class CreateGroupPage5Component implements OnInit {
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.groupDetailsForm = this.fb.group({
-      groupName: [this.createGroupService.group.groupName, Validators.required],
-      groupDescription: [this.createGroupService.group.groupDescription, Validators.required],
+      groupName: [this.createGroupService.group.groupName, [Validators.required, Validators.maxLength(35)]],
+      groupDescription: [this.createGroupService.group.groupDescription, [Validators.required, Validators.maxLength(500)]],
       availableOnline: [this.createGroupService.group.availableOnline, Validators.required]
     });
 
