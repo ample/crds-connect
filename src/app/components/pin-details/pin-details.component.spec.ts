@@ -35,21 +35,7 @@ fdescribe('PinDetailsComponent', () => {
     mockPlatformLocation = jasmine.createSpyObj<PlatformLocation>('location', ['reload']);
     mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin']);
-
-    mockActivatedRoute = {
-      snapshot: {
-        data: { pin: pin, user: {} },
-        paramMap: { get: jasmine.createSpy('mockParams')}
-      }
-    };
-
-    // route = new ActivatedRoute();
-    // route.snapshot = new ActivatedRouteSnapshot();
-    // route.snapshot.params = { approved: 'true', trialMemberId: '123'  };
-    // route.snapshot.data =  { pin: pin, user: {} };
-
-
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin', 'setEditedGatheringPin', 'getEditedGatheringPin']);
     TestBed.configureTestingModule({
       declarations: [
         PinDetailsComponent,

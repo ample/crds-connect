@@ -12,6 +12,7 @@ import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
@@ -57,6 +58,7 @@ export class GatheringComponent implements OnInit {
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
+    private createGroupService: CreateGroupService,
     private state: StateService,
     private participantService: ParticipantService,
     private toast: ToastsManager,
@@ -151,6 +153,9 @@ export class GatheringComponent implements OnInit {
 
   public onEditGroupClicked(groupId: number): void {
     this.state.setLoading(true);
+    this.createGroupService.clearPresetDataFlagsOnGroupEdit();
+    this.createGroupService.groupBeingEdited = null;
+    this.createGroupService.reset();
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
