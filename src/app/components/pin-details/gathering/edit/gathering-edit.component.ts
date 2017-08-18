@@ -99,6 +99,7 @@ export class GatheringEditComponent implements OnInit {
                 this.pin = pin;
                 this.state.navigatedFromAddToMapComponent = true;
                 this.state.postedPin = pin;
+                this.pinService.setEditedGatheringPin(pin);
                 this.state.setLastSearch(null);
                 this.router.navigate(['/gathering', this.pin.gathering.groupId]);
             },

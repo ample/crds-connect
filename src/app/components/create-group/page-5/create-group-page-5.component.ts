@@ -9,8 +9,6 @@ import { CreateGroupService } from '../create-group-data.service';
 import {  GroupPaths, groupPaths, GroupPageNumber,
           textConstants  } from '../../../shared/constants';
 
-
-
 @Component({
     selector: 'create-group-page-5',
     templateUrl: './create-group-page-5.component.html',
@@ -21,7 +19,6 @@ export class CreateGroupPage5Component implements OnInit {
 
   private isComponentReady: boolean = false;
   private isSubmitted: boolean = false;
-  private groupVisibilityInvalid: boolean = true;
 
   constructor(private fb: FormBuilder,
     private groupService: GroupService,
@@ -40,15 +37,15 @@ export class CreateGroupPage5Component implements OnInit {
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.groupDetailsForm = this.fb.group({
-      groupName: [this.createGroupService.group.groupName, Validators.required],
-      groupDescription: [this.createGroupService.group.groupDescription, Validators.required],
-      availableOnline: [this.createGroupService.group.availableOnline]
+      groupName: [this.createGroupService.group.groupName, [Validators.required, Validators.maxLength(35)]],
+      groupDescription: [this.createGroupService.group.groupDescription, [Validators.required, Validators.maxLength(500)]],
+      availableOnline: [this.createGroupService.group.availableOnline, Validators.required]
     });
+
     this.state.setLoading(false);
   }
 
-  public setGroupPrivacy(value: boolean): void {
-    this.groupVisibilityInvalid = false;
+  public onSetGroupPrivacy(value: boolean): void {
     this.createGroupService.group.availableOnline = value;
   }
 
@@ -58,7 +55,6 @@ export class CreateGroupPage5Component implements OnInit {
     if (form.valid && this.createGroupService.group.availableOnline != null) {
       this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
-      this.groupVisibilityInvalid = true;
       this.state.setLoading(false);
     }
   }

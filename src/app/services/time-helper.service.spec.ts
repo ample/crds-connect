@@ -34,7 +34,14 @@ describe('Service: Location', () => {
     expect(testResult5).toEqual(expected5);
     expect(testResult6).toEqual(expected6);
 
+  }));
 
+  it('should return the correct time', inject([TimeHelperService], (service: any) => {
+    let testDateString: string = 'Mon Jan 01    1 17:00:00 GMT-0500 (Eastern Standard Time)';
+    let testResult: string = service.convertTime(testDateString);
+    let expected = '2001-01-01T17:00:00.000Z';
+
+    expect(testResult).toEqual(expected);
   }));
 
 

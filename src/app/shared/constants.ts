@@ -235,6 +235,7 @@ export class LeaderStatus {
 }
 
 export enum GroupRole {
+  TRIAL_MEMBER = 67,
   MEMBER = 16,
   LEADER = 22,
   APPRENTICE = 66,
@@ -286,6 +287,10 @@ export enum UserState {
   LoggedIn_NotOnMap,
   LoggedIn_OnMap,
   NotLoggedIn
+}
+
+export enum HttpStatusCodes {
+  CONFLICT = 409
 }
 
 // The default value for proximity to user's current location when no location data is available

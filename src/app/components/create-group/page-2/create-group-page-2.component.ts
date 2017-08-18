@@ -85,7 +85,7 @@ export class CreateGroupPage2Component implements OnInit {
       });
 
       this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
-          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
+          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false);
   }
 
   public onClick(scheduleType: string): void {
@@ -182,8 +182,13 @@ export class CreateGroupPage2Component implements OnInit {
     } else {
       this.createGroupService.group.meetingFrequencyId =
         +this.createGroupService.groupBeingEdited['meetingFrequencyID'];
+      this.createGroupService.group.meetingFrequency = meetingFrequencies
+        .filter(mf => mf.meetingFrequencyId === +this.createGroupService.groupBeingEdited['meetingFrequencyID'])
+        [0].meetingFrequencyDesc;
+
       this.createGroupService.group.meetingTime =
         this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.groupBeingEdited.meetingTime);
+
       this.createGroupService.group.meetingDay = daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
       this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;
     }

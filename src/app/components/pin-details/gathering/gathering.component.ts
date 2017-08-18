@@ -38,6 +38,8 @@ export class GatheringComponent implements OnInit {
   @Input() isLoggedIn: boolean = false;
   @Input() previewMode: boolean = false;
   @Input() leaders: Participant[] = [];
+  @Input() trialMemberApprovalMessage: string;
+  @Input() trialMemberApprovalError: boolean;
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
@@ -157,12 +159,15 @@ export class GatheringComponent implements OnInit {
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
-  private onContactLeaderClicked(): void {
+  private onTryThisGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
+  }
 
+  private onContactLeaderClicked(): void {
     this.state.setLoading(true);
     let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
-
   }
 
   public getMeetingTime(meetingTimeUtc: string) {

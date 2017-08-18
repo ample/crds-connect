@@ -64,21 +64,19 @@ describe('CreateGroupPage5Component', () => {
     comp.ngOnInit();
     expect(comp.groupDetailsForm.controls['groupName'].valid).toBe(false);
     expect(comp.groupDetailsForm.controls['groupDescription'].valid).toBe(false);
-    expect(comp['groupVisibilityInvalid']).toBe(true);
+    expect(comp.groupDetailsForm.controls['availableOnline'].valid).toBe(false);
   });
 
   it('setGroupPrivacy should set available online to true', () => {
     comp['groupVisabiltityInvalid'] = true;
-    comp['setGroupPrivacy'](true);
+    comp['onSetGroupPrivacy'](true);
     expect(comp['createGroupService'].group.availableOnline).toBe(true);
-    expect(comp['groupVisibilityInvalid']).toBe(false);
   });
 
   it('setGroupPrivacy should set available online to false', () => {
     comp['groupVisabiltityInvalid'] = true;
-    comp['setGroupPrivacy'](false);
+    comp['onSetGroupPrivacy'](false);
     expect(comp['createGroupService'].group.availableOnline).toBe(false);
-    expect(comp['groupVisibilityInvalid']).toBe(false);
   });
 
   it('should submit if form is valid and available online is not null', () => {
@@ -103,7 +101,7 @@ describe('CreateGroupPage5Component', () => {
 
   it('should go back', () => {
     comp.onBack();
-      expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(4, undefined, 0);
+    expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(4, undefined, 0);
   });
 
 });
