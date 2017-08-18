@@ -63,22 +63,17 @@ export class CreateGroupPreviewComponent implements OnInit {
         this.profileService.postProfileData(this.createGroupService.profileData)
       )
         .subscribe((returnData) => {
-          // returnData has 4:00 PM, but this.SmallGroup has big long full date in it
           this.toastr.success('Successfully edited group!');
 
-          // this fixes indexOf error but then have date pipe error in gathering.html
-          // this.smallGroupPin.gathering.meetingTime = this.createGroupService.getTimeFromDate(this.smallGroupPin.gathering.meetingTime);
-
-          // does not fix??
-          // this.smallGroupPin.gathering = returnData[0];
-
+//
+          let dt = new Date(this.smallGroupPin.gathering.meetingTime);
+          let easterTime = new Date(dt.getTime() - (dt.getTimezoneOffset() * 60000)).toISOString();
+          this.smallGroupPin.gathering.meetingTime = easterTime;
+//
 
           this.state.postedPin = this.smallGroupPin;
-
-
           this.state.setIsMyStuffActive(true);
           this.state.setCurrentView(ViewType.LIST);
-          // this.router.navigate(['/']); // extra route??
 
           this.pinService.setEditedSmallGroupPin(this.smallGroupPin);
           this.router.navigate([`/small-group/${group.groupId}`]);
