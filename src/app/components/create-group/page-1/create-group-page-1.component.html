@@ -20,7 +20,7 @@
         <p>{{category.desc}}</p>
       </div>
 
-      <div *ngIf="category.selected" class="form-group border-left border-left-3 push-left">
+      <div *ngIf="category.selected" class="form-group border-left border-width-3 push-left">
         <div class="push-half-left">
           <label class="sr-only" for="{{category.name}}-detail">{{category.name}}-detail</label>
           <input class="form-control" name="{{category.name}}-detail" formControlName="{{category.name}}-detail" placeholder="{{category.exampleText}}" type="text" maxlength="25" value="{{category.categoryDetail}}" id="{{category.name}}-detail" [(ngModel)]="category.categoryDetail" required>
