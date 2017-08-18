@@ -32,7 +32,7 @@ export class TimeHelperService {
     return adjustedUtcString;
   }
 
-  public convertTime(fullTime): string {
+  public convertTime(fullTime: string): string {
     let dt = new Date(fullTime);
     return new Date(dt.getTime() - (dt.getTimezoneOffset() * 60000)).toISOString();
   }
