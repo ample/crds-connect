@@ -87,11 +87,12 @@ export class FiltersComponent implements OnInit {
     this.onlineOrPhysicalGroupComponent.reset();
     this.filterService.resetFilterString();
     this.state.setIsFilterDialogOpen(false);
-    this.onSubmit();
+    this.onSubmit(false);
   }
 
-  public onSubmit(): void {
+  public onSubmit(filterActive = true): void {
     this.location = this.locationFormGroup.controls.location.value;
+    this.state.isFilterActive = filterActive;
     this.applyFilters();
   }
 
