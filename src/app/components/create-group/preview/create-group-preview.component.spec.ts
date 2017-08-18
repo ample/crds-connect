@@ -10,6 +10,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { ProfileService } from '../../../services/profile.service';
 import { GroupService } from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
+import { TimeHelperService } from '../../../services/time-helper.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { ParticipantService } from '../../../services/participant.service';
@@ -29,7 +30,7 @@ describe('CreateGroupPreviewComponent', () => {
     let el;
     let mockCreateGroupService, mockStateService, mockGroupService,
         mockProfileService, mockRouter, mockToastr, mockParticipantService,
-        mockBlandPageService, mockContentService, mockPinService;
+        mockBlandPageService, mockContentService, mockPinService, mockTimeHelperService;
     beforeEach(() => {
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath', 'setActiveGroupPath']);
@@ -45,6 +46,7 @@ describe('CreateGroupPreviewComponent', () => {
         mockCreateGroupService.group = MockTestData.getAGroup();
         mockCreateGroupService.profileData = MockTestData.getProfileData();
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['setEditedSmallGroupPin', 'getEditedSmallGroupPin']);
+        mockTimeHelperService = jasmine.createSpyObj<TimeHelperService>('timeHelperService', ['convertTime']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -61,7 +63,8 @@ describe('CreateGroupPreviewComponent', () => {
                 { provide: ToastsManager, useValue: mockToastr },
                 { provide: ParticipantService, useValue: mockParticipantService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: ContentService, useValue: mockContentService }
+                { provide: ContentService, useValue: mockContentService },
+                { provide: TimeHelperService, useValue: mockTimeHelperService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -75,14 +78,14 @@ describe('CreateGroupPreviewComponent', () => {
         });
     }));
 
-    it('should create an instance', () => {
+   it('should create an instance', () => {
         fixture.detectChanges();
         (mockCreateGroupService.getSmallGroupPinFromGroupData).and.returnValue(MockTestData.getAPin(1, 4, pinType.SMALL_GROUP));
         (mockCreateGroupService.getLeaders).and.returnValue(MockTestData.getAParticipantsArray(1));
         expect(comp).toBeTruthy();
     });
 
-    it('should Init', () => {
+   it('should Init', () => {
         let pin = MockTestData.getAPin(1, 4, pinType.SMALL_GROUP);
         let leaders = MockTestData.getAParticipantsArray(1);
         (mockCreateGroupService.getSmallGroupPinFromGroupData).and.returnValue(pin);
