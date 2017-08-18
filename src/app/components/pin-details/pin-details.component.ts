@@ -12,6 +12,8 @@ import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
 import { User } from '../../models/user';
 
+import { HttpStatusCodes } from '../../shared/constants';
+
 @Component({
   selector: 'app-pin-detail',
   templateUrl: 'pin-details.html'
@@ -82,7 +84,12 @@ export class PinDetailsComponent implements OnInit {
       .subscribe(
         success => this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved',
         failure => {
-          this.trialMemberApprovalMessage = 'Error approving trial member';
+          if(failure.status === HttpStatusCodes.CONFLICT) {
+            this.trialMemberApprovalMessage = 'This member has already been approved or denied';
+          } else {
+            this.trialMemberApprovalMessage = 'Error approving trial member';
+          }
+
           this.trialMemberApprovalError = true;
         }
       );
