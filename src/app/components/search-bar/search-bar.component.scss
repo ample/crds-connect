@@ -1,3 +1,5 @@
+@import '~crds-styles/assets/stylesheets/variables';
+
 ::-ms-clear {
     display: none;
 }
@@ -19,4 +21,8 @@
   @media (min-width: 1200px) {
     width: 750px;
   }
+}
+
+.searchbar .addon-btn button.active {
+  color: $cr-teal;
 }
