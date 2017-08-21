@@ -116,6 +116,9 @@ export class CreateGroupPage3Component implements OnInit {
   public onSubmit(form: FormGroup): void {
     this.isSubmitted = true;
     if (form.valid) {
+      if (this.createGroupService.group.isVirtualGroup) {
+        this.createGroupService.group.address = Address.overload_Constructor_One();
+      }
       this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     }
   }
