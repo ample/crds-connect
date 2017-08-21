@@ -12,11 +12,43 @@ export class AwsMeetingTimeSearchStrings {
   }
 }
 
+export enum GroupPageNumber {
+  ONE = 1,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+  SIX
+}
+
+export class GroupPaths {
+    ADD: string;
+    EDIT: string;
+
+    constructor() {
+        this.ADD = 'create-group';
+        this.EDIT = 'edit-group';
+    }
+}
+
+export const groupPaths = new GroupPaths();
+
+export class GroupPageHeaders {
+  ADD: string;
+  EDIT: string;
+
+  constructor() {
+    this.ADD = 'start a group';
+    this.EDIT = 'edit my group';
+  }
+}
+
 export class TextConstants {
   MY_GROUPS: string;
   MY_CONNECTIONS: string;
   ONLINE_GROUP: string;
   INVALID_OR_MISSING_ADDRESS: string;
+  GROUP_PAGE_HEADERS: GroupPageHeaders;
 
 
   constructor() {
@@ -24,6 +56,7 @@ export class TextConstants {
     this.MY_CONNECTIONS = 'My connections';
     this.ONLINE_GROUP = 'Online Group';
     this.INVALID_OR_MISSING_ADDRESS = 'Invalid or Missing Address';
+    this.GROUP_PAGE_HEADERS = new GroupPageHeaders();
   }
 }
 
@@ -68,7 +101,7 @@ export class GroupMeetingScheduleType {
   }
 }
 
-export class DaysOfWeek{
+export class DaysOfWeek {
   public MONDAY: string;
   public TUESDAY: string;
   public WEDNESDAY: string;
@@ -88,28 +121,35 @@ export class DaysOfWeek{
   }
 }
 
+export const daysOfWeekList: string[] = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
 export const daysOfWeek = new DaysOfWeek();
 
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '0001-01-01T17:00:00.000Z';
+export const defaultGroupMeetingTimePrefix: string = '0001-01-01T';
+export const defaultGroupMeetingTimeSuffix: string = '.000Z';
+
 
 export class AttributeTypes {
   AgeRangeAttributeTypeId: number;
   GroupGenderMixTypeAttributeId: number;
   GroupCategoryAttributeTypeId: number;
+  MiddleSchoolAgeRangeAttributeId: number;
+  HighSchoolAgeRangeAttributeId: number;
 
   constructor() {
     this.AgeRangeAttributeTypeId = 91;
     this.GroupGenderMixTypeAttributeId = 73;
     this.GroupCategoryAttributeTypeId = 90;
+    this.MiddleSchoolAgeRangeAttributeId = 7089;
+    this.HighSchoolAgeRangeAttributeId= 7090;
   }
 }
 
 export const attributeTypes: any = new AttributeTypes();
 
-export const MiddleSchoolAgeRangeAttributeId: number = 7089;
-export const HighSchoolAgeRangeAttributeId: number = 7090;
 export const SpiritualGrowthCongregationId: number = 8;
 export const SmallGroupTypeId: number = 1;
 
@@ -144,6 +184,12 @@ export class AppType {
     this.Connect = 'CONNECT';
     this.Groups = 'SMALL_GROUPS';
   }
+}
+
+// View Types:
+export enum ViewType {
+  MAP = 1,
+  LIST = 2
 }
 
 export const appType: AppType = new AppType();
@@ -189,6 +235,7 @@ export class LeaderStatus {
 }
 
 export enum GroupRole {
+  TRIAL_MEMBER = 67,
   MEMBER = 16,
   LEADER = 22,
   APPRENTICE = 66,
@@ -203,8 +250,7 @@ export const maxZoom: number = 15;          // The maximum zoom before zoomAdjus
 export const pinTargetGroups: number = 1;   // The target number of pins for group app; used when calculating the best zoom
 export const pinTargetConnect: number = 10; // The target number of pins for connect app; used when calculating the best zoom
 
-export class MeetingFrequencyNames
-{
+export class MeetingFrequencyNames {
   WEEKLY: string;
   BI_WEEKLY: string;
   MONTHLY: string;
@@ -241,6 +287,10 @@ export enum UserState {
   LoggedIn_NotOnMap,
   LoggedIn_OnMap,
   NotLoggedIn
+}
+
+export enum HttpStatusCodes {
+  CONFLICT = 409
 }
 
 // The default value for proximity to user's current location when no location data is available

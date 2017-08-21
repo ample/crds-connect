@@ -3,7 +3,6 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
@@ -21,7 +20,7 @@ import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { SearchOptions } from '../../models/search-options';
 
-import { initialMapZoom } from '../../shared/constants';
+import { initialMapZoom, ViewType } from '../../shared/constants';
 
 @Component({
   selector: 'app-neighbors',
@@ -31,7 +30,6 @@ import { initialMapZoom } from '../../shared/constants';
 export class NeighborsComponent implements OnInit, OnDestroy {
   public isMyStuffSearch: boolean = false;
   public isMapHidden: boolean = false;
-  public mapViewActive: boolean = true;
   public pinSearchResults: PinSearchResultsDto;
   private pinSearchSub: Subscription;
 
@@ -43,7 +41,6 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private filterService: FilterService,
     private blandPageService: BlandPageService) { }
 
   public ngOnDestroy(): void {
@@ -53,24 +50,22 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-
     this.subscribeToListenForSearchRequests();
-    this.setViewToMapOrList(this.state.getCurrentView());
     this.runInitialPinSearch();
-
   }
 
-  private setViewToMapOrList(mapOrListView): void {
-    this.mapViewActive = mapOrListView === 'map';
+  private isMapViewSet(): boolean {
+    return this.state.getCurrentView() === ViewType.MAP;
   }
 
-  viewChanged(isMapViewActive: boolean) {
-    this.mapViewActive = isMapViewActive;
-    if (!isMapViewActive) {
+  private viewChanged(): void {
+    if (this.isMapViewSet()) {
+      this.state.setCurrentView(ViewType.LIST);
       let location: MapView = this.state.getMapView();
       let coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
-      this.pinSearchResults.pinSearchResults =
-        this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
+      this.pinSearchResults.pinSearchResults = this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
+    } else {
+      this.state.setCurrentView(ViewType.MAP);
     }
   }
 
@@ -91,7 +86,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.state.setLoading(false);
 
-    if (this.mapViewActive) {
+    if (this.isMapViewSet()) {
       this.mapHlpr.emitRefreshMap(this.pinSearchResults.centerLocation);
     }
 
@@ -105,19 +100,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.navigateAwayIfNecessary(searchLocationString, searchKeywordString, lat, lng, filterString);
   }
+
   private navigateAwayIfNecessary(searchLocationString: string, searchKeywordString: string, lat: number, lng: number, filterString: string): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
-    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isConnectApp()) {
+    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my') {
       this.state.setLoading(false);
       this.state.setMyViewOrWorldView('world');
-      this.router.navigate(['add-me-to-the-map']);
-      this.state.myStuffActive = false;
-    } else if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'my' && this.appSettings.isSmallGroupApp()) {
-      this.state.setLoading(false);
-      this.state.setMyViewOrWorldView('world');
-      this.router.navigate(['stuff-not-found']);
+      this.appSettings.routeToNotFoundPage();
       this.state.myStuffActive = false;
     } else {
       this.state.setLastSearch(new SearchOptions(searchKeywordString, filterString, searchLocationString));
@@ -141,7 +132,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         if (this.state.lastSearch) {
           this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
         } else {
-          this.state.lastSearch = new SearchOptions('','','');
+          this.state.lastSearch = new SearchOptions('', '', '');
         };
       },
       error => {
@@ -156,11 +147,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         } else {
           this.goToErrorPage();
         }
-      });
+      }
+    );
   }
 
-  private goToErrorPage() {
-    let errorText = 'Oops, looks like there was a problem. Please try again.';
+  private goToErrorPage(): void {
+    let errorText = `<h1 class="title soft-half-bottom">Oops</h1><div class="font-size-small font-family-base-light"><p>It looks like there was a problem. Please try again.</p></div>`;
 
     this.blandPageService.primeAndGo(
         new BlandPageDetails(
@@ -172,17 +164,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         )
     );
   }
-  private goToNoResultsPage() {
-    this.mapViewActive ? this.state.setCurrentView('map') : this.state.setCurrentView('list');
+
+  private goToNoResultsPage(): void {
     this.router.navigateByUrl('/no-results');
   }
 
   private subscribeToListenForSearchRequests(): void {
-
     this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
       this.doSearch(srchParams);
     });
-
   }
 
   private runInitialPinSearch(): void {

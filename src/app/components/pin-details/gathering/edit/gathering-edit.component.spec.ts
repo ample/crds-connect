@@ -39,7 +39,7 @@ describe('GatheringEditComponent', () => {
         mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setLastSearch']);
         mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['updateGathering']);
+        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['updateGathering', 'setEditedGatheringPin']);
         mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress', 'clearCache']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         TestBed.configureTestingModule({

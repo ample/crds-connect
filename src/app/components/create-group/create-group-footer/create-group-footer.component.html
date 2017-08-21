@@ -7,23 +7,25 @@
   <input class="center-block btn btn-link btn-gray" (click)="OnCancel()" type="button" value="Cancel">
 </div>
 
-<div bsModal #cancelModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-  [config]="{backdrop: 'static'}">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Cancel and lose all changes?</h4>
-        <button type="button" class="close pull-right" (click)="hideCancelModal()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div *ngIf="showFauxdal" class="fauxdal-wrapper">
+  <div class="fauxdal fauxdal-center">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="cancelDeclined()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
       </div>
-
-      <div class="modal-body">
-        <div>
-          Select Yes to proceed and lose current changes. Select No to abort?
-          <button type="button" class="btn btn-primary" (click)="cancelConfirmed()">Yes</button>
-          <button type="button" class="btn btn-primary" (click)="cancelDeclined()">No</button>
-        </div>
+      <br>
+      <div class="fauxdal-content">
+        <h1 class="title soft-half-bottom">Are you sure you want to cancel?</h1>
+        <div class="font-size-small font-size-base-light text-center">By canceling, all changes will be lost. Select yes to proceed or no to continue working on your group.</div>
+        <br>
+        <footer class="page-footer">
+          <button type="button" class="btn btn-secondary btn-block-mobile" (click)="cancelConfirmed()">Yes</button>
+          <button type="button" class="btn btn-default btn-outline btn-block-mobile" (click)="cancelDeclined()">No</button>
+        </footer>
       </div>
     </div>
   </div>

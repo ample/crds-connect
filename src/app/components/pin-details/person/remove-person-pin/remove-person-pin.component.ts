@@ -2,7 +2,6 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, Input } from '@angular/core'
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
-
 import { StateService } from '../../../../services/state.service';
 import { SessionService } from '../../../../services/session.service';
 
@@ -12,7 +11,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 import { BlandPageService } from '../../../../services/bland-page.service';
 
-import {PinsShown, pinsShown } from '../../../../shared/constants';
+import {PinsShown, pinsShown, ViewType } from '../../../../shared/constants';
 
 @Component({
   selector: 'remove-person-pin',
@@ -70,7 +69,7 @@ export class RemovePersonPinComponent implements OnInit {
         let viewToReturnTo: string = this.determineStateToReturnTo(countOfItemsInLastSearch, this.state.getMyViewOrWorldView());
         this.turnOffMyStuffIfReturningToWorldView(viewToReturnTo);
         this.state.setMyViewOrWorldView(viewToReturnTo);
-        this.state.setCurrentView('map');
+        this.state.setCurrentView(ViewType.MAP);
         this.state.setLastSearch(null);
         let bpd = new BlandPageDetails(
           'Return to map',

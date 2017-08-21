@@ -16,6 +16,8 @@ import { UserLocationService } from '../../services/user-location.service';
 import { MapFooterComponent } from './map-footer.component';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 
+import { ViewType } from '../../shared/constants';
+
 describe('MapFooterComponent', () => {
     class StateStub {
         setCurrentView = jasmine.createSpy('setCurrentView');
@@ -90,7 +92,7 @@ describe('MapFooterComponent', () => {
         expect(mockAnalytics.myConnections).toHaveBeenCalled();
         expect(mockPinService.clearPinCache).toHaveBeenCalledTimes(1);
         expect(mockState.setLoading).toHaveBeenCalledTimes(1);
-        expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
+        expect(mockState.setCurrentView).toHaveBeenCalledWith(ViewType.MAP);
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('my');
         expect(mockState.setIsMyStuffActive).toHaveBeenCalledWith(true);
         expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
@@ -116,7 +118,7 @@ describe('MapFooterComponent', () => {
         expect(mockState.setIsMyStuffActive).toHaveBeenCalledWith(false);
         expect(mockState.lastSearch.search).toBe('');
         expect(mockState.setLoading).toHaveBeenCalledWith(true);
-        expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
+        expect(mockState.setCurrentView).toHaveBeenCalledWith(ViewType.MAP);
         expect(mockState.setMyViewOrWorldView).toHaveBeenCalledWith('world');
         expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(new PinSearchRequestParams(null, null, null));
     });
@@ -132,7 +134,7 @@ describe('MapFooterComponent', () => {
     it('should set state and go to getting started when gettingStartedBtnClicked', () => {
         (mockAppSettings.isConnectApp).and.returnValue(true);
         comp.gettingStartedBtnClicked();
-        expect(mockState.setCurrentView).toHaveBeenCalledWith('map');
+        expect(mockState.setCurrentView).toHaveBeenCalledWith(ViewType.MAP);
         expect(mockBlandPageService.goToGettingStarted).toHaveBeenCalledTimes(1);
     });
 

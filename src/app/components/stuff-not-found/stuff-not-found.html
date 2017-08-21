@@ -1,5 +1,25 @@
-<div class="connect-layout-container connect-container">
-  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>
-  <button class="btn btn-primary btn-block-mobile" routerLink="/getting-started">Getting Started</button>
-  <button class="btn btn-default btn-outline btn-block-mobile" routerLink="/">Find a group</button>
+<!-- isApprovedLeader or not - change style and order of buttons -->
+<div *ngIf="!isConnectApp && !isApprovedLeader"class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>   
+  <button class="btn btn-primary btn-block-mobile" id="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>  
+  <button class="btn btn-default btn-outline btn-block-mobile" id="startGroupBtn" routerLink="/create-group">Start a group</button>
 </div>
+
+<!-- isApprovedLeader or not - change style and order of buttons -->
+<div *ngIf="!isConnectApp && isApprovedLeader" class="connect-layout-container connect-container">
+  <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block>   
+  <button class="btn btn-primary btn-block-mobile" id="startGroupBtn" routerLink="/create-group">Start a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" id="findGroupBtn" (click)="onFindAGroupClicked()">Find a group</button>
+  <button class="btn btn-default btn-outline btn-block-mobile" id="groupResourcesBtn" (click)="onGroupResourcesClicked()">Group resources</button>
+</div>
+
+<!-- BUTTONS FOR CONNECT APP ONLY -->
+<div *ngIf = "isConnectApp" class="connect-layout-container connect-container">
+    <crds-content-block id="{{appSettings.myStuffNotFoundContent}}"></crds-content-block> 
+    <button class="btn btn-primary btn-block-mobile" id="addMeToMapBtn" (click)="onAddMeToMapClicked()">Add me to the map</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" id="signUpHostBtn" routerLink="/host-signup">Sign up to Host</button>
+    <button class="btn btn-default btn-outline btn-block-mobile" id="whatsHostBtn" routerLink="/whats-a-host">What's a Host</button>
+</div> 
+
+
+    

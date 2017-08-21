@@ -12,6 +12,7 @@ import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
+import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
@@ -31,13 +32,14 @@ import * as moment from 'moment';
   templateUrl: 'gathering.html'
 })
 export class GatheringComponent implements OnInit {
-
   @Input() pin: Pin;
   @Input() user: Pin;
   @Input() isPinOwner: boolean = false;
   @Input() isLoggedIn: boolean = false;
   @Input() previewMode: boolean = false;
   @Input() leaders: Participant[] = [];
+  @Input() trialMemberApprovalMessage: string;
+  @Input() trialMemberApprovalError: boolean;
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
@@ -56,6 +58,7 @@ export class GatheringComponent implements OnInit {
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
+    private createGroupService: CreateGroupService,
     private state: StateService,
     private participantService: ParticipantService,
     private toast: ToastsManager,
@@ -67,7 +70,6 @@ export class GatheringComponent implements OnInit {
     public appSettingsService: AppSettingsService) { }
 
   // ONINIT is doing WAY too much, needs to be simplified and broken up.
-
   public ngOnInit() {
     if (!this.previewMode) {
       window.scrollTo(0, 0);
@@ -130,16 +132,42 @@ export class GatheringComponent implements OnInit {
     } else {
       this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, false);
       this.descriptionToDisplay = this.getDescriptionDisplayText();
+      this.doDisplayFullDesc = this.displayFullDesc();
       this.ready = true;
     }
   }
 
-  private onContactLeaderClicked(): void {
+  public getProximityString(): string {
+    if (this.isOnlineGroup()) {
+      return '(ONLINE GROUP)';
+    } else if (this.pin.proximity) {
+      return `(${this.pin.proximity.toFixed(1)} MI)`;
+    } else {
+      return '';
+    }
+  }
 
+  public isOnlineGroup(): boolean {
+    return this.pin.gathering.isVirtualGroup;
+  }
+
+  public onEditGroupClicked(groupId: number): void {
+    this.state.setLoading(true);
+    this.createGroupService.clearPresetDataFlagsOnGroupEdit();
+    this.createGroupService.groupBeingEdited = null;
+    this.createGroupService.reset();
+    this.router.navigate([`edit-group/${groupId}/page-1`]);
+  }
+
+  private onTryThisGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
+  }
+
+  private onContactLeaderClicked(): void {
     this.state.setLoading(true);
     let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
-
   }
 
   public getMeetingTime(meetingTimeUtc: string) {
@@ -188,7 +216,7 @@ export class GatheringComponent implements OnInit {
           } else {
             this.toast.error(this.content.getContent('generalError'));
           }
-          // If we're at the signin or register page, come back to the gathering details. 
+          // If we're at the signin or register page, come back to the gathering details.
           if (!this.router.url.includes('gathering')) {
             this.loginRedirectService.redirectToTarget();
           }
