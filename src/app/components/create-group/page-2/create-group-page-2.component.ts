@@ -62,8 +62,6 @@ export class CreateGroupPage2Component implements OnInit {
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
-    this.state.setPageHeader(pageHeader, '/create-group/page-1');
-
     this.meetingTimeForm = this.initializeGroupMeetingScheduleForm();
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
