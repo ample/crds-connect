@@ -156,7 +156,7 @@ export class GatheringComponent implements OnInit {
   }
 
   public isPublicGroup(): boolean {
-    return this.pin.gathering.address !== undefined;
+    return this.pin.gathering.availableOnline;
   }
 
   public onEditGroupClicked(groupId: number): void {
