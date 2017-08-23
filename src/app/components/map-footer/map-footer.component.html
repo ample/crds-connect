@@ -1,9 +1,11 @@
 <input type="button"
        class="btn btn-link flush text-white"
+       id="getStartedBtn"
        value="Get started"
        (click)="gettingStartedBtnClicked()">
 <div class="pipe"></div>
 <input type="button"
+       id="myStuffBtn"
        class="btn btn-link flush text-white"
        value="{{appSettings.myStuffName}}"
        [ngClass]="{'active': state.myStuffActive }"
