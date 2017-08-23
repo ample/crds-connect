@@ -34,7 +34,7 @@ describe('ParticipantService', () => {
             spyOn(participantService, 'getParticipants').and.returnValue(Observable.of(MockTestData.getAParticipantsArray()));
             participantService.getGroupParticipant(32, 1).subscribe(result => {
                 expect(result.groupParticipantId).toBe(1);
-                expect(participantService.getParticipants).toHaveBeenCalledWith(32);
+                expect(participantService.getParticipants).toHaveBeenCalledWith(32, false);
             });
         }));
 
@@ -276,7 +276,7 @@ describe('ParticipantService', () => {
                 service['cacheLevel'] = CacheLevel.Partial;
                 expect(service['cache'].find(g => g.groupId == cache[5].groupId)).not.toBeUndefined();
 
-                service.getParticipants(cache[5].groupId).subscribe(res => {
+                service.getParticipants(cache[5].groupId, false).subscribe(res => {
                     result = res;
                 });
 
@@ -301,7 +301,7 @@ describe('ParticipantService', () => {
                 service['userIdentifier'] = userId;
                 service['cacheLevel'] = CacheLevel.Partial;
 
-                service.getParticipants(cache[5].groupId).subscribe(res => {
+                service.getParticipants(cache[5].groupId, false).subscribe(res => {
                     result = res;
                 });
 
@@ -327,7 +327,7 @@ describe('ParticipantService', () => {
                 service['cacheLevel'] = CacheLevel.Partial;
                 expect(service['cache'].length).toBe(10);
 
-                service.getParticipants(333).subscribe(res => {
+                service.getParticipants(333, false).subscribe(res => {
                     result = res;
                 });
 
