@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+// import { Router, ActivatedRoute } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
+
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
@@ -13,12 +17,13 @@ import { HttpStatusCodes } from '../../../shared/constants';
 export class TryGroupRequestConfirmationComponent implements OnInit {
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private groupId: string;
-  private errorMessage: string;
 
   constructor(private sessionService: SessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private state: StateService
+    private state: StateService,
+    private toast: ToastsManager,
+    private content: ContentService
   ) {}
 
   ngOnInit() {
@@ -39,15 +44,15 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
     this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
     .subscribe(
       success => {
-        this.router.navigate([`/try-group-request-success/${this.groupId}`]);
-        this.errorMessage = undefined;
+        this.router.navigate([`/small-group/${this.groupId}`]);
+        this.toast.success(this.content.getContent('tryGroupRequestSuccess'));
         this.state.setLoading(false);
       },
       failure => {
         if(failure.status === HttpStatusCodes.CONFLICT) {
-          this.errorMessage = 'tryGroupRequestAlreadyRequestedFailureMessage';
+          this.toast.error(this.content.getContent('tryGroupRequestAlreadyRequestedFailureMessage'));
         } else {
-          this.errorMessage = 'tryGroupRequestGeneralFailureMessage';
+          this.toast.error(this.content.getContent('tryGroupRequestGeneralFailureMessage'));
         }
         this.state.setLoading(false);
       }
