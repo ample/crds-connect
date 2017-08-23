@@ -15,7 +15,7 @@
 
         <span class="addon-btn">
           <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen">
-            <svg class="icon icon-1" viewBox="0 0 256 256">
+            <svg class="icon icon-1" id="resetSearchInputBtn" viewBox="0 0 256 256">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#close-thin"></use>
             </svg>
           </button>
@@ -23,14 +23,14 @@
 
         <span class="addon-btn" *ngIf="appSettings.isSmallGroupApp()">
           <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
-            <svg class="icon icon-1" viewBox="0 0 256 256">
+            <svg class="icon icon-1" id="filterDialogBtn" viewBox="0 0 256 256">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
             </svg>
           </button>
         </span>
 
         <span class="input-group-btn">
-          <button type="submit" class="btn btn-secondary" (click)="onSearch(state.searchBarText)" [disabled]="state.isFilterDialogOpen">
+          <button type="submit" class="btn btn-secondary" id="searchBtn" (click)="onSearch(state.searchBarText)" [disabled]="state.isFilterDialogOpen">
             <svg class="icon icon-1" viewBox="0 0 256 256">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#search"></use>
             </svg>
@@ -38,7 +38,7 @@
         </span>
       </div>
 
-      <button type="button" class="btn btn-toggle btn-link text-white" (click)="toggleView()">{{state.viewButtonText}}</button>
+      <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">{{state.viewButtonText}}</button>
     </form>
   </div>
 </div>
