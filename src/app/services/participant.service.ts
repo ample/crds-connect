@@ -36,7 +36,7 @@ export class ParticipantService extends CacheableService<Group[]> {
 
     public getGroupParticipant(groupId: number, groupParticipantId: number): Observable<Participant> {
         let participant: Participant;
-        return this.getParticipants(groupId).map(participants => {
+        return this.getParticipants(groupId, false).map(participants => {
             participant = participants.find(gp => {
                 return gp.groupParticipantId === groupParticipantId;
             });
@@ -49,9 +49,9 @@ export class ParticipantService extends CacheableService<Group[]> {
         });
     }
 
-    public getParticipants(groupId: number): Observable<Participant[]> {
+    public getParticipants(groupId: number, forceRefresh: boolean): Observable<Participant[]> {
         let contactId = this.session.getContactId();
-        if (super.isCachedForUser(contactId)) {
+        if (super.isCachedForUser(contactId) && !forceRefresh) {
             let groupParticipantCache = super.getCache();
 
             let group = groupParticipantCache.find(g => {
@@ -143,7 +143,7 @@ export class ParticipantService extends CacheableService<Group[]> {
     }
 
     private getUserRoleInGroup(groupId: number, contactId: number): Observable<GroupRole> {
-        return this.getParticipants(groupId).map((participants) => {
+        return this.getParticipants(groupId, false).map((participants) => {
             if (participants !== undefined) {
                 let participant = participants.find(p => {
                     return p.contactId === contactId;
@@ -162,7 +162,7 @@ export class ParticipantService extends CacheableService<Group[]> {
     }
 
     public getAllParticipantsOfRoleInGroup(groupId: number, groupRole: number): Observable<Participant[]> {
-        return this.getParticipants(groupId).map((participants) => {
+        return this.getParticipants(groupId, false).map((participants) => {
             let participantsOfRole: Participant[] = [];
             if (participants !== undefined) {
                 participants.forEach((participant) => {
