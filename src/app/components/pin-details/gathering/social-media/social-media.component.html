@@ -1,7 +1,7 @@
 <span>
     <ul class="list-inline push-top">
       <li>
-        <a href="https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&redirect_uri=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer">
+        <a href="http://www.facebook.com/sharer.php?u={{getURL()}}">
           <svg class="icon icon-2" viewBox="0 0 256 256">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#facebook"></use>
           </svg>
@@ -15,19 +15,11 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a ngxClipboard (click) = "copyURL(getURL())" [cbContent]="getURL()">
           <svg class="icon icon-2" viewBox="0 0 256 256">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#link"></use>
           </svg>
         </a>
-      </li>
-      <li>
-        <a href="http://www.facebook.com/sharer.php?u=http://www.google.com">
-            Share This Link on Facebook</a>
-      </li>
-      <li>
-        <a href="http://twitter.com/share?text=Check%20Out%20this%20awesome%20group%20I%20joined. &url={{getURL()}}">
-            Share This on Twitter</a>
       </li>
     </ul>
   </span>

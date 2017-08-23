@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'social-media',
@@ -7,9 +8,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SocialMediaComponent  {
 
-  constructor() { }
+  constructor(private toast: ToastsManager) { }
 
   public getURL(): string {
     return window.location.href;
+  }
+
+  public copyURL(url: string): void {
+    this.displayCopiedToClipboardToast(url);
+  }
+
+  public displayCopiedToClipboardToast(url: string): void {
+    let toastMsg: string = `${url} copied to clipboard!`;
+    this.toast.success(toastMsg);
   }
 }
