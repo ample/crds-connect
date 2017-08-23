@@ -5,6 +5,8 @@ import { Pin } from '../models/pin';
 
 import * as moment from 'moment';
 
+import { defaultGroupMeetingTimePrefix, defaultGroupMeetingTimeSuffix } from '../shared/constants';
+
 const msInMinute: number = 60000;
 const minutesAddedInexplicably: number = 3;
 
@@ -30,6 +32,11 @@ export class TimeHelperService {
     return adjustedUtcString;
   }
 
+  public convertTime(fullTime: string): string {
+    let dt = new Date(fullTime);
+    return new Date(dt.getTime() - (dt.getTimezoneOffset() * 60000)).toISOString();
+  }
+
   public getLocalTimeFromUtcStringOrDefault(meetingTimeUtc: string, doUseThreeMinHack: boolean): Date {
 
     let meetingTimeAsDate: Date = new Date();
@@ -44,7 +51,29 @@ export class TimeHelperService {
     }
 
     return meetingTimeAsDate;
+  }
 
+  public setTimeToCorrectFormatAndAdjustForLocal(timeOnlyPortion: string): string {
+    let utcDateTime: string = this.addDatePortionPlaceholderToMilitarytime(timeOnlyPortion);
+    let timeZoneAdjustedUtcTimeDate: string = this.adjustUtcStringToAccountForLocalOffSet(utcDateTime, false);
+    return timeZoneAdjustedUtcTimeDate;
+  }
+
+  /*
+  * This is a hack to fix time preview being returned as the actual time in the model + 3 minutes
+  * Note that this is, and should, only be used in a function generating data for the view (not saved)
+  * Was tested with edge times like 6:02PM - somehow that time does NOT incorrectly get pushed to 5:59
+  * ¯\_(ツ)_/¯
+  */
+  public hackTime(utcDate: string): Date {
+    let timeAsDate: any = new Date(utcDate);
+    let meetingTime: Date = new Date(timeAsDate - (minutesAddedInexplicably * msInMinute));
+    return meetingTime;
+  }
+
+  private addDatePortionPlaceholderToMilitarytime(timeOnly: string): string {
+    let utcDateString: string = defaultGroupMeetingTimePrefix + timeOnly + defaultGroupMeetingTimeSuffix;
+    return utcDateString;
   }
 
   private adjustHourSegmentForOffset(hours: number, localOffSetInHrs: number, isConvertingToLocal: boolean): number{
@@ -80,15 +109,4 @@ export class TimeHelperService {
     return hours;
   }
 
-  /*
-   * This is a hack to fix time preview being returned as the actual time in the model + 3 minutes
-   * Note that this is, and should, only be used in a function generating data for the view (not saved)
-   * Was tested with edge times like 6:02PM - somehow that time does NOT incorrectly get pushed to 5:59
-   * ¯\_(ツ)_/¯
-   */
-  public hackTime(utcDate: string): Date {
-    let timeAsDate: any = new Date(utcDate);
-    let meetingTime: Date = new Date(timeAsDate - (minutesAddedInexplicably * msInMinute));
-    return meetingTime;
-  }
 }

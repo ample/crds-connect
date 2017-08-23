@@ -3,7 +3,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { crdsOakleyCoords } from '../../shared/constants';
+import { crdsOakleyCoords, ViewType } from '../../shared/constants';
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
@@ -49,7 +49,7 @@ export class MapComponent implements OnInit {
       let zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
         this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng,
-                                                          this.searchResults.pinSearchResults, this.state.getMyViewOrWorldView());
+                                                          this.getPinsToMap(), this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
@@ -57,7 +57,7 @@ export class MapComponent implements OnInit {
       this.mapSettings.lat = lat;
       this.mapSettings.lng = lng;
       let priorMapView = this.state.getMapView();
-      if (priorMapView) {
+      if (priorMapView && this.mapSettings.lat === 0 && this.mapSettings.lng === 0) {
         this.mapSettings.lat  = priorMapView.lat;
         this.mapSettings.lng  = priorMapView.lng;
         this.mapSettings.zoom = priorMapView.zoom;
@@ -74,7 +74,7 @@ export class MapComponent implements OnInit {
   }
 
   private pinClicked(pin: Pin) {
-    this.state.setCurrentView('map');
+    this.state.setCurrentView(ViewType.MAP);
     this.pinHlpr.navigateToPinDetailsPage(pin);
   }
 

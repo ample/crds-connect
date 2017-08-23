@@ -24,7 +24,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
-import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, ModalModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
+import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -93,6 +93,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
+import { TryGroupRequestConfirmationComponent } from './components/try-group/try-group-request-confirmation/try-group-request-confirmation.component';
+import { TryGroupRequestSuccessComponent } from './components/try-group/try-group-request-success/try-group-request-success.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
@@ -125,6 +127,7 @@ import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
+import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
@@ -161,7 +164,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     PreloaderModule,
     ReactiveFormsModule,
     FormsModule,
-    ModalModule.forRoot(),
     AccordionModule.forRoot(),
     SelectModule,
     ToastModule.forRoot(),
@@ -234,6 +236,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchFilterComponent,
     SearchLocalComponent,
     StuffNotFoundComponent,
+    TryGroupRequestConfirmationComponent,
+    TryGroupRequestSuccessComponent,
     LeaderResourcesComponent,
     GoogleMapClusterDirective,
     CreateGroupFooterComponent
@@ -249,6 +253,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CookieService,
     CreateGroupService,
     DetailedUserDataResolver,
+    GroupResolver,
     IPService,
     SiteAddressService,
     FilterService,

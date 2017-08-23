@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 
 import { Address, Attribute, AttributeType, Group, Pin, pinType, Participant } from '../../models';
 import { Category } from '../../models/category';
+import { GroupEditPresetTracker } from '../../models/group-edit-preset-tracker';
 import { LookupService } from '../../services/lookup.service';
 import { ProfileService } from '../../services/profile.service';
 import { SessionService } from '../../services/session.service';
-import { attributeTypes, GroupRole, groupMeetingScheduleType } from '../../shared/constants';
+import { attributeTypes, GroupPageNumber, GroupRole, groupMeetingScheduleType } from '../../shared/constants';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
@@ -18,14 +19,25 @@ export class CreateGroupService {
 
     public categories: Category[] = [];
     private selectedCategories: Category[] = [];
+    public groupBeingEdited: Group;
     public group: Group;
     public profileData: any = {};
+    public wasPagePresetWithExistingData: GroupEditPresetTracker;
 
     public selectedGroupGenderMix: Attribute = Attribute.constructor_create_group();
     public selectedAgeRanges: Attribute[] = [];
 
     constructor(private lookupService: LookupService, private session: SessionService,
         private profileService: ProfileService) {
+        this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
+    }
+
+    public setGroupFieldsFromGroupBeingEdited(groupBeingEdited: Group): void {
+      this.groupBeingEdited = groupBeingEdited;
+      this.group.groupId = groupBeingEdited.groupId;
+      this.group.groupName = groupBeingEdited.groupName;
+      this.group.groupDescription = groupBeingEdited.groupDescription;
+      this.group.availableOnline = this.groupBeingEdited.availableOnline;
     }
 
     public initializePageOne(): Observable<Category[]> {
@@ -64,11 +76,13 @@ export class CreateGroupService {
 
     public addSelectedCategoriesToGroupModel(): void {
         let attributes: Attribute[] = [];
+
         this.selectedCategories.forEach((cat) => {
             attributes.push(this.createCategoryDetailAttribute(cat));
         });
 
         let jsonObject = {};
+
         jsonObject[attributeTypes.GroupCategoryAttributeTypeId] = {
             attributeTypeId: attributeTypes.GroupCategoryAttributeTypeId,
             name: 'Group Category',
@@ -173,6 +187,33 @@ export class CreateGroupService {
         attribute.selected = true;
 
         return attribute;
+    }
+
+    public markPageAsPresetWithExistingData(pageNumber: GroupPageNumber): void{
+        switch(pageNumber) {
+            case GroupPageNumber.ONE:
+                this.wasPagePresetWithExistingData.page1 = true;
+                break;
+            case GroupPageNumber.TWO:
+                this.wasPagePresetWithExistingData.page2 = true;
+                break;
+            case GroupPageNumber.THREE:
+                this.wasPagePresetWithExistingData.page3 = true;
+                break;
+            case GroupPageNumber.FOUR:
+                this.wasPagePresetWithExistingData.page4 = true;
+                break;
+            case GroupPageNumber.FIVE:
+                this.wasPagePresetWithExistingData.page5 = true;
+                break;
+            case GroupPageNumber.SIX:
+                this.wasPagePresetWithExistingData.page6 = true;
+                break;
+        }
+    }
+
+    public clearPresetDataFlagsOnGroupEdit(): void {
+      this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
     }
 
     public reset(): void {

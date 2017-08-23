@@ -67,9 +67,15 @@ describe('SearchBarComponent', () => {
   });
 
   it('should toggle view', () => {
-    expect(comp.buttontext).toBe(undefined);
+    mockStateService.getCurrentView = jasmine.createSpy('getCurrentView');
+
+    expect(comp.isMapHidden).toEqual(false);
+
     comp.toggleView();
-    expect(comp.buttontext).toBe('Map');
+    expect(comp.isMapHidden).toEqual(true);
+
+    comp.toggleView();
+    expect(comp.isMapHidden).toEqual(false);
   });
 
   it('should emit search event', () => {

@@ -11,6 +11,6 @@
       </span>
     </h4>
     <p class="text-muted font-size-small flush-bottom">{{participant.email}}</p>
-    <span *ngIf="isMe && !isLeader"><a class="pointer" (click)="onRemoveParticipant()">Leave this group</a></span>
+    <span *ngIf="isMe && !isLeader && this.appSettings.isSmallGroupApp()"><a class="pointer" (click)="onRemoveParticipant()">Leave this group</a></span>
   </div>
 </div>

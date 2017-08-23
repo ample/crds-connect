@@ -14,7 +14,7 @@ import { MapView } from '../../models/map-view';
 
 import { Address } from '../../models/address';
 import { AddressService } from '../../services/address.service';
-import { initialMapZoom, usStatesList } from '../../shared/constants';
+import { initialMapZoom, usStatesList, ViewType } from '../../shared/constants';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
 import { SessionService } from '../../services/session.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
@@ -84,7 +84,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
       this.pinService.postPin(this.userData).subscribe(
         pin => {
           this.state.setMyViewOrWorldView('world');
-          this.state.setCurrentView('map');
+          this.state.setCurrentView(ViewType.MAP);
           this.state.setLastSearch(null);
           this.session.clearCache();
 
