@@ -22,7 +22,7 @@ import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
 import { TimeHelperService} from '../../../services/time-helper.service';
 
-import { groupDescriptionLengthDetails } from '../../../shared/constants';
+import { groupDescriptionLengthDetails, groupPaths } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
 
@@ -149,6 +149,14 @@ export class GatheringComponent implements OnInit {
 
   public isOnlineGroup(): boolean {
     return this.pin.gathering.isVirtualGroup;
+  }
+
+  public showSocial(): boolean {
+    return !(this.state.getActiveGroupPath() === groupPaths.EDIT || this.state.getActiveGroupPath() === groupPaths.ADD);
+  }
+
+  public isPublicGroup(): boolean {
+    return this.pin.gathering.address !== undefined;
   }
 
   public onEditGroupClicked(groupId: number): void {

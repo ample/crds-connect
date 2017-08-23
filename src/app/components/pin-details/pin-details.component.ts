@@ -12,7 +12,7 @@ import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
 import { User } from '../../models/user';
 
-import { HttpStatusCodes } from '../../shared/constants';
+import { groupPaths, HttpStatusCodes } from '../../shared/constants';
 
 @Component({
   selector: 'app-pin-detail',

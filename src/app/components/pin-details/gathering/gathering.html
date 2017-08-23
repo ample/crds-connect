@@ -32,7 +32,7 @@
         <input *ngIf = "app.isSmallGroupApp() && isLeader" type="button" class="btn btn-secondary" value="Edit Group" (click)="onEditGroupClicked(pin.gathering.groupId)">
       </div>
 
-      <social-media> </social-media>  
+      <social-media *ngIf="app.isSmallGroupApp() && showSocial() && isPublicGroup()"> </social-media>  
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn btn-secondary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
