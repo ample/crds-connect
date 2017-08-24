@@ -1,13 +1,13 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockTestData } from '../../../shared/MockTestData';
 import { Observable } from 'rxjs/Rx';
-
+import { Pin, pinType } from '../../../models/pin';
 import { GatheringComponent } from './gathering.component';
 
-import { Pin, Address, Group, Participant, BlandPageCause, BlandPageDetails, BlandPageType } from '../../../models';
+import { Address, Group, Participant, BlandPageCause, BlandPageDetails, BlandPageType } from '../../../models';
 
 import { AnalyticsService } from '../../../services/analytics.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
@@ -24,8 +24,16 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { MockComponent } from '../../../shared/mock.component';
 import { ListHelperService } from '../../../services/list-helper.service';
 import { TimeHelperService} from '../../../services/time-helper.service';
-import { GroupRole } from '../../../shared/constants'
+import { GroupRole } from '../../../shared/constants';
 
+
+class ActivatedRouteStub {
+  public params = Observable.of({ groupId: 1234, groupParticipantId: 1 });
+
+  set testParams(params: any) {
+    this.params = Observable.of(params);
+  }
+}
 
 let fixture: ComponentFixture<GatheringComponent>;
 let comp: GatheringComponent;
@@ -45,6 +53,7 @@ let mockListHelperService;
 let mockTimeService;
 let mockAnalytics;
 let mockRouter;
+let mockActivatedRoute;
 
 describe('Gathering component redirect error', () => {
   beforeEach(() => {
@@ -63,7 +72,8 @@ describe('Gathering component redirect error', () => {
     mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
     mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
     mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analtyics', ['joinGathering', 'joinGroup']);
-    mockCreateGroupService= jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
+    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
+    mockActivatedRoute = new ActivatedRouteStub();
     mockRouter = {
       url: '/connect/gathering/1234', routerState:
       { snapshot: { url: 'connect/gathering/1234' } }, navigate: jasmine.createSpy('navigate')
@@ -81,6 +91,7 @@ describe('Gathering component redirect error', () => {
         { provide: SessionService, useValue: mockSessionService },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: StateService, useValue: mockStateService },
         { provide: ParticipantService, useValue: mockParticipantService },
@@ -140,12 +151,12 @@ describe('Gathering component redirect error', () => {
 describe('GatheringComponent', () => {
   beforeEach(() => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp', 'isSmallGroupApp']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn', 'post']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
     ['redirectToLogin', 'redirectToTarget']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
-    mockCreateGroupService= jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
+    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
     ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
@@ -156,6 +167,13 @@ describe('GatheringComponent', () => {
     mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
     mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['joinGroup', 'joinGathering']);
     mockRouter = { url: 'abc123', routerState: { snapshot: { url: 'abc123' } }, navigate: jasmine.createSpy('navigate') };
+    let pin = MockTestData.getAPin();
+    mockActivatedRoute = {
+      snapshot: {
+        data: { pin: pin, user: {} },
+        params: { approved: 'true', trialMemberId: '123'}
+      }
+    };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -176,6 +194,7 @@ describe('GatheringComponent', () => {
         { provide: AddressService, useValue: mockAddressService },
         { provide: ListHelperService, useValue: mockListHelperService },
         { provide: ContentService, useValue: mockContentService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: TimeHelperService, useValue: mockTimeService },
         { provide: AnalyticsService, useValue: mockAnalytics },
         {
@@ -202,6 +221,7 @@ describe('GatheringComponent', () => {
   it('should init, get participants and loggedInUser is in gathering', () => {
     let addLine1 = '567 street ln.';
     let participants = MockTestData.getAParticipantsArray(3);
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
     (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
     (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
     (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
@@ -210,7 +230,7 @@ describe('GatheringComponent', () => {
       comp.isLoggedIn = true;
       comp.ngOnInit();
       expect(comp.isInGathering).toBe(true);
-      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
+      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId, false);
       expect(comp['pin'].gathering.address.addressLine1).toBe(addLine1);
     });
 
@@ -218,24 +238,26 @@ describe('GatheringComponent', () => {
       let pin = MockTestData.getAPin(1);
       let addLine1 = '567 street ln.';
       let participants = MockTestData.getAParticipantsArray(3);
+      <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
       (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
       (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.NONE));
       (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
       comp.isLoggedIn = true;
       comp.ngOnInit();
       expect(comp.isInGathering).toBe(false);
-      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
+      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId, false);
     });
 
     it('should init and fail to get participants then go to error page', () => {
       comp.pin = MockTestData.getAPin(1);
+      <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
       (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.throw({ status: 500 }));
       (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
       (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of([]));
       (<jasmine.Spy>mockSessionService.getContactId).and.returnValue(8675309);
       comp.isLoggedIn = true;
       comp.ngOnInit();
-      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
+      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId, false);
       expect(mockSessionService.getContactId).not.toHaveBeenCalled();
       expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
       expect(mockAddressService.getFullAddress).not.toHaveBeenCalled();
@@ -245,13 +267,14 @@ describe('GatheringComponent', () => {
       let participants = MockTestData.getAParticipantsArray(3);
       let expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
       mockContentService.getContent.and.returnValue(expectedText);
+      <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
       mockParticipantService.getParticipants.and.returnValue(Observable.of(participants));
       (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
       (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
       mockAddressService.getFullAddress.and.returnValue(Observable.throw({ status: 500 }));
       comp.isLoggedIn = true;
       comp.ngOnInit();
-      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId);
+      expect(mockParticipantService.getParticipants).toHaveBeenCalledWith(comp.pin.gathering.groupId, false);
       expect(<jasmine.Spy>mockBlandPageService.goToDefaultError).not.toHaveBeenCalled();
       expect(mockToast.error).toHaveBeenCalledWith(expectedText);
     });
@@ -363,16 +386,6 @@ describe('GatheringComponent', () => {
       comp.isLoggedIn = true;
     });
 
-    it('should redirect to oops page if something horrible happens', () => {
-      let pin = MockTestData.getAPin(1);
-      comp.pin = pin;
-      pin.gathering = null;
-      comp['pin'] = pin;
-
-      comp.ngOnInit();
-      expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('');
-    });
-
     it('should edit', () => {
       let pin = MockTestData.getAPin(1);
       comp['pin'] = pin;
@@ -395,5 +408,71 @@ describe('GatheringComponent', () => {
       comp['pin'] = pin;
       let proximityString = comp.getProximityString();
       expect(proximityString).toEqual('');
-    })
+    });
+
+    describe('Trial member approval', () => {
+      let mockBackend;
+  
+      let mockParams: object;
+      const returnMockParams = function (key: string): string {
+        return mockParams[key];
+      };
+  
+      it('test approveOrDisapproveTrialMember success approve = true', () => {
+        <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
+        let participants = MockTestData.getAParticipantsArray(3);
+        (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
+        (mockAddressService.getFullAddress).and.returnValue(Observable.of(
+          new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
+  
+        comp.ngOnInit();
+        expect(comp['trialMemberApprovalMessage']).toBe('Trial member was approved');
+      });
+  
+      it('test approveOrDisapproveTrialMember success approve = false', () => {
+        <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
+        let participants = MockTestData.getAParticipantsArray(3);
+        (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
+        (mockAddressService.getFullAddress).and.returnValue(Observable.of(
+          new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
+  
+        comp['route'].snapshot.params['approved'] = 'false';
+        comp.approveOrDisapproveTrialMember();
+        expect(comp['trialMemberApprovalMessage']).toBe('Trial member was disapproved');
+      });
+  
+      it('test approveOrDisapproveTrialMember failure', () => {
+        <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 404}));
+        let participants = MockTestData.getAParticipantsArray(3);
+        (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
+  
+        comp.ngOnInit();
+        expect(comp['trialMemberApprovalMessage']).toBe('Error approving trial member');
+        expect(comp['trialMemberApprovalError']).toEqual(true);
+      });
+  
+      it('test approveOrDisapproveTrialMember post not called', () => {
+        <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
+        let participants = MockTestData.getAParticipantsArray(3);
+        (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
+        (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
+        (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
+        (mockAddressService.getFullAddress).and.returnValue(Observable.of(
+          new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
+  
+        comp['route'].snapshot.params['approved'] = undefined;
+        comp['route'].snapshot.params['trialMemberId'] = undefined;
+        comp.ngOnInit();
+        expect(comp['trialMemberApprovalMessage']).toEqual(undefined);
+        expect(comp['session'].post).not.toHaveBeenCalled();
+      });
+  
+    });
+
   });
