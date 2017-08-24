@@ -66,6 +66,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
 
+    // Remove apostrophes from search string:
+    search = search.split('')
+    .filter((letter) => letter !== '\'')
+    .join('');
+
     // This needs to go away soon -- you can have location filter and keyword search in connect.
     let locationFilter = this.appSettings.isConnectApp() ? search : null;
     let keywordString = this.appSettings.isSmallGroupApp() ? search : null;
