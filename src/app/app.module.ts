@@ -140,6 +140,8 @@ import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 
+import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
+
 import { RouterModule } from '@angular/router';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
@@ -238,7 +240,8 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     TryGroupRequestConfirmationComponent,
     LeaderResourcesComponent,
     GoogleMapClusterDirective,
-    CreateGroupFooterComponent
+    CreateGroupFooterComponent,
+    SocialMediaComponent
   ],
   providers: [
     AddressService,
