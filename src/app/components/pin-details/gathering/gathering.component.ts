@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { Pin, pinType } from '../../../models/pin';
@@ -22,7 +22,7 @@ import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
 import { TimeHelperService} from '../../../services/time-helper.service';
 
-import { groupDescriptionLengthDetails, groupPaths } from '../../../shared/constants';
+import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
 
@@ -38,8 +38,8 @@ export class GatheringComponent implements OnInit {
   @Input() isLoggedIn: boolean = false;
   @Input() previewMode: boolean = false;
   @Input() leaders: Participant[] = [];
-  @Input() trialMemberApprovalMessage: string;
-  @Input() trialMemberApprovalError: boolean;
+  public trialMemberApprovalMessage: string;
+  public trialMemberApprovalError: boolean;
 
   private pinType: any = pinType;
   public isInGathering: boolean = false;
@@ -67,14 +67,16 @@ export class GatheringComponent implements OnInit {
     private content: ContentService,
     private timeHlpr: TimeHelperService,
     private analtyics: AnalyticsService,
-    public appSettingsService: AppSettingsService) { }
+    public appSettingsService: AppSettingsService,
+    private route: ActivatedRoute) { }
 
-  // ONINIT is doing WAY too much, needs to be simplified and broken up.
   public ngOnInit() {
     if (!this.previewMode) {
       window.scrollTo(0, 0);
       this.requestToJoin = this.requestToJoin.bind(this);
       this.state.setLoading(true);
+
+      this.approveOrDisapproveTrialMember();
 
       this.isInGroupApp = this.app.isSmallGroupApp();
       let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
@@ -85,46 +87,7 @@ export class GatheringComponent implements OnInit {
         this.doDisplayFullDesc = this.displayFullDesc();
       }
       try {
-        this.participantService.getParticipants(this.pin.gathering.groupId).subscribe(
-          participants => {
-            this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
-              this.leaders = leaders;
-            });
-            this.pin.gathering.Participants = participants;
-            this.participantEmails = participants.map(p => p.email);
-
-            this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
-              role => {
-                let isInGroup: boolean = role !== GroupRole.NONE;
-                if (isInGroup) {
-                  this.isInGathering = true;
-                  this.isLeader = role === GroupRole.LEADER;
-
-                  this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
-                    .finally(() => {
-                      this.state.setLoading(false);
-                      this.ready = true;
-                    })
-                    .subscribe(
-                    address => {
-                      this.pin.gathering.address = address;
-                    },
-                    error => {
-                      this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
-                    }
-                    );
-                } else {
-                  // Not a participant of this group.
-                  this.state.setLoading(false);
-                  this.ready = true;
-                }
-                this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
-              });
-          },
-          failure => {
-            console.log('Could not get participants');
-            this.blandPageService.goToDefaultError('');
-          });
+        this.getParticipants(false);
       } catch (err) {
         console.log(err.message);
         this.blandPageService.goToDefaultError('');
@@ -134,6 +97,75 @@ export class GatheringComponent implements OnInit {
       this.descriptionToDisplay = this.getDescriptionDisplayText();
       this.doDisplayFullDesc = this.displayFullDesc();
       this.ready = true;
+    }
+  }
+
+  public getParticipants(forceRefresh: boolean) {
+    this.participantService.getParticipants(this.pin.gathering.groupId, forceRefresh).subscribe(
+      participants => {
+        this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+          this.leaders = leaders;
+        });
+        this.pin.gathering.Participants = participants;
+        this.participantEmails = participants.map(p => p.email);
+
+        this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
+          role => {
+            let isInGroup: boolean = role !== GroupRole.NONE;
+            if (isInGroup) {
+              this.isInGathering = true;
+              this.isLeader = role === GroupRole.LEADER;
+
+              this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+                .finally(() => {
+                  this.state.setLoading(false);
+                  this.ready = true;
+                })
+                .subscribe(
+                address => {
+                  this.pin.gathering.address = address;
+                },
+                error => {
+                  this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+                }
+                );
+            } else {
+              // Not a participant of this group.
+              this.state.setLoading(false);
+              this.ready = true;
+            }
+            this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
+          });
+      },
+      failure => {
+        console.log('Could not get participants');
+        this.blandPageService.goToDefaultError('');
+      });
+  }
+
+  public approveOrDisapproveTrialMember() {
+    const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
+    const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
+
+    const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+
+    if (approved !== undefined && trialMemberId) {
+      this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
+      .subscribe(
+        success => {
+          this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
+          this.getParticipants(true);
+        },
+        failure => {
+          if (failure.status === HttpStatusCodes.CONFLICT) {
+            this.trialMemberApprovalMessage = 'This member has already been approved or denied';
+          } else {
+            this.trialMemberApprovalMessage = 'Error approving trial member';
+          }
+
+          this.trialMemberApprovalError = true;
+        }
+      );
     }
   }
 

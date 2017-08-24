@@ -94,7 +94,6 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { TryGroupRequestConfirmationComponent } from './components/try-group/try-group-request-confirmation/try-group-request-confirmation.component';
-import { TryGroupRequestSuccessComponent } from './components/try-group/try-group-request-success/try-group-request-success.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
@@ -239,7 +238,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchLocalComponent,
     StuffNotFoundComponent,
     TryGroupRequestConfirmationComponent,
-    TryGroupRequestSuccessComponent,
     LeaderResourcesComponent,
     GoogleMapClusterDirective,
     CreateGroupFooterComponent,

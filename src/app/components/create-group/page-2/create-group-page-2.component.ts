@@ -10,6 +10,7 @@ import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { TimeHelperService} from '../../../services/time-helper.service';
 
+import { Group } from '../../../models/group';
 import { LookupTable } from '../../../models';
 
 import { defaultGroupMeetingTime, meetingFrequencies,
@@ -61,8 +62,6 @@ export class CreateGroupPage2Component implements OnInit {
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
-    this.state.setPageHeader(pageHeader, '/create-group/page-1');
-
     this.meetingTimeForm = this.initializeGroupMeetingScheduleForm();
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
@@ -110,7 +109,11 @@ export class CreateGroupPage2Component implements OnInit {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid) {
-      this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+      if(this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE){
+        this.createGroupService.group = this.clearGroupMeetingDay(this.createGroupService.group);
+      }
+      this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(),
+                                            this.createGroupService.group.groupId);
     } else {
       this.state.setLoading(false);
     }
@@ -192,6 +195,13 @@ export class CreateGroupPage2Component implements OnInit {
       this.createGroupService.group.meetingDay = daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
       this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;
     }
+  }
+
+  private clearGroupMeetingDay(group: Group): Group {
+    group.meetingDay = null;
+    group.meetingDayId = null;
+
+    return group;
   }
 
 }
