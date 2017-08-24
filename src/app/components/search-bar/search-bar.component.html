@@ -3,6 +3,7 @@
     <form action="." class="searchbar"
           (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
       <div class="input-group">
+        <!-- Search Text Box: -->
         <input type="search"
                 class="form-control"
                 id="search-bar-input"
@@ -13,6 +14,7 @@
 
         <div class="searchbar-wrapper"></div>
 
+        <!-- Reset Search Button: -->
         <span class="addon-btn">
           <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen">
             <svg class="icon icon-1" viewBox="0 0 256 256">
@@ -21,6 +23,7 @@
           </button>
         </span>
 
+        <!-- Filters Button: -->
         <span class="addon-btn" *ngIf="appSettings.isSmallGroupApp()">
           <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
             <svg class="icon icon-1" viewBox="0 0 256 256">
@@ -29,6 +32,7 @@
           </button>
         </span>
 
+        <!-- Submit Button: -->
         <span class="input-group-btn">
           <button type="submit" class="btn btn-secondary" (click)="onSearch(state.searchBarText)" [disabled]="state.isFilterDialogOpen">
             <svg class="icon icon-1" viewBox="0 0 256 256">
@@ -38,6 +42,7 @@
         </span>
       </div>
 
+      <!-- Toggle View Button: -->
       <button type="button" class="btn btn-toggle btn-link text-white" (click)="toggleView()">{{state.viewButtonText}}</button>
     </form>
   </div>
