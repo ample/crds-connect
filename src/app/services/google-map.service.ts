@@ -52,6 +52,9 @@ export class GoogleMapService {
 
   // get the best zoom level for the map
   public calculateZoom(zoom: number, lat: number, lng: number, pins: Pin[], viewtype: string): number {
+    // Filter out online groups since they are not displayed on the map:
+    pins = pins.filter((pin) => pin.gathering.availableOnline && pin.address.latitude && pin.address.longitude);
+
     const mapParams: MapView = new MapView('zoomCalcView', lat, lng, initialMapZoom);
     const popTarget = this.getPopTarget(pins, viewtype);
 
