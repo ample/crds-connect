@@ -81,12 +81,23 @@ describe('SearchBarComponent', () => {
   it('should emit search event', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
-    let pinSearch = new PinSearchRequestParams('Phil is cool!', null, undefined);
+    const pinSearch = new PinSearchRequestParams('Phil is cool!', null, undefined);
     mockPinService.emitPinSearchRequest.and.returnValue(true);
+
     comp.onSearch(pinSearch.userLocationSearchString);
     expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(pinSearch);
     expect(comp.isMyStuffSearch).toBeFalsy();
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+  });
+
+  it('should ignore apostrophes in search string', () => {
+    <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
+    comp.ngOnInit();
+    const filteredPinSearch = new PinSearchRequestParams('Phils cool group!', null, undefined);
+    mockPinService.emitPinSearchRequest.and.returnValue(true);
+
+    comp.onSearch('Phil\'s cool group!');
+    expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(filteredPinSearch);
   });
 
   it('It should set the placeholder text to "Address..." on CONNECT component init', () => {
