@@ -50,6 +50,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    console.log('What we have here is a problem!');
     this.subscribeToListenForSearchRequests();
     this.runInitialPinSearch();
   }
