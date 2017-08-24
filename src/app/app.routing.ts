@@ -267,17 +267,19 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
-  }, {
+  },
+  {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId',
+    component: ParticipantDetailsComponent,
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
+  },
+  {
     path: 'small-group/:groupId/:approved/:trialMemberId',
     component: PinDetailsComponent,
     resolve: {
       pin: PinResolver,
       user: UserDataResolver
     },
-    canActivate: [LoggedInGuard, GroupLeaderGuard]
-  }, {
-    path: 'small-group/:groupId/participant-detail/:groupParticipantId',
-    component: ParticipantDetailsComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
     path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove-self/:removeSelf',
