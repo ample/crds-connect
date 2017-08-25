@@ -34,7 +34,7 @@ describe('PinDetailsComponent', () => {
     pin = MockTestData.getAPin();
     mockPlatformLocation = jasmine.createSpyObj<PlatformLocation>('location', ['reload']);
     mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn',  'post']);
-    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setActiveGroupPath']);
 
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin', 'setEditedGatheringPin', 'getEditedGatheringPin']);
     mockActivatedRoute = {
