@@ -90,10 +90,10 @@ describe('SearchBarComponent', () => {
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
   });
 
-  it('should ignore apostrophes in search string', () => {
+  it('should escape apostrophes in search string', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
-    const filteredPinSearch = new PinSearchRequestParams('Phils cool group!', null, undefined);
+    const filteredPinSearch = new PinSearchRequestParams('Phil%27s cool group!', null, undefined);
     mockPinService.emitPinSearchRequest.and.returnValue(true);
 
     comp.onSearch('Phil\'s cool group!');
