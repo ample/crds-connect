@@ -17,6 +17,7 @@ export class ParticipantCardComponent implements OnInit {
   public isLeader: boolean = false;
   public isMe: boolean = false;
   public isApprentice: boolean = false;
+  public isTrialMember: boolean = false;
 
   constructor(private session: SessionService,
               private router: Router,
@@ -32,8 +33,9 @@ export class ParticipantCardComponent implements OnInit {
       this.isMe = true;
       this.participant.canBeHyperlinked = false;
     }
-    this.isApprentice = (this.participant.groupRoleId === GroupRole.APPRENTICE);
-    this.isLeader     = (this.participant.groupRoleId === GroupRole.LEADER);
+    this.isApprentice  = (this.participant.groupRoleId === GroupRole.APPRENTICE);
+    this.isLeader      = (this.participant.groupRoleId === GroupRole.LEADER);
+    this.isTrialMember = (this.participant.groupRoleId === GroupRole.TRIAL_MEMBER);
   }
 
   public enableHyperlink(): boolean {
@@ -47,6 +49,10 @@ export class ParticipantCardComponent implements OnInit {
 
   public showApprenticeLabel(): boolean {
     return (this.appSettings.isSmallGroupApp() && this.isApprentice);
+  }
+
+  public showTrialMemberLabel(): boolean {
+    return (this.appSettings.isSmallGroupApp() && this.isTrialMember);
   }
 
   public onParticipantClick(): void {
