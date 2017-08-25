@@ -3,7 +3,10 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { SessionService } from '../../../../services/session.service';
 import { AppSettingsService } from '../../../../services/app-settings.service';
+
+import { Group } from '../../../../models/group';
 import { Participant } from '../../../../models/participant';
+
 import { GroupRole } from '../../../../shared/constants';
 
 @Component({
@@ -14,6 +17,7 @@ export class ParticipantCardComponent implements OnInit {
 
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
+  @Input() groupCardIsDisplayedOn: Group;
   public isLeader: boolean = false;
   public isMe: boolean = false;
   public isApprentice: boolean = false;
@@ -56,8 +60,13 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public onParticipantClick(): void {
-      if (this.participant.canBeHyperlinked) {
+    if (this.participant.canBeHyperlinked) {
+      if(this.appSettings.isSmallGroupApp()){
+        let routeToNavigateTo: string = `/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`;
+        this.router.navigate([routeToNavigateTo]);
+      } else {
         this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+      }
     }
   }
 
