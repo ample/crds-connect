@@ -54,10 +54,13 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public onParticipantClick(): void {
-      if (this.participant.canBeHyperlinked) {
+    if (this.participant.canBeHyperlinked) {
+      if(this.appSettings.isSmallGroupApp()){
         let routeToNavigateTo: string = `/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`;
-        this.router.navigate([routeToNavigateTo],
-          { relativeTo: this.route });
+        this.router.navigate([routeToNavigateTo]);
+      } else {
+        this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+      }
     }
   }
 
