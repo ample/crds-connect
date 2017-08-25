@@ -7,6 +7,7 @@
         <span *ngIf="isMe" class="label label-warning">Me</span>
         <span *ngIf="showLeaderLabel()" class="label label-primary">{{appSettings.leaderTitle}}</span>
         <span *ngIf="showApprenticeLabel()" class="label label-default">Apprentice</span>
+        <span *ngIf="showTrialMemberLabel()" class="label label-default">Trial Member</span>
         <!-- <span *ngIf="showCoachLabel()" class="label label-default">Coach</span> -->
       </span>
     </h4>

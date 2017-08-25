@@ -92,6 +92,18 @@ describe('ParticipantCardComponent', () => {
     expect(comp.showApprenticeLabel()).toBe(true);
   });
 
+  it('showTrialMemberLabel should return true', () => {
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.isTrialMember = true;
+    expect(comp.showTrialMemberLabel()).toBe(true);
+  });
+
+  it('showTrialMemberLabel should return false', () => {
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.isTrialMember = false;
+    expect(comp.showTrialMemberLabel()).toBe(false);
+  });
+
   it('showLeader should return true when pinParticipant id matches the participants id', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
