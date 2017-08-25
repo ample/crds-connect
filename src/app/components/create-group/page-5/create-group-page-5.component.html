@@ -58,7 +58,7 @@
 
     <div class="btn-group btn-group-block">
       <!-- Group Public Button -->
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }"
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" name="publicGroup" [ngClass]="{active: createGroupService.group.availableOnline }"
       formControlName="availableOnline" value="true" (click)="onSetGroupPrivacy(true)" ngDefaultControl style="white-space: normal"
       [(ngModel)]="createGroupService.group.availableOnline">
         <div class="row">
@@ -76,7 +76,7 @@
         </div>
       </button>
       <!-- Group Private Button -->
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }"
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" name="privateGroup" [ngClass]="{active: createGroupService.group.availableOnline === false }"
       formControlName="availableOnline" value="false" (click)="onSetGroupPrivacy(false)" ngDefaultControl style="white-space: normal"
       [(ngModel)]="createGroupService.group.availableOnline">
         <div class="row">
