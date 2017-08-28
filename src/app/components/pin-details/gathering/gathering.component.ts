@@ -154,6 +154,9 @@ export class GatheringComponent implements OnInit {
       .subscribe(
         success => {
           this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
+          if ( approved ) {
+            this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
+          }
           this.getParticipants(true);
         },
         failure => {
