@@ -19,24 +19,24 @@
       </div>
 
       <p class="control-label soft-top push-quarter-bottom">Gender</p>
-      <div class="radio radio-inline" style="z-index: 0">
-        <input id="inlineRadioBtn1" name="gender" type="radio" [value]="1" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
-        <label  for="inlineRadioBtn1">Male</label>
-
-        <div class="check" tabindex="0"></div>
-      </div>
-
-      <div class="radio radio-inline" style="z-index: 0">
-        <input id="inlineRadioBtn2"  name="gender" type="radio" [value]="2" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
-        <label  for="inlineRadioBtn2">Female</label>
-        <div class="check" tabindex="0"></div>
+      <div class="controls-inline">
+        <label class="control radio">
+          <input id="radio1" name="gender" type="radio" [value]="1" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
+          <span class="control-indicator"></span>
+          Male
+        </label>
+        <label class="control radio">
+          <input id="radio2" name="gender" type="radio" [value]="2" formControlName="gender" [(ngModel)]="createGroupService.profileData.genderId">
+          <span class="control-indicator"></span>
+          Female
+        </label>
       </div>
 
       <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
         <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
       </div>
 
-      <div class="soft-top"> 
+      <div class="soft-top">
         <p class="control-label push-quarter-bottom">What's your address?</p>
         <crds-content-block id="groupToolCreateGroupAddressHelp"></crds-content-block>
         <!--ADDRESS LINE 1-->
@@ -87,7 +87,7 @@
 
         <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
       </div>
-      
+
     </form>
 
 
