@@ -65,7 +65,7 @@ describe('Gathering component redirect error', () => {
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-    ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
+    ['clearGroupFromCache', 'getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -159,7 +159,7 @@ describe('GatheringComponent', () => {
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-    ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
+    ['clearGroupFromCache', 'getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -227,6 +227,8 @@ describe('GatheringComponent', () => {
     (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
     (mockAddressService.getFullAddress).and.returnValue(Observable.of(
       new Address(null, addLine1, null, null, null, null, null, null, null, null)));
+      comp['route'].snapshot.params['approved'] = undefined;
+      comp['route'].snapshot.params['trialMemberId'] = undefined;
       comp.isLoggedIn = true;
       comp.ngOnInit();
       expect(comp.isInGathering).toBe(true);

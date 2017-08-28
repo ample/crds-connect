@@ -11,7 +11,8 @@ import { HttpStatusCodes } from '../../../shared/constants';
 
 @Component({
   selector: 'app-try-group-request-confirmation',
-  templateUrl: 'try-group-request-confirmation.component.html'
+  templateUrl: 'try-group-request-confirmation.component.html',
+  styles: ['.fauxdal-wrapper { overflow-y: hidden; }']
 })
 export class TryGroupRequestConfirmationComponent implements OnInit {
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
@@ -28,6 +29,7 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
   ngOnInit() {
     this.state.setLoading(false);
     this.groupId = this.route.snapshot.params['groupId'];
+    document.querySelector('body').style.overflowY = 'hidden';
   }
 
   public onClose(): void {

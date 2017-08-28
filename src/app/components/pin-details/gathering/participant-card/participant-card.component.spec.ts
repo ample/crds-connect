@@ -11,6 +11,8 @@ import { AppSettingsService } from '../../../../services/app-settings.service';
 import { SessionService } from '../../../../services/session.service';
 import { ParticipantCardComponent } from './participant-card.component';
 import { MockComponent } from '../../../../shared/mock.component';
+
+import { Group } from '../../../../models/group';
 import { Participant } from '../../../../models/participant';
 
 class ActivatedRouteStub {
@@ -115,7 +117,19 @@ describe('ParticipantCardComponent', () => {
     expect(comp.showLeaderLabel()).toBe(false);
   });
 
-  it('should navigate on card click', () => {
+  it('should navigate appropriately on card click in group tool', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp['participant'].canBeHyperlinked = true;
+    comp['groupCardIsDisplayedOn'] = Group.overload_Constructor_CreateGroup(123);
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.onParticipantClick();
+    let route: string = `/small-group/0/participant-detail/777`;
+    expect(mockRouter.navigate).toHaveBeenCalledWith([route]);
+  });
+
+  it('should navigate appropriately on card click in connect', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;
