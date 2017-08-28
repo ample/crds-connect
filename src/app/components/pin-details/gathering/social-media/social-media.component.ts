@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
+import { Meta } from '@angular/platform-browser';
 
 import { Group } from '../../../../models/group';
 
@@ -8,29 +9,31 @@ import { Group } from '../../../../models/group';
   selector: 'social-media',
   templateUrl: './social-media.component.html'
 })
-export class SocialMediaComponent  {
+export class SocialMediaComponent implements OnInit  {
 
   @Input() gathering: Group;
 
-  constructor(private toast: ToastsManager) { }
+  constructor(private toast: ToastsManager, private metaService: Meta) { }
 
-  public shareGroupOnFacebook(){
+  public ngOnInit() {
+    /* <meta property="og:url"           content="http://www.your-domain.com/your-page.html" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Your Website Title" />
+    <meta property="og:description"   content="Your description" /> */
 
-    console.log(document.location.href);
+     this.metaService.addTags([
+      { property: 'og:url',         content: 'https://int.crossroads.net/groupsv2/search/small-group/180654' },
+      { property: 'og:type',        content: 'website' },
+      { property: 'og:title',       content: 'Phil-080217 Group' },
+      { property: 'og:description', content: 'Please join the 080217 group. The name says it all!' },
+      { property: 'og:image',       content: 'https://unsplash.it/200/200'}
+    ]); 
+  }
 
-    var titleMeta = document.createElement('meta');
-    var descMeta = document.createElement('meta');
 
-    titleMeta.setAttribute('property', 'og:title');
-    titleMeta.setAttribute('content', 'The Rock');
-
-    descMeta.setAttribute('property', 'og:description');
-    descMeta.setAttribute('content', 'Foo Description');
-
-    document.getElementsByTagName('head')[0].appendChild(titleMeta);
-    document.getElementsByTagName('head')[0].appendChild(descMeta);
-
-    window.open('http://www.facebook.com/sharer/sharer.php?u=www.google.com');
+  public getFBURL(): string {
+    let a = 'https://www.facebook.com/dialog/share?app_id=482474212114603&display=popup&href=' + encodeURI('https://int.crossroads.net/groupsv2/search/small-group/180654') + '&redirect_uri=' + encodeURI('https://int.crossroads.net/groupsv2/search/small-group/180654');
+    return a;
   }
 
   public getURL(): string {
