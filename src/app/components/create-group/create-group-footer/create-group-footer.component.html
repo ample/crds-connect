@@ -1,10 +1,10 @@
 <div class="soft-ends">
   <div class="clearfix">
-    <button *ngIf="showbackbutton" type="button" (click)="OnBack()" class="btn btn-gray btn-default btn-block-mobile pull-left">Back</button>
-    <button type="submit" class="btn btn-secondary btn-block-mobile pull-right">Next</button>
+    <button *ngIf="showbackbutton" type="button" (click)="OnBack()" class="btn btn-gray btn-default btn-block-mobile pull-left" data-automation-id="back">Back</button>
+    <button type="submit" class="btn btn-secondary btn-block-mobile pull-right" data-automation-id="next">Next</button>
   </div>
 
-  <input class="center-block btn btn-link btn-gray" (click)="OnCancel()" type="button" value="Cancel">
+  <input class="center-block btn btn-link btn-gray" (click)="OnCancel()" type="button" value="Cancel" data-automation-id="cancel">
 </div>
 
 <div *ngIf="showFauxdal" class="fauxdal-wrapper">
@@ -23,8 +23,8 @@
         <div class="font-size-small font-size-base-light text-center">By canceling, all changes will be lost. Select yes to proceed or no to continue working on your group.</div>
         <br>
         <footer class="page-footer">
-          <button type="button" class="btn btn-secondary btn-block-mobile" (click)="cancelConfirmed()">Yes</button>
-          <button type="button" class="btn btn-default btn-outline btn-block-mobile" (click)="cancelDeclined()">No</button>
+          <button type="button" class="btn btn-secondary btn-block-mobile" (click)="cancelConfirmed()" data-automation-id="cancelYes">Yes</button>
+          <button type="button" class="btn btn-default btn-outline btn-block-mobile" (click)="cancelDeclined()" data-automation-id="cancelNo">No</button>
         </footer>
       </div>
     </div>
