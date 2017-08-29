@@ -187,7 +187,7 @@ export class GatheringComponent implements OnInit {
   }
 
   public showSocial(): boolean {
-    return !(this.state.getActiveGroupPath() === groupPaths.EDIT || this.state.getActiveGroupPath() === groupPaths.ADD);
+    return !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD));
   }
 
   public isPublicGroup(): boolean {
