@@ -65,7 +65,7 @@ describe('Gathering component redirect error', () => {
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-    ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
+    ['clearGroupFromCache', 'getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -159,7 +159,7 @@ describe('GatheringComponent', () => {
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
-    ['getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
+    ['clearGroupFromCache', 'getParticipants', 'getCurrentUserGroupRole', 'getAllLeaders', 'isUserAParticipant']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
@@ -227,6 +227,8 @@ describe('GatheringComponent', () => {
     (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
     (mockAddressService.getFullAddress).and.returnValue(Observable.of(
       new Address(null, addLine1, null, null, null, null, null, null, null, null)));
+      comp['route'].snapshot.params['approved'] = undefined;
+      comp['route'].snapshot.params['trialMemberId'] = undefined;
       comp.isLoggedIn = true;
       comp.ngOnInit();
       expect(comp.isInGathering).toBe(true);
@@ -300,8 +302,6 @@ describe('GatheringComponent', () => {
       );
       (<jasmine.Spy>mockPinService.requestToJoinGathering).and.returnValue(Observable.of([{}]));
       comp.pin = pin;
-
-
       comp.requestToJoin();
       expect(mockAnalytics.joinGathering).toHaveBeenCalled();
       expect(<jasmine.Spy>mockLoginRedirectService.redirectToLogin).not.toHaveBeenCalled();
@@ -402,6 +402,11 @@ describe('GatheringComponent', () => {
       expect(rc).toBe('(ONLINE GROUP)');
     });
 
+    it('showsocial should return true', () => {
+      let rc = comp.showSocial();
+      expect(rc).toBe(true);
+    });
+
     it('getProximityString should return an empty string when proximity is null', () => {
       const pin = MockTestData.getAPin(1);
       pin.proximity = null;
@@ -412,12 +417,11 @@ describe('GatheringComponent', () => {
 
     describe('Trial member approval', () => {
       let mockBackend;
-  
       let mockParams: object;
       const returnMockParams = function (key: string): string {
         return mockParams[key];
       };
-  
+
       it('test approveOrDisapproveTrialMember success approve = true', () => {
         <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
         let participants = MockTestData.getAParticipantsArray(3);
@@ -426,11 +430,10 @@ describe('GatheringComponent', () => {
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         (mockAddressService.getFullAddress).and.returnValue(Observable.of(
           new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
-  
         comp.ngOnInit();
         expect(comp['trialMemberApprovalMessage']).toBe('Trial member was approved');
       });
-  
+
       it('test approveOrDisapproveTrialMember success approve = false', () => {
         <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
         let participants = MockTestData.getAParticipantsArray(3);
@@ -439,24 +442,22 @@ describe('GatheringComponent', () => {
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         (mockAddressService.getFullAddress).and.returnValue(Observable.of(
           new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
-  
         comp['route'].snapshot.params['approved'] = 'false';
         comp.approveOrDisapproveTrialMember();
         expect(comp['trialMemberApprovalMessage']).toBe('Trial member was disapproved');
       });
-  
+
       it('test approveOrDisapproveTrialMember failure', () => {
         <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 404}));
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockParticipantService.getParticipants).and.returnValue(Observable.of(participants));
         (<jasmine.Spy>mockParticipantService.getCurrentUserGroupRole).and.returnValue(Observable.of(GroupRole.LEADER));
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
-  
         comp.ngOnInit();
         expect(comp['trialMemberApprovalMessage']).toBe('Error approving trial member');
         expect(comp['trialMemberApprovalError']).toEqual(true);
       });
-  
+
       it('test approveOrDisapproveTrialMember post not called', () => {
         <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
         let participants = MockTestData.getAParticipantsArray(3);
@@ -465,14 +466,12 @@ describe('GatheringComponent', () => {
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
         (mockAddressService.getFullAddress).and.returnValue(Observable.of(
           new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
-  
+
         comp['route'].snapshot.params['approved'] = undefined;
         comp['route'].snapshot.params['trialMemberId'] = undefined;
         comp.ngOnInit();
         expect(comp['trialMemberApprovalMessage']).toEqual(undefined);
         expect(comp['session'].post).not.toHaveBeenCalled();
       });
-  
     });
-
   });

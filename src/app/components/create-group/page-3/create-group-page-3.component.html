@@ -11,7 +11,7 @@
   <p class="control-label soft-top">Where will your group meet?</p>
   <form [formGroup]="locationForm" (ngSubmit)="onSubmit(locationForm)">
     <div class="btn-group btn-group-block">
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: !createGroupService.group.isVirtualGroup}" formControlName="isVirtualGroup" value="false" (click)="onClickIsVirtual(false)" ngDefaultControl>
+      <button type="button" class="btn btn-option btn-flex btn-outline" [ngClass]="{active: !createGroupService.group.isVirtualGroup}" formControlName="isVirtualGroup" value="false" (click)="onClickIsVirtual(false)" ngDefaultControl data-automation-id="inPerson">
         <div class="row">
           <div class="text-left btn-group-label">
             <span class="btn-group-icons">
@@ -31,26 +31,26 @@
 
       <div class="custom-input push-top" *ngIf="!createGroupService.group.isVirtualGroup">
         <input class="form-control" name="address" formControlName="address" placeholder="Address" [(ngModel)]="createGroupService.group.address.addressLine1">
-        <p class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['address'].valid">Address is required</p>
+        <p class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['address'].valid" data-automation-id="addressRequired">Address is required</p>
         <input class="push-top form-control" name="city" formControlName="city" placeholder="City" [(ngModel)]="createGroupService.group.address.city">
-        <p class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['city'].valid">City is required</p>
+        <p class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['city'].valid" data-automation-id="cityRequired">City is required</p>
 
         <div>
           <div class="push-top row">
             <div class="col-xs-6 hard-left soft-right">
-              <select class="form-control" name="state" formControlName="state" placeholder="State" [(ngModel)]="createGroupService.group.address.state">
+              <select class="form-control" name="state" formControlName="state" placeholder="State" [(ngModel)]="createGroupService.group.address.state" data-automation-id="state">
                 <option value="null" disabled="true" [selected]="!createGroupService.group.address.state">State</option>
                 <option *ngFor="let state of usStatesList" [value]="state">{{state}}</option>
               </select>
               <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
-                <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+                <crds-content-block id="oneOptionMustBeSelected" data-automation-id="stateRequired"></crds-content-block>
               </div>
             </div>
 
             <div class="col-xs-6 hard-right">
-              <input class="form-control" name="zip" formControlName="zip" placeholder="Zip" [(ngModel)]="createGroupService.group.address.zip" minlength="5" maxlength="5" type="tel" onlyTheseKeys="[0-9]">
+              <input class="form-control" name="zip" formControlName="zip" placeholder="Zip" [(ngModel)]="createGroupService.group.address.zip" minlength="5" maxlength="5" type="tel" onlyTheseKeys="[0-9]" data-automation-id="zip">
               <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
-                <crds-content-block id="invalidZip"></crds-content-block>
+                <crds-content-block id="invalidZip" data-automation-id="invalidZip"></crds-content-block>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="btn-group-block">
-          <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.kidsWelcome}" formControlName="kidsWelcome" value="true" (click)="onClickKidsWelcome(true)" ngDefaultControl style="white-space: normal">
+          <button type="button" class="btn btn-option btn-flex btn-outline" [ngClass]="{active: createGroupService.group.kidsWelcome}" formControlName="kidsWelcome" value="true" (click)="onClickKidsWelcome(true)" ngDefaultControl style="white-space: normal" data-automation-id="kidsWelcomeYes">
             <div class="btn-group-label text-left row">
               <span class="btn-group-icons">
                 <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -74,7 +74,7 @@
               Yep. Kids are welcome. As a group, we'll decide what to do with them.
             </div>
           </button>
-          <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.kidsWelcome === false}" formControlName="kidsWelcome" value="false" (click)="onClickKidsWelcome(false)" ngDefaultControl>
+          <button type="button" class="btn btn-option btn-flex btn-outline"  [ngClass]="{active: createGroupService.group.kidsWelcome === false}" formControlName="kidsWelcome" value="false" (click)="onClickKidsWelcome(false)" ngDefaultControl data-automation-id="kidsWelcomeNo">
             <div class="btn-group-label text-left row">
               <span class="btn-group-icons">
                 <svg class="icon circle-thin" viewBox="0 0 256 256">
@@ -88,14 +88,14 @@
             </div>
           </button>
           <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
-            <crds-content-block id="oneOptionMustBeSelected"></crds-content-block>
+            <crds-content-block id="oneOptionMustBeSelected" data-automation-id="kidsWelcomeRequired"></crds-content-block>
           </div>
         </div>
       </div>
     </div>
 
     <div class="btn-group btn-group-block soft-top">
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: createGroupService.group.isVirtualGroup}" formControlName="isVirtualGroup" value="true" (click)="onClickIsVirtual(true)" ngDefaultControl>
+      <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: createGroupService.group.isVirtualGroup}" formControlName="isVirtualGroup" value="true" (click)="onClickIsVirtual(true)" ngDefaultControl data-automation-id="online">
         <div class="row">
           <div class="btn-group-label text-left">
             <span class="btn-group-icons">

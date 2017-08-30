@@ -221,6 +221,7 @@ const appRoutes: Routes = [
   },
   { path: 'groups-not-found', component: StuffNotFoundComponent },
   { path: 'connections-not-found', component: StuffNotFoundComponent },
+  { path: 'my', component: NeighborsComponent, canActivate: [LoggedInGuard]},
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {

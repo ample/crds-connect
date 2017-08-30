@@ -154,6 +154,9 @@ export class GatheringComponent implements OnInit {
       .subscribe(
         success => {
           this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
+          if ( approved ) {
+            this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
+          }
           this.getParticipants(true);
         },
         failure => {
@@ -184,7 +187,7 @@ export class GatheringComponent implements OnInit {
   }
 
   public showSocial(): boolean {
-    return !(this.state.getActiveGroupPath() === groupPaths.EDIT || this.state.getActiveGroupPath() === groupPaths.ADD);
+    return !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD));
   }
 
   public isPublicGroup(): boolean {
