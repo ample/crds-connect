@@ -73,6 +73,7 @@ export class GatheringComponent implements OnInit {
   public ngOnInit() {
     if (!this.previewMode) {
       window.scrollTo(0, 0);
+      this.reEnableScrollingInCaseFauxdalDisabledIt();
       this.requestToJoin = this.requestToJoin.bind(this);
       this.state.setLoading(true);
 
@@ -293,6 +294,10 @@ export class GatheringComponent implements OnInit {
 
   public displayKidsWelcome(kidsWelcome: boolean): string {
     return kidsWelcome ? 'Yes' : 'No';
+  }
+
+  private reEnableScrollingInCaseFauxdalDisabledIt(): void {
+    document.querySelector('body').style.overflowY = 'scroll';
   }
 
 }
