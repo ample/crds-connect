@@ -16,6 +16,7 @@ export class NoResultsComponent implements OnInit {
               private appSettings: AppSettingsService) {}
 
   public ngOnInit(): void {
+    this.state.setLoading(false);
     this.state.clearLastSearch();
     this.state.navigatedBackToNeighbors = true;
     this.groupUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/search`;
