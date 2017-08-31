@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router,  ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -31,6 +31,7 @@ describe('try-group-request-confirmation.component', () => {
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockState },
         { provide: Router, useValue: mockRouter},
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { groupId: 1234 } } } },
         { provide: ToastsManager, useValue: mockToastsManager }
       ],
       schemas: [NO_ERRORS_SCHEMA]

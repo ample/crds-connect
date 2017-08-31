@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 
@@ -11,11 +12,11 @@ import { StateService } from '../../../services/state.service';
   styles: ['.fauxdal-wrapper { overflow-y: hidden; }']
 })
 export class EndGroupConfirmationComponent implements OnInit {
-  @Input groupId: string;
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   constructor(private sessionService: SessionService,
     private router: Router,
+    private route: ActivatedRoute,
     private state: StateService,
     private toast: ToastsManager,
     private content: ContentService
@@ -23,6 +24,7 @@ export class EndGroupConfirmationComponent implements OnInit {
 
   ngOnInit() {
     this.state.setLoading(false);
+    this.groupId = this.route.snapshot.params['groupId'];
     document.querySelector('body').style.overflowY = 'hidden';
   }
 
@@ -35,12 +37,12 @@ export class EndGroupConfirmationComponent implements OnInit {
     this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
     .subscribe(
       success => {
-        this.router.navigate([`/small-group/${this.groupId}`]);
-        this.toast.success(___success message___);
+        this.router.navigate([`grouptool/${this.groupId}/endsmallgroup`]);
+        this.toast.success('The group has ended successfully.');
         this.state.setLoading(false);
       },
       failure => {
-        this.toast.error(___failure message___);
+        this.toast.error('There was an error ending the group.  Please try again.');
         this.state.setLoading(false);
       }
     );
