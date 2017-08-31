@@ -97,6 +97,8 @@
 
   <leader-resources *ngIf="isLeader && !appSettingsService.isConnectApp()"></leader-resources>
 
+  <a *ngIf="isLeader && !appSettingsService.isConnectApp()" (click)="onEndGroupClicked()">End group</a>
+
    <!-- 👇 is not tied to any functionality. -->
   <!-- <div *ngIf="isLeader && !appSettingsService.isConnectApp()" class="soft-ends">
 
