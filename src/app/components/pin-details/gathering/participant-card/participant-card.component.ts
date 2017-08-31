@@ -30,17 +30,6 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // if (this.participant.canBeHyperlinked === undefined) {
-    //   this.participant.canBeHyperlinked = true;
-    // }
-    // if (this.userIsLeader) {
-    //   this.participant.canBeHyperlinked = false;
-    // }
-    // if (this.session.getContactId() === this.participant.contactId) {
-    //   this.isMe = true;
-    //   this.participant.canBeHyperlinked = false;
-    // }
-
     if (this.session.getContactId() === this.participant.contactId) {
       this.isMe = true;
     }
@@ -72,7 +61,6 @@ export class ParticipantCardComponent implements OnInit {
   public onParticipantClick(): void {
     if (this.participant.canBeHyperlinked) {
       if (this.appSettings.isSmallGroupApp()) {
-        // const routeToNavigateTo: string = `/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`;
         this.router.navigate([`/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`]);
       } else {
         this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
@@ -87,5 +75,4 @@ export class ParticipantCardComponent implements OnInit {
          { relativeTo: this.route });
     }
   }
-
 }
