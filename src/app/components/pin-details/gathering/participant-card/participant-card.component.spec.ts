@@ -30,7 +30,7 @@ describe('ParticipantCardComponent', () => {
 
   beforeEach(() => {
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
-    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp','isConnectApp']);
+    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp', 'isConnectApp']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockRoute = new ActivatedRouteStub();
     let canBeHyperlinked: boolean = true;
@@ -68,15 +68,34 @@ describe('ParticipantCardComponent', () => {
 
   it('should init and set isMe to true', () => {
     mockSessionService.getContactId.and.returnValue(321);
-    comp['participant'].canBeHyperlinked = true;
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(true);
+  });
+
+  it('should init and set isMe to false', () => {
+    mockSessionService.getContactId.and.returnValue(747648367);
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(false);
+  });
+
+  it('should init and set canBeHyperlinked to false if the user is not a leader', () => {
+    comp.userIsLeader = false;
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(false);
+    expect(comp['participant'].canBeHyperlinked).toBe(false);
+  });
+
+  it('should init and set canBeHyperlinked to false if the user is the participant', () => {
+    mockSessionService.getContactId.and.returnValue(321);
+    comp.userIsLeader = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(true);
     expect(comp['participant'].canBeHyperlinked).toBe(false);
   });
 
-  it('should init and set isMe to false', () => {
-    mockSessionService.getContactId.and.returnValue(747648367);
-    comp['participant'].canBeHyperlinked = true;
+  it('should init and set canBeHyperlinked to true if the user is a leader and is not the participant', () => {
+    comp['participant'].canBeHyperlinked = undefined;
+    comp.userIsLeader = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(false);
     expect(comp['participant'].canBeHyperlinked).toBe(true);
