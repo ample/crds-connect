@@ -63,7 +63,8 @@
       </span>
     </h3>
     <p class="media-meta">
-      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTime(pin.gathering.meetingTime) | date:'shortTime' }}, {{pin?.gathering?.meetingFrequency}}</span>
+      <span *ngIf="pin?.gathering?.meetingDay != null">{{pin?.gathering?.meetingDay}} at {{ getMeetingTimeString(pin.gathering.meetingTime) }}, {{pin?.gathering?.meetingFrequency}}</span>
+      
       <span *ngIf="pin?.gathering?.meetingDay == null">Flexible Meeting Time</span>
       <br>
       <span>{{proximityInfo}}</span>
