@@ -38,11 +38,11 @@ export class EndGroupConfirmationComponent implements OnInit {
     .subscribe(
       success => {
         this.router.navigate([`grouptool/${this.groupId}/endsmallgroup`]);
-        this.toast.success('The group has ended successfully.');
+        this.toast.success(this.content.getContent('endGroupConfirmationSuccessMessage'));
         this.state.setLoading(false);
       },
       failure => {
-        this.toast.error('There was an error ending the group.  Please try again.');
+        this.toast.error(this.content.getContent('endGroupConfirmationFailureMessage'));
         this.state.setLoading(false);
       }
     );

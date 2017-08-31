@@ -4,6 +4,7 @@ import { Router,  ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
+import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 
@@ -21,6 +22,7 @@ describe('try-group-request-confirmation.component', () => {
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error', 'success']);
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -32,7 +34,8 @@ describe('try-group-request-confirmation.component', () => {
         { provide: StateService, useValue: mockState },
         { provide: Router, useValue: mockRouter},
         { provide: ActivatedRoute, useValue: { snapshot: { params: { groupId: 1234 } } } },
-        { provide: ToastsManager, useValue: mockToastsManager }
+        { provide: ToastsManager, useValue: mockToastsManager },
+        { provide: ContentService, useValue: mockContentService}
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -56,14 +59,16 @@ describe('try-group-request-confirmation.component', () => {
     comp.ngOnInit();
     comp.onEndGroup();
     expect(mockRouter.navigate).toHaveBeenCalledWith([`/small-group/${groupId}`]);
-    expect(mockToastsManager.success).toHaveBeenCalledWith(___success message___);
+    expect(mockToastsManager.success).toHaveBeenCalled();
+    expect(mockContentService.getContent).toHaveBeenCalledWith('endGroupConfirmationSuccessMessage');
   });
 
   it('handles HTTP errors', () => {
-    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 409}));
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 400}));
 
     comp.ngOnInit();
     comp.onEndGroup();
-    expect(mockToastsManager.error).toHaveBeenCalledWith(___error message___);
+    expect(mockToastsManager.error).toHaveBeenCalled();
+    expect(mockContentService.getContent).toHaveBeenCalledWith('endGroupConfirmationFailureMessage');
   });
 });
