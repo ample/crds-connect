@@ -34,10 +34,10 @@ export class EndGroupConfirmationComponent implements OnInit {
 
   public onSubmit(): void {
     this.state.setLoading(true);
-    this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
+    this.sessionService.post(`${this.baseUrl}api/v1.0.0/grouptool/${this.groupId}/endsmallgroup`)
     .subscribe(
       success => {
-        this.router.navigate([`grouptool/${this.groupId}/endsmallgroup`]);
+        this.router.navigate(['/my']);
         this.toast.success(this.content.getContent('endGroupConfirmationSuccessMessage'));
         this.state.setLoading(false);
       },

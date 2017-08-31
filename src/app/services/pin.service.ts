@@ -36,10 +36,8 @@ import * as _ from 'lodash';
 
 import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
 
-
 @Injectable()
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
-
   public SayHiTemplateId: number;
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
@@ -336,14 +334,12 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((err) => Observable.throw(err.json().error));
   }
 
-
   public doesLoggedInUserOwnPin(pin: Pin) {
     let contactId = this.session.getContactId();
     return contactId === pin.contactId;
   }
 
   public replaceAddressOnUpdatedPin(pinSearchResults: Pin[], updatedPin: Pin, updatedPinsOldAddress: Address) {
-
     let indexOfUpdatedPin = pinSearchResults.findIndex(pin =>
       pin.participantId === updatedPin.participantId
       && pin.address.addressId === updatedPinsOldAddress.addressId
@@ -382,7 +378,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       + Math.sin(a1) * Math.sin(a2)) * earthsRadiusInMiles;
   }
 
-
   public sortPinsAndRemoveDuplicates(pinSearchResults: Pin[]): Pin[] {
     let sortedPins: Pin[] = this.sortPins(pinSearchResults);
     let sortedAndUniquePins: Pin[] = this.removeDuplicatePins(sortedPins);
@@ -391,7 +386,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   };
 
   public removePinFromResultsIfDeleted(pinSearchResults: Pin[], removedPin: PinIdentifier): Pin[]{
-
     if (removedPin) {
       pinSearchResults = pinSearchResults.filter(p => p.contactId !== removedPin.id || p.pinType !== removedPin.type);
     }
@@ -399,7 +393,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   public sortPins(pinSearchResults: Pin[]): Pin[] {
-
     let sortedPinSearchResults: Pin[] =
       pinSearchResults.sort(
         (p1: Pin, p2: Pin) => {
@@ -418,7 +411,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   public removeDuplicatePins(pinSearchResults: Pin[]): Pin[] {
-
     let lastIndex = -1;
 
     let uniquePins: Pin[] = pinSearchResults.filter( (p, index, self) => {
@@ -461,7 +453,6 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   public addNewPinToResultsIfNotUpdatedInAwsYet(pinsFromServer: Pin[]): Pin[] {
-
     let wasFreshPinJustAdded: boolean = this.state.navigatedFromAddToMapComponent && !!this.state.postedPin;
 
     if (wasFreshPinJustAdded) {
