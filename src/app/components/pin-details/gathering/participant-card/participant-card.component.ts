@@ -14,10 +14,10 @@ import { GroupRole } from '../../../../shared/constants';
   templateUrl: 'participant-card.html'
 })
 export class ParticipantCardComponent implements OnInit {
-
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
   @Input() groupCardIsDisplayedOn: Group;
+  @Input() userIsLeader: boolean;
   public isLeader: boolean = false;
   public isMe: boolean = false;
   public isApprentice: boolean = false;
@@ -30,20 +30,30 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.participant.canBeHyperlinked === undefined) {
-      this.participant.canBeHyperlinked = true;
-    }
+    // if (this.participant.canBeHyperlinked === undefined) {
+    //   this.participant.canBeHyperlinked = true;
+    // }
+    // if (this.userIsLeader) {
+    //   this.participant.canBeHyperlinked = false;
+    // }
+    // if (this.session.getContactId() === this.participant.contactId) {
+    //   this.isMe = true;
+    //   this.participant.canBeHyperlinked = false;
+    // }
+
     if (this.session.getContactId() === this.participant.contactId) {
       this.isMe = true;
-      this.participant.canBeHyperlinked = false;
     }
+
+    if (!this.userIsLeader || this.isMe) {
+      this.participant.canBeHyperlinked = false;
+    } else if (this.participant.canBeHyperlinked === undefined) {
+      this.participant.canBeHyperlinked = true;
+    }
+
     this.isApprentice  = (this.participant.groupRoleId === GroupRole.APPRENTICE);
     this.isLeader      = (this.participant.groupRoleId === GroupRole.LEADER);
     this.isTrialMember = (this.participant.groupRoleId === GroupRole.TRIAL_MEMBER);
-  }
-
-  public enableHyperlink(): boolean {
-    return this.participant.canBeHyperlinked;
   }
 
   public showLeaderLabel(): boolean {
@@ -61,9 +71,9 @@ export class ParticipantCardComponent implements OnInit {
 
   public onParticipantClick(): void {
     if (this.participant.canBeHyperlinked) {
-      if(this.appSettings.isSmallGroupApp()){
-        let routeToNavigateTo: string = `/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`;
-        this.router.navigate([routeToNavigateTo]);
+      if (this.appSettings.isSmallGroupApp()) {
+        // const routeToNavigateTo: string = `/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`;
+        this.router.navigate([`/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`]);
       } else {
         this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
       }
