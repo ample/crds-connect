@@ -1,0 +1,39 @@
+<div class="fauxdal-wrapper">
+  <div class="fauxdal fauxdal-fullscreen">
+    <div class="container-fluid">
+      <div class="pull-right close">
+        <a (click)="onClose()">
+          <svg class="icon icon-1" viewBox="0 0 256 256">
+            <use xlink:href="/assets/svgs/icons.svg#close"></use>
+          </svg>
+        </a>
+      </div>
+
+      <div class="fauxdal-content">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <crds-content-block id="tryGroupRequestConfirmation"></crds-content-block>
+          </div>
+        </div>
+
+        <footer class="row soft-top">
+          <div class="col-sm-6 col-sm-offset-3 btn-block-mobile text-center">
+            <!-- End Group Button: -->
+            <button type="button"
+                    class="btn btn-secondary btn-block-mobile"
+                    (click)="onEndGroup()">
+              End group
+            </button>
+
+            <!-- Cancel Button: -->
+            <button type="button"
+                    class="btn btn-outline btn-default btn-block-mobile"
+                    (click)="onCancel()">
+              Cancel
+            </button>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
