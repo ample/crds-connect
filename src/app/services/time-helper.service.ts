@@ -53,6 +53,10 @@ export class TimeHelperService {
     return meetingTimeAsDate;
   }
 
+  public getFormattedTimeString(date: Date): string {
+    return moment(date).format('h:mm A');
+  }
+
   public setTimeToCorrectFormatAndAdjustForLocal(timeOnlyPortion: string): string {
     let utcDateTime: string = this.addDatePortionPlaceholderToMilitarytime(timeOnlyPortion);
     let timeZoneAdjustedUtcTimeDate: string = this.adjustUtcStringToAccountForLocalOffSet(utcDateTime, false);
