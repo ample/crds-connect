@@ -216,7 +216,7 @@ export class GatheringComponent implements OnInit {
 
   private onEndGroupClicked(): void {
     this.state.setLoading(true);
-    this.router.navigate([`end-group/${groupId}`]);
+    this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
   }
 
   public getMeetingTime(meetingTimeUtc: string) {

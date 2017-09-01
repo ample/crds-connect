@@ -17,7 +17,7 @@ import { CreateGroupPage4Component } from './components/create-group/page-4/crea
 import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
 import { CreateGroupPage6Component } from './components/create-group/page-6/create-group-page-6.component';
 import { CreateGroupPreviewComponent } from './components/create-group/preview/create-group-preview.component';
-import { EndGroupConfirmation } from './components/pin-details/gathering/end-group/end-group-confirmation.component';
+import { EndGroupConfirmationComponent } from './components/pin-details/gathering/end-group/end-group-confirmation.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
@@ -162,7 +162,7 @@ const appRoutes: Routes = [
     ]
     }, {
       path: 'end-group/:groupId',
-      component: EndGroupConfirmation,
+      component: EndGroupConfirmationComponent,
       canActivate: [
         LoggedInGuard,
         GroupLeaderGuard

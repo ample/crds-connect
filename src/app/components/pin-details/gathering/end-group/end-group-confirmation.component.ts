@@ -3,8 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { SessionService } from '../../../services/session.service';
-import { StateService } from '../../../services/state.service';
+import { SessionService } from '../../../../services/session.service';
+import { StateService } from '../../../../services/state.service';
+import { ParticipantService } from '../../../../services/participant.service';
 
 @Component({
   selector: 'app-end-group-confirmation',
@@ -13,13 +14,15 @@ import { StateService } from '../../../services/state.service';
 })
 export class EndGroupConfirmationComponent implements OnInit {
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private groupId: string;
 
   constructor(private sessionService: SessionService,
     private router: Router,
     private route: ActivatedRoute,
     private state: StateService,
     private toast: ToastsManager,
-    private content: ContentService
+    private content: ContentService,
+    private participantService: ParticipantService
   ) {}
 
   ngOnInit() {
@@ -32,11 +35,12 @@ export class EndGroupConfirmationComponent implements OnInit {
     window.history.back();
   }
 
-  public onSubmit(): void {
+  public onEndGroup(): void {
     this.state.setLoading(true);
-    this.sessionService.post(`${this.baseUrl}api/v1.0.0/grouptool/${this.groupId}/endsmallgroup`)
+    this.sessionService.post(`${this.baseUrl}api/v1.0.0/grouptool/${this.groupId}/endsmallgroup`, null)
     .subscribe(
       success => {
+        this.participantService.clearGroupFromCache(Number(this.groupId));
         this.router.navigate(['/my']);
         this.toast.success(this.content.getContent('endGroupConfirmationSuccessMessage'));
         this.state.setLoading(false);

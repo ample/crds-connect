@@ -5,24 +5,27 @@ import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { SessionService } from '../../../services/session.service';
-import { StateService } from '../../../services/state.service';
+import { SessionService } from '../../../../services/session.service';
+import { StateService } from '../../../../services/state.service';
+import { ParticipantService } from '../../../../services/participant.service';
 
-import { MockComponent } from '../../../shared/mock.component';
+import { MockComponent } from '../../../../shared/mock.component';
 
-import { EndGroupConfirmationComponent } from './try-group-request-confirmation.component';
+import { EndGroupConfirmationComponent } from './end-group-confirmation.component';
 
-let fixture: ComponentFixture<TryGroupRequestConfirmationComponent>;
-let comp: TryGroupRequestConfirmationComponent;
-let mockRouter, mockSessionService, mockState, mockToastsManager, mockContentService;
+let fixture: ComponentFixture<EndGroupConfirmationComponent>;
+let comp: EndGroupConfirmationComponent;
+let mockRouter, mockSessionService, mockState, mockToastsManager, mockContentService,
+  mockParticipantService;
 
-describe('try-group-request-confirmation.component', () => {
+describe('end-group-confirmation.component', () => {
   beforeEach(() => {
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['get', 'post', 'getContactId']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error', 'success']);
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
+    mockParticipantService = jasmine.createSpyObj<ParticipantService>('participant', ['clearGroupFromCache']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -35,7 +38,8 @@ describe('try-group-request-confirmation.component', () => {
         { provide: Router, useValue: mockRouter},
         { provide: ActivatedRoute, useValue: { snapshot: { params: { groupId: 1234 } } } },
         { provide: ToastsManager, useValue: mockToastsManager },
-        { provide: ContentService, useValue: mockContentService}
+        { provide: ContentService, useValue: mockContentService },
+        { provide: ParticipantService, useValue: mockParticipantService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -58,7 +62,7 @@ describe('try-group-request-confirmation.component', () => {
 
     comp.ngOnInit();
     comp.onEndGroup();
-    expect(mockRouter.navigate).toHaveBeenCalledWith([`/small-group/${groupId}`]);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/my']);
     expect(mockToastsManager.success).toHaveBeenCalled();
     expect(mockContentService.getContent).toHaveBeenCalledWith('endGroupConfirmationSuccessMessage');
   });
