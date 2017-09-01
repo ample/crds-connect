@@ -54,6 +54,7 @@ import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.c
 import { CategoryComponent } from './components/filters/category/category.component';
 
 import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
+import { EndGroupConfirmationComponent } from './components/pin-details/gathering/end-group/end-group-confirmation.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
