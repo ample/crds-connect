@@ -10,31 +10,35 @@
       </div>
 
       <div class="fauxdal-content">
-        <crds-content-block id="tryGroupRequestConfirmation"></crds-content-block>
-      </div>
-
-      <br>
-
-      <footer class="page-footer btn-group-horizontal">
-        <!-- Submit Button: -->
-        <button type="button"
-                class="btn btn-secondary btn-block-mobile"
-                (click)="onSubmit()">
-          Sounds great!
-        </button>
-
-        <!-- Cancel Button: -->
-        <button type="button"
-                class="btn btn-secondary btn-block-mobile"
-                (click)="onCancel()">
-          Cancel
-        </button>
-
-        <!-- Error Message: -->
-        <div class="alert alert-danger" *ngIf="errorMessage">
-          <crds-content-block id="{{errorMessage}}"></crds-content-block>
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <crds-content-block id="tryGroupRequestConfirmation"></crds-content-block>
+          </div>
         </div>
-      </footer>
+
+        <footer class="row soft-top">
+          <div class="col-sm-6 col-sm-offset-3 btn-block-mobile text-center">
+            <!-- Submit Button: -->
+            <button type="button"
+                    class="btn btn-secondary btn-block-mobile"
+                    (click)="onSubmit()">
+              Sounds great!
+            </button>
+
+            <!-- Cancel Button: -->
+            <button type="button"
+                    class="btn btn-outline btn-default btn-block-mobile"
+                    (click)="onCancel()">
+              Cancel
+            </button>
+
+            <!-- Error Message: -->
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              <crds-content-block id="{{errorMessage}}"></crds-content-block>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
   </div>
 </div>

@@ -94,7 +94,6 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { TryGroupRequestConfirmationComponent } from './components/try-group/try-group-request-confirmation/try-group-request-confirmation.component';
-import { TryGroupRequestSuccessComponent } from './components/try-group/try-group-request-success/try-group-request-success.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
@@ -140,6 +139,8 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+
+import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
 
 import { RouterModule } from '@angular/router';
 
@@ -237,10 +238,10 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchLocalComponent,
     StuffNotFoundComponent,
     TryGroupRequestConfirmationComponent,
-    TryGroupRequestSuccessComponent,
     LeaderResourcesComponent,
     GoogleMapClusterDirective,
-    CreateGroupFooterComponent
+    CreateGroupFooterComponent,
+    SocialMediaComponent
   ],
   providers: [
     AddressService,

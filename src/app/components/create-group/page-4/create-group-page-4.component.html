@@ -11,7 +11,7 @@
     <p class="control-label push-top soft-half-top">What kind of group would you like to lead??</p>
     <form [formGroup]="groupMetaDataForm" (ngSubmit)="onSubmit(groupMetaDataForm)">
       <div *ngFor="let mixType of genderMixTypes" class="btn-group btn-group-block">
-        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.selectedGroupGenderMix.attributeId === mixType.attributeId }" formControlName="groupGenderMixType" (click)="onClickMixType(mixType)" ngDefaultControl>
+        <button type="button" class="btn btn-option btn-flex btn-outline" [ngClass]="{active: createGroupService.selectedGroupGenderMix.attributeId === mixType.attributeId }" formControlName="groupGenderMixType" (click)="onClickMixType(mixType)" ngDefaultControl>
           <div class="row">
             <div class="text-left btn-group-label full-width">
               <span class="btn-group-icons">
@@ -28,16 +28,16 @@
         </button>
       </div>
 
-      <div *ngIf="groupGenderMixInvalid" class="alert alert-danger soft-ends">This field is required.</div>
+      <div *ngIf="groupGenderMixInvalid" class="alert alert-danger soft-ends" data-automation-id="genderMixRequired">This field is required.</div>
 
       <div class="push-top soft-half-top">
         <crds-content-block id="groupToolCreateGroupAge" class="control-label"></crds-content-block>
       </div>
       <div *ngIf="isStudentMinistrySelected" class="soft-ends alert alert-warning">
-        <crds-content-block id="groupToolStudentMinistryAlert"></crds-content-block>
+        <crds-content-block id="groupToolStudentMinistryAlert" data-automation-id="studMinAlert"></crds-content-block>
       </div>
       <div *ngFor="let ageRange of ageRanges" class="btn-group btn-group-block">
-        <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: ageRange.selected }" formControlName="groupAgeRanges" value="ageRange.selected" (click)="onClickAgeRange(ageRange)" ngDefaultControl>
+        <button type="button" class="btn btn-option btn-flex btn-outline" [ngClass]="{active: ageRange.selected }" formControlName="groupAgeRanges" value="ageRange.selected" (click)="onClickAgeRange(ageRange)" ngDefaultControl>
           <div class="row">
             <div class="btn-group-label text-left full-width">
               <span class="btn-group-icons">
@@ -53,7 +53,7 @@
           </div>
         </button>
       </div>
-      <div *ngIf="selectedAgeRangesInvalid" class="alert alert-danger soft-top">This field is required.</div>
+      <div *ngIf="selectedAgeRangesInvalid" class="alert alert-danger soft-top" data-automation-id="agesRequired">This field is required.</div>
 
       <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
     </form>

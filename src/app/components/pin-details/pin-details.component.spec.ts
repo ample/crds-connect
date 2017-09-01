@@ -34,7 +34,7 @@ describe('PinDetailsComponent', () => {
     pin = MockTestData.getAPin();
     mockPlatformLocation = jasmine.createSpyObj<PlatformLocation>('location', ['reload']);
     mockSession = jasmine.createSpyObj<SessionService>('session', ['isLoggedIn',  'post']);
-    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
+    mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setActiveGroupPath']);
 
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['doesLoggedInUserOwnPin', 'setEditedGatheringPin', 'getEditedGatheringPin']);
     mockActivatedRoute = {
@@ -138,46 +138,4 @@ describe('PinDetailsComponent', () => {
 
   });
 
-   describe('Trial member approval', () => {
-    let mockBackend;
-
-    let mockParams: object;
-    const returnMockParams = function (key: string): string {
-      return mockParams[key];
-    };
-
-    it('test approveOrDisapproveTrialMember success approve = true', () => {
-      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
-
-      comp.ngOnInit();
-      expect(comp['trialMemberApprovalMessage']).toBe('Trial member was approved');
-    });
-
-    it('test approveOrDisapproveTrialMember success approve = false', () => {
-      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
-
-      comp['route'].snapshot.params['approved'] = 'false';
-      comp.ngOnInit();
-      expect(comp['trialMemberApprovalMessage']).toBe('Trial member was disapproved');
-    });
-
-    it('test approveOrDisapproveTrialMember failure', () => {
-      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.throw({status: 404}));
-
-      comp.ngOnInit();
-      expect(comp['trialMemberApprovalMessage']).toBe('Error approving trial member');
-      expect(comp['trialMemberApprovalError']).toEqual(true);
-    });
-
-    it('test approveOrDisapproveTrialMember post not called', () => {
-      <jasmine.Spy>(mockSession.post).and.returnValue(Observable.of(true));
-
-      comp['route'].snapshot.params['approved'] = undefined;
-      comp['route'].snapshot.params['trialMemberId'] = undefined;
-      comp.ngOnInit();
-      expect(comp['trialMemberApprovalMessage']).toEqual(undefined);
-      expect(comp['session'].post).not.toHaveBeenCalled();
-    });
-
-  });
 });

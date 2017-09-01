@@ -14,16 +14,16 @@
     <!-- Set Group Name: -->
     <div>
       <label class="control-label soft-top soft-quarter-bottom" for="groupName">Group name</label>
-      <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers" maxlength="35">
+      <input class="form-control" id="groupName" formControlName="groupName" [(ngModel)]="createGroupService.group.groupName" placeholder="Ex. Brewing Brothers" maxlength="35" data-automation-id="groupName">
 
       <!-- Name too Long Error -->
       <div class="error" *ngIf="isSubmitted && groupDetailsForm.get('groupName').hasError('maxlength')">
-          <div class="alert alert-danger">Group name must be less than 35 characters long.</div>
+          <div class="alert alert-danger" data-automation-id="groupNameMaxErr">Group name must be less than 35 characters long.</div>
       </div>
 
       <!-- Required error -->
       <div *ngIf="isSubmitted && groupDetailsForm.get('groupName').hasError('required')">
-        <div class="alert alert-danger">This field is required.</div>
+        <div class="alert alert-danger" data-automation-id="groupNameRequired">This field is required.</div>
       </div>
 
     </div>
@@ -31,16 +31,16 @@
     <!-- Set Group Description: -->
     <div>
       <label class="control-label soft-top soft-quarter-bottom" for="groupDescription">Group description</label>
-      <textarea id="groupDescription" class="form-control" rows="6" maxLength="500" formControlName="groupDescription" [(ngModel)]="createGroupService.group.groupDescription" placeholder="Ex: This group is for men in their 30s who like to brew their own beer. We’ll meet regularly to come up with a new beer and brew it together, and share some beers while we build friendships. We’ll meet in Pleasant Ridge weekly in my home."></textarea>
+      <textarea id="groupDescription" class="form-control" rows="6" maxLength="500" formControlName="groupDescription" [(ngModel)]="createGroupService.group.groupDescription" placeholder="Ex: This group is for men in their 30s who like to brew their own beer. We’ll meet regularly to come up with a new beer and brew it together, and share some beers while we build friendships. We’ll meet in Pleasant Ridge weekly in my home." data-automation-id="groupDescription"></textarea>
 
       <!--Description too Long Error -->
       <div class="error" *ngIf="isSubmitted && groupDetailsForm.get('groupDescription').hasError('maxlength')">
-        <div class="alert alert-danger">Group description must be less than 500 characters long.</div>
+        <div class="alert alert-danger" data-automation-id="GroupDescMaxErr">Group description must be less than 500 characters long.</div>
       </div>
 
       <!-- Description Omitted Error: -->
       <div *ngIf="isSubmitted && groupDetailsForm.get('groupDescription').hasError('required')">
-        <div class="alert alert-danger">This field is required.</div>
+        <div class="alert alert-danger" data-automation-id="groupDescRequired">This field is required.</div>
       </div>
 
     </div>
@@ -53,14 +53,14 @@
     <p class="control-label soft-top">Set your group to public or private</p>
 
     <div *ngIf="createGroupService.group.availableOnline === false" class="alert alert-warning">
-      <crds-content-block id="groupToolPrivateGroupAlert" class="alert"></crds-content-block>
+      <crds-content-block id="groupToolPrivateGroupAlert" class="alert" data-automation-id="privateGroupAlert"></crds-content-block>
     </div>
 
     <div class="btn-group btn-group-block">
       <!-- Group Public Button -->
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline }"
+      <button type="button" class="btn btn-option btn-flex btn-outline" [ngClass]="{active: createGroupService.group.availableOnline }"
       formControlName="availableOnline" value="true" (click)="onSetGroupPrivacy(true)" ngDefaultControl style="white-space: normal"
-      [(ngModel)]="createGroupService.group.availableOnline">
+      [(ngModel)]="createGroupService.group.availableOnline" data-automation-id="publicGroup">
         <div class="row">
           <div class="text-left btn-group-label">
             <span class="btn-group-icons">
@@ -76,9 +76,9 @@
         </div>
       </button>
       <!-- Group Private Button -->
-      <button type="button" class="btn btn-option btn-flex btn-outline" id="specific" [ngClass]="{active: createGroupService.group.availableOnline === false }"
+      <button type="button" class="btn btn-option btn-flex btn-outline" name="privateGroup" [ngClass]="{active: createGroupService.group.availableOnline === false }"
       formControlName="availableOnline" value="false" (click)="onSetGroupPrivacy(false)" ngDefaultControl style="white-space: normal"
-      [(ngModel)]="createGroupService.group.availableOnline">
+      [(ngModel)]="createGroupService.group.availableOnline" data-automation-id="privateGroup">
         <div class="row">
           <div class="btn-group-label text-left">
             <span class="btn-group-icons">
@@ -97,7 +97,7 @@
 
     <!-- Group Privacy Omitted Error: -->
     <div *ngIf="isSubmitted && groupDetailsForm.get('availableOnline').hasError('required')" class="soft-top">
-      <div class="alert alert-danger">This field is required.</div>
+      <div class="alert alert-danger" data-automation-id="groupPrivacyRequired">This field is required.</div>
     </div>
 
     <!-- Footer: -->

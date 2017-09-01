@@ -11,6 +11,8 @@ import { AppSettingsService } from '../../../../services/app-settings.service';
 import { SessionService } from '../../../../services/session.service';
 import { ParticipantCardComponent } from './participant-card.component';
 import { MockComponent } from '../../../../shared/mock.component';
+
+import { Group } from '../../../../models/group';
 import { Participant } from '../../../../models/participant';
 
 class ActivatedRouteStub {
@@ -28,7 +30,7 @@ describe('ParticipantCardComponent', () => {
 
   beforeEach(() => {
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
-    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp','isConnectApp']);
+    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isSmallGroupApp', 'isConnectApp']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockRoute = new ActivatedRouteStub();
     let canBeHyperlinked: boolean = true;
@@ -66,15 +68,34 @@ describe('ParticipantCardComponent', () => {
 
   it('should init and set isMe to true', () => {
     mockSessionService.getContactId.and.returnValue(321);
-    comp['participant'].canBeHyperlinked = true;
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(true);
+  });
+
+  it('should init and set isMe to false', () => {
+    mockSessionService.getContactId.and.returnValue(747648367);
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(false);
+  });
+
+  it('should init and set canBeHyperlinked to false if the user is not a leader', () => {
+    comp.userIsLeader = false;
+    comp.ngOnInit();
+    expect(comp['isMe']).toBe(false);
+    expect(comp['participant'].canBeHyperlinked).toBe(false);
+  });
+
+  it('should init and set canBeHyperlinked to false if the user is the participant', () => {
+    mockSessionService.getContactId.and.returnValue(321);
+    comp.userIsLeader = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(true);
     expect(comp['participant'].canBeHyperlinked).toBe(false);
   });
 
-  it('should init and set isMe to false', () => {
-    mockSessionService.getContactId.and.returnValue(747648367);
-    comp['participant'].canBeHyperlinked = true;
+  it('should init and set canBeHyperlinked to true if the user is a leader and is not the participant', () => {
+    comp['participant'].canBeHyperlinked = undefined;
+    comp.userIsLeader = true;
     comp.ngOnInit();
     expect(comp['isMe']).toBe(false);
     expect(comp['participant'].canBeHyperlinked).toBe(true);
@@ -92,6 +113,18 @@ describe('ParticipantCardComponent', () => {
     expect(comp.showApprenticeLabel()).toBe(true);
   });
 
+  it('showTrialMemberLabel should return true', () => {
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.isTrialMember = true;
+    expect(comp.showTrialMemberLabel()).toBe(true);
+  });
+
+  it('showTrialMemberLabel should return false', () => {
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.isTrialMember = false;
+    expect(comp.showTrialMemberLabel()).toBe(false);
+  });
+
   it('showLeader should return true when pinParticipant id matches the participants id', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
@@ -103,7 +136,19 @@ describe('ParticipantCardComponent', () => {
     expect(comp.showLeaderLabel()).toBe(false);
   });
 
-  it('should navigate on card click', () => {
+  it('should navigate appropriately on card click in group tool', () => {
+    comp.pinParticipantId = 777;
+    comp.participant.participantId = 777;
+    comp.participant.groupParticipantId = 777;
+    comp['participant'].canBeHyperlinked = true;
+    comp['groupCardIsDisplayedOn'] = Group.overload_Constructor_CreateGroup(123);
+    mockAppSettings.isSmallGroupApp.and.returnValue(true);
+    comp.onParticipantClick();
+    let route: string = `/small-group/0/participant-detail/777`;
+    expect(mockRouter.navigate).toHaveBeenCalledWith([route]);
+  });
+
+  it('should navigate appropriately on card click in connect', () => {
     comp.pinParticipantId = 777;
     comp.participant.participantId = 777;
     comp.participant.groupParticipantId = 777;

@@ -91,8 +91,9 @@ export class ListEntryComponent implements OnInit {
     return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
   }
 
-   public getMeetingTime(meetingTimeUtc: string): Date {
-    return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
+   public getMeetingTimeString(meetingTimeUtc: string): string {
+    let date = this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, false);
+    return this.timeHlpr.getFormattedTimeString(date);
   }
 
   public isMySmallGroup() {

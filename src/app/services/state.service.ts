@@ -9,7 +9,7 @@ import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { SearchOptions } from '../models/search-options';
 
-import { ViewType } from '../shared/constants';
+import { groupPaths, ViewType } from '../shared/constants';
 
 // TODO: This class has a lot of flags.
 // Investigate to see if they belong here and/or add some documentation.

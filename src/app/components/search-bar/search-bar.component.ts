@@ -65,6 +65,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.myStuffActive = false;
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
+    this.state.searchBarText = search;
+    
+    search = search.replace(/'/g, '%27');  // Escape single quotes in the search string
 
     // This needs to go away soon -- you can have location filter and keyword search in connect.
     let locationFilter = this.appSettings.isConnectApp() ? search : null;
@@ -73,7 +76,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
     let pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
     this.state.lastSearch.search = search;
-    this.state.searchBarText = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 

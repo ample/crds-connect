@@ -3,39 +3,15 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { AppSettingsService } from './app-settings.service';
 import { GoogleMapService } from './google-map.service';
 import { Address, Group, MapBoundingBox, MapView, Pin, pinType } from '../models';
-import { initialMapZoom, zoomAdjustment, minZoom, maxZoom } from '../shared/constants';
+import { initialMapZoom, pinTargetGroups, zoomAdjustment, minZoom, maxZoom } from '../shared/constants';
+import { MockTestData } from '../shared/MockTestData';
 
-function generatePin(lat: number, lng: number, name: string): Pin {
-  const newAddress = {
-    addressId: 1,
-    addressLine1: 'foo',
-    addressLine2: 'foo',
-    city: 'foo',
-    state: 'foo',
-    foreignCountry: 'foo',
-    county: 'foo',
-    zip: 'foo',
-    latitude: lat,
-    longitude: lng
-  };
-
-  return {
-    firstName: name,
-    lastName: 'foo',
-    siteName: 'foo',
-    emailAddress: 'foo',
-    contactId: 1,
-    participantId: 1,
-    hostStatus: 1,
-    gathering: new Group(),
-    address: newAddress,
-    pinType: pinType.PERSON,
-    proximity: 1,
-    householdId: 1,
-    updateHomeAddress: false,
-    iconUrl: 'foo',
-    title: 'foo'
-  };
+function generatePin(lat: number, lng: number, number: number): Pin {
+  const pin = MockTestData.getAPin(number);
+  pin.address.latitude = lat;
+  pin.address.longitude = lng;
+  pin.gathering.availableOnline = true; // Make the pin an online group
+  return pin;
 }
 
 function testCalculateZoom(pins: Pin[], GoogleMapService: any) {
@@ -55,13 +31,13 @@ function testCalculateZoom(pins: Pin[], GoogleMapService: any) {
 
 describe('Service: Google Map', () => {
     let mockAppSettingsService;
-
     let pinsInBounds;
     let calculatedZoom;
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettingsService', ['isConnectApp']);
-        TestBed.configureTestingModule({providers: [
+        TestBed.configureTestingModule({
+        providers: [
           {provide: AppSettingsService, useValue: mockAppSettingsService},
           GoogleMapService
         ]});
@@ -73,10 +49,39 @@ describe('Service: Google Map', () => {
     //  2. Point is far away (zoom < 3)
     //  3. Point is medium distance (3 < zoom < 15)
     //  4. Point is medium distance (3 < zoom < 15) but farther away than point 3
-    const pnt1 = generatePin(39.159398, -84.423367, 'pnt1');  // Crossroads Oakley
-    const pnt2 = generatePin(34.459205, 113.021052, 'pnt2');  // Shaolin Temple
-    const pnt3 = generatePin(39.146979, -84.445654, 'pnt3');  // Rookwood Commons
-    const pnt4 = generatePin(39.131080, -84.517784, 'pnt4');  // University of Cincinnati
+    // const pnt1 = generatePin(39.159398, -84.423367, 1);  // Crossroads Oakley
+    // const pnt2 = generatePin(34.459205, 113.021052, 2);  // Shaolin Temple
+    // const pnt3 = generatePin(39.146979, -84.445654, 3);  // Rookwood Commons
+    // const pnt4 = generatePin(39.131080, -84.517784, 4);  // University of Cincinnati
+
+    beforeEach(() => {
+        //  Points:
+        //  1. Point is close (zoom > 15)
+        //  2. Point is far away (zoom < 3)
+        //  3. Point is medium distance (3 < zoom < 15)
+        //  4. Point is medium distance (3 < zoom < 15) but farther away than point 3
+        this.pnt1 = generatePin(39.159398, -84.423367, 1);  // Crossroads Oakley
+        this.pnt2 = generatePin(34.459205, 113.021052, 2);  // Shaolin Temple
+        this.pnt3 = generatePin(39.146979, -84.445654, 3);  // Rookwood Commons
+        this.pnt4 = generatePin(39.131080, -84.517784, 4);  // University of Cincinnati
+    });
+
+    it('should filter out online groups when calculating zoom', inject([GoogleMapService], (GoogleMapService: any) => {
+      this.pnt2.gathering.availableOnline = false;  // Make the group an online group
+      this.pnt3.address.latitude = undefined;       // Make the group's latitude invalid
+      this.pnt4.address.longitude = undefined;      // Make the group's longitude invalid
+
+      // Parameters for calculateZoom:
+      const initialLat: number = 39.159398;   // Crossroads Oakley
+      const initialLng: number = -84.423367;  // Crossroads Oakley
+      const viewtype: string = 'world';
+      const mapParams: MapView = new MapView('zoomCalcView', initialLat, initialLng, initialMapZoom);
+
+      spyOn(GoogleMapService, 'calculateBestZoom');
+
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([this.pnt1, this.pnt2, this.pnt3, this.pnt4], GoogleMapService);
+      expect(GoogleMapService['calculateBestZoom']).toHaveBeenCalledWith(mapParams, [this.pnt1], pinTargetGroups, {});
+    }));
 
     //  Tests:
     //  1. Search does not match any points
@@ -98,22 +103,22 @@ describe('Service: Google Map', () => {
     }));
 
     it('Should not zoom in greater than 15', inject([GoogleMapService], (GoogleMapService: any) => {
-      [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt1], GoogleMapService);
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([this.pnt1], GoogleMapService);
       expect(calculatedZoom).toEqual(maxZoom - zoomAdjustment);
-      expect(pinsInBounds).toEqual([pnt1]);
+      expect(pinsInBounds).toEqual([this.pnt1]);
     }));
 
     it('Should not zoom out greater than 3', inject([GoogleMapService], (GoogleMapService: any) => {
-      [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt2], GoogleMapService);
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([this.pnt2], GoogleMapService);
 
       expect(calculatedZoom).toEqual(minZoom - zoomAdjustment);
       expect(pinsInBounds.length).toBe(0);
     }));
 
     it('Should not continue zooming out when it has already found a point', inject([GoogleMapService], (GoogleMapService: any) => {
-      [calculatedZoom, pinsInBounds] = testCalculateZoom([pnt3, pnt4], GoogleMapService);
+      [calculatedZoom, pinsInBounds] = testCalculateZoom([this.pnt3, this.pnt4], GoogleMapService);
 
-      expect(pinsInBounds).toEqual([pnt3]);
+      expect(pinsInBounds).toEqual([this.pnt3]);
     }));
   });
 
@@ -135,27 +140,27 @@ describe('Service: Google Map', () => {
     //  3. 1 point at medium distance (3 < zoom < 15) but farther away than cluster 2
     //  4. 1 point at far distance (zoom < 3)
     const cluster1 = [
-      generatePin(39.146979, -84.445654, 'cluster1Pin1'),  // Rookwood Commons
-      generatePin(39.146979, -84.445655, 'cluster1Pin2'),
-      generatePin(39.146979, -84.445656, 'cluster1Pin3'),
-      generatePin(39.146979, -84.445657, 'cluster1Pin4'),
-      generatePin(39.146979, -84.445658, 'cluster1Pin5')
+      generatePin(39.146979, -84.445654, 11),  // Rookwood Commons
+      generatePin(39.146979, -84.445655, 12),
+      generatePin(39.146979, -84.445656, 13),
+      generatePin(39.146979, -84.445657, 14),
+      generatePin(39.146979, -84.445658, 15)
     ];
 
     const cluster2 = [
-      generatePin(39.131080, -84.517784, 'cluster2Pin1'),  // University of Cincinnati
-      generatePin(39.131080, -84.517785, 'cluster2Pin2'),
-      generatePin(39.131080, -84.517786, 'cluster2Pin3'),
-      generatePin(39.131080, -84.517787, 'cluster2Pin4'),
-      generatePin(39.131080, -84.517788, 'cluster2Pin5')
+      generatePin(39.131080, -84.517784, 21),  // University of Cincinnati
+      generatePin(39.131080, -84.517785, 22),
+      generatePin(39.131080, -84.517786, 23),
+      generatePin(39.131080, -84.517787, 24),
+      generatePin(39.131080, -84.517788, 25)
     ];
 
     const cluster3 = [
-      generatePin(39.170029, -84.751012, 'cluster3Pin1')   // Taylor High School
+      generatePin(39.170029, -84.751012, 31)   // Taylor High School
     ];
 
     const cluster4 = [
-      generatePin(34.459205, 113.021052, 'cluster4Pin1')  // Shaolin Temple
+      generatePin(34.459205, 113.021052, 41)  // Shaolin Temple
     ];
 
     //  Tests:

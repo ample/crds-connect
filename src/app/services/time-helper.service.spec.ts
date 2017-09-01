@@ -44,5 +44,9 @@ describe('Service: Location', () => {
     expect(testResult).toEqual(expected);
   }));
 
-
+  it('should get time string', inject([TimeHelperService], (service: any) => {
+    let date: Date = new Date(1999, 7, 22, 19, 22, 0, 0);
+    let rc = service.getFormattedTimeString(date);
+    expect(rc).toEqual('7:22 PM');
+  }));
 });
