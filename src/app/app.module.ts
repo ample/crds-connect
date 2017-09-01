@@ -193,6 +193,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CreateGroupPage6Component,
     CreateGroupPreviewComponent,
     EmailParticipantsComponent,
+    EndGroupConfirmationComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
