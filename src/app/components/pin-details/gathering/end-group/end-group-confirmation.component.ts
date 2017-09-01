@@ -35,6 +35,10 @@ export class EndGroupConfirmationComponent implements OnInit {
     window.history.back();
   }
 
+  public onClose(): void {
+    window.history.back();
+  }
+
   public onEndGroup(): void {
     this.state.setLoading(true);
     this.sessionService.post(`${this.baseUrl}api/v1.0.0/grouptool/${this.groupId}/endsmallgroup`, null)
