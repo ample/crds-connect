@@ -94,10 +94,11 @@
 
   <add-someone *ngIf="isLeader && !appSettingsService.isConnectApp()" [gatheringId]="pin.gathering.groupId" [participantId]="pin.participantId"></add-someone>
 
-
   <leader-resources *ngIf="isLeader && !appSettingsService.isConnectApp()"></leader-resources>
 
-  <a *ngIf="isLeader && !appSettingsService.isConnectApp()" (click)="onEndGroupClicked()">End group</a>
+  <div>
+    <a class="pointer" *ngIf="isLeader && !appSettingsService.isConnectApp()" (click)="onEndGroupClicked()">End group</a>
+  </div>
 
    <!-- 👇 is not tied to any functionality. -->
   <!-- <div *ngIf="isLeader && !appSettingsService.isConnectApp()" class="soft-ends">
