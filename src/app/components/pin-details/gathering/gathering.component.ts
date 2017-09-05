@@ -214,6 +214,11 @@ export class GatheringComponent implements OnInit {
     this.router.navigate([contactLeaderOfThisGroupPageUrl]);
   }
 
+  private onEndGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
+  }
+
   public getMeetingTime(meetingTimeUtc: string) {
     // Sorry this is here. We don't need to do moment when we're doing create group :(
     if (!this.previewMode) {

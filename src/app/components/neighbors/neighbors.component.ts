@@ -194,8 +194,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public setViewToMyStuffIfIndicatedByUrl(): void {
-    let isMyStuffFlagPresent = this.router.url === '/my';
-    if(isMyStuffFlagPresent) {
+    const isMyStuffFlagPresent = this.router.url === '/my';
+    if (isMyStuffFlagPresent) {
       this.state.setCurrentView(ViewType.LIST);
       this.isMyStuffSearch = true;
       this.state.setIsMyStuffActive(true);
