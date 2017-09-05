@@ -22,7 +22,6 @@ import { User } from '../models/user';
 
 @Injectable()
 export class SessionService extends SmartCacheableService<User, number> {
-
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
@@ -169,7 +168,6 @@ export class SessionService extends SmartCacheableService<User, number> {
     return reqHeaders;
   }
 
-
   public getAuthentication(): Observable<any> {
     return this.get(this.baseUrl + 'api/v1.0.0/authenticated')
       .map((res: Response) => {
@@ -184,7 +182,7 @@ export class SessionService extends SmartCacheableService<User, number> {
     return this.hasToken();
   }
 
-  // TODO: Consolidate logout and clearTokens methods. 
+  // TODO: Consolidate logout and clearTokens methods.
   public logOut(): void {
     this.clearTokens();
     return;
@@ -217,7 +215,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   // TODO: Decide if this should be the profile call or not. Some benefits to still use are
-  // faster, relevent connec data etc. 
+  // faster, relevent connec data etc.
   public getDetailedUserData(): Observable<any> {
     let contactId = this.getContactId();
 
