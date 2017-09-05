@@ -24,7 +24,7 @@
         <div class="push-half-left">
           <label class="sr-only" for="{{category.name}}-detail">{{category.name}}-detail</label>
           <input class="form-control" name="{{category.name}}-detail" formControlName="{{category.name}}-detail" placeholder="{{category.exampleText}}" type="text" maxlength="25" value="{{category.categoryDetail}}" id="{{category.name}}-detail" [(ngModel)]="category.categoryDetail" required>
-          <div class="alert alert-danger flush-bottom" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</div>
+          <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</p>
         </div>
       </div>
     </div>
