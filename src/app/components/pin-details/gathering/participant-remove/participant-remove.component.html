@@ -12,36 +12,44 @@
       <br>
 
       <div class="fauxdal-content">
-        <div class="row">
-          <div *ngIf="isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
-            <crds-content-block id="groupToolRemoveMyParticipantSubheaderText"></crds-content-block>
-          </div>
-          <div *ngIf="!isRemovingSelf" class="col-xs-12 col-sm-8 col-sm-offset-2">
-            <crds-content-block id="groupToolRemoveParticipantSubheaderText"></crds-content-block>
-          </div>
+        <div *ngIf="isRemovingSelf">
+          <crds-content-block id="groupToolRemoveMyParticipantSubheaderText"></crds-content-block>
         </div>
 
-        <form novalidate [formGroup]="removeParticipantForm" (ngSubmit)="onSubmit(removeParticipantForm)">
-          <div *ngIf="!isRemovingSelf" class="row">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-left soft-top">
-              <!-- Reason for Participant Removal-->
-              <div class="row">
-                <div class="form-group col-xs-12">
-                  <label class="sr-only" for="removalMessage">Your Message</label>
+        <div *ngIf="!isRemovingSelf">
+          <crds-content-block id="groupToolRemoveParticipantTitle"></crds-content-block>
+          <crds-content-block id="groupToolRemoveParticipantDesc"></crds-content-block>
+        </div>
+
+        <div class="row push-top soft-half-top text-left">
+          <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+            <div class="font-family-base-light font-size-smaller">
+              <div *ngIf="!isRemovingSelf">
+                <crds-content-block id="groupToolRemoveParticipantSubheaderText"></crds-content-block>
+              </div>
+
+            </div>
+
+            <form novalidate [formGroup]="removeParticipantForm" (ngSubmit)="onSubmit(removeParticipantForm)">
+              <div *ngIf="!isRemovingSelf">
+                <!-- Reason for Participant Removal-->
+                <div class="form-group">
+                  <label class="control-label push-half-bottom" for="removalMessage">YOUR MESSAGE:</label>
                   <textarea type="text" class="form-control" maxlength="255" placeholder="" id="removalMessage" formControlName="removalMessage"
-                  name="removalMessage" [(ngModel)]="message" rows="15" cols="100"></textarea>
+                  name="removalMessage" [(ngModel)]="message" rows="5"></textarea>
                   <p class="error help-block" *ngIf="isFormSubmitted && !removeParticipantForm.controls['removalMessage'].valid">Message is required!</p>
                 </div>
               </div>
-            </div>
+
+              <footer class="soft-top" [ngClass]="{'text-center': isRemovingSelf}">
+                <div class="btn-group btn-block-mobile">
+                  <button type="submit" [disabled]="submitting" class="btn btn-secondary btn-block-mobile">{{isRemovingSelf ? "Remove Me" : "Remove Participant"}}</button>
+                  <button type="button" (click)="closeClick()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
+                </div>
+              </footer>
+            </form>
           </div>
-          <footer class="row soft-top">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3" [ngClass]="{'text-left': !isRemovingSelf}">
-              <button type="submit" [disabled]="submitting" class="btn btn-secondary">{{isRemovingSelf ? "Remove Me" : "Remove Participant"}}</button>
-              <button type="button" (click)="closeClick()" class="btn btn-outline btn-default">Cancel</button>
-            </div>
-          </footer>
-        </form>
+        </div>
       </div>
     </div>
   </div>
