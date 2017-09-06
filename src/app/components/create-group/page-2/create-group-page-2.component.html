@@ -35,7 +35,7 @@
           <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
         </select>
         <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
-          <crds-content-block id="oneOptionMustBeSelected" data-automation-id="meetingDay"></crds-content-block>
+          <crds-content-block id="oneOptionMustBeSelected" data-automation-id="meetingDayRequired"></crds-content-block>
         </div>
         <div class="soft-top">
           <div class="border-ends border-sides soft-sides" data-automation-id="meetingTime">
