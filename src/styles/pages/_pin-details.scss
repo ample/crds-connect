@@ -40,6 +40,10 @@
     &:hover {
       color: rgba($cr-cyan-light, .7);
     }
+
+    &.icon-link {
+      display: inline-block;
+    }
   }
 }
 

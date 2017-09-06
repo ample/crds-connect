@@ -12,17 +12,17 @@
       <div class="fauxdal-content">
         <div class="row">
           <div class="col-sm-8 col-sm-offset-2">
-            <crds-content-block id="tryGroupRequestConfirmation"></crds-content-block>
+            <crds-content-block id="endGroupConfirmation"></crds-content-block>
           </div>
         </div>
 
         <footer class="row soft-top">
           <div class="col-sm-6 col-sm-offset-3 btn-block-mobile text-center">
-            <!-- Submit Button: -->
+            <!-- End Group Button: -->
             <button type="button"
                     class="btn btn-secondary btn-block-mobile"
-                    (click)="onSubmit()">
-              Sounds great!
+                    (click)="onEndGroup()">
+              End group
             </button>
 
             <!-- Cancel Button: -->
@@ -31,11 +31,6 @@
                     (click)="onCancel()">
               Cancel
             </button>
-
-            <!-- Error Message: -->
-            <div class="alert alert-danger" *ngIf="errorMessage">
-              <crds-content-block id="{{errorMessage}}"></crds-content-block>
-            </div>
           </div>
         </footer>
       </div>

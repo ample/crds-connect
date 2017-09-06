@@ -1,4 +1,4 @@
-export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/group-leader/home`;
+export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
 
 export class AwsMeetingTimeSearchStrings {
   MORNINGS: string;

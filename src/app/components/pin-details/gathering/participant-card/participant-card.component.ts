@@ -3,7 +3,10 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { SessionService } from '../../../../services/session.service';
 import { AppSettingsService } from '../../../../services/app-settings.service';
+
+import { Group } from '../../../../models/group';
 import { Participant } from '../../../../models/participant';
+
 import { GroupRole } from '../../../../shared/constants';
 
 @Component({
@@ -11,12 +14,14 @@ import { GroupRole } from '../../../../shared/constants';
   templateUrl: 'participant-card.html'
 })
 export class ParticipantCardComponent implements OnInit {
-
   @Input() participant: Participant;
   @Input() pinParticipantId: number;
+  @Input() groupCardIsDisplayedOn: Group;
+  @Input() userIsLeader: boolean;
   public isLeader: boolean = false;
   public isMe: boolean = false;
   public isApprentice: boolean = false;
+  public isTrialMember: boolean = false;
 
   constructor(private session: SessionService,
               private router: Router,
@@ -25,19 +30,19 @@ export class ParticipantCardComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.participant.canBeHyperlinked === undefined) {
-      this.participant.canBeHyperlinked = true;
-    }
     if (this.session.getContactId() === this.participant.contactId) {
       this.isMe = true;
-      this.participant.canBeHyperlinked = false;
     }
-    this.isApprentice = (this.participant.groupRoleId === GroupRole.APPRENTICE);
-    this.isLeader     = (this.participant.groupRoleId === GroupRole.LEADER);
-  }
 
-  public enableHyperlink(): boolean {
-    return this.participant.canBeHyperlinked;
+    if (!this.userIsLeader || this.isMe) {
+      this.participant.canBeHyperlinked = false;
+    } else if (this.participant.canBeHyperlinked === undefined) {
+      this.participant.canBeHyperlinked = true;
+    }
+
+    this.isApprentice  = (this.participant.groupRoleId === GroupRole.APPRENTICE);
+    this.isLeader      = (this.participant.groupRoleId === GroupRole.LEADER);
+    this.isTrialMember = (this.participant.groupRoleId === GroupRole.TRIAL_MEMBER);
   }
 
   public showLeaderLabel(): boolean {
@@ -49,9 +54,17 @@ export class ParticipantCardComponent implements OnInit {
     return (this.appSettings.isSmallGroupApp() && this.isApprentice);
   }
 
+  public showTrialMemberLabel(): boolean {
+    return (this.appSettings.isSmallGroupApp() && this.isTrialMember);
+  }
+
   public onParticipantClick(): void {
-      if (this.participant.canBeHyperlinked) {
+    if (this.participant.canBeHyperlinked) {
+      if (this.appSettings.isSmallGroupApp()) {
+        this.router.navigate([`/small-group/${this.groupCardIsDisplayedOn.groupId}/participant-detail/${this.participant.groupParticipantId}`]);
+      } else {
         this.router.navigate(['./participant-detail/' + this.participant.groupParticipantId], { relativeTo: this.route });
+      }
     }
   }
 
@@ -62,5 +75,4 @@ export class ParticipantCardComponent implements OnInit {
          { relativeTo: this.route });
     }
   }
-
 }

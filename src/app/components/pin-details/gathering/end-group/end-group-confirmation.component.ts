@@ -3,18 +3,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-
-import { SessionService } from '../../../services/session.service';
-import { StateService } from '../../../services/state.service';
-
-import { HttpStatusCodes } from '../../../shared/constants';
+import { SessionService } from '../../../../services/session.service';
+import { StateService } from '../../../../services/state.service';
+import { ParticipantService } from '../../../../services/participant.service';
 
 @Component({
-  selector: 'app-try-group-request-confirmation',
-  templateUrl: 'try-group-request-confirmation.component.html',
+  selector: 'app-end-group-confirmation',
+  templateUrl: 'end-group-confirmation.component.html',
   styles: ['.fauxdal-wrapper { overflow-y: hidden; }']
 })
-export class TryGroupRequestConfirmationComponent implements OnInit {
+export class EndGroupConfirmationComponent implements OnInit {
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private groupId: string;
 
@@ -23,7 +21,8 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
     private route: ActivatedRoute,
     private state: StateService,
     private toast: ToastsManager,
-    private content: ContentService
+    private content: ContentService,
+    private participantService: ParticipantService
   ) {}
 
   ngOnInit() {
@@ -32,29 +31,26 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
     document.querySelector('body').style.overflowY = 'hidden';
   }
 
-  public onClose(): void {
-    window.history.back();
-  }
-
   public onCancel(): void {
     window.history.back();
   }
 
-  public onSubmit(): void {
+  public onClose(): void {
+    window.history.back();
+  }
+
+  public onEndGroup(): void {
     this.state.setLoading(true);
-    this.sessionService.post(`${this.baseUrl}api/v1.0.0/finder/pin/tryagroup`, this.groupId)
+    this.sessionService.post(`${this.baseUrl}api/v1.0.0/grouptool/${this.groupId}/endsmallgroup`, null)
     .subscribe(
       success => {
-        this.router.navigate([`/small-group/${this.groupId}`]);
-        this.toast.success(this.content.getContent('tryGroupRequestSuccess'));
+        this.participantService.clearGroupFromCache(Number(this.groupId));
+        this.router.navigate(['/my']);
+        this.toast.success(this.content.getContent('endGroupConfirmationSuccessMessage'));
         this.state.setLoading(false);
       },
       failure => {
-        if(failure.status === HttpStatusCodes.CONFLICT) {
-          this.toast.error(this.content.getContent('tryGroupRequestAlreadyRequestedFailureMessage'));
-        } else {
-          this.toast.error(this.content.getContent('tryGroupRequestGeneralFailureMessage'));
-        }
+        this.toast.error(this.content.getContent('endGroupConfirmationFailureMessage'));
         this.state.setLoading(false);
       }
     );

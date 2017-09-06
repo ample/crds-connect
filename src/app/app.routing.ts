@@ -17,6 +17,7 @@ import { CreateGroupPage4Component } from './components/create-group/page-4/crea
 import { CreateGroupPage5Component } from './components/create-group/page-5/create-group-page-5.component';
 import { CreateGroupPage6Component } from './components/create-group/page-6/create-group-page-6.component';
 import { CreateGroupPreviewComponent } from './components/create-group/preview/create-group-preview.component';
+import { EndGroupConfirmationComponent } from './components/pin-details/gathering/end-group/end-group-confirmation.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
 import { MapComponent } from './components/map/map.component';
@@ -27,7 +28,6 @@ import { PinDetailsComponent } from './components/pin-details/pin-details.compon
 import { RegisterComponent } from './components/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { TryGroupRequestConfirmationComponent } from './components/try-group/try-group-request-confirmation/try-group-request-confirmation.component';
-import { TryGroupRequestSuccessComponent } from './components/try-group/try-group-request-success/try-group-request-success.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
@@ -118,12 +118,6 @@ const appRoutes: Routes = [
       LoggedInGuard
     ]
   }, {
-    path: 'try-group-request-success/:groupId',
-    component: TryGroupRequestSuccessComponent,
-    canActivate: [
-      LoggedInGuard
-    ]
-  }, {
     path: 'edit-group/:groupId',
     canActivate: [
       LoggedInGuard,
@@ -167,11 +161,18 @@ const appRoutes: Routes = [
       }
     ]
     }, {
-    path: 'contact-leader/:groupId',
-    component: ContactLeaderComponent,
-    canActivate: [
-      LoggedInGuard,
-    ]
+      path: 'end-group/:groupId',
+      component: EndGroupConfirmationComponent,
+      canActivate: [
+        LoggedInGuard,
+        GroupLeaderGuard
+      ]
+    }, {
+      path: 'contact-leader/:groupId',
+      component: ContactLeaderComponent,
+      canActivate: [
+        LoggedInGuard,
+      ]
   }, {
     path: 'decline-invite/:groupId/:guid',
     component: HandleInviteComponent,
@@ -228,6 +229,7 @@ const appRoutes: Routes = [
   },
   { path: 'groups-not-found', component: StuffNotFoundComponent },
   { path: 'connections-not-found', component: StuffNotFoundComponent },
+  { path: 'my', component: NeighborsComponent, canActivate: [LoggedInGuard]},
   { path: 'neighbors', component: NeighborsComponent },
   { path: 'no-results', component: NoResultsComponent },
   {
@@ -274,17 +276,19 @@ const appRoutes: Routes = [
       pin: PinResolver,
       user: UserDataResolver
     }
-  }, {
+  },
+  {
+    path: 'small-group/:groupId/participant-detail/:groupParticipantId',
+    component: ParticipantDetailsComponent,
+    canActivate: [LoggedInGuard, GroupLeaderGuard]
+  },
+  {
     path: 'small-group/:groupId/:approved/:trialMemberId',
     component: PinDetailsComponent,
     resolve: {
       pin: PinResolver,
       user: UserDataResolver
     },
-    canActivate: [LoggedInGuard, GroupLeaderGuard]
-  }, {
-    path: 'small-group/:groupId/participant-detail/:groupParticipantId',
-    component: ParticipantDetailsComponent,
     canActivate: [LoggedInGuard, GroupLeaderGuard]
   }, {
     path: 'small-group/:groupId/participant-detail/:groupParticipantId/remove-self/:removeSelf',

@@ -54,6 +54,7 @@ import { AgeGroupsComponent } from './components/filters/age-groups/age-groups.c
 import { CategoryComponent } from './components/filters/category/category.component';
 
 import { EmailParticipantsComponent } from './components/email-participants/email-participants.component';
+import { EndGroupConfirmationComponent } from './components/pin-details/gathering/end-group/end-group-confirmation.component';
 import { GatheringComponent } from './components/pin-details/gathering/gathering.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { GatheringRequestsComponent } from './components/pin-details/gathering/gathering-requests/gathering-requests.component';
@@ -94,7 +95,6 @@ import { SearchFilterComponent } from './components/search-filter/search-filter.
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
 import { TryGroupRequestConfirmationComponent } from './components/try-group/try-group-request-confirmation/try-group-request-confirmation.component';
-import { TryGroupRequestSuccessComponent } from './components/try-group/try-group-request-success/try-group-request-success.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
 import { CreateGroupFooterComponent } from './components/create-group/create-group-footer/create-group-footer.component';
 
@@ -140,6 +140,8 @@ import { LoggedInGuard } from './route-guards/logged-in-guard';
 import { HostNextStepsGuard } from './route-guards/host-next-steps-guard';
 import { PageNotFoundGuard } from './route-guards/page-not-found-guard';
 import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
+
+import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
 
 import { RouterModule } from '@angular/router';
 
@@ -191,6 +193,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     CreateGroupPage6Component,
     CreateGroupPreviewComponent,
     EmailParticipantsComponent,
+    EndGroupConfirmationComponent,
     FiltersComponent,
     KidsWelcomeComponent,
     AgeGroupsComponent,
@@ -237,10 +240,10 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     SearchLocalComponent,
     StuffNotFoundComponent,
     TryGroupRequestConfirmationComponent,
-    TryGroupRequestSuccessComponent,
     LeaderResourcesComponent,
     GoogleMapClusterDirective,
-    CreateGroupFooterComponent
+    CreateGroupFooterComponent,
+    SocialMediaComponent
   ],
   providers: [
     AddressService,

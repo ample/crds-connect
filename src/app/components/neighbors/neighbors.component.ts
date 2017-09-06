@@ -50,6 +50,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.setViewToMyStuffIfIndicatedByUrl();
     this.subscribeToListenForSearchRequests();
     this.runInitialPinSearch();
   }
@@ -190,6 +191,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
         this.doSearch(pinSearchRequest);
       }
     );
+  }
+
+  public setViewToMyStuffIfIndicatedByUrl(): void {
+    const isMyStuffFlagPresent = this.router.url === '/my';
+    if (isMyStuffFlagPresent) {
+      this.state.setCurrentView(ViewType.LIST);
+      this.isMyStuffSearch = true;
+      this.state.setIsMyStuffActive(true);
+    }
   }
 
 }
