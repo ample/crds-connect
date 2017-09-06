@@ -18,12 +18,12 @@
 
       <!-- Name too Long Error -->
       <div class="error" *ngIf="isSubmitted && groupDetailsForm.get('groupName').hasError('maxlength')">
-          <div class="alert alert-danger" data-automation-id="groupNameMaxErr">Group name must be less than 35 characters long.</div>
+          <p class="error help-block" role="alert" data-automation-id="groupNameMaxErr">Group name must be less than 35 characters long.</p>
       </div>
 
       <!-- Required error -->
       <div *ngIf="isSubmitted && groupDetailsForm.get('groupName').hasError('required')">
-        <div class="alert alert-danger" data-automation-id="groupNameRequired">This field is required.</div>
+        <p class="error help-block" role="alert" data-automation-id="groupNameRequired">This field is required.</p>
       </div>
 
     </div>
@@ -35,12 +35,12 @@
 
       <!--Description too Long Error -->
       <div class="error" *ngIf="isSubmitted && groupDetailsForm.get('groupDescription').hasError('maxlength')">
-        <div class="alert alert-danger" data-automation-id="GroupDescMaxErr">Group description must be less than 500 characters long.</div>
+        <div class="error help-block" role="alert" data-automation-id="GroupDescMaxErr">Group description must be less than 500 characters long.</div>
       </div>
 
       <!-- Description Omitted Error: -->
       <div *ngIf="isSubmitted && groupDetailsForm.get('groupDescription').hasError('required')">
-        <div class="alert alert-danger" data-automation-id="groupDescRequired">This field is required.</div>
+        <div class="error help-block" role="alert" data-automation-id="groupDescRequired">This field is required.</div>
       </div>
 
     </div>
@@ -96,8 +96,8 @@
     </div>
 
     <!-- Group Privacy Omitted Error: -->
-    <div *ngIf="isSubmitted && groupDetailsForm.get('availableOnline').hasError('required')" class="soft-top">
-      <div class="alert alert-danger" data-automation-id="groupPrivacyRequired">This field is required.</div>
+    <div *ngIf="isSubmitted && groupDetailsForm.get('availableOnline').hasError('required')">
+      <div class="alert alert-danger" role="alert" data-automation-id="groupPrivacyRequired">This field is required.</div>
     </div>
 
     <!-- Footer: -->

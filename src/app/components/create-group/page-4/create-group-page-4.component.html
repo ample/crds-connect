@@ -28,12 +28,12 @@
         </button>
       </div>
 
-      <div *ngIf="groupGenderMixInvalid" class="alert alert-danger soft-ends" data-automation-id="genderMixRequired">This field is required.</div>
+      <div *ngIf="groupGenderMixInvalid" class="alert alert-danger" role="alert" data-automation-id="genderMixRequired">This field is required.</div>
 
       <div class="push-top soft-half-top">
         <crds-content-block id="groupToolCreateGroupAge" class="control-label"></crds-content-block>
       </div>
-      <div *ngIf="isStudentMinistrySelected" class="soft-ends alert alert-warning">
+      <div *ngIf="isStudentMinistrySelected" class="alert alert-danger" role="alert">
         <crds-content-block id="groupToolStudentMinistryAlert" data-automation-id="studMinAlert"></crds-content-block>
       </div>
       <div *ngFor="let ageRange of ageRanges" class="btn-group btn-group-block">
@@ -53,7 +53,7 @@
           </div>
         </button>
       </div>
-      <div *ngIf="selectedAgeRangesInvalid" class="alert alert-danger soft-top" data-automation-id="agesRequired">This field is required.</div>
+      <div *ngIf="selectedAgeRangesInvalid" class="alert alert-danger" role="alert" data-automation-id="agesRequired">This field is required.</div>
 
       <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
     </form>
