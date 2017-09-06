@@ -48,7 +48,7 @@ export class CreateGroupFooterComponent {
     this.createGroupService.reset();
     this.hideCancelFauxdal();
 
-    if(this.state.getActiveGroupPath() === groupPaths.EDIT){
+    if (this.state.getActiveGroupPath() === groupPaths.EDIT) {
       this.router.navigate([`/small-group/${this.createGroupService.groupBeingEdited.groupId}`]);
     } else {
       this.router.navigate(['/create-group']);
