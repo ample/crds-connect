@@ -32,3 +32,12 @@ An example `http://localhost:8080?theme=light`
 ## Apache configuration
 
 For additional apache configurations, please modify the `apache_site.conf` file in the root of this repository.
+
+## Editor Config
+
+This repo uses an [Editor Config](http://editorconfig.org/) to enforce some code sytles, know that some editors require a plugin to utilize this functionality. 
+- [VSCode](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- [Atom](https://github.com/sindresorhus/atom-editorconfig#readme)
+- [Emacs](https://github.com/editorconfig/editorconfig-emacs#readme)
+
+It is your responsibility as a developer of this project to make sure your editor reads this configuration and enforces it. 
