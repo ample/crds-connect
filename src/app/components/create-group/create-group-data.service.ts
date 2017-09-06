@@ -66,6 +66,11 @@ export class CreateGroupService {
         }
     }
 
+    public isMaxNumberOfCategoriesSelected(): boolean{
+      let isMaxNumberOfCatsSelected: boolean = this.selectedCategories.length === 2;
+      return isMaxNumberOfCatsSelected;
+    }
+
     public validateCategories(): boolean {
         this.selectedCategories = this.categories.filter((category) => {
             return category.selected === true;
