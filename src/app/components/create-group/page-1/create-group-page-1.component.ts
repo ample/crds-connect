@@ -91,16 +91,23 @@ export class CreateGroupPage1Component implements OnInit {
     inputFormControl.updateValueAndValidity();
   }
 
-  private addCategory(category: Category) {
-    category.selected = true;
-    if (this.createGroupService.validateCategories()) {
-      let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
-      inputFormControl.setValidators(Validators.required);
-      inputFormControl.updateValueAndValidity();
+  private addCategory(category: Category): void {
+    if (!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
+      category.selected = true;
     } else {
       category.selected = false;
       this.toast.error(this.content.getContent('finderTooManyCategoriesToast'));
     }
+    this.updateValueAndValidityOnSpecificCategory(category);
+  }
+
+  private updateValueAndValidityOnSpecificCategory(category: Category): void {
+    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+    inputFormControl.setValidators(Validators.required);
+    inputFormControl.updateValueAndValidity();
+    inputFormControlCheckBox.setValidators(Validators.required);
+    inputFormControlCheckBox.setValue(category.selected);
   }
 
   public onSubmit(form, inEditOrCreateMode: string) {

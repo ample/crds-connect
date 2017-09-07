@@ -134,7 +134,7 @@ export class CreateGroupPage3Component implements OnInit {
     if (isGroupVirtual) {
       this.onClickIsVirtual(true);
     }
-    this.createGroupService.group.address = this.createGroupService.groupBeingEdited.address
+    this.createGroupService.group.address = this.createGroupService.groupBeingEdited.address;
     this.onClickKidsWelcome(this.createGroupService.groupBeingEdited.kidsWelcome);
 
     this.createGroupService.wasPagePresetWithExistingData.page3 = true;
