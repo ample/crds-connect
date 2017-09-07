@@ -31,7 +31,8 @@ describe('CreateGroupPage1Component', () => {
     beforeEach(() => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
-                                                     'validateCategories', 'addSelectedCategoriesToGroupModel', 'markPageAsPresetWithExistingData']);
+                                                     'validateCategories', 'addSelectedCategoriesToGroupModel', 'markPageAsPresetWithExistingData',
+                                                     'isMaxNumberOfCategoriesSelected']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
@@ -110,6 +111,7 @@ describe('CreateGroupPage1Component', () => {
 
     it('should prevent adding a category if there are already 2 selected', () => {
         (mockCreateGroupService.validateCategories).and.returnValue(false);
+        (mockCreateGroupService.isMaxNumberOfCategoriesSelected).and.returnValue(true);
         (mockContentService.getContent).and.returnValue('MoonUnitTests');
         comp.groupCategoryForm = new FormGroup({});
         comp['initializeCategories'](categories);
