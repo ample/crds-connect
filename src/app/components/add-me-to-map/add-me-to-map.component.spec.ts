@@ -44,12 +44,11 @@ describe('Component: Add Me to the Map', () => {
   beforeEach(() => {
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData', 'getContent']);
     mockLocation = jasmine.createSpyObj<Location>('location', ['back']);
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['clearCache']);
     mockState = jasmine.createSpyObj<StateService>('state', ['getMyViewOrWorldView', 'setMyViewOrWorldView', 'setCurrentView', 'setLoading', 'setLastSearch', 'setMapView']);
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['constructor']);
-    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['constructor']);
+    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toastsManager', ['error']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['postPin']);
     mockMapHlpr = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['calculateZoom']);
 
@@ -130,6 +129,20 @@ describe('Component: Add Me to the Map', () => {
     expect(mockState.setLastSearch).toHaveBeenCalledWith(null);
     expect(mockSessionService.clearCache).toHaveBeenCalled();
     expect(mockState.setMapView).toHaveBeenCalled();
+    expect(mockState.setLoading).toHaveBeenCalledTimes(2);
+  });
+
+  it('should handle error', () => {
+    mockContentService.getContent.and.returnValue('Cool beans there was an error');
+    mockPinService.postPin.and.returnValue(Observable.throw('oh noooo'));
+    let pin = MockTestData.getAPin(1);
+    this.component['userData'] = pin;
+    pin['valid'] = true;
+    this.component.onSubmit(pin);
+    expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
+    expect(mockToastsManager.error).toHaveBeenCalledWith('Cool beans there was an error');
+    expect(mockContentService.getContent).toHaveBeenCalledWith('generalError');
+    expect(mockState.setLoading).toHaveBeenCalledTimes(2);
   });
 
 });
