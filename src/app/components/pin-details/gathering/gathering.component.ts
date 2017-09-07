@@ -15,6 +15,7 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
+import { MiscellaneousService } from '../../../services/miscellaneous-service';
 import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
@@ -64,6 +65,7 @@ export class GatheringComponent implements OnInit {
     private toast: ToastsManager,
     private addressService: AddressService,
     private listHelperService: ListHelperService,
+    private miscellaneousService: MiscellaneousService,
     private content: ContentService,
     private timeHlpr: TimeHelperService,
     private analtyics: AnalyticsService,
@@ -73,7 +75,7 @@ export class GatheringComponent implements OnInit {
   public ngOnInit() {
     if (!this.previewMode) {
       window.scrollTo(0, 0);
-      this.reEnableScrollingInCaseFauxdalDisabledIt();
+      this.miscellaneousService.reEnableScrollingInCaseFauxdalDisabledIt();
       this.requestToJoin = this.requestToJoin.bind(this);
       this.state.setLoading(true);
 
@@ -299,10 +301,6 @@ export class GatheringComponent implements OnInit {
 
   public displayKidsWelcome(kidsWelcome: boolean): string {
     return kidsWelcome ? 'Yes' : 'No';
-  }
-
-  private reEnableScrollingInCaseFauxdalDisabledIt(): void {
-    document.querySelector('body').style.overflowY = 'scroll';
   }
 
 }
