@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
 import { StateService } from '../../services/state.service';
+import { ViewType } from '../../shared/constants';
 
 @Component({
   templateUrl: 'no-results.component.html'
@@ -10,6 +11,7 @@ import { StateService } from '../../services/state.service';
 
 export class NoResultsComponent implements OnInit {
   private groupUrl: string;
+  private isConnect: boolean = false;
 
   constructor(private router: Router,
               private state: StateService,
@@ -22,6 +24,7 @@ export class NoResultsComponent implements OnInit {
     this.state.setPageHeader('No Results', '/');
     this.state.myStuffActive = false;
     this.state.setLoading(false);
+    this.isConnect = this.appSettings.isConnectApp();
   }
 
   public btnClickBack()  {
@@ -38,6 +41,11 @@ export class NoResultsComponent implements OnInit {
 
   public btnClickFindOnlineGroup()  {
     window.open(this.groupUrl);
+  }
+
+  public btnCreateGroup() {
+    this.state.setCurrentView(ViewType.LIST);
+    this.router.navigateByUrl('/create-group');
   }
 
 }
