@@ -102,9 +102,9 @@ export class CreateGroupPage1Component implements OnInit {
 
   private removeValidationAndUpdateDeSelectedCategory(category: Category): void {
     let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
     inputFormControl.setValidators(null);
     inputFormControl.updateValueAndValidity();
-    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
     inputFormControlCheckBox.setValue(category.selected);
   }
 
