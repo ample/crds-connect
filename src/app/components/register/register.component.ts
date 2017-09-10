@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
     private state: StateService,
     private store: StoreService,
     private session: SessionService,
-    private redirectService: LoginRedirectService
+    private redirectService: LoginRedirectService,
+    private analyticsService: AnalyticsService
   ) {
 
   }
@@ -96,6 +98,7 @@ export class RegisterComponent implements OnInit {
     this.session.postLogin(email, password)
       .subscribe(
       (user) => {
+        this.analyticsService.alias(user.userId);
         this.store.loadUserData();
         this.adv();
       },

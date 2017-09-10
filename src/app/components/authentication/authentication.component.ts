@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -26,6 +27,7 @@ export class AuthenticationComponent implements OnInit {
   private helpUrl: string;
 
   constructor(
+    private analyticsService: AnalyticsService,
     private fb: FormBuilder,
     private router: Router,
     public redirectService: LoginRedirectService,
@@ -65,6 +67,7 @@ export class AuthenticationComponent implements OnInit {
       this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
       .subscribe(
         (user) => {
+          this.analyticsService.identify(user.userId);
           this.store.loadUserData();
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();

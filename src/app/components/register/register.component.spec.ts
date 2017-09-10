@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -21,15 +22,17 @@ describe('Component: Registration', () => {
         mockStateService,
         mockFormBuilder,
         mockStoreService,
-        mockLoginRedirectService;
+        mockLoginRedirectService,
+        mockAnalyticsService;
 
   beforeEach(() => {
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['getNextPageToShow','getPrevPageToShow','hidePage','setLoading']);
+        mockStateService = jasmine.createSpyObj<StateService>('state', ['getNextPageToShow', 'getPrevPageToShow','hidePage','setLoading']);
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
-        mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
-        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',['']);
+        mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['loadUserData']);
+        mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['']);
+        mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['identify', 'alias']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -42,7 +45,8 @@ describe('Component: Registration', () => {
                 { provide: Router, useValue: mockRouter },
                 { provide: FormBuilder, useValue: mockFormBuilder },
                 { provide: LoginRedirectService, useValue: mockLoginRedirectService },
-                { provide: StoreService, useValue: mockStoreService }
+                { provide: StoreService, useValue: mockStoreService },
+                { provide: AnalyticsService, useValue: mockAnalyticsService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         });
@@ -77,6 +81,16 @@ describe('Component: Registration', () => {
     });
   });
 
+  describe('logInNewUser', () => {
+    it('should call analytics', () => {
+      spyOn(comp, 'adv');
+      mockSessionService.postLogin.and.returnValue(Observable.of({userId: 1234}));
+      comp.loginNewUser('email@email.com', 'supersecret');
+      expect(mockAnalyticsService.alias).toHaveBeenCalledWith(1234);
+      expect(comp.adv).toHaveBeenCalled();
+    });
+  });
+
 
   describe('#submit User', () => {
       beforeEach(() => {
@@ -102,7 +116,7 @@ describe('Component: Registration', () => {
 
       let res = comp.switchMessage(errors);
       expect(res).toBe('is <em>invalid</em>');
-    }); 
+    });
   });
 
   describe('#next', () => {

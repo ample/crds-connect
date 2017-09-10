@@ -8,6 +8,7 @@ import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { HttpModule, JsonpModule } from '@angular/http';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
@@ -20,7 +21,8 @@ describe('Component: Authentication', () => {
 
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
-  let mockCookieService,
+  let mockAnalyticsService,
+    mockCookieService,
     mockSessionService,
     mockStateService,
     mockLoginRedirectService,
@@ -32,6 +34,7 @@ describe('Component: Authentication', () => {
     mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setLoading']);
     mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['alias', 'identify']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -44,6 +47,7 @@ describe('Component: Authentication', () => {
         { provide: CookieService, useValue: mockCookieService },
         { provide: StateService, useValue: mockStateService },
         { provide: StoreService, useValue: mockStoreService },
+        { provide: AnalyticsService, useValue: mockAnalyticsService }
       ],
       imports: [RouterTestingModule.withRoutes([]), HttpModule],
       schemas: [NO_ERRORS_SCHEMA]
@@ -80,6 +84,11 @@ describe('Component: Authentication', () => {
   function setForm(email, password) {
     comp.form.setValue({ email: email, password: password });
   }
+
+  xit('should submit login successfully', () => {
+    // TODO;
+    pending();
+  });
 
   it('loginException should get set to true', () => {
     setForm('bad@bad.com', 'reallynotgood');

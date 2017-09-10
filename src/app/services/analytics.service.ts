@@ -61,4 +61,12 @@ export class AnalyticsService {
     });
   }
 
+  alias(userId: any) {
+    this.analytics.setAlias.next(userId);
+  }
+
+  identify(userId: any) {
+    this.analytics.setUserProperties.next(userId);
+  }
+
 }
