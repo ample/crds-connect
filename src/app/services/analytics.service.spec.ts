@@ -87,16 +87,27 @@ describe('Service: AnalyticsService', () => {
     })
   );
 
-  it('should identify',
+  it('should identifyLoggedInUser only userId',
     inject([AnalyticsService], (s: AnalyticsService) => {
-      s.identify(1234);
-      expect(mockAngulartics.setUserProperties.next).toHaveBeenCalledWith(1234);
+      s.identifyLoggedInUser(1234);
+      expect(mockAngulartics.setUserProperties.next).toHaveBeenCalledWith({ userId: 1234, Email: null, FirstName: null, LastName: null });
     })
   );
 
-  it('should alias',
+  it('should identifyLoggedInUser all props',
     inject([AnalyticsService], (s: AnalyticsService) => {
-      s.alias(1234);
+      s.identifyLoggedInUser(1234, 'email@email.com', 'JoeFirst', 'JoeLast');
+      expect(mockAngulartics.setUserProperties.next).toHaveBeenCalledWith({
+        userId: 1234,
+        Email: 'email@email.com',
+        FirstName: 'JoeFirst',
+        LastName: 'JoeLast' });
+    })
+  );
+
+  it('should capture newUserRegistered',
+    inject([AnalyticsService], (s: AnalyticsService) => {
+      s.newUserRegistered(1234);
       expect(mockAngulartics.setAlias.next).toHaveBeenCalledWith(1234);
     })
   );

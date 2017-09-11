@@ -98,7 +98,12 @@ export class RegisterComponent implements OnInit {
     this.session.postLogin(email, password)
       .subscribe(
       (user) => {
-        this.analyticsService.alias(user.userId);
+        this.analyticsService.newUserRegistered(user.userId);
+        this.analyticsService.identifyLoggedInUser(
+          user.userId,
+          this.regForm.get('email').value,
+          this.regForm.get('firstName').value,
+          this.regForm.get('lastName').value);
         this.store.loadUserData();
         this.adv();
       },

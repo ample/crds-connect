@@ -28,11 +28,11 @@ describe('Component: Registration', () => {
   beforeEach(() => {
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['postLogin']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['getNextPageToShow', 'getPrevPageToShow','hidePage','setLoading']);
+        mockStateService = jasmine.createSpyObj<StateService>('st', ['getNextPageToShow', 'getPrevPageToShow', 'hidePage', 'setLoading']);
         mockFormBuilder = jasmine.createSpyObj<FormBuilder>('formBuilder', ['constructor']);
         mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['loadUserData']);
         mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['']);
-        mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['identify', 'alias']);
+        mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['identifyLoggedInUser', 'newUserRegistered']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -84,9 +84,11 @@ describe('Component: Registration', () => {
   describe('logInNewUser', () => {
     it('should call analytics', () => {
       spyOn(comp, 'adv');
+      setForm('Bob', 'Barker', 'good@g.com', 'foobar');
       mockSessionService.postLogin.and.returnValue(Observable.of({userId: 1234}));
       comp.loginNewUser('email@email.com', 'supersecret');
-      expect(mockAnalyticsService.alias).toHaveBeenCalledWith(1234);
+      expect(mockAnalyticsService.newUserRegistered).toHaveBeenCalledWith(1234);
+      expect(mockAnalyticsService.identifyLoggedInUser).toHaveBeenCalledWith(1234, 'good@g.com', 'Bob', 'Barker');
       expect(comp.adv).toHaveBeenCalled();
     });
   });

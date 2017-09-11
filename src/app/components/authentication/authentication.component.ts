@@ -62,10 +62,11 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
-      this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
+      let email = this.form.get('email').value;
+      this.session.postLogin(email, this.form.get('password').value)
       .subscribe(
         (user) => {
-          this.analyticsService.identify(user.userId);
+          this.analyticsService.identifyLoggedInUser(user.userId, email);
           this.store.loadUserData();
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();

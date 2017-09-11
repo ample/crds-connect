@@ -31,7 +31,7 @@ describe('Component: Authentication', () => {
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['postLogin']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setLoading']);
     mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['loadUserData']);
-    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['alias', 'identify']);
+    mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['newUserRegistered', 'identifyLoggedInUser']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -85,7 +85,7 @@ describe('Component: Authentication', () => {
     comp.form.setValue({email: 'email@user.com', password: 'password'});
     mockSessionService.postLogin.and.returnValue(Observable.of({userId: 1234}));
     comp.submitLogin();
-    expect(mockAnalyticsService.identify).toHaveBeenCalledWith(1234);
+    expect(mockAnalyticsService.identifyLoggedInUser).toHaveBeenCalledWith(1234, 'email@user.com');
     expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
     expect(mockStoreService.loadUserData).toHaveBeenCalled();
   });
