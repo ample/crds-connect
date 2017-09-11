@@ -705,9 +705,7 @@ MarkerClusterer.prototype.repaint = function () {
   }, 0);
 };
 
-
 MarkerClusterer.prototype.isMarkerInCluster = function(marker, clusters){
-
   var isMarkerInCluster = false;
 
   for(var i = 0; i<clusters.length; i++){
@@ -734,8 +732,6 @@ MarkerClusterer.prototype.isMarkerInCluster = function(marker, clusters){
  * Redraws the clusters.
  */
 MarkerClusterer.prototype.redraw = function () {
-
-
   if (!this.ready_) {
     return;
   }

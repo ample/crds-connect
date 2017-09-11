@@ -27,7 +27,6 @@ export class Pin {
     constructor(first_name: string, last_name: string, email: string, contactId: number, participantId: number,
                 address: Address, hostStatus: number, gathering: Group,
                 siteName: string, pinType: pinType, proximity: number, householdId: number ) {
-
         this.firstName = first_name;
         this.lastName = last_name;
         this.siteName = siteName;

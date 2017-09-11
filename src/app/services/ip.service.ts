@@ -17,7 +17,6 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class IPService {
-
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   public restVerbs = {
@@ -35,8 +34,10 @@ export class IPService {
 
   // GETS
   public getClientIpFromThirdPartyApi(): Observable<any> {
-    let obs: Observable<any> = new Observable(observer => {
-      this.http.get('https://api.ipify.org/?format=json').map(this.session.extractData).subscribe(
+    const obs: Observable<any> = new Observable(observer => {
+      this.http.get('https://api.ipify.org/?format=json')
+      .map(this.session.extractData)
+      .subscribe(
         ip => observer.next(ip),
         err => observer.error(new Error('Could not fetch client IP'))
       );
@@ -45,18 +46,18 @@ export class IPService {
   }
 
   public getLocationFromIP(): Observable<any> {
-    let obs: Observable<any> = new Observable(observer => {
+    const obs: Observable<any> = new Observable(observer => {
       this.getClientIpFromThirdPartyApi().subscribe(
         ipData => {
-          let corsFriendlyIp = ipData.ip.toString().split('.').join('$');
-          let geoLocByIpUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip/' + corsFriendlyIp;
+          const corsFriendlyIp = ipData.ip.toString().split('.').join('$');
+          const geoLocByIpUrl = this.baseUrl + 'api/v1.0.0/finder/pinbyip/' + corsFriendlyIp;
           this.session.get(geoLocByIpUrl)
-            .map(this.session.extractData)
-            .catch(this.session.handleError)
-            .subscribe(
+          .map(this.session.extractData)
+          .catch(this.session.handleError)
+          .subscribe(
             geoLocationData => observer.next(geoLocationData),
             err => observer.error(new Error('Failed to get geolocation from API via IP'))
-            );
+          );
         }, error => {
           observer.error(new Error('Failed to get geolocation from API via IP'));
         }
