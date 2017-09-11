@@ -10,7 +10,8 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 
 @Component({
   selector: 'participant-remove',
-  templateUrl: './participant-remove.component.html'
+  templateUrl: './participant-remove.component.html',
+  styles: ['.fauxdal-wrapper { overflow-y: hidden; }']
 })
 export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
   private groupParticipantId: number;
