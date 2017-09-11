@@ -13,7 +13,6 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 
 import { AuthenticationComponent } from './authentication.component';
 
@@ -22,7 +21,6 @@ describe('Component: Authentication', () => {
   let fixture: ComponentFixture<AuthenticationComponent>;
   let comp: AuthenticationComponent;
   let mockAnalyticsService,
-    mockCookieService,
     mockSessionService,
     mockStateService,
     mockLoginRedirectService,
@@ -30,10 +28,9 @@ describe('Component: Authentication', () => {
 
   beforeEach(() => {
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('redirectService', ['cancelRedirect', 'redirectToTarget']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor', 'postLogin']);
-    mockCookieService = jasmine.createSpyObj<CookieService>('cookieService', ['constructor']);
-    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setLoading']);
-    mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['constructor']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['postLogin']);
+    mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setLoading']);
+    mockStoreService = jasmine.createSpyObj<StoreService>('storeService', ['loadUserData']);
     mockAnalyticsService = jasmine.createSpyObj<AnalyticsService>('analyticsService', ['alias', 'identify']);
 
     TestBed.configureTestingModule({
@@ -44,7 +41,6 @@ describe('Component: Authentication', () => {
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
         FormBuilder,
         { provide: SessionService, useValue: mockSessionService },
-        { provide: CookieService, useValue: mockCookieService },
         { provide: StateService, useValue: mockStateService },
         { provide: StoreService, useValue: mockStoreService },
         { provide: AnalyticsService, useValue: mockAnalyticsService }
@@ -85,9 +81,13 @@ describe('Component: Authentication', () => {
     comp.form.setValue({ email: email, password: password });
   }
 
-  xit('should submit login successfully', () => {
-    // TODO;
-    pending();
+  it('should submit login successfully', () => {
+    comp.form.setValue({email: 'email@user.com', password: 'password'});
+    mockSessionService.postLogin.and.returnValue(Observable.of({userId: 1234}));
+    comp.submitLogin();
+    expect(mockAnalyticsService.identify).toHaveBeenCalledWith(1234);
+    expect(mockLoginRedirectService.redirectToTarget).toHaveBeenCalled();
+    expect(mockStoreService.loadUserData).toHaveBeenCalled();
   });
 
   it('loginException should get set to true', () => {
@@ -115,6 +115,5 @@ describe('Component: Authentication', () => {
     comp.back();
     expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
   });
-
 
 });
