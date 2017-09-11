@@ -1,6 +1,6 @@
-@import '~crds-styles/assets/stylesheets/bootstrap';
-@import 'components/modules';
-@import 'pages/modules';
+@import './../../node_modules/crds-styles/assets/stylesheets/bootstrap.scss';
+@import 'components/_modules.scss';
+@import 'pages/_modules.scss';
 
 body {
   -webkit-font-smoothing: initial;

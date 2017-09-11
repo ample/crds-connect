@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
-import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
+import { LatLng } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services.js';
 import { StateService } from '../../services/state.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 
@@ -15,7 +16,7 @@ import { pinType } from '../../models/pin';
 import { googleMapStyles } from '../../shared/constants';
 
 /** @Overlay Constructor */
-function PinLabelOverlay(bounds, map, labelData) {
+function PinLabelOverlay(bounds, map, labelData: PinLabelData) {
     this.bounds_ = bounds;
     this.map_ = map;
     this.labelData_ = labelData;
@@ -38,7 +39,6 @@ interface NativeGoogMapProps {
     template: ''
 })
 export class MapContentComponent implements OnInit {
-
   public areLabelsInitialized: boolean = false;
   public dataFromEventListener: undefined;
   public markersOutsideOfClustersCount: number = undefined;
@@ -51,14 +51,13 @@ export class MapContentComponent implements OnInit {
   }
 
   @HostListener('document:redrawingClusters', ['$event'])
-  onClusterRedraw(event) {
+  private onClusterRedraw(event) {
     this.drawLabels(event.data.markersNotInClusters);
   }
 
   ngOnInit() {
     this.mapApiWrapper.getNativeMap()
       .then((map) => {
-
         let zoomControlOptions: any = {
           style: google.maps.ControlPosition.small,
           position: google.maps.ControlPosition.LEFT_TOP
@@ -104,7 +103,7 @@ export class MapContentComponent implements OnInit {
   };
 
   public didNonSiteMarkerCountChange(newMarkerCount: number): boolean {
-    let isCountChanged: boolean = newMarkerCount !== this.markersOutsideOfClustersCount;
+    const isCountChanged: boolean = newMarkerCount !== this.markersOutsideOfClustersCount;
     this.markersOutsideOfClustersCount = newMarkerCount;
     return isCountChanged;
   }
@@ -112,8 +111,7 @@ export class MapContentComponent implements OnInit {
   public drawLabels(markers: any): void {
     this.mapApiWrapper.getNativeMap()
       .then((map) => {
-
-        let delta = function (a, b) { return a - b; };
+        const delta = (a, b) => a - b;
 
         let geoBounds: MapGeoBounds = undefined;
 
@@ -126,7 +124,6 @@ export class MapContentComponent implements OnInit {
         let markerArray = [];
 
         if (markers.length > 0) {
-
           for (let i = 0; i < markers.length; i++ ) {
             let marker: MapMarker = new MapMarker(markers[i], geoBounds, delta);
             markerArray.push(marker);

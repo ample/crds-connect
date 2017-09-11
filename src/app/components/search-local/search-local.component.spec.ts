@@ -1,7 +1,7 @@
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services.js';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';

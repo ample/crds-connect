@@ -20,7 +20,8 @@ export class CustomOptions extends ToastOptions {
   // titleClass = '';
 }
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services.js';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';

@@ -5,15 +5,14 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { SearchService } from '../../services/search.service';
 import { StateService } from '../../services/state.service';
 
-import { GeoCoordinates } from '../../models/geo-coordinates';
+import { GeoCoordinates, MapView } from '../../models/';
 
 @Component({
   selector: 'search-local',
   templateUrl: 'search-local.component.html'
 })
 export class SearchLocalComponent implements OnInit {
-
-  private mapView;
+  private mapView: MapView;
   public active: boolean;
   public needed: boolean;
 
@@ -26,7 +25,7 @@ export class SearchLocalComponent implements OnInit {
   ngOnInit() {
     this.active = false;
     this.needed = false;
-    this.mapHelper.mapViewUpdatedEmitter.subscribe((update) => {
+    this.mapHelper.mapViewUpdatedEmitter.subscribe((update: MapView) => {
       if ((update.value === 'dragend') || (update.value === 'zoom_changed')) {
         this.mapView = update;
         this.showButton();

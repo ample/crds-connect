@@ -1,13 +1,13 @@
 import * as moment from 'moment';
 import { Address } from '../models/address';
 import { CacheLevel, SmartCacheableService } from './base-service/cacheable.service';
-import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import { CookieOptionsArgs, CookieService } from 'angular2-cookie/services';
 import {
   Headers,
   Http,
   RequestOptions,
   Response
-  } from '@angular/http';
+} from '@angular/http';
 import { Injectable } from '@angular/core';
 import { LoginRedirectService } from './login-redirect.service';
 import { Observable, Subscription } from 'rxjs/Rx';
@@ -18,8 +18,6 @@ import { Pin } from '../models/pin';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 
-
-
 @Injectable()
 export class SessionService extends SmartCacheableService<User, number> {
   private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
@@ -29,7 +27,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   private SessionLengthMilliseconds = 1800000;
   private refreshTimeout: Subscription;
   private readonly contactId: string = 'userId';
-  public defaults = {
+  public defaults: { authorized: Observable<any>; } = {
     authorized: null
   };
 
@@ -44,28 +42,28 @@ export class SessionService extends SmartCacheableService<User, number> {
     }
   }
 
-  public get(url: string, options?: RequestOptions) {
-    let requestOptions = this.getRequestOption(options);
+  public get(url: string, options?: RequestOptions): Observable<any> {
+    const requestOptions = this.getRequestOption(options);
     return this.http.get(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
-  public getWithoutMappingReturnedData(url: string, options?: RequestOptions) {
-    let requestOptions = this.getRequestOption(options);
+  public getWithoutMappingReturnedData(url: string, options?: RequestOptions): Observable<any> {
+    const requestOptions = this.getRequestOption(options);
     return this.http.get(url, requestOptions);
   }
 
-  public put(url: string, data: any, options?: RequestOptions) {
-    let requestOptions = this.getRequestOption(options);
+  public put(url: string, data: any, options?: RequestOptions): Observable<any> {
+    const requestOptions = this.getRequestOption(options);
     return this.http.put(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
-  public post(url: string, data: any, options?: RequestOptions) {
-    let requestOptions = this.getRequestOption(options);
+  public post(url: string, data: any, options?: RequestOptions): Observable<any> {
+    const requestOptions = this.getRequestOption(options);
     return this.http.post(url, data, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
-  public delete(url: string, data: any, options?: RequestOptions) {
-    let requestOptions = this.getRequestOption(options);
+  public delete(url: string, data: any, options?: RequestOptions): Observable<any> {
+    const requestOptions = this.getRequestOption(options);
     return this.http.delete(url, requestOptions).map(this.extractAuthTokenAndUnwrapBody);
   }
 
@@ -99,7 +97,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   public setCookieTimeout() {
-    let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
+    const expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
     this.cookieOptions.expires = expiration;
 
     if (this.refreshTimeout) {
@@ -144,15 +142,14 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   public getRequestOption(options?: RequestOptions): RequestOptions {
-    let reqOptions = options || new RequestOptions();
+    const reqOptions = options || new RequestOptions();
     reqOptions.headers = this.createAuthorizationHeader(reqOptions.headers);
     return reqOptions;
   }
 
   public getContactId(): number {
-    let cID = +this.cookieService.get(this.contactId);
-    cID = isNaN(cID) ? null : cID;
-    return cID;
+    const cID = Number(this.cookieService.get(this.contactId));
+    return isNaN(cID) ? null : cID;
   }
 
   public addToCookie(key: string, value: string) {
@@ -160,7 +157,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   private createAuthorizationHeader(headers?: Headers) {
-    let reqHeaders = headers || new Headers();
+    const reqHeaders = headers || new Headers();
     reqHeaders.set('Authorization', this.getAccessToken());
     reqHeaders.set('RefreshToken', this.getRefreshToken());
     reqHeaders.set('Content-Type', 'application/json');
@@ -170,12 +167,12 @@ export class SessionService extends SmartCacheableService<User, number> {
 
   public getAuthentication(): Observable<any> {
     return this.get(this.baseUrl + 'api/v1.0.0/authenticated')
-      .map((res: Response) => {
-        return res || this.defaults.authorized;
-      })
-      .catch((res: Response) => {
-        return [this.defaults.authorized];
-      });
+    .map((res: Response) => {
+      return res || this.defaults.authorized;
+    })
+    .catch((res: Response) => {
+      return [this.defaults.authorized];
+    });
   }
 
   public isLoggedIn(): boolean {
@@ -193,7 +190,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   public getUserData(): Observable<any> {
-    let contactId = this.getContactId();
+    const contactId = this.getContactId();
 
     if (super.cacheIsReadyAndValid(contactId, CacheLevel.Full)) {
       return Observable.of(super.getCache());
@@ -217,20 +214,20 @@ export class SessionService extends SmartCacheableService<User, number> {
   // TODO: Decide if this should be the profile call or not. Some benefits to still use are
   // faster, relevent connec data etc.
   public getDetailedUserData(): Observable<any> {
-    let contactId = this.getContactId();
+    const contactId = this.getContactId();
 
     if (contactId !== null && contactId !== undefined && !isNaN(contactId)) {
       return this.get(`${this.baseUrl}api/v1.0.0/profile/${contactId}`)
-        .map((res: any) => {
-          let userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2, res.city, res.state,
-                                        res.postalCode, null, null, res.foreignCountry, res.county);
-          let userData: DetailedUserData = new DetailedUserData(contactId, res.firstName, res.lastName, res.homePhone,
-                                                                res.mobilePhone, res.emailAddress, userAddress);
-          return userData;
-        })
-        .catch((err: any) => {
-          return Observable.throw(err.json().error);
-        });
+      .map((res: any) => {
+        const userAddress = new Address(res.addressId, res.addressLine1, res.addressLine2, res.city, res.state,
+                                      res.postalCode, null, null, res.foreignCountry, res.county);
+        const userData: DetailedUserData = new DetailedUserData(contactId, res.firstName, res.lastName, res.homePhone,
+                                                              res.mobilePhone, res.emailAddress, userAddress);
+        return userData;
+      })
+      .catch((err: Response) => {
+        return Observable.throw(err.json().error);
+      });
     }
   }
 
@@ -239,52 +236,47 @@ export class SessionService extends SmartCacheableService<User, number> {
       return Observable.of(super.getCache());
     } else {
       return this.get(`${this.baseUrl}api/v1.0.0/finder/pin/contact/${contactId}`)
-        .do((details) => super.setSmartCache(details, CacheLevel.Partial, contactId))
-        .catch((error: any) => Observable.throw(error || 'Server error'));
+      .do((details) => super.setSmartCache(details, CacheLevel.Partial, contactId))
+      .catch((error: Response) => Observable.throw(error || 'Server error'));
     }
   }
 
   // POSTS
-  public postLogin(email: string, password: string): Observable<any> {
-    let body = {
+  public postLogin(email: string, password: string): Observable<Response> {
+    const body = {
       'username': email,
       'password': password
     };
     return this.post(this.baseUrl + 'api/v1.0.0/login', body)
-      .map((res: any) => {
-        this.addToCookie(this.contactId, res.userId);
-        this.addToCookie('username', res.username);
-        return res || this.defaults.authorized;
-      })
-      .catch(this.handleError);
+    .map((res: any) => {
+      this.addToCookie(this.contactId, res.userId);
+      this.addToCookie('username', res.username);
+      return res || this.defaults.authorized;
+    })
+    .catch(this.handleError);
   }
 
   public postUser(user: User): Observable<any> {
     return this.post(this.baseUrl + 'api/v1.0.0/user', user)
-      .map(this.extractData)
-      .catch(this.handleError);
-  };
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
 
   public postHostApplication(hostApplication: HostRequestDto): Observable<any> {
     return this.post(this.baseUrl + 'api/v1.0.0/finder/pin/requesttobehost', hostApplication)
-      .map(this.extractData)
-      .catch(this.handleError);
-  };
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
 
   public extractData(res: Response) {
-    let body: any = res;
-    if (typeof res.json === 'function') {
-      body = res.json();
-    }
-    return body;
-  };
+    return typeof res.json === 'function' ? res.json() : res;
+  }
 
   public handleError(err: Response | any) {
     return Observable.throw(err);
-  };
+  }
 
   public isCurrentPin(pin: Pin) {
     return pin.contactId === this.getContactId();
   }
-
 }
