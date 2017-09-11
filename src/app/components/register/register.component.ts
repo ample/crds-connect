@@ -30,12 +30,10 @@ export class RegisterComponent implements OnInit {
     private store: StoreService,
     private session: SessionService,
     private redirectService: LoginRedirectService
-  ) {
+  ) {}
 
-  }
-
-  ngOnInit() {
-        this.regForm = this.fb.group({
+  public ngOnInit() {
+    this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
       lastName: ['', [<any>Validators.required]],
       email: ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
@@ -49,30 +47,30 @@ export class RegisterComponent implements OnInit {
     this.state.setLoading(false);
   }
 
-  signin() {
+  private signin() {
     this.router.navigate(['signin']);
   }
 
-  adv(): void {
+  private adv(): void {
     this.redirectService.redirectToTarget();
   };
 
-  submitRegistration() {
+  private submitRegistration() {
     this.submitted = true;
     if (this.regForm.valid) {
       this.state.setLoading(true);
-      let newUser = new User(
+      const newUser = new User(
         this.regForm.get('firstName').value,
         this.regForm.get('lastName').value,
         this.regForm.get('email').value,
         this.regForm.get('password').value
       );
-      this.session.postUser(newUser).subscribe(
+      this.session.postUser(newUser)
+      .subscribe(
         user => {
           if (!this.session.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);
           }
-
         },
         error => {
           if (JSON.parse(error._body).message === 'Duplicate User') {
@@ -92,23 +90,18 @@ export class RegisterComponent implements OnInit {
     return false;
   }
 
-  loginNewUser(email, password) {
+  private loginNewUser(email: string, password: string) {
     this.session.postLogin(email, password)
-      .subscribe(
+    .subscribe(
       (user) => {
         this.store.loadUserData();
         this.adv();
       },
       (error) => this.state.setLoading(false)
-      );
+    );
   }
 
-  switchMessage(errors: any): string {
-    let ret = `is <em>invalid</em>`;
-    if (errors.required !== undefined) {
-      ret = `is <u>required</u>`;
-    }
-    return ret;
+  private switchMessage(errors: any): string {
+    return errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
   }
-
 }

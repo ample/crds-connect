@@ -36,11 +36,11 @@ export class CreateGroupPage6Component implements OnInit {
                 private router: Router,
                 private lookupService: LookupService) { }
 
-    ngOnInit(): void {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    public ngOnInit(): void {
+      const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                                : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-      let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
         `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
         : '/create-group/page-5';
 

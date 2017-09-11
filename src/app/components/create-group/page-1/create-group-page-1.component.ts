@@ -33,8 +33,7 @@ export class CreateGroupPage1Component implements OnInit {
     private state: StateService,
     private toast: ToastsManager){ }
 
-  ngOnInit() {
-
+  public ngOnInit() {
     this.setGroupPathInState();
     this.state.setLoading(true);
 
@@ -49,14 +48,14 @@ export class CreateGroupPage1Component implements OnInit {
     });
 
     if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
-      let groupBeingEdited: Group = this.route.snapshot.data['group'];
+      const groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
 
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
       : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
       :'/create-group';
 
@@ -86,7 +85,7 @@ export class CreateGroupPage1Component implements OnInit {
 
   private removeCategory(category: Category) {
     category.selected = false;
-    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    const inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
     inputFormControl.setValidators(null);
     inputFormControl.updateValueAndValidity();
   }
@@ -102,8 +101,8 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private updateValueAndValidityOnSpecificCategory(category: Category): void {
-    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
-    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+    const inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    const inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
     inputFormControl.setValidators(Validators.required);
     inputFormControl.updateValueAndValidity();
     inputFormControlCheckBox.setValidators(Validators.required);
@@ -127,19 +126,19 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private setGroupPathInState(): void {
-    let pathWithParamsAndChildren: string = this.router.url;
-    let path: string = pathWithParamsAndChildren.split('/')[1];
+    const pathWithParamsAndChildren: string = this.router.url;
+    const path: string = pathWithParamsAndChildren.split('/')[1];
     this.state.setActiveGroupPath(path);
   }
 
   private populateFormWithValuesFromGroupBeingEdited (category: Category): void {
-    let attributesMatchingCat: Attribute[] =
+    const attributesMatchingCat: Attribute[] =
       this.createGroupService.groupBeingEdited.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
         .filter(attribute => attribute.category === category.name
                              && attribute.selected === true);
 
     if(attributesMatchingCat.length > 0){
-      let attribute: Attribute = attributesMatchingCat[0];
+      const attribute: Attribute = attributesMatchingCat[0];
       category.selected = true;
       category.categoryDetail = attribute.name;
     }

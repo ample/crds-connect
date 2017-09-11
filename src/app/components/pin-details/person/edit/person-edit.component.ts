@@ -58,7 +58,7 @@ export class PersonEditComponent implements OnInit {
             );
     }
 
-    public checkPinOwner(pin) {
+    public checkPinOwner(pin: Pin) {
         if (pin.contactId !== this.session.getContactId()) {
             let bpd = new BlandPageDetails(
                 'Return to map',
