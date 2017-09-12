@@ -42,16 +42,16 @@
                 <option value="null" disabled="true" [selected]="!createGroupService.group.address.state">State</option>
                 <option *ngFor="let state of usStatesList" [value]="state">{{state}}</option>
               </select>
-              <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
-                <crds-content-block id="oneOptionMustBeSelected" data-automation-id="stateRequired"></crds-content-block>
-              </p>
+              <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
+                <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="stateRequired"></crds-content-block>
+              </div>
             </div>
 
             <div class="col-xs-6 hard-right">
               <input class="form-control" name="zip" formControlName="zip" placeholder="Zip" [(ngModel)]="createGroupService.group.address.zip" minlength="5" maxlength="5" type="tel" onlyTheseKeys="[0-9]" data-automation-id="zip">
-              <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
-                <crds-content-block id="invalidZip" data-automation-id="invalidZip"></crds-content-block>
-              </p>
+              <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
+                <crds-content-block id="finderInvalidZip" data-automation-id="invalidZip"></crds-content-block>
+              </div>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
             </div>
           </button>
           <div class="alert alert-danger flush-bottom" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
-            <crds-content-block id="oneOptionMustBeSelected" data-automation-id="kidsWelcomeRequired"></crds-content-block>
+            <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="kidsWelcomeRequired"></crds-content-block>
           </div>
         </div>
       </div>

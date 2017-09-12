@@ -61,4 +61,19 @@ export class AnalyticsService {
     });
   }
 
+  newUserRegistered(userId: any, email: string = null, firstName: string = null, lastName: string = null) {
+    this.analytics.setAlias.next(userId);
+    this.identifyLoggedInUser(userId, email, firstName, lastName);
+  }
+
+  identifyLoggedInUser(userId: any, email: string = null, firstName: string = null, lastName: string = null) {
+    let props = {
+      userId: userId,
+      Email: email,
+      FirstName: firstName,
+      LastName: lastName
+    };
+    this.analytics.setUserProperties.next(props);
+  }
+
 }

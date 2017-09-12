@@ -141,7 +141,7 @@ describe('Component: Add Me to the Map', () => {
     this.component.onSubmit(pin);
     expect(mockPinService.postPin).toHaveBeenCalledWith(pin);
     expect(mockToastsManager.error).toHaveBeenCalledWith('Cool beans there was an error');
-    expect(mockContentService.getContent).toHaveBeenCalledWith('generalError');
+    expect(mockContentService.getContent).toHaveBeenCalledWith('finderGeneralError');
     expect(mockState.setLoading).toHaveBeenCalledTimes(2);
   });
 
