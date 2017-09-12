@@ -87,8 +87,7 @@ describe('Component: Registration', () => {
       setForm('Bob', 'Barker', 'good@g.com', 'foobar');
       mockSessionService.postLogin.and.returnValue(Observable.of({userId: 1234}));
       comp.loginNewUser('email@email.com', 'supersecret');
-      expect(mockAnalyticsService.newUserRegistered).toHaveBeenCalledWith(1234);
-      expect(mockAnalyticsService.identifyLoggedInUser).toHaveBeenCalledWith(1234, 'good@g.com', 'Bob', 'Barker');
+      expect(mockAnalyticsService.newUserRegistered).toHaveBeenCalledWith(1234, 'good@g.com', 'Bob', 'Barker');
       expect(comp.adv).toHaveBeenCalled();
     });
   });
