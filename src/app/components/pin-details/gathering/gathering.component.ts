@@ -263,7 +263,7 @@ export class GatheringComponent implements OnInit {
           } else if (failure.status === 406) {
             // Already in group...do nothing.
           } else {
-            this.toast.error(this.content.getContent('generalError'));
+            this.toast.error(this.content.getContent('finderGeneralError'));
           }
           // If we're at the signin or register page, come back to the gathering details.
           if (!this.router.url.includes('gathering')) {

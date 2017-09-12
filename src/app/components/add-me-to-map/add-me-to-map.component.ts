@@ -106,7 +106,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
           this.state.setLoading(false);
         },
         err => {
-          this.toast.error(this.content.getContent('generalError'));
+          this.toast.error(this.content.getContent('finderGeneralError'));
           this.state.setLoading(false);
           this.isFormSubmitted = false;
         }
