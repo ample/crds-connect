@@ -175,7 +175,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'main', 'common', 'ddk', 'group tool')
+      categories: Array('finder', 'group tool')
     })
   ],
   declarations: [
