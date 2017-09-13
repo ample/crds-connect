@@ -1,15 +1,29 @@
-import { EventEmitter  } from '@angular/core';
 import { Injectable } from '@angular/core';
 
-import { MapView } from '../models/map-view';
-import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { PinSearchRequestParams } from '../models/pin-search-request-params';
+import { AppSettingsService } from '../services/app-settings.service';
+import { StateService } from '../services/state.service';
 
-import { Subject } from 'rxjs/Subject';
+import { Pin } from '../models/pin';
+
+import { ViewType } from '../shared/constants'
 
 @Injectable()
 export class SearchService {
 
-  constructor() {}
+  constructor(
+    private appSettings: AppSettingsService,
+    private state: StateService,
+  ) {}
+
+  public navigateToListViewIfInGroupToolAndAllGroupsOnline(pinsReturnedBySearch: Pin[]) {
+    if(this.appSettings.isSmallGroupApp && this.areAllReturnedGroupsOnlineGroups(pinsReturnedBySearch)){
+      this.state.setCurrentView(ViewType.LIST);
+    }
+  }
+
+  public areAllReturnedGroupsOnlineGroups(pinsReturnedBySearch: Pin[]): boolean {
+    let areAllGroupsOnline: boolean = pinsReturnedBySearch.every(pin => pin.gathering.isVirtualGroup === true);
+    return areAllGroupsOnline;
+  }
 
 }

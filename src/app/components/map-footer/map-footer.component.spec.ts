@@ -105,7 +105,7 @@ describe('MapFooterComponent', () => {
         comp.myStuffBtnClicked();
         expect(mockAnalytics.myConnections).toHaveBeenCalled();
         expect(mockPinService.clearPinCache).toHaveBeenCalledTimes(1);
-        expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('/map-footer-component', comp.redirectThenChangeToMyStuff);
+        expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('/', comp.redirectThenChangeToMyStuff);
     });
 
     it('mystuffBtnClicked when my stuff mode is active', () => {
@@ -145,7 +145,7 @@ describe('MapFooterComponent', () => {
         comp.myStuffBtnClicked();
         expect(mockAnalytics.myGroups).toHaveBeenCalled();
         expect(mockPinService.clearPinCache).toHaveBeenCalledTimes(1);
-        expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('/map-footer-component', comp.redirectThenChangeToMyStuff);
+        expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('/', comp.redirectThenChangeToMyStuff);
     });
 
 });
