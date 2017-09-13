@@ -70,12 +70,12 @@
       <dd>{{displayKidsWelcome(pin.gathering.kidsWelcome)}}</dd>
     </dl>
 
-    <div *ngIf="!isLeader && isInGroupApp && !isInGathering" class="push-half-ends soft-ends">
-      <button class="btn btn-primary btn-block-mobile"
+    <div  class="push-half-ends soft-ends">
+      <button *ngIf="!isLeader && isInGroupApp && !isInGathering" class="btn btn-primary btn-block-mobile"
               (click)="onTryThisGroupClicked()">Try this group</button>
-    </div>
-    <div *ngIf="!isLeader && isInGroupApp && isInGathering" class="push-half-ends soft-ends">
-      <button class="btn btn-outline btn-primary btn-block-mobile"
+            
+    
+      <button *ngIf="!isLeader && isInGroupApp" class="btn btn-outline btn-primary btn-block-mobile"
               (click)="onContactLeaderClicked();">Contact leader</button>
     </div>
 
