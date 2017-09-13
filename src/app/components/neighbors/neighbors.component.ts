@@ -112,6 +112,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       this.appSettings.routeToNotFoundPage();
       this.state.myStuffActive = false;
     } else {
+      this.searchService.navigateToListViewIfInGroupToolAndAllGroupsOnline(this.pinSearchResults.pinSearchResults);
       this.state.setLastSearch(new SearchOptions(searchKeywordString, filterString, searchLocationString));
     }
   }
