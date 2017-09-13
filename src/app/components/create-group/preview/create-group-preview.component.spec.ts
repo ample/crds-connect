@@ -102,6 +102,8 @@ describe('CreateGroupPreviewComponent', () => {
     it('should create group', () => {
         let profileData = MockTestData.getProfileData();
         comp['createGroupService'].profileData = profileData;
+        comp['createGroupService']['groupBeingEdited'] = new Group();
+        comp['createGroupService']['groupBeingEdited']['startDate'] = '123';
         let participant = MockTestData.getAParticipantsArray(1);
         (mockParticipantService.getLoggedInUsersParticipantRecord).and.returnValue(Observable.of(participant));
         (mockGroupService.createGroup).and.returnValue(Observable.of(mockCreateGroupService.group));
@@ -128,6 +130,8 @@ describe('CreateGroupPreviewComponent', () => {
     it('should handle error on create group', () => {
         let profileData = MockTestData.getProfileData();
         comp['createGroupService'].profileData = profileData;
+        comp['createGroupService']['groupBeingEdited'] = new Group();
+        comp['createGroupService']['groupBeingEdited']['startDate'] = '123';
         let participant = MockTestData.getAParticipantsArray(1);
         (mockCreateGroupService.prepareForGroupSubmission).and.returnValue(mockCreateGroupService.group);
         (mockParticipantService.getLoggedInUsersParticipantRecord).and.returnValue(Observable.throw({error: 'bad'}));

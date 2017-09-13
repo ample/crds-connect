@@ -60,6 +60,7 @@ export class CreateGroupPreviewComponent implements OnInit {
     let group = this.createGroupService.prepareForGroupSubmission();
 
     if (this.state.getActiveGroupPath() === groupPaths.EDIT) {
+      group.startDate = this.createGroupService.groupBeingEdited.startDate;
       Observable.forkJoin(
         this.groupService.editGroup(group),
         this.profileService.postProfileData(this.createGroupService.profileData)
