@@ -30,9 +30,9 @@
         <br>
         <a *ngIf="!doDisplayFullDesc" (click)="expandGroupDescription()" class="pointer push-right">Read More</a>
         <input *ngIf = "app.isSmallGroupApp() && isLeader" type="button" class="btn btn-secondary" value="Edit Group" (click)="onEditGroupClicked(pin.gathering.groupId)">
-        <div class="font-size-smaller push-top">
-          <a class="pointer" *ngIf="isLeader && !appSettingsService.isConnectApp()" (click)="onEndGroupClicked()">End group</a>
-        </div>
+        <!--<div class="font-size-smaller push-top">-->
+          <!--<a class="pointer" *ngIf="isLeader && !appSettingsService.isConnectApp()" (click)="onEndGroupClicked()">End group</a>-->
+        <!--</div>-->
       </div>
 
       <social-media *ngIf="app.isSmallGroupApp() && showSocial() && isPublicGroup()"> </social-media>
