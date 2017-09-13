@@ -97,7 +97,7 @@
 
     <!-- Group Privacy Omitted Error: -->
     <div *ngIf="isSubmitted && groupDetailsForm.get('availableOnline').hasError('required')">
-      <div class="alert alert-danger" role="alert" data-automation-id="groupPrivacyRequired">This field is required.</div>
+      <div class="error help-block" role="alert" data-automation-id="groupPrivacyRequired">This field is required.</div>
     </div>
 
     <!-- Footer: -->

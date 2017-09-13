@@ -29,7 +29,7 @@
         </div>
       </button>
 
-      <div class="custom-input push-ends" *ngIf="!createGroupService.group.isVirtualGroup">
+      <div class="custom-input push-half-ends" *ngIf="!createGroupService.group.isVirtualGroup">
         <input class="form-control" name="address" formControlName="address" placeholder="Address" [(ngModel)]="createGroupService.group.address.addressLine1">
         <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['address'].valid" data-automation-id="addressRequired">Address is required</p>
         <input class="push-top form-control" name="city" formControlName="city" placeholder="City" [(ngModel)]="createGroupService.group.address.city">
@@ -87,7 +87,7 @@
               No. Adults only please.
             </div>
           </button>
-          <div class="alert alert-danger flush-bottom" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
+          <div class="error help-block flush-bottom" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
             <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="kidsWelcomeRequired"></crds-content-block>
           </div>
         </div>
