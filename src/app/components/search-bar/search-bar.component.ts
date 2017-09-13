@@ -30,9 +30,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
 
-  constructor(private appSettings: AppSettingsService,
+  constructor(public appSettings: AppSettingsService,
               private pinService: PinService,
-              private state: StateService,
+              public state: StateService,
               private filterService: FilterService) {
   }
 

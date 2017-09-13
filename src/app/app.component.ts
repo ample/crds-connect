@@ -23,7 +23,7 @@ declare var svg4everybody: any;
         <router-outlet></router-outlet>
       </div>
     </div>`,
-  styleUrls: ['../styles/application.scss'],
+  // styleUrls: ['../styles/application.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private angulartics2Segment: Angulartics2Segment,
-    private state: StateService,
+    public state: StateService,
     private content: ContentService,
     public toastr: ToastsManager,
     public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,

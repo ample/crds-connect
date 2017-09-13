@@ -12,11 +12,9 @@ import { LookupService } from '../../../services/lookup.service';
   selector: 'category',
   templateUrl: 'category.component.html'
 })
-
-
 export class CategoryComponent implements OnInit {
   private selected: boolean = false;
-  private categories: Category[];
+  public categories: Category[];
 
   constructor( private appSettings: AppSettingsService,
                private lookupService: LookupService,

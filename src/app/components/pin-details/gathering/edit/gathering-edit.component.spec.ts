@@ -18,7 +18,7 @@ import { MockTestData } from '../../../../shared/MockTestData';
 
 import { GatheringEditComponent } from './gathering-edit.component';
 
-describe('GatheringEditComponent', () => {
+fdescribe('GatheringEditComponent', () => {
     let fixture: ComponentFixture<GatheringEditComponent>;
     let comp: GatheringEditComponent;
     let el;

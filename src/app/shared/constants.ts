@@ -100,6 +100,7 @@ export class GroupMeetingScheduleType {
     this.FLEXIBLE = 'flexible';
   }
 }
+export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export class DaysOfWeek {
   public MONDAY: string;
@@ -125,7 +126,6 @@ export const daysOfWeekList: string[] = ['Sunday','Monday','Tuesday','Wednesday'
 
 export const daysOfWeek = new DaysOfWeek();
 
-export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '0001-01-01T17:00:00.000Z';
 export const defaultGroupMeetingTimePrefix: string = '0001-01-01T';

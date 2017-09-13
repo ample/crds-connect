@@ -1,6 +1,4 @@
-import {
-    ParticipantDetailsComponent
-} from './components/pin-details/gathering/participant-details/participant-details.component';
+import { ParticipantDetailsComponent} from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
 import { NgModule  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -174,8 +172,9 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     BsDropdownModule.forRoot(),
     routing,
     ContentBlockModule.forRoot({
-      endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'main', 'common', 'ddk', 'group tool')
+      endpoint: <string> process.env.CRDS_CMS_CLIENT_ENDPOINT,
+      categories: ['finder', 'main', 'common', 'ddk', 'group tool'],
+      options: {}
     })
   ],
   declarations: [

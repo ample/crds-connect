@@ -13,7 +13,7 @@ export class NoResultsComponent implements OnInit {
 
   constructor(private router: Router,
               private state: StateService,
-              private appSettings: AppSettingsService) {}
+              public appSettings: AppSettingsService) {}
 
   public ngOnInit(): void {
     this.state.clearLastSearch();

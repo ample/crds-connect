@@ -46,7 +46,7 @@ export class GatheringComponent implements OnInit {
   public isLeader: boolean = false;
   public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
-  private ready = false;
+  public ready = false;
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private participantEmails: string[];

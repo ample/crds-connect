@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService,
+    public store: StoreService,
     private session: SessionService,
     private redirectService: LoginRedirectService
   ) {}
@@ -53,9 +53,9 @@ export class RegisterComponent implements OnInit {
 
   private adv(): void {
     this.redirectService.redirectToTarget();
-  };
+  }
 
-  private submitRegistration() {
+  public submitRegistration() {
     this.submitted = true;
     if (this.regForm.valid) {
       this.state.setLoading(true);
@@ -80,10 +80,14 @@ export class RegisterComponent implements OnInit {
         }
       );
     } else {
-      this.regForm.controls['firstName'].markAsTouched();
-      this.regForm.controls['lastName'].markAsTouched();
-      this.regForm.controls['email'].markAsTouched();
-      this.regForm.controls['password'].markAsTouched();
+      this.regForm.get('firstName').markAsTouched();
+      this.regForm.get('lastName').markAsTouched();
+      this.regForm.get('email').markAsTouched();
+      this.regForm.get('password').markAsTouched();
+      // this.regForm.controls['firstName'].markAsTouched();
+      // this.regForm.controls['lastName'].markAsTouched();
+      // this.regForm.controls['email'].markAsTouched();
+      // this.regForm.controls['password'].markAsTouched();
     }
 
     this.submitted = true;

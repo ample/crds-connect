@@ -20,11 +20,10 @@ import { MsgToLeader } from '../../models/msg-to-leader';
     styles: ['.fauxdal-wrapper { overflow-y: auto; }']
 })
 export class ContactLeaderComponent implements OnInit, AfterViewInit {
-
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
   public groupId: number;
-  private msgToLeader: MsgToLeader = new MsgToLeader('', '');
+  public msgToLeader: MsgToLeader = new MsgToLeader('', '');
 
   constructor(
     private blandPageService: BlandPageService,
@@ -36,7 +35,6 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
     private state: StateService) {}
 
   public ngOnInit() {
-
     this.contactLeaderForm = new FormGroup({
       subject: new FormControl('', [Validators.required]),
       message: new FormControl('', [Validators.required]),
@@ -78,8 +76,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
     );
   }
 
-  private closeClick() {
+  public closeClick() {
     this.location.back();
   }
-
 }

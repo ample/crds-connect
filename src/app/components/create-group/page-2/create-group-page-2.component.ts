@@ -39,13 +39,13 @@ export class CreateGroupPage2Component implements OnInit {
   public meetingTimeForm: FormGroup;
   private timeZoneAdjustedDefaultGroupMeetingTime: string;
   private isSubmitted: boolean = false;
-  private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
+  public groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
   private daysOfTheWeek: LookupTable[] = [];
   private meetingFrequencies = meetingFrequencies;
 
   constructor(private fb: FormBuilder,
               private state: StateService,
-              private createGroupService: CreateGroupService,
+              public createGroupService: CreateGroupService,
               private groupService: GroupService,
               private router: Router,
               private lookupService: LookupService,

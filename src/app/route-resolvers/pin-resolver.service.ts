@@ -9,11 +9,10 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../models/bland
 
 @Injectable()
 export class PinResolver implements Resolve<Pin> {
-
   constructor(
     private pinService: PinService,
     private blandPageService: BlandPageService
-  ) { }
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Pin> {
     let participantId: number, groupId: number, pinIdentifier: PinIdentifier;

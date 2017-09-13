@@ -22,7 +22,7 @@ import { MapComponent } from '../../components/map/map.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
 import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
-import { MapSettings } from '../../models/map-settings';
+import { MapView, MapSettings } from '../../models';
 
 describe('Component: SearchLocal', () => {
   let fixture: ComponentFixture<SearchLocalComponent>;

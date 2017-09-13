@@ -15,11 +15,11 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
   private groupParticipantId: number;
   private groupId: number;
-  private isRemovingSelf: boolean = false;
+  public isRemovingSelf: boolean = false;
   private message: string = '';
-  private removeParticipantForm: FormGroup;
+  public removeParticipantForm: FormGroup;
   private redirectUrl: string;
-  private submitting: boolean = false;
+  public submitting: boolean = false;
   private isFormSubmitted: boolean = false;
 
   constructor(private participantService: ParticipantService,

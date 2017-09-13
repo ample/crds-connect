@@ -12,8 +12,6 @@ import { StateService } from '../../../../services/state.service';
 import { GroupRole, MaxGroupApprentices, MaxGroupLeaders } from '../../../../shared/constants';
 import { Participant, Address } from '../../../../models';
 
-
-
 @Component({
   selector: 'participant-details',
   templateUrl: './participant-details.component.html'
@@ -24,7 +22,7 @@ export class ParticipantDetailsComponent implements OnInit {
   private groupParticipantId: number;
   private participantAddress: Address;
   private isValidAddress: boolean;
-  private componentIsReady: boolean = false;
+  public componentIsReady: boolean = false;
   private redirectUrl: string;
   private selectedRole: number = GroupRole.MEMBER;
   private leaderCount: number = 0;

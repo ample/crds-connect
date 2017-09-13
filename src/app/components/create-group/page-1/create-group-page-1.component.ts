@@ -14,19 +14,18 @@ import { Group} from '../../../models/group';
 
 import { attributeTypes, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
-
 @Component({
     selector: 'create-group-page-1',
     templateUrl: './create-group-page-1.component.html',
 })
 export class CreateGroupPage1Component implements OnInit {
   public groupCategoryForm: FormGroup;
-  private isSubmitted: boolean = false;
-  private areCategoriesValid: boolean = false;
+  public isSubmitted: boolean = false;
+  public areCategoriesValid: boolean = false;
 
   constructor(
     private content: ContentService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private groupService: GroupService,
     private route: ActivatedRoute,
     private router: Router,
@@ -109,7 +108,7 @@ export class CreateGroupPage1Component implements OnInit {
     inputFormControlCheckBox.setValue(category.selected);
   }
 
-  public onSubmit(form, inEditOrCreateMode: string) {
+  public onSubmit(form) {
     this.areCategoriesValid = this.createGroupService.validateCategories();
     this.isSubmitted = true;
     this.state.setLoading(true);

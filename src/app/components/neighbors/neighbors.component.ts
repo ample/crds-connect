@@ -29,7 +29,7 @@ import { initialMapZoom, ViewType } from '../../shared/constants';
 
 export class NeighborsComponent implements OnInit, OnDestroy {
   public isMyStuffSearch: boolean = false;
-  public isMapHidden: boolean = false;
+  // public isMapHidden: boolean = false;
   public pinSearchResults: PinSearchResultsDto;
   private pinSearchSub: Subscription;
 
@@ -38,10 +38,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
     private router: Router,
-    private state: StateService,
+    public state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private blandPageService: BlandPageService) { }
+    private blandPageService: BlandPageService) {}
 
   public ngOnDestroy(): void {
     if (this.pinSearchSub) {
@@ -59,7 +59,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     return this.state.getCurrentView() === ViewType.MAP;
   }
 
-  private viewChanged(): void {
+  public viewChanged(): void {
     if (this.isMapViewSet()) {
       this.state.setCurrentView(ViewType.LIST);
       const location: MapView = this.state.getMapView();
@@ -93,11 +93,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.neighborsHelper.emitChange();
 
-    this.isMapHidden = true;
-
-    setTimeout(() => {
-      this.isMapHidden = false;
-    }, 1);
+    // this.isMapHidden = true;
+    //
+    // setTimeout(() => {
+    //   this.isMapHidden = false;
+    // }, 1);
 
     this.navigateAwayIfNecessary(searchLocationString, searchKeywordString, lat, lng, filterString);
   }

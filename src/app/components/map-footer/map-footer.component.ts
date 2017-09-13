@@ -24,11 +24,11 @@ export class MapFooterComponent implements OnInit {
   public isMapHidden = false;
   public myPinSearchResults: PinSearchResultsDto;
 
-  constructor(private appSettings: AppSettingsService,
+  constructor(public appSettings: AppSettingsService,
               private pinService: PinService,
               private loginRedirectService: LoginRedirectService,
               private router: Router,
-              private state: StateService,
+              public state: StateService,
               private session: SessionService,
               private blandPageService: BlandPageService,
               private analytics: AnalyticsService) { }

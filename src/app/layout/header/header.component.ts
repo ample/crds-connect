@@ -9,19 +9,17 @@ import { StateService } from '../../services/state.service';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-
   constructor(private appSettings: AppSettingsService,
               private router: Router,
-              private state: StateService) {
+              public state: StateService) {
     this.listenForRouteChange();
   }
 
   private listenForRouteChange() {
     this.router.events.subscribe((val) => {
-        if (val instanceof NavigationStart) {
-          this.state.hasPageHeader = false;
-        }
+      if (val instanceof NavigationStart) {
+        this.state.hasPageHeader = false;
+      }
     });
   }
-
 }

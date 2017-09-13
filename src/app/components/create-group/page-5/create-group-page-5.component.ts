@@ -18,12 +18,12 @@ export class CreateGroupPage5Component implements OnInit {
   public groupDetailsForm: FormGroup;
 
   private isComponentReady: boolean = false;
-  private isSubmitted: boolean = false;
+  public isSubmitted: boolean = false;
 
   constructor(private fb: FormBuilder,
     private groupService: GroupService,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private router: Router) {}
 
   public ngOnInit(): void {
