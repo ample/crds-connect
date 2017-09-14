@@ -24,6 +24,14 @@ import { MapView } from '../../models/map-view';
 export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
+  private styles = [{
+          url: '//crds-cms-uploads.s3.amazonaws.com/connect/CLUSTER.svg',
+          height: 50,
+          width: 50,
+          textColor: '#fff'
+        }];
+  private maxZoom = 17;
+  private averageCenter = true;
 
   public pinsToMap: Pin[] ;
 

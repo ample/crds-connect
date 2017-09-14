@@ -5,7 +5,7 @@
                  [disableDefaultUI]="mapSettings.disableDefaultUI"
                  [zoomControl]="mapSettings.zoomControl"
                  [streetViewControl]="false">
-  <agm-marker-cluster>
+  <agm-marker-cluster [styles]="styles" [maxZoom]="maxZoom" [averageCenter]="averageCenter">
   <agm-marker *ngFor="let pin of pinsToMap; let i = index"
                           [latitude]="pin.address.latitude"
                           [longitude]="pin.address.longitude"
