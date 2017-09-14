@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { SessionService } from './session.service';
 import { PinService } from './pin.service';
 
-import { IFrameParentService } from './iframe-parent.service';
 import { LookupTable } from '../models/lookup-table';
 import { Pin } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';

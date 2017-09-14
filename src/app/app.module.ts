@@ -107,7 +107,6 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
-import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
@@ -268,7 +267,6 @@ import { RouterModule } from '@angular/router';
     Angulartics2Segment,
     GroupService,
     HostApplicationHelperService,
-    IFrameParentService,
     ListHelperService,
     LoginRedirectService,
     LocationService,
