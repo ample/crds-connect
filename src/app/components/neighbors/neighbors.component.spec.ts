@@ -11,7 +11,6 @@ import {
   PinSearchResultsDto,
   SearchOptions
   } from '../../models';
-import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule } from '@angular/http';

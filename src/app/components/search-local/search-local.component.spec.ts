@@ -22,7 +22,6 @@ import { SiteAddressService } from '../../services/site-address.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
 
-import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 
 import { MapComponent } from '../../components/map/map.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
@@ -81,7 +80,6 @@ describe('Component: SearchLocal', () => {
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
-        GoogleMapClusterDirective,
         // TODO: Components above this line should use mock component. Will reduce number of mocks all around.
         MockComponent({ selector: 'agm-marker-cluster', inputs: ['styles', 'maxZoom', 'averageCenter'] }),
         SearchLocalComponent

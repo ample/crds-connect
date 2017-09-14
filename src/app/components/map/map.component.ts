@@ -3,7 +3,7 @@ import { GoogleMapService } from '../../services/google-map.service';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { crdsOakleyCoords, ViewType } from '../../shared/constants';
+import { crdsOakleyCoords, ViewType, ClusterStyles, MaxZoomForClustering } from '../../shared/constants';
 import { MapSettings } from '../../models/map-settings';
 import { Address } from '../../models/address';
 import { Pin, pinType } from '../../models/pin';
@@ -13,7 +13,6 @@ import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 import { UserLocationService } from '../../services/user-location.service';
-import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
 
@@ -24,14 +23,9 @@ import { MapView } from '../../models/map-view';
 export class MapComponent implements OnInit {
 
   @Input() searchResults: PinSearchResultsDto;
-  private styles = [{
-          url: '//crds-cms-uploads.s3.amazonaws.com/connect/CLUSTER.svg',
-          height: 50,
-          width: 50,
-          textColor: '#fff'
-        }];
-  private maxZoom = 17;
-  private averageCenter = true;
+  private styles = ClusterStyles;
+  private maxZoom: number = MaxZoomForClustering;
+  private averageCenter: boolean = true;
 
   public pinsToMap: Pin[] ;
 

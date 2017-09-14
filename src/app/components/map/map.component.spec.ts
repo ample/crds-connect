@@ -23,7 +23,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LocationService } from '../../services/location.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinService}  from '../../services/pin.service';
-import { GoogleMapClusterDirective } from  '../../directives/google-map-cluster.directive';
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
@@ -73,7 +72,6 @@ describe('Component: Map', () => {
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
-        GoogleMapClusterDirective,
         SearchLocalComponent,
         MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']})
       ],

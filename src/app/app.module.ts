@@ -147,8 +147,6 @@ import { SocialMediaComponent } from './components/pin-details/gathering/social-
 
 import { RouterModule } from '@angular/router';
 
-import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
-
 @NgModule({
   imports: [
     AlertModule,
@@ -244,7 +242,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     StuffNotFoundComponent,
     TryGroupRequestConfirmationComponent,
     LeaderResourcesComponent,
-    GoogleMapClusterDirective,
     CreateGroupFooterComponent,
     SocialMediaComponent
   ],
