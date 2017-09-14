@@ -87,7 +87,7 @@ describe('Component: Neighbors', () => {
       url: '/', routerState:
       { snapshot:
           { url: '/'}
-      }, navigate: jasmine.createSpy('navigate')
+      }, navigate: jasmine.createSpy('navigate'), navigateByUrl : jasmine.createSpy('navigateByUrl')
   };
 
     TestBed.configureTestingModule({
