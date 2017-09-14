@@ -72,10 +72,10 @@ describe('Service: Search', () => {
     pins[1].gathering.isVirtualGroup = true;
     pins[2].gathering.isVirtualGroup = true;
 
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    (mockAppSettingsService.isSmallGroupApp).and.returnValue(false);
 
     service.navigateToListViewIfInGroupToolAndAllGroupsOnline(pins);
-    expect(mockState.setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
+    expect(mockState.setCurrentView).not.toHaveBeenCalled();
   }));
 
 });
