@@ -30,6 +30,7 @@ import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapSettings } from '../../models/map-settings';
 import { MapView } from '../../models/map-view';
+import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: SearchLocal', () => {
   let fixture: ComponentFixture<SearchLocalComponent>;
@@ -82,6 +83,7 @@ describe('Component: SearchLocal', () => {
         MapFooterComponent,
         GoogleMapClusterDirective,
         // TODO: Components above this line should use mock component. Will reduce number of mocks all around.
+        MockComponent({ selector: 'agm-marker-cluster', inputs: ['styles', 'maxZoom', 'averageCenter'] }),
         SearchLocalComponent
       ],
       imports: [
