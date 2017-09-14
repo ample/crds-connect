@@ -14,7 +14,7 @@
         <option *ngFor="let site of sites" [value]="site.dp_RecordID">{{site.dp_RecordName}}</option>
       </select>
 
-      <div class="alert alert-danger" role="alert" data-automation-id="siteRequired" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
+      <div class="error help-block" role="alert" data-automation-id="siteRequired" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
         <crds-content-block id="OneOptionMustBeSelected"></crds-content-block>
       </div>
 
@@ -32,7 +32,7 @@
         </label>
       </div>
 
-      <div class="alert alert-danger" role="alert" data-automation-id="genderRequired" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
+      <div class="error help-block" role="alert" data-automation-id="genderRequired" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
         <crds-content-block id="OneOptionMustBeSelected"></crds-content-block>
       </div>
 
