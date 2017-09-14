@@ -55,8 +55,9 @@ export class CreateGroupPage5Component implements OnInit {
     if (form.valid && this.createGroupService.group.availableOnline != null) {
       this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
-      this.groupDetailsForm.controls['groupName'].markAsTouched();
-      this.groupDetailsForm.controls['groupDescription'].markAsTouched();
+      Object.keys(form.controls).forEach((name) => {
+        form.controls[name].markAsTouched();
+      });
       this.state.setLoading(false);
     }
   }

@@ -115,8 +115,9 @@ export class CreateGroupPage2Component implements OnInit {
       this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(),
                                             this.createGroupService.group.groupId);
     } else {
-      this.meetingTimeForm.controls['meetingDay'].markAsTouched();
-      this.meetingTimeForm.controls['meetingFrequency'].markAsTouched();
+      Object.keys(form.controls).forEach((name) => {
+        form.controls[name].markAsTouched();
+      });
       this.state.setLoading(false);
     }
   }

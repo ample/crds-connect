@@ -82,11 +82,9 @@ export class CreateGroupPage6Component implements OnInit {
                 this.router.navigate(['/create-group/preview']);
             }
         } else {
-            this.profileForm.controls['crossroadsSite'].markAsTouched();
-            this.profileForm.controls['addressLine1'].markAsTouched();
-            this.profileForm.controls['city'].markAsTouched();
-            this.profileForm.controls['state'].markAsTouched();
-            this.profileForm.controls['zip'].markAsTouched();
+            Object.keys(form.controls).forEach((name) => {
+                form.controls[name].markAsTouched();
+            });
             this.groupVisabilityInvalid = true;
             this.state.setLoading(false);
         }
