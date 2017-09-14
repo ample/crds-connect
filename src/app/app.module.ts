@@ -20,7 +20,8 @@ export class CustomOptions extends ToastOptions {
   // titleClass = '';
 }
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
@@ -154,6 +155,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
+    AgmJsMarkerClustererModule,
     RouterModule.forRoot(appRoutingProviders),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment]),
     BrowserModule,

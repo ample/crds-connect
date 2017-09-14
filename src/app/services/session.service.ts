@@ -99,20 +99,20 @@ export class SessionService extends SmartCacheableService<User, number> {
   }
 
   public setCookieTimeout() {
-    let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
-    this.cookieOptions.expires = expiration;
+    // let expiration = moment().add(this.SessionLengthMilliseconds, 'milliseconds').toDate();
+    // this.cookieOptions.expires = expiration;
 
-    if (this.refreshTimeout) {
-      this.refreshTimeout.unsubscribe();
-      this.refreshTimeout = undefined;
-    }
+    // if (this.refreshTimeout) {
+    //   this.refreshTimeout.unsubscribe();
+    //   this.refreshTimeout = undefined;
+    // }
 
-    if (this.hasToken()) {
-      this.refreshTimeout = Observable.timer(expiration).subscribe(() => {
-        this.clearTokens();
-        this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
-      });
-    }
+    // if (this.hasToken()) {
+    //   this.refreshTimeout = Observable.timer(expiration).subscribe(() => {
+    //     this.clearTokens();
+    //     this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url);
+    //   });
+    // }
   }
 
   public hasToken(): boolean {

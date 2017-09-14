@@ -1,6 +1,6 @@
 import { Directive, AfterContentInit, QueryList, Input, ContentChildren } from '@angular/core';
-import { GoogleMapsAPIWrapper, SebmGoogleMap, SebmGoogleMapMarker, MarkerManager } from 'angular2-google-maps/core';
-import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-maps-types';
+import { GoogleMapsAPIWrapper, AgmMap, AgmMarker, MarkerManager } from '@agm/core';
+import { GoogleMap, Marker } from '@agm/core/services/google-maps-types';
 
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GoogleMapService } from '../services/google-map.service';

@@ -1,9 +1,8 @@
 import { AnalyticsService } from '../../services/analytics.service';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
 import { EventEmitter } from '@angular/core';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
