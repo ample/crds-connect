@@ -2,11 +2,11 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/services';
 
 @Component({
   selector: 'app-authentication',
@@ -26,12 +26,12 @@ export class AuthenticationComponent implements OnInit {
   public helpUrl: string;
 
   constructor(
+    private analyticsService: AnalyticsService,
     private fb: FormBuilder,
     private router: Router,
     public redirectService: LoginRedirectService,
     public state: StateService,
     private store: StoreService,
-    private cookieService: CookieService,
     public session: SessionService
   ) { }
 
@@ -62,9 +62,11 @@ export class AuthenticationComponent implements OnInit {
     this.state.setLoading(true);
     this.loginException = false;
     if (this.form.valid) {
-      this.session.postLogin(this.form.get('email').value, this.form.get('password').value)
+      const email = this.form.get('email').value;
+      this.session.postLogin(email, this.form.get('password').value)
       .subscribe(
         (user) => {
+          this.analyticsService.identifyLoggedInUser(user.userId, email);
           this.store.loadUserData();
           // TODO: Completed for SSO config, not sure if always want to route to host-signup after signin
           this.redirectService.redirectToTarget();

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { StateService } from '../../services/state.service';
 import { Pin } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
+import { MiscellaneousService } from '../../services/miscellaneous-service';
 import { NeighborsHelperService } from  '../../services/neighbors-helper.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 
@@ -14,12 +15,14 @@ export class ListViewComponent implements OnInit {
 
   public showing_increment: number = 10;
 
-  constructor(public neighborsHelperService: NeighborsHelperService,
+  constructor(private miscellaneousService: MiscellaneousService,
+              public neighborsHelperService: NeighborsHelperService,
               public stateService: StateService,
               private appSettings: AppSettingsService) {
   }
 
   public ngOnInit() {
+    this.miscellaneousService.reEnableScrollingInCaseFauxdalDisabledIt();
     this.neighborsHelperService.changeEmitter.subscribe(() => {
       this.stateService.setShowingPinCount(10);
     });

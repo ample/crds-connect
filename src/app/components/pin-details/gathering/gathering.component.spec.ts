@@ -15,6 +15,7 @@ import { CreateGroupService } from '../../create-group/create-group-data.service
 import { SessionService } from '../../../services/session.service';
 import { PinService } from '../../../services/pin.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
+import { MiscellaneousService } from '../../../services/miscellaneous-service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
@@ -42,6 +43,7 @@ let mockAppSettingsService;
 let mockSessionService;
 let mockPinService;
 let mockLoginRedirectService;
+let mockMiscellaneousService;
 let mockBlandPageService;
 let mockCreateGroupService;
 let mockStateService;
@@ -62,6 +64,7 @@ describe('Gathering component redirect error', () => {
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
     ['redirectToLogin', 'redirectToTarget']);
+    mockMiscellaneousService = jasmine.createSpyObj<MiscellaneousService>('miscellaneousService', ['reEnableScrollingInCaseFauxdalDisabledIt']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader']);
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService',
@@ -90,6 +93,7 @@ describe('Gathering component redirect error', () => {
         { provide: PinService, useValue: mockPinService },
         { provide: SessionService, useValue: mockSessionService },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+        { provide: MiscellaneousService, useValue: mockMiscellaneousService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
@@ -186,6 +190,7 @@ describe('GatheringComponent', () => {
         { provide: PinService, useValue: mockPinService },
         { provide: SessionService, useValue: mockSessionService },
         { provide: LoginRedirectService, useValue: mockLoginRedirectService },
+        { provide: MiscellaneousService, useValue: mockMiscellaneousService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: StateService, useValue: mockStateService },

@@ -59,6 +59,7 @@ export class CreateGroupPreviewComponent implements OnInit {
     let group = this.createGroupService.prepareForGroupSubmission();
 
     if (this.state.getActiveGroupPath() === groupPaths.EDIT) {
+      group.startDate = this.createGroupService.groupBeingEdited.startDate;
       Observable.forkJoin(
         this.groupService.editGroup(group),
         this.profileService.postProfileData(this.createGroupService.profileData)
@@ -74,7 +75,7 @@ export class CreateGroupPreviewComponent implements OnInit {
           this.router.navigate([`/small-group/${group.groupId}`]);
         }, (error) => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('generalError'));
+          this.toastr.error(this.contentService.getContent('finderGeneralError'));
           this.blandPageService.goToDefaultError('/create-group/preview');
         });
 
@@ -102,7 +103,7 @@ export class CreateGroupPreviewComponent implements OnInit {
             });
         }, (error) => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('generalError'));
+          this.toastr.error(this.contentService.getContent('finderGeneralError'));
           this.blandPageService.goToDefaultError('/create-group/preview');
         });
     }

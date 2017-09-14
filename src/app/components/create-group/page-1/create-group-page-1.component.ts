@@ -84,19 +84,26 @@ export class CreateGroupPage1Component implements OnInit {
 
   private removeCategory(category: Category) {
     category.selected = false;
-    const inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
-    inputFormControl.setValidators(null);
-    inputFormControl.updateValueAndValidity();
+    this.removeValidationAndUpdateDeSelectedCategory(category);
   }
 
   private addCategory(category: Category): void {
     if (!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
       category.selected = true;
+      this.updateValueAndValidityOnSpecificCategory(category);
     } else {
       category.selected = false;
+      this.removeValidationAndUpdateDeSelectedCategory(category);
       this.toast.error(this.content.getContent('finderTooManyCategoriesToast'));
     }
-    this.updateValueAndValidityOnSpecificCategory(category);
+  }
+
+  private removeValidationAndUpdateDeSelectedCategory(category: Category): void {
+    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+    inputFormControl.setValidators(null);
+    inputFormControl.updateValueAndValidity();
+    inputFormControlCheckBox.setValue(category.selected);
   }
 
   private updateValueAndValidityOnSpecificCategory(category: Category): void {
@@ -104,7 +111,6 @@ export class CreateGroupPage1Component implements OnInit {
     const inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
     inputFormControl.setValidators(Validators.required);
     inputFormControl.updateValueAndValidity();
-    inputFormControlCheckBox.setValidators(Validators.required);
     inputFormControlCheckBox.setValue(category.selected);
   }
 

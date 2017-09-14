@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AnalyticsService } from '../../services/analytics.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
     private state: StateService,
     public store: StoreService,
     private session: SessionService,
-    private redirectService: LoginRedirectService
+    private redirectService: LoginRedirectService,
+    private analyticsService: AnalyticsService
   ) {}
 
   public ngOnInit() {
@@ -84,10 +86,6 @@ export class RegisterComponent implements OnInit {
       this.regForm.get('lastName').markAsTouched();
       this.regForm.get('email').markAsTouched();
       this.regForm.get('password').markAsTouched();
-      // this.regForm.controls['firstName'].markAsTouched();
-      // this.regForm.controls['lastName'].markAsTouched();
-      // this.regForm.controls['email'].markAsTouched();
-      // this.regForm.controls['password'].markAsTouched();
     }
 
     this.submitted = true;
@@ -98,6 +96,11 @@ export class RegisterComponent implements OnInit {
     this.session.postLogin(email, password)
     .subscribe(
       (user) => {
+        this.analyticsService.newUserRegistered(
+          user.userId,
+          this.regForm.get('email').value,
+          this.regForm.get('firstName').value,
+          this.regForm.get('lastName').value);
         this.store.loadUserData();
         this.adv();
       },

@@ -77,6 +77,10 @@
               <button type="button" (click)="closeClick()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
             </div>
           </footer>
+
+          <div *ngIf="submissionError" class="alert alert-danger">
+            <crds-content-block id="finderGeneralError"></crds-content-block>
+          </div>
         </form>
       </div>
 

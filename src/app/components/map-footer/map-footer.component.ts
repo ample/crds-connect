@@ -81,7 +81,7 @@ export class MapFooterComponent implements OnInit {
     this.state.setLoading(true);
 
     if (!this.session.isLoggedIn()) {
-      this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.redirectThenChangeToMyStuff);
+      this.loginRedirectService.redirectToLogin('/', this.redirectThenChangeToMyStuff);
     } else {
       this.router.navigate(['/']);
       this.state.setCurrentView(ViewType.MAP);
