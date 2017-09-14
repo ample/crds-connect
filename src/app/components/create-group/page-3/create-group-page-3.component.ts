@@ -120,6 +120,10 @@ export class CreateGroupPage3Component implements OnInit {
         this.createGroupService.group.address = Address.overload_Constructor_One();
       }
       this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    } else {
+      Object.keys(form.controls).forEach((name) => {
+        form.controls[name].markAsTouched();
+      });
     }
   }
 

@@ -1,7 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-
 import { AppSettingsService } from '../../services/app-settings.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
@@ -195,12 +194,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public setViewToMyStuffIfIndicatedByUrl(): void {
-    const isMyStuffFlagPresent = this.router.url === '/my';
+    const isMyStuffFlagPresent = (this.router.url === '/my') || (this.router.url.substring(0, this.router.url.indexOf('?')) === '/my');
+
     if (isMyStuffFlagPresent) {
       this.state.setCurrentView(ViewType.LIST);
       this.isMyStuffSearch = true;
       this.state.setIsMyStuffActive(true);
     }
   }
-
 }
