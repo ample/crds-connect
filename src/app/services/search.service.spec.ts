@@ -67,4 +67,15 @@ describe('Service: Search', () => {
     expect(mockState.setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
   }));
 
+  it('should not navigate away in connect mode', inject([SearchService], (service: SearchService) => {
+    pins[0].gathering.isVirtualGroup = true;
+    pins[1].gathering.isVirtualGroup = true;
+    pins[2].gathering.isVirtualGroup = true;
+
+    (mockAppSettingsService.isSmallGroupApp).and.returnValue(false);
+
+    service.navigateToListViewIfInGroupToolAndAllGroupsOnline(pins);
+    expect(mockState.setCurrentView).not.toHaveBeenCalled();
+  }));
+
 });
