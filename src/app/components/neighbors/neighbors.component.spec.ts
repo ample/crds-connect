@@ -82,6 +82,14 @@ describe('Component: Neighbors', () => {
     mockPinService.pinSearchRequestEmitter = subject;
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['resetFilterString']);
     mockBlandService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+
+    mockRouter = {
+      url: '/', routerState:
+      { snapshot:
+          { url: '/'}
+      }, navigate: jasmine.createSpy('navigate')
+  };
+
     TestBed.configureTestingModule({
       declarations: [
         NeighborsComponent,
@@ -118,7 +126,7 @@ describe('Component: Neighbors', () => {
     expect(this.component).toBeTruthy();
   });
 
-  it('should init map and get new results', () => {
+  fit('should init map and get new results', () => {
     (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
     (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
     (mockStateService.getLastSearch).and.returnValue(null);
@@ -132,7 +140,7 @@ describe('Component: Neighbors', () => {
     expect(subject.observers.length).toBe(1);
   });
 
-  it('should doSearch when pinSearchRequestEmitter emits', () => {
+  fit('should doSearch when pinSearchRequestEmitter emits', () => {
     (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
     (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
     (mockStateService.getLastSearch).and.returnValue(null);
