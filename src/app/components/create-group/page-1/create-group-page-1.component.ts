@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validator, Validators, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
@@ -14,10 +14,9 @@ import { Group} from '../../../models/group';
 
 import { attributeTypes, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
-
 @Component({
-    selector: 'create-group-page-1',
-    templateUrl: './create-group-page-1.component.html',
+  selector: 'create-group-page-1',
+  templateUrl: './create-group-page-1.component.html',
 })
 export class CreateGroupPage1Component implements OnInit {
   public groupCategoryForm: FormGroup;
@@ -34,121 +33,117 @@ export class CreateGroupPage1Component implements OnInit {
     private toast: ToastsManager){ }
 
   ngOnInit() {
-
     this.setGroupPathInState();
     this.state.setLoading(true);
 
     this.groupCategoryForm = new FormGroup({});
-    this.createGroupService.initializePageOne()
+    this.createGroupService.initializePageOne() // Set the categories in service
     .finally(() => {
         this.state.setLoading(false);
     })
-    .subscribe(cats => {
-      this.initializeCategories(cats);
+    .subscribe(categories => {
+      this.initializeCategories(categories);
+
+      if(this.state.getActiveGroupPath() === groupPaths.EDIT
+                                          && !this.createGroupService.wasPagePresetWithExistingData.page1) {
+        // this.initializeSelectedCategories(categories);
+        this.createGroupService.wasPagePresetWithExistingData.page1 = true;
+      }
+
       this.createGroupService.markPageAsPresetWithExistingData(GroupPageNumber.ONE);
     });
 
     if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
-      let groupBeingEdited: Group = this.route.snapshot.data['group'];
+      const groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
 
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-      : textConstants.GROUP_PAGE_HEADERS.ADD;
+    this.setPageHeader();
+  }
 
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
-      `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
-      :'/create-group';
-
-    this.state.setPageHeader(pageHeader, headerBackRoute);
+  // ***** Initialization Methods *****
+  private setGroupPathInState(): void {
+    const pathWithParamsAndChildren: string = this.router.url;
+    const path: string = pathWithParamsAndChildren.split('/')[1];
+    this.state.setActiveGroupPath(path);
   }
 
   private initializeCategories(categories: Category[]): void {
     categories.forEach((category) => {
       this.groupCategoryForm.addControl(category.name, new FormControl('', []));
       this.groupCategoryForm.addControl(`${category.name}-detail`, new FormControl('', []));
-
-      if(this.state.getActiveGroupPath() === groupPaths.EDIT
-                                          && !this.createGroupService.wasPagePresetWithExistingData.page1) {
-        this.populateFormWithValuesFromGroupBeingEdited(category);
-      }
     });
+  }
 
-    if(this.state.getActiveGroupPath() === groupPaths.EDIT){
-      this.createGroupService.wasPagePresetWithExistingData.page1 = true;
+  private setPageHeader(): void {
+    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+      : textConstants.GROUP_PAGE_HEADERS.ADD;
+
+    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
+      : '/create-group';
+
+    this.state.setPageHeader(pageHeader, headerBackRoute);
+  }
+
+  // ***** Select Category Methods *****
+  public onSelect(category: Category): void {
+    if(category.selected) {
+      this.removeCategory(category)
+    } else if(!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
+      this.addCategory(category)
+    } else {
+      this.toast.error(this.content.getContent('finderTooManyCategoriesToast'))
+      // this.setValidators(category, Validators.required);
+
+      const inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+      inputFormControlCheckBox.setValue(false);
     }
   }
 
-  public onSelect(category: Category): void {
-    (!category.selected) ? this.addCategory(category) : this.removeCategory(category);
-    this.areCategoriesValid = this.createGroupService.validateCategories();
-  }
-
-  private removeCategory(category: Category) {
+  private removeCategory(category: Category): void {
+    console.log(`In removeCategory`);
     category.selected = false;
-    this.removeValidationAndUpdateDeSelectedCategory(category);
+    this.createGroupService.deselectCategory(category);
+    // this.setValidators(category, null);
+
+    const inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+    inputFormControlCheckBox.setValue(false);
   }
 
   private addCategory(category: Category): void {
-    if (!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
-      category.selected = true;
-      this.updateValueAndValidityOnSpecificCategory(category);
-    } else {
-      category.selected = false;
-      this.removeValidationAndUpdateDeSelectedCategory(category);
-      this.toast.error(this.content.getContent('finderTooManyCategoriesToast'));
-    }
+    console.log(`In addCategory`);
+    category.selected = true;
+    this.createGroupService.selectCategory(category);
+    // this.setValidators(category, null);
+    // this.setValidators(category, Validators.required);
+
+    const inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+    inputFormControlCheckBox.setValue(true);
   }
 
-  private removeValidationAndUpdateDeSelectedCategory(category: Category): void {
-    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
-    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
-    inputFormControl.setValidators(null);
+  private setValidators(category: Category, validators: ValidatorFn) {
+    const inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    inputFormControl.setValidators(validators);
     inputFormControl.updateValueAndValidity();
-    inputFormControlCheckBox.setValue(category.selected);
   }
 
-  private updateValueAndValidityOnSpecificCategory(category: Category): void {
-    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
-    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
-    inputFormControl.setValidators(Validators.required);
-    inputFormControl.updateValueAndValidity();
-    inputFormControlCheckBox.setValue(category.selected);
-  }
-
+  // ***** Submit Button Method *****
   public onSubmit(form, inEditOrCreateMode: string) {
     this.areCategoriesValid = this.createGroupService.validateCategories();
     this.isSubmitted = true;
     this.state.setLoading(true);
+    console.log(`In onSubmit: form.valid: ${form.valid}, areCategoriesValid: ${this.areCategoriesValid}`);
     if (form.valid && this.areCategoriesValid) {
-        this.createGroupService.addSelectedCategoriesToGroupModel();
-        this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+      this.createGroupService.addSelectedCategoriesToGroupModel();
+      this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
-        this.state.setLoading(false);
+      this.state.setLoading(false);
     }
   }
 
+  // ***** Cancel Button Method *****
   public onCancel(): void {
     this.router.navigate(['/']);
   }
-
-  private setGroupPathInState(): void {
-    let pathWithParamsAndChildren: string = this.router.url;
-    let path: string = pathWithParamsAndChildren.split('/')[1];
-    this.state.setActiveGroupPath(path);
-  }
-
-  private populateFormWithValuesFromGroupBeingEdited (category: Category): void {
-    let attributesMatchingCat: Attribute[] =
-      this.createGroupService.groupBeingEdited.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
-        .filter(attribute => attribute.category === category.name
-                             && attribute.selected === true);
-
-    if(attributesMatchingCat.length > 0){
-      let attribute: Attribute = attributesMatchingCat[0];
-      category.selected = true;
-      category.categoryDetail = attribute.name;
-    }
-  }
-
 }

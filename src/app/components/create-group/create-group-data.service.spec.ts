@@ -36,20 +36,20 @@ describe('CreateGroupService', () => {
 
 
     it('should initialize page one from uninitialized state',
-        inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
-            (mockLookupService.getCategories).and.returnValue(Observable.of(categories));
-            (mockSessionService.getContactId).and.returnValue(4);
+      inject([CreateGroupService], (s: CreateGroupService) => {
+        const categories = MockTestData.getSomeCategories();
+        (mockLookupService.getCategories).and.returnValue(Observable.of(categories));
+        (mockSessionService.getContactId).and.returnValue(4);
 
-            s.initializePageOne().subscribe(result => {
-                expect(result).toBe(categories);
-                expect(s.categories).toBe(categories);
-                expect(mockLookupService.getCategories).toHaveBeenCalledTimes(1);
-                expect(s.group).toBeTruthy();
-                expect(s.group.contactId).toBe(4);
-                expect(mockSessionService.getContactId).toHaveBeenCalled();
-            });
-        })
+        s.initializePageOne().subscribe(result => {
+          expect(result).toBe(categories);
+          expect(s.categories).toBe(categories);
+          expect(mockLookupService.getCategories).toHaveBeenCalledTimes(1);
+          expect(s.group).toBeTruthy();
+          expect(s.group.contactId).toBe(4);
+          expect(mockSessionService.getContactId).toHaveBeenCalled();
+        });
+      })
     );
 
     it('should initialize page one from initialized state',
@@ -68,40 +68,39 @@ describe('CreateGroupService', () => {
 
     it('should validate selected groups and return valid as true and set selectedCategories',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
-            s.categories = categories;
-            s['pageOneInitialized'] = true;
-            s.categories[0].selected = true;
-            s.categories[1].selected = true;
-            let value = s.validateCategories();
-            expect(value).toBe(true);
+            const mockCategories = MockTestData.getSomeCategories();
+            mockCategories[0].selected = true;
+            mockCategories[1].selected = true;
+            s['selectedCategories'] = [mockCategories[0], mockCategories[1]];
+            expect(s.validateCategories()).toBe(true);
             expect(s['selectedCategories'].length).toBe(2);
         })
     );
 
     it('should validate selected groups and return valid as false',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
-            s.categories = categories;
-            s['pageOneInitialized'] = true;
-            s.categories[0].selected = true;
-            s.categories[1].selected = true;
-            s.categories[2].selected = true;
-            let value = s.validateCategories();
-            expect(value).toBe(false);
+            // Group must have more than 0 categories:
+            expect(s.validateCategories()).toBe(false);
+            expect(s['selectedCategories'].length).toBe(0);
+
+            // Group must have less than 3 categories:
+            const mockCategories = MockTestData.getSomeCategories();
+            mockCategories[0].selected = true;
+            mockCategories[1].selected = true;
+            mockCategories[2].selected = true;
+            s['selectedCategories'] = [mockCategories[0], mockCategories[1], mockCategories[2]];
+            expect(s.validateCategories()).toBe(false);
             expect(s['selectedCategories'].length).toBe(3);
         })
     );
 
     it('should add attributes to group model',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
             s.group = Group.overload_Constructor_CreateGroup(4);
-            s.categories = categories;
-            s['pageOneInitialized'] = true;
-            s.categories[0].selected = true;
-            s.categories[1].selected = true;
-            s.validateCategories();
+            const mockCategories = MockTestData.getSomeCategories();
+            mockCategories[0].selected = true;
+            mockCategories[1].selected = true;
+            s['selectedCategories'] = [mockCategories[0], mockCategories[1]];
             s.addSelectedCategoriesToGroupModel();
             expect(s.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].attributeTypeId).toBe(attributeTypes.GroupCategoryAttributeTypeId);
             expect(s.group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].name).toBe('Group Category');
@@ -212,7 +211,7 @@ describe('CreateGroupService', () => {
             s.categories[0].selected = true;
             s.categories[1].selected = true;
             s.validateCategories();
-            s.addSelectedCategoriesToGroupModel();           
+            s.addSelectedCategoriesToGroupModel();
             group = s.group;
             group.meetingDay = 'Blah!';
             group.meetingDayId = 3;
@@ -242,7 +241,7 @@ describe('CreateGroupService', () => {
             s.categories[0].selected = true;
             s.categories[1].selected = true;
             s.validateCategories();
-            s.addSelectedCategoriesToGroupModel();           
+            s.addSelectedCategoriesToGroupModel();
             group = s.group;
             group.meetingDay = 'Blah!';
             group.meetingDayId = 3;
