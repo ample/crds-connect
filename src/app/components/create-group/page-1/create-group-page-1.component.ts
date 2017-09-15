@@ -14,7 +14,6 @@ import { Group} from '../../../models/group';
 
 import { attributeTypes, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
-
 @Component({
     selector: 'create-group-page-1',
     templateUrl: './create-group-page-1.component.html',
@@ -34,7 +33,6 @@ export class CreateGroupPage1Component implements OnInit {
     private toast: ToastsManager){ }
 
   ngOnInit() {
-
     this.setGroupPathInState();
     this.state.setLoading(true);
 

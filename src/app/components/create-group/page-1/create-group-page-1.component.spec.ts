@@ -18,6 +18,8 @@ import { MockTestData } from '../../../shared/MockTestData';
 
 import { Group } from '../../../models/group';
 
+import { GroupEditPresetTracker } from '../../../models/group-edit-preset-tracker';
+
 import { GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 describe('CreateGroupPage1Component', () => {
@@ -32,7 +34,7 @@ describe('CreateGroupPage1Component', () => {
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading', 'setActiveGroupPath', 'getActiveGroupPath']);
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
                                                      'validateCategories', 'addSelectedCategoriesToGroupModel', 'markPageAsPresetWithExistingData',
-                                                     'isMaxNumberOfCategoriesSelected']);
+                                                     'isMaxNumberOfCategoriesSelected', 'markPageAsPresetWithExistingData']);
         mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
@@ -149,6 +151,26 @@ describe('CreateGroupPage1Component', () => {
         comp.onSelect(categories[0]);
         comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
         expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
-
     });
+
+  fit('should correctly add selected categories when in edit mode', () => {
+    // Create mock group with two selected categories
+    categories[0].selected = true;
+    categories[1].selected = true;
+    // (mockCreateGroupService.initializePageOne).and.returnValue(Observable.of(categories));
+
+    // Set edit mode
+    mockStateService.getActiveGroupPath.and.returnValue(groupPaths.EDIT);
+    comp['wasPagePresetWithExistingData'] = new GroupEditPresetTracker();
+    // mockCreateGroupService['wasPagePresetWithExistingData'] = {page1: true};
+    comp['wasPagePresetWithExistingData']['page1'] = true;
+
+    // mockCreateGroupService['markPageAsPresetWithExistingData'](GroupPageNumber.ONE);
+
+    // Call the function:
+    comp.ngOnInit();
+
+    // Make sure that the selected groups have been set
+    expect(mockCreateGroupService['selectedCategories'].length).toBe(2);
+  });
 });
