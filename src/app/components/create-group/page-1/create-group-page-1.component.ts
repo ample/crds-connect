@@ -51,6 +51,7 @@ export class CreateGroupPage1Component implements OnInit {
     if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
       let groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
+      //this.createGroupService.addSelectedCategoriesToGroupModel();
     }
 
     let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
@@ -90,6 +91,7 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private addCategory(category: Category): void {
+    this.createGroupService.validateCategories();
     if (!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
       category.selected = true;
       this.updateValueAndValidityOnSpecificCategory(category);
