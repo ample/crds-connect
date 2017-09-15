@@ -135,7 +135,7 @@ export class CreateGroupService {
     }
 
     public getLeaders(): Participant[] {
-        let leaders: Participant[] = [];
+        const leaders: Participant[] = [];
         leaders.push(new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null, true));
         return leaders;
     }
@@ -154,7 +154,7 @@ export class CreateGroupService {
         return group;
     }
 
-    /* 
+    /*
     * This will clear meeting day, meeting time, and meeting frequency
     * if the group is flexible
     * else it will format the meeting time data the way it needs to be for submission
