@@ -90,6 +90,7 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private addCategory(category: Category): void {
+    this.createGroupService.validateCategories();
     if (!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
       category.selected = true;
       this.updateValueAndValidityOnSpecificCategory(category);
