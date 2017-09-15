@@ -14,8 +14,8 @@
         <option *ngFor="let site of sites" [value]="site.dp_RecordID">{{site.dp_RecordName}}</option>
       </select>
 
-      <div class="error help-block" role="alert" data-automation-id="siteRequired" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
-        <crds-content-block id="OneOptionMustBeSelected"></crds-content-block>
+      <div class="alert alert-danger" role="alert" data-automation-id="siteRequired" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
+        <crds-content-block id="finderOneOptionMustBeSelected"></crds-content-block>
       </div>
 
       <p class="control-label soft-top push-quarter-bottom">Gender</p>
@@ -32,8 +32,8 @@
         </label>
       </div>
 
-      <div class="error help-block" role="alert" data-automation-id="genderRequired" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
-        <crds-content-block id="OneOptionMustBeSelected"></crds-content-block>
+      <div class="alert alert-danger" role="alert" data-automation-id="genderRequired" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
+        <crds-content-block id="finderOneOptionMustBeSelected"></crds-content-block>
       </div>
 
       <div class="soft-top">
