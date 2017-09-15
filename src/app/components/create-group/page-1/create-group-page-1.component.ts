@@ -51,7 +51,6 @@ export class CreateGroupPage1Component implements OnInit {
     if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
       let groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
-      //this.createGroupService.addSelectedCategoriesToGroupModel();
     }
 
     let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
