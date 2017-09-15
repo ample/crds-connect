@@ -128,6 +128,7 @@ export class CreateGroupPage1Component implements OnInit {
       Object.keys(form.controls).forEach((name) => {
         form.controls[name].markAsTouched();
       });
+      document.body.scrollIntoView(true);
       this.state.setLoading(false);
     }
   }
