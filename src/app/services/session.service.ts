@@ -92,6 +92,9 @@ export class SessionService extends SmartCacheableService<User, number> {
     if (body != null && body.refreshToken) {
       this.setRefreshToken(body.refreshToken);
     }
+    if (body != null && body.roles) {
+      this.addToCookie('isAdmin', (body.roles.find(x => x.Id === 107) !== undefined).toString());
+    }
 
     this.setCookieTimeout();
 
@@ -119,12 +122,17 @@ export class SessionService extends SmartCacheableService<User, number> {
     return !!this.cookieService.get(this.accessToken);
   }
 
+  public isAdmin(): boolean {
+    return this.cookieService.get('isAdmin') === 'true';
+  }
+
   public clearTokens(): void {
     this.cookieOptions.expires = null;
     this.cookieService.remove(this.accessToken, this.cookieOptions);
     this.cookieService.remove(this.refreshToken, this.cookieOptions);
     this.cookieService.remove('username', this.cookieOptions);
     this.cookieService.remove('userId', this.cookieOptions);
+    this.cookieService.remove('isAdmin', this.cookieOptions);
   }
 
   public getAccessToken(): string {

@@ -196,7 +196,7 @@ describe('Service: Session', () => {
       expect(service['refreshTimeout']).toBeUndefined();
       service.setCookieTimeout();
       expect(service['refreshTimeout']).toBeDefined();
-      expect(service.cookieService.remove.calls.count()).toBe(4);
+      expect(service.cookieService.remove.calls.count()).toBe(5);
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
     }));
 
@@ -211,7 +211,7 @@ describe('Service: Session', () => {
 
       service.setCookieTimeout();
       expect(service['refreshTimeout']).toBeDefined();
-      expect(service.cookieService.remove.calls.count()).toBe(4);
+      expect(service.cookieService.remove.calls.count()).toBe(5);
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
       expect(subscription.unsubscribe).toHaveBeenCalled();
     }));
