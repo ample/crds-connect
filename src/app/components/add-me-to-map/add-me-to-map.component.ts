@@ -81,6 +81,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     this.isFormSubmitted = true;
 
     if (valid) {
+      this.state.setLoading(true);
       this.pinService.postPin(this.userData).subscribe(
         pin => {
           this.state.setMyViewOrWorldView('world');
@@ -102,8 +103,11 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
           this.blandPageService.primeAndGo(nowAPin);
 
           this.centerMapOnNewPin(pin);
+          this.state.setLoading(false);
         },
         err => {
+          this.toast.error(this.content.getContent('finderGeneralError'));
+          this.state.setLoading(false);
           this.isFormSubmitted = false;
         }
       );

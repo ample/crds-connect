@@ -53,6 +53,10 @@
   padding-top: 1rem;
   white-space: normal;
   word-wrap: break-word;
+
+  > span > p {
+    display: inline;
+  }
 }
 
 dl {

@@ -29,13 +29,13 @@
         </div>
       </button>
 
-      <div *ngIf="createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE" class="push-half-top custom-input">
+      <div *ngIf="createGroupService.meetingTimeType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE" class="push-half-ends custom-input">
         <select class="form-control" name="meetingDay" [(ngModel)]="createGroupService.group.meetingDayId" formControlName="meetingDay" (change)="onDayChange($event.target.value)" data-automation-id="meetingDay">
           <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day</option>
           <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
         </select>
-        <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
-          <crds-content-block id="oneOptionMustBeSelected" data-automation-id="meetingDayRequired"></crds-content-block>
+        <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
+          <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="meetingDayRequired"></crds-content-block>
         </div>
         <div class="soft-top">
           <div class="border-ends border-sides soft-sides" data-automation-id="meetingTime">
@@ -48,13 +48,13 @@
             <option *ngFor="let frequency of meetingFrequencies" [value]="frequency.meetingFrequencyId">{{frequency.meetingFrequencyDesc}}</option>
           </select>
         </div>
-        <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingFrequency'].valid">
-          <crds-content-block id="oneOptionMustBeSelected" data-automation-id="frequencyRequired"></crds-content-block>
+        <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingFrequency'].valid">
+          <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="frequencyRequired"></crds-content-block>
         </div>
       </div>
     </div>
 
-    <div class="btn-group btn-group-block soft-half-top">
+    <div class="btn-group btn-group-block">
       <button type="button" class="btn btn-option btn-flex btn-outline" id="flexible" [ngClass]="{active: createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE}" formControlName="meetingTimeType" value="flexible" (click)="onClick(groupMeetingScheduleType.FLEXIBLE)" ngDefaultControl data-automation-id="flexibleMeetingTime">
         <div class="row">
           <div class="btn-group-label text-left">

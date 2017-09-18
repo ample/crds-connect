@@ -76,7 +76,7 @@ export class CreateGroupPreviewComponent implements OnInit {
           this.router.navigate([`/small-group/${group.groupId}`]);
         }, (error) => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('generalError'));
+          this.toastr.error(this.contentService.getContent('finderGeneralError'));
           this.blandPageService.goToDefaultError('/create-group/preview');
         });
 
@@ -104,7 +104,7 @@ export class CreateGroupPreviewComponent implements OnInit {
             });
         }, (error) => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('generalError'));
+          this.toastr.error(this.contentService.getContent('finderGeneralError'));
           this.blandPageService.goToDefaultError('/create-group/preview');
         });
     }

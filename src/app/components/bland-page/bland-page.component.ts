@@ -40,6 +40,9 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
             // This component is rendered within a fauxdal, so we to need the .fauxdal-open
             //  selector to the <body> element when this view is initialized.
             document.querySelector('body').classList.add('fauxdal-open');
+            document.querySelector('body').style.overflowY = 'hidden';
+        } else {
+            document.querySelector('body').style.overflowY = 'auto';
         }
     }
 

@@ -143,7 +143,7 @@ describe('CreateGroupPreviewComponent', () => {
         expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();
         expect(mockToastr.success).not.toHaveBeenCalled();
         expect(mockToastr.error).toHaveBeenCalledWith('stuff dont work');
-        expect(mockContentService.getContent).toHaveBeenCalledWith('generalError');
+        expect(mockContentService.getContent).toHaveBeenCalledWith('finderGeneralError');
         expect(mockBlandPageService.goToDefaultError).toHaveBeenCalledWith('/create-group/preview');
         expect(mockCreateGroupService.reset).not.toHaveBeenCalled();
 

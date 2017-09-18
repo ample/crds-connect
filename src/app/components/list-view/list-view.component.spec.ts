@@ -13,6 +13,7 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { ListHelperService } from '../../services/list-helper.service';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
+import { MiscellaneousService } from '../../services/miscellaneous-service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BlandPageService } from '../../services/bland-page.service';
 import { PinLabelService } from '../../services/pin-label.service';
@@ -23,6 +24,7 @@ describe('Component: List View', () => {
   let mockStateService,
     mockListHelperService,
     mockCookieService,
+    mockMiscellaneousService,
     mockNeighborsHelperService,
     mockBlandPageService,
     mockSessionService,
@@ -34,6 +36,7 @@ describe('Component: List View', () => {
     mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['doesUserLeadAnyGroups']);
     mockStateService = jasmine.createSpyObj<StateService>('stateService', ['constructor', 'setShowingPinCount', 'getShowingPinCount']);
     mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelperService', ['constructor']);
+    mockMiscellaneousService = jasmine.createSpyObj<MiscellaneousService>('miscellaneousService', ['reEnableScrollingInCaseFauxdalDisabledIt']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborhoodHelperService', ['constructor']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['constructor']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['constructor']);
@@ -56,6 +59,7 @@ describe('Component: List View', () => {
         { provide: ParticipantService, useValue: mockParticipantService },
         { provide: StateService, useValue: mockStateService },
         { provide: ListHelperService, useValue: mockListHelperService },
+        { provide: MiscellaneousService, useValue: mockMiscellaneousService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: SessionService, useValue: mockSessionService },

@@ -82,6 +82,9 @@ export class CreateGroupPage6Component implements OnInit {
                 this.router.navigate(['/create-group/preview']);
             }
         } else {
+            Object.keys(form.controls).forEach((name) => {
+                form.controls[name].markAsTouched();
+            });
             this.groupVisabilityInvalid = true;
             this.state.setLoading(false);
         }
