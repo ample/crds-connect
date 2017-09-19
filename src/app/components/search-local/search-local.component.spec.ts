@@ -82,6 +82,7 @@ describe('Component: SearchLocal', () => {
         MapFooterComponent,
         // TODO: Components above this line should use mock component. Will reduce number of mocks all around.
         MockComponent({ selector: 'agm-marker-cluster', inputs: ['styles', 'maxZoom', 'averageCenter'] }),
+        MockComponent({ selector: 'google-map-cluster', inputs: []}),
         SearchLocalComponent
       ],
       imports: [

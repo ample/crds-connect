@@ -5,7 +5,6 @@
                  [disableDefaultUI]="mapSettings.disableDefaultUI"
                  [zoomControl]="mapSettings.zoomControl"
                  [streetViewControl]="false">
-  <agm-marker-cluster [styles]="styles" [maxZoom]="maxZoom" [averageCenter]="averageCenter">
   <agm-marker *ngFor="let pin of pinsToMap; let i = index"
                           [latitude]="pin.address.latitude"
                           [longitude]="pin.address.longitude"
@@ -19,7 +18,7 @@
       {{pin.address.city}}, {{pin.address.state}} {{pin.address.zip}}
     </agm-info-window>
   </agm-marker>
-  </agm-marker-cluster>
+  <google-map-cluster *ngIf="searchResults?.pinSearchResults.length > 0"></google-map-cluster>
 
   <app-map-content></app-map-content>
 </agm-map>
