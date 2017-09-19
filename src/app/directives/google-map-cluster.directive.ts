@@ -5,7 +5,6 @@ import { GoogleMap, Marker } from '@agm/core/services/google-maps-types';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GoogleMapService } from '../services/google-map.service';
 import '../../scripts/markerclusterer.js';
-import 'js-marker-clusterer';
 
 declare const MarkerClusterer;
 
