@@ -9,16 +9,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { CustomOptions } from './app.toast.options';
 
-export class CustomOptions extends ToastOptions {
-  animate = 'fade';
-  dismiss = 'auto';
-  showCloseButton = true;
-  newestOnTop = true;
-  enableHTML = true;
-  // messageClass = '';
-  // titleClass = '';
-}
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
