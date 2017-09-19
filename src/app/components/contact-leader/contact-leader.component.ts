@@ -73,7 +73,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
         this.state.setLoading(false);
       }, err => {
         this.state.setLoading(false);
-        this.toast.error(this.content.getContent('groupFinderContactCrdsError'), null, {toastLife: 3000});
+        this.toast.error(this.content.getContent('groupFinderContactCrdsError'), null);
       }
     );
   }
