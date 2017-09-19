@@ -132,6 +132,7 @@ import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
+import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
@@ -202,6 +203,7 @@ import { RouterModule } from '@angular/router';
     GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    GoogleMapClusterDirective,
     GroupTypeComponent,
     HandleInviteComponent,
     HeaderComponent,
