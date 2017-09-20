@@ -60,7 +60,7 @@ let mockActivatedRoute;
 describe('Gathering component redirect error', () => {
   beforeEach(() => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp', 'isSmallGroupApp']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn', 'isAdmin']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
     ['redirectToLogin', 'redirectToTarget']);
@@ -155,7 +155,7 @@ describe('Gathering component redirect error', () => {
 describe('GatheringComponent', () => {
   beforeEach(() => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp', 'isSmallGroupApp']);
-    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn', 'post', 'isAdmin']);
+    mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn', 'post']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
     ['redirectToLogin', 'redirectToTarget']);

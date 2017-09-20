@@ -6,7 +6,7 @@ import { groupMeetingTimeRanges } from '../../../shared/constants';
 
 @Component({
     selector: 'meeting-time',
-    templateUrl: '/meeting-time.component.html'
+    templateUrl: 'meeting-time.component.html'
 })
 
 export class MeetingTimeComponent implements OnInit {

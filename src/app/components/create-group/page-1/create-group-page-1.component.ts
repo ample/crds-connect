@@ -14,27 +14,25 @@ import { Group} from '../../../models/group';
 
 import { attributeTypes, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
-
 @Component({
     selector: 'create-group-page-1',
     templateUrl: './create-group-page-1.component.html',
 })
 export class CreateGroupPage1Component implements OnInit {
   public groupCategoryForm: FormGroup;
-  private isSubmitted: boolean = false;
-  private areCategoriesValid: boolean = false;
+  public isSubmitted: boolean = false;
+  public areCategoriesValid: boolean = false;
 
   constructor(
     private content: ContentService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private groupService: GroupService,
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,
     private toast: ToastsManager){ }
 
-  ngOnInit() {
-
+  public ngOnInit() {
     this.setGroupPathInState();
     this.state.setLoading(true);
 
@@ -49,14 +47,14 @@ export class CreateGroupPage1Component implements OnInit {
     });
 
     if(this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
-      let groupBeingEdited: Group = this.route.snapshot.data['group'];
+      const groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
 
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
       : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
       :'/create-group';
 
@@ -90,7 +88,6 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private addCategory(category: Category): void {
-    this.createGroupService.validateCategories();
     if (!this.createGroupService.isMaxNumberOfCategoriesSelected()) {
       category.selected = true;
       this.updateValueAndValidityOnSpecificCategory(category);
@@ -110,14 +107,14 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private updateValueAndValidityOnSpecificCategory(category: Category): void {
-    let inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
-    let inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
+    const inputFormControl = this.groupCategoryForm.controls[`${category.name}-detail`];
+    const inputFormControlCheckBox = this.groupCategoryForm.controls[`${category.name}`];
     inputFormControl.setValidators(Validators.required);
     inputFormControl.updateValueAndValidity();
     inputFormControlCheckBox.setValue(category.selected);
   }
 
-  public onSubmit(form, inEditOrCreateMode: string) {
+  public onSubmit(form) {
     this.areCategoriesValid = this.createGroupService.validateCategories();
     this.isSubmitted = true;
     this.state.setLoading(true);
@@ -125,11 +122,7 @@ export class CreateGroupPage1Component implements OnInit {
         this.createGroupService.addSelectedCategoriesToGroupModel();
         this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
-      Object.keys(form.controls).forEach((name) => {
-        form.controls[name].markAsTouched();
-      });
-      document.body.scrollIntoView(true);
-      this.state.setLoading(false);
+        this.state.setLoading(false);
     }
   }
 
@@ -138,19 +131,19 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private setGroupPathInState(): void {
-    let pathWithParamsAndChildren: string = this.router.url;
-    let path: string = pathWithParamsAndChildren.split('/')[1];
+    const pathWithParamsAndChildren: string = this.router.url;
+    const path: string = pathWithParamsAndChildren.split('/')[1];
     this.state.setActiveGroupPath(path);
   }
 
   private populateFormWithValuesFromGroupBeingEdited (category: Category): void {
-    let attributesMatchingCat: Attribute[] =
+    const attributesMatchingCat: Attribute[] =
       this.createGroupService.groupBeingEdited.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
         .filter(attribute => attribute.category === category.name
                              && attribute.selected === true);
 
     if(attributesMatchingCat.length > 0){
-      let attribute: Attribute = attributesMatchingCat[0];
+      const attribute: Attribute = attributesMatchingCat[0];
       category.selected = true;
       category.categoryDetail = attribute.name;
     }

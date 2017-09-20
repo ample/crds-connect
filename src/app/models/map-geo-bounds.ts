@@ -1,4 +1,3 @@
-
 export class MapGeoBounds {
   top: number;
   bottom: number;

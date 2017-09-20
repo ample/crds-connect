@@ -15,7 +15,6 @@ import { groupPaths, ViewType } from '../shared/constants';
 // Investigate to see if they belong here and/or add some documentation.
 @Injectable()
 export class StateService {
-
   public myStuffStateChangedEmitter: Subject<boolean> = new Subject<boolean>();
 
   public appForWhichWeRanLastSearch: string = undefined;
@@ -145,7 +144,7 @@ export class StateService {
     return this.showingPinCount;
   }
 
-  public setPageHeader(title, routerLink): void {
+  public setPageHeader(title: string, routerLink: string): void {
     this.hasPageHeader = true;
     this.pageHeader['title'] = title;
     this.pageHeader['routerLink'] = routerLink;

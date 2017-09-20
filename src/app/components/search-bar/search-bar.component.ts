@@ -30,9 +30,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
 
-  constructor(private appSettings: AppSettingsService,
+  constructor(public appSettings: AppSettingsService,
               private pinService: PinService,
-              private state: StateService,
+              public state: StateService,
               private filterService: FilterService) {
   }
 
@@ -66,7 +66,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
     this.state.searchBarText = search;
-    
+
     search = search.replace(/'/g, '%27');  // Escape single quotes in the search string
 
     // This needs to go away soon -- you can have location filter and keyword search in connect.
@@ -93,7 +93,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.onSearch('');
   }
 
-  public resetSearchInput(event): void {
+  public resetSearchInput(event: Event): void {
     event.preventDefault();
     this.clearSearchText();
     this.focusSearchInput();

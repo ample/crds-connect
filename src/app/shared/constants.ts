@@ -1,5 +1,4 @@
-import { environment } from '../../environments/environment';
-export const ApplicationUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
+export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
 
 export class AwsMeetingTimeSearchStrings {
   MORNINGS: string;
@@ -101,6 +100,7 @@ export class GroupMeetingScheduleType {
     this.FLEXIBLE = 'flexible';
   }
 }
+export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export class DaysOfWeek {
   public MONDAY: string;
@@ -126,7 +126,6 @@ export const daysOfWeekList: string[] = ['Sunday','Monday','Tuesday','Wednesday'
 
 export const daysOfWeek = new DaysOfWeek();
 
-export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
 export const defaultGroupMeetingTime: string = '0001-01-01T17:00:00.000Z';
 export const defaultGroupMeetingTimePrefix: string = '0001-01-01T';
@@ -172,10 +171,10 @@ export const groupDescriptionLengthDetails: number = 265;
 export const MaxGroupLeaders: number = 4;
 export const MaxGroupApprentices: number = 2;
 
-export const OnsiteGroupsUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/onsitegroups`;
+export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/onsitegroups`;
 
-export const GroupResourcesUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
-export const LeaderResourcesUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
+export const GroupResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
+export const LeaderResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
 
 export class AppType {
   Connect: string;

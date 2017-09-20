@@ -73,7 +73,7 @@ describe('BlandPageComponent', () => {
 
     it('should close', () => {
         comp['blandPageDetails'] = new BlandPageDetails('', '', BlandPageType.Text, BlandPageCause.Success, 'home');
-        comp.close();
+        comp['close']();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/home']);
     });
 

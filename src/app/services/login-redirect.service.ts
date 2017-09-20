@@ -8,13 +8,13 @@ export class LoginRedirectService {
 
   private originalTarget: string;
   private originalTargetParms: string;
-  private redirectFunctionParam: any;
+  private redirectFunctionParam: Function;
   private origin: string;
   private redirectFunction: Function;
 
   constructor(private router: Router) { }
 
-  public redirectToLogin(target = this.DefaultAuthenticatedRoute, redirectFunctionParam = null): void {
+  public redirectToLogin(target = this.DefaultAuthenticatedRoute, redirectFunctionParam: Function = null): void {
     this.origin = this.router.url;
 
     this.originalTarget = target;
@@ -39,7 +39,7 @@ export class LoginRedirectService {
   }
 
   public cancelRedirect(): void {
-    // Crossroads classic sometimes adds /?resolve=true to the url. Ignore it for this. 
+    // Crossroads classic sometimes adds /?resolve=true to the url. Ignore it for this.
     // TODO: Hopefully maestro can remove the /?resolve=true for us. If not is there a better way?
     if (this.origin && this.origin !== '/?resolve=true') {
       this.redirectFunction = null;

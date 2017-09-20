@@ -6,15 +6,13 @@ import { PinService } from '../services/pin.service';
 import { Pin, PinIdentifier, pinType } from '../models';
 import { BlandPageService } from '../services/bland-page.service';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../models/bland-page-details';
-import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PinResolver implements Resolve<Pin> {
-
   constructor(
     private pinService: PinService,
     private blandPageService: BlandPageService
-  ) { }
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Pin> {
     let participantId: number, groupId: number, pinIdentifier: PinIdentifier;

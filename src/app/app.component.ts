@@ -1,7 +1,7 @@
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Component, ViewEncapsulation, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
-import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
+import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment} from 'angulartics2';
 
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -10,9 +10,11 @@ import { StateService } from './services/state.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { appType } from './shared/constants';
 
+declare var svg4everybody: any;
+
 @Component({
   selector: 'app-root',
-  providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
+  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}],
   template: `
     <div [ngClass]="{'loading': state.is_loading}">
       <app-preloader></app-preloader>
@@ -21,6 +23,7 @@ import { appType } from './shared/constants';
         <router-outlet></router-outlet>
       </div>
     </div>`,
+  // styleUrls: ['../styles/application.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -37,28 +40,30 @@ export class AppComponent implements OnInit {
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private angulartics2Segment: Angulartics2Segment,
-    private state: StateService,
+    public state: StateService,
     private content: ContentService,
     public toastr: ToastsManager,
     public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     vRef: ViewContainerRef) {
 
-    this.toastr.setRootViewContainerRef(vRef);
+    if ( this.iFrameResizerCW === undefined ) {
+      this.iFrameResizerCW = require('iframe-resizer/js/iframeResizer.contentWindow.js');
+      this.toastr.setRootViewContainerRef(vRef);
+    }
 
-
-    router.events.subscribe((val) => {
+    this.router.events.subscribe((val) => {
       this.removeFauxdalClasses(val);
       document.body.scrollTop = document.documentElement.scrollTop = 0;
+      svg4everybody();
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.state.setLoading(true);
     this.getAppContext();
   }
 
   private getAppContext() {
-
     let root = document.location.href.replace(this.location.path(), '');
 
     let url: string = document.location.href;
@@ -86,7 +91,7 @@ export class AppComponent implements OnInit {
     return isInConnectApp;
   }
 
-  removeFauxdalClasses(val) {
+  public removeFauxdalClasses(val) {
     if (val.constructor.name === 'NavigationStart') {
       // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
       document.querySelector('body').classList.remove('fauxdal-open');
