@@ -33,7 +33,7 @@ describe('CreateGroupPage1Component', () => {
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setPageHeader', 'setLoading', 'setActiveGroupPath', 'getActiveGroupPath']);
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['initializePageOne',
     'validateCategories', 'addSelectedCategoriesToGroupModel', 'markPageAsPresetWithExistingData',
-    'isMaxNumberOfCategoriesSelected', 'markPageAsPresetWithExistingData']);
+    'isMaxNumberOfCategoriesSelected']);
     mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
@@ -151,22 +151,22 @@ describe('CreateGroupPage1Component', () => {
     expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
   });
 
-  it('should correctly add selected categories when in edit mode', () => {
+  fit('should correctly add selected categories when in edit mode', () => {
     // Create mock group with two selected categories
     categories[0].selected = true;
     categories[1].selected = true;
 
     // Set edit mode
     mockStateService.getActiveGroupPath.and.returnValue(groupPaths.EDIT);
-    comp['wasPagePresetWithExistingData'] = { page1: true };
-    mockCreateGroupService['wasPagePresetWithExistingData'] = { page1: true };
+    comp['createGroupService']['wasPagePresetWithExistingData'] = new GroupEditPresetTracker();
+    comp['createGroupService']['wasPagePresetWithExistingData'].page1 = true;
+    comp['createGroupService']['groupBeingEdited'] = MockTestData.getAGroup(42);
     // comp['wasPagePresetWithExistingData']['page1'] = true;
-    console.log(comp['wasPagePresetWithExistingData']['page1'])
 
     // Call the function:
     comp.ngOnInit();
 
     // Make sure that the selected groups have been set
-    expect(mockCreateGroupService['selectedCategories'].length).toBe(2);
+    expect(comp['createGroupService']['selectedCategories'].length).toBe(2);
   });
 });
