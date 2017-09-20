@@ -8,8 +8,8 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve",
-    "build-local": "./node_modules/.bin/ng build --environment local",
-    "start-local": "./node_modules/.bin/ng serve --environment local",
+    "build-local": "./node_modules/.bin/ng build",
+    "start-local": "./node_modules/.bin/ng serve",
     "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --base-href=/group-leader --prod --output-hashing=none --aot false ",
     "test": "./node_modules/.bin/ng test --reporters teamcity --single-run",
     "test-watch": "./node_modules/.bin/ng test",
