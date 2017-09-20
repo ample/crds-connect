@@ -6,23 +6,26 @@ import { attributeTypes, defaultGroupMeetingTime, groupMeetingScheduleType, Grou
 import { MockTestData } from '../../shared/MockTestData';
 import { CreateGroupService } from './create-group-data.service';
 import { SessionService } from '../../services/session.service';
+import { ParticipantService } from '../../services/participant.service';
 import { Group, Participant, Pin, pinType } from '../../models';
 import * as moment from 'moment';
 
 describe('CreateGroupService', () => {
     let service;
-    let mockLookupService, mockSessionService, mockProfileService;
+    let mockLookupService, mockSessionService, mockProfileService, mockParticipantService;
 
     beforeEach(() => {
         mockLookupService = jasmine.createSpyObj<LookupService>('lookupService', ['getCategories']);
         mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId']);
         mockProfileService = jasmine.createSpyObj<ProfileService>('profileService', ['getProfileData']);
+        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getAllLeaders']);
         TestBed.configureTestingModule({
             providers: [
                 CreateGroupService,
                 { provide: LookupService, useValue: mockLookupService },
                 { provide: SessionService, useValue: mockSessionService },
-                { provide: ProfileService, useValue: mockProfileService }
+                { provide: ProfileService, useValue: mockProfileService },
+                { provide: ParticipantService, useValue: mockParticipantService }
             ]
         });
     });
@@ -30,14 +33,13 @@ describe('CreateGroupService', () => {
     it('should create the create group service',
         inject([CreateGroupService], (s: CreateGroupService) => {
             expect(s).toBeTruthy();
-            // expect('1').toEqual(1);
         })
     );
 
 
     it('should initialize page one from uninitialized state',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
+            const categories = MockTestData.getSomeCategories();
             (mockLookupService.getCategories).and.returnValue(Observable.of(categories));
             (mockSessionService.getContactId).and.returnValue(4);
 
@@ -54,7 +56,7 @@ describe('CreateGroupService', () => {
 
     it('should initialize page one from initialized state',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
+            const categories = MockTestData.getSomeCategories();
             s.categories = categories;
             s['pageOneInitialized'] = true;
 
@@ -68,12 +70,12 @@ describe('CreateGroupService', () => {
 
     it('should validate selected groups and return valid as true and set selectedCategories',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
+            const categories = MockTestData.getSomeCategories();
             s.categories = categories;
             s['pageOneInitialized'] = true;
             s.categories[0].selected = true;
             s.categories[1].selected = true;
-            let value = s.validateCategories();
+            const value = s.validateCategories();
             expect(value).toBe(true);
             expect(s['selectedCategories'].length).toBe(2);
         })
@@ -81,13 +83,13 @@ describe('CreateGroupService', () => {
 
     it('should validate selected groups and return valid as false',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
+            const categories = MockTestData.getSomeCategories();
             s.categories = categories;
             s['pageOneInitialized'] = true;
             s.categories[0].selected = true;
             s.categories[1].selected = true;
             s.categories[2].selected = true;
-            let value = s.validateCategories();
+            const value = s.validateCategories();
             expect(value).toBe(false);
             expect(s['selectedCategories'].length).toBe(3);
         })
@@ -95,7 +97,7 @@ describe('CreateGroupService', () => {
 
     it('should add attributes to group model',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let categories = MockTestData.getSomeCategories();
+            const categories = MockTestData.getSomeCategories();
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.categories = categories;
             s['pageOneInitialized'] = true;
@@ -111,7 +113,7 @@ describe('CreateGroupService', () => {
 
     it('should add groupGenderMixType to groupModel',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let groupGenderMixTypes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes().attributes;
+            const groupGenderMixTypes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes().attributes;
             s.selectedGroupGenderMix = groupGenderMixTypes[0];
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.addGroupGenderMixTypeToGroupModel();
@@ -122,7 +124,7 @@ describe('CreateGroupService', () => {
 
     it('should add ageRanges to groupModel',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
+            const ageRanges = MockTestData.getAgeRangeAttributeTypeWithAttributes().attributes;
             s.selectedAgeRanges = [ageRanges[0]];
             s.group = Group.overload_Constructor_CreateGroup(4);
             s.addAgeRangesToGroupModel();
@@ -134,15 +136,26 @@ describe('CreateGroupService', () => {
         inject([CreateGroupService], (s: CreateGroupService) => {
             s.profileData = MockTestData.getProfileData();
 
-            let result: Participant = s.getLeaders()[0];
-            expect(result.nickName).toBe(s.profileData.nickName);
-            expect(result.lastName).toBe(s.profileData.lastName);
+            s.group = new Group;
+            s.group.groupId = 123;
+            // const result: Participant = s.getLeaders()[0];
+            let results: Participant;
+            s.getLeaders()
+            .subscribe(
+              (leaders) => {
+                expect(leaders[0].nickName).toBe(s.profileData.nickName);
+                expect(leaders[0].lastName).toBe(s.profileData.lastName);
+              },
+              (error) => {
+                console.log(error);
+              }
+            )
         })
     );
 
     it('should create pin from group and profile data',
         inject([CreateGroupService], (s: CreateGroupService) => {
-            let profileData = MockTestData.getProfileData();
+            const profileData = MockTestData.getProfileData();
             s.profileData = profileData;
             s.group = MockTestData.getAGroup();
             s.group.address = MockTestData.getAnAddress(20);
@@ -150,7 +163,7 @@ describe('CreateGroupService', () => {
             s['selectedCategories'] = [MockTestData.getSomeCategories()[1]];
             s['selectedCategories'][0].categoryDetail = 'This is the detail';
             s.selectedGroupGenderMix = MockTestData.getGroupGenderMixAttributeTypeWithAttributes().attributes[0];
-            let result: Pin = s.getSmallGroupPinFromGroupData();
+            const result: Pin = s.getSmallGroupPinFromGroupData();
             expect(result.firstName).toBe(profileData.nickName);
             expect(result.lastName).toBe(profileData.lastName);
             expect(result.emailAddress).toBe(profileData.emailAddress);
@@ -212,7 +225,7 @@ describe('CreateGroupService', () => {
             s.categories[0].selected = true;
             s.categories[1].selected = true;
             s.validateCategories();
-            s.addSelectedCategoriesToGroupModel();           
+            s.addSelectedCategoriesToGroupModel();
             group = s.group;
             group.meetingDay = 'Blah!';
             group.meetingDayId = 3;
@@ -242,7 +255,7 @@ describe('CreateGroupService', () => {
             s.categories[0].selected = true;
             s.categories[1].selected = true;
             s.validateCategories();
-            s.addSelectedCategoriesToGroupModel();           
+            s.addSelectedCategoriesToGroupModel();
             group = s.group;
             group.meetingDay = 'Blah!';
             group.meetingDayId = 3;
