@@ -114,6 +114,7 @@ import { IPService } from './services/ip.service';
 import { LocationService } from './services/location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
 import { LookupService } from './services/lookup.service';
+import { MiscellaneousService } from './services/miscellaneous-service';
 import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
 import { PinLabelService } from './services/pin-label.service';
@@ -174,7 +175,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     routing,
     ContentBlockModule.forRoot({
       endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'main', 'common', 'ddk', 'group tool')
+      categories: Array('finder', 'group tool')
     })
   ],
   declarations: [
@@ -274,6 +275,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     LocationService,
     LoggedInGuard,
     LookupService,
+    MiscellaneousService,
     NeighborsHelperService,
     ParticipantService,
     PinLabelService,
