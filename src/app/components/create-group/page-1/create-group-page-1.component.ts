@@ -125,9 +125,9 @@ export class CreateGroupPage1Component implements OnInit {
         this.createGroupService.addSelectedCategoriesToGroupModel();
         this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
-      Object.keys(form.controls).forEach((name) => {
-        form.controls[name].markAsTouched();
-      });
+      // Object.keys(form.controls).forEach((name) => {
+      //   form.controls[name].markAsTouched();
+      // });
       document.body.scrollIntoView(true);
       this.state.setLoading(false);
     }
