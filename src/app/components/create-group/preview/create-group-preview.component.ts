@@ -49,7 +49,7 @@ export class CreateGroupPreviewComponent implements OnInit {
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.smallGroupPin = this.createGroupService.getSmallGroupPinFromGroupData();
-    this.participantService.getAllLeaders(this.createGroupService.group.groupId)
+    this.createGroupService.getLeaders()
     .subscribe(
       (leaders) => {
         this.leaders = leaders;
@@ -58,7 +58,7 @@ export class CreateGroupPreviewComponent implements OnInit {
         console.log('Error getting group leaders.');
       }
     );
-    // this.leaders = this.createGroupService.getLeaders();
+
     this.isComponentReady = true;
     this.state.setLoading(false);
   }
