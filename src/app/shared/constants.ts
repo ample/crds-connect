@@ -1,4 +1,5 @@
-export const ApplicationUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
+import { environment } from '../../environments/environment';
+export const ApplicationUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
 
 export class AwsMeetingTimeSearchStrings {
   MORNINGS: string;
@@ -171,10 +172,10 @@ export const groupDescriptionLengthDetails: number = 265;
 export const MaxGroupLeaders: number = 4;
 export const MaxGroupApprentices: number = 2;
 
-export const OnsiteGroupsUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/onsitegroups`;
+export const OnsiteGroupsUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/onsitegroups`;
 
-export const GroupResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
-export const LeaderResourcesUrl: string = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
+export const GroupResourcesUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/resources/`;
+export const LeaderResourcesUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader/resources`;
 
 export class AppType {
   Connect: string;

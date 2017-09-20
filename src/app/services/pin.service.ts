@@ -33,8 +33,9 @@ import { SearchOptions } from '../models/search-options';
 import { User } from '../models/user';
 
 import * as _ from 'lodash';
+import { environment } from '../../environments/environment';
 
-import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
+import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants';
 
 @Injectable()
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
@@ -42,8 +43,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
 
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-  private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseServicesUrl = environment.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
   private editedSmallGroupPin: Pin = null;

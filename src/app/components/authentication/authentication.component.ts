@@ -7,6 +7,7 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-authentication',
@@ -42,8 +43,8 @@ export class AuthenticationComponent implements OnInit {
 
   public ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.helpUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/help`;
-    this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
+    this.helpUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/help`;
+    this.forgotPasswordUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
 
     this.form = this.fb.group({
       email: [this.store.email, [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],

@@ -5,6 +5,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { ProfilePictureComponent } from './profile-picture.component';
+import { environment } from '../../../environments/environment';
 
 describe('ProfilePictureComponent', () => {
     let fixture: ComponentFixture<ProfilePictureComponent>;

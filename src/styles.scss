@@ -1,6 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
 @import '~crds-styles/assets/stylesheets/bootstrap';
-@import 'components/modules';
-@import 'pages/modules';
+@import './styles/components/modules';
+@import './styles/pages/modules';
 
 body {
   -webkit-font-smoothing: initial;
