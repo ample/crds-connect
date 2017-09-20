@@ -1,5 +1,4 @@
 export class MapSettings {
-
     lat: number; // map centers on this latitutde
     lng: number; // map centers on this longitude
     zoom: number;
@@ -14,4 +13,3 @@ export class MapSettings {
         this.zoomControl = zoomControl;
     }
 }
-

@@ -15,7 +15,6 @@ import {Pin, Participant} from '../../../models';
 import {Component, OnInit} from '@angular/core';
 import {ViewType, groupPaths, GroupPageNumber, textConstants} from '../../../shared/constants';
 
-
 @Component({
   selector: 'create-group-preview',
   templateUrl: './create-group-preview.component.html'
@@ -23,7 +22,7 @@ import {ViewType, groupPaths, GroupPageNumber, textConstants} from '../../../sha
 export class CreateGroupPreviewComponent implements OnInit {
   private smallGroupPin: Pin;
   private leaders: Participant[];
-  private isComponentReady: boolean = false;
+  public isComponentReady: boolean = false;
   private submitting: boolean = true;
 
   constructor(private createGroupService: CreateGroupService,

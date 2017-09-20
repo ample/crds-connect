@@ -11,7 +11,7 @@ import { StateService } from '../../../services/state.service';
 
 import { MockComponent } from '../../../shared/mock.component';
 
-import {TryGroupRequestConfirmationComponent} from './try-group-request-confirmation.component';
+import { TryGroupRequestConfirmationComponent } from './try-group-request-confirmation.component';
 
 let fixture: ComponentFixture<TryGroupRequestConfirmationComponent>;
 let comp: TryGroupRequestConfirmationComponent;

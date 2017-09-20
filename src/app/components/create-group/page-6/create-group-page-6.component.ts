@@ -22,7 +22,7 @@ import { GroupPaths, groupPaths, GroupPageNumber,
 export class CreateGroupPage6Component implements OnInit {
     public profileForm: FormGroup;
     private sites: LookupTable[] = [];
-    private isComponentReady: boolean = false;
+    public isComponentReady: boolean = false;
     private isSubmitted: boolean = false;
     private groupVisabilityInvalid: boolean = false;
     private stateList: Array<string>;
@@ -36,11 +36,11 @@ export class CreateGroupPage6Component implements OnInit {
                 private router: Router,
                 private lookupService: LookupService) { }
 
-    ngOnInit(): void {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    public ngOnInit(): void {
+      const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                                : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-      let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+      const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
         `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
         : '/create-group/page-5';
 
@@ -82,9 +82,6 @@ export class CreateGroupPage6Component implements OnInit {
                 this.router.navigate(['/create-group/preview']);
             }
         } else {
-            Object.keys(form.controls).forEach((name) => {
-                form.controls[name].markAsTouched();
-            });
             this.groupVisabilityInvalid = true;
             this.state.setLoading(false);
         }

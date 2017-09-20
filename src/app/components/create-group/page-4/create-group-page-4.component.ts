@@ -23,7 +23,7 @@ export class CreateGroupPage4Component implements OnInit {
     private genderMixTypes: Attribute[] = [];
     private ageRanges: Attribute[] = [];
 
-    private isComponentReady: boolean = false;
+    public isComponentReady: boolean = false;
     private isSubmitted: boolean = false;
     private isStudentMinistrySelected: boolean;
     private groupGenderMixInvalid: boolean = false;
@@ -37,11 +37,11 @@ export class CreateGroupPage4Component implements OnInit {
                 private lookupService: LookupService,
                 private blandPageService: BlandPageService) { }
 
-    ngOnInit() {
-        let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    public ngOnInit() {
+        const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                                : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-        let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+        const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
           `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-3`
           : '/create-group/page-3';
 
@@ -96,7 +96,6 @@ export class CreateGroupPage4Component implements OnInit {
 
         for (var property in groupSingleAttributes) {
           if (groupSingleAttributes.hasOwnProperty(property)) {
-
             let singleAttributeOnGroup = groupSingleAttributes[property].attribute;
             if(singleAttributeOnGroup){
               if (genderMixType.attributeId === singleAttributeOnGroup.attributeId){

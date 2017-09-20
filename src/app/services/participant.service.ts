@@ -8,7 +8,6 @@ import { SessionService } from './session.service';
 import { Group, Participant } from '../models';
 import { GroupMessageDTO } from '../models/group-message-dto';
 import { MsgToLeader } from '../models/msg-to-leader';
-import { environment } from '../../environments/environment';
 
 import { GroupRole } from '../shared/constants';
 
@@ -16,7 +15,7 @@ import { GroupRole } from '../shared/constants';
 export class ParticipantService extends CacheableService<Group[]> {
 
 
-    private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     constructor(private session: SessionService) {
         super();

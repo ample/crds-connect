@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { StateService } from '../../services/state.service';
 import { ViewType } from '../../shared/constants';
-import { environment } from '../../../environments/environment';
 
 @Component({
   templateUrl: 'no-results.component.html'
@@ -16,12 +15,12 @@ export class NoResultsComponent implements OnInit {
 
   constructor(private router: Router,
               private state: StateService,
-              private appSettings: AppSettingsService) {}
+              public appSettings: AppSettingsService) {}
 
   public ngOnInit(): void {
     this.state.clearLastSearch();
     this.state.navigatedBackToNeighbors = true;
-    this.groupUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/search`;
+    this.groupUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/groups/search`;
     this.state.setPageHeader('No Results', '/');
     this.state.myStuffActive = false;
     this.state.setLoading(false);

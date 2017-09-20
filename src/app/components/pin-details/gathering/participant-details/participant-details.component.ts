@@ -12,8 +12,6 @@ import { StateService } from '../../../../services/state.service';
 import { GroupRole, MaxGroupApprentices, MaxGroupLeaders } from '../../../../shared/constants';
 import { Participant, Address } from '../../../../models';
 
-
-
 @Component({
   selector: 'participant-details',
   templateUrl: './participant-details.component.html'
@@ -24,7 +22,7 @@ export class ParticipantDetailsComponent implements OnInit {
   private groupParticipantId: number;
   private participantAddress: Address;
   private isValidAddress: boolean;
-  private componentIsReady: boolean = false;
+  public componentIsReady: boolean = false;
   private redirectUrl: string;
   private selectedRole: number = GroupRole.MEMBER;
   private leaderCount: number = 0;
@@ -123,12 +121,12 @@ export class ParticipantDetailsComponent implements OnInit {
     }
 
     if (this.selectedRole === GroupRole.LEADER && this.leaderCount >= MaxGroupLeaders) {
-      this.toast.warning(this.content.getContent('finderMaxLeadersExceeded'), null);
+      this.toast.warning(this.content.getContent('finderMaxLeadersExceeded'), null, {toastLife: 3000});
       return;
     }
 
     if (this.selectedRole === GroupRole.APPRENTICE && this.apprenticeCount >= MaxGroupApprentices) {
-      this.toast.warning(this.content.getContent('finderMaxApprenticeExceeded'), null);
+      this.toast.warning(this.content.getContent('finderMaxApprenticeExceeded'), null, {toastLife: 3000});
       return;
     }
 
@@ -140,7 +138,7 @@ export class ParticipantDetailsComponent implements OnInit {
         this.router.navigate(['/small-group/' + this.groupId]);
       },
       failure => {
-        this.toast.warning('Something seems to have gone wrong. Please try again.', null);
+        this.toast.warning('Something seems to have gone wrong. Please try again.', null, {toastLife: 3000});
         this.state.setLoading(false);
       }
     );

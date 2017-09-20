@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+
 import { AppSettingsService } from '../../services/app-settings.service';
 import { PinService } from '../../services/pin.service';
 import { GoogleMapService } from '../../services/google-map.service';
@@ -28,7 +29,7 @@ import { initialMapZoom, ViewType } from '../../shared/constants';
 
 export class NeighborsComponent implements OnInit, OnDestroy {
   public isMyStuffSearch: boolean = false;
-  public isMapHidden: boolean = false;
+  // public isMapHidden: boolean = false;
   public pinSearchResults: PinSearchResultsDto;
   private pinSearchSub: Subscription;
 
@@ -37,10 +38,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
     private router: Router,
-    private state: StateService,
+    public state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private blandPageService: BlandPageService) { }
+    private blandPageService: BlandPageService) {}
 
   public ngOnDestroy(): void {
     if (this.pinSearchSub) {
@@ -58,18 +59,18 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     return this.state.getCurrentView() === ViewType.MAP;
   }
 
-  private viewChanged(): void {
+  public viewChanged(): void {
     if (this.isMapViewSet()) {
       this.state.setCurrentView(ViewType.LIST);
-      let location: MapView = this.state.getMapView();
-      let coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
+      const location: MapView = this.state.getMapView();
+      const coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
       this.pinSearchResults.pinSearchResults = this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
     } else {
       this.state.setCurrentView(ViewType.MAP);
     }
   }
 
-  private processAndDisplaySearchResults(searchLocationString, searchKeywordString, lat, lng, filterString): void {
+  private processAndDisplaySearchResults(searchLocationString: string, searchKeywordString: string, lat: number, lng: number, filterString: string): void {
     // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
     this.pinSearchResults.pinSearchResults =
       this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
@@ -92,11 +93,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
     this.neighborsHelper.emitChange();
 
-    this.isMapHidden = true;
-
-    setTimeout(() => {
-      this.isMapHidden = false;
-    }, 1);
+    // this.isMapHidden = true;
+    //
+    // setTimeout(() => {
+    //   this.isMapHidden = false;
+    // }, 1);
 
     this.navigateAwayIfNecessary(searchLocationString, searchKeywordString, lat, lng, filterString);
   }
@@ -128,7 +129,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           next.centerLocation.lat,
           next.centerLocation.lng,
           searchParams.userFilterString);
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+        const lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
         if (this.state.lastSearch) {
           this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
@@ -139,7 +140,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       error => {
         console.log(`Error returned from getPinSearchResults: ${error} `);
 
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+        const lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
         this.state.setLastSearchSearchString(lastSearchString);
         this.state.setLoading(false);
@@ -153,7 +154,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private goToErrorPage(): void {
-    let errorText = `<h1 class="title soft-half-bottom">Oops</h1><div class="font-size-small font-family-base-light"><p>It looks like there was a problem. Please try again.</p></div>`;
+    const errorText = `<h1 class="title soft-half-bottom">Oops</h1><div class="font-size-small font-family-base-light"><p>It looks like there was a problem. Please try again.</p></div>`;
 
     this.blandPageService.primeAndGo(
         new BlandPageDetails(
@@ -177,15 +178,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private runInitialPinSearch(): void {
-    let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
+    const locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
 
-    let pinSearchRequest: PinSearchRequestParams =
+    const pinSearchRequest: PinSearchRequestParams =
       this.pinService.buildPinSearchRequest(locationFilter, this.state.searchBarText);
 
     this.userLocationService.GetUserLocation().subscribe(
       pos => {
         if (!this.state.isMapViewSet()) {
-          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+          const initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
           this.state.setMapView(initialMapView);
         }
         this.doSearch(pinSearchRequest);
@@ -194,12 +195,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   public setViewToMyStuffIfIndicatedByUrl(): void {
-    const isMyStuffFlagPresent = (this.router.url === '/my') || (this.router.url.substring(0, this.router.url.indexOf('?')) === '/my');
-
+    const isMyStuffFlagPresent = this.router.url === '/my';
     if (isMyStuffFlagPresent) {
       this.state.setCurrentView(ViewType.LIST);
       this.isMyStuffSearch = true;
       this.state.setIsMyStuffActive(true);
     }
   }
+
 }

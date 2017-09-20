@@ -7,11 +7,10 @@ import { CacheableService } from './base-service/cacheable.service';
 import { SessionService } from './session.service';
 
 import { attributeTypes } from '../shared/constants';
-import { environment } from '../../environments/environment';
 
 @Injectable()
 export class LookupService {
-    private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     constructor(private session: SessionService) { }
 

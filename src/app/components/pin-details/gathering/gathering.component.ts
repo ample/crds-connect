@@ -26,7 +26,6 @@ import { TimeHelperService} from '../../../services/time-helper.service';
 import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -48,12 +47,11 @@ export class GatheringComponent implements OnInit {
   public isLeader: boolean = false;
   public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
-  private ready = false;
+  public ready = false;
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
   private participantEmails: string[];
   public adjustedLeaderNames: string[] = [];
-  public showEndGroup: boolean = false;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -75,7 +73,6 @@ export class GatheringComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   public ngOnInit() {
-    this.showEndGroup = this.session.isAdmin();
     if (!this.previewMode) {
       window.scrollTo(0, 0);
       this.miscellaneousService.reEnableScrollingInCaseFauxdalDisabledIt();
@@ -153,7 +150,7 @@ export class GatheringComponent implements OnInit {
     const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
     const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
 
-    const baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     if (approved !== undefined && trialMemberId) {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
