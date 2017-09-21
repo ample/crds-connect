@@ -52,7 +52,7 @@ describe('SearchBarComponent', () => {
       fixture = TestBed.createComponent(SearchBarComponent);
       comp = fixture.componentInstance;
       comp['isMapHidden'] = false;
-      // el = fixture.debugElement.query(By.css('h1'));
+       el = fixture.debugElement.query(By.css('form'));
     });
   }));
 
@@ -124,4 +124,12 @@ describe('SearchBarComponent', () => {
     expect(comp.isSearchClearHidden ).toBe(true);
   });
 
+  it('should call OnSearch 1 time', async(() => {
+    spyOn(comp, 'onSearch');
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.whenStable().then(() => {
+      expect(comp.onSearch).toHaveBeenCalledTimes(1);
+    });
+  }));
 });
