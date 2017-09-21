@@ -52,7 +52,7 @@ describe('SearchBarComponent', () => {
       fixture = TestBed.createComponent(SearchBarComponent);
       comp = fixture.componentInstance;
       comp['isMapHidden'] = false;
-       el = fixture.debugElement.query(By.css('form'));
+      // el = fixture.debugElement.query(By.css('form'));
     });
   }));
 
