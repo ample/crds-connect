@@ -10,7 +10,7 @@
     "start": "./node_modules/.bin/ng serve",
     "build-local": "./node_modules/.bin/ng build --watch",
     "start-local": "./node_modules/.bin/ng serve",
-    "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --output-hashing=none --aot false ",
+    "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --output-hashing=none --aot false",
     "test": "./node_modules/.bin/ng test --reporters teamcity --single-run",
     "test-watch": "./node_modules/.bin/ng test",
     "test-coverage": "./node_modules/.bin/ng test --code-coverage --single-run",
@@ -48,7 +48,7 @@
     "zone.js": ">=0.8.6"
   },
   "devDependencies": {
-    "@angular/cli": "1.2.1",
+    "@angular/cli": "^1.4.2",
     "@angular/compiler-cli": ">=4.0.0-beta <5.0.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
