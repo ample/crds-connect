@@ -17,9 +17,9 @@ import { Participant } from '../../../../models/participant';
 export class GatheringRequestsComponent implements OnInit {
 
   @Input() pin: Pin;
-  public inquiries: Inquiry[] = [];
-  public errorRetrieving: boolean = false;
-  public loading: boolean = true;
+  private inquiries: Inquiry[] = [];
+  private errorRetrieving: boolean = false;
+  private loading: boolean = true;
 
   constructor(
     private groupService: GroupService,

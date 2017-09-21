@@ -8,14 +8,16 @@ import { PinLabelData } from '../models/pin-label-data';
 
 @Injectable()
 export class PinLabelService {
+
+
   constructor (private pinService: PinService, private state: StateService) {}
 
-  public createPinLabelDataJsonString(pin: Pin): string {
+  createPinLabelDataJsonString(pin: Pin): string {
     return JSON.stringify(this.createPinLabelData(pin));
   }
 
-  public createPinLabelData(pin: Pin): PinLabelData {
-    const pinLabelData: PinLabelData = new PinLabelData(
+  createPinLabelData(pin: Pin): PinLabelData {
+    let pinLabelData: PinLabelData = new PinLabelData(
       this.getFirstNameOrUndefinedIfSite(pin),
       this.getLastInitialOrUndefinedIfSite(pin),
       this.getSiteNamelOrUndefinedIfNotSite(pin),
@@ -27,8 +29,9 @@ export class PinLabelService {
     return pinLabelData;
   }
 
-  public capitalizeFirstLetter(string: string) {
-    const isStringEmptyOrNull = string === undefined || string === null || string === '';
+  public capitalizeFirstLetter(string) {
+
+    let isStringEmptyOrNull = string === undefined || string === null || string === '';
 
     if (isStringEmptyOrNull) {
       return '';
@@ -38,15 +41,36 @@ export class PinLabelService {
   }
 
   public getFirstNameOrUndefinedIfSite(pin: Pin) {
-    return pin.pinType !== pinType.SITE ? this.capitalizeFirstLetter(pin.firstName) : undefined;
+
+    let firstName: string = undefined;
+
+    if (pin.pinType !== pinType.SITE) {
+      firstName = this.capitalizeFirstLetter(pin.firstName);
+    }
+
+    return firstName;
   }
 
   public getLastInitialOrUndefinedIfSite(pin: Pin) {
-    return pin.pinType !== pinType.SITE ? this.capitalizeFirstLetter((pin.lastName.substring(0, 1)) + '.') : undefined;
+
+    let lastInitial: string = undefined;
+
+    if (pin.pinType !== pinType.SITE) {
+      lastInitial = this.capitalizeFirstLetter((pin.lastName.substring(0, 1)) + '.');
+    }
+
+    return lastInitial;
   }
 
   public getSiteNamelOrUndefinedIfNotSite(pin: Pin) {
-    return pin.pinType === pinType.SITE ? 'Crossroads ' + this.capitalizeFirstLetter(pin.siteName) : undefined;
+
+    let siteName: string = undefined;
+
+    if (pin.pinType === pinType.SITE) {
+      siteName = 'Crossroads ' + this.capitalizeFirstLetter(pin.siteName);
+    }
+
+    return siteName;
   }
 
   public isHost(pin: Pin): boolean {
@@ -54,6 +78,7 @@ export class PinLabelService {
   }
 
   public isHostingAny(myPins: Array<Pin>): boolean {
+
     if (!myPins) {
       return false;
     }
@@ -70,10 +95,11 @@ export class PinLabelService {
   }
 
   public isMe(pin: Pin): boolean {
-    const isPinASite: boolean = pin.pinType === pinType.SITE;
-    const doesUserOwnPin: boolean = this.pinService.doesLoggedInUserOwnPin(pin);
-    const isMe: boolean = !isPinASite && doesUserOwnPin;
+    let isPinASite: boolean = pin.pinType === pinType.SITE;
+    let doesUserOwnPin: boolean = this.pinService.doesLoggedInUserOwnPin(pin);
+    let isMe: boolean = !isPinASite && doesUserOwnPin;
 
     return isMe;
   }
+
 }

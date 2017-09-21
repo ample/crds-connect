@@ -22,6 +22,7 @@ import { MapView } from '../../models/map-view';
   templateUrl: 'map.component.html'
 })
 export class MapComponent implements OnInit {
+
   @Input() searchResults: PinSearchResultsDto;
 
   public pinsToMap: Pin[] ;
@@ -97,8 +98,8 @@ export class MapComponent implements OnInit {
     return shouldHaveMeLabel ? 'ME' : '';
   }
 
-  public capitalizeFirstLetter(string: string) {
-    const isStringEmptyOrNull: boolean = string === undefined || string === null || string === '';
+  public capitalizeFirstLetter(string) {
+    let isStringEmptyOrNull = string === undefined || string === null || string === '';
 
     if (isStringEmptyOrNull) {
       return '';

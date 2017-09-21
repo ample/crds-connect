@@ -82,6 +82,14 @@ describe('Component: Neighbors', () => {
     mockPinService.pinSearchRequestEmitter = subject;
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['resetFilterString']);
     mockBlandService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+
+    mockRouter = {
+      url: '/', routerState:
+      { snapshot:
+          { url: '/'}
+      }, navigate: jasmine.createSpy('navigate'), navigateByUrl : jasmine.createSpy('navigateByUrl')
+  };
+
     TestBed.configureTestingModule({
       declarations: [
         NeighborsComponent,

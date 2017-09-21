@@ -14,7 +14,7 @@ export class GettingStartedComponent implements OnInit {
 
   constructor(private router: Router,
              private state: StateService,
-             public appSettings: AppSettingsService) {}
+             private appSettings: AppSettingsService) {}
 
   ngOnInit() {
     this.state.setPageHeader('Getting Started', '/');

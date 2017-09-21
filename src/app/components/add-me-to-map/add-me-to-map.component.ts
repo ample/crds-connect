@@ -26,6 +26,7 @@ import { GoogleMapService } from '../../services/google-map.service';
   templateUrl: 'add-me-to-map.component.html'
 })
 export class AddMeToMapComponent implements OnInit, AfterViewInit {
+
   public userData: Pin;
   public addMeToMapForm: FormGroup;
   public stateList: Array<string>;
@@ -46,6 +47,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     private pinService: PinService,
     private mapHlpr: GoogleMapService
   ) {}
+
 
   public ngOnInit(): void {
     this.state.setLoading(true);
@@ -112,7 +114,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private centerMapOnNewPin(pin: Pin): void {
+  private centerMapOnNewPin(pin): void {
     let zoom = this.mapHlpr.calculateZoom(initialMapZoom, pin.address.latitude, pin.address.longitude, [pin], this.state.getMyViewOrWorldView());
     let mapViewUpdate = new MapView('newPin', pin.address.latitude, pin.address.longitude, zoom);
     this.state.setMapView(mapViewUpdate);

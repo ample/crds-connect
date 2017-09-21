@@ -1,4 +1,5 @@
 export class GroupMessageDTO {
+
     subject: string;
     body: string;
     participants: any;
@@ -9,3 +10,4 @@ export class GroupMessageDTO {
         this.participants = participants;
     }
 }
+

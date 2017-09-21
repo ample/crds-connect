@@ -12,13 +12,15 @@ import { awsFieldNames } from '../../../shared/constants';
   selector: 'age-groups',
   templateUrl: 'age-groups.component.html'
 })
+
+
 export class AgeGroupsComponent implements OnInit {
   private selected: boolean = false;
-  public ageGroups: AgeGroup[];
+  private ageGroups: AgeGroup[];
 
   constructor( private appSettings: AppSettingsService,
                private lookupService: LookupService,
-               private filterService: FilterService) {}
+               private filterService: FilterService) { }
 
   public ngOnInit(): void {
     this.initializeAgeGroups();

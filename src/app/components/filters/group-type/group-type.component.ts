@@ -9,9 +9,11 @@ import { GroupType } from '../../../models/group-type';
   selector: 'group-type',
   templateUrl: 'group-type.component.html'
 })
+
 export class GroupTypeComponent implements OnInit {
+
   private groupTypes: GroupType[];
-  public isAllDataLoaded: boolean = false;
+  private isAllDataLoaded: boolean = false;
 
   constructor( private lookupService: LookupService,
                private filterService: FilterService) { }

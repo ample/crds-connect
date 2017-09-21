@@ -12,14 +12,15 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
   selector: 'participant-remove',
   templateUrl: './participant-remove.component.html'
 })
+
 export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
   private groupParticipantId: number;
   private groupId: number;
-  public isRemovingSelf: boolean = false;
+  private isRemovingSelf: boolean = false;
   private message: string = '';
-  public removeParticipantForm: FormGroup;
+  private removeParticipantForm: FormGroup;
   private redirectUrl: string;
-  public submitting: boolean = false;
+  private submitting: boolean = false;
   private isFormSubmitted: boolean = false;
 
   constructor(private participantService: ParticipantService,
@@ -52,6 +53,7 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
     }, error => {
       this.handleError();
     });
+    document.querySelector('body').style.overflowY = 'hidden';
   }
 
   public ngAfterViewInit() {
@@ -62,6 +64,7 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
 
   public closeClick() {
     this.locationService.back();
+    document.querySelector('body').style.overflowY = 'auto';
   }
 
   public onSubmit({ valid }: { valid: boolean }) {

@@ -1,6 +1,5 @@
 import { Directive, AfterContentInit, QueryList, Input, ContentChildren } from '@angular/core';
-import { SebmGoogleMap, SebmGoogleMapMarker } from 'angular2-google-maps/core';
-import { GoogleMapsAPIWrapper, MarkerManager } from 'angular2-google-maps/core/services.js';
+import { GoogleMapsAPIWrapper, SebmGoogleMap, SebmGoogleMapMarker, MarkerManager } from 'angular2-google-maps/core';
 import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-maps-types';
 
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
@@ -36,8 +35,8 @@ export class GoogleMapClusterDirective implements AfterContentInit {
   ngAfterContentInit() {
     this.wrapper.getNativeMap().then(map => {
       let options = {
-        // maxZoom: 16, grey starts here for groups
-        // maxZoom: 17, grey does not seem to appear, BUT
+        // maxZoom: 16, grey starts here for groups 
+        // maxZoom:17, grey does not seem to appear, BUT
         // all labels don't display and markers on top of each other, hard/impossible to click on individual pins
         maxZoom: 17,
         averageCenter: true,
@@ -49,10 +48,11 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         }]
       };
       let sebmMarkers = <IMarkerManager>this.markerManager['_markers'].keys(); // markerKeys();
-      let markers: Array<Marker> = [];
+      let markers = [];
       let siteMarkers = [];
       let promises = [];
       let sebmMarker;
+
 
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;

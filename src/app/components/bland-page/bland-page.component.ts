@@ -6,52 +6,56 @@ import { StateService } from '../../services/state.service';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bland-page-details';
 
 @Component({
-  selector: 'app-bland-page',
-  templateUrl: 'bland-page.html'
+    selector: 'app-bland-page',
+    templateUrl: 'bland-page.html'
 })
 export class BlandPageComponent implements OnInit, AfterViewInit {
-  public blandPageDetails: BlandPageDetails;
-  public isFauxModal: boolean = false;
-  public contentBlock = false;
 
-  constructor(private route: ActivatedRoute,
-    private router: Router,
-    private blandPageService: BlandPageService,
-    private state: StateService) {}
+    private blandPageDetails: BlandPageDetails;
+    private isFauxModal: boolean = false;
+    public contentBlock = false;
 
-  public ngOnInit() {
-    this.blandPageDetails = this.blandPageService.getBlandPageDetails();
-    this.isFauxModal = this.blandPageDetails.blandPageCause === BlandPageCause.SimpleFauxdal;
-    if (this.blandPageDetails.blandPageType === BlandPageType.ContentBlock) {
-      this.contentBlock = true;
-    } else {
-      this.contentBlock = false;
+    constructor(private route: ActivatedRoute,
+        private router: Router,
+        private blandPageService: BlandPageService,
+        private state: StateService) {}
+
+    ngOnInit() {
+        this.blandPageDetails = this.blandPageService.getBlandPageDetails();
+        this.isFauxModal = this.blandPageDetails.blandPageCause === BlandPageCause.SimpleFauxdal;
+        if (this.blandPageDetails.blandPageType === BlandPageType.ContentBlock) {
+            this.contentBlock = true;
+        } else {
+            this.contentBlock = false;
+        }
+        this.state.setLoading(false);
     }
-    this.state.setLoading(false);
-  }
 
-  public ngAfterViewInit() {
-    const data = this.route.snapshot.data;
+    ngAfterViewInit() {
+        let data = this.route.snapshot.data;
 
-    const isFauxdal: boolean = (data[0] !== undefined && data[0]['isFauxdal']) || this.isFauxModal;
+        let isFauxdal: boolean = (data[0] !== undefined && data[0]['isFauxdal']) || this.isFauxModal;
 
-    if (isFauxdal) {
-      // This component is rendered within a fauxdal, so we to need the .fauxdal-open
-      //  selector to the <body> element when this view is initialized.
-      document.querySelector('body').classList.add('fauxdal-open');
+        if (isFauxdal) {
+            // This component is rendered within a fauxdal, so we to need the .fauxdal-open
+            //  selector to the <body> element when this view is initialized.
+            document.querySelector('body').classList.add('fauxdal-open');
+            document.querySelector('body').style.overflowY = 'hidden';
+        } else {
+            document.querySelector('body').style.overflowY = 'auto';
+        }
     }
-  }
 
-  private close() {
-    if (this.blandPageDetails.cancelState === 'useDefaultBrowserBackFunctionality' ) {
-      window.history.go(-1);
-    } else {
-      const state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
-      this.router.navigate(['/' + state]);
+    close() {
+        if (this.blandPageDetails.cancelState === 'useDefaultBrowserBackFunctionality' ) {
+            window.history.go(-1);
+        } else {
+            let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
+            this.router.navigate(['/' + state]);
+        }
     }
-  }
 
-  public go() {
-    this.router.navigate(['/' + this.blandPageDetails.goToState]);
-  }
+    go() {
+        this.router.navigate(['/' + this.blandPageDetails.goToState]);
+    }
 }

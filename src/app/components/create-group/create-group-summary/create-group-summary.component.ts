@@ -16,7 +16,7 @@ export class CreateGroupSummaryComponent implements OnInit {
               private router: Router) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.state.setLoading(true);
     this.state.setPageHeader(textConstants.GROUP_PAGE_HEADERS.ADD, '/');
     this.state.setLoading(false);

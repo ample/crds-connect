@@ -1,5 +1,6 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { StateService } from './state.service';
+import { CookieService } from 'angular2-cookie/core';
 import { SearchOptions } from '../models/search-options';
 import { MapView } from '../models/map-view';
 import { ViewType } from '../shared/constants';

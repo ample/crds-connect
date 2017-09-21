@@ -8,6 +8,8 @@ import { StateService } from './state.service';
 import { IFrameParentService } from './iframe-parent.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { CookieService } from 'angular2-cookie/core';
+
 
 class MockActivatedRoute {
   public snapshot = {
@@ -16,6 +18,7 @@ class MockActivatedRoute {
 }
 
 describe('Service: Store', () => {
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -23,6 +26,7 @@ describe('Service: Store', () => {
         StoreService,
         SessionService,
         StateService,
+        CookieService,
         MockBackend,
         BaseRequestOptions,
         {
@@ -34,4 +38,6 @@ describe('Service: Store', () => {
       ]
     });
   });
+
+
 });

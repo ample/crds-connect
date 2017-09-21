@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { CookieService } from 'angular2-cookie/services';
+import { CookieService } from 'angular2-cookie/core';
 import { Router } from '@angular/router';
 import { LoginRedirectService } from './login-redirect.service';
 import { Observable, Subscription } from 'rxjs';
@@ -196,7 +196,7 @@ describe('Service: Session', () => {
       expect(service['refreshTimeout']).toBeUndefined();
       service.setCookieTimeout();
       expect(service['refreshTimeout']).toBeDefined();
-      expect(service.cookieService.remove.calls.count()).toBe(4);
+      expect(service.cookieService.remove.calls.count()).toBe(5);
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
     }));
 
@@ -211,7 +211,7 @@ describe('Service: Session', () => {
 
       service.setCookieTimeout();
       expect(service['refreshTimeout']).toBeDefined();
-      expect(service.cookieService.remove.calls.count()).toBe(4);
+      expect(service.cookieService.remove.calls.count()).toBe(5);
       expect(mockLoginRedirectService.redirectToLogin).toHaveBeenCalledWith('www.crossroads.net');
       expect(subscription.unsubscribe).toHaveBeenCalled();
     }));

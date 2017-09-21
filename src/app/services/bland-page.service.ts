@@ -7,6 +7,7 @@ import { StateService } from './state.service';
 
 @Injectable()
 export class BlandPageService {
+
     private blandPageDetails: BlandPageDetails;
 
     constructor(private router: Router,
@@ -17,12 +18,12 @@ export class BlandPageService {
         this.go();
     }
 
-    public setPageHeader(title: string, backLink: string) {
+    public setPageHeader(title, backLink) {
         this.state.setPageHeader(title, backLink);
     }
 
     public getBlandPageDetails() {
-        const bpd = this.blandPageDetails;
+        let bpd = this.blandPageDetails;
         // clear setup for later use
         this.blandPageDetails = null;
         return bpd;
@@ -129,7 +130,7 @@ export class BlandPageService {
     }
 
     public navigateToMessageSentToLeaderConfirmation(): void {
-      const blandPageDetails = new BlandPageDetails(
+      let blandPageDetails = new BlandPageDetails(
           'Return to results',
           'messageSentToGroupLeaderConfirmation',
           BlandPageType.ContentBlock,

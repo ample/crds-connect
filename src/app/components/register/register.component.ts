@@ -7,6 +7,7 @@ import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
+import { environment } from '../../../environments/environment';
 
 import { User } from '../../models/user';
 
@@ -28,51 +29,53 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    public store: StoreService,
+    private store: StoreService,
     private session: SessionService,
     private redirectService: LoginRedirectService,
     private analyticsService: AnalyticsService
-  ) {}
+  ) {
 
-  public ngOnInit() {
-    this.regForm = this.fb.group({
+  }
+
+  ngOnInit() {
+        this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
       lastName: ['', [<any>Validators.required]],
       email: ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],
       password: ['', [<any>Validators.required, <any>Validators.minLength(8)]]
     });
     window.scrollTo(0, 0);
-    this.privacyPolicyUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
-    this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
-    this.termsOfServiceUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
+    this.privacyPolicyUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
+    this.forgotPasswordUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
+    this.termsOfServiceUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
 
     this.state.setLoading(false);
   }
 
-  private signin() {
+  signin() {
     this.router.navigate(['signin']);
   }
 
-  private adv(): void {
+  adv(): void {
     this.redirectService.redirectToTarget();
-  }
+  };
 
-  public submitRegistration() {
+  submitRegistration() {
     this.submitted = true;
     if (this.regForm.valid) {
       this.state.setLoading(true);
-      const newUser = new User(
+      let newUser = new User(
         this.regForm.get('firstName').value,
         this.regForm.get('lastName').value,
         this.regForm.get('email').value,
         this.regForm.get('password').value
       );
-      this.session.postUser(newUser)
-      .subscribe(
+      this.session.postUser(newUser).subscribe(
         user => {
           if (!this.session.isLoggedIn()) {
             this.loginNewUser(newUser.email, newUser.password);
           }
+
         },
         error => {
           if (JSON.parse(error._body).message === 'Duplicate User') {
@@ -82,19 +85,19 @@ export class RegisterComponent implements OnInit {
         }
       );
     } else {
-      this.regForm.get('firstName').markAsTouched();
-      this.regForm.get('lastName').markAsTouched();
-      this.regForm.get('email').markAsTouched();
-      this.regForm.get('password').markAsTouched();
+      this.regForm.controls['firstName'].markAsTouched();
+      this.regForm.controls['lastName'].markAsTouched();
+      this.regForm.controls['email'].markAsTouched();
+      this.regForm.controls['password'].markAsTouched();
     }
 
     this.submitted = true;
     return false;
   }
 
-  private loginNewUser(email: string, password: string) {
+  loginNewUser(email, password) {
     this.session.postLogin(email, password)
-    .subscribe(
+      .subscribe(
       (user) => {
         this.analyticsService.newUserRegistered(
           user.userId,
@@ -105,10 +108,15 @@ export class RegisterComponent implements OnInit {
         this.adv();
       },
       (error) => this.state.setLoading(false)
-    );
+      );
   }
 
-  private switchMessage(errors: any): string {
-    return errors.required !== undefined ? `is <u>required</u>` : `is <em>invalid</em>`;
+  switchMessage(errors: any): string {
+    let ret = `is <em>invalid</em>`;
+    if (errors.required !== undefined) {
+      ret = `is <u>required</u>`;
+    }
+    return ret;
   }
+
 }

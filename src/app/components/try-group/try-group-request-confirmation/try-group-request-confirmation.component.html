@@ -31,6 +31,11 @@
                     (click)="onCancel()">
               Cancel
             </button>
+
+            <!-- Error Message: -->
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              <crds-content-block id="{{errorMessage}}"></crds-content-block>
+            </div>
           </div>
         </footer>
       </div>

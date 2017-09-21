@@ -131,7 +131,7 @@ export class ListEntryComponent implements OnInit {
     return (this.description === '') ? 'This is a sample description to make sure that what needs to happen can happen.' : this.description;
   }
 
-  public sayHi(id: number) {
+  public sayHi(id) {
     this.state.setCurrentView(ViewType.LIST);
     this.router.navigate([`person/${id}/`]);
   }

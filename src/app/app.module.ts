@@ -1,4 +1,3 @@
-import { ParticipantDetailsComponent} from './components/pin-details/gathering/participant-details/participant-details.component';
 import { CommonModule } from '@angular/common';
 import { NgModule  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -7,26 +6,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { CustomOptions } from './app.toast.options';
+import { environment } from '../environments/environment';
 
-export class CustomOptions extends ToastOptions {
-  animate = 'fade';
-  dismiss = 'auto';
-  showCloseButton = true;
-  newestOnTop = true;
-  enableHTML = true;
-  // messageClass = '';
-  // titleClass = '';
-}
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services.js';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
-import { routing, appRoutingProviders } from './app.routing';
+import { routing, appRoutingProviders } from './app-routing.module';
 
 import { ClipboardModule } from 'ngx-clipboard';
 import { PreloaderModule } from './preloader/preloader.module';
@@ -77,6 +68,9 @@ import { MeetingTimeComponent } from './components/filters/meeting-time/meeting-
 import { NeighborsComponent } from './components/neighbors/neighbors.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { OnlineOrPhysicalGroupComponent } from './components/filters/online-or-physical-group/online-or-physical-group.component';
+import {
+  ParticipantDetailsComponent
+} from './components/pin-details/gathering/participant-details/participant-details.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ParticipantCardComponent } from './components/pin-details/gathering/participant-card/participant-card.component';
 import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
@@ -148,158 +142,152 @@ import { RouterModule } from '@angular/router';
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
 @NgModule({
-  imports: [
-    AlertModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
-    }),
-    RouterModule.forRoot(appRoutingProviders),
-    Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment]),
-    BrowserModule,
-    BrowserAnimationsModule,
-    ButtonsModule,
-    CollapseModule,
-    CommonModule,
-    DatepickerModule,
-    HttpModule,
-    ClipboardModule,
-    PreloaderModule,
-    ReactiveFormsModule,
-    FormsModule,
-    AccordionModule.forRoot(),
-    SelectModule,
-    ToastModule.forRoot(),
-    TimepickerModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    routing,
-    ContentBlockModule.forRoot({
-<<<<<<< HEAD
-      endpoint: <string> process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: ['finder', 'main', 'common', 'ddk', 'group tool'],
-      options: {}
-=======
-      endpoint: process.env.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'group tool')
->>>>>>> development
-    })
-  ],
-  declarations: [
-    AddMeToMapComponent,
-    AddressFormComponent,
-    AppComponent,
-    AuthenticationComponent,
-    BlandPageComponent,
-    ContactLeaderComponent,
-    CreateGroupSummaryComponent,
-    CreateGroupPage1Component,
-    CreateGroupPage2Component,
-    CreateGroupPage3Component,
-    CreateGroupPage4Component,
-    CreateGroupPage5Component,
-    CreateGroupPage6Component,
-    CreateGroupPreviewComponent,
-    EmailParticipantsComponent,
-    EndGroupConfirmationComponent,
-    FiltersComponent,
-    KidsWelcomeComponent,
-    AgeGroupsComponent,
-    CategoryComponent,
-    GatheringComponent,
-    GatheringEditComponent,
-    GatheringRequestsComponent,
-    GettingStartedComponent,
-    GroupTypeComponent,
-    HandleInviteComponent,
-    HeaderComponent,
-    HostApplicationComponent,
-    InviteSomeoneComponent,
-    AddSomeoneComponent,
-    ListViewComponent,
-    ListFooterComponent,
-    ListEntryComponent,
-    MapComponent,
-    MapContentComponent,
-    MapFooterComponent,
-    MeetingDayComponent,
-    MeetingFrequencyComponent,
-    MeetingTimeComponent,
-    NeighborsComponent,
-    NoResultsComponent,
-    OnlineOrPhysicalGroupComponent,
-    OnlyTheseKeysDirective,
-    PageNotFoundComponent,
-    ParticipantCardComponent,
-    ParticipantDetailsComponent,
-    ParticipantRemoveComponent,
-    PersonComponent,
-    PersonEditComponent,
-    PinDetailsComponent,
-    PinHeaderComponent,
-    PinLoginActionsComponent,
-    ProfilePictureComponent,
-    ReadonlyAddressComponent,
-    RegisterComponent,
-    RemovePersonPinComponent,
-    SayHiComponent,
-    SearchBarComponent,
-    SearchFilterComponent,
-    SearchLocalComponent,
-    StuffNotFoundComponent,
-    TryGroupRequestConfirmationComponent,
-    LeaderResourcesComponent,
-    GoogleMapClusterDirective,
-    CreateGroupFooterComponent,
-    SocialMediaComponent
-  ],
-  providers: [
-    AddressService,
-    AppSettingsService,
-    appRoutingProviders,
-    AnalyticsService,
-    BlandPageGuard,
-    BlandPageService,
-    ContentService,
-    CookieService,
-    CreateGroupService,
-    DetailedUserDataResolver,
-    GroupResolver,
-    IPService,
-    SiteAddressService,
-    FilterService,
-    GoogleMapsAPIWrapper,
-    GoogleMapService,
-    GroupLeaderGuard,
-    GroupLeaderApprovedGuard,
-    Angulartics2GoogleAnalytics,
-    Angulartics2Segment,
-    GroupService,
-    HostApplicationHelperService,
-    IFrameParentService,
-    ListHelperService,
-    LoginRedirectService,
-    LocationService,
-    LoggedInGuard,
-    LookupService,
-    MiscellaneousService,
-    NeighborsHelperService,
-    ParticipantService,
-    PinLabelService,
-    PageNotFoundGuard,
-    PinService,
-    PinResolver,
-    ProfileService,
-    SearchService,
-    SessionService,
-    StateService,
-    StoreService,
-    TimeHelperService,
-    { provide: ToastOptions, useClass: CustomOptions },
-    UserLocationService,
-    UserDataResolver,
-    WhatsAHostGuard,
-    HostNextStepsGuard,
-  ],
-  bootstrap: [AppComponent]
+imports: [
+  AlertModule,
+  AgmCoreModule.forRoot({
+    apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
+  }),
+  RouterModule.forRoot(appRoutingProviders),
+  Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment]),
+  BrowserModule,
+  BrowserAnimationsModule,
+  ButtonsModule,
+  CollapseModule,
+  CommonModule,
+  DatepickerModule,
+  HttpModule,
+  ClipboardModule,
+  PreloaderModule,
+  ReactiveFormsModule,
+  FormsModule,
+  AccordionModule.forRoot(),
+  SelectModule,
+  ToastModule.forRoot(),
+  TimepickerModule.forRoot(),
+  BsDropdownModule.forRoot(),
+  routing,
+  ContentBlockModule.forRoot({
+    endpoint: environment.CRDS_CMS_CLIENT_ENDPOINT,
+    categories: Array('finder', 'group tool')
+  })
+],
+declarations: [
+  AddMeToMapComponent,
+  AddressFormComponent,
+  AppComponent,
+  AuthenticationComponent,
+  BlandPageComponent,
+  ContactLeaderComponent,
+  CreateGroupSummaryComponent,
+  CreateGroupPage1Component,
+  CreateGroupPage2Component,
+  CreateGroupPage3Component,
+  CreateGroupPage4Component,
+  CreateGroupPage5Component,
+  CreateGroupPage6Component,
+  CreateGroupPreviewComponent,
+  EmailParticipantsComponent,
+  EndGroupConfirmationComponent,
+  FiltersComponent,
+  KidsWelcomeComponent,
+  AgeGroupsComponent,
+  CategoryComponent,
+  GatheringComponent,
+  GatheringEditComponent,
+  GatheringRequestsComponent,
+  GettingStartedComponent,
+  GroupTypeComponent,
+  HandleInviteComponent,
+  HeaderComponent,
+  HostApplicationComponent,
+  InviteSomeoneComponent,
+  AddSomeoneComponent,
+  ListViewComponent,
+  ListFooterComponent,
+  ListEntryComponent,
+  MapComponent,
+  MapContentComponent,
+  MapFooterComponent,
+  MeetingDayComponent,
+  MeetingFrequencyComponent,
+  MeetingTimeComponent,
+  NeighborsComponent,
+  NoResultsComponent,
+  OnlineOrPhysicalGroupComponent,
+  OnlyTheseKeysDirective,
+  PageNotFoundComponent,
+  ParticipantCardComponent,
+  ParticipantDetailsComponent,
+  ParticipantRemoveComponent,
+  PersonComponent,
+  PersonEditComponent,
+  PinDetailsComponent,
+  PinHeaderComponent,
+  PinLoginActionsComponent,
+  ProfilePictureComponent,
+  ReadonlyAddressComponent,
+  RegisterComponent,
+  RemovePersonPinComponent,
+  SayHiComponent,
+  SearchBarComponent,
+  SearchFilterComponent,
+  SearchLocalComponent,
+  StuffNotFoundComponent,
+  TryGroupRequestConfirmationComponent,
+  LeaderResourcesComponent,
+  GoogleMapClusterDirective,
+  CreateGroupFooterComponent,
+  SocialMediaComponent
+],
+providers: [
+  AddressService,
+  AppSettingsService,
+  appRoutingProviders,
+  AnalyticsService,
+  BlandPageGuard,
+  BlandPageService,
+  ContentService,
+  CookieService,
+  CreateGroupService,
+  DetailedUserDataResolver,
+  GroupResolver,
+  IPService,
+  SiteAddressService,
+  FilterService,
+  GoogleMapsAPIWrapper,
+  GoogleMapService,
+  GroupLeaderGuard,
+  GroupLeaderApprovedGuard,
+  Angulartics2GoogleAnalytics,
+  Angulartics2Segment,
+  GroupService,
+  HostApplicationHelperService,
+  IFrameParentService,
+  ListHelperService,
+  LoginRedirectService,
+  LocationService,
+  LoggedInGuard,
+  LookupService,
+  MiscellaneousService,
+  NeighborsHelperService,
+  ParticipantService,
+  PinLabelService,
+  PageNotFoundGuard,
+  PinService,
+  PinResolver,
+  ProfileService,
+  SearchService,
+  SessionService,
+  StateService,
+  StoreService,
+  TimeHelperService,
+  { provide: ToastOptions, useClass: CustomOptions },
+  UserLocationService,
+  UserDataResolver,
+  WhatsAHostGuard,
+  HostNextStepsGuard,
+],
+bootstrap: [AppComponent]
 })
 
 export class AppModule { }

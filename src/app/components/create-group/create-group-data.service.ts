@@ -54,16 +54,16 @@ export class CreateGroupService {
     }
 
     public initializePageSix(): Observable<any> {
-      if (!this.pageSixInitialized) {
-        return this.profileService.getProfileData()
-        .map((response: any) => {
-          response.congregationId = null;
-          this.profileData = response;
-          this.pageSixInitialized = true;
-        });
-      } else {
-        return Observable.of(this.profileData);
-      }
+        if (!this.pageSixInitialized) {
+            return this.profileService.getProfileData()
+                .map((response: any) => {
+                    response.congregationId = null;
+                    this.profileData = response;
+                    this.pageSixInitialized = true;
+                });
+        } else {
+            return Observable.of(this.profileData);
+        }
     }
 
     public isMaxNumberOfCategoriesSelected(): boolean{
@@ -154,7 +154,7 @@ export class CreateGroupService {
         return group;
     }
 
-    /*
+    /* 
     * This will clear meeting day, meeting time, and meeting frequency
     * if the group is flexible
     * else it will format the meeting time data the way it needs to be for submission

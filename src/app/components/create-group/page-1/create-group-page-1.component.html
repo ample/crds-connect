@@ -8,8 +8,13 @@
       </div>
   </div>
 
-  <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)">
-    <div *ngFor="let category of createGroupService.categories" class="controls-stacked soft-top">
+  <form [formGroup]="groupCategoryForm" (ngSubmit)="onSubmit(groupCategoryForm)" class="soft-top">
+    <div class="soft-top" *ngIf="isSubmitted && !areCategoriesValid">
+      <div class="alert alert-danger" role="alert">
+        <crds-content-block id="finderCategoriesInvalid" data-automation-id="categoriesInvalid"></crds-content-block>
+      </div>
+    </div>
+    <div *ngFor="let category of createGroupService.categories" class="controls-stacked soft-quarter-bottom">
       <label class="control checkbox">
         <input type="checkbox" [id]="category.name" (click)="onSelect(category)" formControlName="{{category.name}}" [ngClass]="{active: category.selected}" ngDefaultControl [checked]="category.selected">
         <span class="control-indicator"></span>
@@ -24,14 +29,8 @@
         <div class="push-half-left">
           <label class="sr-only" for="{{category.name}}-detail">{{category.name}}-detail</label>
           <input class="form-control" name="{{category.name}}-detail" formControlName="{{category.name}}-detail" placeholder="{{category.exampleText}}" type="text" maxlength="25" value="{{category.categoryDetail}}" id="{{category.name}}-detail" [(ngModel)]="category.categoryDetail" required>
-          <div class="alert alert-danger flush-bottom" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.get[category.name + '-detail'].valid">{{category.name}} detail is required</div>
+          <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || groupCategoryForm.controls[category.name + '-detail'].valid">{{category.name}} detail is required</p>
         </div>
-      </div>
-    </div>
-
-    <div class="soft-top" *ngIf="isSubmitted && !areCategoriesValid">
-      <div class="alert alert-danger" role="alert">
-        <crds-content-block id="finderCategoriesInvalid" data-automation-id="categoriesInvalid"></crds-content-block>
       </div>
     </div>
 

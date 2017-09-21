@@ -29,27 +29,27 @@
         </div>
       </button>
 
-      <div class="custom-input push-top" *ngIf="!createGroupService.group.isVirtualGroup">
+      <div class="custom-input push-half-ends" *ngIf="!createGroupService.group.isVirtualGroup">
         <input class="form-control" name="address" formControlName="address" placeholder="Address" [(ngModel)]="createGroupService.group.address.addressLine1">
-        <p class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['address'].valid" data-automation-id="addressRequired">Address is required</p>
+        <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['address'].valid" data-automation-id="addressRequired">Address is required</p>
         <input class="push-top form-control" name="city" formControlName="city" placeholder="City" [(ngModel)]="createGroupService.group.address.city">
-        <p class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['city'].valid" data-automation-id="cityRequired">City is required</p>
+        <p class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['city'].valid" data-automation-id="cityRequired">City is required</p>
 
-        <div>
-          <div class="push-top row">
+        <div class="soft-top">
+          <div class="row">
             <div class="col-xs-6 hard-left soft-right">
               <select class="form-control" name="state" formControlName="state" placeholder="State" [(ngModel)]="createGroupService.group.address.state" data-automation-id="state">
                 <option value="null" disabled="true" [selected]="!createGroupService.group.address.state">State</option>
                 <option *ngFor="let state of usStatesList" [value]="state">{{state}}</option>
               </select>
-              <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
+              <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['state'].valid">
                 <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="stateRequired"></crds-content-block>
               </div>
             </div>
 
             <div class="col-xs-6 hard-right">
               <input class="form-control" name="zip" formControlName="zip" placeholder="Zip" [(ngModel)]="createGroupService.group.address.zip" minlength="5" maxlength="5" type="tel" onlyTheseKeys="[0-9]" data-automation-id="zip">
-              <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
+              <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['zip'].valid">
                 <crds-content-block id="finderInvalidZip" data-automation-id="invalidZip"></crds-content-block>
               </div>
             </div>
@@ -87,14 +87,14 @@
               No. Adults only please.
             </div>
           </button>
-          <div class="alert alert-danger" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
+          <div class="error help-block flush-bottom" role="alert" [hidden]="(!isSubmitted) || locationForm.controls['kidsWelcome'].valid">
             <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="kidsWelcomeRequired"></crds-content-block>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="btn-group btn-group-block soft-top">
+    <div class="btn-group btn-group-block">
       <button type="button" class="btn btn-option btn-flex btn-outline" id="online" [ngClass]="{active: createGroupService.group.isVirtualGroup}" formControlName="isVirtualGroup" value="true" (click)="onClickIsVirtual(true)" ngDefaultControl data-automation-id="online">
         <div class="row">
           <div class="btn-group-label text-left">
@@ -113,6 +113,6 @@
       </button>
     </div>
 
-    <create-group-footer (backevent)="onBack" [showbackbutton]="true"></create-group-footer>
+    <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
   </form>
 </div>

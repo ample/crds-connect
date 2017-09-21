@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
+
   constructor(private session: SessionService,
     private loginRedirectService: LoginRedirectService,
     private router: Router) { }

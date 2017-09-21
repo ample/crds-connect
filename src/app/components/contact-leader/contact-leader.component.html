@@ -31,8 +31,8 @@
                 <!-- Reason for Participant Removal-->
                 <label class="sr-only" for="message">Message</label>
                 <textarea type="text" class="form-control" maxlength="255" placeholder="Message" id="message" formControlName="message" name="message"
-                  rows="5" cols="100">
-                </textarea>
+                  [(ngModel)]="message" rows="5" cols="100">
+                    </textarea>
                 <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.controls['message'].valid">Message is required!</p>
               </div>
             </div>

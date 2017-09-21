@@ -14,11 +14,11 @@
                class="form-control"
                placeholder="First Name"
                formControlName="firstName"
-               name="firstName" >
+               name="firstName"
+               [(ngModel)]="firstName" >
 
-        <div class="errors" *ngIf="(submitted) && (!regForm.get['firstName'].valid)">
-          <!-- <p class="error help-block">First Name <span [innerHTML]="switchMessage(regForm.get['firstName'].hasError())"></span></p> -->
-          <!-- <p class="error help-block">First Name <span [innerHTML]="switchMessage(regForm.get['firstName'].errors)"></span></p> -->
+        <div class="errors" *ngIf="(submitted) && (!regForm.controls['firstName'].valid)">
+          <p class="error help-block">First Name <span [innerHTML]="switchMessage(regForm.controls['firstName'].errors)"></span></p>
         </div>
       </div>
 
@@ -28,10 +28,11 @@
                class="form-control"
                placeholder="Last Name"
                formControlName="lastName"
-               name="lastName" >
+               name="lastName"
+               [(ngModel)]="lastName">
 
-        <div class="errors" *ngIf="(submitted) && (!regForm.get['lastName'].valid)">
-          <!-- <p class="error help-block">Last Name <span [innerHTML]="switchMessage(regForm.get['lastName'].errors)"></span></p> -->
+        <div class="errors" *ngIf="(submitted) && (!regForm.controls['lastName'].valid)">
+          <p class="error help-block">Last Name <span [innerHTML]="switchMessage(regForm.controls['lastName'].errors)"></span></p>
         </div>
       </div>
     </div>
@@ -43,12 +44,13 @@
               class="form-control"
               placeholder="Email"
               formControlName="email"
-              name="email" >
+              name="email"
+              [(ngModel)]="email">
 
-        <div class="errors" *ngIf="(submitted) && (!regForm.get['email'].valid || duplicateUser)">
+        <div class="errors" *ngIf="(submitted) && (!regForm.controls['email'].valid || duplicateUser)">
           <p class="error help-block" *ngIf="duplicateUser">This email address is already in use. <a routerLink="/signin">Sign In</a> or try <a [href]="forgotPasswordUrl" target="_blank">Forgot password</a>.</p>
 
-          <!-- <p class="error help-block" *ngIf="!duplicateUser">Email <span [innerHTML]="switchMessage(regForm.get['email'].errors)"></span></p> -->
+          <p class="error help-block" *ngIf="!duplicateUser">Email <span [innerHTML]="switchMessage(regForm.controls['email'].errors)"></span></p>
         </div>
       </div>
     </div>
@@ -60,11 +62,11 @@
                class="form-control"
                placeholder="Password"
                formControlName="password"
-               name="password" >
+               name="password"
+               [(ngModel)]="password">
 
-        <div class="errors" *ngIf="(submitted) && !regForm.get['password'].valid">
-          <!-- <p class="error help-block">Password <span [innerHTML]="switchMessage(regForm.get['password'].hasError())"></span></p> -->
-          <!-- <p class="error help-block">Password <span [innerHTML]="switchMessage(regForm.get['password'].errors)"></span></p> -->
+        <div class="errors" *ngIf="(submitted) && !regForm.controls['password'].valid">
+          <p class="error help-block">Password <span [innerHTML]="switchMessage(regForm.controls['password'].errors)"></span></p>
         </div>
       </div>
     </div>

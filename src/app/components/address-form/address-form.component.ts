@@ -14,16 +14,16 @@ export class AddressFormComponent implements OnInit {
   @Input() parentForm: FormGroup;
   @Input() groupName: string;
   @Input() address: Address;
-  @Input() isFormSubmitted: boolean;
+  @Input() isFormSubmitted;
   @Input() errorClasses: string = 'error help-block';
-  public addressFormGroup: FormGroup;
+  private addressFormGroup: FormGroup;
   private formName: string;
-  public stateList: Array<string>;
+  private stateList: Array<string>;
 
   constructor(private fb: FormBuilder,
-              private addressHlpr: AddressService) {}
+              private addressHlpr: AddressService) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.stateList = usStatesList;
     this.addressFormGroup = new FormGroup({
         addressLine1: new FormControl(this.address.addressLine1, [Validators.required]),
@@ -41,5 +41,6 @@ export class AddressFormComponent implements OnInit {
         this.parentForm.removeControl(this.groupName);
       });
     }
+
   }
 }

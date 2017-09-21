@@ -7,6 +7,7 @@ import { StateService } from './state.service';
 
 @Injectable()
 export class StoreService {
+
   public url: string = '';
   private queryParams: Object;
 
@@ -14,6 +15,7 @@ export class StoreService {
   public email: string = '';
   public isGuest: boolean = false;
   public previousGiftAmount: string = '';
+
 
   constructor(
     private session: SessionService,
@@ -23,6 +25,7 @@ export class StoreService {
     this.processQueryParams();
     this.preloadData();
   }
+
 
   public loadUserData(): void {
     this.session.getAuthentication().subscribe(
@@ -49,11 +52,11 @@ export class StoreService {
     }
   }
 
-  private setTheme(theme: string): void {
+  private setTheme(theme): void {
     document.body.classList.add(theme);
   }
 
-  public preSubmit(event: Event, noBlur = false) {
+  public preSubmit(event, noBlur = false) {
     event.preventDefault();
     if (noBlur === false) {
       this.blurInputField(event);

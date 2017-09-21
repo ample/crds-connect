@@ -70,7 +70,7 @@ describe('Component: Authentication', () => {
   it('should set the "navigatedBackToNeighbors" prop on state service',
     () => {
       comp.state.navigatedBackToNeighbors = false;
-      const ret = comp.back();
+      let ret = comp.back();
       expect(ret).toEqual(false);
       expect(comp.redirectService.cancelRedirect).toHaveBeenCalled();
       expect(comp.state.navigatedBackToNeighbors).toEqual(true);
@@ -101,13 +101,13 @@ describe('Component: Authentication', () => {
 
   it('should check to see if field is valid when valid credentials are provided', () => {
     setForm('s@s.com', 'test');
-    const isInvalid = comp.formInvalid('email');
+    let isInvalid = comp.formInvalid('email');
     expect(isInvalid).toBe(false);
   });
 
   it('should check to see if field is invalid when invalid credentials are provided', () => {
     setForm('sm', 'test');
-    const isInvalid = comp.formInvalid('email');
+    let isInvalid = comp.formInvalid('email');
     expect(isInvalid).toBe(true);
   });
 

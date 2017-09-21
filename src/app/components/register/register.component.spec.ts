@@ -76,7 +76,7 @@ describe('Component: Registration', () => {
 
   describe('#adv', () => {
     xit('should call the router to move to the next step', () => {
-      comp['adv']();
+      comp.adv();
       expect(mockRouter.navigateByUrl).toHaveBeenCalled();
     });
   });
@@ -98,7 +98,7 @@ describe('Component: Registration', () => {
         setForm('Bob', '', 'good@g.com', 'foobar');
       });
     it('should not process if form is invalid', () => {
-      const didSubmit = comp['submitRegistration']();
+      let didSubmit = comp.submitRegistration();
       expect(didSubmit).toBe(false);
     });
   });
@@ -106,16 +106,16 @@ describe('Component: Registration', () => {
 
   describe('#formatErrorMessage', () => {
    it('should return <u>required</u> when errors.required !== undefined', () => {
-      const errors = { required: true };
+      let errors = { required: true };
 
-      const res = comp['switchMessage'](errors);
+      let res = comp.switchMessage(errors);
       expect(res).toBe('is <u>required</u>');
     });
 
     it('should return <em>invalid</em> when errors.required === undefined', () => {
       let errors = { require: undefined };
 
-      let res = comp['switchMessage'](errors);
+      let res = comp.switchMessage(errors);
       expect(res).toBe('is <em>invalid</em>');
     });
   });
@@ -129,8 +129,8 @@ describe('Component: Registration', () => {
       it('should not call #adv', () => {
         spyOn(comp, 'adv');
 
-        comp['submitRegistration']();
-        expect(comp['adv']).not.toHaveBeenCalled();
+        comp.submitRegistration();
+        expect(comp.adv).not.toHaveBeenCalled();
       });
     });
 
@@ -142,9 +142,6 @@ describe('Component: Registration', () => {
 
       it('#adv should not get called', () => {
         spyOn(comp, 'adv');
-
-        comp['submitRegistration']();
-        expect(comp['adv']).not.toHaveBeenCalled();
       });
     });
 

@@ -22,7 +22,7 @@ export class PersonEditComponent implements OnInit {
     @Input() pin: Pin;
     @Input() isPinOwner: boolean = true;
     private submitting: boolean = false;
-    public ready: boolean = false;
+    private ready: boolean = false;
     private submissionError: boolean = false;
     public editPersonForm: FormGroup;
 
@@ -58,7 +58,7 @@ export class PersonEditComponent implements OnInit {
             );
     }
 
-    public checkPinOwner(pin: Pin) {
+    public checkPinOwner(pin) {
         if (pin.contactId !== this.session.getContactId()) {
             let bpd = new BlandPageDetails(
                 'Return to map',

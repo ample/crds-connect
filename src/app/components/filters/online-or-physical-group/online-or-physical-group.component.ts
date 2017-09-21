@@ -9,7 +9,7 @@ import { StateService } from '../../../services/state.service';
 })
 
 export class OnlineOrPhysicalGroupComponent {
-  public isVirtualGroup: boolean = null;
+  private isVirtualGroup: boolean = null;
   public isAnOptionSelected: boolean = false;
 
   constructor( private filterService: FilterService, private stateService: StateService) { }

@@ -15,7 +15,7 @@
   </div>
 
   <form (ngSubmit)="onSubmit()">
-    <create-group-footer (backevent)="onBack" [showbackbutton]="true"></create-group-footer>
+    <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
   </form>
 
 </div>

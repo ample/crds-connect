@@ -18,19 +18,19 @@ export class CreateGroupPage5Component implements OnInit {
   public groupDetailsForm: FormGroup;
 
   private isComponentReady: boolean = false;
-  public isSubmitted: boolean = false;
+  private isSubmitted: boolean = false;
 
   constructor(private fb: FormBuilder,
     private groupService: GroupService,
     private state: StateService,
-    public createGroupService: CreateGroupService,
+    private createGroupService: CreateGroupService,
     private router: Router) {}
 
-  public ngOnInit(): void {
-    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+  ngOnInit(): void {
+    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                            : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-4`
       : '/create-group/page-4';
 
@@ -55,6 +55,9 @@ export class CreateGroupPage5Component implements OnInit {
     if (form.valid && this.createGroupService.group.availableOnline != null) {
       this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
     } else {
+      Object.keys(form.controls).forEach((name) => {
+        form.controls[name].markAsTouched();
+      });
       this.state.setLoading(false);
     }
   }

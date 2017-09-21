@@ -12,7 +12,7 @@ import { ParticipantService } from './participant.service';
 
 import { Pin } from '../models/pin';
 import { Inquiry } from '../models/inquiry';
-
+import { environment } from '../../environments/environment';
 import { LeaderStatus, GroupPaths, groupPaths } from '../shared/constants';
 
 import 'rxjs/add/operator/catch';
@@ -20,7 +20,8 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class GroupService extends SmartCacheableService<Inquiry[], number> {
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   public restVerbs = {
     post: 'POST',
