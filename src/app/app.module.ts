@@ -10,7 +10,8 @@ import { CustomOptions } from './app.toast.options';
 import { environment } from '../environments/environment';
 
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
@@ -99,7 +100,6 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
-import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
@@ -125,6 +125,7 @@ import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
+import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
@@ -138,8 +139,6 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
 
 import { RouterModule } from '@angular/router';
-
-import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 
 @NgModule({
 imports: [
@@ -262,7 +261,6 @@ providers: [
   Angulartics2Segment,
   GroupService,
   HostApplicationHelperService,
-  IFrameParentService,
   ListHelperService,
   LoginRedirectService,
   LocationService,

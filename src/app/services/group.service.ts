@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 
-import { IFrameParentService } from './iframe-parent.service';
 import { SessionService } from './session.service';
 import { ParticipantService } from './participant.service';
 

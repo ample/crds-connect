@@ -61,6 +61,15 @@ export class TextConstants {
   }
 }
 
+export const ClusterStyles = [{
+  url: '//crds-cms-uploads.s3.amazonaws.com/connect/CLUSTER.svg',
+  height: 50,
+  width: 50,
+  textColor: '#fff'
+}];
+
+export const MaxZoomForClustering: number = 15;
+
 export const textConstants = new TextConstants();
 
 export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
