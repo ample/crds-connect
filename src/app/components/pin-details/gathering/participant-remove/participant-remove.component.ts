@@ -78,7 +78,7 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
       })
       .subscribe(done => {
         this.router.navigate([this.redirectUrl]);
-        this.toast.info(this.contentService.getContent('groupToolRemoveMyselfSuccess'));
+        this.toast.success(this.contentService.getContent('groupToolRemoveMyselfSuccess'));
       }, error => {
         console.log(error);
         this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
@@ -95,7 +95,7 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
       })
       .subscribe(done => {
         this.router.navigate([this.redirectUrl]);
-        this.toast.info(this.contentService.getContent('groupToolRemoveParticipantSuccess'));
+        this.toast.success(this.contentService.getContent('groupToolRemoveParticipantSuccess'));
       }, error => {
         console.log(error);
         this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
