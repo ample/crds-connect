@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 import { SelectModule } from 'ng-select';
 
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { SiteAddressService } from '../../services/site-address.service';
 import { AddMeToMapComponent } from './add-me-to-map.component';
 

@@ -16,7 +16,6 @@ import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 import { StateService } from '../services/state.service';
-import { IFrameParentService } from './iframe-parent.service';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';

@@ -1,6 +1,6 @@
 import { Directive, AfterContentInit, QueryList, Input, ContentChildren } from '@angular/core';
-import { GoogleMapsAPIWrapper, SebmGoogleMap, SebmGoogleMapMarker, MarkerManager } from 'angular2-google-maps/core';
-import { GoogleMap, Marker } from 'angular2-google-maps/core/services/google-maps-types';
+import { GoogleMapsAPIWrapper, AgmMap, AgmMarker, MarkerManager } from '@agm/core';
+import { GoogleMap, Marker } from '@agm/core/services/google-maps-types';
 
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { GoogleMapService } from '../services/google-map.service';
@@ -9,7 +9,7 @@ import '../../scripts/markerclusterer.js';
 declare const MarkerClusterer;
 
 interface IMarkerManager {
- _markers?: any;
+  _markers?: any;
   next(): any;
 }
 
@@ -30,12 +30,12 @@ export class GoogleMapClusterDirective implements AfterContentInit {
     private mapHlpr: GoogleMapService,
     private wrapper: GoogleMapsAPIWrapper,
     private markerManager: MarkerManager,
-  ) {}
+  ) { }
 
   ngAfterContentInit() {
     this.wrapper.getNativeMap().then(map => {
       let options = {
-        // maxZoom: 16, grey starts here for groups 
+        // maxZoom: 16, grey starts here for groups
         // maxZoom:17, grey does not seem to appear, BUT
         // all labels don't display and markers on top of each other, hard/impossible to click on individual pins
         maxZoom: 17,
@@ -52,7 +52,6 @@ export class GoogleMapClusterDirective implements AfterContentInit {
       let siteMarkers = [];
       let promises = [];
       let sebmMarker;
-
 
       while (!(sebmMarker = sebmMarkers.next()).done) {
         sebmMarker = sebmMarker.value;

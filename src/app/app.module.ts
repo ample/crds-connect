@@ -12,7 +12,8 @@ import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr'
 import { CustomOptions } from './app.toast.options';
 
 
-import { AgmCoreModule, GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
@@ -98,7 +99,6 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
-import { IFrameParentService } from './services/iframe-parent.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
@@ -124,6 +124,7 @@ import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
+import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
@@ -138,14 +139,13 @@ import { SocialMediaComponent } from './components/pin-details/gathering/social-
 
 import { RouterModule } from '@angular/router';
 
-import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
-
 @NgModule({
   imports: [
     AlertModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
     }),
+    AgmJsMarkerClustererModule,
     RouterModule.forRoot(appRoutingProviders),
     Angulartics2Module.forRoot([Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment]),
     BrowserModule,
@@ -195,6 +195,7 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     GatheringEditComponent,
     GatheringRequestsComponent,
     GettingStartedComponent,
+    GoogleMapClusterDirective,
     GroupTypeComponent,
     HandleInviteComponent,
     HeaderComponent,
@@ -234,7 +235,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     StuffNotFoundComponent,
     TryGroupRequestConfirmationComponent,
     LeaderResourcesComponent,
-    GoogleMapClusterDirective,
     CreateGroupFooterComponent,
     SocialMediaComponent
   ],
@@ -261,7 +261,6 @@ import { GoogleMapClusterDirective } from './directives/google-map-cluster.direc
     Angulartics2Segment,
     GroupService,
     HostApplicationHelperService,
-    IFrameParentService,
     ListHelperService,
     LoginRedirectService,
     LocationService,
