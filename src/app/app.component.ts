@@ -10,6 +10,8 @@ import { StateService } from './services/state.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { appType } from './shared/constants';
 
+declare var svg4everybody: any;
+
 @Component({
   selector: 'app-root',
   providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
@@ -44,7 +46,7 @@ export class AppComponent implements OnInit {
     vRef: ViewContainerRef) {
 
     this.toastr.setRootViewContainerRef(vRef);
-
+    svg4everybody();
 
     router.events.subscribe((val) => {
       this.removeFauxdalClasses(val);
