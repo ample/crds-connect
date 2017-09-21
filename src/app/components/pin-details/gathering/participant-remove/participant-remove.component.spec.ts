@@ -51,7 +51,7 @@ describe('ParticipantRemoveComponent', () => {
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
     mockLocationService = jasmine.createSpyObj<Location>('location', ['back']);
     mockRouter = new RouterStub();
-    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['info', 'error']);
+    mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['info', 'error', 'success']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
     TestBed.configureTestingModule({
