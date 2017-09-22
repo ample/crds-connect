@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   crdsEnv: 'int',
   CRDS_GATEWAY_CLIENT_ENDPOINT: 'https://gatewayint.crossroads.net/gateway/',
   CRDS_ENV: 'int',
