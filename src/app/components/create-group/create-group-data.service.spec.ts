@@ -285,4 +285,17 @@ describe('CreateGroupService', () => {
         })
     );
 
+    it('should set group fields from group being edited',  inject([CreateGroupService], (s: CreateGroupService) => {
+        let groupBeingEdited = MockTestData.getAGroup(42);
+        s.group = Group.overload_Constructor_CreateGroup(4);
+        s.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
+        expect(s.group.groupId).toBe(groupBeingEdited.groupId);
+        expect(s.group.groupName).toBe(groupBeingEdited.groupName);
+        expect(s.group.groupDescription).toBe(groupBeingEdited.groupDescription);
+        expect(s.group.availableOnline).toBe(groupBeingEdited.availableOnline);
+        expect(s.group.primaryContactId).toBe(groupBeingEdited.contactId);
+        expect(s.group.contactId).toBe(groupBeingEdited.contactId);
+        })
+    );
+
 });

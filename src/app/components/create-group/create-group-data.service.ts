@@ -38,6 +38,8 @@ export class CreateGroupService {
       this.group.groupName = groupBeingEdited.groupName;
       this.group.groupDescription = groupBeingEdited.groupDescription;
       this.group.availableOnline = this.groupBeingEdited.availableOnline;
+      this.group.primaryContactId = this.groupBeingEdited.contactId;
+      this.group.contactId = this.groupBeingEdited.contactId;
     }
 
     public initializePageOne(): Observable<Category[]> {
