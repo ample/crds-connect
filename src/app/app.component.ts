@@ -77,8 +77,7 @@ export class AppComponent implements OnInit {
     } else if (isInGroupsApp) {
       this.appsettings.setAppSettings(appType.Groups);
     } else {
-      this.appsettings.setAppSettings(appType.Connect);
-      // this.defaultToGroupAppType();
+      this.defaultToGroupAppType();
     }
 
     // Uncomment the following line to force Connect app when running outside
