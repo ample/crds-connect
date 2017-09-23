@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   action: string;
   type: string;
   params: any;
-  iFrameResizerCW: any;
 
   constructor(
     private location: Location,
