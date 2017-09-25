@@ -7,6 +7,7 @@ import { GroupEditPresetTracker } from '../../models/group-edit-preset-tracker';
 import { LookupService } from '../../services/lookup.service';
 import { ProfileService } from '../../services/profile.service';
 import { SessionService } from '../../services/session.service';
+import { ParticipantService } from '../../services/participant.service';
 import { attributeTypes, GroupPageNumber, GroupRole, groupMeetingScheduleType } from '../../shared/constants';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -27,9 +28,11 @@ export class CreateGroupService {
     public selectedGroupGenderMix: Attribute = Attribute.constructor_create_group();
     public selectedAgeRanges: Attribute[] = [];
 
-    constructor(private lookupService: LookupService, private session: SessionService,
-        private profileService: ProfileService) {
-        this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
+    constructor(private lookupService: LookupService,
+      private session: SessionService,
+      private profileService: ProfileService,
+      private participantService: ParticipantService) {
+      this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
     }
 
     public setGroupFieldsFromGroupBeingEdited(groupBeingEdited: Group): void {
@@ -43,16 +46,16 @@ export class CreateGroupService {
     }
 
     public initializePageOne(): Observable<Category[]> {
-        if (!this.pageOneInitialized) {
-            this.group = Group.overload_Constructor_CreateGroup(this.session.getContactId());
-            return this.lookupService.getCategories()
-                .do((cats: Category[]) => {
-                    this.categories = cats;
-                    this.pageOneInitialized = true;
-                });
-        } else {
-            return Observable.of(this.categories);
-        }
+      if (!this.pageOneInitialized) {
+        this.group = Group.overload_Constructor_CreateGroup(this.session.getContactId());
+        return this.lookupService.getCategories()
+        .do((cats: Category[]) => {
+          this.categories = cats;
+          this.pageOneInitialized = true;
+        });
+      } else {
+        return Observable.of(this.categories);
+      }
     }
 
     public initializePageSix(): Observable<any> {
@@ -109,7 +112,6 @@ export class CreateGroupService {
     }
 
     public addAgeRangesToGroupModel(): void {
-
         let jsonObject = {};
         jsonObject[attributeTypes.AgeRangeAttributeTypeId] = {
             attributeTypeId: attributeTypes.AgeRangeAttributeTypeId,
@@ -136,10 +138,12 @@ export class CreateGroupService {
         return pin;
     }
 
-    public getLeaders(): Participant[] {
-        let leaders: Participant[] = [];
-        leaders.push(new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null, true));
-        return leaders;
+    public getLeaders(): Observable<Participant[]> {
+      if (this.group.groupId === 0) {
+        return Observable.of([new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null, true)]);
+      } else {
+        return this.participantService.getAllLeaders(this.group.groupId);
+      }
     }
 
     public setParticipants(participant: Participant, group: Group) {
@@ -156,7 +160,7 @@ export class CreateGroupService {
         return group;
     }
 
-    /* 
+    /*
     * This will clear meeting day, meeting time, and meeting frequency
     * if the group is flexible
     * else it will format the meeting time data the way it needs to be for submission
