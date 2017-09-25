@@ -13,8 +13,6 @@ import { GroupRole } from '../shared/constants';
 
 @Injectable()
 export class ParticipantService extends CacheableService<Group[]> {
-
-
     private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     constructor(private session: SessionService) {
@@ -100,7 +98,6 @@ export class ParticipantService extends CacheableService<Group[]> {
             // update the cache here
             this.updateParticipantRoleInCache(groupId, participantId, roleId);
         });
-
     }
 
     private updateParticipantRoleInCache(groupId: number, participantId: number, roleId: number) {

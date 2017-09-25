@@ -19,7 +19,6 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class GroupService extends SmartCacheableService<Inquiry[], number> {
-
   private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   public restVerbs = {
@@ -89,5 +88,4 @@ export class GroupService extends SmartCacheableService<Inquiry[], number> {
       this.router.navigate([`/edit-group/${groupId}/page-${pageToGoTo}`]);
     }
   }
-
 }
