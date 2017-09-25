@@ -1,4 +1,4 @@
-# CrdsAngularBoilerplate
+# CrdsFinder
 
 This is a starting point for developing an Angular microclient. It uses the [Angular CLI](https://github.com/angular/angular-cli/wiki) ( [installation instructions](https://github.com/angular/angular-cli#installation) )with a few additions specific to Crossroads.
 
@@ -12,10 +12,11 @@ This is a starting point for developing an Angular microclient. It uses the [Ang
 ## Development
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+run `npm run build-local` for running in Maestro. The app will not automatically reload but it will automatically rebuild.
 
 ## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component.
+Run `ng generate component component-name` or `ng g c component-name` to generate a new component.
 
 ## Build
 
