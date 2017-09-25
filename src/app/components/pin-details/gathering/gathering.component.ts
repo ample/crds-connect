@@ -52,7 +52,6 @@ export class GatheringComponent implements OnInit {
   public doDisplayFullDesc: boolean;
   private participantEmails: string[];
   public adjustedLeaderNames: string[] = [];
-  public showEndGroup: boolean = false;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -74,7 +73,6 @@ export class GatheringComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   public ngOnInit() {
-    this.showEndGroup = this.session.isAdmin();
     if (!this.previewMode) {
       window.scrollTo(0, 0);
       this.miscellaneousService.reEnableScrollingInCaseFauxdalDisabledIt();
