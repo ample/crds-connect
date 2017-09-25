@@ -132,27 +132,6 @@ describe('CreateGroupService', () => {
         })
     );
 
-    it('should return participant with data from profileData',
-        inject([CreateGroupService], (s: CreateGroupService) => {
-            s.profileData = MockTestData.getProfileData();
-
-            s.group = new Group;
-            s.group.groupId = 123;
-            // const result: Participant = s.getLeaders()[0];
-            let results: Participant;
-            s.getLeaders()
-            .subscribe(
-              (leaders) => {
-                expect(leaders[0].nickName).toBe(s.profileData.nickName);
-                expect(leaders[0].lastName).toBe(s.profileData.lastName);
-              },
-              (error) => {
-                console.log(error);
-              }
-            )
-        })
-    );
-
     it('should create pin from group and profile data',
         inject([CreateGroupService], (s: CreateGroupService) => {
             const profileData = MockTestData.getProfileData();
@@ -298,4 +277,41 @@ describe('CreateGroupService', () => {
         })
     );
 
+    it('getLeaders should setup a new leader if not in edit mode', () => {
+      inject([CreateGroupService], (s: CreateGroupService) => {
+        const mockLeader = MockTestData.getAParticipantsArray(1);
+        s.profileData = mockLeader[0];
+        s.group = new Group;
+        s.group.groupId = 123;
+
+        s.getLeaders()
+        .subscribe(
+          (leaders) => {
+            expect(leaders).toEqual(mockLeader);
+          },
+          (error) => {
+            console.log('Error: getLeaders failed');
+          }
+        );
+      });
+    });
+
+    it('getLeaders should get the existing leaders if in edit mode', () => {
+      inject([CreateGroupService], (s: CreateGroupService) => {
+        const mockLeaders = MockTestData.getAParticipantsArray(2);
+        s.group = new Group;
+        s.group.groupId = 0;
+        (mockParticipantService.getAllLeaders).and.returnValue(Observable.of(mockLeaders));
+
+        s.getLeaders()
+        .subscribe(
+          (leaders) => {
+            expect(leaders).toEqual(mockLeaders);
+          },
+          (error) => {
+            console.log('Error: getLeaders failed');
+          }
+        );
+      });
+    });
 });

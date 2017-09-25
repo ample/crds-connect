@@ -78,13 +78,6 @@ describe('CreateGroupPreviewComponent', () => {
         });
     }));
 
-   it('should create an instance', () => {
-        fixture.detectChanges();
-        (mockCreateGroupService.getSmallGroupPinFromGroupData).and.returnValue(MockTestData.getAPin(1, 4, pinType.SMALL_GROUP));
-        (mockCreateGroupService.getLeaders).and.returnValue(MockTestData.getAParticipantsArray(1));
-        expect(comp).toBeTruthy();
-    });
-
    it('should Init', () => {
         const pin = MockTestData.getAPin(1, 4, pinType.SMALL_GROUP);
         (mockCreateGroupService.getSmallGroupPinFromGroupData).and.returnValue(pin);

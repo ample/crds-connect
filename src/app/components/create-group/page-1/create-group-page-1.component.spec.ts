@@ -151,7 +151,7 @@ describe('CreateGroupPage1Component', () => {
     expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
   });
 
-  fit('should correctly add selected categories when in edit mode', () => {
+  it('should correctly add selected categories when in edit mode', () => {
     // Create mock group with two selected categories
     categories[0].selected = true;
     categories[1].selected = true;
@@ -160,13 +160,16 @@ describe('CreateGroupPage1Component', () => {
     mockStateService.getActiveGroupPath.and.returnValue(groupPaths.EDIT);
     comp['createGroupService']['wasPagePresetWithExistingData'] = new GroupEditPresetTracker();
     comp['createGroupService']['wasPagePresetWithExistingData'].page1 = true;
-    comp['createGroupService']['groupBeingEdited'] = MockTestData.getAGroup(42);
-    // comp['wasPagePresetWithExistingData']['page1'] = true;
+
+    (mockCreateGroupService.validateCategories).and.returnValue(true);
+    comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(123);
+    comp.groupCategoryForm = new FormGroup({});
+    comp['initializeCategories'](categories);
 
     // Call the function:
-    comp.ngOnInit();
+    comp.onSubmit(comp.groupCategoryForm, groupPaths.EDIT);
 
     // Make sure that the selected groups have been set
-    expect(comp['createGroupService']['selectedCategories'].length).toBe(2);
+    expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).toHaveBeenCalled();
   });
 });
