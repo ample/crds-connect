@@ -21,6 +21,7 @@ import { appType } from './shared/constants';
         <router-outlet></router-outlet>
       </div>
     </div>`,
+    styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
