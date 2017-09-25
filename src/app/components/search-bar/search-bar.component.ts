@@ -29,6 +29,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
   private isMyStuffActiveSub: Subscription;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
+  public isConnectApp: boolean;
+  public shouldShowSubmit: boolean = false;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -37,6 +39,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public ngOnInit(): void {
+    this.isConnectApp = this.appSettings.isConnectApp();
     this.placeholderTextForSearchBar = this.appSettings.placeholderTextForSearchBar;
 
     this.isSearchClearHidden = !this.state.searchBarText || this.state.searchBarText === '';
@@ -66,7 +69,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setMyViewOrWorldView('world');
     this.state.setIsFilterDialogOpen(false);
     this.state.searchBarText = search;
-    
+
     search = search.replace(/'/g, '%27');  // Escape single quotes in the search string
 
     // This needs to go away soon -- you can have location filter and keyword search in connect.
@@ -109,6 +112,12 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   public toggleFilters(): void {
     this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
+  }
+
+  public showLocationBar(): void {
+    if(!this.isConnectApp) {
+      this.shouldShowSubmit = true;
+    }
   }
 
 }

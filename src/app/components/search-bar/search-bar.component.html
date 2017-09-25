@@ -10,7 +10,8 @@
                 [(ngModel)]="state.searchBarText"
                 [ngModelOptions]="{standalone: true}"
                 (keyup)="searchKeyUp()"
-                placeholder={{placeholderTextForSearchBar}}>
+                placeholder={{placeholderTextForSearchBar}}
+                (focus)="showLocationBar()">
 
         <div class="searchbar-wrapper"></div>
 
@@ -24,7 +25,7 @@
         </span>
 
         <!-- Filters Button: -->
-        <span class="addon-btn" *ngIf="appSettings.isSmallGroupApp()">
+        <span class="addon-btn" *ngIf="!isConnectApp">
           <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
             <svg class="icon icon-1" id="filterDialogBtn" viewBox="0 0 256 256">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
@@ -33,7 +34,7 @@
         </span>
 
         <!-- Submit Button: -->
-        <span class="input-group-btn">
+        <span class="input-group-btn" *ngIf="isConnectApp">
           <button type="submit" class="btn btn-secondary" id="searchBtn" [disabled]="state.isFilterDialogOpen">
             <svg class="icon icon-1" viewBox="0 0 256 256">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#search"></use>
@@ -44,11 +45,19 @@
 
       <!-- Toggle View Button: -->
       <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">{{state.viewButtonText}}</button>
+      <div *ngIf="shouldShowSubmit">
+        <div>
+        <app-location-bar></app-location-bar>
+      </div>
+        <div>
+          <button type="submit" class="btn btn-secondary" id="searchBtn">Search</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
 
-<app-filters *ngIf="appSettings.isSmallGroupApp()"
+<app-filters *ngIf="!isConnectApp"
              [hidden]="!state.isFilterDialogOpen"
              [searchKeywordString]="state.searchBarText"
              class="connect-container connect-layout-container"></app-filters>
