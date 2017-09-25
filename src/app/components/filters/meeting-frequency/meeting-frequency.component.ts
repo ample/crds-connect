@@ -6,7 +6,7 @@ import { meetingFrequencyNames } from '../../../shared/constants';
 
 @Component({
     selector: 'meeting-frequency',
-    templateUrl: '/meeting-frequency.component.html'
+    templateUrl: './meeting-frequency.component.html'
 })
 
 export class MeetingFrequencyComponent implements OnInit {

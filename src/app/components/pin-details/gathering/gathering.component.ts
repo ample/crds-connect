@@ -26,6 +26,7 @@ import { TimeHelperService} from '../../../services/time-helper.service';
 import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -152,7 +153,7 @@ export class GatheringComponent implements OnInit {
     const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
     const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
 
-    const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    const baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     if (approved !== undefined && trialMemberId) {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
