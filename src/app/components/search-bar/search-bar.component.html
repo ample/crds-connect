@@ -1,49 +1,63 @@
 <div class="connect-search">
   <div class="connect-layout-container container">
-    <form action="." class="searchbar"
-          (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
-      <div class="input-group">
-        <!-- Search Text Box: -->
-        <input type="search"
-                class="form-control"
-                id="search-bar-input"
-                [(ngModel)]="state.searchBarText"
-                [ngModelOptions]="{standalone: true}"
-                (keyup)="searchKeyUp()"
-                placeholder={{placeholderTextForSearchBar}}>
 
-        <div class="searchbar-wrapper"></div>
+    <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
 
-        <!-- Reset Search Button: -->
-        <span class="addon-btn">
-          <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen || isSearchClearHidden">
-            <svg class="icon icon-1" id="resetSearchInputBtn" viewBox="0 0 256 256">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#close-thin"></use>
-            </svg>
-          </button>
-        </span>
-
-        <!-- Filters Button: -->
-        <span class="addon-btn" *ngIf="appSettings.isSmallGroupApp()">
-          <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
-            <svg class="icon icon-1" id="filterDialogBtn" viewBox="0 0 256 256">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
-            </svg>
-          </button>
-        </span>
-
-        <!-- Submit Button: -->
-        <span class="input-group-btn">
-          <button type="submit" class="btn btn-secondary" id="searchBtn" [disabled]="state.isFilterDialogOpen">
-            <svg class="icon icon-1" viewBox="0 0 256 256">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#search"></use>
-            </svg>
-          </button>
-        </span>
+      <div class="form-group">
+        <div class="input-group input-group-block input-group-right">
+          <span class="input-group-addon">
+            <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen || isSearchClearHidden">
+              <svg class="icon icon-1" id="resetSearchInputBtn" viewBox="0 0 256 256">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#close-thin"></use>
+              </svg>
+            </button>
+          </span>
+          <input type="search"
+                  class="form-control"
+                  id="search-bar-input"
+                  [(ngModel)]="state.searchBarText"
+                  [ngModelOptions]="{standalone: true}"
+                  (keyup)="searchKeyUp()"
+                  placeholder={{placeholderTextForSearchBar}}>
+        </div>
       </div>
 
+      <div class="searchbar-wrapper"></div>
+
+      <div class="form-group">
+        <div class="input-group input-group-block input-group-left">
+          <span class="input-group-addon">
+            <svg class="icon" viewBox="0 0 256 256">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
+            </svg>
+          </span>
+          <input class="form-control" name="location" placeholder="Current Location" type="search" value="">
+        </div>
+      </div>
+
+      <!-- Filters Button: -->
+      <!-- <span class="addon-btn" *ngIf="appSettings.isSmallGroupApp()">
+        <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
+          <svg class="icon icon-1" id="filterDialogBtn" viewBox="0 0 256 256">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
+          </svg>
+        </button>
+      </span> -->
+
+      <button type="button" class="btn btn-link pull-right hard-sides text-white" (click)="toggleFilters()">
+        Add Filters
+      </button>
+
+      <!-- Submit Button: -->
+      <button type="submit" class="btn btn-secondary" id="searchBtn" [disabled]="state.isFilterDialogOpen">
+        <!-- <svg class="icon icon-1" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#search"></use>
+        </svg> -->
+        Search
+      </button>
+
       <!-- Toggle View Button: -->
-      <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">{{state.viewButtonText}}</button>
+      <!-- <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">{{state.viewButtonText}}</button> -->
     </form>
   </div>
 </div>

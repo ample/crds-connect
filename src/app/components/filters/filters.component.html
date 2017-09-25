@@ -8,21 +8,18 @@
 
 <form [formGroup]="locationFormGroup" (ngSubmit)="onSubmit()" #locationForm="ngForm">
   <div class="form-group">
-    <div class="form-group">
-      <label class="sr-only" for="customAmount">Amount (in dollars)</label>
-      <div class="input-group input-group-block input-group-left">
-			<span class="input-group-addon">
-				<svg class="icon" viewBox="0 0 256 256">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
-				</svg>
-			</span>
-        <input class="form-control"
-               name="location"
-               placeholder="Current Location"
-               type="search"
-               value=""
-               formControlName="location">
-      </div>
+    <div class="input-group input-group-block input-group-left">
+      <span class="input-group-addon">
+        <svg class="icon" viewBox="0 0 256 256">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
+        </svg>
+      </span>
+      <input class="form-control"
+              name="location"
+              placeholder="Current Location"
+              type="search"
+              value=""
+              formControlName="location">
     </div>
   </div>
 </form>
