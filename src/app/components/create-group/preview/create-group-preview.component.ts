@@ -36,8 +36,7 @@ export class CreateGroupPreviewComponent implements OnInit {
               private pinService: PinService,
               private blandPageService: BlandPageService,
               private contentService: ContentService,
-              private timeHelperService: TimeHelperService) {
-  }
+              private timeHelperService: TimeHelperService) {}
 
   ngOnInit() {
     let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
@@ -50,7 +49,16 @@ export class CreateGroupPreviewComponent implements OnInit {
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.smallGroupPin = this.createGroupService.getSmallGroupPinFromGroupData();
-    this.leaders = this.createGroupService.getLeaders();
+    this.createGroupService.getLeaders()
+    .subscribe(
+      (leaders) => {
+        this.leaders = leaders;
+      },
+      (error) => {
+        console.log('Error getting group leaders.');
+      }
+    );
+
     this.isComponentReady = true;
     this.state.setLoading(false);
   }

@@ -6,11 +6,13 @@ import { Observable } from 'rxjs/Rx';
 import { SessionService } from '../services/session.service';
 
 import { Group } from '../models/group';
+import { environment } from '../../environments/environment';
+
 
 @Injectable()
 export class GroupResolver implements Resolve<any> {
 
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   constructor(private session: SessionService) { }
 
