@@ -175,7 +175,7 @@ describe('GatheringComponent', () => {
     mockActivatedRoute = {
       snapshot: {
         data: { pin: pin, user: {} },
-        params: { approved: 'true', trialMemberId: '123'}
+        params: { approved: 'true', trialMemberId: '123' }
       }
     };
 

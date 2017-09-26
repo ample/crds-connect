@@ -99,10 +99,10 @@ export class ListFooterComponent implements OnInit, OnChanges {
   }
 
   public onLeaderResourcesClicked() {
-    window.location.href = LeaderResourcesUrl;
+    this.router.navigateByUrl('/resources/leader');
   }
 
   public onGroupResourcesClicked() {
-    window.location.href = GroupResourcesUrl;
+    this.router.navigateByUrl('/resources/group');
   }
 }

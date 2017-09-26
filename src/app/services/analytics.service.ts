@@ -3,9 +3,7 @@ import { Angulartics2 } from 'angulartics2';
 
 @Injectable()
 export class AnalyticsService {
-
-  constructor(private analytics: Angulartics2) {
-  }
+  constructor(private analytics: Angulartics2) {}
 
   sayHiButtonPressed(action: string, category: string) {
     this.analytics.eventTrack.next( {

@@ -9,18 +9,16 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../models/bland
 
 @Injectable()
 export class PinResolver implements Resolve<Pin> {
-
   constructor(
     private pinService: PinService,
     private blandPageService: BlandPageService
-  ) { }
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Pin> {
-    let participantId: number, groupId: number, pinIdentifier: PinIdentifier;
-
-    participantId = route.params['participantId'];
-    groupId = route.params['groupId'];
-    let routeType: string = route.url[0].path; // person, gathering, or small-group
+    const participantId: number = route.params['participantId'];
+    const groupId: number = route.params['groupId'];
+    const routeType: string = route.url[0].path; // person, gathering, or small-group
+    let pinIdentifier: PinIdentifier;
 
     if (participantId != null && routeType.includes('person')) {
       pinIdentifier = new PinIdentifier(pinType.PERSON, participantId);
@@ -35,7 +33,7 @@ export class PinResolver implements Resolve<Pin> {
     return this.pinService.getPinDetails(pinIdentifier)
       .catch((err: Response, caught: Observable<Pin>) => {
         if (err !== undefined) {
-          let pinResolverError = new BlandPageDetails(
+          const pinResolverError = new BlandPageDetails(
             'Back To The Map',
             'Unable to get details of a pin on the map',
             BlandPageType.Text,

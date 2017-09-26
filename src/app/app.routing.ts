@@ -33,6 +33,7 @@ import { HandleInviteComponent } from './components/handle-invite/handle-invite.
 import { PersonEditComponent } from './components/pin-details/person/edit/person-edit.component';
 import { GatheringEditComponent } from './components/pin-details/gathering/edit/gathering-edit.component';
 import { RemovePersonPinComponent } from './components/pin-details/person/remove-person-pin/remove-person-pin.component';
+import { ResourcesRedirectComponent } from './components/resources-redirect/resources-redirect.component';
 import { ParticipantRemoveComponent } from './components/pin-details/gathering/participant-remove/participant-remove.component';
 
 import { DetailedUserDataResolver } from './route-resolvers/detailed-user-data-resolver';
@@ -328,6 +329,9 @@ const appRoutes: Routes = [
       pin: PinResolver
     }
   },
+  { path: 'resources/:resourceType',
+    component: ResourcesRedirectComponent,
+    canActivate: [LoggedInGuard, GroupLeaderApprovedGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'signin', component: AuthenticationComponent },
   { path: '**', canActivate: [PageNotFoundGuard], component: PageNotFoundComponent }

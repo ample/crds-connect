@@ -10,7 +10,6 @@ import { StuffNotFoundComponent } from './stuff-not-found.component';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { GroupService } from '../../services/group.service';
 import { PinService } from '../../services/pin.service';
-import { GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
 describe('StuffNotFoundComponent', () => {
     let fixture: ComponentFixture<StuffNotFoundComponent>;
