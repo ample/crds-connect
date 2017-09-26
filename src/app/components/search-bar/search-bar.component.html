@@ -11,7 +11,7 @@
                 [ngModelOptions]="{standalone: true}"
                 (keyup)="searchKeyUp()"
                 placeholder={{placeholderTextForSearchBar}}
-                (focus)="showLocationBar()">
+                (focus)="showLocationBar(true)">
 
         <div class="searchbar-wrapper"></div>
 
@@ -47,7 +47,7 @@
       <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">{{state.viewButtonText}}</button>
       <div *ngIf="shouldShowSubmit">
         <div>
-        <app-location-bar></app-location-bar>
+        <app-location-bar (submit)="onSearch(state.searchBarText)"></app-location-bar>
       </div>
         <div>
           <button type="submit" class="btn btn-secondary" id="searchBtn">Search</button>
@@ -59,5 +59,4 @@
 
 <app-filters *ngIf="!isConnectApp"
              [hidden]="!state.isFilterDialogOpen"
-             [searchKeywordString]="state.searchBarText"
              class="connect-container connect-layout-container"></app-filters>
