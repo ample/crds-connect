@@ -1,3 +1,4 @@
+import { MockComponent } from '../../shared/mock.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -20,6 +21,7 @@ class StateServiceStub {
   public myStuffStateChangedEmitter = {
     subscribe: jasmine.createSpy('subscribe').and.returnValue(Observable.of(this.myStuffActive))
   };
+  getIsFilteredDialogOpen = jasmine.createSpy('getIsFilteredDialogOpen');
 };
 
 describe('SearchBarComponent', () => {
@@ -35,7 +37,8 @@ describe('SearchBarComponent', () => {
     mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
-        SearchBarComponent
+        SearchBarComponent,
+        MockComponent({selector: 'app-location-bar', inputs: ['submit']})
       ],
       providers: [
         { provide: AppSettingsService, useValue: mockAppSettingsService },
@@ -126,10 +129,44 @@ describe('SearchBarComponent', () => {
 
   it('should call OnSearch 1 time', async(() => {
     spyOn(comp, 'onSearch');
-    let button = fixture.debugElement.nativeElement.querySelector('button');
+    comp.shouldShowSubmit = true;
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
     fixture.whenStable().then(() => {
       expect(comp.onSearch).toHaveBeenCalledTimes(1);
     });
   }));
+
+  it('should toggle filters and shouldShowDialog if shouldShowDialog is false', () => {
+    comp.shouldShowSubmit = false;
+    spyOn(comp, 'showLocationBar');
+    mockStateService.getIsFilteredDialogOpen.and.returnValue(false);
+    comp.toggleFilters();
+    expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalledWith(true);
+    expect(comp.showLocationBar).toHaveBeenCalledWith(true);
+  });
+
+  it('should toggle filters only when shouldshow', () => {
+    comp.shouldShowSubmit = true;
+    spyOn(comp, 'showLocationBar');
+    mockStateService.getIsFilteredDialogOpen.and.returnValue(false);
+    comp.toggleFilters();
+    expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalledWith(true);
+    expect(comp.showLocationBar).not.toHaveBeenCalled();
+  });
+
+  it('should toggleLocationBar if in group mode', () => {
+    comp.isConnectApp = false;
+    comp.shouldShowSubmit = false;
+    comp.showLocationBar(true);
+    expect(comp.shouldShowSubmit).toBe(true);
+  });
+
+  it('should not toggleLocationBar if in connect mode', () => {
+    comp.isConnectApp = true;
+    comp.shouldShowSubmit = false;
+    comp.showLocationBar(true);
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
 });

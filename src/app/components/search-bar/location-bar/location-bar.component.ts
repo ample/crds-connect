@@ -15,7 +15,7 @@ export class LocationBarComponent implements OnInit {
   constructor(private state: StateService) { }
 
   ngOnInit() {
-    let savedSearch = this.state.lastSearch;
+    const savedSearch = this.state.lastSearch;
     this.locationFormGroup = new FormGroup({
         location: new FormControl(this.location, []),
     });
