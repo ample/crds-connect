@@ -102,6 +102,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     event.preventDefault();
     this.clearSearchText();
     this.focusSearchInput();
+    this.showLocationBar(false);
   }
 
   public searchKeyUp(): void {
@@ -116,8 +117,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public toggleFilters(): void {
     const shouldShowDialog = !this.state.getIsFilteredDialogOpen();
     this.state.setIsFilterDialogOpen(shouldShowDialog);
-    this.showLocationBar(shouldShowDialog);
-
+    if (this.shouldShowSubmit !== shouldShowDialog) {
+      this.showLocationBar(shouldShowDialog);
+    }
   }
 
   public showLocationBar(value): void {
