@@ -27,8 +27,6 @@ import { ViewType } from '../../shared/constants';
 })
 
 export class FiltersComponent implements OnInit {
-  // Search string coming in will always be Keyword, not location, becuase filters are ONLY on groups, not connect
-  @Input() searchKeywordString: string;
   @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
   @ViewChild(OnlineOrPhysicalGroupComponent) public onlineOrPhysicalGroupComponent: OnlineOrPhysicalGroupComponent;
@@ -38,8 +36,6 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MeetingDayComponent) public meetingDayComponent: MeetingDayComponent;
   @ViewChild(MeetingFrequencyComponent) public meetingFrequencyComponent: MeetingFrequencyComponent;
 
-  public locationFormGroup: FormGroup;
-  public location: string;
 
   constructor( private filterService: FilterService,
                private router: Router,
@@ -47,36 +43,9 @@ export class FiltersComponent implements OnInit {
                private state: StateService ) {}
 
   ngOnInit(): void {
-    let savedSearch = this.state.lastSearch;
-    this.locationFormGroup = new FormGroup({
-        location: new FormControl(this.location, []),
-    });
-
-    if ((savedSearch) && savedSearch.location != null) {
-      this.locationFormGroup.controls['location'].setValue(savedSearch.location);
-    }
-  }
-
-  public applyFilters(): void {
-    this.state.myStuffActive = false;
-    this.state.setMyViewOrWorldView('world');
-    this.state.setIsFilterDialogOpen(false);
-
-    // Switch to list view if the user is searching for only online groups:
-    if (this.onlineOrPhysicalGroupComponent.getIsVirtualGroup()) {
-      this.state.setCurrentView(ViewType.LIST);
-    }
-
-    let filterString: string = this.filterService.buildFilters();
-    this.router.navigate([], { queryParams: {filterString: filterString } });
-    let pinSearchRequest = new PinSearchRequestParams(this.location, this.searchKeywordString, filterString);
-    this.state.lastSearch.search = this.searchKeywordString;
-    this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
   public resetFilters(): void {
-    this.locationFormGroup.controls['location'].setValue('');
-    this.state.lastSearch.location = '';
     this.childKidsWelcomeComponent.reset();
     this.childAgeGroupsComponent.reset();
     this.childCategoryComponent.reset();
@@ -86,14 +55,14 @@ export class FiltersComponent implements OnInit {
     this.meetingFrequencyComponent.reset();
     this.onlineOrPhysicalGroupComponent.reset();
     this.filterService.resetFilterString();
+  }
+
+  public cancel(): void {
     this.state.setIsFilterDialogOpen(false);
-    this.onSubmit(false);
   }
 
   public onSubmit(filterActive = true): void {
-    this.location = this.locationFormGroup.controls.location.value;
     this.state.isFilterActive = filterActive;
-    this.applyFilters();
   }
 
 }
