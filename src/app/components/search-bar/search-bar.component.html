@@ -4,7 +4,7 @@
     <form action="." class="searchbar"
           (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
 
-      <div class="form-group">
+      <div class="form-group" [class.form-group-flex]="!shouldShowSubmit">
         <div class="input-group input-group-block input-group-right">
           <span class="input-group-addon" *ngIf="shouldShowSubmit">
             <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen">
@@ -29,9 +29,14 @@
                  placeholder={{placeholderTextForSearchBar}}
                  (focus)="showLocationBar(true)">
         </div>
+
+        <!-- Toggle View Button: -->
+        <button *ngIf="!shouldShowSubmit" type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">
+          {{state.viewButtonText}}
+        </button>
       </div>
 
-      <div class="searchbar-wrapper"></div>
+      <!-- <div class="searchbar-wrapper"></div> -->
 
       <app-location-bar (submit)="onSearch(state.searchBarText)" *ngIf="shouldShowSubmit"></app-location-bar>
 
@@ -42,13 +47,6 @@
       <button *ngIf="shouldShowSubmit" type="button" class="btn btn-link pull-right hard-sides text-white" (click)="toggleFilters()">
         Add Filters
       </button>
-
-      <!-- Toggle View Button: -->
-      <button *ngIf="!shouldShowSubmit" type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">
-        {{state.viewButtonText}}
-      </button>
-
-      <!-- <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">{{state.viewButtonText}}</button> -->
     </form>
   </div>
 </div>

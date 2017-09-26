@@ -6,3 +6,16 @@ app-filters {
     margin: 0;
   }
 }
+
+.searchbar {
+
+  .form-group-flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+
+    .input-group {
+      flex-grow: 1;
+    }
+  }
+}
