@@ -14,7 +14,7 @@
 .classpath
 *.launch
 .settings/
-.vscode/
+.vscode
 
 # misc
 /.sass-cache
@@ -24,7 +24,7 @@
 npm-debug.log
 testem.log
 /typings
-/.vscode
+/.env
 
 # e2e
 /e2e/*.js
@@ -33,4 +33,3 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
-.env

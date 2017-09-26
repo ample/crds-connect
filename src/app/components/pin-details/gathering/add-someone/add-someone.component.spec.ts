@@ -82,12 +82,12 @@ describe('AddSomeoneComponent', () => {
     });
 
     it('should call addToGroup', () => {
-        let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
-        let isValid = true;
-        let gatheringId = 123;
-        let participantId = 456;
-        let param = { value: someone, valid: isValid };
-        let blandPageDetails = new BlandPageDetails(
+        const someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
+        const isValid = true;
+        const gatheringId = 123;
+        const participantId = 456;
+        const param = { value: someone, valid: isValid };
+        const blandPageDetails = new BlandPageDetails(
             'Return to my group',
             '<h1 class="title">Your group is growing!</h1>' +
             // tslint:disable-next-line:max-line-length
@@ -96,6 +96,7 @@ describe('AddSomeoneComponent', () => {
             BlandPageCause.Success,
             `gathering/${gatheringId}`
         );
+        const roleId = 16;
 
         (<jasmine.Spy>mockPinService.addToGroup).and.returnValue(Observable.of({}));
         comp.gatheringId = gatheringId;
@@ -103,7 +104,7 @@ describe('AddSomeoneComponent', () => {
 
         comp.addToGroup(someone);
 
-        expect(<jasmine.Spy>mockPinService.addToGroup).toHaveBeenCalledWith(gatheringId, someone);
+        expect(<jasmine.Spy>mockPinService.addToGroup).toHaveBeenCalledWith(gatheringId, someone, roleId);
         expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
     });
 

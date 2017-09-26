@@ -12,7 +12,6 @@ import { StateService } from './state.service';
 
 @Injectable()
 export class UserLocationService extends CacheableService<GeoCoordinates> {
-
   constructor(private ipService: IPService,
     private location: LocationService,
     private session: SessionService,
@@ -29,12 +28,14 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     let locObs = new Observable(observer => {
       if (this.session.isLoggedIn()) {
         let contactid: number = this.session.getContactId();
-        this.getUserLocationFromUserId(contactid).subscribe(
+        this.getUserLocationFromUserId(contactid)
+        .subscribe(
           success => {
             observer.next(success);
           },
           failure => {
-            this.getUserLocationFromCurrentLocation().subscribe(
+            this.getUserLocationFromCurrentLocation()
+            .subscribe(
               location => {
                 observer.next(location);
               },
@@ -45,12 +46,14 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
           }
         );
       } else {
-        this.getUserLocationFromCurrentLocation().subscribe(
+        this.getUserLocationFromCurrentLocation()
+        .subscribe(
           success => {
             observer.next(success);
           },
           failure => {
-            this.getUserLocationFromIp().subscribe(
+            this.getUserLocationFromIp()
+            .subscribe(
               ipLocPos => {
                 observer.next(ipLocPos);
               },

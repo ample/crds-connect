@@ -6,7 +6,7 @@ import { daysOfWeek } from '../../../shared/constants';
 
 @Component({
   selector: 'meeting-day',
-  templateUrl: '/meeting-day.component.html'
+  templateUrl: './meeting-day.component.html'
 })
 
 export class MeetingDayComponent implements OnInit {
