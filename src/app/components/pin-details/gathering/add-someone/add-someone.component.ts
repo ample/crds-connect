@@ -13,6 +13,7 @@ import { StateService } from '../../../../services/state.service';
 
 import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
+import { GroupRole } from '../../../../shared/constants';
 
 @Component({
   selector: 'add-someone',
@@ -95,10 +96,10 @@ export class AddSomeoneComponent implements OnInit {
     addToGroup(someone: Person) {
       // add someone to the group
       window.scrollTo(0, 0);
-      this.pinService.addToGroup(this.gatheringId, someone).subscribe(
+      this.pinService.addToGroup(this.gatheringId, someone, GroupRole.MEMBER).subscribe(
         success => {
           this.participantService.clearGroupFromCache(this.gatheringId);
-          let bpd = new BlandPageDetails(
+          const bpd = new BlandPageDetails(
             'Return to my group',
             '<h1 class="title">Your group is growing!</h1>' +
             // tslint:disable-next-line:max-line-length
