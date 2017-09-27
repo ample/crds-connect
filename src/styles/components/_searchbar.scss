@@ -8,7 +8,6 @@ app-filters {
 }
 
 .searchbar {
-
   .search-mobile {
     display: none !important;
   }
@@ -21,7 +20,9 @@ app-filters {
   app-location-bar {
     flex: 1;
   }
+}
 
+.searchbar-groups {
   @media screen and (max-width: $screen-sm) {
     display: block;
 
