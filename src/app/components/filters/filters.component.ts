@@ -1,10 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { FilterService } from '../../services/filter.service';
-import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
 import { CategoryComponent } from './category/category.component';
@@ -15,10 +14,6 @@ import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/onlin
 import { MeetingTimeComponent } from './meeting-time/meeting-time.component';
 import { MeetingDayComponent } from './meeting-day/meeting-day.component';
 import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency.component';
-
-import { PinSearchRequestParams } from '../../models/pin-search-request-params';
-
-import { ViewType } from '../../shared/constants';
 
 
 @Component({
@@ -39,7 +34,6 @@ export class FiltersComponent implements OnInit {
 
   constructor( private filterService: FilterService,
                private router: Router,
-               private pinService: PinService,
                private state: StateService ) {}
 
   ngOnInit(): void {
@@ -59,10 +53,6 @@ export class FiltersComponent implements OnInit {
 
   public cancel(): void {
     this.state.setIsFilterDialogOpen(false);
-  }
-
-  public onSubmit(filterActive = true): void {
-    this.state.isFilterActive = filterActive;
   }
 
 }
