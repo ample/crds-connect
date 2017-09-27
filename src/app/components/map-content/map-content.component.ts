@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { GoogleMapService } from '../../services/google-map.service';
-import { GoogleMapsAPIWrapper, LatLng } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper, LatLng } from '@agm/core';
 import { StateService } from '../../services/state.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 

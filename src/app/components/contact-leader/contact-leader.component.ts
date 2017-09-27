@@ -11,6 +11,7 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { ParticipantService } from '../../services/participant.service';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
+import { environment } from '../../../environments/environment';
 
 import { MsgToLeader } from '../../models/msg-to-leader';
 
@@ -57,7 +58,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
 
   public onSubmit({ value, valid }: { value: MsgToLeader, valid: boolean }) {
     // Touch all the fields so we get correct validation styles for pristine, required fields
-    Object.values(this.contactLeaderForm.controls).filter(control => control.markAsTouched());
+    Object.keys(this.contactLeaderForm.controls).filter(key => this.contactLeaderForm.controls[key].markAsTouched());
 
     this.isFormSubmitted = true;
     if (valid) {
@@ -73,7 +74,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
         this.state.setLoading(false);
       }, err => {
         this.state.setLoading(false);
-        this.toast.error(this.content.getContent('groupFinderContactCrdsError'), null, {toastLife: 3000});
+        this.toast.error(this.content.getContent('groupFinderContactCrdsError'), null);
       }
     );
   }

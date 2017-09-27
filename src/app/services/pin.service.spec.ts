@@ -1,6 +1,4 @@
 /* tslint:disable:no-unused-variable */
-
-
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 
@@ -20,6 +18,7 @@ import { Router } from '@angular/router';
 
 import { Pin, pinType, GeoCoordinates, User, PinSearchResultsDto, PinIdentifier, Address } from '../models';
 import { PinSearchRequestParams } from '../models/pin-search-request-params';
+import { Person } from '../models/person';
 import { MockTestData } from '../shared/MockTestData';
 import { CacheLevel } from '../services/base-service/cacheable.service';
 
@@ -116,7 +115,7 @@ describe('Service: Pin', () => {
     });
     expect(results.participantId).toBe(participantID);
     expect(mockSessionService.get).toHaveBeenCalled();
-    // pins cache starts with 10 pins, but ends up with 11 because we 
+    // pins cache starts with 10 pins, but ends up with 11 because we
     // asked for a pin that it didn't have and we had to make a trip to MP to get it.
     expect(service['cache'].pinSearchResults.length).toBe(1);
 
@@ -231,6 +230,11 @@ describe('Service: Pin', () => {
 
     }));
 
-
+    it('addToGroup should call with proper params', inject([PinService], (service: PinService) => {
+      <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
+      const person = new Person('Bob', 'Smith', 'bob@bob.com');
+      service.addToGroup(123, person, 27);
+      expect(mockSessionService.post).toHaveBeenCalledWith('http://localhost:49380/api/v1.0.0/finder/pin/addtogroup/123/27', person);
+    }));
 }
 );

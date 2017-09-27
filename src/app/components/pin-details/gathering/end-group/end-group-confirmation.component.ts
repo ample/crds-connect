@@ -6,6 +6,7 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 import { SessionService } from '../../../../services/session.service';
 import { StateService } from '../../../../services/state.service';
 import { ParticipantService } from '../../../../services/participant.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-end-group-confirmation',
@@ -13,7 +14,7 @@ import { ParticipantService } from '../../../../services/participant.service';
   styles: ['.fauxdal-wrapper { overflow-y: hidden; }']
 })
 export class EndGroupConfirmationComponent implements OnInit {
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private groupId: string;
 
   constructor(private sessionService: SessionService,
