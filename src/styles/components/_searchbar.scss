@@ -7,47 +7,66 @@ app-filters {
   }
 }
 
-.searchbar-no-button .searchbar-wrapper {
-  width: 100%;
-}
+.searchbar {
 
-.searchbar-mobile-expanded {
-  display: block;
-
-  .input-group {
-    display: block;
+  .search-mobile {
+    display: none !important;
   }
 
-  input.form-control {
-    margin-bottom: 0;
-    margin-left: 0;
+  .input-group > .search-input {
+    display: flex;
+    flex: 1;
   }
 
-  .search-input {
-    display: block;
-    height: 42px;
-    margin-bottom: .5rem;
-    position: relative;
+  app-location-bar {
+    flex: 1;
+  }
 
-    &.input-transparent input.form-control {
-      background: transparent;
-      border: none;
+  @media screen and (max-width: $screen-sm) {
+    display: block;
+
+    .search-mobile {
+      display: block !important;
     }
 
-    .input-group-addon {
-      height: 38px;
+    .search-desktop {
+      display: none !important;
+    }
 
-      button {
+    .searchbar-wrapper {
+      width: 100%;
+    }
+
+    .input-group {
+      display: block;
+    }
+
+    input.form-control {
+      margin-bottom: 0;
+      margin-left: 0;
+    }
+
+    .search-input {
+      display: block;
+      height: 42px;
+      margin-bottom: .5rem;
+      position: relative;
+
+      &.input-transparent input.form-control {
         background: transparent;
         border: none;
       }
-    }
 
-    .addon-btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 4;
+      .input-group-addon {
+        height: 38px;
+      }
+
+      .addon-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 4;
+      }
     }
   }
 }

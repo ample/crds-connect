@@ -1,11 +1,9 @@
 <form [formGroup]="locationFormGroup" (ngSubmit)="onSubmit()">
   <div class="input-group search-input input-group-block input-group-left">
     <span class="input-group-addon">
-      <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
-        <svg class="icon" viewBox="0 0 256 256">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
-        </svg>
-      </button>
+      <svg class="icon" viewBox="0 0 256 256">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
+      </svg>
     </span>
     <input class="form-control"
            name="location"
