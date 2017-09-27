@@ -1,53 +1,51 @@
 <div class="connect-search">
   <div class="connect-layout-container container">
-
-    <form action="." class="searchbar"
-          (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
-
-      <div class="form-group" [class.form-group-flex]="!shouldShowSubmit">
-        <div class="input-group input-group-block input-group-right">
-          <span class="input-group-addon" *ngIf="shouldShowSubmit">
+    <form action="." class="searchbar searchbar-no-button searchbar-mobile-expanded" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)">
+      <div class="input-group">
+        <div class="search-input input-transparent">
+            <input type="search"
+                    class="form-control"
+                    id="search-bar-input"
+                    [(ngModel)]="state.searchBarText"
+                    [ngModelOptions]="{standalone: true}"
+                    (keyup)="searchKeyUp()"
+                    placeholder={{placeholderTextForSearchBar}}
+                    (focus)="showLocationBar(true)">
+          <div class="searchbar-wrapper"></div>
+          <span class="addon-btn">
             <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen">
-              <svg class="icon icon-1" id="resetSearchInputBtn" viewBox="0 0 256 256">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#close-thin"></use>
+              <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                <use xlink:href="/assets/svgs/icons.svg#close-thin" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
               </svg>
             </button>
           </span>
-          <span class="input-group-addon" *ngIf="appSettings.isSmallGroupApp() && !shouldShowSubmit">
-            <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
-              <svg class="icon icon-1" id="filterDialogBtn" viewBox="0 0 256 256">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#equalizer"></use>
-              </svg>
-            </button>
-          </span>
-          <input type="search"
-                 class="form-control"
-                 id="search-bar-input"
-                 [(ngModel)]="state.searchBarText"
-                 [ngModelOptions]="{standalone: true}"
-                 (keyup)="searchKeyUp()"
-                 placeholder={{placeholderTextForSearchBar}}
-                 (focus)="showLocationBar(true)">
         </div>
+        <app-location-bar (submit)="onSearch(state.searchBarText)"></app-location-bar>
 
-        <!-- Toggle View Button: -->
-        <button *ngIf="!shouldShowSubmit" type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">
+        <span class="input-group-btn hidden">
+          <button type="submit" class="btn btn-secondary">
+            <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+              <use xlink:href="/assets/svgs/icons.svg#search" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
+            </svg>
+          </button>
+        </span>
+      </div>
+      <div class="hidden">
+        <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">
           {{state.viewButtonText}}
         </button>
       </div>
-
-      <!-- <div class="searchbar-wrapper"></div> -->
-
-      <app-location-bar (submit)="onSearch(state.searchBarText)" *ngIf="shouldShowSubmit"></app-location-bar>
-
-      <button *ngIf="shouldShowSubmit" type="submit" class="btn btn-secondary" id="searchBtn">
-        Search
-      </button>
-
-      <button *ngIf="shouldShowSubmit" type="button" class="btn btn-link pull-right hard-sides text-white" id="addFilters" (click)="toggleFilters()">
-        Add Filters
-      </button>
+      <div class="submit-btns">
+        <button type="submit" class="btn btn-secondary" id="searchBtn">
+          Search
+        </button>
+        <button type="button" class="btn btn-link pull-right hard-sides text-white" id="addFilters" (click)="toggleFilters()">
+          Add Filters
+        </button>
+      </div>
     </form>
+
+    <!-- <app-location-bar (submit)="onSearch(state.searchBarText)" *ngIf="shouldShowSubmit"></app-location-bar> -->
   </div>
 </div>
 

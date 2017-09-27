@@ -7,15 +7,47 @@ app-filters {
   }
 }
 
-.searchbar {
+.searchbar-no-button .searchbar-wrapper {
+  width: 100%;
+}
 
-  .form-group-flex {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+.searchbar-mobile-expanded {
+  display: block;
 
-    .input-group {
-      flex-grow: 1;
+  .input-group {
+    display: block;
+  }
+
+  input.form-control {
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+
+  .search-input {
+    display: block;
+    height: 42px;
+    margin-bottom: .5rem;
+    position: relative;
+
+    &.input-transparent input.form-control {
+      background: transparent;
+      border: none;
+    }
+
+    .input-group-addon {
+      height: 38px;
+
+      button {
+        background: transparent;
+        border: none;
+      }
+    }
+
+    .addon-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 4;
     }
   }
 }
