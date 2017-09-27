@@ -500,11 +500,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinsFromServer;
   }
 
-  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string): PinSearchRequestParams {
-    let isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
-    let searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
-    let filterString = '';
-    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(searchString, textInKeywordSearchBar, filterString);
+  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string, filterString: string = null): PinSearchRequestParams {
+    const isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
+    const searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
+    const srchParams: PinSearchRequestParams = new PinSearchRequestParams(searchString, textInKeywordSearchBar, filterString);
     return srchParams;
   }
 }

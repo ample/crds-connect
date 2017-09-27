@@ -1,4 +1,3 @@
-/* tslint:disable:no-unused-variable */
 import { BaseRequestOptions, Http } from '@angular/http';
 import { TestBed, async, inject } from '@angular/core/testing';
 
@@ -39,9 +38,9 @@ describe('Service: Pin', () => {
   const mockPin =
     new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress, 0, null, '', pinType.PERSON, 0, 999);
   const updatedMockPin =
-      new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, '', pinType.PERSON, 0, 999);
+    new Pin('Bob', 'Smith', 'bobby@bob.com', 111, 2122, mockAddress2, 0, null, '', pinType.PERSON, 0, 999);
   const mockPin2 =
-      new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null,  '', pinType.PERSON, 0, 999);
+    new Pin('Billy', 'Bob', 'billy@bob.com', 111, 2122, null, 0, null, '', pinType.PERSON, 0, 999);
 
   const mockPins: Pin[] = [mockPin, mockPin2];
 
@@ -76,16 +75,16 @@ describe('Service: Pin', () => {
   }));
 
   it('should create merge data dictionary', inject([PinService], (service: PinService) => {
-    let expected = {
+    const expected = {
       'Community_Member_Name': 'Elmer F.',
       'Pin_First_Name': 'Buggs',
       'Community_Member_Email': 'efudd@looneytoons.com',
       'Community_Member_City': 'TesVille',
       'Community_Member_State': 'ZZ'
     };
-    let testUser = new Pin('Elmer', 'Fudd', 'efudd@looneytoons.com', 1, 1, mockAddress, 0, null, '', 1, 0, 999);
-    let testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, '', 1, 0, 999);
-    let actual = service.createSayHiTemplateDictionary(testUser, testPin);
+    const testUser = new Pin('Elmer', 'Fudd', 'efudd@looneytoons.com', 1, 1, mockAddress, 0, null, '', 1, 0, 999);
+    const testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, '', 1, 0, 999);
+    const actual = service.createSayHiTemplateDictionary(testUser, testPin);
     expect(actual.Community_Member_Name).toBe(expected.Community_Member_Name);
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);
     expect(actual.Community_Member_Email).toBe(expected.Community_Member_Email);
@@ -123,13 +122,13 @@ describe('Service: Pin', () => {
 
   it('should NOT list pin as the user\'s pin', inject([PinService], (service: PinService) => {
     <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(222);
-    let doesUserOwnPin = service.doesLoggedInUserOwnPin(mockPin);
+    const doesUserOwnPin = service.doesLoggedInUserOwnPin(mockPin);
     expect(doesUserOwnPin).toBe(false);
   }));
 
   it('should list pin as the user\'s pin', inject([PinService], (service: PinService) => {
     <jasmine.Spy>(mockSessionService.getContactId).and.returnValue(222);
-    let doesUserOwnPin: boolean = service.doesLoggedInUserOwnPin(mockPinMatchingContactId);
+    const doesUserOwnPin: boolean = service.doesLoggedInUserOwnPin(mockPinMatchingContactId);
     expect(doesUserOwnPin).toBe(true);
   }));
 
@@ -142,99 +141,100 @@ describe('Service: Pin', () => {
     service['cache'] = pinsCache;
     service['cacheLevel'] = CacheLevel.Full;
     service['userIdentifier'] = 123;
-    let pin = MockTestData.getAPin();
+    const pin = MockTestData.getAPin();
     <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(pin));
-    service.postPin(pin).subscribe( (result) => {;
+    service.postPin(pin).subscribe((result) => {
+      ;
       expect(service['cache']).toBeNull();
       expect(result.contactId).toBe(pin.contactId);
-      });
-    }));
+    });
+  }));
 
-    it('doesLoggedInUserOwnPin() should return true if contactId matches',
-          inject([PinService], (service: PinService) => {
+  it('doesLoggedInUserOwnPin() should return true if contactId matches',
+    inject([PinService], (service: PinService) => {
       <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
       mockSessionService.getContactId.and.returnValue(2562378);
-      let pin = MockTestData.getAPin();
+      const pin = MockTestData.getAPin();
       pin.contactId = 2562378;
-      let returnValue = service.doesLoggedInUserOwnPin(pin);
+      const returnValue = service.doesLoggedInUserOwnPin(pin);
       expect(returnValue).toBe(true);
     }));
 
-    it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match',
-          inject([PinService], (service: PinService) => {
+  it('doesLoggedInUserOwnPin() should return false if contactId doesn\'t match',
+    inject([PinService], (service: PinService) => {
       <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
       mockSessionService.getContactId.and.returnValue(42);
-      let pin = MockTestData.getAPin();
-      let returnValue = service.doesLoggedInUserOwnPin(pin);
+      const pin = MockTestData.getAPin();
+      const returnValue = service.doesLoggedInUserOwnPin(pin);
       expect(returnValue).toBe(false);
     }));
 
-    it('should update the pin with the updated address', inject([PinService], (service: PinService) => {
-      let pins: Pin[] = mockPins;
-      let updatedPin = updatedMockPin;
-      let updatedPinOldAddress = mockAddress;
+  it('should update the pin with the updated address', inject([PinService], (service: PinService) => {
+    let pins: Pin[] = mockPins;
+    const updatedPin = updatedMockPin;
+    const updatedPinOldAddress = mockAddress;
 
-      pins = service.replaceAddressOnUpdatedPin(pins, updatedPin, updatedPinOldAddress);
+    pins = service.replaceAddressOnUpdatedPin(pins, updatedPin, updatedPinOldAddress);
 
-      expect(pins[0].address).toEqual(mockAddress2);
-    }));
+    expect(pins[0].address).toEqual(mockAddress2);
+  }));
 
-    it('should re-sort by center coords', inject([PinService], (service: PinService) => {
-      let pins: Pin[] = new Array();
-      pins.push(MockTestData.getAPin(3));
-      pins.push(MockTestData.getAPin(1));
-      pins.push(MockTestData.getAPin(2));
-      let centerCoords = new GeoCoordinates(0, 0);
+  it('should re-sort by center coords', inject([PinService], (service: PinService) => {
+    let pins: Pin[] = new Array();
+    pins.push(MockTestData.getAPin(3));
+    pins.push(MockTestData.getAPin(1));
+    pins.push(MockTestData.getAPin(2));
+    const centerCoords = new GeoCoordinates(0, 0);
 
-      let reSortedPins = service.reSortBasedOnCenterCoords(pins, centerCoords);
-      expect(reSortedPins[0].contactId).toBe(1);
-      expect(reSortedPins[1].contactId).toBe(2);
-      expect(reSortedPins[2].contactId).toBe(3);
-    }));
+    const reSortedPins = service.reSortBasedOnCenterCoords(pins, centerCoords);
+    expect(reSortedPins[0].contactId).toBe(1);
+    expect(reSortedPins[1].contactId).toBe(2);
+    expect(reSortedPins[2].contactId).toBe(3);
+  }));
 
-    it('should redirect to groups in group mode', inject([PinService], (service: PinService) => {
-      let pin = MockTestData.getAPin(1, 3, pinType.SMALL_GROUP, 5, 5);
-      (mockAppSettings.isConnectApp).and.returnValue(false);
-      service.navigateToPinDetailsPage(pin);
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['small-group/1/']);
-    }));
+  it('should redirect to groups in group mode', inject([PinService], (service: PinService) => {
+    const pin = MockTestData.getAPin(1, 3, pinType.SMALL_GROUP, 5, 5);
+    (mockAppSettings.isConnectApp).and.returnValue(false);
+    service.navigateToPinDetailsPage(pin);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['small-group/1/']);
+  }));
 
-    it('should redirect to groups in group mode', inject([PinService], (service: PinService) => {
-      let pin = MockTestData.getAPin(1, 3, pinType.GATHERING, 5, 5);
-      (mockAppSettings.isConnectApp).and.returnValue(true);
-      service.navigateToPinDetailsPage(pin);
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
-    }));
+  it('should redirect to groups in group mode', inject([PinService], (service: PinService) => {
+    const pin = MockTestData.getAPin(1, 3, pinType.GATHERING, 5, 5);
+    (mockAppSettings.isConnectApp).and.returnValue(true);
+    service.navigateToPinDetailsPage(pin);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['gathering/1/']);
+  }));
 
-    it('should create valid search params', inject([PinService], (service: PinService) => {
-      let expectedSearchParams = new PinSearchRequestParams('ayy', null, '');
-      let actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest('ayy', null);
-      expect(actualSearchParams).toEqual(expectedSearchParams);
+  it('should create valid search params', inject([PinService], (service: PinService) => {
+    const expectedSearchParams = new PinSearchRequestParams('ayy', null, null);
+    const actualSearchParams: PinSearchRequestParams = service.buildPinSearchRequest('ayy', null);
+    expect(actualSearchParams).toEqual(expectedSearchParams);
 
-    }));
+  }));
 
-    it('should remove pin from results if the pin is deleted', inject([PinService], (service: PinService) => {
-      let mockIdOfPinToDelete: number = 9876543210;
-      let mockTypeOfPinToDelete: number = pinType.PERSON;
-      let mockDeletedPinIdentifier: PinIdentifier = new PinIdentifier(mockTypeOfPinToDelete, mockIdOfPinToDelete);
-      let mockPinOne: Pin = MockTestData.getAPin();
-      let mockPinTwo: Pin = MockTestData.getAPin(mockIdOfPinToDelete, 1, mockTypeOfPinToDelete, 5, 5);
-      let mockPins: Pin[] = [mockPinOne, mockPinTwo];
-      let filteredMockPins = service.removePinFromResultsIfDeleted(mockPins, mockDeletedPinIdentifier);
+  it('should remove pin from results if the pin is deleted', inject([PinService], (service: PinService) => {
+    const mockIdOfPinToDelete = 9876543210;
+    const mockTypeOfPinToDelete: number = pinType.PERSON;
+    const mockDeletedPinIdentifier: PinIdentifier = new PinIdentifier(mockTypeOfPinToDelete, mockIdOfPinToDelete);
+    const mockPinOne: Pin = MockTestData.getAPin();
+    const mockPinTwo: Pin = MockTestData.getAPin(mockIdOfPinToDelete, 1, mockTypeOfPinToDelete, 5, 5);
+    const mockPins2: Pin[] = [mockPinOne, mockPinTwo];
+    const filteredMockPins = service.removePinFromResultsIfDeleted(mockPins2, mockDeletedPinIdentifier);
 
-      let expectedFilteredLength = 1;
-      let expectedRemaininingPin = filteredMockPins[0];
+    const expectedFilteredLength = 1;
+    const expectedRemaininingPin = filteredMockPins[0];
 
-      expect(filteredMockPins.length).toEqual(expectedFilteredLength);
-      expect(expectedRemaininingPin.contactId).toEqual(1);
+    expect(filteredMockPins.length).toEqual(expectedFilteredLength);
+    expect(expectedRemaininingPin.contactId).toEqual(1);
 
-    }));
+  }));
 
-    it('addToGroup should call with proper params', inject([PinService], (service: PinService) => {
-      <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
-      const person = new Person('Bob', 'Smith', 'bob@bob.com');
-      service.addToGroup(123, person, 27);
-      expect(mockSessionService.post).toHaveBeenCalledWith('http://localhost:49380/api/v1.0.0/finder/pin/addtogroup/123/27', person);
-    }));
+  it('addToGroup should call with proper params', inject([PinService], (service: PinService) => {
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
+    const person = new Person('Bob', 'Smith', 'bob@bob.com');
+    service.addToGroup(123, person, 27);
+    expect(mockSessionService.post).toHaveBeenCalledWith('http://localhost:49380/api/v1.0.0/finder/pin/addtogroup/123/27', person);
+  }));
 }
 );
