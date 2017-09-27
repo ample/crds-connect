@@ -31,6 +31,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public isMapHidden: boolean = false;
   public pinSearchResults: PinSearchResultsDto;
   private pinSearchSub: Subscription;
+  private doneId: string = '';
 
   constructor(private appSettings: AppSettingsService,
     private pinService: PinService,

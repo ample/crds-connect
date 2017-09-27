@@ -4,7 +4,7 @@
 </app-search-bar>
 
 <div *ngIf="!this.state.getIsFilteredDialogOpen()">
-  <app-map [searchResults]="pinSearchResults" *ngIf="isMapViewSet() && !isMapHidden"></app-map>
+  <app-map [attr.id]="this.state.mapDoneLoadingId" [searchResults]="pinSearchResults" *ngIf="isMapViewSet() && !isMapHidden"></app-map>
 
   <app-listview [searchResults]="pinSearchResults" *ngIf="!isMapViewSet()"></app-listview>
 </div>
