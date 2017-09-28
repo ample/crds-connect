@@ -14,7 +14,7 @@
         <option *ngFor="let site of sites" [value]="site.dp_RecordID">{{site.dp_RecordName}}</option>
       </select>
 
-      <div class="error help-block" role="alert" data-automation-id="siteRequired" [hidden]="(!isSubmitted) || profileForm.controls['crossroadsSite'].valid">
+      <div class="error help-block" role="alert" data-automation-id="siteRequired" [hidden]="(!isSubmitted) || profileForm.get('crossroadsSite').valid">
         <crds-content-block id="finderOneOptionMustBeSelected"></crds-content-block>
       </div>
 
@@ -32,7 +32,7 @@
         </label>
       </div>
 
-      <div class="error help-block" role="alert" data-automation-id="genderRequired" [hidden]="(!isSubmitted) || profileForm.controls['gender'].valid">
+      <div class="error help-block" role="alert" data-automation-id="genderRequired" [hidden]="(!isSubmitted) || profileForm.get('gender').valid">
         <crds-content-block id="finderOneOptionMustBeSelected"></crds-content-block>
       </div>
 
@@ -44,7 +44,7 @@
           <label class="sr-only" for="addressLine1">Address Line 1</label>
           <input type="text" class="form-control" maxlength="75" placeholder="Address Line 1" id="addressLine1" formControlName="addressLine1"
             name="addressLine1" [(ngModel)]="createGroupService.profileData.addressLine1">
-          <p class="error help-block" data-automation-id="addressLine1Required" *ngIf="isSubmitted && !profileForm.controls['addressLine1'].valid">Address Line 1 is required!</p>
+          <p class="error help-block" data-automation-id="addressLine1Required" *ngIf="isSubmitted && !profileForm.get('addressLine1').valid">Address Line 1 is required!</p>
         </div>
 
         <!--ADDRESS LINE 2-->
@@ -52,14 +52,14 @@
           <label class="sr-only" for="addressLine2">Address Line 2</label>
           <input type="text" class="form-control" maxlength="75" placeholder="Address Line 2" id="addressLine2" formControlName="addressLine2"
             name="addressLine2" [(ngModel)]="createGroupService.profileData.addressLine2">
-          <p class="error help-block" role="alert" *ngIf="isSubmitted && !profileForm.controls['addressLine2'].valid">Address Line 2 is invalid</p>
+          <p class="error help-block" role="alert" *ngIf="isSubmitted && !profileForm.get('addressLine2').valid">Address Line 2 is invalid</p>
         </div>
 
         <!--CITY-->
         <div class="form-group">
           <label class="sr-only" for="city">City2</label>
           <input type="text" class="form-control" maxlength="22" placeholder="City" id="city" formControlName="city" name="city" [(ngModel)]="createGroupService.profileData.city">
-          <p class="error help-block" data-automation-id="cityRequired" *ngIf="isSubmitted && !profileForm.controls['city'].valid">City is required!</p>
+          <p class="error help-block" data-automation-id="cityRequired" *ngIf="isSubmitted && !profileForm.get('city').valid">City is required!</p>
         </div>
 
         <div class="row">
@@ -78,10 +78,10 @@
           </div>
         </div>
 
-        <div class="error help-block" data-automation-id="stateZipRequired" *ngIf="(isSubmitted && !profileForm.controls['state'].valid ) || (isSubmitted && !profileForm.controls['zip'].valid)">
+        <div class="error help-block" data-automation-id="stateZipRequired" *ngIf="(isSubmitted && !profileForm.get('state').valid ) || (isSubmitted && !profileForm.get('zip').valid)">
           <ul class="list-unstyled text-center">
-            <li class="" *ngIf="isSubmitted  && !profileForm.controls['state'].valid">State is required.</li>
-            <li class="" *ngIf="isSubmitted && !profileForm.controls['zip'].valid">Zip is required.</li>
+            <li class="" *ngIf="isSubmitted  && !profileForm.get('state').valid">State is required.</li>
+            <li class="" *ngIf="isSubmitted && !profileForm.get('zip').valid">Zip is required.</li>
           </ul>
         </div>
 

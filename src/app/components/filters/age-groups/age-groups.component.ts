@@ -16,7 +16,7 @@ import { awsFieldNames } from '../../../shared/constants';
 
 export class AgeGroupsComponent implements OnInit {
   private selected: boolean = false;
-  private ageGroups: AgeGroup[];
+  public ageGroups: AgeGroup[];
 
   constructor( private appSettings: AppSettingsService,
                private lookupService: LookupService,

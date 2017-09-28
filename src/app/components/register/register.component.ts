@@ -29,16 +29,14 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private store: StoreService,
+    public store: StoreService,
     private session: SessionService,
     private redirectService: LoginRedirectService,
     private analyticsService: AnalyticsService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
-        this.regForm = this.fb.group({
+    this.regForm = this.fb.group({
       firstName: ['', [<any>Validators.required]],
       lastName: ['', [<any>Validators.required]],
       email: ['', [<any>Validators.required, <any>Validators.pattern(this.emailRegex)]],

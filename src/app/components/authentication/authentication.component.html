@@ -9,8 +9,8 @@
       <input class="form-control" type="email" placeholder="Email" name="email" [formControl]="form.get('email')">
 
       <div *ngIf="(formSubmitted) && formInvalid('email')">
-        <p class="error help-block" *ngIf="this.form.controls['email'].errors.required">Email is required.</p>
-        <p class="error help-block" *ngIf="this.form.controls['email'].errors.pattern">Email is invalid.</p>
+        <p class="error help-block" *ngIf="this.form.get('email').errors.required">Email is required.</p>
+        <p class="error help-block" *ngIf="this.form.get('email').errors.pattern">Email is invalid.</p>
       </div>
     </div>
 

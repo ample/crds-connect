@@ -37,7 +37,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
     private router: Router,
-    private state: StateService,
+    public state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
     private blandPageService: BlandPageService) { }
@@ -58,7 +58,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     return this.state.getCurrentView() === ViewType.MAP;
   }
 
-  private viewChanged(): void {
+  public viewChanged(): void {
     if (this.isMapViewSet()) {
       this.state.setCurrentView(ViewType.LIST);
       let location: MapView = this.state.getMapView();

@@ -11,7 +11,7 @@
              formControlName="addressLine1"
              name="addressLine1"
              [(ngModel)]="address.addressLine1">
-      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine1'].valid">Address Line 1 is required!</p>
+      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.get('addressLine1').valid">Address Line 1 is required!</p>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
                formControlName="addressLine2"
                name="addressLine2"
                [(ngModel)]="address.addressLine2">
-        <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['addressLine2'].valid">Address Line 2 is invalid</p>
+        <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.get('addressLine2').valid">Address Line 2 is invalid</p>
       </div>
     </div>
 
@@ -44,7 +44,7 @@
              formControlName="city"
              name="city"
              [(ngModel)]="address.city">
-      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['city'].valid">City is required!</p>
+      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.get('city').valid">City is required!</p>
     </div>
   </div>
 
@@ -60,7 +60,7 @@
         <option *ngFor="let state of stateList" [value]="state">{{state}}</option>
       </select>
 
-      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.controls['state'].valid">State is required!</p>
+      <p [class]="errorClasses" *ngIf="isFormSubmitted && !addressFormGroup.get('state').valid">State is required!</p>
     </div>
 
     <!--ZIP-->
@@ -77,7 +77,7 @@
              pattern="^(\d{5}|\d{5}-\d{4})$"
              [(ngModel)]="address.zip">
 
-      <p [class]="errorClasses" *ngIf= "isFormSubmitted && !addressFormGroup.controls['zip'].valid">Zip is required!</p>
+      <p [class]="errorClasses" *ngIf= "isFormSubmitted && !addressFormGroup.get('zip').valid">Zip is required!</p>
     </div>
 
 

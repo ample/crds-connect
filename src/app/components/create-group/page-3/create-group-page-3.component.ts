@@ -27,7 +27,7 @@ export class CreateGroupPage3Component implements OnInit {
   constructor(private fb: FormBuilder,
               private groupService: GroupService,
               private state: StateService,
-              private createGroupService: CreateGroupService,
+              public createGroupService: CreateGroupService,
               private router: Router) {
   }
 
@@ -71,7 +71,7 @@ export class CreateGroupPage3Component implements OnInit {
     }
   }
 
-  private onClickIsVirtual(isVirtual: boolean): void {
+  public onClickIsVirtual(isVirtual: boolean): void {
 
     this.initializeAddressIfInEditAndNotInitialized(isVirtual);
 

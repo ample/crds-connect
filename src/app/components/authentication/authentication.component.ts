@@ -23,8 +23,8 @@ export class AuthenticationComponent implements OnInit {
   public signinOption: string = 'Sign In';
   public emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
 
-  private forgotPasswordUrl: string;
-  private helpUrl: string;
+  public forgotPasswordUrl: string;
+  public helpUrl: string;
 
   constructor(
     private analyticsService: AnalyticsService,

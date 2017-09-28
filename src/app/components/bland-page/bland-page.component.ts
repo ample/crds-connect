@@ -11,8 +11,8 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bl
 })
 export class BlandPageComponent implements OnInit, AfterViewInit {
 
-    private blandPageDetails: BlandPageDetails;
-    private isFauxModal: boolean = false;
+    public blandPageDetails: BlandPageDetails;
+    public isFauxModal: boolean = false;
     public contentBlock = false;
 
     constructor(private route: ActivatedRoute,

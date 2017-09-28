@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private angulartics2Segment: Angulartics2Segment,
-    private state: StateService,
+    public state: StateService,
     private content: ContentService,
     public toastr: ToastsManager,
     public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,

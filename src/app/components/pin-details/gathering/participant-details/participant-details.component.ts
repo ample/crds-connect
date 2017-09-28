@@ -24,7 +24,7 @@ export class ParticipantDetailsComponent implements OnInit {
   private groupParticipantId: number;
   private participantAddress: Address;
   private isValidAddress: boolean;
-  private componentIsReady: boolean = false;
+  public componentIsReady: boolean = false;
   private redirectUrl: string;
   private selectedRole: number = GroupRole.MEMBER;
   private leaderCount: number = 0;

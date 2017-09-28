@@ -37,7 +37,7 @@
                   <label class="control-label push-half-bottom" for="removalMessage">YOUR MESSAGE:</label>
                   <textarea type="text" class="form-control" maxlength="255" placeholder="" id="removalMessage" formControlName="removalMessage"
                   name="removalMessage" [(ngModel)]="message" rows="5"></textarea>
-                  <p class="error help-block" *ngIf="isFormSubmitted && !removeParticipantForm.controls['removalMessage'].valid">Message is required!</p>
+                  <p class="error help-block" *ngIf="isFormSubmitted && !removeParticipantForm.get('removalMessage').valid">Message is required!</p>
                 </div>
               </div>
 

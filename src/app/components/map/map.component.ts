@@ -21,7 +21,6 @@ import { MapView } from '../../models/map-view';
   templateUrl: 'map.component.html'
 })
 export class MapComponent implements OnInit {
-
   @Input() searchResults: PinSearchResultsDto;
   private styles = ClusterStyles;
   private maxZoom: number = MaxZoomForClustering;
@@ -40,7 +39,6 @@ export class MapComponent implements OnInit {
               private session: SessionService) {}
 
   public ngOnInit(): void {
-
     let haveResults = !!this.searchResults;
     if (haveResults) {
 

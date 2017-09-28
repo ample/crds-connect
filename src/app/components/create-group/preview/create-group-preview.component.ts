@@ -23,7 +23,7 @@ import {ViewType, groupPaths, GroupPageNumber, textConstants} from '../../../sha
 export class CreateGroupPreviewComponent implements OnInit {
   private smallGroupPin: Pin;
   private leaders: Participant[];
-  private isComponentReady: boolean = false;
+  public isComponentReady: boolean = false;
   private submitting: boolean = true;
 
   constructor(private createGroupService: CreateGroupService,

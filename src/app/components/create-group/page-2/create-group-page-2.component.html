@@ -34,7 +34,7 @@
           <option value="null" disabled="true" [selected]="!createGroupService.group.meetingDayId">Select a day</option>
           <option *ngFor="let day of daysOfTheWeek" [value]="day.dp_RecordID">{{day.dp_RecordName}}</option>
         </select>
-        <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingDay'].valid">
+        <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.get('meetingDay').valid">
           <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="meetingDayRequired"></crds-content-block>
         </div>
         <div class="soft-top">
@@ -48,7 +48,7 @@
             <option *ngFor="let frequency of meetingFrequencies" [value]="frequency.meetingFrequencyId">{{frequency.meetingFrequencyDesc}}</option>
           </select>
         </div>
-        <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.controls['meetingFrequency'].valid">
+        <div class="error help-block" role="alert" [hidden]="(!isSubmitted) || meetingTimeForm.get('meetingFrequency').valid">
           <crds-content-block id="finderOneOptionMustBeSelected" data-automation-id="frequencyRequired"></crds-content-block>
         </div>
       </div>
@@ -73,6 +73,6 @@
       </button>
     </div>
 
-    <create-group-footer (backevent)="onBack($event)" [showbackbutton]="true"></create-group-footer>
+    <create-group-footer (backevent)="onBack()" [showbackbutton]="true"></create-group-footer>
   </form>
 </div>

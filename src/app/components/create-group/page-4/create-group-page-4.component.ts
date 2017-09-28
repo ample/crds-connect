@@ -23,7 +23,7 @@ export class CreateGroupPage4Component implements OnInit {
     private genderMixTypes: Attribute[] = [];
     private ageRanges: Attribute[] = [];
 
-    private isComponentReady: boolean = false;
+    public isComponentReady: boolean = false;
     private isSubmitted: boolean = false;
     private isStudentMinistrySelected: boolean;
     private groupGenderMixInvalid: boolean = false;

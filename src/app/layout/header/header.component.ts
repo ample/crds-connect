@@ -12,7 +12,7 @@ export class HeaderComponent {
 
   constructor(private appSettings: AppSettingsService,
               private router: Router,
-              private state: StateService) {
+              public state: StateService) {
     this.listenForRouteChange();
   }
 

@@ -25,15 +25,15 @@
                 <label class="sr-only" for="subject">Subject</label>
                 <input type="text" class="form-control" maxlength="75" placeholder="Subject" id="subject" formControlName="subject" name="subject"
                   [(ngModel)]="msgToLeader.subject">
-                <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.controls['subject'].valid">Subject is required</p>
+                <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.get('subject').valid">Subject is required</p>
               </div>
               <div class="form-group">
                 <!-- Reason for Participant Removal-->
                 <label class="sr-only" for="message">Message</label>
                 <textarea type="text" class="form-control" maxlength="255" placeholder="Message" id="message" formControlName="message" name="message"
-                  [(ngModel)]="message" rows="5" cols="100">
-                    </textarea>
-                <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.controls['message'].valid">Message is required!</p>
+                  rows="5" cols="100">
+                </textarea>
+                <p class="error help-block" *ngIf="isFormSubmitted && !contactLeaderForm.get('message').valid">Message is required!</p>
               </div>
             </div>
           </div>

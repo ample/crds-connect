@@ -26,7 +26,7 @@ export class ParticipantCardComponent implements OnInit {
   constructor(private session: SessionService,
               private router: Router,
               private route: ActivatedRoute,
-              private appSettings: AppSettingsService) {
+              public appSettings: AppSettingsService) {
   }
 
   public ngOnInit() {

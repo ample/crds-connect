@@ -16,7 +16,7 @@
              formControlName="firstname"
              name="firstname">
 
-      <p *ngIf="isFormSubmitted && !inviteFormGroup.controls['firstname'].valid" class="error help-block">First Name is required!</p>
+      <p *ngIf="isFormSubmitted && !inviteFormGroup.get('firstname').valid" class="error help-block">First Name is required!</p>
     </div>
 
     <!--LAST NAME-->
@@ -30,7 +30,7 @@
              formControlName="lastname"
              name="lastname">
 
-      <p *ngIf="isFormSubmitted && !inviteFormGroup.controls['lastname'].valid" class="error help-block">Last Name is required!</p>
+      <p *ngIf="isFormSubmitted && !inviteFormGroup.get('lastname').valid" class="error help-block">Last Name is required!</p>
     </div>
   </div>
 
@@ -47,7 +47,7 @@
                formControlName="email"
                name="email">
 
-        <p *ngIf="isFormSubmitted && !inviteFormGroup.controls['email'].valid" class="error help-block">A valid email is required!</p>
+        <p *ngIf="isFormSubmitted && !inviteFormGroup.get('email').valid" class="error help-block">A valid email is required!</p>
       </div>
     </div>
   </div>
