@@ -8,10 +8,10 @@ import { CreateGroupService } from '../create-group-data.service';
 import { GroupService} from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
-import { TimeHelperService} from '../../../services/time-helper.service';
 
 import { Group } from '../../../models/group';
 import { LookupTable } from '../../../models';
+import * as moment from 'moment';
 
 import { defaultGroupMeetingTime, meetingFrequencies,
          groupMeetingScheduleType, GroupMeetingScheduleType,
@@ -36,8 +36,8 @@ import { defaultGroupMeetingTime, meetingFrequencies,
   `]
 })
 export class CreateGroupPage2Component implements OnInit {
+  public date: Date;
   public meetingTimeForm: FormGroup;
-  private timeZoneAdjustedDefaultGroupMeetingTime: string;
   private isSubmitted: boolean = false;
   private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
   private daysOfTheWeek: LookupTable[] = [];
@@ -49,24 +49,25 @@ export class CreateGroupPage2Component implements OnInit {
               private groupService: GroupService,
               private router: Router,
               private lookupService: LookupService,
-              private blandPageService: BlandPageService,
-              private timeHlpr: TimeHelperService) { }
+              private blandPageService: BlandPageService) { }
 
   ngOnInit() {
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
                                                                            : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-1`
       : '/create-group/page-1';
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
+    this.setupDate();
+
     this.meetingTimeForm = this.initializeGroupMeetingScheduleForm();
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
 
-    if(this.state.getActiveGroupPath() === groupPaths.EDIT
+    if (this.state.getActiveGroupPath() === groupPaths.EDIT
                                         && !this.createGroupService.wasPagePresetWithExistingData.page2) {
       this.setFieldsFromExistingGroup();
       this.createGroupService.wasPagePresetWithExistingData.page2 = true;
@@ -83,8 +84,14 @@ export class CreateGroupPage2Component implements OnInit {
         this.blandPageService.goToDefaultError('/');
       });
 
-      this.timeZoneAdjustedDefaultGroupMeetingTime = this.timeHlpr
-          .adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false);
+
+  }
+
+  public setupDate() {
+    const dateInTimeZone = new Date(this.createGroupService.group.meetingTime);
+    this.date = new Date();
+    this.date.setHours(dateInTimeZone.getUTCHours());
+    this.date.setMinutes(dateInTimeZone.getUTCMinutes());
   }
 
   public onClick(scheduleType: string): void {
@@ -109,9 +116,13 @@ export class CreateGroupPage2Component implements OnInit {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid) {
-      if(this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE){
+      if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE){
         this.createGroupService.group = this.clearGroupMeetingDay(this.createGroupService.group);
       }
+      const newDate = moment.utc(this.date).hours(this.date.getHours()).minutes(this.date.getMinutes());
+      this.createGroupService.group.meetingTime = newDate.toISOString();
+
+
       this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(),
                                             this.createGroupService.group.groupId);
     } else {
@@ -123,8 +134,6 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private initializeGroupMeetingScheduleForm(): FormGroup {
-    this.createGroupService.group.meetingTime = this.createGroupService.group.meetingTime
-                                                || this.timeZoneAdjustedDefaultGroupMeetingTime;
     return this.fb.group({
       meetingTimeType: [this.createGroupService.meetingTimeType, Validators.required],
       meetingTime: [this.createGroupService.group.meetingTime],
@@ -183,7 +192,7 @@ export class CreateGroupPage2Component implements OnInit {
   private setFieldsFromExistingGroup(): void {
     let isGroupOnFlexibleScedule: boolean = this.createGroupService.groupBeingEdited.meetingDayId === null;
 
-    if(isGroupOnFlexibleScedule) {
+    if (isGroupOnFlexibleScedule) {
       this.onClick(groupMeetingScheduleType.FLEXIBLE);
     } else {
       this.createGroupService.group.meetingFrequencyId =
@@ -191,9 +200,6 @@ export class CreateGroupPage2Component implements OnInit {
       this.createGroupService.group.meetingFrequency = meetingFrequencies
         .filter(mf => mf.meetingFrequencyId === +this.createGroupService.groupBeingEdited['meetingFrequencyID'])
         [0].meetingFrequencyDesc;
-
-      this.createGroupService.group.meetingTime =
-        this.timeHlpr.setTimeToCorrectFormatAndAdjustForLocal(this.createGroupService.groupBeingEdited.meetingTime);
 
       this.createGroupService.group.meetingDay = daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
       this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;

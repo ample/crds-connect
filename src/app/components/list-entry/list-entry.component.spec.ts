@@ -17,14 +17,13 @@ import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { ParticipantService } from '../../services/participant.service';
-import { TimeHelperService} from '../../services/time-helper.service';
 import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
 import { Participant } from '../../models/participant';
 import { MockTestData } from '../../shared/MockTestData';
 
 describe('ListEntryComponent', () => {
-    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService, mockTimeHelperService,
+    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService,
         mockRouter, mockParticipantService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
@@ -36,7 +35,6 @@ describe('ListEntryComponent', () => {
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setCurrentView']);
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['truncateTextEllipsis']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId']);
-        mockTimeHelperService = jasmine.createSpyObj<TimeHelperService>('timeHlpr', ['getLocalTimeFromUtcStringOrDefault']);
         mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockParticipantService = jasmine.createSpyObj<Router>('participantService', ['getAllLeaders']);
@@ -53,7 +51,6 @@ describe('ListEntryComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ListHelperService, useValue: mockListHelperService },
-                { provide: TimeHelperService, useValue: mockTimeHelperService },
                 { provide: Router, useValue: mockRouter },
                 { provide: AppSettingsService, useValue: mockAppSettings },
                 { provide: ParticipantService, useValue: mockParticipantService }

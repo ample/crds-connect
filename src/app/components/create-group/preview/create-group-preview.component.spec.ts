@@ -12,7 +12,6 @@ import { CreateGroupPreviewComponent } from './create-group-preview.component';
 import { ProfileService } from '../../../services/profile.service';
 import { GroupService } from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
-import { TimeHelperService } from '../../../services/time-helper.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { ParticipantService } from '../../../services/participant.service';
@@ -30,7 +29,7 @@ describe('CreateGroupPreviewComponent', () => {
     let el;
     let mockCreateGroupService, mockStateService, mockGroupService,
         mockProfileService, mockRouter, mockToastr, mockParticipantService,
-        mockBlandPageService, mockContentService, mockPinService, mockTimeHelperService;
+        mockBlandPageService, mockContentService, mockPinService;
     beforeEach(() => {
         mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['getSmallGroupPinFromGroupData', 'getLeaders', 'setParticipants', 'prepareForGroupSubmission', 'reset']);
         mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'setIsMyStuffActive', 'setCurrentView', 'getActiveGroupPath', 'setActiveGroupPath']);
@@ -46,7 +45,6 @@ describe('CreateGroupPreviewComponent', () => {
         mockCreateGroupService.group = MockTestData.getAGroup();
         mockCreateGroupService.profileData = MockTestData.getProfileData();
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['setEditedSmallGroupPin', 'getEditedSmallGroupPin']);
-        mockTimeHelperService = jasmine.createSpyObj<TimeHelperService>('timeHelperService', ['convertTime']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -63,8 +61,7 @@ describe('CreateGroupPreviewComponent', () => {
                 { provide: ToastsManager, useValue: mockToastr },
                 { provide: ParticipantService, useValue: mockParticipantService },
                 { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: ContentService, useValue: mockContentService },
-                { provide: TimeHelperService, useValue: mockTimeHelperService }
+                { provide: ContentService, useValue: mockContentService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });

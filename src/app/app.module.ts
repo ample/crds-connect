@@ -116,7 +116,6 @@ import { ProfileService } from './services/profile.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
-import { TimeHelperService } from './services/time-helper.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
@@ -127,6 +126,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
+import { UtcTimeFormatPipe } from './pipes/utc-time-format.pipe';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
@@ -236,7 +236,8 @@ declarations: [
   LeaderResourcesComponent,
   GoogleMapClusterDirective,
   CreateGroupFooterComponent,
-  SocialMediaComponent
+  SocialMediaComponent,
+  UtcTimeFormatPipe
 ],
 providers: [
   AddressService,
@@ -278,12 +279,12 @@ providers: [
   SessionService,
   StateService,
   StoreService,
-  TimeHelperService,
   { provide: ToastOptions, useClass: CustomOptions },
   UserLocationService,
   UserDataResolver,
   WhatsAHostGuard,
   HostNextStepsGuard,
+  UtcTimeFormatPipe
 ],
 bootstrap: [AppComponent]
 })
