@@ -1,9 +1,5 @@
+import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
 import { Pin, pinType } from '../../models';
-/*
- * Testing a simple Angular 2 component
- * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
- */
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -43,6 +39,7 @@ describe('ListEntryComponent', () => {
         TestBed.configureTestingModule({
             declarations: [
                 ListEntryComponent,
+                UtcTimeFormatPipe,
                 MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
                 MockComponent({selector: 'readonly-address', inputs: ['isPinOwner', 'address', 'distance']})
             ],

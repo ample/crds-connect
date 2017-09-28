@@ -71,7 +71,6 @@ describe('CreateGroupPreviewComponent', () => {
         TestBed.compileComponents().then(() => {
             fixture = TestBed.createComponent(CreateGroupPreviewComponent);
             comp = fixture.componentInstance;
-
         });
     }));
 

@@ -1,3 +1,4 @@
+import { UtcTimeFormatPipe } from '../../../pipes/utc-time-format.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -83,6 +84,7 @@ describe('Gathering component redirect error', () => {
     TestBed.configureTestingModule({
       declarations: [
         GatheringComponent,
+        UtcTimeFormatPipe,
         MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] })
       ],
       imports: [],
@@ -178,6 +180,7 @@ describe('GatheringComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         GatheringComponent,
+        UtcTimeFormatPipe,
         MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] })
       ],
       imports: [],
