@@ -20,6 +20,14 @@ app-filters {
   app-location-bar {
     flex: 1;
   }
+
+  .input-separator {
+    background-color: $cr-gray-light;
+    height: 26px;
+    margin: 8px 0;
+    position: relative;
+    width: 1px;
+  }
 }
 
 .searchbar-groups {
@@ -72,4 +80,6 @@ app-filters {
       }
     }
   }
+
+
 }
