@@ -24,7 +24,9 @@ app-filters {
 
 .searchbar-groups {
   @media screen and (max-width: $screen-sm) {
-    display: block;
+    &.searchbar-expanded {
+      display: block;
+    }
 
     .search-mobile {
       display: block !important;
