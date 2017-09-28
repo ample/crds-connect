@@ -12,8 +12,8 @@
                     placeholder={{placeholderTextForSearchBar}}
                     (focus)="showLocationBar(true)">
           <div class="searchbar-wrapper"></div>
-          <span class="addon-btn" *ngIf="shouldShowSubmit">
-            <button type="button" role="button" [hidden]="isSearchClearHidden" (click)="resetSearchInput($event)" [hidden]="state.isFilterDialogOpen">
+          <span class="addon-btn" *ngIf="shouldShowSubmit" [hidden]="isSearchClearHidden">
+            <button type="button" role="button" (click)="resetSearchInput($event)">
               <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="/assets/svgs/icons.svg#close-thin" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
               </svg>
