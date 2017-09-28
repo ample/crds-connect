@@ -83,8 +83,6 @@ export class CreateGroupPage2Component implements OnInit {
         console.log(err);
         this.blandPageService.goToDefaultError('/');
       });
-
-
   }
 
   public setupDate() {
@@ -121,7 +119,6 @@ export class CreateGroupPage2Component implements OnInit {
       }
       const newDate = moment.utc(this.date).hours(this.date.getHours()).minutes(this.date.getMinutes());
       this.createGroupService.group.meetingTime = newDate.toISOString();
-
 
       this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(),
                                             this.createGroupService.group.groupId);
@@ -176,21 +173,21 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private onDayChange(value): void {
-    let day: LookupTable = this.daysOfTheWeek.find((aDay: LookupTable) => {
+    const day: LookupTable = this.daysOfTheWeek.find((aDay: LookupTable) => {
       return aDay.dp_RecordID === +value;
     });
     this.createGroupService.group.meetingDay = day.dp_RecordName;
   }
 
   private onFrequencyChange(value): void {
-    let frequency = this.meetingFrequencies.find((freq) => {
+    const frequency = this.meetingFrequencies.find((freq) => {
       return freq.meetingFrequencyId === +value;
     });
     this.createGroupService.group.meetingFrequency = frequency.meetingFrequencyDesc;
   }
 
   private setFieldsFromExistingGroup(): void {
-    let isGroupOnFlexibleScedule: boolean = this.createGroupService.groupBeingEdited.meetingDayId === null;
+    const isGroupOnFlexibleScedule: boolean = this.createGroupService.groupBeingEdited.meetingDayId === null;
 
     if (isGroupOnFlexibleScedule) {
       this.onClick(groupMeetingScheduleType.FLEXIBLE);

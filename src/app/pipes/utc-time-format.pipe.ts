@@ -14,7 +14,7 @@ export class UtcTimeFormatPipe implements PipeTransform {
   transform(value: string): any {
 
 
-    if (value == '' || value == null) {
+    if (value === '' || value == null) {
       return null;
     } else if (value.toLowerCase().includes('am') || value.toLowerCase().includes('pm'))  {
       return value;
