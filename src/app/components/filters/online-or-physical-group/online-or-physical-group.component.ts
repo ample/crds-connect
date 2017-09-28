@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { StateService } from '../../../services/state.service';
 
 @Component({

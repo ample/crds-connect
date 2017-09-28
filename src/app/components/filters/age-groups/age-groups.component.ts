@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { AgeGroup } from '../../../models/age-group';
 import { awsFieldNames } from '../../../shared/constants';
@@ -39,8 +39,18 @@ export class AgeGroupsComponent implements OnInit {
                 let theAge = new AgeGroup(age);
                 this.ageGroups.push(theAge);
             }
+            this.initializeSelectedFilters();
           }
       );
+  }
+
+  private initializeSelectedFilters(): void {
+    if(this.filterService.filterStringAgeGroups != null) {
+    const selectedFilters = this.filterService.filterStringAgeGroups.replace(/['() ]/g, '').replace('or', '').split('groupagerange:');
+    selectedFilters.forEach(element => {
+      this.setSelection(element)
+    });
+  }
   }
 
   private setSelection(selectedValue: string) {

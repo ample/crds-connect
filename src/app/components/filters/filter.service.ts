@@ -71,7 +71,7 @@ export class FilterService {
     for (let age of ageGroups) {
       if (age.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' `;
+        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\'`;
       }
     }
     addFilterString += ' )';
@@ -90,7 +90,7 @@ export class FilterService {
     for (let cat of categories) {
       if (cat.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\')  `;
+        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\') `;
       }
     }
     addFilterString += ' )';

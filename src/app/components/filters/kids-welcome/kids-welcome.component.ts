@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { Pin, pinType } from '../../../models/pin';
 import { awsFieldNames } from '../../../shared/constants';
 

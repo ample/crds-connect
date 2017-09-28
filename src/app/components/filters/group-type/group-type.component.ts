@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
 import { GroupType } from '../../../models/group-type';

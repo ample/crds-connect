@@ -5,7 +5,7 @@ import { Category } from '../../../models/category';
 import { awsFieldNames } from '../../../shared/constants';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
 @Component({

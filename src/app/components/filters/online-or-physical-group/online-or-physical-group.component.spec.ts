@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group.component';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { StateService } from '../../../services/state.service';
 
 import { MockTestData } from '../../../shared/MockTestData';

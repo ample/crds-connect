@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { SimpleSelectable } from '../../../models/simple-selectable';
 import { meetingFrequencyNames } from '../../../shared/constants';
 
