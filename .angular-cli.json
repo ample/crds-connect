@@ -27,7 +27,8 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
         "int": "environments/environment.int.ts",
-        "demo": "environments/environment.demo.ts"
+        "demo": "environments/environment.demo.ts",
+        "ample": "environments/environment.ample.ts"
       }
     }
   ],
