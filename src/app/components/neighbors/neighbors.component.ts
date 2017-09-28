@@ -178,9 +178,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   private runInitialPinSearch(): void {
     let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
-
+    let filter: string = (this.state.lastSearch) ? this.state.lastSearch.filter : null;
     let pinSearchRequest: PinSearchRequestParams =
-      this.pinService.buildPinSearchRequest(locationFilter, this.state.searchBarText);
+      this.pinService.buildPinSearchRequest(locationFilter, this.state.searchBarText, filter);
 
     this.userLocationService.GetUserLocation().subscribe(
       pos => {

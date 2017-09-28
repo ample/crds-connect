@@ -1,5 +1,3 @@
-import { GeoCoordinates } from './geo-coordinates';
-
 export class SearchOptions {
 
   search: string;
@@ -11,5 +9,4 @@ export class SearchOptions {
     this.filter = filter;
     this.location = location;
   }
-
 }
