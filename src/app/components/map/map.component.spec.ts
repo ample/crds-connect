@@ -17,7 +17,7 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
-import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { CookieService, CookieOptionsArgs } from 'angular2-cookie/services';
 import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocationService } from '../../services/location.service';

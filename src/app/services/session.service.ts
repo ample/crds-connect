@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { Address } from '../models/address';
 import { CacheLevel, SmartCacheableService } from './base-service/cacheable.service';
-import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import { CookieOptionsArgs, CookieService } from 'angular2-cookie/services';
 import {
   Headers,
   Http,
