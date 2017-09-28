@@ -1,10 +1,9 @@
-<app-search-bar [isMapHidden] = "!mapViewActive"
-                [isMyStuffSearch] = "isMyStuffSearch"
-                (viewMap)="viewChanged($event)">
+<app-search-bar [isMyStuffSearch] = "isMyStuffSearch"
+                (viewMap)="viewChanged()">
 </app-search-bar>
 
 <div *ngIf="!this.state.getIsFilteredDialogOpen()">
-  <app-map [searchResults]="pinSearchResults" *ngIf="isMapViewSet() && !isMapHidden"></app-map>
+  <app-map [searchResults]="pinSearchResults" *ngIf="isMapViewSet()"></app-map>
 
   <app-listview [searchResults]="pinSearchResults" *ngIf="!isMapViewSet()"></app-listview>
 </div>
