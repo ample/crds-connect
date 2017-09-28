@@ -54,7 +54,7 @@
               <label class="control-label push-half-bottom" for="contactNumber">PHONE NUMBER YOU CAN BEST BE REACHED AT:</label>
               <input type="tel" onlyTheseKeys="[0-9]" maxlength="10" class="form-control" placeholder="Phone number"
                 id="contactNumber" formControlName="contactNumber" name="contactNumber">
-              <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['contactNumber'].valid">Phone number is invalid!!</p>
+              <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.get('contactNumber').valid">Phone number is invalid!!</p>
             </div>
           </div>
 
@@ -67,7 +67,7 @@
 
               <label class="control-label push-half-bottom" for="gatheringDescription">GATHERING DESCRIPTION:</label>
               <textarea type="text" class="form-control" rows="5" maxlength="300" placeholder="Group Description" id="gatheringDescription" formControlName="gatheringDescription" name="gatheringDescription"></textarea>
-              <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.controls['gatheringDescription'].valid">Gathering description is invalid!</p>
+              <p class="error help-block" *ngIf="isFormSubmitted && !hostForm.get('gatheringDescription').valid">Gathering description is invalid!</p>
             </div>
           </div>
 
@@ -77,10 +77,6 @@
               <button type="button" (click)="closeClick()" class="btn btn-outline btn-default btn-block-mobile">Cancel</button>
             </div>
           </footer>
-
-          <div *ngIf="submissionError" class="alert alert-danger">
-            <crds-content-block id="finderGeneralError"></crds-content-block>
-          </div>
         </form>
       </div>
 

@@ -1,5 +1,6 @@
 <div class="connect-container connect-layout-container">
-  <div class="pin-details-bg soft" [ngClass]="{ host_plain: !isInGathering && !isLeader && pin.pinType !== pinType.SMALL_GROUP}">
+  <div class="pin-details-bg soft" [ngClass]="{ host_plain: pin.pinType !== pinType.SMALL_GROUP}">
+  <!-- <div class="pin-details-bg soft" [ngClass]="{ host_plain: !isInGathering && !isLeader && pin.pinType !== pinType.SMALL_GROUP}"> -->
     <div class="media">
       <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 
@@ -19,7 +20,7 @@
           <label class="sr-only" for="description">Description</label>
           <textarea tabindex="6" type="text" class="form-control" maxlength="255" placeholder="Description" id="description" formControlName="description"
             name="description" [(ngModel)]='pin.gathering.groupDescription' rows="15" cols="100"></textarea>
-          <p class="error help-block" *ngIf="editGatheringForm.controls['description'].touched && !editGatheringForm.controls['description'].valid">
+          <p class="error help-block" *ngIf="editGatheringForm.get('description').touched && !editGatheringForm.get('description').valid">
             Description is required!
           </p>
         </div>
