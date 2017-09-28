@@ -82,6 +82,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     const pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
     this.state.lastSearch.search = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
+    this.showLocationBar(false);
   }
 
   private setSearchText(): void {

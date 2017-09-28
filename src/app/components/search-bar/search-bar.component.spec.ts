@@ -84,6 +84,7 @@ describe('SearchBarComponent', () => {
   it('should emit search event', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
+    spyOn(comp, 'showLocationBar');
     const pinSearch = new PinSearchRequestParams('Phil is cool!', null, undefined);
     mockPinService.emitPinSearchRequest.and.returnValue(true);
 
@@ -91,6 +92,7 @@ describe('SearchBarComponent', () => {
     expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(pinSearch);
     expect(comp.isMyStuffSearch).toBeFalsy();
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+    expect(comp.showLocationBar).toHaveBeenCalledWith(false);
   });
 
   it('should escape apostrophes in search string', () => {
