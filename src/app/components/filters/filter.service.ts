@@ -1,12 +1,12 @@
 import { Injectable} from '@angular/core';
 
-import { AgeGroup } from '../models/age-group';
-import { Category } from '../models/category';
-import { GroupType } from '../models/group-type';
-import { SimpleSelectable} from '../models/simple-selectable';
+import { AgeGroup } from '../../models/age-group';
+import { Category } from '../../models/category';
+import { GroupType } from '../../models/group-type';
+import { SimpleSelectable} from '../../models/simple-selectable';
 
 import { awsFieldNames, DaysOfWeek, daysOfWeek, groupMeetingTimeRanges,
-         awsMeetingTimeSearchStrings } from '../shared/constants';
+         awsMeetingTimeSearchStrings } from '../../shared/constants';
 
 @Injectable()
 export class FilterService {
