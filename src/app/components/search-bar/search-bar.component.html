@@ -1,6 +1,6 @@
 <div class="connect-search">
   <div class="connect-layout-container container">
-    <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)" [class.searchbar-groups]="!isConnectApp">
+    <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)" [class.searchbar-groups]="!isConnectApp" [class.searchbar-expanded]="shouldShowSubmit">
       <div class="input-group">
         <div class="search-input input-transparent">
             <input type="search"
@@ -37,7 +37,7 @@
           </button>
         </span>
       </div>
-      <div class="search-desktop">
+      <div [class.search-desktop]="shouldShowSubmit">
         <button type="button" class="btn btn-toggle btn-link text-white" id="toggleListView" (click)="toggleView()">
           {{state.viewButtonText}}
         </button>
