@@ -133,6 +133,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   private clickListener() {
     document.body.addEventListener('click', (event: any) => {
+      if (!event.path) {
+        return;
+      }
       for (let i = 0; i < event.path.length; i++) {
         const classList = event.path[i].classList;
         if (classList && classList.contains('connect-search')) {
