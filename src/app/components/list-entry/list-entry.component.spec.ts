@@ -68,6 +68,12 @@ describe('ListEntryComponent', () => {
         expect(comp).toBeTruthy();
     });
 
+    it('onInit should not call get leaders for person pin', () => {
+      comp.type = pinType.PERSON;
+      comp.ngOnInit();
+      expect(mockParticipantService.getAllLeaders).not.toHaveBeenCalled();
+    });
+
     it('should return proper name format', () => {
         let participants = MockTestData.getAParticipantsArray(3);
         (<jasmine.Spy>mockParticipantService.getAllLeaders).and.returnValue(Observable.of(participants));
