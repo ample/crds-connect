@@ -79,7 +79,16 @@ app-filters {
         z-index: 4;
       }
     }
+
   }
 
+  @media screen and (min-width: $screen-sm) {
+    .search-location.input-group-left input {
+      padding-left: 10px;
+    }
 
+    .force-show-desktop {
+      display: block !important;
+    }
+  }
 }
