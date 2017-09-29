@@ -11,7 +11,7 @@
     "build-local": "./node_modules/.bin/ng build --watch",
     "start-local": "./node_modules/.bin/ng serve",
     "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --output-hashing=none --aot false",
-    "test": "./node_modules/.bin/ng test --reporters teamcity --single-run --code-coverage",
+    "test": "./node_modules/.bin/ng test --reporters teamcity --single-run",
     "test-watch": "./node_modules/.bin/ng test",
     "test-coverage": "./node_modules/.bin/ng test --code-coverage --single-run",
     "lint": "./node_modules/.bin/ng lint",
