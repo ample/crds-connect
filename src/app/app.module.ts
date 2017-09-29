@@ -4,15 +4,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CustomOptions } from './app.toast.options';
 import { environment } from '../environments/environment';
 
-
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService, BaseCookieOptions, CookieOptions } from "angular2-cookie/core";
+export function cookieServiceFactory() {
+  return new CookieService();
+}
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
@@ -30,6 +31,7 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
+import { ContentBlockComponent } from './components/content-component/content-block.component';
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
@@ -96,7 +98,7 @@ import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from './services/content.service';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -164,11 +166,7 @@ imports: [
   ToastModule.forRoot(),
   TimepickerModule.forRoot(),
   BsDropdownModule.forRoot(),
-  routing,
-  ContentBlockModule.forRoot({
-    endpoint: environment.CRDS_CMS_CLIENT_ENDPOINT,
-    categories: Array('finder', 'group tool')
-  })
+  routing
 ],
 declarations: [
   AddMeToMapComponent,
@@ -177,6 +175,7 @@ declarations: [
   AuthenticationComponent,
   BlandPageComponent,
   ContactLeaderComponent,
+  ContentBlockComponent,
   CreateGroupSummaryComponent,
   CreateGroupPage1Component,
   CreateGroupPage2Component,
@@ -246,7 +245,7 @@ providers: [
   BlandPageGuard,
   BlandPageService,
   ContentService,
-  CookieService,
+  { provide: CookieService, useFactory: cookieServiceFactory },
   CreateGroupService,
   DetailedUserDataResolver,
   GroupResolver,
@@ -288,4 +287,8 @@ providers: [
 bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+  constructor(protected content: ContentService) {
+    this.content.loadData();
+  }
+}

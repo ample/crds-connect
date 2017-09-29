@@ -1,6 +1,9 @@
 import { environment } from '../../environments/environment';
 export const ApplicationUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
 
+export const endpoint = 'https://contentint.crossroads.net/';
+export const categories = ['finder', 'group tool'];
+
 export class AwsMeetingTimeSearchStrings {
   MORNINGS: string;
   AFTERNOONS: string;
