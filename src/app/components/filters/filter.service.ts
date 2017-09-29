@@ -168,7 +168,7 @@ export class FilterService {
         filter = groupMeetingTimeRanges.EVENINGS;
         break;
       default:
-        console.log(`Error couldn't get awsMeetingTimeSearchString from ${awsTimeString}!`);
+        console.log(`Error: couldn't get awsMeetingTimeSearchString from ${awsTimeString}`);
     }
     return filter;
   }

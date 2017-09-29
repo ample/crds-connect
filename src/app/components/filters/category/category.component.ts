@@ -42,15 +42,15 @@ export class CategoryComponent implements OnInit {
 
   private setSelectedCategories(): void {
     if (this.filterService.filterStringCategories != null) {
-      const selectedCategories = this.filterService.filterStringCategories.replace(/\(or|'|prefix|field|=|[() ]/g, '').split('groupcategory');
+      const selectedCategories = this.filterService.filterStringCategories.replace(/(\(or )|: |\(prefix field=|'|\)/g, '').split('groupcategory');
       selectedCategories.forEach(element => {
-        this.setSelection(element);
+        this.setSelection(element.trim());
       });
     }
   }
 
   private setSelection(selectedValue: string) {
-    let group = this.categories.find(i => i.name === selectedValue);
+    const group = this.categories.find(i => i.name === selectedValue);
     if ( group != null) {
       group.selected = !group.selected;
     }
@@ -61,7 +61,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public reset() {
-    for (let cat of this.categories) {
+    for (const cat of this.categories) {
       cat.selected = false;
     }
   }

@@ -39,7 +39,7 @@ export class MeetingFrequencyComponent implements OnInit {
   }
 
   public reset(): void {
-    for (let day of this.selectableMeetingFrequencies) {
+    for (const day of this.selectableMeetingFrequencies) {
         day.isSelected = false;
     }
   }

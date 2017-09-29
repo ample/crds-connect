@@ -35,8 +35,8 @@ export class AgeGroupsComponent implements OnInit {
       this.lookupService.getAgeRanges().subscribe(
           ages => {
             this.ageGroups = [];
-            for (let age of ages.attributes) {
-                let theAge = new AgeGroup(age);
+            for (const age of ages.attributes) {
+                const theAge = new AgeGroup(age);
                 this.ageGroups.push(theAge);
             }
             this.setSelectedAgeGroups();
@@ -46,15 +46,15 @@ export class AgeGroupsComponent implements OnInit {
 
   private setSelectedAgeGroups(): void {
     if (this.filterService.filterStringAgeGroups != null) {
-    const selectedFilters = this.filterService.filterStringAgeGroups.replace(/['() ]/g, '').replace('or', '').split('groupagerange:');
+    const selectedFilters = this.filterService.filterStringAgeGroups.replace(/(\(or )|: |'|\)/g, '').split('groupagerange').slice(1);
     selectedFilters.forEach(element => {
-      this.setSelection(element);
+      this.setSelection(element.trim());
     });
   }
   }
 
   private setSelection(selectedValue: string) {
-    let group = this.ageGroups.find(i => i.attribute.name === selectedValue);
+    const group = this.ageGroups.find(i => i.attribute.name === selectedValue);
     if ( group != null) {
       group.selected = !group.selected;
     }
@@ -65,7 +65,7 @@ export class AgeGroupsComponent implements OnInit {
   }
 
   public reset() {
-    for (let age of this.ageGroups) {
+    for (const age of this.ageGroups) {
       age.selected = false;
     }
   }

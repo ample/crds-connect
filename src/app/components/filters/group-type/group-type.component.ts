@@ -37,8 +37,8 @@ export class GroupTypeComponent implements OnInit {
     this.lookupService.getGroupGenderMixTypes().subscribe(
       groupTypes => {
         this.groupTypes = [];
-        for (let groupType of groupTypes.attributes) {
-          let theGroupType = new GroupType(groupType);
+        for (const groupType of groupTypes.attributes) {
+          const theGroupType = new GroupType(groupType);
           this.groupTypes.push(theGroupType);
         }
         this.setSelectedGroupTypes();
@@ -49,7 +49,7 @@ export class GroupTypeComponent implements OnInit {
 
   private setGroupTypeSelection(selectedGroupName: string) {
     this.reset();
-    let group: GroupType = this.groupTypes.find(i => i.attribute.name === selectedGroupName);
+    const group: GroupType = this.groupTypes.find(i => i.attribute.name === selectedGroupName);
     if ( group != null) {
       group.selected = !group.selected;
     }

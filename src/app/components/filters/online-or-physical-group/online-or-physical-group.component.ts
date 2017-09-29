@@ -45,8 +45,8 @@ export class OnlineOrPhysicalGroupComponent implements OnInit {
   }
 
   private setFilterString(isVirtualGroup: boolean): void {
-    let isVirtualGroupFlag = isVirtualGroup ? 1 : 0;
-    let haveIsVirtualGroupValue = this.isVirtualGroup !== null || this.isVirtualGroup !== undefined;
+    const isVirtualGroupFlag = isVirtualGroup ? 1 : 0;
+    const haveIsVirtualGroupValue = this.isVirtualGroup !== null || this.isVirtualGroup !== undefined;
     this.filterService.setFilterStringIsVirtualGroup(isVirtualGroupFlag, haveIsVirtualGroupValue);
   }
 

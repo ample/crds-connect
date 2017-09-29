@@ -19,13 +19,12 @@ describe('MeetingTimeComponent', () => {
     let comp: MeetingTimeComponent;
     let el;
     let mockAppSettingsService, mockFilterService, mockLookupService;
-    let categories;
+    let timesOfDay = [new SimpleSelectable('Morning'), new SimpleSelectable('Afternoon'), new SimpleSelectable('night')];
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
-        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
+        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['getTimeOfDayFromAwsTimeString']);
         mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
-        categories = MockTestData.getSomeCategories();
 
         TestBed.configureTestingModule({
             declarations: [
@@ -65,4 +64,23 @@ describe('MeetingTimeComponent', () => {
 
         expect(comp.selectableTimeRanges[0].isSelected).toBe(false);
     });
+
+    it('should not select anything if no time of day filter is set', () => {
+      comp.selectableTimeRanges = timesOfDay;
+      comp['setSelectedFilter']();
+      const selectedTimes = comp.selectableTimeRanges.filter(time => time.isSelected);
+      expect(selectedTimes.length).toBe(0);
+      expect(mockFilterService.getTimeOfDayFromAwsTimeString).not.toHaveBeenCalled();
+    });
+
+    it('should not select time if time of day filter is set', () => {
+      comp.selectableTimeRanges = timesOfDay;
+      comp['filterService'].filterStringMeetingTimes = ' (or groupmeetingtime: [\'0001-01-01T00:00:00Z\', \'0001-01-01T12:00:00Z\']  )';
+      mockFilterService.getTimeOfDayFromAwsTimeString.and.returnValue('Morning');
+      comp['setSelectedFilter']();
+      const selectedTimes = comp.selectableTimeRanges.filter(time => time.isSelected);
+      expect(selectedTimes.length).toBe(1);
+      expect(mockFilterService.getTimeOfDayFromAwsTimeString).toHaveBeenCalledTimes(1);
+    });
+
 });

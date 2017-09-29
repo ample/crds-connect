@@ -1,3 +1,4 @@
+import { AttributeType } from '../../../models/index';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -17,13 +18,13 @@ describe('GroupTypeComponent', () => {
     let comp: GroupTypeComponent;
     let el;
     let mockAppSettingsService, mockFilterService, mockLookupService;
-    let categories;
+    let genderMixTypes: AttributeType;
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
         mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
         mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getGroupGenderMixTypes']);
-        categories = MockTestData.getSomeCategories();
+        genderMixTypes = MockTestData.getGroupGenderMixAttributeTypeWithAttributes();
 
         TestBed.configureTestingModule({
             declarations: [
@@ -78,7 +79,26 @@ describe('GroupTypeComponent', () => {
         expect(comp['groupTypes'][1].selected).toBe(false);
     });
 
-    xit('should getGroupTypesFromMpAndInit', () => [
-        // TODO: This test.
-    ]);
+    it('should getGroupTypesFromMpAndInit', () => {
+      mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(genderMixTypes));
+      spyOn(comp, 'setSelectedGroupTypes');
+      comp['getGroupTypesFromMpAndInit']();
+      expect(comp['setSelectedGroupTypes']).toHaveBeenCalledTimes(1);
+      expect(comp['groupTypes'].length).toBe(3);
+    });
+
+    it('should not select anything if filterService has no group gender mix filters', () => {
+      mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(genderMixTypes));
+      comp.ngOnInit();
+      const selectedGenderMixes = comp['groupTypes'].filter(i => i.selected);
+      expect(selectedGenderMixes.length).toBe(0);
+    });
+
+    it('should set selected gender mix types if filterService has filter string', () => {
+      mockLookupService.getGroupGenderMixTypes.and.returnValue(Observable.of(genderMixTypes));
+      comp['filterService'].filterStringGroupTypes = ` (or grouptype: '${genderMixTypes.attributes[0].name}'  )`;
+      comp['getGroupTypesFromMpAndInit']();
+      const selectedGenderMixes = comp['groupTypes'].filter(i => i.selected);
+      expect(selectedGenderMixes.length).toBe(1);
+    });
 });

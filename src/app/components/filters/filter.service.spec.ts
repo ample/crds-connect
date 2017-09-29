@@ -128,6 +128,32 @@ describe('Service: Filters ', () => {
       expect(rc).toEqual(expectedstring2);
     }));
 
+    it('should return morning time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T00:00:00Z\', \'0001-01-01T12:00:00Z\']');
+      expect(result).toBe('Mornings (before noon)');
+    }));
+
+    it('should return afternoon time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T12:00:00Z\', \'0001-01-01T17:00:00Z\']');
+      expect(result).toBe('Afternoons (12-5pm)');
+    }));
+
+    it('should return Evening time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T17:00:00Z\', \'0001-01-01T23:59:00Z\']');
+      expect(result).toBe('Evenings (after 5pm)');
+    }));
+
+    it('should display an error if awsMeetingTimeString conversion does not work',
+    inject([FilterService], (service: any) => {
+      spyOn(console, 'log');
+      const result = service.getTimeOfDayFromAwsTimeString('yabba dabba doo');
+      expect(result).toBeUndefined();
+      expect(console.log).toHaveBeenCalledWith('Error: couldn\'t get awsMeetingTimeSearchString from yabba dabba doo');
+    }));
+
     xit('should return a valid search string for a single meeting frequency',
       inject([FilterService], (service: any) => {
 

@@ -17,13 +17,12 @@ describe('AgeGroupsComponent', () => {
     let comp: AgeGroupsComponent;
     let el;
     let mockAppSettingsService, mockFilterService, mockLookupService;
-    let categories;
+
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
         mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
-        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
-        categories = MockTestData.getSomeCategories();
+        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeRanges']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -76,5 +75,31 @@ describe('AgeGroupsComponent', () => {
 
         expect(comp['ageGroups'][0].selected).toBe(false);
         expect(comp['ageGroups'][1].selected).toBe(false);
+    });
+
+    it('should initialize age groups', () => {
+      const ages = MockTestData.getAgeRangeAttributeTypeWithAttributes();
+      mockLookupService.getAgeRanges.and.returnValue(Observable.of(ages));
+      spyOn(comp, 'setSelectedAgeGroups');
+      comp.ngOnInit();
+      expect(comp['ageGroups'].length).toBe(4);
+      expect(comp['setSelectedAgeGroups']).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not select anything if filterService has no age group filters', () => {
+      const ages = MockTestData.getAgeRangeAttributeTypeWithAttributes();
+      mockLookupService.getAgeRanges.and.returnValue(Observable.of(ages));
+      comp.ngOnInit();
+      const selectedAges = comp['ageGroups'].filter(i => i.selected);
+      expect(selectedAges.length).toBe(0);
+    });
+
+    it('should set selected age ranges if filterService has a string that matches', () => {
+      const ages = MockTestData.getAgeRangeAttributeTypeWithAttributes();
+      mockLookupService.getAgeRanges.and.returnValue(Observable.of(ages));
+      comp['filterService'].filterStringAgeGroups = ` (or groupagerange: '${ages.attributes[0].name}' groupagerange: '${ages.attributes[1].name}  )`;
+      comp['initializeAgeGroups']();
+      const selectedAges = comp['ageGroups'].filter(i => i.selected);
+      expect(selectedAges.length).toBe(2);
     });
 });
