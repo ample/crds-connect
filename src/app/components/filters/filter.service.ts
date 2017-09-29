@@ -1,12 +1,12 @@
 import { Injectable} from '@angular/core';
 
-import { AgeGroup } from '../models/age-group';
-import { Category } from '../models/category';
-import { GroupType } from '../models/group-type';
-import { SimpleSelectable} from '../models/simple-selectable';
+import { AgeGroup } from '../../models/age-group';
+import { Category } from '../../models/category';
+import { GroupType } from '../../models/group-type';
+import { SimpleSelectable} from '../../models/simple-selectable';
 
 import { awsFieldNames, DaysOfWeek, daysOfWeek, groupMeetingTimeRanges,
-         awsMeetingTimeSearchStrings } from '../shared/constants';
+         awsMeetingTimeSearchStrings } from '../../shared/constants';
 
 @Injectable()
 export class FilterService {
@@ -71,7 +71,7 @@ export class FilterService {
     for (let age of ageGroups) {
       if (age.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' `;
+        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\'`;
       }
     }
     addFilterString += ' )';
@@ -90,7 +90,7 @@ export class FilterService {
     for (let cat of categories) {
       if (cat.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\')  `;
+        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\') `;
       }
     }
     addFilterString += ' )';
@@ -152,6 +152,24 @@ export class FilterService {
         filter = awsMeetingTimeSearchStrings.EVENINGS;
     }
 
+    return filter;
+  }
+
+  public getTimeOfDayFromAwsTimeString(awsTimeString: string): string {
+    let filter: string = undefined;
+    switch (awsTimeString) {
+      case awsMeetingTimeSearchStrings.MORNINGS:
+        filter = groupMeetingTimeRanges.MORNINGS;
+        break;
+      case awsMeetingTimeSearchStrings.AFTERNOONS:
+        filter = groupMeetingTimeRanges.AFTERNOONS;
+        break;
+      case awsMeetingTimeSearchStrings.EVENINGS:
+        filter = groupMeetingTimeRanges.EVENINGS;
+        break;
+      default:
+        console.log(`Error: couldn't get awsMeetingTimeSearchString from ${awsTimeString}`);
+    }
     return filter;
   }
 

@@ -1,3 +1,4 @@
+import { ViewType } from '../../../shared/constants';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -7,7 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group.component';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { StateService } from '../../../services/state.service';
 
 import { MockTestData } from '../../../shared/MockTestData';
@@ -21,7 +22,7 @@ describe('OnlineOrPhysicalGroupComponent', () => {
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
-        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
+        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['setFilterStringIsVirtualGroup']);
         mockStateService       = jasmine.createSpyObj<StateService>('stateService', ['setCurrentView']);
         categories = MockTestData.getSomeCategories();
 
@@ -71,5 +72,34 @@ describe('OnlineOrPhysicalGroupComponent', () => {
 
       comp.setIsVirtualGroup(false);
       expect(comp.getIsVirtualGroup()).toEqual(false);
+    });
+
+    it('should init', () => {
+      spyOn(comp, 'setSelectedFilter');
+      comp.ngOnInit();
+      expect(comp.setSelectedFilter).toHaveBeenCalledTimes(1);
+    });
+
+    it('setSelectedFilter should not set anything if there is no kids welcome filter set', () => {
+      comp.setSelectedFilter();
+      expect(comp.isAnOptionSelected).toBe(false);
+    });
+
+    it('setSelectedFilter should set areKidsWelcome to true if filter is set to 1', () => {
+      comp['filterService'].filterStringGroupLocation = ' (or groupvirtual: 1) ';
+      comp.setSelectedFilter();
+      expect(comp.isAnOptionSelected).toBe(true);
+      expect(comp['isVirtualGroup']).toBe(true);
+      expect(mockFilterService.setFilterStringIsVirtualGroup).toHaveBeenCalledWith(1, true);
+      expect(mockStateService.setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
+    });
+
+    it('setSelectedFilter should set areKidsWelcome to false if filter is set to 0', () => {
+      comp['filterService'].filterStringGroupLocation = ' (or groupvirtual: 0) ';
+      comp.setSelectedFilter();
+      expect(comp.isAnOptionSelected).toBe(true);
+      expect(comp['isVirtualGroup']).toBe(false);
+      expect(mockFilterService.setFilterStringIsVirtualGroup).toHaveBeenCalledWith(0, true);
+      expect(mockStateService.setCurrentView).not.toHaveBeenCalled();
     });
 });

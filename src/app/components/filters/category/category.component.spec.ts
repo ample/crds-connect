@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { CategoryComponent } from './category.component';
@@ -15,7 +15,7 @@ describe('CategoryComponent', () => {
     let fixture: ComponentFixture<CategoryComponent>;
     let comp: CategoryComponent;
     let mockAppSettingsService, mockFilterService, mockLookupService;
-    let categories;
+    let categories: Category[];
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
@@ -73,5 +73,28 @@ describe('CategoryComponent', () => {
 
         expect(comp['categories'][0].selected).toBe(false);
         expect(comp['categories'][1].selected).toBe(false);
+    });
+
+    it('should initialize categories', () => {
+      spyOn(comp, 'setSelectedCategories');
+      mockLookupService.getCategories.and.returnValue(Observable.of(categories));
+      comp['initializeCategories']();
+      expect(comp['categories'].length).toBe(5);
+    });
+
+    it('should not select anything if filterService has no category filters', () => {
+      mockLookupService.getCategories.and.returnValue(Observable.of(categories));
+      comp.ngOnInit();
+      const selectedCats = comp['categories'].filter(i => i.selected);
+      expect(selectedCats.length).toBe(0);
+    });
+
+    it('should set selected categories if filterService has filter string', () => {
+      const ages = MockTestData.getAgeRangeAttributeTypeWithAttributes();
+      mockLookupService.getCategories.and.returnValue(Observable.of(categories));
+      comp['filterService'].filterStringCategories = ` (or (prefix field='groupcategory' '${categories[0].name}')  (prefix field='groupcategory' '${categories[1].name}') )`;
+      comp['initializeCategories']();
+      const selectedCats = comp['categories'].filter(i => i.selected);
+      expect(selectedCats.length).toBe(2);
     });
 });

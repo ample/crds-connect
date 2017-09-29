@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from './filter.service';
 import { StateService } from '../../services/state.service';
 import { FiltersComponent } from './filters.component';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
@@ -24,8 +24,6 @@ import { SearchOptions } from '../../models';
 import { ViewType } from '../../shared/constants';
 
 describe('FiltersComponent', () => {
-  let fixture: ComponentFixture<FiltersComponent>;
-  let comp: FiltersComponent;
   let mockFilterService, mockStateService,
     mockRouter, mockSearchBar;
 
@@ -96,6 +94,12 @@ describe('FiltersComponent', () => {
       expect(this.comp.meetingFrequencyComponent.reset).toHaveBeenCalled();
       expect(this.comp.onlineOrPhysicalGroupComponent.reset).toHaveBeenCalled();
       expect(mockFilterService.resetFilterString).toHaveBeenCalled();
+    });
+
+    it('cancel should emit', () => {
+      this.comp.cancelFilter.emit = jasmine.createSpy('emit');
+      this.comp.cancel();
+      expect(this.comp.cancelFilter.emit).toHaveBeenCalled();
     });
   });
 });
