@@ -17,6 +17,16 @@ export class MeetingFrequencyComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectableMeetingFrequencies = this.filterService.buildArrayOfSelectables(meetingFrequencyNames);
+    this.setSelectedFilter();
+  }
+
+  private setSelectedFilter(): void {
+    if (this.filterService.filterStringMeetingFrequencies != null) {
+      const selectedDays = this.filterService.filterStringMeetingFrequencies.replace(/(\(or )|'|\)/g, '').split('groupmeetingfrequency:').slice(1)
+      selectedDays.forEach(element => {
+        this.selectableMeetingFrequencies.find((day) => { return day.value === element.trim(); }).isSelected = true;
+      });
+    }
   }
 
   public onClickToSelect(selectedFrequency: SimpleSelectable): void {

@@ -41,6 +41,7 @@ export class GroupTypeComponent implements OnInit {
           let theGroupType = new GroupType(groupType);
           this.groupTypes.push(theGroupType);
         }
+        this.setSelectedGroupTypes();
         this.isAllDataLoaded = true;
       }
     );
@@ -56,6 +57,13 @@ export class GroupTypeComponent implements OnInit {
 
   private setFilterStringInFilterService(): void {
     this.filterService.setFilterStringGroupTypes(this.groupTypes);
+  }
+
+  private setSelectedGroupTypes(): void {
+    if (this.filterService.filterStringGroupTypes != null) {
+      const selectedFilter = this.filterService.filterStringGroupTypes.replace(/\(or|'|:|grouptype|[)]/g, '').trim();
+      this.setGroupTypeSelection(selectedFilter);
+    }
   }
 
 }

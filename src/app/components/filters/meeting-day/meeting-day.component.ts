@@ -17,11 +17,21 @@ export class MeetingDayComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectableDaysOfWeek = this.filterService.buildArrayOfSelectables(daysOfWeek);
+    this.setSelectedFilter();
   }
 
   private onClickToSelect(selectedDay: SimpleSelectable): void {
     selectedDay.isSelected = !selectedDay.isSelected;
     this.setFilterString();
+  }
+
+  private setSelectedFilter(): void {
+    if (this.filterService.filterStringMeetingDays != null) {
+      const selectedDays = this.filterService.filterStringMeetingDays.replace(/(\(or)|( )|'|\)/g, '').split('groupmeetingday:').slice(1);
+      selectedDays.forEach(element => {
+        this.selectableDaysOfWeek.find((day) => { return day.value === element; }).isSelected = true;
+      });
+    }
   }
 
   private setFilterString(): void {

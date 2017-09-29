@@ -39,16 +39,16 @@ export class AgeGroupsComponent implements OnInit {
                 let theAge = new AgeGroup(age);
                 this.ageGroups.push(theAge);
             }
-            this.initializeSelectedFilters();
+            this.setSelectedAgeGroups();
           }
       );
   }
 
-  private initializeSelectedFilters(): void {
-    if(this.filterService.filterStringAgeGroups != null) {
+  private setSelectedAgeGroups(): void {
+    if (this.filterService.filterStringAgeGroups != null) {
     const selectedFilters = this.filterService.filterStringAgeGroups.replace(/['() ]/g, '').replace('or', '').split('groupagerange:');
     selectedFilters.forEach(element => {
-      this.setSelection(element)
+      this.setSelection(element);
     });
   }
   }

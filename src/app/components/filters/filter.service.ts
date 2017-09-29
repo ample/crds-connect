@@ -155,6 +155,24 @@ export class FilterService {
     return filter;
   }
 
+  public getTimeOfDayFromAwsTimeString(awsTimeString: string): string {
+    let filter: string = undefined;
+    switch (awsTimeString) {
+      case awsMeetingTimeSearchStrings.MORNINGS:
+        filter = groupMeetingTimeRanges.MORNINGS;
+        break;
+      case awsMeetingTimeSearchStrings.AFTERNOONS:
+        filter = groupMeetingTimeRanges.AFTERNOONS;
+        break;
+      case awsMeetingTimeSearchStrings.EVENINGS:
+        filter = groupMeetingTimeRanges.EVENINGS;
+        break;
+      default:
+        console.log(`Error couldn't get awsMeetingTimeSearchString from ${awsTimeString}!`);
+    }
+    return filter;
+  }
+
   public setFilterStringMeetingTimes (meetingTimeRanges: SimpleSelectable[]): void {
 
     if ( meetingTimeRanges.filter(x => x.isSelected === true).length === 0) {

@@ -35,8 +35,18 @@ export class CategoryComponent implements OnInit {
       this.lookupService.getCategories().subscribe(
           cats => {
             this.categories = cats;
+            this.setSelectedCategories();
           }
       );
+  }
+
+  private setSelectedCategories(): void {
+    if (this.filterService.filterStringCategories != null) {
+      const selectedCategories = this.filterService.filterStringCategories.replace(/\(or|'|prefix|field|=|[() ]/g, '').split('groupcategory');
+      selectedCategories.forEach(element => {
+        this.setSelection(element);
+      });
+    }
   }
 
   private setSelection(selectedValue: string) {
