@@ -50,6 +50,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.isMyStuffSearch = isMyStuffActive;
       this.setSearchText();
     });
+
+    this.clickListener();
   }
 
   public ngOnChanges(): void {
@@ -126,6 +128,18 @@ export class SearchBarComponent implements OnChanges, OnInit {
     if (!this.isConnectApp) {
       this.shouldShowSubmit = value;
     }
+  }
+
+  private clickListener() {
+    document.body.addEventListener('click', (event: any) => {
+      for (let i = 0; i < event.path.length; i++) {
+        const classList = event.path[i].classList;
+        if (classList && classList.contains('connect-search')) {
+          return;
+        }
+      }
+      this.showLocationBar(false);
+    });
   }
 
 }

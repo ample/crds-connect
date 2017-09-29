@@ -10,7 +10,8 @@
                     [ngModelOptions]="{standalone: true}"
                     (keyup)="searchKeyUp()"
                     placeholder={{placeholderTextForSearchBar}}
-                    (focus)="showLocationBar(true)">
+                    (focus)="showLocationBar(true)"
+                    (keydown)="showLocationBar(true)">
           <div class="searchbar-wrapper"></div>
           <span class="addon-btn" *ngIf="shouldShowSubmit" [hidden]="isSearchClearHidden">
             <button type="button" role="button" (click)="resetSearchInput($event)">
