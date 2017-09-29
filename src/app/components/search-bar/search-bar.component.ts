@@ -145,11 +145,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.showLocationBar(false);
     });
   }
-<<<<<<< HEAD
-=======
 
   public filterCancel(): void {
     this.showLocationBar(false);
   }
->>>>>>> defect/DE4392-click-to-collapse
 }
