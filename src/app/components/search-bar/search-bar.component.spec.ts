@@ -169,4 +169,11 @@ describe('SearchBarComponent', () => {
     comp.showLocationBar(true);
     expect(comp.shouldShowSubmit).toBe(false);
   });
+
+  it('filterCancel should hide location bar', () => {
+    comp.isConnectApp = false;
+    comp.shouldShowSubmit = true;
+    comp.filterCancel();
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
 });
