@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -30,7 +30,7 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MeetingTimeComponent) public meetingTimeComponent: MeetingTimeComponent;
   @ViewChild(MeetingDayComponent) public meetingDayComponent: MeetingDayComponent;
   @ViewChild(MeetingFrequencyComponent) public meetingFrequencyComponent: MeetingFrequencyComponent;
-
+  @Output() cancelFilter: EventEmitter<string> = new EventEmitter();
 
   constructor( private filterService: FilterService,
                private router: Router,
@@ -53,6 +53,7 @@ export class FiltersComponent implements OnInit {
 
   public cancel(): void {
     this.state.setIsFilterDialogOpen(false);
+    this.cancelFilter.emit('filter cancel');
   }
 
 }
