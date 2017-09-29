@@ -73,7 +73,6 @@ export class CreateGroupPreviewComponent implements OnInit {
       )
         .subscribe((returnData) => {
           this.toastr.success('Successfully edited group!');
-          // this.smallGroupPin.gathering.meetingTime = this.timeHelperService.convertTime(this.smallGroupPin.gathering.meetingTime);
           this.state.postedPin = this.smallGroupPin;
           this.state.setIsMyStuffActive(true);
           this.state.setCurrentView(ViewType.LIST);
