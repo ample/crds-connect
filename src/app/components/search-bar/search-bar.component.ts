@@ -141,5 +141,4 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.showLocationBar(false);
     });
   }
-
 }
