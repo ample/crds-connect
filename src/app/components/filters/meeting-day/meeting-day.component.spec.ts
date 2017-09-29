@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MeetingDayComponent} from './meeting-day.component';
@@ -20,13 +20,12 @@ describe('MeetingDayComponent', () => {
     let comp: MeetingDayComponent;
     let el;
     let mockAppSettingsService, mockFilterService, mockLookupService;
-    let categories;
+    let daysOfTheWeek: SimpleSelectable[] = [new SimpleSelectable('Monday'), new SimpleSelectable('Tuesday'), new SimpleSelectable('Wednesday')];
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
-        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
-        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
-        categories = MockTestData.getSomeCategories();
+        mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['setFilterStringMeetingDays', 'buildArrayOfSelectables']);
+        mockLookupService = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -66,4 +65,28 @@ describe('MeetingDayComponent', () => {
 
         expect(comp.selectableDaysOfWeek[0].isSelected).toBe(false);
     });
+
+    it('should init', () => {
+      mockFilterService.buildArrayOfSelectables.and.returnValue(daysOfTheWeek);
+      spyOn(comp, 'setSelectedFilter');
+      comp.ngOnInit();
+      expect(comp.selectableDaysOfWeek.length).toBe(3);
+      expect(comp['setSelectedFilter']).toHaveBeenCalledTimes(1);
+    });
+
+    it('setSelectedFilter should not select anything if there is no day of week filter string', () => {
+      comp.selectableDaysOfWeek = daysOfTheWeek;
+      comp['setSelectedFilter']();
+      const selectedDaysOfTheWeek = comp.selectableDaysOfWeek.filter(stuff => stuff.isSelected);
+      expect(selectedDaysOfTheWeek.length).toBe(0);
+    });
+
+    it('setSelctedFilter should set filtered days to selected', () => {
+      comp.selectableDaysOfWeek = daysOfTheWeek;
+      comp['filterService'].filterStringMeetingDays = ' (or groupmeetingday: \'Monday\'  )';
+      comp['setSelectedFilter']();
+      const selectedDaysOfTheWeek = comp.selectableDaysOfWeek.filter(stuff => stuff.isSelected);
+      expect(selectedDaysOfTheWeek.length).toBe(1);
+    });
+
 });

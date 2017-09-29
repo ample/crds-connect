@@ -1,3 +1,4 @@
+import { meetingFrequencies } from '../../../shared/constants';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -5,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MeetingFrequencyComponent } from './meeting-frequency.component';
@@ -19,13 +20,12 @@ describe('MeetingFrequencyComponent', () => {
     let comp: MeetingFrequencyComponent;
     let el;
     let mockAppSettingsService, mockFilterService, mockLookupService;
-    let categories;
+    let meetingFrequencies = [new SimpleSelectable('Every Week'), new SimpleSelectable('Every Other Week'), new SimpleSelectable('Every Month')];
 
     beforeEach(() => {
         mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
-        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['filterStringKidsWelcome']);
-        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getAgeGroups']);
-        categories = MockTestData.getSomeCategories();
+        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['buildArrayOfSelectables']);
+        mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['']);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -65,4 +65,28 @@ describe('MeetingFrequencyComponent', () => {
 
         expect(comp.selectableMeetingFrequencies[0].isSelected ).toBe(false);
     });
+
+    it('should init', () => {
+      mockFilterService.buildArrayOfSelectables.and.returnValue(meetingFrequencies);
+      spyOn(comp, 'setSelectedFilter');
+      comp.ngOnInit();
+      expect(comp['setSelectedFilter']).toHaveBeenCalled();
+      expect(comp.selectableMeetingFrequencies.length).toBe(3);
+    });
+
+    it('setSelectedFilter should not select anything if there is no frequency filter string', () => {
+      comp.selectableMeetingFrequencies = meetingFrequencies;
+      comp['setSelectedFilter']();
+      const selectedFrequencies = comp.selectableMeetingFrequencies.filter(stuff => stuff.isSelected);
+      expect(selectedFrequencies.length).toBe(0);
+    });
+
+    it('setSelctedFilter should set filtered frequencies to selected', () => {
+      comp.selectableMeetingFrequencies = meetingFrequencies;
+      comp['filterService'].filterStringMeetingFrequencies = ' (or groupmeetingfrequency: \'Every Week\'  groupmeetingfrequency: \'Every Other Week\'  )';
+      comp['setSelectedFilter']();
+      const selectedFrequencies = comp.selectableMeetingFrequencies.filter(stuff => stuff.isSelected);
+      expect(selectedFrequencies.length).toBe(2);
+    });
+
 });

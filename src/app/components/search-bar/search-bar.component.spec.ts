@@ -10,7 +10,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
 class StateServiceStub {

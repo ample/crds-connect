@@ -1,11 +1,11 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
-import { FilterService } from '../services/filter.service';
+import { FilterService } from './filter.service';
 
-import { SimpleSelectable} from '../models/simple-selectable';
+import { SimpleSelectable} from '../../models/simple-selectable';
 
-import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings, meetingFrequencyNames} from '../shared/constants';
+import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings, meetingFrequencyNames} from '../../shared/constants';
 
 describe('Service: Filters ', () => {
 
@@ -126,6 +126,32 @@ describe('Service: Filters ', () => {
       rc = service.buildFilters();
       let expectedstring2: string = ` (or groupmeetingtime: ['0001-01-01T00:00:00Z', '0001-01-01T12:00:00Z']  groupmeetingtime: ['0001-01-01T17:00:00Z', '0001-01-01T23:59:00Z']  )`;
       expect(rc).toEqual(expectedstring2);
+    }));
+
+    it('should return morning time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T00:00:00Z\', \'0001-01-01T12:00:00Z\']');
+      expect(result).toBe('Mornings (before noon)');
+    }));
+
+    it('should return afternoon time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T12:00:00Z\', \'0001-01-01T17:00:00Z\']');
+      expect(result).toBe('Afternoons (12-5pm)');
+    }));
+
+    it('should return Evening time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T17:00:00Z\', \'0001-01-01T23:59:00Z\']');
+      expect(result).toBe('Evenings (after 5pm)');
+    }));
+
+    it('should display an error if awsMeetingTimeString conversion does not work',
+    inject([FilterService], (service: any) => {
+      spyOn(console, 'log');
+      const result = service.getTimeOfDayFromAwsTimeString('yabba dabba doo');
+      expect(result).toBeUndefined();
+      expect(console.log).toHaveBeenCalledWith('Error: couldn\'t get awsMeetingTimeSearchString from yabba dabba doo');
     }));
 
     xit('should return a valid search string for a single meeting frequency',

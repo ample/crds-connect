@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from './filter.service';
 import { StateService } from '../../services/state.service';
 
 import { CategoryComponent } from './category/category.component';

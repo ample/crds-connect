@@ -99,7 +99,7 @@ import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
-import { FilterService } from './services/filter.service';
+import { FilterService } from './components/filters/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
