@@ -13,7 +13,7 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { textConstants } from '../../shared/constants';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
@@ -84,6 +84,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     const pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
     this.state.lastSearch.search = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
+    this.showLocationBar(false);
   }
 
   private setSearchText(): void {
@@ -142,4 +143,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     });
   }
 
+  public filterCancel(): void {
+    this.showLocationBar(false);
+  }
 }

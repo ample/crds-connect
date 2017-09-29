@@ -10,7 +10,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
 class StateServiceStub {
@@ -84,6 +84,7 @@ describe('SearchBarComponent', () => {
   it('should emit search event', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
+    spyOn(comp, 'showLocationBar');
     const pinSearch = new PinSearchRequestParams('Phil is cool!', null, undefined);
     mockPinService.emitPinSearchRequest.and.returnValue(true);
 
@@ -91,6 +92,7 @@ describe('SearchBarComponent', () => {
     expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(pinSearch);
     expect(comp.isMyStuffSearch).toBeFalsy();
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+    expect(comp.showLocationBar).toHaveBeenCalledWith(false);
   });
 
   it('should escape apostrophes in search string', () => {
@@ -167,6 +169,13 @@ describe('SearchBarComponent', () => {
     comp.isConnectApp = true;
     comp.shouldShowSubmit = false;
     comp.showLocationBar(true);
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
+
+  it('filterCancel should hide location bar', () => {
+    comp.isConnectApp = false;
+    comp.shouldShowSubmit = true;
+    comp.filterCancel();
     expect(comp.shouldShowSubmit).toBe(false);
   });
 });

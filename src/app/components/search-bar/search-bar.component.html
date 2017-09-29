@@ -58,4 +58,5 @@
 
 <app-filters *ngIf="!isConnectApp"
              [hidden]="!state.isFilterDialogOpen"
+             (cancelFilter)="filterCancel()"
              class="connect-container connect-layout-container"></app-filters>

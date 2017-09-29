@@ -1,9 +1,5 @@
+import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
 import { Pin, pinType } from '../../models';
-/*
- * Testing a simple Angular 2 component
- * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
- */
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,14 +13,13 @@ import { PinService } from '../../services/pin.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { ParticipantService } from '../../services/participant.service';
-import { TimeHelperService} from '../../services/time-helper.service';
 import { MockComponent } from '../../shared/mock.component';
 import { MockBackend } from '@angular/http/testing';
 import { Participant } from '../../models/participant';
 import { MockTestData } from '../../shared/MockTestData';
 
 describe('ListEntryComponent', () => {
-    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService, mockTimeHelperService,
+    let mockAppSettings, mockPinService, mockStateService, mockSessionService, mockListHelperService,
         mockRouter, mockParticipantService;
     let fixture: ComponentFixture<ListEntryComponent>;
     let comp: ListEntryComponent;
@@ -36,7 +31,6 @@ describe('ListEntryComponent', () => {
         mockStateService = jasmine.createSpyObj<StateService>('stateService', ['setCurrentView']);
         mockListHelperService = jasmine.createSpyObj<ListHelperService>('listHelper', ['truncateTextEllipsis']);
         mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['getContactId']);
-        mockTimeHelperService = jasmine.createSpyObj<TimeHelperService>('timeHlpr', ['getLocalTimeFromUtcStringOrDefault']);
         mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp']);
         mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
         mockParticipantService = jasmine.createSpyObj<Router>('participantService', ['getAllLeaders']);
@@ -45,6 +39,7 @@ describe('ListEntryComponent', () => {
         TestBed.configureTestingModule({
             declarations: [
                 ListEntryComponent,
+                UtcTimeFormatPipe,
                 MockComponent({selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass']}),
                 MockComponent({selector: 'readonly-address', inputs: ['isPinOwner', 'address', 'distance']})
             ],
@@ -53,7 +48,6 @@ describe('ListEntryComponent', () => {
                 { provide: StateService, useValue: mockStateService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ListHelperService, useValue: mockListHelperService },
-                { provide: TimeHelperService, useValue: mockTimeHelperService },
                 { provide: Router, useValue: mockRouter },
                 { provide: AppSettingsService, useValue: mockAppSettings },
                 { provide: ParticipantService, useValue: mockParticipantService }
