@@ -10,7 +10,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
 class StateServiceStub {
@@ -129,7 +129,7 @@ describe('SearchBarComponent', () => {
     expect(comp.isSearchClearHidden ).toBe(true);
   });
 
-  it('should call OnSearch 1 time', async(() => {
+  it('should call OnSearch 1 time', () => {
     spyOn(comp, 'onSearch');
     comp.shouldShowSubmit = true;
     fixture.detectChanges();
@@ -138,7 +138,7 @@ describe('SearchBarComponent', () => {
     fixture.whenStable().then(() => {
       expect(comp.onSearch).toHaveBeenCalledTimes(1);
     });
-  }));
+  });
 
   it('should toggle filters and shouldShowDialog if shouldShowDialog is false', () => {
     comp.shouldShowSubmit = false;
@@ -169,6 +169,13 @@ describe('SearchBarComponent', () => {
     comp.isConnectApp = true;
     comp.shouldShowSubmit = false;
     comp.showLocationBar(true);
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
+
+  it('filterCancel should hide location bar', () => {
+    comp.isConnectApp = false;
+    comp.shouldShowSubmit = true;
+    comp.filterCancel();
     expect(comp.shouldShowSubmit).toBe(false);
   });
 });

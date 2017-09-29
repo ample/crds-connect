@@ -13,7 +13,7 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { textConstants } from '../../shared/constants';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
@@ -133,6 +133,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
 
   private clickListener() {
     document.body.addEventListener('click', (event: any) => {
+      if (!event.path) {
+        return;
+      }
       for (let i = 0; i < event.path.length; i++) {
         const classList = event.path[i].classList;
         if (classList && classList.contains('connect-search')) {
@@ -142,4 +145,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.showLocationBar(false);
     });
   }
+<<<<<<< HEAD
+=======
+
+  public filterCancel(): void {
+    this.showLocationBar(false);
+  }
+>>>>>>> defect/DE4392-click-to-collapse
 }

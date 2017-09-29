@@ -1,18 +1,37 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { StateService } from '../../../services/state.service';
+import { ViewType } from '../../../shared/constants';
 
 @Component({
   selector: 'online-or-physical-group',
   templateUrl: 'online-or-physical-group.component.html'
 })
 
-export class OnlineOrPhysicalGroupComponent {
+export class OnlineOrPhysicalGroupComponent implements OnInit {
   private isVirtualGroup: boolean = null;
   public isAnOptionSelected: boolean = false;
 
   constructor( private filterService: FilterService, private stateService: StateService) { }
+
+  public ngOnInit() {
+    this.setSelectedFilter();
+  }
+
+  public setSelectedFilter(): void {
+    if (this.filterService.filterStringGroupLocation != null) {
+      const filter = this.filterService.filterStringGroupLocation.replace(/\D/g, '');
+      this.isAnOptionSelected = true;
+      if (+filter === 0) {
+        this.isVirtualGroup = false;
+      } else {
+        this.isVirtualGroup = true;
+        this.stateService.setCurrentView(ViewType.LIST);
+      }
+      this.setFilterString(this.isVirtualGroup);
+    }
+  }
 
   public isVirtualGroupOptionClicked(isVirtualGroup: boolean): void {
     this.isAnOptionSelected = true;
@@ -26,8 +45,8 @@ export class OnlineOrPhysicalGroupComponent {
   }
 
   private setFilterString(isVirtualGroup: boolean): void {
-    let isVirtualGroupFlag = isVirtualGroup ? 1 : 0;
-    let haveIsVirtualGroupValue = this.isVirtualGroup !== null || this.isVirtualGroup !== undefined;
+    const isVirtualGroupFlag = isVirtualGroup ? 1 : 0;
+    const haveIsVirtualGroupValue = this.isVirtualGroup !== null || this.isVirtualGroup !== undefined;
     this.filterService.setFilterStringIsVirtualGroup(isVirtualGroupFlag, haveIsVirtualGroupValue);
   }
 

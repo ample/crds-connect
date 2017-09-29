@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { Pin, pinType } from '../../../models/pin';
 import { awsFieldNames } from '../../../shared/constants';
 
@@ -12,12 +12,16 @@ import { awsFieldNames } from '../../../shared/constants';
   templateUrl: 'kids-welcome.component.html'
 })
 
-export class KidsWelcomeComponent {
+export class KidsWelcomeComponent implements OnInit {
   public areKidsWelcome: boolean = null;
   public selected: boolean = false;
 
   constructor( private appSettings: AppSettingsService,
                private filterService: FilterService) { }
+
+  public ngOnInit() {
+    this.setSelectedFilter();
+  }
 
 
   public kidsWelcome(value: boolean): void {
@@ -35,5 +39,18 @@ export class KidsWelcomeComponent {
   public reset() {
     this.areKidsWelcome = null;
     this.selected = false;
+  }
+
+  public setSelectedFilter(): void {
+    if (this.filterService.filterStringKidsWelcome != null) {
+      const filter = this.filterService.filterStringKidsWelcome.replace(/\D/g, '');
+      this.selected = true;
+      if (+filter === 0) {
+        this.areKidsWelcome = false;
+      } else {
+        this.areKidsWelcome = true;
+      }
+      this.setFilterString();
+    }
   }
 }
