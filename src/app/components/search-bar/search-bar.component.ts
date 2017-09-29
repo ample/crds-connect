@@ -129,4 +129,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
+  public filterCancel(): void {
+    this.showLocationBar(false);
+  }
 }
