@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from './filter.service';
 import { StateService } from '../../services/state.service';
 import { FiltersComponent } from './filters.component';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
