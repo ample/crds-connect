@@ -93,10 +93,11 @@ describe('ListEntryComponent', () => {
     });
 
     it('should adjust leader names', () => {
-        let participants = new Array<Participant>();
-        let participant1 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
+        comp.type = pinType.SMALL_GROUP;
+        const participants = new Array<Participant>();
+        const participant1 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
                                            'Smith', 'Jason', 1, new Date(2016, 5).toDateString(), true);
-        let participant2 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
+        const participant2 = new Participant('congregation', 1, 'displayName', 'email@address.com', 1, 1, 'title', true,
                                            'Flipe', 'Robert', 1, new Date(2016, 5).toDateString(), true);
         participants.push(participant1);
         participants.push(participant2);
