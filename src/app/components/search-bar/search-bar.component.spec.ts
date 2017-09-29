@@ -24,7 +24,7 @@ class StateServiceStub {
   getIsFilteredDialogOpen = jasmine.createSpy('getIsFilteredDialogOpen');
 };
 
-fdescribe('SearchBarComponent', () => {
+describe('SearchBarComponent', () => {
   let fixture: ComponentFixture<SearchBarComponent>;
   let comp: SearchBarComponent;
   let el;
@@ -129,7 +129,7 @@ fdescribe('SearchBarComponent', () => {
     expect(comp.isSearchClearHidden ).toBe(true);
   });
 
-  fit('should call OnSearch 1 time', () => {
+  it('should call OnSearch 1 time', () => {
     spyOn(comp, 'onSearch');
     comp.shouldShowSubmit = true;
     fixture.detectChanges();
