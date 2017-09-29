@@ -1,3 +1,4 @@
+import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
 import { ProfileService } from '../../services/profile.service';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
@@ -22,6 +23,7 @@ describe('CreateGroupService', () => {
         TestBed.configureTestingModule({
             providers: [
                 CreateGroupService,
+                UtcTimeFormatPipe,
                 { provide: LookupService, useValue: mockLookupService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ProfileService, useValue: mockProfileService },
@@ -250,7 +252,7 @@ describe('CreateGroupService', () => {
             expect(group.meetingFrequencyId).not.toBeNull();
             expect(group.meetingTime).not.toBeNull();
             expect(group.startDate).toBe('0001-01-01T12:00:00Z');
-            expect(group.meetingTime).toBe('12:00 PM');
+            expect(group.meetingTime).toBe('5:00 pm');
         })
     );
 
