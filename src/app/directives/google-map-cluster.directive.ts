@@ -21,7 +21,8 @@ export class GoogleMapClusterDirective implements AfterContentInit {
   ) {}
 
   ngAfterContentInit() {
-    this.wrapper.getNativeMap().then(map => {
+    this.wrapper.getNativeMap()
+    .then(map => {
       const options = {
         // maxZoom: 16, grey starts here for groups
         // maxZoom:17, grey does not seem to appear, BUT
@@ -36,7 +37,15 @@ export class GoogleMapClusterDirective implements AfterContentInit {
         }]
       };
 
-      this.cluster = new MarkerClusterer(map, this.markerManager['_markers'], options);
+      const inputMarkers = Array.from(this.markerManager['_markers'].keys());
+      const markers = [];
+      const promises = inputMarkers.map((inputMarker) => {
+        return this.markerManager.getNativeMarker(inputMarker)
+        .then(marker => markers.push(marker));
+      });
+
+      Promise.all(promises)
+      .then(() => this.cluster = new MarkerClusterer(map, markers, options));
     });
   }
 }
