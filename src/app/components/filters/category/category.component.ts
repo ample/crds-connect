@@ -42,7 +42,7 @@ export class CategoryComponent implements OnInit {
 
   private setSelectedCategories(): void {
     if (this.filterService.filterStringCategories != null) {
-      const selectedCategories = this.filterService.filterStringCategories.replace(/(\(or )|: |\(prefix field=|'|\)/g, '').split('groupcategory');
+      const selectedCategories = this.filterService.filterStringCategories.replace(/(\(or )|: |\(prefix field=|'|\)/g, '').split('groupcategory').slice(1);
       selectedCategories.forEach(element => {
         this.setSelection(element.trim());
       });

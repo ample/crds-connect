@@ -46,7 +46,7 @@ export class AgeGroupsComponent implements OnInit {
 
   private setSelectedAgeGroups(): void {
     if (this.filterService.filterStringAgeGroups != null) {
-    const selectedFilters = this.filterService.filterStringAgeGroups.replace(/(\(or )|: |'|\)/g, '').split('groupagerange').slice(1);
+    const selectedFilters = this.filterService.filterStringAgeGroups.replace(/(\(or )|: |\(prefix field=|'| \)/g, '').split('groupagerange').slice(1);
     selectedFilters.forEach(element => {
       this.setSelection(element.trim());
     });
