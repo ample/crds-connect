@@ -8,9 +8,9 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve",
-    "build-local": "./node_modules/.bin/ng build --watch --aot true",
+    "build-local": "./node_modules/.bin/ng build --watch --aot true --build-optimizer --prod --output-hashing=media",
     "start-local": "./node_modules/.bin/ng serve",
-    "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --output-hashing=none --aot true",
+    "build": "./node_modules/.bin/ng build --prod --build-optimizer --environment $CRDS_ENV --output-hashing=none --aot true",
     "test": "./node_modules/.bin/ng test --reporters teamcity --single-run",
     "test-watch": "./node_modules/.bin/ng test",
     "test-coverage": "./node_modules/.bin/ng test --code-coverage --single-run",
