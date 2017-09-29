@@ -8,7 +8,7 @@ import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus, 
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from '../../services/content.service';
 import { GroupService } from '../../services/group.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';

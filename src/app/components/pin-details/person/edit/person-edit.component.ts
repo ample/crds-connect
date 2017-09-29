@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Pin, pinType } from '../../../../models/pin';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from '../../../../services/content.service';
 
 import { ViewType } from '../../../../shared/constants';
 

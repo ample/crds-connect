@@ -17,7 +17,7 @@ import { AddressService } from '../../services/address.service';
 import { initialMapZoom, usStatesList, ViewType } from '../../shared/constants';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
 import { SessionService } from '../../services/session.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from '../../services/content.service';
 import { UserLocationService } from '../../services/user-location.service';
 import { GoogleMapService } from '../../services/google-map.service';
 

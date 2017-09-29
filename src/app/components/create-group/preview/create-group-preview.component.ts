@@ -4,7 +4,7 @@ import {ParticipantService} from '../../../services/participant.service';
 import {ToastsManager} from 'ng2-toastr';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Rx';
-import {ContentService} from 'crds-ng2-content-block/src/content-block/content.service';
+import {ContentService} from '../../../services/content.service';
 import {PinService} from '../../../services/pin.service';
 import {ProfileService} from '../../../services/profile.service';
 import {GroupService} from '../../../services/group.service';

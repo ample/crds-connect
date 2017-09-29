@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from '../../../services/content.service';
 import { StateService } from '../../../services/state.service';
 import { AddressService } from '../../../services/address.service';
 
