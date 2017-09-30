@@ -3,9 +3,9 @@ import { HttpModule } from '@angular/http';
 
 import { FilterService } from './filter.service';
 
-import { SimpleSelectable} from '../../models/simple-selectable';
+import { SimpleSelectable} from '../models/simple-selectable';
 
-import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings, meetingFrequencyNames} from '../../shared/constants';
+import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings, meetingFrequencyNames} from '../shared/constants';
 
 describe('Service: Filters ', () => {
 

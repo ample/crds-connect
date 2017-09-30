@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Category } from '../../../models';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
 @Component({

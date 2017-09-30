@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy 
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { Pin, pinType } from '../../../models/pin';
 import { awsFieldNames } from '../../../shared/constants';
 

@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { MeetingDayComponent } from './meeting-day.component';
 import { SimpleSelectable } from '../../../models/simple-selectable';
