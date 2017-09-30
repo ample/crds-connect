@@ -20,8 +20,8 @@ export class OnlineOrPhysicalGroupComponent implements OnInit {
   }
 
   public setSelectedFilter(): void {
-    if (this.filterService.filterStringGroupLocation != null) {
-      const filter = this.filterService.filterStringGroupLocation.replace(/\D/g, '');
+    const filter = this.filterService.getSelectedGroupLocation();
+    if (filter) {
       this.isAnOptionSelected = true;
       if (+filter === 0) {
         this.isVirtualGroup = false;

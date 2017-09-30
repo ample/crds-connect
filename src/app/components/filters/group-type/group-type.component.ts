@@ -60,8 +60,8 @@ export class GroupTypeComponent implements OnInit {
   }
 
   private setSelectedGroupTypes(): void {
-    if (this.filterService.filterStringGroupTypes != null) {
-      const selectedFilter = this.filterService.filterStringGroupTypes.replace(/\(or|'|:|grouptype|[)]/g, '').trim();
+    const selectedFilter = this.filterService.getSelectedGenderMixes();
+    if (selectedFilter) {
       this.setGroupTypeSelection(selectedFilter);
     }
   }

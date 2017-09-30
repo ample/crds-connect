@@ -2,7 +2,6 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy 
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 
-import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../filter.service';
 import { Pin, pinType } from '../../../models/pin';
 import { awsFieldNames } from '../../../shared/constants';
@@ -16,8 +15,7 @@ export class KidsWelcomeComponent implements OnInit {
   public areKidsWelcome: boolean = null;
   public selected: boolean = false;
 
-  constructor( private appSettings: AppSettingsService,
-               private filterService: FilterService) { }
+  constructor(private filterService: FilterService) { }
 
   public ngOnInit() {
     this.setSelectedFilter();
@@ -42,8 +40,8 @@ export class KidsWelcomeComponent implements OnInit {
   }
 
   public setSelectedFilter(): void {
-    if (this.filterService.filterStringKidsWelcome != null) {
-      const filter = this.filterService.filterStringKidsWelcome.replace(/\D/g, '');
+    const filter = this.filterService.getSelectedKidsWelcomeFlag();
+    if (filter) {
       this.selected = true;
       if (+filter === 0) {
         this.areKidsWelcome = false;
