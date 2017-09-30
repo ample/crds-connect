@@ -12,8 +12,10 @@ import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { ParticipantService } from '../../services/participant.service';
 
-import { groupDescriptionLength, textConstants, maxValidProximity,
-    desiredPrecisionForProximityNumber, ViewType } from '../../shared/constants';
+import {
+  groupDescriptionLength, textConstants, maxValidProximity,
+  desiredPrecisionForProximityNumber, ViewType
+} from '../../shared/constants';
 import * as moment from 'moment';
 
 @Component({
@@ -45,13 +47,13 @@ export class ListEntryComponent implements OnInit {
   public proximityInfo: string;
 
   constructor(private appSettings: AppSettingsService,
-              private pinService: PinService,
-              private session: SessionService,
-              private router: Router,
-              private state: StateService,
-              private listHelper: ListHelperService,
-              private participantService: ParticipantService) {
-              this.currentContactId = this.session.getContactId();
+    private pinService: PinService,
+    private session: SessionService,
+    private router: Router,
+    private state: StateService,
+    private listHelper: ListHelperService,
+    private participantService: ParticipantService) {
+    this.currentContactId = this.session.getContactId();
   }
 
   public ngOnInit() {
@@ -59,10 +61,12 @@ export class ListEntryComponent implements OnInit {
     this.isGathering = this.type === pinType.GATHERING;
     this.isSite = this.type === pinType.SITE;
     this.isSmallGroup = this.type === pinType.SMALL_GROUP;
-    this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
-      this.leaders = leaders;
-      this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
-    });
+    if (this.pin.gathering) {
+      this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+        this.leaders = leaders;
+        this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
+      });
+    }
     this.proximityInfo = this.getProximityDisplayString(this.pin);
   }
 
@@ -86,7 +90,7 @@ export class ListEntryComponent implements OnInit {
     if (this.lastName === undefined || this.lastName === null) {
       this.lastName = '';
     }
-    return (this.firstName + ' ' +  (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
+    return (this.firstName + ' ' + (this.lastName.length > 0 ? this.lastName.charAt(0) : '') + '.');
   }
 
   public isMySmallGroup() {
@@ -146,10 +150,10 @@ export class ListEntryComponent implements OnInit {
   public getProximityDisplayString(pin: Pin): string {
     let proximityOrDesignation: string;
 
-    let isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
+    let isOnlineGroup: boolean = (pin.gathering) ? pin.gathering.isVirtualGroup : false;
     let invalidAddress: boolean = !this.isAddressValid(pin.address);
 
-    if(isOnlineGroup) {
+    if (isOnlineGroup) {
       proximityOrDesignation = textConstants.ONLINE_GROUP;
     } else if (invalidAddress) {
       proximityOrDesignation = textConstants.INVALID_OR_MISSING_ADDRESS;
@@ -161,7 +165,7 @@ export class ListEntryComponent implements OnInit {
   }
 
   public isAddressValid(add: Address): boolean {
-    if(!add) return false;
+    if (!add) return false;
 
     let isLatIvalid: boolean = add.latitude === null || add.latitude === undefined || add.latitude === 0;
     let isLngInvalid: boolean = add.latitude === null || add.latitude === undefined || add.latitude === 0;
