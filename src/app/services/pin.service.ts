@@ -24,7 +24,6 @@ import { Pin, pinType } from '../models/pin';
 import { PinIdentifier } from '../models/pin-identifier';
 import { Person } from '../models/person';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
-import { PinSearchRequestParams } from '../models/pin-search-request-params';
 import { PinSearchQueryParams } from '../models/pin-search-query-params';
 import { GeoCoordinates } from '../models/geo-coordinates';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../models/bland-page-details';
@@ -45,7 +44,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private baseServicesUrl = environment.CRDS_SERVICES_CLIENT_ENDPOINT;
 
-  public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
+  public pinSearchRequestEmitter: Subject<SearchOptions> = new Subject<SearchOptions>();
   private editedSmallGroupPin: Pin = null;
   private editedGatheringPin: Pin = null;
 
@@ -63,7 +62,7 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     this.SayHiTemplateId = sayHiTemplateId;
   }
 
-  public emitPinSearchRequest(requestParams: PinSearchRequestParams): void {
+  public emitPinSearchRequest(requestParams: SearchOptions): void {
     this.pinSearchRequestEmitter.next(requestParams);
   }
 
@@ -146,9 +145,9 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.editedGatheringPin;
   }
 
-  private updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto): void {
-    let lastSearchString = this.appSettings.isConnectApp() ? srchParams.userLocationSearchString
-                                                                : srchParams.userKeywordSearchString;
+  private updateMapView(srchParams: SearchOptions, srchRes: PinSearchResultsDto): void {
+    let lastSearchString = this.appSettings.isConnectApp() ? srchParams.locationSearch
+                                                                : srchParams.keywordSearch;
     let lat: number = srchRes.centerLocation.lat;
     let lng: number = srchRes.centerLocation.lng;
     let zoom: number = this.mapHlpr.calculateZoom(15, lat, lng, srchRes.pinSearchResults, this.state.getMyViewOrWorldView());
@@ -159,13 +158,13 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
 
-  public getPinSearchResults(params: PinSearchRequestParams): Observable<PinSearchResultsDto> {
+  public getPinSearchResults(params: SearchOptions): Observable<PinSearchResultsDto> {
     this.state.setLoading(true);
     let mapParams: MapView = this.state.getMapView();
 
-    let searchOptionsForCache = new SearchOptions(params.userKeywordSearchString != null ? params.userKeywordSearchString : '',
-                                                  params.userFilterString != null ? params.userFilterString : '',
-                                                  params.userLocationSearchString != null ? params.userLocationSearchString : '');
+    let searchOptionsForCache = new SearchOptions(params.keywordSearch != null ? params.keywordSearch : '',
+                                                  params.filter != null ? params.filter : '',
+                                                  params.locationSearch != null ? params.locationSearch : '');
 
     let contactId: number = this.session.getContactId() || 0;
 
@@ -202,19 +201,19 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
   }
 
-  private buildSearchPinQueryParams(params: PinSearchRequestParams): PinSearchQueryParams {
+  private buildSearchPinQueryParams(params: SearchOptions): PinSearchQueryParams {
     // TODO: ensure that this is updated on getting initial location - may not be available due to it being an observable
     let mapParams: MapView = this.state.getMapView();
     let isMyStuff: boolean = this.state.myStuffActive;
     let finderType: string = this.appSettings.finderType;
     let contactId: number = this.session.getContactId() || 0;
     let centerGeoCoords: GeoCoordinates = new GeoCoordinates(mapParams.lat, mapParams.lng);
-    centerGeoCoords = this.clearGeoCoordsIfSearchingLoc(params.userLocationSearchString, centerGeoCoords);
+    centerGeoCoords = this.clearGeoCoordsIfSearchingLoc(params.locationSearch, centerGeoCoords);
     let mapBoundingBox: MapBoundingBox = this.mapHlpr.calculateGeoBounds(mapParams);
 
-    let apiQueryParams = new PinSearchQueryParams(params.userLocationSearchString, params.userKeywordSearchString
+    let apiQueryParams = new PinSearchQueryParams(params.locationSearch, params.keywordSearch
                                                   , isMyStuff, finderType, contactId, centerGeoCoords, mapBoundingBox
-                                                  , params.userFilterString);
+                                                  , params.filter);
     console.log('API QUERY PARAMS: ');
     console.log(apiQueryParams);
 
@@ -500,10 +499,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinsFromServer;
   }
 
-  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string, filterString: string = null): PinSearchRequestParams {
+  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string, filterString: string = null): SearchOptions {
     const isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
-    const searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
-    const srchParams: PinSearchRequestParams = new PinSearchRequestParams(searchString, textInKeywordSearchBar, filterString);
+    const locationSearchString = textInLocationSearchBar ? textInLocationSearchBar : '';
+    const srchParams: SearchOptions = new SearchOptions(textInKeywordSearchBar, filterString, locationSearchString);
     return srchParams;
   }
 }

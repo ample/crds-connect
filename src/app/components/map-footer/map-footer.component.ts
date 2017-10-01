@@ -10,9 +10,7 @@ import { StateService } from '../../services/state.service';
 import { SessionService } from '../../services/session.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
-import { Pin } from '../../models/pin';
-import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
-import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+import { Pin, PinSearchResultsDto, SearchOptions } from '../../models';
 
 import { ViewType } from '../../shared/constants';
 
@@ -54,7 +52,7 @@ export class MapFooterComponent implements OnInit {
 
   public changeStateToAllResults() {
 
-    this.state.lastSearch.search = '';
+    this.state.lastSearch.keywordSearch = '';
     this.state.setIsMyStuffActive(false);
 
     this.pinService.clearPinCache();
@@ -64,7 +62,7 @@ export class MapFooterComponent implements OnInit {
     this.state.setCurrentView(ViewType.MAP);
     this.state.setMyViewOrWorldView('world');
 
-    let pinSearchRequest = new PinSearchRequestParams(null, null, null);
+    let pinSearchRequest = new SearchOptions(null, null, null);
     this.pinService.emitPinSearchRequest(pinSearchRequest);
   }
 
@@ -88,7 +86,7 @@ export class MapFooterComponent implements OnInit {
       this.state.setMyViewOrWorldView('my');
       this.state.setIsMyStuffActive(true);
 
-      let pinSearchRequest = new PinSearchRequestParams(null, null, null);
+      let pinSearchRequest = new SearchOptions(null, null, null);
 
       this.pinService.emitPinSearchRequest(pinSearchRequest);
     }

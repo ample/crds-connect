@@ -112,7 +112,7 @@ export class StateService {
   }
 
   public setLastSearchSearchString(value: string): void {
-    this.lastSearch.search = value;
+    this.lastSearch.keywordSearch = value;
   }
 
   public setLoading(val: boolean): void {

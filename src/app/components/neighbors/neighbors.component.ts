@@ -16,7 +16,6 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
 import { Pin, pinType } from '../../models/pin';
 import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
-import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { SearchOptions } from '../../models/search-options';
 
 import { initialMapZoom, ViewType } from '../../shared/constants';
@@ -116,22 +115,22 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     }
   }
 
-  doSearch(searchParams: PinSearchRequestParams) {
+  doSearch(searchParams: SearchOptions) {
     this.state.setLoading(true);
 
     this.pinService.getPinSearchResults(searchParams).subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.state.setlastSearchResults(this.pinSearchResults);
-        this.processAndDisplaySearchResults(searchParams.userLocationSearchString,
-          searchParams.userKeywordSearchString,
+        this.processAndDisplaySearchResults(searchParams.locationSearch,
+          searchParams.keywordSearch,
           next.centerLocation.lat,
           next.centerLocation.lng,
-          searchParams.userFilterString);
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
-          : searchParams.userKeywordSearchString;
+          searchParams.filter);
+        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.locationSearch
+          : searchParams.keywordSearch;
         if (this.state.lastSearch) {
-          this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
+          this.state.lastSearch.keywordSearch = lastSearchString; // Are we doing this twice? Here and in navigate away
         } else {
           this.state.lastSearch = new SearchOptions('', '', '');
         };
@@ -139,8 +138,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       error => {
         console.log(`Error returned from getPinSearchResults: ${error} `);
 
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
-          : searchParams.userKeywordSearchString;
+        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.locationSearch
+          : searchParams.keywordSearch;
         this.state.setLastSearchSearchString(lastSearchString);
         this.state.setLoading(false);
         if (error.status === 412) {
@@ -171,15 +170,15 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToListenForSearchRequests(): void {
-    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
+    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: SearchOptions) => {
       this.doSearch(srchParams);
     });
   }
 
   private runInitialPinSearch(): void {
-    let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
+    let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.locationSearch : null;
     let filter: string = (this.state.lastSearch) ? this.state.lastSearch.filter : null;
-    let pinSearchRequest: PinSearchRequestParams =
+    let pinSearchRequest: SearchOptions =
       this.pinService.buildPinSearchRequest(locationFilter, this.state.searchBarText, filter);
 
     this.userLocationService.GetUserLocation().subscribe(

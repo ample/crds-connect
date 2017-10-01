@@ -1,12 +1,12 @@
 export class SearchOptions {
 
-  search: string;
+  keywordSearch: string;
   filter: string;
-  location: string;
+  locationSearch: string;
 
-  constructor(search: string, filter: string, location: string) {
-    this.search = search;
+  constructor(keywordSearch: string, filter: string, locationSearch: string) {
+    this.keywordSearch = keywordSearch;
     this.filter = filter;
-    this.location = location;
+    this.locationSearch = locationSearch;
   }
 }

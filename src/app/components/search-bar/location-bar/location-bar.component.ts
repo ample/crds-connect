@@ -20,9 +20,9 @@ export class LocationBarComponent implements OnInit {
         location: new FormControl(this.location, []),
     });
 
-    if ((savedSearch) && savedSearch.location != null) {
-      this.location = savedSearch.location;
-      this.locationFormGroup.controls['location'].setValue(savedSearch.location);
+    if ((savedSearch) && savedSearch.locationSearch != null) {
+      this.location = savedSearch.locationSearch;
+      this.locationFormGroup.controls['location'].setValue(savedSearch.locationSearch);
     }
   }
 

@@ -7,8 +7,7 @@ import { LocationBarComponent } from './location-bar/location-bar.component';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { Pin } from '../../models/pin';
-import { PinSearchResultsDto } from '../../models/pin-search-results-dto';
-import { PinSearchRequestParams } from '../../models/pin-search-request-params';
+import { PinSearchResultsDto, SearchOptions } from '../../models';
 
 import { textConstants } from '../../shared/constants';
 
@@ -81,16 +80,16 @@ export class SearchBarComponent implements OnChanges, OnInit {
     const keywordString = this.appSettings.isSmallGroupApp() ? search : null;
     const filterString: string = this.filterService.buildFilters();
 
-    const pinSearchRequest = new PinSearchRequestParams(locationFilter, keywordString, filterString);
-    this.state.lastSearch.search = search;
+    const pinSearchRequest = new SearchOptions(keywordString, filterString, locationFilter);
+    this.state.lastSearch.keywordSearch = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
     this.showLocationBar(false);
   }
 
   private setSearchText(): void {
     if (!this.state.myStuffActive) {
-      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
-                        ? this.state.lastSearch.search : '';
+      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.keywordSearch !== 'useLatLng')
+                        ? this.state.lastSearch.keywordSearch : '';
     } else {
       this.state.searchBarText = this.appSettings.myStuffName;
     }
