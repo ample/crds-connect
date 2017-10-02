@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ContentBlockModule } from 'crds-ng2-content-block';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { StateService } from '../../../../services/state.service';
 import { SessionService } from '../../../../services/session.service';
 import { BlandPageService } from '../../../../services/bland-page.service';

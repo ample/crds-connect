@@ -21,7 +21,7 @@ import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ToastsManager, Toast } from 'ng2-toastr';
 import { AddressService } from '../../../services/address.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { MockComponent } from '../../../shared/mock.component';
 import { ListHelperService } from '../../../services/list-helper.service';
 import { TimeHelperService} from '../../../services/time-helper.service';

@@ -11,7 +11,7 @@ import { SessionService } from './services/session.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Angulartics2, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
 import { HeaderComponent } from './layout/header/header.component';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';

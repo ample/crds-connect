@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus } from '../../shared/constants';
 import { BlandPageService } from '../../services/bland-page.service';
-import { ContentService } from '../../services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { ParticipantService } from '../../services/participant.service';
 import { StateService } from '../../services/state.service';

@@ -7,7 +7,7 @@ import { SessionService } from '../../../../services/session.service';
 
 import { PinService } from '../../../../services/pin.service';
 import { Pin, pinType } from '../../../../models/pin';
-import { ContentService } from '../../../../services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 import { BlandPageService } from '../../../../services/bland-page.service';
 

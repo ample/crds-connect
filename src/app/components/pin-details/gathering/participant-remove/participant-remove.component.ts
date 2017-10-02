@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { ParticipantService } from '../../../../services/participant.service';
 import { StateService } from '../../../../services/state.service';
-import { ContentService } from '../../../../services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 
 @Component({
   selector: 'participant-remove',

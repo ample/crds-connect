@@ -4,7 +4,7 @@ import { Router,  ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { SessionService } from '../../../../services/session.service';
 import { StateService } from '../../../../services/state.service';
 import { ParticipantService } from '../../../../services/participant.service';

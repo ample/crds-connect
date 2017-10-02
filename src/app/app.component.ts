@@ -5,7 +5,7 @@ import { Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2
 
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
-import { ContentService } from './services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { StateService } from './services/state.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { appType } from './shared/constants';

@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 
 import { CreateGroupPage1Component } from './create-group-page-1.component';
 import { CreateGroupService } from '../create-group-data.service';

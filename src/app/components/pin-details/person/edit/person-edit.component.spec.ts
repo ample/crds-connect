@@ -9,7 +9,7 @@ import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../../../mod
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { MockComponent } from '../../../../shared/mock.component';
 import { SessionService } from '../../../../services/session.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';

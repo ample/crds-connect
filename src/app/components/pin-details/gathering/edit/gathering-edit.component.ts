@@ -9,7 +9,7 @@ import { SessionService } from '../../../../services/session.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ContentService } from '../../../../services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { Observable } from 'rxjs';
 
 @Component({

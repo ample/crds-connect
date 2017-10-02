@@ -9,7 +9,7 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { StateService } from '../../../services/state.service';
 import { AddressService } from '../../../services/address.service';
 import { ToastsManager } from 'ng2-toastr';

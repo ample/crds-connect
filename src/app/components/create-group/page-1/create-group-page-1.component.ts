@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { ContentService } from '../../../services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 
 import { CreateGroupService } from '../create-group-data.service';
 import { GroupService } from '../../../services/group.service';

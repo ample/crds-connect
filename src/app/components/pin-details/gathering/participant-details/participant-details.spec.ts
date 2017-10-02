@@ -14,7 +14,7 @@ import { DebugElement } from '@angular/core';
 import { GroupRole, MaxGroupLeaders, MaxGroupApprentices } from '../../../../shared/constants';
 import { ParticipantDetailsComponent } from './participant-details.component';
 import { ToastsManager } from 'ng2-toastr';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppSettingsService } from '../../../../services/app-settings.service';
 

@@ -12,7 +12,7 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { InviteSomeoneComponent } from './invite-someone.component';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';

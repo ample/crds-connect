@@ -13,7 +13,7 @@ import { AppSettingsService } from '../../../services/app-settings.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../../create-group/create-group-data.service';
-import { ContentService } from '../../../services/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { MiscellaneousService } from '../../../services/miscellaneous-service';
 import { PinService } from '../../../services/pin.service';

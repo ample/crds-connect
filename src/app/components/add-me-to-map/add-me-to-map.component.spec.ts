@@ -17,7 +17,7 @@ import { AddMeToMapComponent } from './add-me-to-map.component';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { BlandPageService } from '../../services/bland-page.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { UserLocationService } from '../../services/user-location.service';
 import { AddressService } from '../../services/address.service';
 import { Location } from '@angular/common';
