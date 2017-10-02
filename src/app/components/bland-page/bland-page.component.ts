@@ -47,15 +47,17 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
     }
 
     close() {
-        if (this.blandPageDetails.cancelState === 'useDefaultBrowserBackFunctionality' ) {
-            window.history.go(-1);
-        } else {
-            let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
-            this.router.navigate(['/' + state]);
-        }
+      document.querySelector('body').style.overflowY = 'auto';
+      if (this.blandPageDetails.cancelState === 'useDefaultBrowserBackFunctionality' ) {
+        window.history.go(-1);
+      } else {
+        let state = this.blandPageDetails.cancelState != null ? this.blandPageDetails.cancelState : this.blandPageDetails.goToState;
+        this.router.navigate(['/' + state]);
+      }
     }
 
     go() {
-        this.router.navigate(['/' + this.blandPageDetails.goToState]);
+      document.querySelector('body').style.overflowY = 'auto';
+      this.router.navigate(['/' + this.blandPageDetails.goToState]);
     }
 }

@@ -1,3 +1,4 @@
+import { UtcTimeFormatPipe } from '../../../pipes/utc-time-format.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,7 +25,6 @@ import { AddressService } from '../../../services/address.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { MockComponent } from '../../../shared/mock.component';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { TimeHelperService} from '../../../services/time-helper.service';
 import { GroupRole } from '../../../shared/constants';
 
 
@@ -72,7 +72,6 @@ describe('Gathering component redirect error', () => {
     mockAddressService = jasmine.createSpyObj<AddressService>('addressService', ['getFullAddress']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
-    mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
     mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
     mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analtyics', ['joinGathering', 'joinGroup']);
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroup', ['clearPresetDataFlagsOnGroupEdit']);
@@ -85,6 +84,7 @@ describe('Gathering component redirect error', () => {
     TestBed.configureTestingModule({
       declarations: [
         GatheringComponent,
+        UtcTimeFormatPipe,
         MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] })
       ],
       imports: [],
@@ -103,7 +103,6 @@ describe('Gathering component redirect error', () => {
         { provide: AddressService, useValue: mockAddressService },
         { provide: ContentService, useValue: mockContentService },
         { provide: ListHelperService, useValue: mockListHelperService },
-        { provide: TimeHelperService, useValue: mockTimeService },
         { provide: AnalyticsService, useValue: mockAnalytics },
         {
           provide: Router,
@@ -168,7 +167,6 @@ describe('GatheringComponent', () => {
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['warning', 'error']);
     mockContentService = jasmine.createSpyObj<ContentService>('contentService', ['getContent']);
     mockListHelperService = jasmine.createSpyObj<AddressService>('listHelper', ['truncateTextEllipsis']);
-    mockTimeService = jasmine.createSpyObj<TimeHelperService>('hackTime', ['getContent']);
     mockAnalytics = jasmine.createSpyObj<AnalyticsService>('analytics', ['joinGroup', 'joinGathering']);
     mockRouter = { url: 'abc123', routerState: { snapshot: { url: 'abc123' } }, navigate: jasmine.createSpy('navigate') };
     let pin = MockTestData.getAPin();
@@ -182,6 +180,7 @@ describe('GatheringComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         GatheringComponent,
+        UtcTimeFormatPipe,
         MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] })
       ],
       imports: [],
@@ -200,7 +199,6 @@ describe('GatheringComponent', () => {
         { provide: ListHelperService, useValue: mockListHelperService },
         { provide: ContentService, useValue: mockContentService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: TimeHelperService, useValue: mockTimeService },
         { provide: AnalyticsService, useValue: mockAnalytics },
         {
           provide: Router,

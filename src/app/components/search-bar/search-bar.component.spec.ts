@@ -1,3 +1,4 @@
+import { MockComponent } from '../../shared/mock.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -9,7 +10,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { SearchBarComponent } from './search-bar.component';
 
 class StateServiceStub {
@@ -20,6 +21,7 @@ class StateServiceStub {
   public myStuffStateChangedEmitter = {
     subscribe: jasmine.createSpy('subscribe').and.returnValue(Observable.of(this.myStuffActive))
   };
+  getIsFilteredDialogOpen = jasmine.createSpy('getIsFilteredDialogOpen');
 };
 
 describe('SearchBarComponent', () => {
@@ -35,7 +37,8 @@ describe('SearchBarComponent', () => {
     mockStateService = new StateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
-        SearchBarComponent
+        SearchBarComponent,
+        MockComponent({selector: 'app-location-bar', inputs: ['submit']})
       ],
       providers: [
         { provide: AppSettingsService, useValue: mockAppSettingsService },
@@ -52,7 +55,7 @@ describe('SearchBarComponent', () => {
       fixture = TestBed.createComponent(SearchBarComponent);
       comp = fixture.componentInstance;
       comp['isMapHidden'] = false;
-      // el = fixture.debugElement.query(By.css('h1'));
+      // el = fixture.debugElement.query(By.css('form'));
     });
   }));
 
@@ -81,6 +84,7 @@ describe('SearchBarComponent', () => {
   it('should emit search event', () => {
     <jasmine.Spy>(mockAppSettingsService.isConnectApp).and.returnValue(true);
     comp.ngOnInit();
+    spyOn(comp, 'showLocationBar');
     const pinSearch = new PinSearchRequestParams('Phil is cool!', null, undefined);
     mockPinService.emitPinSearchRequest.and.returnValue(true);
 
@@ -88,6 +92,7 @@ describe('SearchBarComponent', () => {
     expect(mockPinService.emitPinSearchRequest).toHaveBeenCalledWith(pinSearch);
     expect(comp.isMyStuffSearch).toBeFalsy();
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
+    expect(comp.showLocationBar).toHaveBeenCalledWith(false);
   });
 
   it('should escape apostrophes in search string', () => {
@@ -124,4 +129,53 @@ describe('SearchBarComponent', () => {
     expect(comp.isSearchClearHidden ).toBe(true);
   });
 
+  it('should call OnSearch 1 time', () => {
+    spyOn(comp, 'onSearch');
+    comp.shouldShowSubmit = true;
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.whenStable().then(() => {
+      expect(comp.onSearch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should toggle filters and shouldShowDialog if shouldShowDialog is false', () => {
+    comp.shouldShowSubmit = false;
+    spyOn(comp, 'showLocationBar');
+    mockStateService.getIsFilteredDialogOpen.and.returnValue(false);
+    comp.toggleFilters();
+    expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalledWith(true);
+    expect(comp.showLocationBar).toHaveBeenCalledWith(true);
+  });
+
+  it('should toggle filters only when shouldshow', () => {
+    comp.shouldShowSubmit = true;
+    spyOn(comp, 'showLocationBar');
+    mockStateService.getIsFilteredDialogOpen.and.returnValue(false);
+    comp.toggleFilters();
+    expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalledWith(true);
+    expect(comp.showLocationBar).not.toHaveBeenCalled();
+  });
+
+  it('should toggleLocationBar if in group mode', () => {
+    comp.isConnectApp = false;
+    comp.shouldShowSubmit = false;
+    comp.showLocationBar(true);
+    expect(comp.shouldShowSubmit).toBe(true);
+  });
+
+  it('should not toggleLocationBar if in connect mode', () => {
+    comp.isConnectApp = true;
+    comp.shouldShowSubmit = false;
+    comp.showLocationBar(true);
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
+
+  it('filterCancel should hide location bar', () => {
+    comp.isConnectApp = false;
+    comp.shouldShowSubmit = true;
+    comp.filterCancel();
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
 });

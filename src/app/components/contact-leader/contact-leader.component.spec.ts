@@ -93,7 +93,7 @@ describe('ContactLeaderComponent', () => {
       expect(mockParticipantService.submitLeaderMessageToAPI).toHaveBeenCalledWith(2, mockMsgToLeader);
       expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
       expect(mockContentService.getContent).toHaveBeenCalledWith('groupFinderContactCrdsError');
-      expect(mockToastsManager.error).toHaveBeenCalledWith('whee', null, {toastLife: 3000});
+      expect(mockToastsManager.error).toHaveBeenCalledWith('whee', null);
     });
 
     it('should close fauxdal', () => {

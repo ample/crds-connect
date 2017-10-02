@@ -5,7 +5,7 @@ import { Category } from '../../../models/category';
 import { awsFieldNames } from '../../../shared/constants';
 
 import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
 @Component({
@@ -35,12 +35,22 @@ export class CategoryComponent implements OnInit {
       this.lookupService.getCategories().subscribe(
           cats => {
             this.categories = cats;
+            this.setSelectedCategories();
           }
       );
   }
 
+  private setSelectedCategories(): void {
+    if (this.filterService.filterStringCategories != null) {
+      const selectedCategories = this.filterService.filterStringCategories.replace(/(\(or )|: |\(prefix field=|'|\)/g, '').split('groupcategory').slice(1);
+      selectedCategories.forEach(element => {
+        this.setSelection(element.trim());
+      });
+    }
+  }
+
   private setSelection(selectedValue: string) {
-    let group = this.categories.find(i => i.name === selectedValue);
+    const group = this.categories.find(i => i.name === selectedValue);
     if ( group != null) {
       group.selected = !group.selected;
     }
@@ -51,7 +61,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public reset() {
-    for (let cat of this.categories) {
+    for (const cat of this.categories) {
       cat.selected = false;
     }
   }

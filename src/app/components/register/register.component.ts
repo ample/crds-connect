@@ -7,6 +7,7 @@ import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
+import { environment } from '../../../environments/environment';
 
 import { User } from '../../models/user';
 
@@ -44,9 +45,9 @@ export class RegisterComponent implements OnInit {
       password: ['', [<any>Validators.required, <any>Validators.minLength(8)]]
     });
     window.scrollTo(0, 0);
-    this.privacyPolicyUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
-    this.forgotPasswordUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
-    this.termsOfServiceUrl = `//${process.env.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
+    this.privacyPolicyUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/privacypolicy`;
+    this.forgotPasswordUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/forgot-password`;
+    this.termsOfServiceUrl = `//${environment.CRDS_ENV || 'www'}.crossroads.net/terms-of-service`;
 
     this.state.setLoading(false);
   }

@@ -1,6 +1,6 @@
 import { Injectable} from '@angular/core';
 import { AppType, appType, LeadershipApplicationType, textConstants } from '../shared/constants';
-import { appRoutingProviders, routing } from '../app.routing';
+import { appRoutingProviders, routing } from '../app-routing.module';
 import { StuffNotFoundComponent } from '../components/stuff-not-found/stuff-not-found.component';
 import { Router } from '@angular/router';
 
@@ -58,7 +58,7 @@ export class AppSettingsService {
       this.router.navigate(['groups-not-found']);
     } else {
       this.router.navigateByUrl('/add-me-to-the-map');
-    } 
+    }
    }
 
   public appClass(): string {

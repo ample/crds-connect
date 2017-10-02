@@ -1,13 +1,10 @@
-import './polyfills.ts';
-
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-// import zone.js last, otherwise it will throw error "ZoneAware promise has been overriden" during bootstrapping
-import 'zone.js/dist/zone';
-
-if (process.env.ENV === 'production') {
+if (environment.production) {
   enableProdMode();
 }
 

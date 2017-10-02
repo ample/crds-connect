@@ -1,9 +1,8 @@
 import { AnalyticsService } from '../../services/analytics.service';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
 import { EventEmitter } from '@angular/core';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,7 +22,6 @@ import { SiteAddressService } from '../../services/site-address.service';
 import { StateService } from '../../services/state.service';
 import { UserLocationService } from '../../services/user-location.service';
 
-import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 
 import { MapComponent } from '../../components/map/map.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';
@@ -31,6 +29,7 @@ import { MapFooterComponent } from '../map-footer/map-footer.component';
 import { SearchLocalComponent } from '../search-local/search-local.component';
 import { MapSettings } from '../../models/map-settings';
 import { MapView } from '../../models/map-view';
+import { MockComponent } from '../../shared/mock.component';
 
 describe('Component: SearchLocal', () => {
   let fixture: ComponentFixture<SearchLocalComponent>;
@@ -81,8 +80,9 @@ describe('Component: SearchLocal', () => {
         MapComponent,
         MapContentComponent,
         MapFooterComponent,
-        GoogleMapClusterDirective,
         // TODO: Components above this line should use mock component. Will reduce number of mocks all around.
+        MockComponent({ selector: 'agm-marker-cluster', inputs: ['styles', 'maxZoom', 'averageCenter'] }),
+        MockComponent({ selector: 'google-map-cluster', inputs: []}),
         SearchLocalComponent
       ],
       imports: [

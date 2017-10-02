@@ -21,11 +21,11 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { TimeHelperService} from '../../../services/time-helper.service';
 
 import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
 import * as moment from 'moment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -52,7 +52,6 @@ export class GatheringComponent implements OnInit {
   public doDisplayFullDesc: boolean;
   private participantEmails: string[];
   public adjustedLeaderNames: string[] = [];
-  public showEndGroup: boolean = false;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -68,13 +67,11 @@ export class GatheringComponent implements OnInit {
     private listHelperService: ListHelperService,
     private miscellaneousService: MiscellaneousService,
     private content: ContentService,
-    private timeHlpr: TimeHelperService,
     private analtyics: AnalyticsService,
     public appSettingsService: AppSettingsService,
     private route: ActivatedRoute) { }
 
   public ngOnInit() {
-    this.showEndGroup = this.session.isAdmin();
     if (!this.previewMode) {
       window.scrollTo(0, 0);
       this.miscellaneousService.reEnableScrollingInCaseFauxdalDisabledIt();
@@ -152,7 +149,7 @@ export class GatheringComponent implements OnInit {
     const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
     const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
 
-    const baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    const baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     if (approved !== undefined && trialMemberId) {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
@@ -221,15 +218,6 @@ export class GatheringComponent implements OnInit {
   private onEndGroupClicked(): void {
     this.state.setLoading(true);
     this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
-  }
-
-  public getMeetingTime(meetingTimeUtc: string) {
-    // Sorry this is here. We don't need to do moment when we're doing create group :(
-    if (!this.previewMode) {
-      return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
-    } else {
-      return this.timeHlpr.hackTime(meetingTimeUtc);
-    }
   }
 
   private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {

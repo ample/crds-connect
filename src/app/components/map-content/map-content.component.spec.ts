@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GoogleMapsAPIWrapper, MapsAPILoader } from 'angular2-google-maps/core';
+import { GoogleMapsAPIWrapper, MapsAPILoader } from '@agm/core';
 import { GoogleMapService } from '../../services/google-map.service';
 import { MapContentComponent } from './map-content.component';
 import { StateService } from '../../services/state.service';

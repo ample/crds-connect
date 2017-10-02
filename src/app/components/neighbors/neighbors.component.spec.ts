@@ -1,5 +1,5 @@
 import { AddressService } from '../../services/address.service';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
@@ -11,7 +11,6 @@ import {
   PinSearchResultsDto,
   SearchOptions
   } from '../../models';
-import { GoogleMapClusterDirective } from '../../directives/google-map-cluster.directive';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule } from '@angular/http';
@@ -43,7 +42,7 @@ import { StateService } from '../../services/state.service';
 import { Subject } from 'rxjs/Subject';
 import { TestBed } from '@angular/core/testing';
 import { UserLocationService } from '../../services/user-location.service';
-import { FilterService } from '../../services/filter.service';
+import { FilterService } from '../filters/filter.service';
 import { BlandPageComponent } from '../bland-page/bland-page.component';
 import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
 import { PinIdentifier } from '../../models/pin-identifier';

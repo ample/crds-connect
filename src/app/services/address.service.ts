@@ -7,11 +7,12 @@ import { CacheableService, CacheLevel } from './base-service/cacheable.service';
 import { SessionService } from './session.service';
 
 import { Address, Pin, pinType, Group } from '../models';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AddressService extends CacheableService<Pin[]> {
 
-    private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+    private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
     public groupAddressFormFieldClearEmitter: EventEmitter<void>;
 
     constructor(private session: SessionService) {
