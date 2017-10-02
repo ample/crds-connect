@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve",
-    "build-local": "./node_modules/.bin/ng build --watch --aot true --build-optimizer --prod --output-hashing=media",
+    "build-local": "./node_modules/.bin/ng build --watch --aot true -style scss",
     "start-local": "./node_modules/.bin/ng serve",
     "build": "./node_modules/.bin/ng build --prod --build-optimizer --environment $CRDS_ENV --output-hashing=none --aot true",
     "test": "./node_modules/.bin/ng test --reporters teamcity --single-run",
@@ -35,6 +35,7 @@
     "angular2-cookie": "1.2.6",
     "angulartics2": "^2.2.2",
     "core-js": "^2.4.1",
+    "crds-ng2-content-block": "^1.1.0",
     "crds-reactive-auth": "crdschurch/crds-reactive-auth#development",
     "crds-styles": "0.13.0",
     "intl": "^1.2.5",
