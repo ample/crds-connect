@@ -65,7 +65,7 @@ export class ListEntryComponent implements OnInit {
         this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
       });
 
-      this.proximityInfo = this.getProximityDisplayString(this.pin);
+      this.proximityInfo = this.getSmallGroupProximityDisplayString(this.pin);
     }
 
   }
@@ -147,13 +147,13 @@ export class ListEntryComponent implements OnInit {
     return adjustedLeaderNames;
   }
 
-  public getProximityDisplayString(pin: Pin): string {
+  public getSmallGroupProximityDisplayString(pin: Pin): string {
     let proximityOrDesignation: string;
 
-    let isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
-    let invalidAddress: boolean = !this.isAddressValid(pin.address);
+    const isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
+    const invalidAddress: boolean = !this.isAddressValid(pin.address);
 
-    if(isOnlineGroup) {
+    if (isOnlineGroup) {
       proximityOrDesignation = textConstants.ONLINE_GROUP;
     } else if (invalidAddress) {
       proximityOrDesignation = textConstants.INVALID_OR_MISSING_ADDRESS;
