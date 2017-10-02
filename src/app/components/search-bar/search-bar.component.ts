@@ -132,18 +132,30 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   private clickListener() {
+    document.body.addEventListener('touchend', (event: any) => {
+      this.searchClick(event);
+    });
     document.body.addEventListener('click', (event: any) => {
-      if (!event.path) {
+      this.searchClick(event);
+    });
+  }
+
+  private searchClick(event: any) {
+    let path = [];
+    let node = event.target;
+    while (node !== document.body) {
+      path.push(node);
+      node = node.parentNode;
+    }
+    if (!path) { return; }
+    for (let i = 0; i < path.length; i++) {
+      const classList = path[i].classList;
+      if (classList && classList.contains('connect-search')) {
         return;
       }
-      for (let i = 0; i < event.path.length; i++) {
-        const classList = event.path[i].classList;
-        if (classList && classList.contains('connect-search')) {
-          return;
-        }
-      }
-      this.showLocationBar(false);
-    });
+    }
+    document.getElementById('search-bar-input').blur();
+    this.showLocationBar(false);
   }
 
   public filterCancel(): void {
