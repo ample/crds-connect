@@ -59,11 +59,15 @@ export class ListEntryComponent implements OnInit {
     this.isGathering = this.type === pinType.GATHERING;
     this.isSite = this.type === pinType.SITE;
     this.isSmallGroup = this.type === pinType.SMALL_GROUP;
-    this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
-      this.leaders = leaders;
-      this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
-    });
-    this.proximityInfo = this.getProximityDisplayString(this.pin);
+    if (this.isSmallGroup) {
+      this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+        this.leaders = leaders;
+        this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders);
+      });
+
+      this.proximityInfo = this.getSmallGroupProximityDisplayString(this.pin);
+    }
+
   }
 
   public isMe() {
@@ -143,13 +147,13 @@ export class ListEntryComponent implements OnInit {
     return adjustedLeaderNames;
   }
 
-  public getProximityDisplayString(pin: Pin): string {
+  public getSmallGroupProximityDisplayString(pin: Pin): string {
     let proximityOrDesignation: string;
 
-    let isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
-    let invalidAddress: boolean = !this.isAddressValid(pin.address);
+    const isOnlineGroup: boolean = pin.gathering.isVirtualGroup;
+    const invalidAddress: boolean = !this.isAddressValid(pin.address);
 
-    if(isOnlineGroup) {
+    if (isOnlineGroup) {
       proximityOrDesignation = textConstants.ONLINE_GROUP;
     } else if (invalidAddress) {
       proximityOrDesignation = textConstants.INVALID_OR_MISSING_ADDRESS;
