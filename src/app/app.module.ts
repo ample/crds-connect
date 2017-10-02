@@ -31,7 +31,6 @@ import { AddMeToMapComponent } from './components/add-me-to-map/add-me-to-map.co
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { BlandPageComponent } from './components/bland-page/bland-page.component';
-import { ContentBlockComponent } from './components/content-component/content-block.component';
 import { ContactLeaderComponent } from './components/contact-leader/contact-leader.component';
 import { CreateGroupSummaryComponent } from './components/create-group/create-group-summary/create-group-summary.component';
 import { CreateGroupPage1Component } from './components/create-group/page-1/create-group-page-1.component';
@@ -98,7 +97,6 @@ import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
-import { ContentService } from './services/content.service';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -142,6 +140,13 @@ import { SocialMediaComponent } from './components/pin-details/gathering/social-
 
 import { RouterModule } from '@angular/router';
 
+import { ContentService, ContentBlockModule, ContentBlockConfig } from 'crds-ng2-content-block';
+export class mockContentBlockConfig {
+  public endpoint: string = environment.CRDS_CMS_CLIENT_ENDPOINT;
+  public categories: Array<string> = ['finder', 'group tool'];
+  constructor() {}
+}
+
 @NgModule({
 imports: [
   AlertModule,
@@ -166,7 +171,8 @@ imports: [
   ToastModule.forRoot(),
   TimepickerModule.forRoot(),
   BsDropdownModule.forRoot(),
-  routing
+  routing,
+  ContentBlockModule
 ],
 declarations: [
   AddMeToMapComponent,
@@ -175,7 +181,6 @@ declarations: [
   AuthenticationComponent,
   BlandPageComponent,
   ContactLeaderComponent,
-  ContentBlockComponent,
   CreateGroupSummaryComponent,
   CreateGroupPage1Component,
   CreateGroupPage2Component,
@@ -283,12 +288,16 @@ providers: [
   UserDataResolver,
   WhatsAHostGuard,
   HostNextStepsGuard,
+  { provide: ContentBlockConfig, useClass: mockContentBlockConfig }
 ],
 bootstrap: [AppComponent]
 })
 
 export class AppModule {
   constructor(protected content: ContentService) {
-    this.content.loadData();
+    this.content.loadData({
+      endpoint: environment.CRDS_CMS_CLIENT_ENDPOINT,
+      categories: ['finder', 'group tool']
+    });
   }
 }
