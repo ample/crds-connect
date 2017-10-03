@@ -28,11 +28,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @ViewChild(LocationBarComponent) public locationBarComponent: LocationBarComponent;
 
-  private isMyStuffActiveSub: Subscription;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
   public isConnectApp: boolean;
   public shouldShowSubmit: boolean = false;
+  private isMyStuffActiveSub: Subscription;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -85,15 +85,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.lastSearch.search = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
     this.showLocationBar(false);
-  }
 
-  private setSearchText(): void {
-    if (!this.state.myStuffActive) {
-      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
-                        ? this.state.lastSearch.search : '';
-    } else {
-      this.state.searchBarText = this.appSettings.myStuffName;
-    }
+    this.searchKeyUp();
   }
 
   public clearSearchText(): void {
@@ -132,6 +125,10 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
+  public filterCancel(): void {
+    this.showLocationBar(false);
+  }
+
   private clickListener() {
     document.body.addEventListener('touchend', (event: any) => {
       this.searchClick(event);
@@ -159,7 +156,12 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.showLocationBar(false);
   }
 
-  public filterCancel(): void {
-    this.showLocationBar(false);
+  private setSearchText(): void {
+    if (!this.state.myStuffActive) {
+      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
+                        ? this.state.lastSearch.search : '';
+    } else {
+      this.state.searchBarText = this.appSettings.myStuffName;
+    }
   }
 }

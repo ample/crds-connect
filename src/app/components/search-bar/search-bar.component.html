@@ -13,7 +13,7 @@
                     (focus)="showLocationBar(true)"
                     (keydown)="showLocationBar(true)">
           <div class="searchbar-wrapper"></div>
-          <span class="addon-btn" [hidden]="isSearchClearHidden" [class.addon-offset]="!shouldShowSubmit">
+          <span class="addon-btn" [hidden]="isSearchClearHidden" [class.addon-offset]="appSettings.isSmallGroupApp() && !shouldShowSubmit">
             <button type="button" role="button" (click)="resetSearchInput($event)">
               <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="/assets/svgs/icons.svg#close-thin" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
