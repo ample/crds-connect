@@ -99,6 +99,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.clearSearchText();
     this.focusSearchInput();
     this.showLocationBar(false);
+    this.isSearchClearHidden = true;
   }
 
   public searchKeyUp(): void {
