@@ -77,6 +77,10 @@ app-filters {
         right: 0;
         top: 0;
         z-index: 4;
+
+        &.offset {
+          right: 26px;
+        }
       }
     }
 
