@@ -33,6 +33,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public isConnectApp: boolean;
   public shouldShowSubmit: boolean = false;
   private isMyStuffActiveSub: Subscription;
+  public filtersLabel: string = 'Add filters';
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -116,6 +117,12 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setIsFilterDialogOpen(shouldShowDialog);
     if (onlyToggleFilters === false && shouldShowDialog !== this.shouldShowSubmit) {
       this.showLocationBar(shouldShowDialog);
+    }
+
+    if (this.state.getIsFilteredDialogOpen()) {
+      this.filtersLabel = 'Close filters';
+    } else {
+      this.filtersLabel = 'Add filters';
     }
   }
 
