@@ -42,7 +42,7 @@ import { StateService } from '../../services/state.service';
 import { Subject } from 'rxjs/Subject';
 import { TestBed } from '@angular/core/testing';
 import { UserLocationService } from '../../services/user-location.service';
-import { FilterService } from '../filters/filter.service';
+import { FilterService } from '../../services/filter.service';
 import { BlandPageComponent } from '../bland-page/bland-page.component';
 import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
 import { PinIdentifier } from '../../models/pin-identifier';

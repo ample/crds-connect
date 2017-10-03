@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { SimpleSelectable } from '../../../models/simple-selectable';
 import { meetingFrequencyNames } from '../../../shared/constants';
 
@@ -21,10 +21,10 @@ export class MeetingFrequencyComponent implements OnInit {
   }
 
   private setSelectedFilter(): void {
-    if (this.filterService.filterStringMeetingFrequencies != null) {
-      const selectedDays = this.filterService.filterStringMeetingFrequencies.replace(/(\(or )|'|\)/g, '').split('groupmeetingfrequency:').slice(1)
+    const selectedDays = this.filterService.getSelectedMeetingFrequencies();
+    if (selectedDays) {
       selectedDays.forEach(element => {
-        this.selectableMeetingFrequencies.find((day) => { return day.value === element.trim(); }).isSelected = true;
+        this.selectableMeetingFrequencies.find(day => day.value === element).isSelected = true;
       });
     }
   }

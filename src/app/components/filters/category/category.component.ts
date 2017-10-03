@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Category } from '../../../models/category';
+import { Category } from '../../../models';
 
-import { awsFieldNames } from '../../../shared/constants';
-
-import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
 @Component({
@@ -18,9 +15,8 @@ export class CategoryComponent implements OnInit {
   private selected: boolean = false;
   private categories: Category[];
 
-  constructor( private appSettings: AppSettingsService,
-               private lookupService: LookupService,
-               private filterService: FilterService) { }
+  constructor(private lookupService: LookupService,
+    private filterService: FilterService) { }
 
   public ngOnInit(): void {
     this.initializeCategories();
@@ -31,27 +27,25 @@ export class CategoryComponent implements OnInit {
     this.setFilterString();
   }
 
- private initializeCategories(): void {
-      this.lookupService.getCategories().subscribe(
-          cats => {
-            this.categories = cats;
-            this.setSelectedCategories();
-          }
-      );
+  private initializeCategories(): void {
+    this.lookupService.getCategories().subscribe(
+      cats => {
+        this.categories = cats;
+        this.setSelectedCategories();
+      }
+    );
   }
 
   private setSelectedCategories(): void {
-    if (this.filterService.filterStringCategories != null) {
-      const selectedCategories = this.filterService.filterStringCategories.replace(/(\(or )|: |\(prefix field=|'|\)/g, '').split('groupcategory').slice(1);
-      selectedCategories.forEach(element => {
-        this.setSelection(element.trim());
-      });
+    const selectedCategories = this.filterService.getSelectedCategories();
+    if (selectedCategories) {
+      selectedCategories.map(cat => this.setSelection(cat));
     }
   }
 
   private setSelection(selectedValue: string) {
     const group = this.categories.find(i => i.name === selectedValue);
-    if ( group != null) {
+    if (group != null) {
       group.selected = !group.selected;
     }
   }

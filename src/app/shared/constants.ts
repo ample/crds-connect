@@ -137,11 +137,6 @@ export const daysOfWeek = new DaysOfWeek();
 
 export const groupMeetingScheduleType: GroupMeetingScheduleType = new GroupMeetingScheduleType();
 
-export const defaultGroupMeetingTime: string = '0001-01-01T17:00:00.000Z';
-export const defaultGroupMeetingTimePrefix: string = '0001-01-01T';
-export const defaultGroupMeetingTimeSuffix: string = '.000Z';
-
-
 export class AttributeTypes {
   AgeRangeAttributeTypeId: number;
   GroupGenderMixTypeAttributeId: number;
@@ -154,7 +149,7 @@ export class AttributeTypes {
     this.GroupGenderMixTypeAttributeId = 73;
     this.GroupCategoryAttributeTypeId = 90;
     this.MiddleSchoolAgeRangeAttributeId = 7089;
-    this.HighSchoolAgeRangeAttributeId= 7090;
+    this.HighSchoolAgeRangeAttributeId = 7090;
   }
 }
 
