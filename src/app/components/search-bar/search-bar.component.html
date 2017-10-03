@@ -67,4 +67,5 @@
 <app-filters *ngIf="!isConnectApp"
              [hidden]="!state.isFilterDialogOpen"
              (cancelFilter)="filterCancel()"
+             (applyFilters)="onSearch(state.searchBarText)"
              class="connect-container connect-layout-container"></app-filters>
