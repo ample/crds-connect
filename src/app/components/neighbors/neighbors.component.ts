@@ -130,6 +130,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           searchParams.userFilterString);
         let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
+        this.state.setLoading(false);
         if (this.state.lastSearch) {
           this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
         } else {
@@ -177,6 +178,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private runInitialPinSearch(): void {
+    this.state.setLoading(true);
     let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
     let filter: string = (this.state.lastSearch) ? this.state.lastSearch.filter : null;
     let pinSearchRequest: PinSearchRequestParams =
