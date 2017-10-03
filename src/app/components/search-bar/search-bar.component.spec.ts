@@ -158,6 +158,15 @@ describe('SearchBarComponent', () => {
     expect(comp.showLocationBar).not.toHaveBeenCalled();
   });
 
+  it('should only toggle filters if onlyToggleFilters is true', () => {
+    mockStateService.getIsFilteredDialogOpen.and.returnValue(true);
+    comp.shouldShowSubmit = true;
+    spyOn(comp, 'showLocationBar');
+    comp.toggleFilters(true);
+    expect(mockStateService.setIsFilterDialogOpen).toHaveBeenCalledWith(false);
+    expect(comp.showLocationBar).not.toHaveBeenCalled();
+  });
+
   it('should toggleLocationBar if in group mode', () => {
     comp.isConnectApp = false;
     comp.shouldShowSubmit = false;

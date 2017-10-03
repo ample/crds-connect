@@ -117,10 +117,10 @@ export class SearchBarComponent implements OnChanges, OnInit {
     document.getElementById('search-bar-input').focus();
   }
 
-  public toggleFilters(): void {
+  public toggleFilters(onlyToggleFilters: boolean = false): void {
     const shouldShowDialog = !this.state.getIsFilteredDialogOpen();
     this.state.setIsFilterDialogOpen(shouldShowDialog);
-    if (this.shouldShowSubmit !== shouldShowDialog) {
+    if (onlyToggleFilters === false && shouldShowDialog !== this.shouldShowSubmit) {
       this.showLocationBar(shouldShowDialog);
     }
   }
