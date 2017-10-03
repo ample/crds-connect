@@ -20,7 +20,7 @@
               </svg>
             </button>
           </span>
-          <div class="input-separator search-desktop"></div>
+          <div *ngIf="appSettings.isSmallGroupApp()" class="input-separator search-desktop"></div>
           <span class="addon-btn search-mobile" *ngIf="appSettings.isSmallGroupApp() && !shouldShowSubmit">
             <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
               <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
