@@ -25,9 +25,7 @@ export class MapComponent implements OnInit {
   private styles = ClusterStyles;
   private maxZoom: number = MaxZoomForClustering;
   private averageCenter: boolean = true;
-
   public pinsToMap: Pin[] ;
-
   public mapSettings: MapSettings = new MapSettings(crdsOakleyCoords.lat, crdsOakleyCoords.lng, 5, false, true);
 
   constructor(private userLocationService: UserLocationService,
@@ -39,24 +37,20 @@ export class MapComponent implements OnInit {
               private session: SessionService) {}
 
   public ngOnInit(): void {
-    let haveResults = !!this.searchResults;
-    if (haveResults) {
-
+    if (this.searchResults) {
       this.pinsToMap = this.getPinsToMap();
 
-      let lat = this.searchResults.centerLocation.lat;
-      let lng = this.searchResults.centerLocation.lng;
-      let zoomToUse = this.state.getUseZoom();
+      this.mapSettings.lat = this.searchResults.centerLocation.lat;
+      this.mapSettings.lng = this.searchResults.centerLocation.lng;
+      const zoomToUse = this.state.getUseZoom();
       if (zoomToUse === -1) {
-        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, lat, lng,
+        this.mapSettings.zoom = this.mapHlpr.calculateZoom(15, this.mapSettings.lat, this.mapSettings.lng,
                                                           this.getPinsToMap(), this.state.getMyViewOrWorldView());
       } else {
         this.mapSettings.zoom = zoomToUse;
         this.state.setUseZoom(-1);
       }
-      this.mapSettings.lat = lat;
-      this.mapSettings.lng = lng;
-      let priorMapView = this.state.getMapView();
+      const priorMapView = this.state.getMapView();
       if (priorMapView && this.mapSettings.lat === 0 && this.mapSettings.lng === 0) {
         this.mapSettings.lat  = priorMapView.lat;
         this.mapSettings.lng  = priorMapView.lng;
@@ -66,11 +60,9 @@ export class MapComponent implements OnInit {
   }
 
   private getPinsToMap(): Pin[] {
-    let pinsWithAddresses = new Array<Pin>();
-    if ( this.searchResults ) {
-      pinsWithAddresses = this.searchResults.pinSearchResults.filter(x => x.address.addressId !==  null);
+    if (this.searchResults) {
+      return this.searchResults.pinSearchResults.filter(x => x.address.addressId !==  null);
     }
-    return pinsWithAddresses;
   }
 
   private pinClicked(pin: Pin) {
@@ -91,21 +83,18 @@ export class MapComponent implements OnInit {
   }
 
   public isMe(pin: Pin): string {
-    let isPinASite: boolean = pin.pinType === pinType.SITE;
-    let doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
-    let shouldHaveMeLabel: boolean = !isPinASite && doesUserOwnPin;
+    const isPinASite: boolean = pin.pinType === pinType.SITE;
+    const doesUserOwnPin: boolean = this.pinHlpr.doesLoggedInUserOwnPin(pin);
+    const shouldHaveMeLabel: boolean = !isPinASite && doesUserOwnPin;
 
     return shouldHaveMeLabel ? 'ME' : '';
   }
 
   public capitalizeFirstLetter(string) {
-    let isStringEmptyOrNull = string === undefined || string === null || string === '';
-
-    if (isStringEmptyOrNull) {
-      return '';
-    } else {
+    if (string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
+    } else {
+      return '';
     }
   }
-
 }

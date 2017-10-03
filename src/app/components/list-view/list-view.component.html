@@ -1,5 +1,4 @@
 <div class="connect-container connect-layout-container">
-
   <div *ngIf="isMyStuffView()">
     <h2 class="title flush-top soft-top" *ngIf="isMyStuffView()">
       {{appSettings.myStuffName}}
@@ -26,5 +25,4 @@
   <button *ngIf="pinsToShow().length !== searchResults?.pinSearchResults.length" type="submit" class="btn btn-secondary btn-block push-half-top btn-block-mobile" (click)="showMore()">Load more</button>
 
   <list-footer [pins]="searchResults?.pinSearchResults"></list-footer>
-
 </div>

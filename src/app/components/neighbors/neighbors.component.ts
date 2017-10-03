@@ -61,8 +61,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   public viewChanged(): void {
     if (this.isMapViewSet()) {
       this.state.setCurrentView(ViewType.LIST);
-      let location: MapView = this.state.getMapView();
-      let coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
+      const location: MapView = this.state.getMapView();
+      const coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
       this.pinSearchResults.pinSearchResults = this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
     } else {
       this.state.setCurrentView(ViewType.MAP);
@@ -117,9 +117,11 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   doSearch(searchParams: PinSearchRequestParams) {
+    console.log('In doSearch');
     this.state.setLoading(true);
 
-    this.pinService.getPinSearchResults(searchParams).subscribe(
+    this.pinService.getPinSearchResults(searchParams)
+    .subscribe(
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.state.setlastSearchResults(this.pinSearchResults);
@@ -128,7 +130,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
           next.centerLocation.lat,
           next.centerLocation.lng,
           searchParams.userFilterString);
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+        const lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
         if (this.state.lastSearch) {
           this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
@@ -171,23 +173,27 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToListenForSearchRequests(): void {
-    this.pinSearchSub = this.pinService.pinSearchRequestEmitter.subscribe((srchParams: PinSearchRequestParams) => {
+    this.pinSearchSub = this.pinService.pinSearchRequestEmitter
+    .subscribe((srchParams: PinSearchRequestParams) => {
+      console.log('In subscriber');
       this.doSearch(srchParams);
     });
   }
 
   private runInitialPinSearch(): void {
-    let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
+    const locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
 
-    let pinSearchRequest: PinSearchRequestParams =
+    const pinSearchRequest: PinSearchRequestParams =
       this.pinService.buildPinSearchRequest(locationFilter, this.state.searchBarText);
 
-    this.userLocationService.GetUserLocation().subscribe(
+    this.userLocationService.GetUserLocation()
+    .subscribe(
       pos => {
         if (!this.state.isMapViewSet()) {
-          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+          const initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
           this.state.setMapView(initialMapView);
         }
+        console.log('InitialPinSearch');
         this.doSearch(pinSearchRequest);
       }
     );

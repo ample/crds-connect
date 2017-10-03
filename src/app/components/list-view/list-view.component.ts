@@ -12,7 +12,6 @@ import { AppSettingsService } from '../../services/app-settings.service';
 })
 export class ListViewComponent implements OnInit {
   @Input() searchResults: PinSearchResultsDto;
-
   public showing_increment: number = 10;
 
   constructor(private miscellaneousService: MiscellaneousService,
@@ -29,27 +28,12 @@ export class ListViewComponent implements OnInit {
   }
 
   public pinsToShow(): Pin[] {
-
-    let showing: number = this.stateService.getShowingPinCount();
-
     if (this.searchResults == null) {
       return new Array<Pin>();
     }
 
+    const showing: number = this.stateService.getShowingPinCount();
     return this.searchResults.pinSearchResults.filter((item, index) => index < showing );
-
-  }
-
-  public pinsToShowCountings() {
-    let showing: number = this.stateService.getShowingPinCount();
-    if (this.searchResults && (this.searchResults.pinSearchResults.length < showing)) {
-      showing = this.searchResults.pinSearchResults.length;
-    }
-    if (showing === 1) {
-      return '1 result';
-    } else {
-      return showing + ' results';
-    }
   }
 
   public showMore() {
@@ -59,5 +43,4 @@ export class ListViewComponent implements OnInit {
   public isMyStuffView(): boolean {
     return this.stateService.getMyViewOrWorldView() === 'my';
   }
-
 }

@@ -110,5 +110,4 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public toggleFilters(): void {
     this.state.setIsFilterDialogOpen(!this.state.getIsFilteredDialogOpen());
   }
-
 }
