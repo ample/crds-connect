@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieModule  } from 'ngx-cookie';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
@@ -155,6 +155,7 @@ imports: [
   ButtonsModule,
   CollapseModule,
   CommonModule,
+  CookieModule.forRoot(),
   DatepickerModule,
   HttpModule,
   ClipboardModule,
@@ -247,7 +248,6 @@ providers: [
   BlandPageGuard,
   BlandPageService,
   ContentService,
-  CookieService,
   { provide: ContentBlockConfig, useClass: FinderContentBlockConfig },
   CreateGroupService,
   DetailedUserDataResolver,

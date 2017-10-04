@@ -7,7 +7,7 @@ import { SessionService } from './session.service';
 import { StateService } from './state.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { CookieService } from 'angular2-cookie/core';
+import { CookieService } from 'ngx-cookie';
 
 
 class MockActivatedRoute {

@@ -4,7 +4,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { CookieService } from 'angular2-cookie/core';
+import { CookieService } from 'ngx-cookie';
 import { Router } from '@angular/router';
 import { LoginRedirectService } from './login-redirect.service';
 import { Observable, Subscription } from 'rxjs';
