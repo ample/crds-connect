@@ -162,6 +162,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
                         ? this.state.lastSearch.search : '';
     } else {
       this.state.searchBarText = this.appSettings.myStuffName;
+      this.isSearchClearHidden = false;
     }
   }
 }
