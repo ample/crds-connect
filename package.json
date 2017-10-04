@@ -33,7 +33,7 @@
     "angular2-cookie": "1.2.6",
     "angulartics2": "^2.2.2",
     "core-js": "^2.4.1",
-    "crds-ng2-content-block": "1.1.1",
+    "crds-ng2-content-block": "^1.1.1",
     "crds-reactive-auth": "crdschurch/crds-reactive-auth#development",
     "crds-styles": "crdschurch/crds-styles#development",
     "intl": "^1.2.5",
