@@ -6,69 +6,71 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { AppSettingsService } from '../../../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { PinService } from '../../../../services/pin.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
+import { GroupInquiryService } from '../../../../services/group-inquiry.service';
 
 import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 
 @Component({
-    selector: 'invite-someone',
-    templateUrl: './invite-someone.html'
+  selector: 'invite-someone',
+  templateUrl: './invite-someone.html'
 })
-
 export class InviteSomeoneComponent implements OnInit {
+  @Input() gatheringId: number;
+  @Input() participantId: number;
 
-    @Input() gatheringId: number;
-    @Input() participantId: number;
+  public inviteFormGroup: FormGroup;
+  public isFormSubmitted: boolean = false;
 
-    public inviteFormGroup: FormGroup;
-    public isFormSubmitted: boolean = false;
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private groupInquiryService: GroupInquiryService,
+    private blandPageService: BlandPageService,
+    private state: StateService,
+    private toast: ToastsManager,
+    private content: ContentService,
+    private appSettings: AppSettingsService
+  ) {}
 
-    constructor(private fb: FormBuilder,
-        private router: Router,
-        private pinService: PinService,
-        private blandPageService: BlandPageService,
-        private state: StateService,
-        private toast: ToastsManager,
-        private content: ContentService,
-        private appSettings: AppSettingsService) { }
+  ngOnInit() {
+    this.inviteFormGroup = new FormGroup({
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, EmailAddressValidator.validateEmail])
+    });
+  }
 
-    ngOnInit() {
-        this.inviteFormGroup = new FormGroup({
-            firstname: new FormControl('', [Validators.required]),
-            lastname: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, EmailAddressValidator.validateEmail])
-        });
-    }
+  onSubmit({ value, valid }: { value: any; valid: boolean }) {
+    this.isFormSubmitted = true;
 
-    onSubmit({ value, valid }: { value: any, valid: boolean }) {
-        this.isFormSubmitted = true;
+    if (valid) {
+      let someone = new Person(value.firstname, value.lastname, value.email);
 
-        if (valid) {
-            let someone = new Person(value.firstname, value.lastname, value.email);
+      this.state.setLoading(true);
+      this.groupInquiryService.inviteToGroup(this.gatheringId, someone, this.appSettings.finderType).subscribe(
+        success => {
+          let bpd = new BlandPageDetails(
+            'Return to my pin',
+            '<h1 class="title">Invitation Sent</h1>' +
+              // tslint:disable-next-line:max-line-length
+              `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname
+                .slice(1)
+                .toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
+            BlandPageType.Text,
+            BlandPageCause.Success,
+            `gathering/${this.gatheringId}`
+          );
 
-            this.state.setLoading(true);
-            this.pinService.inviteToGroup(this.gatheringId, someone, this.appSettings.finderType).subscribe(
-                success => {
-                    let bpd = new BlandPageDetails(
-                        'Return to my pin',
-                        '<h1 class="title">Invitation Sent</h1>' +
-                        // tslint:disable-next-line:max-line-length
-                        `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
-                        BlandPageType.Text,
-                        BlandPageCause.Success,
-                        `gathering/${this.gatheringId}`
-                    );
-
-                    this.blandPageService.primeAndGo(bpd);
-                },
-                failure => {
-                    this.state.setLoading(false);
-                    this.toast.error(this.content.getContent('finderErrorInvite'));
-                }
-            );
+          this.blandPageService.primeAndGo(bpd);
+        },
+        failure => {
+          this.state.setLoading(false);
+          this.toast.error(this.content.getContent('finderErrorInvite'));
         }
+      );
     }
+  }
 }

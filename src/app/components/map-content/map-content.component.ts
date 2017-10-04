@@ -164,9 +164,6 @@ export class MapContentComponent implements OnInit {
 
               this.areLabelsInitialized = true;
             }
-            //This is a hack for automation, being used in STATE SERVICE and NEIGHBORS HTML
-            this.state.mapDoneLoadingId = 'ITSDONEYO';
-            alert('done');
           }
 
           PinLabelOverlay.prototype.onAdd = function() {

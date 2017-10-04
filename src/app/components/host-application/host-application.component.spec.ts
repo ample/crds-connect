@@ -5,13 +5,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpModule, JsonpModule  } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { DetailedUserData } from '../../models/detailed-user-data';
 import { AddressService } from '../../services/address.service';
-import { GroupService } from '../../services/group.service';
+import { GroupInquiryService } from '../../services/group-inquiry.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
@@ -39,16 +39,15 @@ describe('HostApplicationComponent', () => {
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['postHostApplication']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
     mockLocationService = jasmine.createSpyObj<Location>('location', ['back']);
-    mockHostApplicationHlpr = jasmine.createSpyObj<HostApplicationHelperService>('hlpr', ['formatPhoneForUi', 'stripHtmlFromString']);
+    mockHostApplicationHlpr = jasmine.createSpyObj<HostApplicationHelperService>('hlpr', [
+      'formatPhoneForUi',
+      'stripHtmlFromString'
+    ]);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     userData = MockTestData.getADetailedUserData();
     TestBed.configureTestingModule({
-      declarations: [
-        HostApplicationComponent
-      ],
-      imports: [
-        RouterTestingModule.withRoutes([])
-      ],
+      declarations: [HostApplicationComponent],
+      imports: [RouterTestingModule.withRoutes([])],
       providers: [
         { provide: AddressService, useValue: mockAddressService },
         { provide: ContentService, useValue: mockContentService },
@@ -64,14 +63,16 @@ describe('HostApplicationComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(HostApplicationComponent);
-      comp = fixture.componentInstance;
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(HostApplicationComponent);
+        comp = fixture.componentInstance;
 
-      // el = fixture.debugElement.query(By.css('h1'));
-    });
-  }));
+        // el = fixture.debugElement.query(By.css('h1'));
+      });
+    })
+  );
 
   it('should create an instance', () => {
     expect(comp).toBeTruthy();
@@ -83,10 +84,10 @@ describe('HostApplicationComponent', () => {
   });
 
   it('should init', () => {
-    (mockHostApplicationHlpr.formatPhoneForUi).and.returnValue(1231231234);
+    mockHostApplicationHlpr.formatPhoneForUi.and.returnValue(1231231234);
     let contentReturned = 'Hey this is some content';
-    (mockContentService.getContent).and.returnValue(contentReturned);
-    (mockHostApplicationHlpr.stripHtmlFromString).and.returnValue(contentReturned);
+    mockContentService.getContent.and.returnValue(contentReturned);
+    mockHostApplicationHlpr.stripHtmlFromString.and.returnValue(contentReturned);
     comp.ngOnInit();
     expect(mockHostApplicationHlpr.formatPhoneForUi).toHaveBeenCalledWith(userData.mobilePhone);
     expect(mockContentService.getContent).toHaveBeenCalledWith('defaultGatheringDesc');
@@ -96,14 +97,14 @@ describe('HostApplicationComponent', () => {
   });
 
   it('validate phone length - min not met', () => {
-      comp.ngOnInit();
-      comp.hostForm.controls['contactNumber'].setValue('123');
-      expect(comp.hostForm.controls['contactNumber'].valid).toBeFalsy();
+    comp.ngOnInit();
+    comp.hostForm.controls['contactNumber'].setValue('123');
+    expect(comp.hostForm.controls['contactNumber'].valid).toBeFalsy();
   });
 
   it('validate phone length - correct length', () => {
-      comp.ngOnInit();
-      comp.hostForm.controls['contactNumber'].setValue('1234567890');
-      expect(comp.hostForm.controls['contactNumber'].valid).toBeTruthy();
+    comp.ngOnInit();
+    comp.hostForm.controls['contactNumber'].setValue('1234567890');
+    expect(comp.hostForm.controls['contactNumber'].valid).toBeTruthy();
   });
 });

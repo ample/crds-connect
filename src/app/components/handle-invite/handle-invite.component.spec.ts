@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { BlandPageDetails } from '../../models/bland-page-details';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlandPageService } from '../../services/bland-page.service';
-import { GroupService } from '../../services/group.service';
+import { GroupInquiryService } from '../../services/group-inquiry.service';
 import { PinService } from '../../services/pin.service';
 /*
  * Testing a simple Angular 2 component
@@ -23,137 +23,137 @@ import { HandleInviteComponent } from './handle-invite.component';
 import { StateService } from '../../services/state.service';
 
 describe('HandleInviteComponent', () => {
-    let fixture: ComponentFixture<HandleInviteComponent>;
-    let comp: HandleInviteComponent;
-    let el, mockStateService, mockGroupService, mockBlandPageService, mockPinService, mockRouter;
-    let mockActivatedRoute, guid, accepted, groupId;
+  let fixture: ComponentFixture<HandleInviteComponent>;
+  let comp: HandleInviteComponent;
+  let el, mockStateService, mockGroupService, mockBlandPageService, mockPinService, mockRouter;
+  let mockActivatedRoute, guid, accepted, groupId;
 
-    beforeEach(() => {
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['handleInvite']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService',
-            ['primeAndGo', 'goToHandledInvite']);
-        mockActivatedRoute = jasmine.createSpyObj<ActivatedRoute>('route', ['']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinDetails']);
-        mockRouter = jasmine.createSpyObj<Router>('rotuer', ['navigate']);
-        guid = 'Abc123';
-        groupId = 123123;
-        accepted = true;
-        TestBed.configureTestingModule({
-            declarations: [
-                HandleInviteComponent
-            ],
-            providers: [
-                {
-                    provide: ActivatedRoute,
-                    useValue: { snapshot: { params: { guid: guid, groupId: groupId }, data: [{ accepted: accepted }] } },
-                },
-                { provide: StateService, useValue: mockStateService },
-                { provide: GroupService, useValue: mockGroupService },
-                { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: PinService, useValue: mockPinService },
-                { provide: Router, useValue: mockRouter }
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
-        });
+  beforeEach(() => {
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['handleInvite']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', [
+      'primeAndGo',
+      'goToHandledInvite'
+    ]);
+    mockActivatedRoute = jasmine.createSpyObj<ActivatedRoute>('route', ['']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinDetails']);
+    mockRouter = jasmine.createSpyObj<Router>('rotuer', ['navigate']);
+    guid = 'Abc123';
+    groupId = 123123;
+    accepted = true;
+    TestBed.configureTestingModule({
+      declarations: [HandleInviteComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { params: { guid: guid, groupId: groupId }, data: [{ accepted: accepted }] } }
+        },
+        { provide: StateService, useValue: mockStateService },
+        { provide: GroupInquiryService, useValue: mockGroupService },
+        { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: PinService, useValue: mockPinService },
+        { provide: Router, useValue: mockRouter }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
+  });
 
-    beforeEach(async(() => {
-        TestBed.compileComponents().then(() => {
-            fixture = TestBed.createComponent(HandleInviteComponent);
-            comp = fixture.componentInstance;
-        });
-    }));
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(HandleInviteComponent);
+        comp = fixture.componentInstance;
+      });
+    })
+  );
 
-    it('should create an instance', () => {
-        expect(comp).toBeTruthy();
-    });
+  it('should create an instance', () => {
+    expect(comp).toBeTruthy();
+  });
 
-    it('should ngOnInit', () => {
-        comp['route'].snapshot.params = { guid: guid, groupId: groupId };
-        comp['route'].snapshot.data = [{ accept: true }];
-        spyOn(comp, 'handleInvite');
+  it('should ngOnInit', () => {
+    comp['route'].snapshot.params = { guid: guid, groupId: groupId };
+    comp['route'].snapshot.data = [{ accept: true }];
+    spyOn(comp, 'handleInvite');
 
-        comp.ngOnInit();
+    comp.ngOnInit();
 
-        expect(mockStateService.setLoading).toHaveBeenCalled();
-        expect(comp.handleInvite).toHaveBeenCalled();
-        expect(comp['guid']).toBe(guid);
-        expect(comp['groupId']).toBe(groupId);
-        expect(comp['accepted']).toBe(true);
-    });
+    expect(mockStateService.setLoading).toHaveBeenCalled();
+    expect(comp.handleInvite).toHaveBeenCalled();
+    expect(comp['guid']).toBe(guid);
+    expect(comp['groupId']).toBe(groupId);
+    expect(comp['accepted']).toBe(true);
+  });
 
-    it('should error if guid is not truthy', () => {
-        spyOn(comp, 'handleInvite');
-        guid = null;
-        accepted = false;
-        comp['route'].snapshot.data = [{ accept: accepted }];
-        comp['route'].snapshot.params = { guid: guid, groupId: groupId };
-        comp.ngOnInit();
-        expect(mockBlandPageService.primeAndGo).toHaveBeenCalled();
-        expect(comp.handleInvite).not.toHaveBeenCalled();
-        expect(comp['accepted']).toBe(accepted);
-    });
+  it('should error if guid is not truthy', () => {
+    spyOn(comp, 'handleInvite');
+    guid = null;
+    accepted = false;
+    comp['route'].snapshot.data = [{ accept: accepted }];
+    comp['route'].snapshot.params = { guid: guid, groupId: groupId };
+    comp.ngOnInit();
+    expect(mockBlandPageService.primeAndGo).toHaveBeenCalled();
+    expect(comp.handleInvite).not.toHaveBeenCalled();
+    expect(comp['accepted']).toBe(accepted);
+  });
 
-    it('should handleInvite (accept) and succeed', () => {
-        let name, address, pin;
-        guid = 'a1real2guid3';
-        accepted = true;
-        pin = MockTestData.getAPin(1, 1);
-        address = pin.address;
-        name = pin.firstName + ' ' + pin.lastName.slice(0, 1);
+  it('should handleInvite (accept) and succeed', () => {
+    let name, address, pin;
+    guid = 'a1real2guid3';
+    accepted = true;
+    pin = MockTestData.getAPin(1, 1);
+    address = pin.address;
+    name = pin.firstName + ' ' + pin.lastName.slice(0, 1);
 
-        comp['guid'] = guid;
-        comp['accepted'] = accepted;
-        comp['groupId'] = groupId;
+    comp['guid'] = guid;
+    comp['accepted'] = accepted;
+    comp['groupId'] = groupId;
 
-        (mockGroupService.handleInvite).and.returnValue(Observable.of(true));
-        (mockPinService.getPinDetails).and.returnValue(Observable.of(pin));
+    mockGroupService.handleInvite.and.returnValue(Observable.of(true));
+    mockPinService.getPinDetails.and.returnValue(Observable.of(pin));
 
+    comp.handleInvite();
 
+    expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.GATHERING, groupId));
+    expect(mockGroupService.handleInvite).toHaveBeenCalledWith(guid, accepted, groupId);
+    expect(mockBlandPageService.goToHandledInvite).toHaveBeenCalledWith(accepted, groupId, address, name);
+  });
 
-        comp.handleInvite();
+  it('should handleInvite (deny) and succeed', () => {
+    let name, address, pin;
+    guid = 'a1real2guid3';
+    accepted = false;
+    pin = MockTestData.getAPin(1, 1);
+    address = pin.address;
+    name = pin.firstName + ' ' + pin.lastName.slice(0, 1);
 
-        expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.GATHERING, groupId));
-        expect(mockGroupService.handleInvite).toHaveBeenCalledWith(guid, accepted, groupId);
-        expect(mockBlandPageService.goToHandledInvite).toHaveBeenCalledWith(accepted, groupId, address, name);
-    });
+    comp['guid'] = guid;
+    comp['accepted'] = accepted;
+    comp['groupId'] = groupId;
 
-    it('should handleInvite (deny) and succeed', () => {
-        let name, address, pin;
-        guid = 'a1real2guid3';
-        accepted = false;
-        pin = MockTestData.getAPin(1, 1);
-        address = pin.address;
-        name = pin.firstName + ' ' + pin.lastName.slice(0, 1);
+    mockGroupService.handleInvite.and.returnValue(Observable.of(true));
+    mockPinService.getPinDetails.and.returnValue(Observable.of(pin));
 
-        comp['guid'] = guid;
-        comp['accepted'] = accepted;
-        comp['groupId'] = groupId;
+    comp.handleInvite();
 
-        (mockGroupService.handleInvite).and.returnValue(Observable.of(true));
-        (mockPinService.getPinDetails).and.returnValue(Observable.of(pin));
+    expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.GATHERING, groupId));
+    expect(mockGroupService.handleInvite).toHaveBeenCalledWith(guid, accepted, groupId);
+    expect(mockBlandPageService.goToHandledInvite).toHaveBeenCalledWith(accepted, groupId, address, name);
+  });
 
-        comp.handleInvite();
+  it('should respond to invite and fail', () => {
+    guid = 'a1real2guid3';
+    accepted = false;
+    comp['guid'] = guid;
+    comp['accepted'] = accepted;
+    comp['groupId'] = groupId;
 
-        expect(mockPinService.getPinDetails).toHaveBeenCalledWith(new PinIdentifier(pinType.GATHERING, groupId));
-        expect(mockGroupService.handleInvite).toHaveBeenCalledWith(guid, accepted, groupId);
-        expect(mockBlandPageService.goToHandledInvite).toHaveBeenCalledWith(accepted, groupId, address, name);
-    });
+    mockGroupService.handleInvite.and.returnValue(Observable.throw('is broken'));
 
-    it('should respond to invite and fail', () => {
-        guid = 'a1real2guid3';
-        accepted = false;
-        comp['guid'] = guid;
-        comp['accepted'] = accepted;
-        comp['groupId'] = groupId;
+    comp.handleInvite();
 
-        (mockGroupService.handleInvite).and.returnValue(Observable.throw('is broken'));
-
-        comp.handleInvite();
-
-        expect(mockBlandPageService.goToHandledInvite).not.toHaveBeenCalled();
-        expect(mockBlandPageService.primeAndGo).toHaveBeenCalled();
-        expect(mockGroupService.handleInvite).toHaveBeenCalledWith(guid, accepted, groupId);
-    });
+    expect(mockBlandPageService.goToHandledInvite).not.toHaveBeenCalled();
+    expect(mockBlandPageService.primeAndGo).toHaveBeenCalled();
+    expect(mockGroupService.handleInvite).toHaveBeenCalledWith(guid, accepted, groupId);
+  });
 });

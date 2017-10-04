@@ -11,6 +11,7 @@ import { SearchService } from '../../services/search.service';
 import { BlandPageComponent } from '../bland-page/bland-page.component';
 import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
 import { BlandPageService } from '../../services/bland-page.service';
+import { PinCollectionProcessingService } from '../../services/pin-collection-processing.service';
 
 import { GeoCoordinates } from '../../models/geo-coordinates';
 import { MapView } from '../../models/map-view';
@@ -25,7 +26,6 @@ import { initialMapZoom, ViewType } from '../../shared/constants';
   selector: 'app-neighbors',
   templateUrl: 'neighbors.component.html'
 })
-
 export class NeighborsComponent implements OnInit, OnDestroy {
   public isMyStuffSearch: boolean = false;
   public isMapHidden: boolean = false;
@@ -33,7 +33,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private pinSearchSub: Subscription;
   private doneId: string = '';
 
-  constructor(private appSettings: AppSettingsService,
+  constructor(
+    private appSettings: AppSettingsService,
     private pinService: PinService,
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
@@ -41,7 +42,9 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     private state: StateService,
     private userLocationService: UserLocationService,
     private searchService: SearchService,
-    private blandPageService: BlandPageService) { }
+    private blandPageService: BlandPageService,
+    private pinCollectionProcessingService: PinCollectionProcessingService
+  ) {}
 
   public ngOnDestroy(): void {
     if (this.pinSearchSub) {
@@ -63,8 +66,12 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     if (this.isMapViewSet()) {
       this.state.setCurrentView(ViewType.LIST);
       let location: MapView = this.state.getMapView();
-      let coords: GeoCoordinates = (location !== null) ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
-      this.pinSearchResults.pinSearchResults = this.pinService.reSortBasedOnCenterCoords(this.pinSearchResults.pinSearchResults, coords);
+      let coords: GeoCoordinates =
+        location !== null ? new GeoCoordinates(location.lat, location.lng) : new GeoCoordinates(null, null);
+      this.pinSearchResults.pinSearchResults = this.pinCollectionProcessingService.reSortBasedOnCenterCoords(
+        this.pinSearchResults.pinSearchResults,
+        coords
+      );
     } else {
       this.state.setCurrentView(ViewType.MAP);
     }
@@ -72,18 +79,22 @@ export class NeighborsComponent implements OnInit, OnDestroy {
 
   private processAndDisplaySearchResults(searchLocationString, searchKeywordString, lat, lng, filterString): void {
     // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
-    this.pinSearchResults.pinSearchResults =
-      this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(this.pinSearchResults.pinSearchResults);
+    // this.pinSearchResults.pinSearchResults = this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(
+    //   this.pinSearchResults.pinSearchResults
+    // );
 
-    this.pinSearchResults.pinSearchResults =
-      this.pinService.ensureUpdatedPinAddressIsDisplayed(this.pinSearchResults.pinSearchResults);
+    // this.pinSearchResults.pinSearchResults = this.pinService.ensureUpdatedPinAddressIsDisplayed(
+    //   this.pinSearchResults.pinSearchResults
+    // );
 
-    this.pinSearchResults.pinSearchResults =
-      this.pinService.sortPinsAndRemoveDuplicates(this.pinSearchResults.pinSearchResults);
+    this.pinSearchResults.pinSearchResults = this.pinCollectionProcessingService.sortPinsAndRemoveDuplicates(
+      this.pinSearchResults.pinSearchResults
+    );
 
-    this.pinSearchResults.pinSearchResults =
-        this.pinService.removePinFromResultsIfDeleted(this.pinSearchResults.pinSearchResults,
-                                                      this.state.getDeletedPinIdentifier());
+    // this.pinSearchResults.pinSearchResults = this.pinService.removePinFromResultsIfDeleted(
+    //   this.pinSearchResults.pinSearchResults,
+    //   this.state.getDeletedPinIdentifier()
+    // );
 
     this.state.setLoading(false);
 
@@ -102,7 +113,13 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     this.navigateAwayIfNecessary(searchLocationString, searchKeywordString, lat, lng, filterString);
   }
 
-  private navigateAwayIfNecessary(searchLocationString: string, searchKeywordString: string, lat: number, lng: number, filterString: string): void {
+  private navigateAwayIfNecessary(
+    searchLocationString: string,
+    searchKeywordString: string,
+    lat: number,
+    lng: number,
+    filterString: string
+  ): void {
     if (this.pinSearchResults.pinSearchResults.length === 0 && this.state.getMyViewOrWorldView() === 'world') {
       this.state.setLoading(false);
       this.goToNoResultsPage();
@@ -124,23 +141,27 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       next => {
         this.pinSearchResults = next as PinSearchResultsDto;
         this.state.setlastSearchResults(this.pinSearchResults);
-        this.processAndDisplaySearchResults(searchParams.userLocationSearchString,
+        this.processAndDisplaySearchResults(
+          searchParams.userLocationSearchString,
           searchParams.userKeywordSearchString,
           next.centerLocation.lat,
           next.centerLocation.lng,
-          searchParams.userFilterString);
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+          searchParams.userFilterString
+        );
+        let lastSearchString = this.appSettings.isConnectApp()
+          ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
         if (this.state.lastSearch) {
           this.state.lastSearch.search = lastSearchString; // Are we doing this twice? Here and in navigate away
         } else {
           this.state.lastSearch = new SearchOptions('', '', '');
-        };
+        }
       },
       error => {
         console.log(`Error returned from getPinSearchResults: ${error} `);
 
-        let lastSearchString = this.appSettings.isConnectApp() ? searchParams.userLocationSearchString
+        let lastSearchString = this.appSettings.isConnectApp()
+          ? searchParams.userLocationSearchString
           : searchParams.userKeywordSearchString;
         this.state.setLastSearchSearchString(lastSearchString);
         this.state.setLoading(false);
@@ -157,13 +178,7 @@ export class NeighborsComponent implements OnInit, OnDestroy {
     let errorText = `<h1 class="title soft-half-bottom">Oops</h1><div class="font-size-small font-family-base-light"><p>It looks like there was a problem. Please try again.</p></div>`;
 
     this.blandPageService.primeAndGo(
-        new BlandPageDetails(
-            'Go to map',
-            errorText,
-            BlandPageType.Text,
-            BlandPageCause.Error,
-            ''
-        )
+      new BlandPageDetails('Go to map', errorText, BlandPageType.Text, BlandPageCause.Error, '')
     );
   }
 
@@ -178,24 +193,25 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private runInitialPinSearch(): void {
-    let locationFilter: string = (this.state.lastSearch) ? this.state.lastSearch.location : null;
+    let locationFilter: string = this.state.lastSearch ? this.state.lastSearch.location : null;
 
-    let pinSearchRequest: PinSearchRequestParams =
-      this.pinService.buildPinSearchRequest(locationFilter, this.state.searchBarText);
-
-    this.userLocationService.GetUserLocation().subscribe(
-      pos => {
-        if (!this.state.isMapViewSet()) {
-          let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
-          this.state.setMapView(initialMapView);
-        }
-        this.doSearch(pinSearchRequest);
-      }
+    let pinSearchRequest: PinSearchRequestParams = this.pinService.buildPinSearchRequest(
+      locationFilter,
+      this.state.searchBarText
     );
+
+    this.userLocationService.GetUserLocation().subscribe(pos => {
+      if (!this.state.isMapViewSet()) {
+        let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
+        this.state.setMapView(initialMapView);
+      }
+      this.doSearch(pinSearchRequest);
+    });
   }
 
   public setViewToMyStuffIfIndicatedByUrl(): void {
-    const isMyStuffFlagPresent = (this.router.url === '/my') || (this.router.url.substring(0, this.router.url.indexOf('?')) === '/my');
+    const isMyStuffFlagPresent =
+      this.router.url === '/my' || this.router.url.substring(0, this.router.url.indexOf('?')) === '/my';
 
     if (isMyStuffFlagPresent) {
       this.state.setCurrentView(ViewType.LIST);

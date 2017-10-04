@@ -5,7 +5,6 @@ import { ToastsManager } from 'ng2-toastr';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { CreateGroupService } from '../create-group-data.service';
-import { GroupService } from '../../../services/group.service';
 import { StateService } from '../../../services/state.service';
 
 import { Attribute } from '../../../models/attribute';
@@ -16,7 +15,7 @@ import { attributeTypes, groupPaths, GroupPageNumber, textConstants } from '../.
 
 @Component({
   selector: 'create-group-page-1',
-  templateUrl: './create-group-page-1.component.html',
+  templateUrl: './create-group-page-1.component.html'
 })
 export class CreateGroupPage1Component implements OnInit {
   public groupCategoryForm: FormGroup;
@@ -26,18 +25,19 @@ export class CreateGroupPage1Component implements OnInit {
   constructor(
     private content: ContentService,
     private createGroupService: CreateGroupService,
-    private groupService: GroupService,
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,
-    private toast: ToastsManager) { }
+    private toast: ToastsManager
+  ) {}
 
   ngOnInit() {
     this.setGroupPathInState();
     this.state.setLoading(true);
 
     this.groupCategoryForm = new FormGroup({});
-    this.createGroupService.initializePageOne()
+    this.createGroupService
+      .initializePageOne()
       .finally(() => {
         this.state.setLoading(false);
       })
@@ -46,28 +46,36 @@ export class CreateGroupPage1Component implements OnInit {
         this.createGroupService.markPageAsPresetWithExistingData(GroupPageNumber.ONE);
       });
 
-    if (this.state.getActiveGroupPath() === groupPaths.EDIT && !this.createGroupService.wasPagePresetWithExistingData.page1) {
+    if (
+      this.state.getActiveGroupPath() === groupPaths.EDIT &&
+      !this.createGroupService.wasPagePresetWithExistingData.page1
+    ) {
       let groupBeingEdited: Group = this.route.snapshot.data['group'];
       this.createGroupService.setGroupFieldsFromGroupBeingEdited(groupBeingEdited);
     }
 
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-      : textConstants.GROUP_PAGE_HEADERS.ADD;
+    let pageHeader =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? textConstants.GROUP_PAGE_HEADERS.EDIT
+        : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
-      `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
-      : '/create-group';
+    let headerBackRoute: string =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? `/small-group/${this.createGroupService.groupBeingEdited.groupId}`
+        : '/create-group';
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
   }
 
   private initializeCategories(categories: Category[]): void {
-    categories.forEach((category) => {
+    categories.forEach(category => {
       this.groupCategoryForm.addControl(category.name, new FormControl('', []));
       this.groupCategoryForm.addControl(`${category.name}-detail`, new FormControl('', []));
 
-      if (this.state.getActiveGroupPath() === groupPaths.EDIT
-        && !this.createGroupService.wasPagePresetWithExistingData.page1) {
+      if (
+        this.state.getActiveGroupPath() === groupPaths.EDIT &&
+        !this.createGroupService.wasPagePresetWithExistingData.page1
+      ) {
         this.populateFormWithValuesFromGroupBeingEdited(category);
       }
     });
@@ -78,7 +86,7 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   public onSelect(category: Category): void {
-    (!category.selected) ? this.addCategory(category) : this.removeCategory(category);
+    !category.selected ? this.addCategory(category) : this.removeCategory(category);
     this.areCategoriesValid = this.createGroupService.validateCategories();
   }
 
@@ -121,9 +129,13 @@ export class CreateGroupPage1Component implements OnInit {
     this.state.setLoading(true);
     if (form.valid && this.areCategoriesValid) {
       this.createGroupService.addSelectedCategoriesToGroupModel();
-      this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+      this.createGroupService.navigateInGroupFlow(
+        GroupPageNumber.TWO,
+        this.state.getActiveGroupPath(),
+        this.createGroupService.group.groupId
+      );
     } else {
-      Object.keys(form.controls).forEach((name) => {
+      Object.keys(form.controls).forEach(name => {
         form.controls[name].markAsTouched();
       });
       document.body.scrollIntoView(true);
@@ -142,10 +154,9 @@ export class CreateGroupPage1Component implements OnInit {
   }
 
   private populateFormWithValuesFromGroupBeingEdited(category: Category): void {
-    let attributesMatchingCat: Attribute[] =
-      this.createGroupService.groupBeingEdited.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId.toString()].attributes
-        .filter(attribute => attribute.category === category.name
-          && attribute.selected === true);
+    let attributesMatchingCat: Attribute[] = this.createGroupService.groupBeingEdited.attributeTypes[
+      attributeTypes.GroupCategoryAttributeTypeId.toString()
+    ].attributes.filter(attribute => attribute.category === category.name && attribute.selected === true);
 
     if (attributesMatchingCat.length > 0) {
       let attribute: Attribute = attributesMatchingCat[0];
@@ -153,5 +164,4 @@ export class CreateGroupPage1Component implements OnInit {
       category.categoryDetail = attribute.name;
     }
   }
-
 }

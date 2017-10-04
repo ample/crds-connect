@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { Group } from '../../../models';
-import { GroupService} from '../../../services/group.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { StateService } from '../../../services/state.service';
 import { MockComponent } from '../../../shared/mock.component';
 import { MockTestData } from '../../../shared/MockTestData';
@@ -16,38 +16,39 @@ import { CreateGroupPage5Component } from './create-group-page-5.component';
 describe('CreateGroupPage5Component', () => {
   let fixture: ComponentFixture<CreateGroupPage5Component>;
   let comp: CreateGroupPage5Component;
-  let mockGroupService: GroupService;
+  let mockGroupInquiryService: GroupInquiryService;
   let el;
   let mockState, mockCreateGroupService, mockRouter;
 
   beforeEach(() => {
-    mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['navigateInGroupFlow']);
+    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'getActiveGroupPath']);
-    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['addAgeRangesToGroupModel']);
+    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', [
+      'addAgeRangesToGroupModel'
+    ]);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
     TestBed.configureTestingModule({
-      declarations: [
-        CreateGroupPage5Component,
-        MockComponent({selector: 'crds-content-block', inputs: ['id']})
-      ],
+      declarations: [CreateGroupPage5Component, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
       providers: [
         FormBuilder,
-        { provide: GroupService, useValue: mockGroupService },
+        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: StateService, useValue: mockState },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter }
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
   });
 
-  beforeEach(async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(CreateGroupPage5Component);
-      comp = fixture.componentInstance;
-    });
-  }));
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(CreateGroupPage5Component);
+        comp = fixture.componentInstance;
+      });
+    })
+  );
 
   it('should get an instance', () => {
     fixture.detectChanges();
@@ -83,7 +84,7 @@ describe('CreateGroupPage5Component', () => {
     comp['createGroupService'].group.availableOnline = true;
     comp['onSubmit'](new FormGroup({}));
     expect(mockState.setLoading).toHaveBeenCalledTimes(1);
-      expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(6, undefined, 0);
+    expect(mockCreateGroupService.navigateInGroupFlow).toHaveBeenCalledWith(6, undefined, 0);
   });
 
   it('should not submit if available online is null', () => {
@@ -93,7 +94,7 @@ describe('CreateGroupPage5Component', () => {
   });
 
   it('should not submit if form is invalid', () => {
-    let form: FormGroup = new FormGroup({groupName: new FormControl('', Validators.required)});
+    let form: FormGroup = new FormGroup({ groupName: new FormControl('', Validators.required) });
     comp['onSubmit'](form);
     expect(mockState.setLoading).toHaveBeenCalledTimes(2);
     expect(mockRouter.navigate).not.toHaveBeenCalled();
@@ -101,7 +102,6 @@ describe('CreateGroupPage5Component', () => {
 
   it('should go back', () => {
     comp.onBack();
-    expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(4, undefined, 0);
+    expect(mockCreateGroupService.navigateInGroupFlow).toHaveBeenCalledWith(4, undefined, 0);
   });
-
 });

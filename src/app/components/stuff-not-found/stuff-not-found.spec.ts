@@ -8,56 +8,55 @@ import { DebugElement } from '@angular/core';
 
 import { StuffNotFoundComponent } from './stuff-not-found.component';
 import { AppSettingsService } from '../../services/app-settings.service';
-import { GroupService } from '../../services/group.service';
+import { GroupInquiryService } from '../../services/group-inquiry.service';
 import { PinService } from '../../services/pin.service';
 import { GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
 describe('StuffNotFoundComponent', () => {
-    let fixture: ComponentFixture<StuffNotFoundComponent>;
-    let comp: StuffNotFoundComponent;
-    let mockStateService;
-    let mockAppSettingsService;
-    let mockGroupService;
-    let mockPinService;
-    let mockRouter;
+  let fixture: ComponentFixture<StuffNotFoundComponent>;
+  let comp: StuffNotFoundComponent;
+  let mockStateService;
+  let mockAppSettingsService;
+  let mockGroupService;
+  let mockPinService;
+  let mockRouter;
 
-    beforeEach(() => {
-        mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
-        mockAppSettingsService = jasmine.createSpyObj('appSettings', ['myStuffName']);
-        mockGroupService = jasmine.createSpyObj<GroupService>('groupService', ['getLeaderStatus']);
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['clearPinCache']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
+  beforeEach(() => {
+    mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
+    mockAppSettingsService = jasmine.createSpyObj('appSettings', ['myStuffName']);
+    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['getLeaderStatus']);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['clearPinCache']);
+    mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
-        TestBed.configureTestingModule({
-            declarations: [
-                StuffNotFoundComponent,
-                MockComponent({selector: 'crds-content-block', inputs: ['id']})
-            ],
-            providers: [
-                { provide: StateService, useValue: mockStateService },
-                { provide: AppSettingsService, useValue: mockAppSettingsService },
-                { provide: GroupService, useValue: mockGroupService },
-                { provide: PinService, useValue: mockPinService },
-                { provide: Router, useValue: mockRouter }
-            ],
-            schemas: [ NO_ERRORS_SCHEMA ]
-        });
+    TestBed.configureTestingModule({
+      declarations: [StuffNotFoundComponent, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
+      providers: [
+        { provide: StateService, useValue: mockStateService },
+        { provide: AppSettingsService, useValue: mockAppSettingsService },
+        { provide: GroupInquiryService, useValue: mockGroupService },
+        { provide: PinService, useValue: mockPinService },
+        { provide: Router, useValue: mockRouter }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
+  });
 
-    beforeEach(async(() => {
-        TestBed.compileComponents().then(() => {
-            fixture = TestBed.createComponent(StuffNotFoundComponent);
-            comp = fixture.componentInstance;
-        });
-    }));
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(StuffNotFoundComponent);
+        comp = fixture.componentInstance;
+      });
+    })
+  );
 
-    it('should create an instance', () => {
-        expect(comp).toBeTruthy();
-    });
+  it('should create an instance', () => {
+    expect(comp).toBeTruthy();
+  });
 
-    it('should search', () => {
-        comp.onFindAGroupClicked();
-        expect(mockPinService.clearPinCache).toHaveBeenCalled();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
-    });
+  it('should search', () => {
+    comp.onFindAGroupClicked();
+    expect(mockPinService.clearPinCache).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
+  });
 });

@@ -14,6 +14,7 @@ import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { MiscellaneousService } from '../../../services/miscellaneous-service';
 import { PinService } from '../../../services/pin.service';
@@ -21,7 +22,7 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { TimeHelperService} from '../../../services/time-helper.service';
+import { TimeHelperService } from '../../../services/time-helper.service';
 
 import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
@@ -54,12 +55,14 @@ export class GatheringComponent implements OnInit {
   private participantEmails: string[];
   public adjustedLeaderNames: string[] = [];
 
-  constructor(private app: AppSettingsService,
+  constructor(
+    private app: AppSettingsService,
     private session: SessionService,
     private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
+    private groupInquiryService: GroupInquiryService,
     private createGroupService: CreateGroupService,
     private state: StateService,
     private participantService: ParticipantService,
@@ -71,7 +74,8 @@ export class GatheringComponent implements OnInit {
     private timeHlpr: TimeHelperService,
     private analtyics: AnalyticsService,
     public appSettingsService: AppSettingsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {
     if (!this.previewMode) {
@@ -107,72 +111,77 @@ export class GatheringComponent implements OnInit {
   public getParticipants(forceRefresh: boolean) {
     this.participantService.getParticipants(this.pin.gathering.groupId, forceRefresh).subscribe(
       participants => {
-        this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+        this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe(leaders => {
           this.leaders = leaders;
         });
         this.pin.gathering.Participants = participants;
         this.participantEmails = participants.map(p => p.email);
 
-        this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
-          role => {
-            let isInGroup: boolean = role !== GroupRole.NONE;
-            if (isInGroup) {
-              this.isInGathering = true;
-              this.isLeader = role === GroupRole.LEADER;
+        this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(role => {
+          let isInGroup: boolean = role !== GroupRole.NONE;
+          if (isInGroup) {
+            this.isInGathering = true;
+            this.isLeader = role === GroupRole.LEADER;
 
-              this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
-                .finally(() => {
-                  this.state.setLoading(false);
-                  this.ready = true;
-                })
-                .subscribe(
+            this.addressService
+              .getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+              .finally(() => {
+                this.state.setLoading(false);
+                this.ready = true;
+              })
+              .subscribe(
                 address => {
                   this.pin.gathering.address = address;
                 },
                 error => {
                   this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
                 }
-                );
-            } else {
-              // Not a participant of this group.
-              this.state.setLoading(false);
-              this.ready = true;
-            }
-            this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
-          });
+              );
+          } else {
+            // Not a participant of this group.
+            this.state.setLoading(false);
+            this.ready = true;
+          }
+          this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
+        });
       },
       failure => {
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
-      });
+      }
+    );
   }
 
   public approveOrDisapproveTrialMember() {
-    const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
+    const approved: boolean = this.route.snapshot.params['approved'] === 'true';
     const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
 
     const baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     if (approved !== undefined && trialMemberId) {
-      this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
-      .subscribe(
-        success => {
-          this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
-          if ( approved ) {
-            this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
-          }
-          this.getParticipants(true);
-        },
-        failure => {
-          if (failure.status === HttpStatusCodes.CONFLICT) {
-            this.trialMemberApprovalMessage = 'This member has already been approved or denied';
-          } else {
-            this.trialMemberApprovalMessage = 'Error approving trial member';
-          }
+      this.session
+        .post(
+          `${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`,
+          null
+        )
+        .subscribe(
+          success => {
+            this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
+            if (approved) {
+              this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
+            }
+            this.getParticipants(true);
+          },
+          failure => {
+            if (failure.status === HttpStatusCodes.CONFLICT) {
+              this.trialMemberApprovalMessage = 'This member has already been approved or denied';
+            } else {
+              this.trialMemberApprovalMessage = 'Error approving trial member';
+            }
 
-          this.trialMemberApprovalError = true;
-        }
-      );
+            this.trialMemberApprovalError = true;
+          }
+        );
     }
   }
 
@@ -233,8 +242,10 @@ export class GatheringComponent implements OnInit {
 
   private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
     let adjustedLeaderNames: string[] = [];
-    leaders.forEach((leader) => {
-      let adjustedName: string = isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
+    leaders.forEach(leader => {
+      let adjustedName: string = isUserParticipant
+        ? `${leader.nickName} ${leader.lastName}`
+        : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
       adjustedLeaderNames.push(adjustedName);
     });
     return adjustedLeaderNames;
@@ -242,22 +253,25 @@ export class GatheringComponent implements OnInit {
 
   public requestToJoin() {
     let isConnectApp = this.app.isConnectApp();
-    let successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
+    let successBodyContentBlock: string = isConnectApp
+      ? 'finderGatheringJoinRequestSent'
+      : 'finderGroupJoinRequestSent';
 
-    (isConnectApp) ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
+    isConnectApp ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
 
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
-        .subscribe(
+      this.groupInquiryService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.blandPageService.primeAndGo(new BlandPageDetails(
-            'Return to map',
-            successBodyContentBlock,
-            BlandPageType.ContentBlock,
-            BlandPageCause.Success,
-            ''
-          ));
+          this.blandPageService.primeAndGo(
+            new BlandPageDetails(
+              'Return to map',
+              successBodyContentBlock,
+              BlandPageType.ContentBlock,
+              BlandPageCause.Success,
+              ''
+            )
+          );
         },
         failure => {
           this.state.setLoading(false);
@@ -273,7 +287,7 @@ export class GatheringComponent implements OnInit {
             this.loginRedirectService.redirectToTarget();
           }
         }
-        );
+      );
     } else {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
@@ -287,12 +301,15 @@ export class GatheringComponent implements OnInit {
     if (this.doDisplayFullDesc === true || this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails) {
       return this.pin.gathering.groupDescription;
     } else {
-      return this.listHelperService.truncateTextEllipsis(this.pin.gathering.groupDescription, groupDescriptionLengthDetails);
+      return this.listHelperService.truncateTextEllipsis(
+        this.pin.gathering.groupDescription,
+        groupDescriptionLengthDetails
+      );
     }
   }
 
   public displayFullDesc(): boolean {
-    return (this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails) ? true : false;
+    return this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails ? true : false;
   }
 
   public expandGroupDescription(): void {
@@ -303,5 +320,4 @@ export class GatheringComponent implements OnInit {
   public displayKidsWelcome(kidsWelcome: boolean): string {
     return kidsWelcome ? 'Yes' : 'No';
   }
-
 }

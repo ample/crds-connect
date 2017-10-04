@@ -8,6 +8,8 @@ import { PinIdentifier } from '../models/pin-identifier';
 import { Pin, pinType } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { SearchOptions } from '../models/search-options';
+import { PinSearchRequestParams } from '../models/pin-search-request-params';
+import { GoogleMapService } from '../services/google-map.service';
 
 import { groupPaths, ViewType } from '../shared/constants';
 
@@ -46,10 +48,9 @@ export class StateService {
   // values of 'my' or 'world' ('my' is used for 'My Stuff' view)
   private myViewOrWorldView: string = 'world';
   private zoomToUse: number = -1;
-  public mapDoneLoadingId: string = '';
 
 
-  constructor() {
+  constructor(private mapHlpr: GoogleMapService) {
     this.lastSearch = new SearchOptions('', '', '');
   }
 
@@ -178,5 +179,17 @@ export class StateService {
 
   public getDeletedPinIdentifier(): PinIdentifier {
     return this.deletedPinIdentifier;
+  }
+
+  public updateMapView(srchParams: PinSearchRequestParams, srchRes: PinSearchResultsDto, isConnectApp: boolean): void {
+    let lastSearchString = isConnectApp ? srchParams.userLocationSearchString
+                                                                : srchParams.userKeywordSearchString;
+    let lat: number = srchRes.centerLocation.lat;
+    let lng: number = srchRes.centerLocation.lng;
+    let zoom: number = this.mapHlpr.calculateZoom(15, lat, lng, srchRes.pinSearchResults, this.getMyViewOrWorldView());
+
+    let mapView: MapView = new MapView(lastSearchString, lat, lng, zoom );
+
+    this.setMapView(mapView);
   }
 }

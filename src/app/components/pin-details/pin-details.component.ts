@@ -49,12 +49,8 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
-      this.pin = this.pinService.getEditedGatheringPin() || this.pin;
-      this.pinService.setEditedGatheringPin(null);
     } else if (this.pin.pinType === pinType.SMALL_GROUP){
       this.isSmallGroupPin = true;
-      this.pin = this.pinService.getEditedSmallGroupPin() || this.pin;
-      this.pinService.setEditedSmallGroupPin(null);
     }
 
     if (this.session.isLoggedIn()) {

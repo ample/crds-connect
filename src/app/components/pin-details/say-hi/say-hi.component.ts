@@ -5,6 +5,7 @@ import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { PinService } from '../../../services/pin.service';
+import { SayHiService } from '../../../services/say-hi.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 
@@ -33,7 +34,8 @@ export class SayHiComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private blandPageService: BlandPageService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private sayHiService: SayHiService) { }
 
   // TODO: Rename methods?
   ngOnInit() {
@@ -81,7 +83,7 @@ export class SayHiComponent implements OnInit {
       BlandPageCause.Success,
       ''
     );
-    this.pinService.sendHiEmail(this.user, this.pin).subscribe(
+    this.sayHiService.sendHiEmail(this.user, this.pin).subscribe(
       ret => {
         this.blandPageService.primeAndGo(bpd);
       },

@@ -4,12 +4,17 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
-import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus, ApplicationUrl } from '../../shared/constants';
+import {
+  LeadershipApplicationType,
+  GroupLeaderApplicationStatus,
+  LeaderStatus,
+  ApplicationUrl
+} from '../../shared/constants';
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { GroupService } from '../../services/group.service';
+import { GroupInquiryService } from '../../services/group-inquiry.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
@@ -25,7 +30,6 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   templateUrl: 'host-application.component.html'
 })
 export class HostApplicationComponent implements OnInit, AfterViewInit {
-
   public userData: DetailedUserData;
   public hostForm: FormGroup;
   public homeAddress: Address;
@@ -52,13 +56,21 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
 
-    let gatheringDescriptionPlaceholder: string =
-        this.hlpr.stripHtmlFromString(this.content.getContent('defaultGatheringDesc'));
+    let gatheringDescriptionPlaceholder: string = this.hlpr.stripHtmlFromString(
+      this.content.getContent('defaultGatheringDesc')
+    );
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
-      contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-      gatheringDescription: new FormControl(gatheringDescriptionPlaceholder, [Validators.required, Validators.maxLength(500)])
+      contactNumber: new FormControl(mobilePhone, [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]),
+      gatheringDescription: new FormControl(gatheringDescriptionPlaceholder, [
+        Validators.required,
+        Validators.maxLength(500)
+      ])
     });
 
     this.state.setLoading(false);
@@ -71,13 +83,12 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
   }
 
   public onIsHomeAddressClicked() {
-    if (!this.hostForm.value.isHomeAddress){
+    if (!this.hostForm.value.isHomeAddress) {
       this.addressService.emitClearGroupAddressForm();
     }
   }
 
-  public onSubmit ({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
-
+  public onSubmit({ value, valid }: { value: HostApplicatonForm; valid: boolean }) {
     this.isFormSubmitted = true;
     if (valid) {
       this.state.setLoading(true);
@@ -86,16 +97,16 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
   }
 
   public submitFormToApi(formData: HostApplicatonForm) {
-
     let dto: HostRequestDto = this.hlpr.convertFormToDto(formData, this.userData.contactId);
 
     this.session.postHostApplication(dto).subscribe(
-        (success) => {
-          this.router.navigate(['/host-next-steps']);
-        }, (err) => {
-          this.state.setLoading(false);
-          this.handleError(err);
-        }
+      success => {
+        this.router.navigate(['/host-next-steps']);
+      },
+      err => {
+        this.state.setLoading(false);
+        this.handleError(err);
+      }
     );
   }
 
@@ -103,8 +114,9 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     let isDuplicateGatheringAddress: boolean = err.status === 406;
 
     if (isDuplicateGatheringAddress) {
-      this.toast.error('You cannot host another gathering at the same location. ' +
-          'Please change the address and try again!');
+      this.toast.error(
+        'You cannot host another gathering at the same location. ' + 'Please change the address and try again!'
+      );
     } else {
       this.toast.error('An error occurred, please try again later.');
     }
