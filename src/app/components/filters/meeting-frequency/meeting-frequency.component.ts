@@ -1,12 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../../../services/filter.service';
+import { FilterService } from '../filter.service';
 import { SimpleSelectable } from '../../../models/simple-selectable';
 import { meetingFrequencyNames } from '../../../shared/constants';
 
 @Component({
     selector: 'meeting-frequency',
-    templateUrl: '/meeting-frequency.component.html'
+    templateUrl: './meeting-frequency.component.html'
 })
 
 export class MeetingFrequencyComponent implements OnInit {
@@ -17,6 +17,16 @@ export class MeetingFrequencyComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectableMeetingFrequencies = this.filterService.buildArrayOfSelectables(meetingFrequencyNames);
+    this.setSelectedFilter();
+  }
+
+  private setSelectedFilter(): void {
+    if (this.filterService.filterStringMeetingFrequencies != null) {
+      const selectedDays = this.filterService.filterStringMeetingFrequencies.replace(/(\(or )|'|\)/g, '').split('groupmeetingfrequency:').slice(1)
+      selectedDays.forEach(element => {
+        this.selectableMeetingFrequencies.find((day) => { return day.value === element.trim(); }).isSelected = true;
+      });
+    }
   }
 
   public onClickToSelect(selectedFrequency: SimpleSelectable): void {
@@ -29,7 +39,7 @@ export class MeetingFrequencyComponent implements OnInit {
   }
 
   public reset(): void {
-    for (let day of this.selectableMeetingFrequencies) {
+    for (const day of this.selectableMeetingFrequencies) {
         day.isSelected = false;
     }
   }

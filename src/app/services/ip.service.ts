@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Observable';
 import { SessionService } from './session.service';
 import { PinService } from './pin.service';
 
-import { IFrameParentService } from './iframe-parent.service';
 import { LookupTable } from '../models/lookup-table';
 import { Pin } from '../models/pin';
 import { PinSearchResultsDto } from '../models/pin-search-results-dto';
 import { User } from '../models/user';
 import { Address } from '../models/address';
+import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -18,7 +18,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class IPService {
 
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
   public restVerbs = {
     post: 'POST',

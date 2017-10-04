@@ -17,14 +17,15 @@ import { HostRequestDto } from '../models/host-request-dto';
 import { Pin } from '../models/pin';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
+import { environment } from '../../environments/environment';
 
 
 
 @Injectable()
 export class SessionService extends SmartCacheableService<User, number> {
-  private readonly accessToken: string = (process.env.CRDS_ENV || '') + 'sessionId';
-  private readonly refreshToken: string = (process.env.CRDS_ENV || '') + 'refreshToken';
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private readonly accessToken: string = (environment.CRDS_ENV || '') + 'sessionId';
+  private readonly refreshToken: string = (environment.CRDS_ENV || '') + 'refreshToken';
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private cookieOptions: CookieOptionsArgs;
   private SessionLengthMilliseconds = 1800000;
   private refreshTimeout: Subscription;
@@ -39,8 +40,8 @@ export class SessionService extends SmartCacheableService<User, number> {
     private router: Router,
     private loginRedirectService: LoginRedirectService) {
     super();
-    if (process.env.CRDS_COOKIE_DOMAIN) {
-      this.cookieOptions = { domain: (process.env.CRDS_COOKIE_DOMAIN != null) ? process.env.CRDS_COOKIE_DOMAIN : '' };
+    if (environment.CRDS_COOKIE_DOMAIN) {
+      this.cookieOptions = { domain: (environment.CRDS_COOKIE_DOMAIN != null) ? environment.CRDS_COOKIE_DOMAIN : '' };
     }
   }
 

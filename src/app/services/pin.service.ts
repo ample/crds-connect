@@ -16,7 +16,6 @@ import { SiteAddressService } from '../services/site-address.service';
 import { SessionService } from './session.service';
 import { SmartCacheableService, CacheLevel } from './base-service/cacheable.service';
 import { StateService } from '../services/state.service';
-import { IFrameParentService } from './iframe-parent.service';
 
 import { Address } from '../models/address';
 import { MapView } from '../models/map-view';
@@ -33,8 +32,9 @@ import { SearchOptions } from '../models/search-options';
 import { User } from '../models/user';
 
 import * as _ from 'lodash';
+import { environment } from '../../environments/environment';
 
-import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants'
+import { AppType, sayHiTemplateId, earthsRadiusInMiles } from '../shared/constants';
 
 @Injectable()
 export class PinService extends SmartCacheableService<PinSearchResultsDto, SearchOptions> {
@@ -42,8 +42,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   public restVerbs = { post: 'POST', put: 'PUT' };
   public defaults = { authorized: null };
 
-  private baseUrl = process.env.CRDS_GATEWAY_CLIENT_ENDPOINT;
-  private baseServicesUrl = process.env.CRDS_SERVICES_CLIENT_ENDPOINT;
+  private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
+  private baseServicesUrl = environment.CRDS_SERVICES_CLIENT_ENDPOINT;
 
   public pinSearchRequestEmitter: Subject<PinSearchRequestParams> = new Subject<PinSearchRequestParams>();
   private editedSmallGroupPin: Pin = null;
@@ -305,8 +305,8 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/invitetogroup/${groupId}/${finderType}`, someone);
   }
 
-  public addToGroup(groupId: number, someone: Person): Observable<boolean> {
-    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/addtogroup/${groupId}`, someone);
+  public addToGroup(groupId: number, someone: Person, roleId: number): Observable<boolean> {
+    return this.session.post(`${this.baseUrl}api/v1.0.0/finder/pin/addtogroup/${groupId}/${roleId}`, someone);
   }
 
   public getMatch(searchUser: Person): Observable<boolean> {
@@ -500,11 +500,10 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     return pinsFromServer;
   }
 
-  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string): PinSearchRequestParams {
-    let isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
-    let searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
-    let filterString = '';
-    let srchParams: PinSearchRequestParams = new PinSearchRequestParams(searchString, textInKeywordSearchBar, filterString);
+  public buildPinSearchRequest(textInLocationSearchBar: string, textInKeywordSearchBar: string, filterString: string = null): PinSearchRequestParams {
+    const isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
+    const searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
+    const srchParams: PinSearchRequestParams = new PinSearchRequestParams(searchString, textInKeywordSearchBar, filterString);
     return srchParams;
   }
 }

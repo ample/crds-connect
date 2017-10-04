@@ -15,7 +15,8 @@ import {PinsShown, pinsShown, ViewType } from '../../../../shared/constants';
 
 @Component({
   selector: 'remove-person-pin',
-  templateUrl: './remove-person-pin.component.html'
+  templateUrl: './remove-person-pin.component.html',
+  styles: ['.fauxdal-wrapper { overflow-y: hidden; } ']
 })
 
 export class RemovePersonPinComponent implements OnInit {
@@ -38,6 +39,7 @@ export class RemovePersonPinComponent implements OnInit {
     // This component is rendered within a fauxdal,
     // so we need the following selector added to <body> element
     document.querySelector('body').classList.add('fauxdal-open');
+    document.querySelector('body').style.overflowY = 'hidden';
   }
 
   private determineStateToReturnTo(countOfItemsReturnedByLastSearch: number, currentState: string): string {
@@ -99,5 +101,6 @@ export class RemovePersonPinComponent implements OnInit {
   public cancel() {
     console.log(this.pin);
     this.router.navigate(['/person/', this.pin.participantId, 'edit']);
+    document.querySelector('body').style.overflowY = 'auto';
   }
 }
