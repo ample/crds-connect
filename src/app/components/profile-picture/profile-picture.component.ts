@@ -11,7 +11,7 @@ export class ProfilePictureComponent implements OnInit {
   @Input() contactId: number;
   @Input() wrapperClass: string = '';
   @Input() imageClass: string = '';
-  private path: string;
+  public path: string;
   private baseUrl: string = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
   private ImageBaseURL: string = `${this.baseUrl}api/v1.0.0/image/profile/`;
 
@@ -19,6 +19,6 @@ export class ProfilePictureComponent implements OnInit {
   }
 
   public ngOnInit() {
-        this.path = this.ImageBaseURL + this.contactId;
+    this.path = this.ImageBaseURL + this.contactId;
   }
 }

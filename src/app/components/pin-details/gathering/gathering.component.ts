@@ -41,11 +41,11 @@ export class GatheringComponent implements OnInit {
   public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
   public descriptionToDisplay: string;
+  public ready = false;
   public doDisplayFullDesc: boolean;
   public adjustedLeaderNames: string[] = [];
   private participantEmails: string[];
   private pinType: any = pinType;
-  private ready = false;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,

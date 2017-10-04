@@ -1,6 +1,6 @@
-<app-search-bar [isMapHidden] = "!mapViewActive"
+<app-search-bar [isMapHidden] = "isMapHidden"
                 [isMyStuffSearch] = "isMyStuffSearch"
-                (viewMap)="viewChanged($event)">
+                (viewMap)="viewChanged()">
 </app-search-bar>
 
 <div *ngIf="!this.state.getIsFilteredDialogOpen() && pinSearchResults != null">

@@ -34,9 +34,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
   public shouldShowSubmit: boolean = false;
   private isMyStuffActiveSub: Subscription;
 
-  constructor(private appSettings: AppSettingsService,
+  constructor(public appSettings: AppSettingsService,
     private pinService: PinService,
-    private state: StateService,
+    public state: StateService,
     private filterService: FilterService) {
   }
 

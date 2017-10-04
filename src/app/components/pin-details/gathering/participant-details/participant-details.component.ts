@@ -20,12 +20,12 @@ import { Participant, Address } from '../../../../models';
 })
 export class ParticipantDetailsComponent implements OnInit {
   public GroupRole: any = GroupRole;
+  public componentIsReady: boolean = false;
   private participant: Participant;
   private groupId: number;
   private groupParticipantId: number;
   private participantAddress: Address;
   private isValidAddress: boolean;
-  private componentIsReady: boolean = false;
   private redirectUrl: string;
   private selectedRole: number = GroupRole.MEMBER;
   private leaderCount: number = 0;

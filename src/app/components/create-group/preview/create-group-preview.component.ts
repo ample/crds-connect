@@ -20,12 +20,12 @@ import { ViewType, groupPaths, GroupPageNumber, textConstants } from '../../../s
   templateUrl: './create-group-preview.component.html'
 })
 export class CreateGroupPreviewComponent implements OnInit {
-  private smallGroupPin: Pin;
-  private leaders: Participant[];
-  private isComponentReady: boolean = false;
-  private submitting: boolean = true;
+  public smallGroupPin: Pin;
+  public leaders: Participant[];
+  public isComponentReady: boolean = false;
+  public submitting: boolean = true;
 
-  constructor(private createGroupService: CreateGroupService,
+  constructor(public createGroupService: CreateGroupService,
     private state: StateService,
     private groupService: GroupService,
     private profileService: ProfileService,

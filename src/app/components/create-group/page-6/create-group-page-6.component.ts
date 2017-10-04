@@ -23,9 +23,9 @@ import {
 })
 export class CreateGroupPage6Component implements OnInit {
   public profileForm: FormGroup;
+  public isComponentReady: boolean = false;
+  public isSubmitted: boolean = false;
   private sites: LookupTable[] = [];
-  private isComponentReady: boolean = false;
-  private isSubmitted: boolean = false;
   private groupVisabilityInvalid: boolean = false;
   private stateList: Array<string>;
   private lastPage = '/create-group/page-5';
@@ -34,7 +34,7 @@ export class CreateGroupPage6Component implements OnInit {
     private fb: FormBuilder,
     private groupService: GroupService,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private router: Router,
     private lookupService: LookupService) { }
 

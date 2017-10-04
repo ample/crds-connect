@@ -10,7 +10,7 @@ import { ViewType } from '../../../shared/constants';
 })
 
 export class OnlineOrPhysicalGroupComponent implements OnInit {
-  private isVirtualGroup: boolean = null;
+  public isVirtualGroup: boolean = null;
   public isAnOptionSelected: boolean = false;
 
   constructor( private filterService: FilterService, private stateService: StateService) { }

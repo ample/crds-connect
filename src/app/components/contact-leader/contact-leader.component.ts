@@ -25,7 +25,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
   public groupId: number;
-  private msgToLeader: MsgToLeader = new MsgToLeader('', '');
+  public msgToLeader: MsgToLeader = new MsgToLeader('', '');
 
   constructor(
     private blandPageService: BlandPageService,
@@ -79,7 +79,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
     );
   }
 
-  private closeClick() {
+  public closeClick() {
     this.location.back();
   }
 

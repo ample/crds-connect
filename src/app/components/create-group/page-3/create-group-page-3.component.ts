@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validator, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import {Address} from '../../../models';
-import {GroupService} from '../../../services/group.service';
-import {StateService} from '../../../services/state.service';
-import {CreateGroupService} from '../create-group-data.service';
+import { Address } from '../../../models';
+import { GroupService } from '../../../services/group.service';
+import { StateService } from '../../../services/state.service';
+import { CreateGroupService } from '../create-group-data.service';
 import {
   meetingFrequencies, usStatesList, GroupPaths, groupPaths,
   GroupPageNumber, textConstants
@@ -18,23 +18,23 @@ import {
 })
 export class CreateGroupPage3Component implements OnInit {
   public locationForm: FormGroup;
+  public isSubmitted: boolean = false;
   private usStatesList: string[] = usStatesList;
-  private isSubmitted: boolean = false;
   private isAddressInitializedInEdit: boolean = false;
 
   private meetingFrequencies: Array<any> = meetingFrequencies;
 
   constructor(private fb: FormBuilder,
-              private groupService: GroupService,
-              private state: StateService,
-              private createGroupService: CreateGroupService,
-              private router: Router) {
+    private groupService: GroupService,
+    private state: StateService,
+    public createGroupService: CreateGroupService,
+    private router: Router) {
   }
 
   ngOnInit() {
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
       : textConstants.GROUP_PAGE_HEADERS.ADD;
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-2`
       : '/create-group/page-2';
 
@@ -62,6 +62,31 @@ export class CreateGroupPage3Component implements OnInit {
 
   }
 
+  public onClickIsVirtual(isVirtual: boolean): void {
+    this.initializeAddressIfInEditAndNotInitialized(isVirtual);
+
+    this.createGroupService.group.isVirtualGroup = isVirtual;
+    this.setRequiredFields(isVirtual);
+  }
+
+  public onSubmit(form: FormGroup): void {
+    this.isSubmitted = true;
+    if (form.valid) {
+      if (this.createGroupService.group.isVirtualGroup) {
+        this.createGroupService.group.address = Address.overload_Constructor_One();
+      }
+      this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    } else {
+      Object.keys(form.controls).forEach((name) => {
+        form.controls[name].markAsTouched();
+      });
+    }
+  }
+
+  public onBack(): void {
+    this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+  }
+
   private initializeAddressIfInEditAndNotInitialized(isVirtual: boolean): void {
     if (this.state.getActiveGroupPath() === groupPaths.EDIT && !this.isAddressInitializedInEdit) {
       if (isVirtual === false) {
@@ -69,14 +94,6 @@ export class CreateGroupPage3Component implements OnInit {
         this.isAddressInitializedInEdit = true;
       }
     }
-  }
-
-  private onClickIsVirtual(isVirtual: boolean): void {
-
-    this.initializeAddressIfInEditAndNotInitialized(isVirtual);
-
-    this.createGroupService.group.isVirtualGroup = isVirtual;
-    this.setRequiredFields(isVirtual);
   }
 
   private makeSureModelHasAddress(): void {
@@ -110,25 +127,6 @@ export class CreateGroupPage3Component implements OnInit {
   private onClickKidsWelcome(value: boolean): void {
     this.locationForm.controls['kidsWelcome'].setValue(value);
     this.createGroupService.group.kidsWelcome = value;
-  }
-
-
-  public onSubmit(form: FormGroup): void {
-    this.isSubmitted = true;
-    if (form.valid) {
-      if (this.createGroupService.group.isVirtualGroup) {
-        this.createGroupService.group.address = Address.overload_Constructor_One();
-      }
-      this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
-    } else {
-      Object.keys(form.controls).forEach((name) => {
-        form.controls[name].markAsTouched();
-      });
-    }
-  }
-
-  public onBack(): void {
-    this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
   }
 
   private setFieldsFromExistingGroup(): void {

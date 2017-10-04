@@ -28,9 +28,9 @@ export class PersonEditComponent implements OnInit {
   @Input() pin: Pin;
   @Input() isPinOwner: boolean = true;
   public editPersonForm: FormGroup;
-  private submitting: boolean = false;
-  private ready: boolean = false;
-  private submissionError: boolean = false;
+  public submitting: boolean = false;
+  public ready: boolean = false;
+  public submissionError: boolean = false;
 
   constructor(private route: ActivatedRoute,
     private session: SessionService,

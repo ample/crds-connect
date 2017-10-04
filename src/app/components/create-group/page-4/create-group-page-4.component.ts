@@ -22,18 +22,17 @@ import {
 })
 export class CreateGroupPage4Component implements OnInit {
   public groupMetaDataForm: FormGroup;
+  public isComponentReady: boolean = false;
+  public isSubmitted: boolean = false;
+  public isStudentMinistrySelected: boolean;
+  public groupGenderMixInvalid: boolean = false;
+  public selectedAgeRangesInvalid: boolean = false;
   private genderMixTypes: Attribute[] = [];
   private ageRanges: Attribute[] = [];
 
-  private isComponentReady: boolean = false;
-  private isSubmitted: boolean = false;
-  private isStudentMinistrySelected: boolean;
-  private groupGenderMixInvalid: boolean = false;
-  private selectedAgeRangesInvalid: boolean = false;
-
   constructor(private fb: FormBuilder,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private groupService: GroupService,
     private router: Router,
     private lookupService: LookupService,
