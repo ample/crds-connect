@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { SimpleSelectable } from '../../../models/simple-selectable';
 import { groupMeetingTimeRanges } from '../../../shared/constants';
 
@@ -22,10 +22,9 @@ export class MeetingTimeComponent implements OnInit {
     }
 
     private setSelectedFilter(): void {
-      if (this.filterService.filterStringMeetingTimes != null) {
-        const selectedAwsTimes = this.filterService.filterStringMeetingTimes.replace(/(\(or )|: |  \)|/g, '').split('groupmeetingtime').slice(1);
-        selectedAwsTimes.forEach(element => {
-          const meetingTime = this.filterService.getTimeOfDayFromAwsTimeString(element.trim());
+      const selectedTimes = this.filterService.getSelectedMeetingTimes();
+      if (selectedTimes) {
+        selectedTimes.forEach(meetingTime => {
           this.selectableTimeRanges.find(time => time.value === meetingTime).isSelected = true;
         });
       }

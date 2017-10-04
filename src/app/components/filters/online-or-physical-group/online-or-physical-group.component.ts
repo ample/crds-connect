@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { StateService } from '../../../services/state.service';
 import { ViewType } from '../../../shared/constants';
 
@@ -20,8 +20,8 @@ export class OnlineOrPhysicalGroupComponent implements OnInit {
   }
 
   public setSelectedFilter(): void {
-    if (this.filterService.filterStringGroupLocation != null) {
-      const filter = this.filterService.filterStringGroupLocation.replace(/\D/g, '');
+    const filter = this.filterService.getSelectedGroupLocation();
+    if (filter) {
       this.isAnOptionSelected = true;
       if (+filter === 0) {
         this.isVirtualGroup = false;
