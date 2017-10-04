@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
 import { GroupType } from '../../../models/group-type';
@@ -59,8 +59,8 @@ export class GroupTypeComponent implements OnInit {
   }
 
   private setSelectedGroupTypes(): void {
-    if (this.filterService.filterStringGroupTypes != null) {
-      const selectedFilter = this.filterService.filterStringGroupTypes.replace(/\(or|'|:|grouptype|[)]/g, '').trim();
+    const selectedFilter = this.filterService.getSelectedGenderMixes();
+    if (selectedFilter) {
       this.setGroupTypeSelection(selectedFilter);
     }
   }

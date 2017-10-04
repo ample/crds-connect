@@ -29,7 +29,6 @@ import { StateService } from '../../../services/state.service';
 import { Group } from '../../../models';
 
 import {
-  defaultGroupMeetingTime,
   meetingFrequencies,
   groupMeetingScheduleType,
   GroupMeetingScheduleType,

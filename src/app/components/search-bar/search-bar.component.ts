@@ -13,7 +13,7 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { textConstants } from '../../shared/constants';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { FilterService } from '../filters/filter.service';
+import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 

@@ -5,7 +5,7 @@ import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagi
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { GroupService} from '../../../services/group.service';
+import { GroupService } from '../../../services/group.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 
@@ -13,11 +13,12 @@ import { Group } from '../../../models/group';
 import { LookupTable } from '../../../models';
 import * as moment from 'moment';
 
-import { defaultGroupMeetingTime, meetingFrequencies,
-         groupMeetingScheduleType, GroupMeetingScheduleType,
-         GroupPaths, groupPaths, GroupPageNumber,
-         defaultGroupMeetingTimePrefix, defaultGroupMeetingTimeSuffix,
-         textConstants, daysOfWeekList } from '../../../shared/constants';
+import {
+  meetingFrequencies,
+  groupMeetingScheduleType, GroupMeetingScheduleType,
+  GroupPaths, groupPaths, GroupPageNumber,
+  textConstants, daysOfWeekList
+} from '../../../shared/constants';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class CreateGroupPage2Component implements OnInit {
 
   ngOnInit() {
     const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-                                                                           : textConstants.GROUP_PAGE_HEADERS.ADD;
+      : textConstants.GROUP_PAGE_HEADERS.ADD;
 
     const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-1`
@@ -68,7 +69,7 @@ export class CreateGroupPage2Component implements OnInit {
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
 
     if (this.state.getActiveGroupPath() === groupPaths.EDIT
-                                        && !this.createGroupService.wasPagePresetWithExistingData.page2) {
+      && !this.createGroupService.wasPagePresetWithExistingData.page2) {
       this.setFieldsFromExistingGroup();
       this.createGroupService.wasPagePresetWithExistingData.page2 = true;
     }
@@ -114,14 +115,14 @@ export class CreateGroupPage2Component implements OnInit {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid) {
-      if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE){
+      if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
         this.createGroupService.group = this.clearGroupMeetingDay(this.createGroupService.group);
       }
       const newDate = moment.utc(this.date).hours(this.date.getHours()).minutes(this.date.getMinutes());
       this.createGroupService.group.meetingTime = newDate.toISOString();
 
       this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(),
-                                            this.createGroupService.group.groupId);
+        this.createGroupService.group.groupId);
     } else {
       Object.keys(form.controls).forEach((name) => {
         form.controls[name].markAsTouched();
@@ -163,7 +164,7 @@ export class CreateGroupPage2Component implements OnInit {
     return form;
   }
 
-  private updateValueAndValidityOfAllFields(form: FormGroup): FormGroup{
+  private updateValueAndValidityOfAllFields(form: FormGroup): FormGroup {
     form.controls['meetingTimeType'].updateValueAndValidity();
     form.controls['meetingTime'].updateValueAndValidity();
     form.controls['meetingDay'].updateValueAndValidity();
@@ -196,7 +197,7 @@ export class CreateGroupPage2Component implements OnInit {
         +this.createGroupService.groupBeingEdited['meetingFrequencyID'];
       this.createGroupService.group.meetingFrequency = meetingFrequencies
         .filter(mf => mf.meetingFrequencyId === +this.createGroupService.groupBeingEdited['meetingFrequencyID'])
-        [0].meetingFrequencyDesc;
+      [0].meetingFrequencyDesc;
 
       this.createGroupService.group.meetingDay = daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
       this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;
