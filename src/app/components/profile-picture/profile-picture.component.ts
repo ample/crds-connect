@@ -16,7 +16,6 @@ export class ProfilePictureComponent implements OnInit {
   private ImageBaseURL: string = `${this.baseUrl}api/v1.0.0/image/profile/`;
 
   constructor() {
-
   }
 
   public ngOnInit() {

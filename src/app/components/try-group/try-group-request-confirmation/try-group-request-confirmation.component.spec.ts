@@ -4,14 +4,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 
 import { MockComponent } from '../../../shared/mock.component';
 
-import {TryGroupRequestConfirmationComponent} from './try-group-request-confirmation.component';
+import { TryGroupRequestConfirmationComponent } from './try-group-request-confirmation.component';
 
 let fixture: ComponentFixture<TryGroupRequestConfirmationComponent>;
 let comp: TryGroupRequestConfirmationComponent;
@@ -33,10 +33,10 @@ describe('try-group-request-confirmation.component', () => {
       providers: [
         { provide: SessionService, useValue: mockSessionService },
         { provide: StateService, useValue: mockState },
-        { provide: Router, useValue: mockRouter},
+        { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: { snapshot: { params: { groupId: 1234 } } } },
         { provide: ToastsManager, useValue: mockToastsManager },
-        { provide: ContentService, useValue: mockContentService}
+        { provide: ContentService, useValue: mockContentService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -50,13 +50,13 @@ describe('try-group-request-confirmation.component', () => {
   }));
 
   it('should create an instance', () => {
-      expect(comp).toBeTruthy();
+    expect(comp).toBeTruthy();
   });
 
   it('Submits', () => {
     const groupId = '1234';
-    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
-
+    mockSessionService.post.and.returnValue(Observable.of(true));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: 'whhatever' }));
     comp.ngOnInit();
     comp.onSubmit();
     expect(mockRouter.navigate).toHaveBeenCalledWith([`/small-group/${groupId}`]);
@@ -65,7 +65,8 @@ describe('try-group-request-confirmation.component', () => {
   });
 
   it('Handles submission errors - 409', () => {
-    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 409}));
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({ status: 409 }));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: 'whhatever' }));
 
     comp.ngOnInit();
     comp.onSubmit();
@@ -74,7 +75,8 @@ describe('try-group-request-confirmation.component', () => {
   });
 
   it('Handles submission errors - other', () => {
-    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 404}));
+    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({ status: 404 }));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: 'whhatever' }));
 
     comp.ngOnInit();
     comp.onSubmit();

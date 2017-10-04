@@ -13,9 +13,9 @@ import { GeoCoordinates } from '../../models/geo-coordinates';
 })
 export class SearchLocalComponent implements OnInit {
 
-  private mapView;
   public active: boolean;
   public needed: boolean;
+  private mapView;
 
   constructor(public mapHelper: GoogleMapService,
     private state: StateService,
