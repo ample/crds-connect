@@ -1,3 +1,4 @@
+import { FinderContentBlockConfig } from './app.contentblock.config';
 import { CommonModule } from '@angular/common';
 import { NgModule  } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -8,7 +9,6 @@ import { ContentBlockModule } from 'crds-ng2-content-block';
 import { ToastModule, ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CustomOptions } from './app.toast.options';
 import { environment } from '../environments/environment';
-
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
@@ -97,7 +97,7 @@ import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService, ContentBlockConfig } from 'crds-ng2-content-block';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './components/filters/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -141,6 +141,7 @@ import { SocialMediaComponent } from './components/pin-details/gathering/social-
 
 import { RouterModule } from '@angular/router';
 
+
 @NgModule({
 imports: [
   AlertModule,
@@ -166,10 +167,7 @@ imports: [
   TimepickerModule.forRoot(),
   BsDropdownModule.forRoot(),
   routing,
-  ContentBlockModule.forRoot({
-    endpoint: environment.CRDS_CMS_CLIENT_ENDPOINT,
-    categories: Array('finder', 'group tool')
-  })
+  ContentBlockModule
 ],
 declarations: [
   AddMeToMapComponent,
@@ -250,6 +248,7 @@ providers: [
   BlandPageService,
   ContentService,
   CookieService,
+  { provide: ContentBlockConfig, useClass: FinderContentBlockConfig },
   CreateGroupService,
   DetailedUserDataResolver,
   GroupResolver,
