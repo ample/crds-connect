@@ -25,3 +25,6 @@ export { Category } from './category';
 export { Attribute } from './attribute';
 export { AttributeType } from './attribute-type';
 export { DetailedUserData } from './detailed-user-data';
+export { AgeGroup } from './age-group';
+export { GroupType } from './group-type';
+export { SimpleSelectable } from './simple-selectable';

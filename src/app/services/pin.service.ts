@@ -323,14 +323,13 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
     }
   }
 
-  // Not sure this belongs here
   public buildPinSearchRequest(
     textInLocationSearchBar: string,
-    textInKeywordSearchBar: string
+    textInKeywordSearchBar: string,
+    filterString: string = null
   ): PinSearchRequestParams {
     const isTextInSearchBar: boolean = textInLocationSearchBar && textInLocationSearchBar !== '';
     const searchString = textInLocationSearchBar ? textInLocationSearchBar : '';
-    const filterString = '';
     const srchParams: PinSearchRequestParams = new PinSearchRequestParams(
       searchString,
       textInKeywordSearchBar,

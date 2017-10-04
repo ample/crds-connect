@@ -6,3 +6,93 @@ app-filters {
     margin: 0;
   }
 }
+
+.searchbar {
+  .search-mobile {
+    display: none !important;
+  }
+
+  .input-group > .search-input {
+    display: flex;
+    flex: 1;
+  }
+
+  app-location-bar {
+    flex: 1;
+  }
+
+  .input-separator {
+    background-color: $cr-gray-light;
+    height: 26px;
+    margin: 8px 0;
+    position: relative;
+    width: 1px;
+  }
+}
+
+.searchbar-groups {
+  @media screen and (max-width: $screen-sm) {
+    &.searchbar-expanded {
+      display: block;
+    }
+
+    .search-mobile {
+      display: block !important;
+    }
+
+    .search-desktop {
+      display: none !important;
+    }
+
+    .searchbar-wrapper {
+      width: 100%;
+    }
+
+    .input-group {
+      display: block;
+    }
+
+    input.form-control {
+      margin-bottom: 0;
+      margin-left: 0;
+    }
+
+    .search-input {
+      display: block;
+      height: 42px;
+      margin-bottom: .5rem;
+      position: relative;
+
+      &.input-transparent input.form-control {
+        background: transparent;
+        border: none;
+      }
+
+      .input-group-addon {
+        height: 38px;
+      }
+
+      .addon-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 4;
+      }
+
+      .addon-offset {
+        right: 28px;
+      }
+    }
+
+  }
+
+  @media screen and (min-width: $screen-sm) {
+    .search-location.input-group-left input {
+      padding-left: 10px;
+    }
+
+    .force-show-desktop {
+      display: block !important;
+    }
+  }
+}

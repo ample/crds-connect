@@ -17,6 +17,16 @@ export class MeetingFrequencyComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectableMeetingFrequencies = this.filterService.buildArrayOfSelectables(meetingFrequencyNames);
+    this.setSelectedFilter();
+  }
+
+  private setSelectedFilter(): void {
+    const selectedDays = this.filterService.getSelectedMeetingFrequencies();
+    if (selectedDays) {
+      selectedDays.forEach(element => {
+        this.selectableMeetingFrequencies.find(day => day.value === element).isSelected = true;
+      });
+    }
   }
 
   public onClickToSelect(selectedFrequency: SimpleSelectable): void {
@@ -29,7 +39,7 @@ export class MeetingFrequencyComponent implements OnInit {
   }
 
   public reset(): void {
-    for (let day of this.selectableMeetingFrequencies) {
+    for (const day of this.selectableMeetingFrequencies) {
         day.isSelected = false;
     }
   }

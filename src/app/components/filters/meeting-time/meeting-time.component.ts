@@ -18,6 +18,16 @@ export class MeetingTimeComponent implements OnInit {
 
     public ngOnInit(): void {
         this.selectableTimeRanges = this.filterService.buildArrayOfSelectables(groupMeetingTimeRanges);
+        this.setSelectedFilter();
+    }
+
+    private setSelectedFilter(): void {
+      const selectedTimes = this.filterService.getSelectedMeetingTimes();
+      if (selectedTimes) {
+        selectedTimes.forEach(meetingTime => {
+          this.selectableTimeRanges.find(time => time.value === meetingTime).isSelected = true;
+        });
+      }
     }
 
     public onClickToSelect(selectedTime: SimpleSelectable): void {
@@ -30,8 +40,8 @@ export class MeetingTimeComponent implements OnInit {
     }
 
     public reset(): void {
-        for (let day of this.selectableTimeRanges) {
-            day.isSelected = false;
+        for (const time of this.selectableTimeRanges) {
+            time.isSelected = false;
         }
     }
 

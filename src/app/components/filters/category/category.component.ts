@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Category } from '../../../models/category';
+import { Category } from '../../../models';
 
-import { awsFieldNames } from '../../../shared/constants';
-
-import { AppSettingsService } from '../../../services/app-settings.service';
 import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 
@@ -18,9 +15,8 @@ export class CategoryComponent implements OnInit {
   private selected: boolean = false;
   private categories: Category[];
 
-  constructor( private appSettings: AppSettingsService,
-               private lookupService: LookupService,
-               private filterService: FilterService) { }
+  constructor(private lookupService: LookupService,
+    private filterService: FilterService) { }
 
   public ngOnInit(): void {
     this.initializeCategories();
@@ -31,17 +27,25 @@ export class CategoryComponent implements OnInit {
     this.setFilterString();
   }
 
- private initializeCategories(): void {
-      this.lookupService.getCategories().subscribe(
-          cats => {
-            this.categories = cats;
-          }
-      );
+  private initializeCategories(): void {
+    this.lookupService.getCategories().subscribe(
+      cats => {
+        this.categories = cats;
+        this.setSelectedCategories();
+      }
+    );
+  }
+
+  private setSelectedCategories(): void {
+    const selectedCategories = this.filterService.getSelectedCategories();
+    if (selectedCategories) {
+      selectedCategories.map(cat => this.setSelection(cat));
+    }
   }
 
   private setSelection(selectedValue: string) {
-    let group = this.categories.find(i => i.name === selectedValue);
-    if ( group != null) {
+    const group = this.categories.find(i => i.name === selectedValue);
+    if (group != null) {
       group.selected = !group.selected;
     }
   }
@@ -51,7 +55,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public reset() {
-    for (let cat of this.categories) {
+    for (const cat of this.categories) {
       cat.selected = false;
     }
   }

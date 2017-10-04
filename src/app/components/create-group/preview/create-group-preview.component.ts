@@ -10,7 +10,6 @@ import { ProfileService } from '../../../services/profile.service';
 import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { TimeHelperService } from '../../../services/time-helper.service';
 import { Pin, Participant } from '../../../models';
 import { Component, OnInit } from '@angular/core';
 import { ViewType, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
@@ -35,8 +34,7 @@ export class CreateGroupPreviewComponent implements OnInit {
     private participantService: ParticipantService,
     private pinService: PinService,
     private blandPageService: BlandPageService,
-    private contentService: ContentService,
-    private timeHelperService: TimeHelperService
+    private contentService: ContentService
   ) {}
 
   ngOnInit() {
@@ -78,9 +76,6 @@ export class CreateGroupPreviewComponent implements OnInit {
       ).subscribe(
         returnData => {
           this.toastr.success('Successfully edited group!');
-          this.smallGroupPin.gathering.meetingTime = this.timeHelperService.convertTime(
-            this.smallGroupPin.gathering.meetingTime
-          );
           this.state.postedPin = this.smallGroupPin;
           this.state.setIsMyStuffActive(true);
           this.state.setCurrentView(ViewType.LIST);

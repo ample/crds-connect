@@ -17,6 +17,7 @@ export class MeetingDayComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectableDaysOfWeek = this.filterService.buildArrayOfSelectables(daysOfWeek);
+    this.setSelectedFilter();
   }
 
   private onClickToSelect(selectedDay: SimpleSelectable): void {
@@ -24,12 +25,21 @@ export class MeetingDayComponent implements OnInit {
     this.setFilterString();
   }
 
+  private setSelectedFilter(): void {
+    const selectedDays = this.filterService.getSelectedMeetingDays();
+    if (selectedDays) {
+      selectedDays.forEach(element => {
+        this.selectableDaysOfWeek.find(day => day.value === element).isSelected = true;
+      });
+    }
+  }
+
   private setFilterString(): void {
     this.filterService.setFilterStringMeetingDays(this.selectableDaysOfWeek);
   }
 
   public reset(): void {
-    for (let day of this.selectableDaysOfWeek) {
+    for (const day of this.selectableDaysOfWeek) {
       day.isSelected = false;
     }
   }

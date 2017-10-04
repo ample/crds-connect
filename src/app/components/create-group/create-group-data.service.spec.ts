@@ -1,8 +1,9 @@
+import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
 import { ProfileService } from '../../services/profile.service';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { LookupService } from '../../services/lookup.service';
-import { attributeTypes, defaultGroupMeetingTime, groupMeetingScheduleType, GroupRole } from '../../shared/constants';
+import { attributeTypes, groupMeetingScheduleType, GroupRole } from '../../shared/constants';
 import { MockTestData } from '../../shared/MockTestData';
 import { CreateGroupService } from './create-group-data.service';
 import { SessionService } from '../../services/session.service';
@@ -13,6 +14,7 @@ import * as moment from 'moment';
 describe('CreateGroupService', () => {
     let service;
     let mockLookupService, mockSessionService, mockProfileService, mockParticipantService;
+    const defaultGroupMeetingTime = '0001-01-01T17:00:00.000Z';
 
     beforeEach(() => {
         mockLookupService = jasmine.createSpyObj<LookupService>('lookupService', ['getCategories']);
@@ -22,6 +24,7 @@ describe('CreateGroupService', () => {
         TestBed.configureTestingModule({
             providers: [
                 CreateGroupService,
+                UtcTimeFormatPipe,
                 { provide: LookupService, useValue: mockLookupService },
                 { provide: SessionService, useValue: mockSessionService },
                 { provide: ProfileService, useValue: mockProfileService },
@@ -250,7 +253,7 @@ describe('CreateGroupService', () => {
             expect(group.meetingFrequencyId).not.toBeNull();
             expect(group.meetingTime).not.toBeNull();
             expect(group.startDate).toBe('0001-01-01T12:00:00Z');
-            expect(group.meetingTime).toBe('12:00 PM');
+            expect(group.meetingTime).toBe('5:00 pm');
         })
     );
 

@@ -12,7 +12,6 @@ import { CreateGroupPreviewComponent } from './create-group-preview.component';
 import { ProfileService } from '../../../services/profile.service';
 import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { StateService } from '../../../services/state.service';
-import { TimeHelperService } from '../../../services/time-helper.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { ParticipantService } from '../../../services/participant.service';
@@ -37,15 +36,15 @@ describe('CreateGroupPreviewComponent', () => {
     mockParticipantService,
     mockBlandPageService,
     mockContentService,
-    mockPinService,
-    mockTimeHelperService;
+    mockPinService;
   beforeEach(() => {
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', [
       'getSmallGroupPinFromGroupData',
       'getLeaders',
       'setParticipants',
       'prepareForGroupSubmission',
-      'reset'
+      'reset',
+      'navigateInGroupFlow'
     ]);
     mockStateService = jasmine.createSpyObj<StateService>('state', [
       'setLoading',
@@ -55,11 +54,7 @@ describe('CreateGroupPreviewComponent', () => {
       'getActiveGroupPath',
       'setActiveGroupPath'
     ]);
-    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupServ', [
-      'createGroup',
-      'createParticipants',
-      'navigateInGroupFlow'
-    ]);
+    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupServ', ['createGroup', 'createParticipants']);
     mockProfileService = jasmine.createSpyObj<ProfileService>('profile', ['postProfileData']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
@@ -77,7 +72,6 @@ describe('CreateGroupPreviewComponent', () => {
       'setEditedSmallGroupPin',
       'getEditedSmallGroupPin'
     ]);
-    mockTimeHelperService = jasmine.createSpyObj<TimeHelperService>('timeHelperService', ['convertTime']);
 
     TestBed.configureTestingModule({
       declarations: [CreateGroupPreviewComponent, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
@@ -91,8 +85,7 @@ describe('CreateGroupPreviewComponent', () => {
         { provide: ToastsManager, useValue: mockToastr },
         { provide: ParticipantService, useValue: mockParticipantService },
         { provide: BlandPageService, useValue: mockBlandPageService },
-        { provide: ContentService, useValue: mockContentService },
-        { provide: TimeHelperService, useValue: mockTimeHelperService }
+        { provide: ContentService, useValue: mockContentService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -106,25 +99,6 @@ describe('CreateGroupPreviewComponent', () => {
       });
     })
   );
-
-  it('should Init', () => {
-    const pin = MockTestData.getAPin(1, 4, pinType.SMALL_GROUP);
-    mockCreateGroupService.getSmallGroupPinFromGroupData.and.returnValue(pin);
-    const leaders = MockTestData.getAParticipantsArray(1);
-    mockCreateGroupService.group = new Group();
-    mockCreateGroupService.group.groupId = 123;
-    mockCreateGroupService.getLeaders.and.returnValue(Observable.of(leaders));
-    comp.ngOnInit();
-    expect(mockCreateGroupService.getSmallGroupPinFromGroupData).toHaveBeenCalled();
-    expect(mockCreateGroupService.getLeaders).toHaveBeenCalled();
-    expect(mockStateService.setLoading).toHaveBeenCalled();
-    expect(mockStateService.setPageHeader).toHaveBeenCalledWith(
-      textConstants.GROUP_PAGE_HEADERS.ADD,
-      '/create-group/page-6'
-    );
-    expect(comp['leaders']).toBe(leaders);
-    expect(comp['smallGroupPin']).toBe(pin);
-  });
 
   it('should create group', () => {
     let profileData = MockTestData.getProfileData();

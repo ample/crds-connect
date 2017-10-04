@@ -1,12 +1,8 @@
 import { Address } from './address';
 import { Participant } from './participant';
 
-import { TimeHelperService} from '../services/time-helper.service';
-
-import { defaultGroupMeetingTime, SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
+import { SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
 import * as moment from 'moment';
-
-let hlpr: TimeHelperService = new TimeHelperService();
 
 export class Group {
 
@@ -61,9 +57,9 @@ export class Group {
     }
 
     public static overload_Constructor_CreateGroup(contactId: number) {
-        let today = moment.utc(new Date());
-        let group = new Group(0, null, null, null, SpiritualGrowthCongregationId, null, null, contactId, null, today.utc().format(), null,
-        null, null, null, null, null, null, null, null, null, defaultGroupMeetingTime,
+        const today = moment.utc(new Date());
+        const group = new Group(0, null, null, null, SpiritualGrowthCongregationId, null, null, contactId, null, today.utc().format(), null,
+        null, null, null, null, null, null, null, null, null, moment.utc().hours(17).minutes(0).toISOString(),
         null, null, Address.overload_Constructor_One(), null, null, null, null, SmallGroupTypeId, null, null);
         group.isVirtualGroup = false;
         return group;
@@ -97,8 +93,7 @@ export class Group {
         this.childCareInd = $childCareInd;
         this.meetingDayId = $meetingDayId;
         this.meetingDay = $meetingDay;
-        this.meetingTime = hlpr.adjustUtcStringToAccountForLocalOffSet($meetingTime || defaultGroupMeetingTime,
-            false);
+        this.meetingTime = $meetingTime;
         this.meetingFrequency = $meetingFrequency;
         this.meetingFrequencyId = $meetingFrequencyId;
         this.address = $address;

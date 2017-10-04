@@ -22,7 +22,6 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
-import { TimeHelperService } from '../../../services/time-helper.service';
 
 import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import { GroupRole } from '../../../shared/constants';
@@ -71,7 +70,6 @@ export class GatheringComponent implements OnInit {
     private listHelperService: ListHelperService,
     private miscellaneousService: MiscellaneousService,
     private content: ContentService,
-    private timeHlpr: TimeHelperService,
     private analtyics: AnalyticsService,
     public appSettingsService: AppSettingsService,
     private route: ActivatedRoute
@@ -229,15 +227,6 @@ export class GatheringComponent implements OnInit {
   private onEndGroupClicked(): void {
     this.state.setLoading(true);
     this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
-  }
-
-  public getMeetingTime(meetingTimeUtc: string) {
-    // Sorry this is here. We don't need to do moment when we're doing create group :(
-    if (!this.previewMode) {
-      return this.timeHlpr.getLocalTimeFromUtcStringOrDefault(meetingTimeUtc, true);
-    } else {
-      return this.timeHlpr.hackTime(meetingTimeUtc);
-    }
   }
 
   private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {

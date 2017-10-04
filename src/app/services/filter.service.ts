@@ -71,7 +71,7 @@ export class FilterService {
     for (let age of ageGroups) {
       if (age.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\' `;
+        addFilterString += ` ${awsFieldNames.GROUP_AGE_RANGE}: \'${age.attribute.name}\'`;
       }
     }
     addFilterString += ' )';
@@ -90,7 +90,7 @@ export class FilterService {
     for (let cat of categories) {
       if (cat.selected) {
         // need single quotes around each value since it is a string in aws
-        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\')  `;
+        addFilterString += ` (prefix field=\'${awsFieldNames.GROUP_CATEGORY}\' \'${cat.name}\') `;
       }
     }
     addFilterString += ' )';
@@ -152,6 +152,24 @@ export class FilterService {
         filter = awsMeetingTimeSearchStrings.EVENINGS;
     }
 
+    return filter;
+  }
+
+  public getTimeOfDayFromAwsTimeString(awsTimeString: string): string {
+    let filter: string = undefined;
+    switch (awsTimeString) {
+      case awsMeetingTimeSearchStrings.MORNINGS:
+        filter = groupMeetingTimeRanges.MORNINGS;
+        break;
+      case awsMeetingTimeSearchStrings.AFTERNOONS:
+        filter = groupMeetingTimeRanges.AFTERNOONS;
+        break;
+      case awsMeetingTimeSearchStrings.EVENINGS:
+        filter = groupMeetingTimeRanges.EVENINGS;
+        break;
+      default:
+        console.log(`Error: couldn't get awsMeetingTimeSearchString from ${awsTimeString}`);
+    }
     return filter;
   }
 
@@ -230,5 +248,89 @@ export class FilterService {
     return selectableObjArray;
   }
 
+  /*
+   * Gets selected age groups from filter string saved in the service.
+   */
+  public getSelectedAgeGroups(): string[] {
+    let ageGroups: string[] = undefined;
+    if (this.filterStringAgeGroups) {
+      ageGroups = this.filterStringAgeGroups.replace(/(\(or )|: |\(prefix field=|'| \)/g, '').split('groupagerange').slice(1);
+      ageGroups = ageGroups.map(age => age.trim());
+    }
+    return ageGroups;
+  }
+
+  public getSelectedCategories(): string[] {
+    let selectedCategories: string[] = undefined;
+    if (this.filterStringCategories) {
+      selectedCategories = this.filterStringCategories.replace(/(\(or )|: |\(prefix field=|'|\)/g, '').split('groupcategory').slice(1);
+      selectedCategories = selectedCategories.map(group => group.trim());
+    }
+    return selectedCategories;
+  }
+
+  public getSelectedGenderMixes(): string {
+    let selectedGenderMixes: string = undefined;
+    if (this.filterStringGroupTypes) {
+      selectedGenderMixes = this.filterStringGroupTypes.replace(/\(or|'|:|grouptype|[)]/g, '').trim();
+    }
+    return selectedGenderMixes;
+  }
+
+  /*
+   * Gets selected kids welcome filter if the kidsWelcome filter string is set
+   * returns undefined if there is no filter set.
+   */
+  public getSelectedKidsWelcomeFlag(): string {
+    const selectedKidsWelcomeFlag = (this.filterStringKidsWelcome) ? this.filterStringKidsWelcome.replace(/\D/g, '') : undefined;
+    return selectedKidsWelcomeFlag;
+  }
+
+  /*
+   * Gets selected meeting days from filter string
+   * returns undefined if no filter string
+   */
+  public getSelectedMeetingDays(): string[] {
+    let selectedDays: string[] = undefined;
+    if (this.filterStringMeetingDays) {
+      selectedDays = this.filterStringMeetingDays.replace(/(\(or)|( )|'|\)/g, '').split('groupmeetingday:').slice(1);
+    }
+    return selectedDays;
+  };
+
+  /*
+   * Gets selected meeting frequency filters from filter string
+   * returns undefined if there is no filter string set.
+   */
+  public getSelectedMeetingFrequencies(): string[] {
+    let selectedFrequencies: string[] = undefined;
+    if (this.filterStringMeetingFrequencies) {
+      selectedFrequencies = this.filterStringMeetingFrequencies.replace(/(\(or )|'|\)/g, '').split('groupmeetingfrequency:').slice(1);
+      selectedFrequencies = selectedFrequencies.map(element => element.trim());
+    }
+    return selectedFrequencies;
+  }
+
+  /*
+   * Gets selected time of day filters from the filter string
+   * returns undefined if no filter string is set.
+   */
+  public getSelectedMeetingTimes(): string[] {
+    let selectedMeetingTimes: string[] = undefined;
+    if (this.filterStringMeetingTimes) {
+      selectedMeetingTimes = this.filterStringMeetingTimes.replace(/(\(or )|: |  \)|/g, '').split('groupmeetingtime').slice(1);
+      selectedMeetingTimes = selectedMeetingTimes.map(time => this.getTimeOfDayFromAwsTimeString(time.trim()));
+    }
+    return selectedMeetingTimes;
+  }
+
+  /*
+   * Gets selected kids welcome filter if the kidsWelcome filter string is set
+   * returns undefined if there is no filter set.
+   */
+  public getSelectedGroupLocation(): string {
+    const selectedGroupLocation = (this.filterStringGroupLocation) ? this.filterStringGroupLocation.replace(/\D/g, '') : undefined;
+    return selectedGroupLocation;
+  }
 }
 

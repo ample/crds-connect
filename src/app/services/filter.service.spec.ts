@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
-import { FilterService } from '../services/filter.service';
+import { FilterService } from './filter.service';
 
 import { SimpleSelectable} from '../models/simple-selectable';
 
@@ -128,6 +128,32 @@ describe('Service: Filters ', () => {
       expect(rc).toEqual(expectedstring2);
     }));
 
+    it('should return morning time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T00:00:00Z\', \'0001-01-01T12:00:00Z\']');
+      expect(result).toBe('Mornings (before noon)');
+    }));
+
+    it('should return afternoon time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T12:00:00Z\', \'0001-01-01T17:00:00Z\']');
+      expect(result).toBe('Afternoons (12-5pm)');
+    }));
+
+    it('should return Evening time of day string from AWS time range',
+    inject([FilterService], (service: any) => {
+      const result = service.getTimeOfDayFromAwsTimeString('[\'0001-01-01T17:00:00Z\', \'0001-01-01T23:59:00Z\']');
+      expect(result).toBe('Evenings (after 5pm)');
+    }));
+
+    it('should display an error if awsMeetingTimeString conversion does not work',
+    inject([FilterService], (service: any) => {
+      spyOn(console, 'log');
+      const result = service.getTimeOfDayFromAwsTimeString('yabba dabba doo');
+      expect(result).toBeUndefined();
+      expect(console.log).toHaveBeenCalledWith('Error: couldn\'t get awsMeetingTimeSearchString from yabba dabba doo');
+    }));
+
     xit('should return a valid search string for a single meeting frequency',
       inject([FilterService], (service: any) => {
 
@@ -142,5 +168,115 @@ describe('Service: Filters ', () => {
 
     }));
 
+    describe('getSelectedAgeGroups',  () => {
+      it('should return undefined if no age group filter', inject([FilterService], (service: any) => {
+        expect(service.getSelectedAgeGroups()).toBeUndefined();
+      }));
 
+      it('should return array of selected filters based on filter string', inject([FilterService], (service: any) => {
+        service.filterStringAgeGroups = ` (or groupagerange: 'Middle school' groupagerange: '20's'  )`;
+        const result = service.getSelectedAgeGroups();
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe('Middle school');
+        expect(result[1]).toBe('20s');
+      }));
+    });
+
+    describe('getSelectedCategories', () => {
+      it('should return undefined if no category filter', inject([FilterService], (service: any) => {
+        expect(service.getSelectedCategories()).toBeUndefined();
+      }));
+
+      it('should return array of selected categories', inject([FilterService], (service: FilterService) => {
+        service.filterStringCategories = ` (or (prefix field='groupcategory' 'Category 2')  (prefix field='groupcategory' 'Category 1') )`;
+        const result = service.getSelectedCategories();
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe('Category 2');
+        expect(result[1]).toBe('Category 1');
+      }));
+    });
+
+    describe('getSelectedGenderMixes', () => {
+      it('should return undefined if no gender mix filter', inject([FilterService], (service: FilterService) => {
+        expect(service.getSelectedGenderMixes()).toBeUndefined();
+      }));
+
+      it('should return selected gender mix type (single select) string', inject([FilterService], (service: FilterService) => {
+        service.filterStringGroupTypes = ` (or grouptype: 'just dudes '  )`;
+        const result = service.getSelectedGenderMixes();
+        expect(result).toBe('just dudes');
+      }));
+    });
+
+    describe('getSelectedKidsWelcomeFlag', () => {
+      it('should return undefined if no kids welcome filter set', inject([FilterService], (service: FilterService) => {
+        expect(service.getSelectedKidsWelcomeFlag()).toBeUndefined();
+      }));
+
+      it('should return "1" if filter is set to true', inject([FilterService], (service: FilterService) => {
+        service.filterStringKidsWelcome = ' (or groupkidswelcome: 1) ';
+        expect(service.getSelectedKidsWelcomeFlag()).toBe('1');
+      }));
+
+      it('should return "0" is set to false', inject([FilterService], (service: FilterService) => {
+        service.filterStringKidsWelcome = ' (or groupkidswelcome: 0) ';
+        expect(service.getSelectedKidsWelcomeFlag()).toBe('0');
+      }));
+    });
+
+    describe('getSelectedMeetingDays', () => {
+      it('should return undefined if no meeting days filter set', inject([FilterService], (service: FilterService) => {
+        expect(service.getSelectedMeetingDays()).toBeUndefined();
+      }));
+
+      it('should return selected meeting days as string array', inject([FilterService], (service: FilterService) => {
+        service.filterStringMeetingDays = ' (or groupmeetingday: \'Monday\'  )';
+        const result = service.getSelectedMeetingDays();
+        expect(result.length).toBe(1);
+        expect(result[0]).toBe('Monday');
+      }));
+    });
+
+    describe('getSelectedMeetingFrequencies', () => {
+      it('should return undefined if no meeting frequencies filter set', inject([FilterService], (service: FilterService) => {
+        expect(service.getSelectedMeetingFrequencies()).toBeUndefined();
+      }));
+
+      it('should return selected meeting frequencies as string array', inject([FilterService], (service: FilterService) => {
+        service.filterStringMeetingFrequencies = ' (or groupmeetingfrequency: \'Every Week\'  groupmeetingfrequency: \'Every Other Week \'  )';
+        const result = service.getSelectedMeetingFrequencies();
+        expect(result.length).toBe(2);
+        expect(result[0]).toBe('Every Week');
+        expect(result[1]).toBe('Every Other Week');
+      }));
+    });
+
+    describe('getSelectedMeetingTimes', () => {
+      it('should return undefined if no meeting time filter set', inject([FilterService], (service: FilterService) => {
+        expect(service.getSelectedMeetingTimes()).toBeUndefined();
+      }));
+
+      it('should return selected meeting frequencies as string array', inject([FilterService], (service: FilterService) => {
+        service.filterStringMeetingTimes = ' (or groupmeetingtime: [\'0001-01-01T00:00:00Z\', \'0001-01-01T12:00:00Z\']  )';
+        const result = service.getSelectedMeetingTimes();
+        expect(result.length).toBe(1);
+        expect(result[0]).toBe('Mornings (before noon)');
+      }));
+    });
+
+    describe('getSelectedGroupLocation', () => {
+      it('should return undefined if no location set', inject([FilterService], (service: FilterService) => {
+        expect(service.getSelectedGroupLocation()).toBeUndefined();
+      }));
+
+      it('should return "1" if filter is set to true', inject([FilterService], (service: FilterService) => {
+        service.filterStringGroupLocation = ' (or groupvirtual: 1) ';
+        expect(service.getSelectedGroupLocation()).toBe('1');
+      }));
+
+      it('should return "0" is set to false', inject([FilterService], (service: FilterService) => {
+        service.filterStringGroupLocation = ' (or groupvirtual: 0) ';
+        expect(service.getSelectedGroupLocation()).toBe('0');
+      }));
+    });
 });

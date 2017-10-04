@@ -14,12 +14,10 @@ import { BlandPageService } from '../../../services/bland-page.service';
 import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
-import { TimeHelperService } from '../../../services/time-helper.service';
 
 import { Group } from '../../../models';
 
 import {
-  defaultGroupMeetingTime,
   meetingFrequencies,
   groupMeetingScheduleType,
   GroupMeetingScheduleType,
@@ -36,7 +34,7 @@ describe('CreateGroupPage2Component', () => {
   let el;
   let mockState, mockRouter, mockLookupService, mockBlandPageService;
   let mockCreateGroupService: CreateGroupService;
-  let daysOfTheWeek = [
+  const daysOfTheWeek = [
     { dp_RecordID: 1, dp_RecordName: 'Sunday' },
     { dp_RecordID: 2, dp_RecordName: 'Monday' },
     { dp_RecordID: 3, dp_RecordName: 'Nope' }
@@ -62,11 +60,13 @@ describe('CreateGroupPage2Component', () => {
         CreateGroupPage2Component,
 
         MockComponent({ selector: 'crds-content-block', inputs: ['id'] }),
-        MockComponent({ selector: 'timepicker', inputs: ['ngModel', 'showMeridian', 'minuteStep', 'formControlName'] })
+        MockComponent({
+          selector: 'timepicker',
+          inputs: ['ngModel', 'showMeridian', 'minuteStep', 'formControlName']
+        })
       ],
       providers: [
         { provide: StateService, useValue: mockState },
-        TimeHelperService,
         { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter },
@@ -127,7 +127,8 @@ describe('CreateGroupPage2Component', () => {
   });
 
   it('should submit if valid', () => {
-    let form = new FormGroup({});
+    const form = new FormGroup({});
+    comp.date = new Date();
     comp.onSubmit(form);
     expect(mockCreateGroupService.navigateInGroupFlow).toHaveBeenCalledWith(3, undefined, 0);
     expect(mockState.setLoading).toHaveBeenCalledTimes(1);
@@ -141,17 +142,6 @@ describe('CreateGroupPage2Component', () => {
     expect(mockRouter.navigate).not.toHaveBeenCalled();
     expect(mockState.setLoading).toHaveBeenCalledTimes(2);
   });
-
-  it(
-    'should set the time to the default time if the time in the group service creation is null',
-    inject([TimeHelperService], (hlpr: TimeHelperService) => {
-      comp['createGroupService']['meetingTime'] = null;
-      comp['initializeGroupMeetingScheduleForm']();
-      expect(comp['createGroupService']['group']['meetingTime']).toEqual(
-        hlpr.adjustUtcStringToAccountForLocalOffSet(defaultGroupMeetingTime, false)
-      );
-    })
-  );
 
   it('should update group model when meeting frequency is selected', () => {
     comp['meetingFrequencies'] = meetingFrequencies;

@@ -95,6 +95,7 @@ import { ReadonlyAddressComponent } from './components/pin-details/readonly-addr
 import { RegisterComponent } from './components/register/register.component';
 import { SayHiComponent } from './components/pin-details/say-hi/say-hi.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { LocationBarComponent } from './components/search-bar/location-bar/location-bar.component';
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { SearchLocalComponent } from './components/search-local/search-local.component';
 import { StuffNotFoundComponent } from './components/stuff-not-found/stuff-not-found.component';
@@ -128,7 +129,6 @@ import { SayHiService } from './services/say-hi.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
 import { StoreService } from './services/store.service';
-import { TimeHelperService } from './services/time-helper.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
 
@@ -139,6 +139,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
+import { UtcTimeFormatPipe } from './pipes/utc-time-format.pipe';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
@@ -248,7 +249,8 @@ import { RouterModule } from '@angular/router';
     LeaderResourcesComponent,
     GoogleMapClusterDirective,
     CreateGroupFooterComponent,
-    SocialMediaComponent
+    SocialMediaComponent,
+    UtcTimeFormatPipe
   ],
   providers: [
     AddressService,
@@ -276,6 +278,7 @@ import { RouterModule } from '@angular/router';
     ListHelperService,
     LoginRedirectService,
     LocationService,
+    LocationBarComponent,
     LoggedInGuard,
     LookupService,
     MiscellaneousService,
@@ -292,12 +295,12 @@ import { RouterModule } from '@angular/router';
     SessionService,
     StateService,
     StoreService,
-    TimeHelperService,
     { provide: ToastOptions, useClass: CustomOptions },
     UserLocationService,
     UserDataResolver,
     WhatsAHostGuard,
-    HostNextStepsGuard
+    HostNextStepsGuard,
+    UtcTimeFormatPipe
   ],
   bootstrap: [AppComponent]
 })

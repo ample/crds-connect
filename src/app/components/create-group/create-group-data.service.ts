@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { Address, Attribute, AttributeType, Group, Pin, pinType, Participant } from '../../models';
 import { Category } from '../../models/category';
@@ -8,6 +8,7 @@ import { LookupService } from '../../services/lookup.service';
 import { ProfileService } from '../../services/profile.service';
 import { SessionService } from '../../services/session.service';
 import { ParticipantService } from '../../services/participant.service';
+
 import {
   attributeTypes,
   GroupPageNumber,
@@ -18,6 +19,7 @@ import {
 } from '../../shared/constants';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -44,7 +46,8 @@ export class CreateGroupService {
     private session: SessionService,
     private profileService: ProfileService,
     private participantService: ParticipantService,
-    private router: Router
+    private router: Router,
+    private utcTimePipe: UtcTimeFormatPipe
   ) {
     this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
   }
@@ -57,6 +60,7 @@ export class CreateGroupService {
     this.group.availableOnline = this.groupBeingEdited.availableOnline;
     this.group.primaryContactId = this.groupBeingEdited.contactId;
     this.group.contactId = this.groupBeingEdited.contactId;
+    this.group.meetingTime = `0001-01-01T${this.groupBeingEdited.meetingTime}Z`;
   }
 
   public initializePageOne(): Observable<Category[]> {
@@ -212,11 +216,9 @@ export class CreateGroupService {
       group.meetingTime = null;
       group.meetingDay = null;
       group.meetingFrequency = null;
-    } else {
-      let meetingTime = moment(group.meetingTime);
-      group.meetingTime = moment(group.meetingTime).format('LT');
     }
-    let startDate = moment(group.startDate);
+    group.meetingTime = this.utcTimePipe.transform(this.group.meetingTime);
+    const startDate = moment(group.startDate);
     group.startDate = startDate
       .add(startDate.utcOffset(), 'm')
       .utc()
