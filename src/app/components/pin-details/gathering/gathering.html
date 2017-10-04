@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <social-media *ngIf="(app.isSmallGroupApp() && showSocial() && isPublicGroup()) || app.isConnectApp()"> </social-media>
+      <social-media *ngIf="showSocial()"> </social-media>
 
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn btn-secondary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
