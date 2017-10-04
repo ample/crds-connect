@@ -138,7 +138,7 @@ describe('CreateGroupPage1Component', () => {
     comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(123);
     comp.groupCategoryForm = new FormGroup({});
     comp['initializeCategories'](categories);
-    comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
+    comp.onSubmit(comp.groupCategoryForm);
     expect(comp['isSubmitted']).toBeTruthy();
     expect(comp['areCategoriesValid']).toBeTruthy();
     expect(mockCreateGroupService.validateCategories).toHaveBeenCalled();
@@ -150,7 +150,7 @@ describe('CreateGroupPage1Component', () => {
     comp.groupCategoryForm = new FormGroup({});
     comp['initializeCategories'](categories);
     comp.onSelect(categories[0]);
-    comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
+    comp.onSubmit(comp.groupCategoryForm);
     expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
   });
 
@@ -170,7 +170,7 @@ describe('CreateGroupPage1Component', () => {
     comp['initializeCategories'](categories);
 
     // Call the function:
-    comp.onSubmit(comp.groupCategoryForm, groupPaths.EDIT);
+    comp.onSubmit(comp.groupCategoryForm);
 
     // Make sure that the selected groups have been set
     expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).toHaveBeenCalled();
