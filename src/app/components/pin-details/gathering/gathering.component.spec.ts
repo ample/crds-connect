@@ -405,8 +405,17 @@ describe('GatheringComponent', () => {
       expect(rc).toBe('(ONLINE GROUP)');
     });
 
-    it('showsocial should return true', () => {
-      let rc = comp.showSocial();
+    it('showsocial should return true for connect app', () => {
+      (<jasmine.Spy>mockAppSettingsService.isConnectApp).and.returnValue(true);
+      const rc = comp.showSocial();
+      expect(rc).toBe(true);
+    });
+
+    it('showsocial should return true for small group app', () => {
+      (<jasmine.Spy>mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+      const pin = MockTestData.getAPin(1);
+      comp['pin'] = pin;
+      const rc = comp.showSocial();
       expect(rc).toBe(true);
     });
 
