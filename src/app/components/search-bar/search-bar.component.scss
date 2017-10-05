@@ -26,3 +26,15 @@
 .searchbar .addon-btn button.active {
   color: $cr-teal;
 }
+
+.connect-search {
+  .search-mobile {
+    .btn-toggle.active {
+      color: $cr-cyan;
+    }
+
+    .btn-toggle {
+      color: $cr-white;
+    }
+  }
+}
