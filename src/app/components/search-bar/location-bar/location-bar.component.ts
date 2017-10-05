@@ -4,8 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-location-bar',
-  templateUrl: './location-bar.component.html',
-  styleUrls: ['./location-bar.component.css']
+  templateUrl: './location-bar.component.html'
 })
 export class LocationBarComponent implements OnInit {
   public locationFormGroup: FormGroup;
