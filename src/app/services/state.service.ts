@@ -25,7 +25,6 @@ export class StateService {
   public is_loading: boolean = false;
   public isFilterDialogOpen: boolean = false;
   public isFilterActive: boolean = false;
-  public filterToggleText: string;
   public lastSearch: SearchOptions;
   private lastSearchResults: PinSearchResultsDto;
   public myStuffActive: boolean = false;
@@ -51,7 +50,6 @@ export class StateService {
 
   constructor() {
     this.lastSearch = new SearchOptions('', '', '');
-    this.setFilterToggleText();
   }
 
   public emitMyStuffChanged(): void {
@@ -91,15 +89,6 @@ export class StateService {
 
   public setIsFilterDialogOpen(val: boolean): void {
     this.isFilterDialogOpen = val;
-    this.setFilterToggleText();
-  }
-
-  public setFilterToggleText(): void {
-    if (this.isFilterDialogOpen) {
-      this.filterToggleText = 'Close filters';
-    } else {
-      this.filterToggleText = 'Add filters';
-    }
   }
 
   public getIsFilteredDialogOpen(): boolean {
