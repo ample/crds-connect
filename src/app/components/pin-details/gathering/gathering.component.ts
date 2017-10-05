@@ -43,16 +43,16 @@ export class GatheringComponent implements OnInit {
   public trialMemberApprovalMessage: string;
   public trialMemberApprovalError: boolean;
 
-  private pinType: any = pinType;
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
   public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
-  private ready = false;
   public descriptionToDisplay: string;
   public doDisplayFullDesc: boolean;
-  private participantEmails: string[];
   public adjustedLeaderNames: string[] = [];
+  private pinType: any = pinType;
+  private participantEmails: string[];
+  private ready: boolean = false;
 
   constructor(
     private app: AppSettingsService,
@@ -85,7 +85,7 @@ export class GatheringComponent implements OnInit {
       this.approveOrDisapproveTrialMember();
 
       this.isInGroupApp = this.app.isSmallGroupApp();
-      let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
+      const pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
       this.state.setPageHeader(pageTitleOnHeader, '/');
 
       if (this.pin.gathering != null) {
@@ -198,7 +198,12 @@ export class GatheringComponent implements OnInit {
   }
 
   public showSocial(): boolean {
-    return !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD));
+    return (
+      (this.app.isSmallGroupApp() &&
+        !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD)) &&
+        this.isPublicGroup()) ||
+      this.app.isConnectApp()
+    );
   }
 
   public isPublicGroup(): boolean {
@@ -213,36 +218,9 @@ export class GatheringComponent implements OnInit {
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
-  private onTryThisGroupClicked(): void {
-    this.state.setLoading(true);
-    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
-  }
-
-  private onContactLeaderClicked(): void {
-    this.state.setLoading(true);
-    let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
-    this.router.navigate([contactLeaderOfThisGroupPageUrl]);
-  }
-
-  private onEndGroupClicked(): void {
-    this.state.setLoading(true);
-    this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
-  }
-
-  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
-    let adjustedLeaderNames: string[] = [];
-    leaders.forEach(leader => {
-      let adjustedName: string = isUserParticipant
-        ? `${leader.nickName} ${leader.lastName}`
-        : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
-      adjustedLeaderNames.push(adjustedName);
-    });
-    return adjustedLeaderNames;
-  }
-
   public requestToJoin() {
-    let isConnectApp = this.app.isConnectApp();
-    let successBodyContentBlock: string = isConnectApp
+    const isConnectApp = this.app.isConnectApp();
+    const successBodyContentBlock: string = isConnectApp
       ? 'finderGatheringJoinRequestSent'
       : 'finderGroupJoinRequestSent';
 
@@ -308,5 +286,32 @@ export class GatheringComponent implements OnInit {
 
   public displayKidsWelcome(kidsWelcome: boolean): string {
     return kidsWelcome ? 'Yes' : 'No';
+  }
+
+  private onTryThisGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
+  }
+
+  private onContactLeaderClicked(): void {
+    this.state.setLoading(true);
+    const contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
+    this.router.navigate([contactLeaderOfThisGroupPageUrl]);
+  }
+
+  private onEndGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
+  }
+
+  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
+    const adjustedLeaderNames: string[] = [];
+    leaders.forEach(leader => {
+      const adjustedName: string = isUserParticipant
+        ? `${leader.nickName} ${leader.lastName}`
+        : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
+      adjustedLeaderNames.push(adjustedName);
+    });
+    return adjustedLeaderNames;
   }
 }
