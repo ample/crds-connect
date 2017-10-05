@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { Address } from '../models/address';
 import { CacheLevel, SmartCacheableService } from './base-service/cacheable.service';
-import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import { CookieOptions, CookieService } from 'ngx-cookie';
 import {
   Headers,
   Http,
@@ -26,7 +26,7 @@ export class SessionService extends SmartCacheableService<User, number> {
   private readonly accessToken: string = (environment.CRDS_ENV || '') + 'sessionId';
   private readonly refreshToken: string = (environment.CRDS_ENV || '') + 'refreshToken';
   private baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
-  private cookieOptions: CookieOptionsArgs;
+  private cookieOptions: CookieOptions = {};
   private SessionLengthMilliseconds = 1800000;
   private refreshTimeout: Subscription;
   private readonly contactId: string = 'userId';
@@ -41,7 +41,7 @@ export class SessionService extends SmartCacheableService<User, number> {
     private loginRedirectService: LoginRedirectService) {
     super();
     if (environment.CRDS_COOKIE_DOMAIN) {
-      this.cookieOptions = { domain: (environment.CRDS_COOKIE_DOMAIN != null) ? environment.CRDS_COOKIE_DOMAIN : '' };
+      this.cookieOptions.domain = (environment.CRDS_COOKIE_DOMAIN != null) ? environment.CRDS_COOKIE_DOMAIN : '';
     }
   }
 

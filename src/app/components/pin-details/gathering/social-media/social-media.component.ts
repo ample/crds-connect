@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
   selector: 'social-media',
   templateUrl: './social-media.component.html'
 })
-export class SocialMediaComponent  {
+export class SocialMediaComponent {
 
   constructor(private toast: ToastsManager) { }
 
@@ -19,7 +19,7 @@ export class SocialMediaComponent  {
   }
 
   public displayCopiedToClipboardToast(url: string): void {
-    let toastMsg: string = `${url} copied to clipboard!`;
+    const toastMsg: string = `${url} copied to clipboard!`;
     this.toast.success(toastMsg);
   }
 }

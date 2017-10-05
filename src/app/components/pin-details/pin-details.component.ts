@@ -4,13 +4,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Pin, pinType } from '../../models/pin';
 import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { User } from '../../models/user';
+import { Pin, pinType, User } from '../../models';
 
 import { groupPaths, HttpStatusCodes } from '../../shared/constants';
 
@@ -38,7 +37,7 @@ export class PinDetailsComponent implements OnInit {
     private session: SessionService,
     private state: StateService,
     private pinService: PinService
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.state.setLoading(true);
@@ -51,7 +50,7 @@ export class PinDetailsComponent implements OnInit {
       this.isGatheringPin = true;
       this.pin = this.pinService.getEditedGatheringPin() || this.pin;
       this.pinService.setEditedGatheringPin(null);
-    } else if (this.pin.pinType === pinType.SMALL_GROUP){
+    } else if (this.pin.pinType === pinType.SMALL_GROUP) {
       this.isSmallGroupPin = true;
       this.pin = this.pinService.getEditedSmallGroupPin() || this.pin;
       this.pinService.setEditedSmallGroupPin(null);

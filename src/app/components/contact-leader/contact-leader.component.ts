@@ -25,7 +25,7 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
   public groupId: number;
-  private msgToLeader: MsgToLeader = new MsgToLeader('', '');
+  public msgToLeader: MsgToLeader = new MsgToLeader('', '');
 
   constructor(
     private blandPageService: BlandPageService,
@@ -74,12 +74,12 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
         this.state.setLoading(false);
       }, err => {
         this.state.setLoading(false);
-        this.toast.error(this.content.getContent('groupFinderContactCrdsError'), null);
+        this.content.getContent('groupFinderContactCrdsError').subscribe(message => this.toast.error(message.content));
       }
     );
   }
 
-  private closeClick() {
+  public closeClick() {
     this.location.back();
   }
 

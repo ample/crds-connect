@@ -1,5 +1,5 @@
 <div class="connect-container connect-layout-container">
-  <div class="pin-details-bg soft" [ngClass]="{ host_plain: !isInGathering && !isLeader && pin.pinType !== pinType.SMALL_GROUP}">
+  <div class="pin-details-bg soft" [ngClass]="{ host_plain: pin.pinType !== pinType.SMALL_GROUP}">
     <div class="media">
       <profile-picture imageClass="media-object img-size-6" wrapperClass="media-img-wrapper" [contactId]="pin.contactId"></profile-picture>
 

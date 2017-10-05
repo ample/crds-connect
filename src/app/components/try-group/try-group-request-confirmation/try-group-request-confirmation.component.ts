@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
@@ -47,14 +47,17 @@ export class TryGroupRequestConfirmationComponent implements OnInit {
     .subscribe(
       success => {
         this.router.navigate([`/small-group/${this.groupId}`]);
-        this.toast.success(this.content.getContent('tryGroupRequestSuccess'));
+        this.content.getContent('tryGroupRequestSuccess').subscribe(message => this.toast.success(message.content));
         this.state.setLoading(false);
       },
       failure => {
-        if(failure.status === HttpStatusCodes.CONFLICT) {
-          this.toast.error(this.content.getContent('tryGroupRequestAlreadyRequestedFailureMessage'));
+        if (failure.status === HttpStatusCodes.CONFLICT) {
+          this.content.getContent('tryGroupRequestAlreadyRequestedFailureMessage').subscribe(message =>
+            this.toast.error(message.content));
+
         } else {
-          this.toast.error(this.content.getContent('tryGroupRequestGeneralFailureMessage'));
+          this.content.getContent('tryGroupRequestGeneralFailureMessage').subscribe(message =>
+            this.toast.error(message.content));
         }
         this.state.setLoading(false);
       }

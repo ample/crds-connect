@@ -2,12 +2,11 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { StateService } from '../../../services/state.service';
 import { AddressService } from '../../../services/address.service';
 
-import { Pin, pinType } from '../../../models/pin';
-import { User } from '../../../models/user';
+import { Pin, pinType, User } from '../../../models';
 
 
 @Component({
@@ -24,7 +23,7 @@ export class PersonComponent implements OnInit {
   public sayHiButtonText: string = 'Say hi!';
 
   constructor(private addressService: AddressService, private state: StateService, private toast: ToastsManager,
-  private content: ContentService, private router: Router) {
+    private content: ContentService, private router: Router) {
   }
 
   ngOnInit() {
@@ -37,7 +36,7 @@ export class PersonComponent implements OnInit {
           this.pin.address = success;
         },
         error => {
-          this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+          this.content.getContent('errorRetrievingFullAddress').subscribe(message => this.toast.error(message.content));
         }, () => {
           this.state.setLoading(false);
         }

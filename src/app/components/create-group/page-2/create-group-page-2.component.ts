@@ -39,18 +39,18 @@ import {
 export class CreateGroupPage2Component implements OnInit {
   public date: Date;
   public meetingTimeForm: FormGroup;
-  private isSubmitted: boolean = false;
-  private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
+  public isSubmitted: boolean = false;
+  public groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
   private daysOfTheWeek: LookupTable[] = [];
   private meetingFrequencies = meetingFrequencies;
 
   constructor(private fb: FormBuilder,
-    private state: StateService,
-    private createGroupService: CreateGroupService,
-    private groupService: GroupService,
-    private router: Router,
-    private lookupService: LookupService,
-    private blandPageService: BlandPageService) { }
+              private state: StateService,
+              public createGroupService: CreateGroupService,
+              private groupService: GroupService,
+              private router: Router,
+              private lookupService: LookupService,
+              private blandPageService: BlandPageService) { }
 
   ngOnInit() {
     const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT

@@ -11,9 +11,8 @@ import { GroupType } from '../../../models/group-type';
 })
 
 export class GroupTypeComponent implements OnInit {
-
-  private groupTypes: GroupType[];
-  private isAllDataLoaded: boolean = false;
+  public groupTypes: GroupType[];
+  public isAllDataLoaded: boolean = false;
 
   constructor( private lookupService: LookupService,
                private filterService: FilterService) { }

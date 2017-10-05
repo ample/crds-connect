@@ -8,9 +8,9 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve",
-    "build-local": "./node_modules/.bin/ng build --watch",
+    "build-local": "./node_modules/.bin/ng build --watch --aot true",
     "start-local": "./node_modules/.bin/ng serve",
-    "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --output-hashing=none --aot false",
+    "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --prod --build-optimizer --output-hashing=none --aot true",
     "test": "./node_modules/.bin/ng test --reporters teamcity --single-run --code-coverage",
     "test-watch": "./node_modules/.bin/ng test",
     "test-coverage": "./node_modules/.bin/ng test --code-coverage --single-run",
@@ -30,10 +30,10 @@
     "@angular/router": ">=4.0.0-beta <5.0.0",
     "@agm/core": "^1.0.0-beta.1",
     "@agm/js-marker-clusterer": "^1.0.0-beta.1",
-    "angular2-cookie": "1.2.6",
+    "ngx-cookie": "1.0.0",
     "angulartics2": "^2.2.2",
     "core-js": "^2.4.1",
-    "crds-ng2-content-block": "1.0.2",
+    "crds-ng2-content-block": "^1.1.1",
     "crds-reactive-auth": "crdschurch/crds-reactive-auth#development",
     "crds-styles": "crdschurch/crds-styles#development",
     "intl": "^1.2.5",
@@ -44,7 +44,7 @@
     "ngx-bootstrap": "1.9.3",
     "ngx-clipboard": "^8.0.3",
     "rxjs": "^5.4.3",
-    "zone.js": "0.8.10"
+    "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@angular/cli": "^1.4.2",

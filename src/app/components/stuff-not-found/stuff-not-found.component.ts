@@ -6,7 +6,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { GroupService } from '../../services/group.service';
 import { PinService } from '../../services/pin.service';
 
-import {appType, GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
+import { appType, GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
 @Component({
   selector: 'stuff-not-found',
@@ -14,12 +14,12 @@ import {appType, GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../s
 })
 export class StuffNotFoundComponent implements OnInit {
   public isApprovedLeader: boolean = false;
-  public isConnectApp : boolean;
+  public isConnectApp: boolean;
   constructor(private state: StateService,
-              private appSettings: AppSettingsService,
-              private groupService: GroupService,
-              private pinService: PinService,
-              private router: Router ) { }
+    private appSettings: AppSettingsService,
+    private groupService: GroupService,
+    private pinService: PinService,
+    private router: Router) { }
 
   public ngOnInit() {
     this.isConnectApp = this.appSettings.isConnectApp();
@@ -32,8 +32,8 @@ export class StuffNotFoundComponent implements OnInit {
           this.isApprovedLeader = true;
         } else {
           this.isApprovedLeader = false;
-          }
-        });
+        }
+      });
 
   }
 

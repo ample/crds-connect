@@ -2,18 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
-import { Pin, pinType } from '../../../models/pin';
-import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
-import { Participant } from '../../../models/participant';
-import { Address } from '../../../models/address';
+import { Address, BlandPageDetails, BlandPageType, BlandPageCause, Participant, Pin, pinType, User } from '../../../models';
 
 import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../../create-group/create-group-data.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { MiscellaneousService } from '../../../services/miscellaneous-service';
 import { PinService } from '../../../services/pin.service';
@@ -22,8 +18,7 @@ import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
 
-import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
-import { GroupRole } from '../../../shared/constants';
+import { GroupRole, groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 
@@ -42,16 +37,17 @@ export class GatheringComponent implements OnInit {
   public trialMemberApprovalMessage: string;
   public trialMemberApprovalError: boolean;
 
-  private pinType: any = pinType;
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
   public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
-  private ready = false;
   public descriptionToDisplay: string;
+  public ready = false;
   public doDisplayFullDesc: boolean;
-  private participantEmails: string[];
   public adjustedLeaderNames: string[] = [];
+
+  private participantEmails: string[];
+  private pinType: any = pinType;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -81,7 +77,7 @@ export class GatheringComponent implements OnInit {
       this.approveOrDisapproveTrialMember();
 
       this.isInGroupApp = this.app.isSmallGroupApp();
-      let pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
+      const pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
       this.state.setPageHeader(pageTitleOnHeader, '/');
 
       if (this.pin.gathering != null) {
@@ -113,7 +109,7 @@ export class GatheringComponent implements OnInit {
 
         this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
           role => {
-            let isInGroup: boolean = role !== GroupRole.NONE;
+            const isInGroup: boolean = role !== GroupRole.NONE;
             if (isInGroup) {
               this.isInGathering = true;
               this.isLeader = role === GroupRole.LEADER;
@@ -128,7 +124,7 @@ export class GatheringComponent implements OnInit {
                   this.pin.gathering.address = address;
                 },
                 error => {
-                  this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+                  this.content.getContent('errorRetrievingFullAddress').subscribe(message => this.toast.error(message.content));
                 }
                 );
             } else {
@@ -153,10 +149,10 @@ export class GatheringComponent implements OnInit {
 
     if (approved !== undefined && trialMemberId) {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
-      .subscribe(
+        .subscribe(
         success => {
           this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
-          if ( approved ) {
+          if (approved) {
             this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
           }
           this.getParticipants(true);
@@ -170,7 +166,7 @@ export class GatheringComponent implements OnInit {
 
           this.trialMemberApprovalError = true;
         }
-      );
+        );
     }
   }
 
@@ -189,7 +185,10 @@ export class GatheringComponent implements OnInit {
   }
 
   public showSocial(): boolean {
-    return !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD));
+    return (this.app.isSmallGroupApp()
+          && (!(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD)))
+          && this.isPublicGroup())
+          || this.app.isConnectApp();
   }
 
   public isPublicGroup(): boolean {
@@ -204,34 +203,9 @@ export class GatheringComponent implements OnInit {
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
-  private onTryThisGroupClicked(): void {
-    this.state.setLoading(true);
-    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
-  }
-
-  private onContactLeaderClicked(): void {
-    this.state.setLoading(true);
-    let contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
-    this.router.navigate([contactLeaderOfThisGroupPageUrl]);
-  }
-
-  private onEndGroupClicked(): void {
-    this.state.setLoading(true);
-    this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
-  }
-
-  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
-    let adjustedLeaderNames: string[] = [];
-    leaders.forEach((leader) => {
-      let adjustedName: string = isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
-      adjustedLeaderNames.push(adjustedName);
-    });
-    return adjustedLeaderNames;
-  }
-
   public requestToJoin() {
-    let isConnectApp = this.app.isConnectApp();
-    let successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
+    const isConnectApp = this.app.isConnectApp();
+    const successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
 
     (isConnectApp) ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
 
@@ -251,11 +225,11 @@ export class GatheringComponent implements OnInit {
         failure => {
           this.state.setLoading(false);
           if (failure.status === 409) {
-            this.toast.warning(this.content.getContent('finderAlreadyRequestedJoin'));
+            this.content.getContent('finderAlreadyRequestedJoin').subscribe(message => this.toast.warning(message.content));
           } else if (failure.status === 406) {
             // Already in group...do nothing.
           } else {
-            this.toast.error(this.content.getContent('finderGeneralError'));
+            this.content.getContent('finderGeneralError').subscribe(message => this.toast.error(message.content));
           }
           // If we're at the signin or register page, come back to the gathering details.
           if (!this.router.url.includes('gathering')) {
@@ -293,4 +267,28 @@ export class GatheringComponent implements OnInit {
     return kidsWelcome ? 'Yes' : 'No';
   }
 
+  private onTryThisGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`try-group-request-confirmation/${this.pin.gathering.groupId}`]);
+  }
+
+  private onContactLeaderClicked(): void {
+    this.state.setLoading(true);
+    const contactLeaderOfThisGroupPageUrl: string = 'contact-leader/' + this.pin.gathering.groupId;
+    this.router.navigate([contactLeaderOfThisGroupPageUrl]);
+  }
+
+  private onEndGroupClicked(): void {
+    this.state.setLoading(true);
+    this.router.navigate([`end-group/${this.pin.gathering.groupId}`]);
+  }
+
+  private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
+    const adjustedLeaderNames: string[] = [];
+    leaders.forEach((leader) => {
+      const adjustedName: string = isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
+      adjustedLeaderNames.push(adjustedName);
+    });
+    return adjustedLeaderNames;
+  }
 }

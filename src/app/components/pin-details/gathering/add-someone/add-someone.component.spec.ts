@@ -1,8 +1,3 @@
-/*
- * Testing a simple Angular 2 component
- * More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
- */
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -23,107 +18,107 @@ import { Person } from '../../../../models/person';
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
 
 describe('AddSomeoneComponent', () => {
-    let fixture: ComponentFixture<AddSomeoneComponent>;
-    let comp: AddSomeoneComponent;
-    let el;
+  let fixture: ComponentFixture<AddSomeoneComponent>;
+  let comp: AddSomeoneComponent;
+  let el;
 
-    let mockContentService, mockPinService, mockFormBuilder, mockRouter;
-    let mockBlandPageService, mockStateService, mockToast, mockAppSettings, mockParticipantService;
+  let mockContentService, mockPinService, mockFormBuilder, mockRouter;
+  let mockBlandPageService, mockStateService, mockToast, mockAppSettings, mockParticipantService;
 
-    beforeEach(() => {
-        mockPinService = jasmine.createSpyObj<PinService>('pinService', ['addToGroup', 'getMatch']);
-        mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-        mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
-        mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
-        mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
+  beforeEach(() => {
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['addToGroup', 'getMatch']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
+    mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
+    mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
 
-        mockAppSettings =  jasmine.createSpyObj<AppSettingsService>('appSettings', ['setAppSettings', 'isConnectApp']);
-        mockAppSettings.finderType = 'CONNECT';
+    mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['setAppSettings', 'isConnectApp']);
+    mockAppSettings.finderType = 'CONNECT';
 
-        mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['clearGroupFromCache']);
-        mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
-        mockRouter = jasmine.createSpyObj<Router>('router', ['']);
+    mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['clearGroupFromCache']);
+    mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
+    mockRouter = jasmine.createSpyObj<Router>('router', ['']);
 
 
-        TestBed.configureTestingModule({
-            declarations: [
-                AddSomeoneComponent
-            ],
-            providers: [
-                { provide: PinService, useValue: mockPinService },
-                { provide: BlandPageService, useValue: mockBlandPageService },
-                { provide: StateService, useValue: mockStateService },
-                { provide: ToastsManager, useValue: mockToast },
-                { provide: ContentService, useValue: mockContentService },
-                { provide: AppSettingsService, useValue: mockAppSettings },
-                { provide: ParticipantService, useValue: mockParticipantService }
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
-        });
+    TestBed.configureTestingModule({
+      declarations: [
+        AddSomeoneComponent
+      ],
+      providers: [
+        { provide: PinService, useValue: mockPinService },
+        { provide: BlandPageService, useValue: mockBlandPageService },
+        { provide: StateService, useValue: mockStateService },
+        { provide: ToastsManager, useValue: mockToast },
+        { provide: ContentService, useValue: mockContentService },
+        { provide: AppSettingsService, useValue: mockAppSettings },
+        { provide: ParticipantService, useValue: mockParticipantService }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
+  });
 
-    beforeEach(async(() => {
-        TestBed.compileComponents().then(() => {
-            fixture = TestBed.createComponent(AddSomeoneComponent);
-            comp = fixture.componentInstance;
-        });
-    }));
-
-    it('AddSomeoneComponent should exist', () => {
-        expect(comp).toBeTruthy();
+  beforeEach(async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(AddSomeoneComponent);
+      comp = fixture.componentInstance;
     });
+  }));
 
-    it('should init form with formGroup', () => {
-        comp.ngOnInit();
-        expect(comp.addFormGroup).toBeTruthy();
-        expect(comp.addFormGroup.controls['firstname']).toBeTruthy();
-        expect(comp.addFormGroup.controls['lastname']).toBeTruthy();
-        expect(comp.addFormGroup.controls['email']).toBeTruthy();
-    });
+  it('AddSomeoneComponent should exist', () => {
+    expect(comp).toBeTruthy();
+  });
 
-    it('should call addToGroup', () => {
-        const someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
-        const isValid = true;
-        const gatheringId = 123;
-        const participantId = 456;
-        const param = { value: someone, valid: isValid };
-        const blandPageDetails = new BlandPageDetails(
-            'Return to my group',
-            '<h1 class="title">Your group is growing!</h1>' +
-            // tslint:disable-next-line:max-line-length
-            `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
-            BlandPageType.Text,
-            BlandPageCause.Success,
-            `gathering/${gatheringId}`
-        );
-        const roleId = 16;
+  it('should init form with formGroup', () => {
+    comp.ngOnInit();
+    expect(comp.addFormGroup).toBeTruthy();
+    expect(comp.addFormGroup.controls['firstname']).toBeTruthy();
+    expect(comp.addFormGroup.controls['lastname']).toBeTruthy();
+    expect(comp.addFormGroup.controls['email']).toBeTruthy();
+  });
 
-        (<jasmine.Spy>mockPinService.addToGroup).and.returnValue(Observable.of({}));
-        comp.gatheringId = gatheringId;
-        comp.participantId = participantId;
+  it('should call addToGroup', () => {
+    const someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
+    const isValid = true;
+    const gatheringId = 123;
+    const participantId = 456;
+    const param = { value: someone, valid: isValid };
+    const blandPageDetails = new BlandPageDetails(
+      'Return to my group',
+      '<h1 class="title">Your group is growing!</h1>' +
+      // tslint:disable-next-line:max-line-length
+      `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
+      BlandPageType.Text,
+      BlandPageCause.Success,
+      `gathering/${gatheringId}`
+    );
+    const roleId = 16;
 
-        comp.addToGroup(someone);
+    (<jasmine.Spy>mockPinService.addToGroup).and.returnValue(Observable.of({}));
+    comp.gatheringId = gatheringId;
+    comp.participantId = participantId;
 
-        expect(<jasmine.Spy>mockPinService.addToGroup).toHaveBeenCalledWith(gatheringId, someone, roleId);
-        expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
-    });
+    comp.addToGroup(someone);
 
-    it('should successfully submit', () => {
-        let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
-        let isValid = true;
-        let gatheringId = 123;
-        let participantId = 456;
-        let param = { value: someone, valid: isValid };
+    expect(<jasmine.Spy>mockPinService.addToGroup).toHaveBeenCalledWith(gatheringId, someone, roleId);
+    expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
+  });
 
-        (<jasmine.Spy>mockPinService.getMatch).and.returnValue(Observable.of({}));
+  it('should successfully submit', () => {
+    let someone = new Person('TestFirstname', 'TestLastname', 'person@email.com');
+    let isValid = true;
+    let gatheringId = 123;
+    let participantId = 456;
+    let param = { value: someone, valid: isValid };
 
-        comp.gatheringId = gatheringId;
-        comp.participantId = participantId;
+    (<jasmine.Spy>mockPinService.getMatch).and.returnValue(Observable.of({}));
 
-        comp.onSubmit(param);
+    comp.gatheringId = gatheringId;
+    comp.participantId = participantId;
 
-        expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
-        expect(<jasmine.Spy>mockPinService.getMatch).toHaveBeenCalledWith(someone);
-    });
+    comp.onSubmit(param);
+
+    expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
+    expect(<jasmine.Spy>mockPinService.getMatch).toHaveBeenCalledWith(someone);
+  });
 
 });
