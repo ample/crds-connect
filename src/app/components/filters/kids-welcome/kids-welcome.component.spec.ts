@@ -4,8 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
-import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { KidsWelcomeComponent } from './kids-welcome.component';
 
@@ -13,18 +12,16 @@ describe('KidsWelcomeComponent', () => {
     let fixture: ComponentFixture<KidsWelcomeComponent>;
     let comp: KidsWelcomeComponent;
     let el;
-    let mockAppSettingsService, mockFilterService;
+    let mockFilterService;
 
     beforeEach(() => {
-        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
-        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['setFilterStringKidsWelcome']);
+        mockFilterService = jasmine.createSpyObj<FilterService>('fs ', ['setFilterStringKidsWelcome', 'getSelectedKidsWelcomeFlag']);
 
         TestBed.configureTestingModule({
             declarations: [
                 KidsWelcomeComponent
             ],
             providers: [
-                { provide: AppSettingsService, useValue: mockAppSettingsService },
                 { provide: FilterService, useValue: mockFilterService }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
@@ -68,7 +65,7 @@ describe('KidsWelcomeComponent', () => {
     });
 
     it('setSelectedFilter should set areKidsWelcome to true if filter is set to 1', () => {
-      comp['filterService'].filterStringKidsWelcome = ' (or groupkidswelcome: 1) ';
+      mockFilterService.getSelectedKidsWelcomeFlag.and.returnValue('1');
       comp.setSelectedFilter();
       expect(comp.selected).toBe(true);
       expect(comp.areKidsWelcome).toBe(true);
@@ -76,7 +73,7 @@ describe('KidsWelcomeComponent', () => {
     });
 
     it('setSelectedFilter should set areKidsWelcome to false if filter is set to 0', () => {
-      comp['filterService'].filterStringKidsWelcome = ' (or groupkidswelcome: 0) ';
+      mockFilterService.getSelectedKidsWelcomeFlag.and.returnValue('0');
       comp.setSelectedFilter();
       expect(comp.selected).toBe(true);
       expect(comp.areKidsWelcome).toBe(false);

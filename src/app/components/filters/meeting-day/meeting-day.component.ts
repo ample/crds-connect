@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { SimpleSelectable } from '../../../models/simple-selectable';
 import { daysOfWeek } from '../../../shared/constants';
 
@@ -26,10 +26,10 @@ export class MeetingDayComponent implements OnInit {
   }
 
   private setSelectedFilter(): void {
-    if (this.filterService.filterStringMeetingDays != null) {
-      const selectedDays = this.filterService.filterStringMeetingDays.replace(/(\(or)|( )|'|\)/g, '').split('groupmeetingday:').slice(1);
+    const selectedDays = this.filterService.getSelectedMeetingDays();
+    if (selectedDays) {
       selectedDays.forEach(element => {
-        this.selectableDaysOfWeek.find((day) => { return day.value === element; }).isSelected = true;
+        this.selectableDaysOfWeek.find(day => day.value === element).isSelected = true;
       });
     }
   }
@@ -39,7 +39,7 @@ export class MeetingDayComponent implements OnInit {
   }
 
   public reset(): void {
-    for (let day of this.selectableDaysOfWeek) {
+    for (const day of this.selectableDaysOfWeek) {
       day.isSelected = false;
     }
   }

@@ -13,7 +13,7 @@ import { PinSearchRequestParams } from '../../models/pin-search-request-params';
 import { textConstants } from '../../shared/constants';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { FilterService } from '../filters/filter.service';
+import { FilterService } from '../../services/filter.service';
 import { PinService } from '../../services/pin.service';
 import { StateService } from '../../services/state.service';
 
@@ -28,11 +28,11 @@ export class SearchBarComponent implements OnChanges, OnInit {
   @Output() viewMap: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @ViewChild(LocationBarComponent) public locationBarComponent: LocationBarComponent;
 
-  private isMyStuffActiveSub: Subscription;
   public isSearchClearHidden: boolean = true;
   public placeholderTextForSearchBar: string;
   public isConnectApp: boolean;
   public shouldShowSubmit: boolean = false;
+  private isMyStuffActiveSub: Subscription;
 
   constructor(private appSettings: AppSettingsService,
               private pinService: PinService,
@@ -85,15 +85,8 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.lastSearch.search = search;
     this.pinService.emitPinSearchRequest(pinSearchRequest);
     this.showLocationBar(false);
-  }
 
-  private setSearchText(): void {
-    if (!this.state.myStuffActive) {
-      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
-                        ? this.state.lastSearch.search : '';
-    } else {
-      this.state.searchBarText = this.appSettings.myStuffName;
-    }
+    this.searchKeyUp();
   }
 
   public clearSearchText(): void {
@@ -126,10 +119,18 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
+  public openFilter(): void {
+    this.state.setIsFilterDialogOpen(true);
+  }
+
   public showLocationBar(value): void {
     if (!this.isConnectApp) {
       this.shouldShowSubmit = value;
     }
+  }
+
+  public filterCancel(): void {
+    this.showLocationBar(false);
   }
 
   private clickListener() {
@@ -159,7 +160,13 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.showLocationBar(false);
   }
 
-  public filterCancel(): void {
-    this.showLocationBar(false);
+  private setSearchText(): void {
+    if (!this.state.myStuffActive) {
+      this.state.searchBarText = (this.state.lastSearch && this.state.lastSearch.search !== 'useLatLng')
+                        ? this.state.lastSearch.search : '';
+    } else {
+      this.state.searchBarText = this.appSettings.myStuffName;
+      this.isSearchClearHidden = false;
+    }
   }
 }

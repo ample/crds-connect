@@ -1,7 +1,7 @@
 import { Address } from './address';
 import { Participant } from './participant';
 
-import { defaultGroupMeetingTime, SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
+import { SmallGroupTypeId, SpiritualGrowthCongregationId } from '../shared/constants';
 import * as moment from 'moment';
 
 export class Group {
@@ -93,7 +93,7 @@ export class Group {
         this.childCareInd = $childCareInd;
         this.meetingDayId = $meetingDayId;
         this.meetingDay = $meetingDay;
-        this.meetingTime = $meetingTime || defaultGroupMeetingTime;
+        this.meetingTime = $meetingTime;
         this.meetingFrequency = $meetingFrequency;
         this.meetingFrequencyId = $meetingFrequencyId;
         this.address = $address;

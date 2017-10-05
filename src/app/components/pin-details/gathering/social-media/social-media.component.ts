@@ -19,7 +19,7 @@ export class SocialMediaComponent  {
   }
 
   public displayCopiedToClipboardToast(url: string): void {
-    let toastMsg: string = `${url} copied to clipboard!`;
+    const toastMsg: string = `${url} copied to clipboard!`;
     this.toast.success(toastMsg);
   }
 }

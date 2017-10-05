@@ -4,22 +4,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
-import { AppSettingsService } from '../../../services/app-settings.service';
-import { FilterService } from '../filter.service';
+import { FilterService } from '../../../services/filter.service';
 import { LookupService } from '../../../services/lookup.service';
 import { MockTestData } from '../../../shared/MockTestData';
 import { CategoryComponent } from './category.component';
-import { Category } from '../../../models/category';
+import { Category } from '../../../models';
 
 describe('CategoryComponent', () => {
     let fixture: ComponentFixture<CategoryComponent>;
     let comp: CategoryComponent;
-    let mockAppSettingsService, mockFilterService, mockLookupService;
+    let mockFilterService, mockLookupService;
     let categories: Category[];
 
     beforeEach(() => {
-        mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['']);
-        mockFilterService      = jasmine.createSpyObj<FilterService>('filterService', ['setFilterStringCategories']);
+        mockFilterService      = jasmine.createSpyObj<FilterService>('fs', ['setFilterStringCategories', 'getSelectedCategories']);
         mockLookupService      = jasmine.createSpyObj<LookupService>('lookupService', ['getCategories']);
         categories = MockTestData.getSomeCategories();
 
@@ -28,7 +26,6 @@ describe('CategoryComponent', () => {
                 CategoryComponent
             ],
             providers: [
-                { provide: AppSettingsService, useValue: mockAppSettingsService },
                 { provide: FilterService, useValue: mockFilterService },
                 { provide: LookupService, useValue: mockLookupService}
             ],
@@ -92,7 +89,7 @@ describe('CategoryComponent', () => {
     it('should set selected categories if filterService has filter string', () => {
       const ages = MockTestData.getAgeRangeAttributeTypeWithAttributes();
       mockLookupService.getCategories.and.returnValue(Observable.of(categories));
-      comp['filterService'].filterStringCategories = ` (or (prefix field='groupcategory' '${categories[0].name}')  (prefix field='groupcategory' '${categories[1].name}') )`;
+      mockFilterService.getSelectedCategories.and.returnValue([categories[0].name, categories[1].name]);
       comp['initializeCategories']();
       const selectedCats = comp['categories'].filter(i => i.selected);
       expect(selectedCats.length).toBe(2);

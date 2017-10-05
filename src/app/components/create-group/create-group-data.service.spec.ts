@@ -3,7 +3,7 @@ import { ProfileService } from '../../services/profile.service';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { LookupService } from '../../services/lookup.service';
-import { attributeTypes, defaultGroupMeetingTime, groupMeetingScheduleType, GroupRole } from '../../shared/constants';
+import { attributeTypes, groupMeetingScheduleType, GroupRole } from '../../shared/constants';
 import { MockTestData } from '../../shared/MockTestData';
 import { CreateGroupService } from './create-group-data.service';
 import { SessionService } from '../../services/session.service';
@@ -14,6 +14,7 @@ import * as moment from 'moment';
 describe('CreateGroupService', () => {
     let service;
     let mockLookupService, mockSessionService, mockProfileService, mockParticipantService;
+    const defaultGroupMeetingTime = '0001-01-01T17:00:00.000Z';
 
     beforeEach(() => {
         mockLookupService = jasmine.createSpyObj<LookupService>('lookupService', ['getCategories']);
