@@ -148,7 +148,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     if (!path) { return; }
     for (let i = 0; i < path.length; i++) {
       const classList = path[i].classList;
-      if (classList && classList.contains('connect-search')) {
+      if (classList && (classList.contains('connect-search') || classList.contains('connect-filters'))) {
         return;
       }
     }
