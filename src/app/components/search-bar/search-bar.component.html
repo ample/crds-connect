@@ -56,7 +56,9 @@
         <button type="submit" class="btn btn-secondary" id="searchBtn">
           Search
         </button>
-        <button type="button" class="btn btn-link btn-toggle pull-right hard-sides text-white" [class.active]="state.isFilterDialogOpen" id="addFilters" (click)="openFilter(true)">Apply filter</button>
+        <button type="button" class="btn btn-link btn-toggle pull-right hard-sides text-white" [class.active]="state.isFilterDialogOpen" id="addFilters" (click)="toggleFilter()">
+          {{ state.filterToggleText }}
+        </button>
       </div>
     </form>
   </div>
