@@ -435,17 +435,18 @@ describe('GatheringComponent', () => {
       expect(comp['trialMemberApprovalMessage']).toBe('Trial member was approved');
     });
 
-    it('test approveOrDisapproveTrialMember success approve = false', () => {
-      mockSessionService.post.and.returnValue(Observable.of(true));
-      const participants = MockTestData.getAParticipantsArray(3);
-      mockParticipantService.getParticipants.and.returnValue(Observable.of(participants));
-      mockParticipantService.getCurrentUserGroupRole.and.returnValue(Observable.of(GroupRole.LEADER));
-      mockParticipantService.getAllLeaders.and.returnValue(Observable.of(participants));
-      (mockAddressService.getFullAddress).and.returnValue(Observable.of(
-        new Address(null, 'who cares', null, null, null, null, null, null, null, null)));
-      comp['route'].snapshot.params['approved'] = 'false';
-      comp.approveOrDisapproveTrialMember();
-      expect(comp['trialMemberApprovalMessage']).toBe('Trial member was disapproved');
+    it('showsocial should return true for connect app', () => {
+      (<jasmine.Spy>mockAppSettingsService.isConnectApp).and.returnValue(true);
+      const rc = comp.showSocial();
+      expect(rc).toBe(true);
+    });
+
+    it('showsocial should return true for small group app', () => {
+      (<jasmine.Spy>mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+      const pin = MockTestData.getAPin(1);
+      comp['pin'] = pin;
+      const rc = comp.showSocial();
+      expect(rc).toBe(true);
     });
 
     it('test approveOrDisapproveTrialMember failure', () => {

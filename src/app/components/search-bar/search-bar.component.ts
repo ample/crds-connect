@@ -116,6 +116,10 @@ export class SearchBarComponent implements OnChanges, OnInit {
     }
   }
 
+  public openFilter(): void {
+    this.state.setIsFilterDialogOpen(true);
+  }
+
   public showLocationBar(value): void {
     if (!this.isConnectApp) {
       this.shouldShowSubmit = value;
@@ -132,6 +136,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
         ? this.state.lastSearch.search : '';
     } else {
       this.state.searchBarText = this.appSettings.myStuffName;
+      this.isSearchClearHidden = false;
     }
   }
 

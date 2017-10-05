@@ -36,6 +36,7 @@ export class GatheringComponent implements OnInit {
   @Input() leaders: Participant[] = [];
   public trialMemberApprovalMessage: string;
   public trialMemberApprovalError: boolean;
+
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
   public isInGroupApp: boolean;
@@ -44,6 +45,7 @@ export class GatheringComponent implements OnInit {
   public ready = false;
   public doDisplayFullDesc: boolean;
   public adjustedLeaderNames: string[] = [];
+
   private participantEmails: string[];
   private pinType: any = pinType;
 
@@ -183,7 +185,10 @@ export class GatheringComponent implements OnInit {
   }
 
   public showSocial(): boolean {
-    return !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD));
+    return (this.app.isSmallGroupApp()
+          && (!(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD)))
+          && this.isPublicGroup())
+          || this.app.isConnectApp();
   }
 
   public isPublicGroup(): boolean {
@@ -286,5 +291,4 @@ export class GatheringComponent implements OnInit {
     });
     return adjustedLeaderNames;
   }
-
 }
