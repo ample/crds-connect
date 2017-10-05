@@ -5,7 +5,7 @@ import { EmailAddressValidator } from '../../../../validators/email-address.vali
 import { ToastsManager } from 'ng2-toastr';
 
 import { AppSettingsService } from '../../../../services/app-settings.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { GroupInquiryService } from '../../../../services/group-inquiry.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { ParticipantService } from '../../../../services/participant.service';
@@ -48,16 +48,6 @@ export class AddSomeoneComponent implements OnInit {
     });
   }
 
-  private showResultsFauxdal(): void {
-    document.querySelector('body').style.overflowY = 'hidden';
-    this.showFauxdal = true;
-  }
-
-  private hideResultsFauxdal(): void {
-    document.querySelector('body').style.overflowY = 'auto';
-    this.showFauxdal = false;
-  }
-
   public fauxdalUseSelected(): void {
     this.hideResultsFauxdal();
     this.state.setLoading(true);
@@ -70,11 +60,11 @@ export class AddSomeoneComponent implements OnInit {
     this.addToGroup(this.selectedMatch);
   }
 
-  onSubmit({ value, valid }: { value: any; valid: boolean }) {
+  public onSubmit({ value, valid }: { value: any; valid: boolean }) {
     this.isFormSubmitted = true;
     this.matchFound = false;
     if (valid) {
-      let someone = new Person(value.firstname, value.lastname, value.email);
+      const someone = new Person(value.firstname, value.lastname, value.email);
       this.selectedMatch = someone;
       this.state.setLoading(true);
       // get matches
@@ -88,7 +78,7 @@ export class AddSomeoneComponent implements OnInit {
         },
         failure => {
           this.state.setLoading(false);
-          this.toast.error(this.content.getContent('finderErrorInvite'));
+          this.content.getContent('finderErrorInvite').subscribe(message => this.toast.error(message.content));
         }
       );
     }
@@ -119,5 +109,15 @@ export class AddSomeoneComponent implements OnInit {
         this.toast.warning('This user is already in your group.');
       }
     );
+  }
+
+  private showResultsFauxdal(): void {
+    document.querySelector('body').style.overflowY = 'hidden';
+    this.showFauxdal = true;
+  }
+
+  private hideResultsFauxdal(): void {
+    document.querySelector('body').style.overflowY = 'auto';
+    this.showFauxdal = false;
   }
 }

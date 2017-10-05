@@ -15,25 +15,23 @@ import { GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../..
 })
 export class CreateGroupPage5Component implements OnInit {
   public groupDetailsForm: FormGroup;
-
-  private isComponentReady: boolean = false;
-  private isSubmitted: boolean = false;
+  public isComponentReady: boolean = false;
+  public isSubmitted: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private groupInquiryService: GroupInquiryService,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    let pageHeader =
+    const pageHeader =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? textConstants.GROUP_PAGE_HEADERS.EDIT
         : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string =
+    const headerBackRoute: string =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-4`
         : '/create-group/page-4';

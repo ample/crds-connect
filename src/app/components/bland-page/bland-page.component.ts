@@ -10,9 +10,8 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bl
     templateUrl: 'bland-page.html'
 })
 export class BlandPageComponent implements OnInit, AfterViewInit {
-
-    private blandPageDetails: BlandPageDetails;
-    private isFauxModal: boolean = false;
+    public blandPageDetails: BlandPageDetails;
+    public isFauxModal: boolean = false;
     public contentBlock = false;
 
     constructor(private route: ActivatedRoute,

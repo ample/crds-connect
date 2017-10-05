@@ -16,9 +16,9 @@ export class AddressFormComponent implements OnInit {
   @Input() address: Address;
   @Input() isFormSubmitted;
   @Input() errorClasses: string = 'error help-block';
-  private addressFormGroup: FormGroup;
-  private formName: string;
-  private stateList: Array<string>;
+  public addressFormGroup: FormGroup;
+  public formName: string;
+  public stateList: Array<string>;
 
   constructor(private fb: FormBuilder,
               private addressHlpr: AddressService) { }

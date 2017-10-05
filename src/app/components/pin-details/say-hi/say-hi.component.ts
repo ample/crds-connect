@@ -10,8 +10,7 @@ import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 
 import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
-import { Pin } from '../../../models/pin';
-import { User } from '../../../models/user';
+import { Pin, User } from '../../../models';
 
 @Component({
   selector: 'say-hi',
@@ -73,10 +72,10 @@ export class SayHiComponent implements OnInit {
 
   private doSayHi() {
     // tslint:disable-next-line:max-line-length
-    let templateText =  `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
-    let notificationText = (this.isGathering) ? `<p>${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</p>`
-                                              : `<p>You just said hi to ${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}.</p>`;
-    let bpd = new BlandPageDetails(
+    const templateText = `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
+    const notificationText = (this.isGathering) ? `<p>${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</p>`
+      : `<p>You just said hi to ${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}.</p>`;
+    const bpd = new BlandPageDetails(
       'Return to map',
       templateText + notificationText,
       BlandPageType.Text,
@@ -93,8 +92,8 @@ export class SayHiComponent implements OnInit {
     );
   }
 
-  handleError() {
-    let bpd = new BlandPageDetails();
+  private handleError() {
+    const bpd = new BlandPageDetails();
     bpd.blandPageCause = BlandPageCause.Error;
     bpd.content = '<h1 class="title">Sorry!</h1><p>We are unable to send your email at this time.</p>';
     bpd.goToState = this.isGathering ? '/gathering/' + this.pin.gathering.groupId : '/person/' + this.pin.participantId;

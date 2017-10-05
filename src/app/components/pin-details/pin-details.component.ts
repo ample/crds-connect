@@ -4,13 +4,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Pin, pinType } from '../../models/pin';
 import { PinService } from '../../services/pin.service';
 import { Address } from '../../models/address';
 import { StateService } from '../../services/state.service';
 import { StoreService } from '../../services/store.service';
 import { SessionService } from '../../services/session.service';
-import { User } from '../../models/user';
+import { Pin, pinType, User } from '../../models';
 
 import { groupPaths, HttpStatusCodes } from '../../shared/constants';
 
@@ -49,7 +48,7 @@ export class PinDetailsComponent implements OnInit {
 
     if (this.pin.pinType === pinType.GATHERING) {
       this.isGatheringPin = true;
-    } else if (this.pin.pinType === pinType.SMALL_GROUP){
+    } else if (this.pin.pinType === pinType.SMALL_GROUP) {
       this.isSmallGroupPin = true;
     }
 
@@ -64,6 +63,4 @@ export class PinDetailsComponent implements OnInit {
   private doesLoggedInUserOwnPin() {
     return this.pinService.doesLoggedInUserOwnPin(this.pin);
   }
-
-
 }

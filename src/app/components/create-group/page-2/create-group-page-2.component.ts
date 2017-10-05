@@ -44,8 +44,8 @@ import {
 export class CreateGroupPage2Component implements OnInit {
   public date: Date;
   public meetingTimeForm: FormGroup;
-  private isSubmitted: boolean = false;
-  private groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
+  public isSubmitted: boolean = false;
+  public groupMeetingScheduleType: GroupMeetingScheduleType = groupMeetingScheduleType;
   private daysOfTheWeek: LookupTable[] = [];
   private meetingFrequencies = meetingFrequencies;
 

@@ -14,6 +14,6 @@ export const environment = {
   crdsEndpoint: 'https://contentint.crossroads.net/',
   googleApiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs',
   crossroadsApiKey: '',
-  CRDS_SERVICES_CLIENT_ENDPOINT: 'http://localhost:49380/',
+  CRDS_SERVICES_CLIENT_ENDPOINT: 'https://gatewayint.crossroads.net/',
   CRDS_CMS_CLIENT_ENDPOINT: 'https://contentint.crossroads.net/'
 };

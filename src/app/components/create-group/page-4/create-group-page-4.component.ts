@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { Address, Attribute } from '../../../models';
 import { BlandPageService } from '../../../services/bland-page.service';
-import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
@@ -18,32 +17,30 @@ import { attributeTypes, GroupPaths, groupPaths, GroupPageNumber, textConstants 
 })
 export class CreateGroupPage4Component implements OnInit {
   public groupMetaDataForm: FormGroup;
+  public isComponentReady: boolean = false;
+  public isSubmitted: boolean = false;
+  public isStudentMinistrySelected: boolean;
+  public groupGenderMixInvalid: boolean = false;
+  public selectedAgeRangesInvalid: boolean = false;
   private genderMixTypes: Attribute[] = [];
   private ageRanges: Attribute[] = [];
-
-  private isComponentReady: boolean = false;
-  private isSubmitted: boolean = false;
-  private isStudentMinistrySelected: boolean;
-  private groupGenderMixInvalid: boolean = false;
-  private selectedAgeRangesInvalid: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private state: StateService,
-    private createGroupService: CreateGroupService,
-    private groupInquiryService: GroupInquiryService,
+    public createGroupService: CreateGroupService,
     private router: Router,
     private lookupService: LookupService,
     private blandPageService: BlandPageService
   ) {}
 
   ngOnInit() {
-    let pageHeader =
+    const pageHeader =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? textConstants.GROUP_PAGE_HEADERS.EDIT
         : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string =
+    const headerBackRoute: string =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-3`
         : '/create-group/page-3';
@@ -89,14 +86,14 @@ export class CreateGroupPage4Component implements OnInit {
   }
 
   private setGenderMixesFromExistingGroup(): void {
-    let groupSingleAttributes: any = this.createGroupService.groupBeingEdited.singleAttributes;
+    const groupSingleAttributes: any = this.createGroupService.groupBeingEdited.singleAttributes;
 
     for (let i = 0; i < this.genderMixTypes.length; i++) {
-      let genderMixType: Attribute = this.genderMixTypes[i];
+      const genderMixType: Attribute = this.genderMixTypes[i];
 
-      for (var property in groupSingleAttributes) {
+      for (const property in groupSingleAttributes) {
         if (groupSingleAttributes.hasOwnProperty(property)) {
-          let singleAttributeOnGroup = groupSingleAttributes[property].attribute;
+          const singleAttributeOnGroup = groupSingleAttributes[property].attribute;
           if (singleAttributeOnGroup) {
             if (genderMixType.attributeId === singleAttributeOnGroup.attributeId) {
               this.onClickMixType(genderMixType);

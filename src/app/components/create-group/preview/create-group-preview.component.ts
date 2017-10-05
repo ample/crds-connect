@@ -19,10 +19,10 @@ import { ViewType, groupPaths, GroupPageNumber, textConstants } from '../../../s
   templateUrl: './create-group-preview.component.html'
 })
 export class CreateGroupPreviewComponent implements OnInit {
-  private smallGroupPin: Pin;
-  private leaders: Participant[];
-  private isComponentReady: boolean = false;
-  private submitting: boolean = true;
+  public smallGroupPin: Pin;
+  public leaders: Participant[];
+  public isComponentReady: boolean = false;
+  public submitting: boolean = true;
 
   constructor(
     private createGroupService: CreateGroupService,
@@ -38,12 +38,12 @@ export class CreateGroupPreviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let pageHeader =
+    const pageHeader =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? textConstants.GROUP_PAGE_HEADERS.EDIT
         : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string =
+    const headerBackRoute: string =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-6`
         : '/create-group/page-6';
@@ -66,7 +66,7 @@ export class CreateGroupPreviewComponent implements OnInit {
 
   onSubmit(): void {
     this.state.setLoading(true);
-    let group = this.createGroupService.prepareForGroupSubmission();
+    const group = this.createGroupService.prepareForGroupSubmission();
 
     if (this.state.getActiveGroupPath() === groupPaths.EDIT) {
       group.startDate = this.createGroupService.groupBeingEdited.startDate;
@@ -84,7 +84,7 @@ export class CreateGroupPreviewComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('finderGeneralError'));
+          this.contentService.getContent('finderGeneralError').subscribe(message => this.toastr.error(message.content));
           this.blandPageService.goToDefaultError('/create-group/preview');
         }
       );
@@ -114,7 +114,7 @@ export class CreateGroupPreviewComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('finderGeneralError'));
+          this.contentService.getContent('finderGeneralError').subscribe(message => this.toastr.error(message.content));
           this.blandPageService.goToDefaultError('/create-group/preview');
         }
       );

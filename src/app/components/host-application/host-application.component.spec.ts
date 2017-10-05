@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
@@ -85,8 +86,8 @@ describe('HostApplicationComponent', () => {
 
   it('should init', () => {
     mockHostApplicationHlpr.formatPhoneForUi.and.returnValue(1231231234);
-    let contentReturned = 'Hey this is some content';
-    mockContentService.getContent.and.returnValue(contentReturned);
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
     mockHostApplicationHlpr.stripHtmlFromString.and.returnValue(contentReturned);
     comp.ngOnInit();
     expect(mockHostApplicationHlpr.formatPhoneForUi).toHaveBeenCalledWith(userData.mobilePhone);
@@ -97,12 +98,16 @@ describe('HostApplicationComponent', () => {
   });
 
   it('validate phone length - min not met', () => {
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
     comp.ngOnInit();
     comp.hostForm.controls['contactNumber'].setValue('123');
     expect(comp.hostForm.controls['contactNumber'].valid).toBeFalsy();
   });
 
   it('validate phone length - correct length', () => {
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
     comp.ngOnInit();
     comp.hostForm.controls['contactNumber'].setValue('1234567890');
     expect(comp.hostForm.controls['contactNumber'].valid).toBeTruthy();

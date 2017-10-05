@@ -3,7 +3,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -29,7 +28,6 @@ describe('CreateGroupPreviewComponent', () => {
   let el;
   let mockCreateGroupService,
     mockStateService,
-    mockGroupService,
     mockProfileService,
     mockRouter,
     mockToastr,
@@ -54,7 +52,6 @@ describe('CreateGroupPreviewComponent', () => {
       'getActiveGroupPath',
       'setActiveGroupPath'
     ]);
-    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupServ', ['createGroup', 'createParticipants']);
     mockProfileService = jasmine.createSpyObj<ProfileService>('profile', ['postProfileData']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockToastr = jasmine.createSpyObj<ToastsManager>('toastr', ['success', 'error']);
@@ -63,7 +60,6 @@ describe('CreateGroupPreviewComponent', () => {
       'getAllLeaders'
     ]);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bpd', ['goToDefaultError']);
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
     mockStateService.postedPin = null;
     mockStateService.setActiveGroupPath(groupPaths.ADD);
     mockCreateGroupService.group = MockTestData.getAGroup();
@@ -78,14 +74,12 @@ describe('CreateGroupPreviewComponent', () => {
       providers: [
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: StateService, useValue: mockStateService },
-        { provide: GroupInquiryService, useValue: mockGroupService },
         { provide: ProfileService, useValue: mockProfileService },
         { provide: PinService, useValue: mockPinService },
         { provide: Router, useValue: mockRouter },
         { provide: ToastsManager, useValue: mockToastr },
         { provide: ParticipantService, useValue: mockParticipantService },
-        { provide: BlandPageService, useValue: mockBlandPageService },
-        { provide: ContentService, useValue: mockContentService }
+        { provide: BlandPageService, useValue: mockBlandPageService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -107,18 +101,18 @@ describe('CreateGroupPreviewComponent', () => {
     comp['createGroupService']['groupBeingEdited']['startDate'] = '123';
     let participant = MockTestData.getAParticipantsArray(1);
     mockParticipantService.getLoggedInUsersParticipantRecord.and.returnValue(Observable.of(participant));
-    mockGroupService.createGroup.and.returnValue(Observable.of(mockCreateGroupService.group));
+    mockCreateGroupService.createGroup.and.returnValue(Observable.of(mockCreateGroupService.group));
     mockCreateGroupService.prepareForGroupSubmission.and.returnValue(mockCreateGroupService.group);
     mockProfileService.postProfileData.and.returnValue(Observable.of({}));
-    mockGroupService.createParticipants.and.returnValue(Observable.of({}));
+    mockCreateGroupService.createParticipants.and.returnValue(Observable.of({}));
     mockStateService.getActiveGroupPath.and.returnValue(groupPaths.ADD);
     comp['onSubmit']();
-    expect(mockGroupService.createGroup).toHaveBeenCalled();
+    expect(mockCreateGroupService.createGroup).toHaveBeenCalled();
     expect(mockParticipantService.getLoggedInUsersParticipantRecord).toHaveBeenCalled();
     expect(mockCreateGroupService.setParticipants).toHaveBeenCalled();
     expect(mockProfileService.postProfileData).toHaveBeenCalledWith(profileData);
     expect(mockCreateGroupService.setParticipants).toHaveBeenCalledWith(participant, mockCreateGroupService.group);
-    expect(mockGroupService.createParticipants).toHaveBeenCalled();
+    expect(mockCreateGroupService.createParticipants).toHaveBeenCalled();
     expect(mockStateService.setLoading).toHaveBeenCalled();
     expect(mockToastr.success).toHaveBeenCalledWith('Successfully created group!');
     expect(mockStateService.setIsMyStuffActive).toHaveBeenCalledWith(true);
@@ -129,16 +123,16 @@ describe('CreateGroupPreviewComponent', () => {
   });
 
   it('should handle error on create group', () => {
-    let profileData = MockTestData.getProfileData();
+    const profileData = MockTestData.getProfileData();
     comp['createGroupService'].profileData = profileData;
     comp['createGroupService']['groupBeingEdited'] = new Group();
     comp['createGroupService']['groupBeingEdited']['startDate'] = '123';
-    let participant = MockTestData.getAParticipantsArray(1);
+    const participant = MockTestData.getAParticipantsArray(1);
     mockCreateGroupService.prepareForGroupSubmission.and.returnValue(mockCreateGroupService.group);
     mockParticipantService.getLoggedInUsersParticipantRecord.and.returnValue(Observable.throw({ error: 'bad' }));
-    mockGroupService.createGroup.and.returnValue(Observable.of(mockCreateGroupService.group));
+    mockCreateGroupService.createGroup.and.returnValue(Observable.of(mockCreateGroupService.group));
     mockProfileService.postProfileData.and.returnValue(Observable.of({}));
-    mockContentService.getContent.and.returnValue('stuff dont work');
+    mockContentService.getContent.and.returnValue(Observable.of({ content: 'stuff dont work' }));
     mockStateService.getActiveGroupPath.and.returnValue(groupPaths.ADD);
     comp['onSubmit']();
     expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();
@@ -151,6 +145,6 @@ describe('CreateGroupPreviewComponent', () => {
 
   it('should go back', () => {
     comp.onBack();
-    expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(6, undefined, 1);
+    expect(mockCreateGroupService.navigateInGroupFlow).toHaveBeenCalledWith(6, undefined, 1);
   });
 });

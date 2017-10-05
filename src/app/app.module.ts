@@ -1,3 +1,4 @@
+import { FinderContentBlockConfig } from './app.contentblock.config';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -11,7 +12,7 @@ import { environment } from '../environments/environment';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieModule } from 'ngx-cookie';
 
 import {
   Angulartics2Module,
@@ -107,7 +108,7 @@ import { AddressService } from './services/address.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { AnalyticsService } from './services/analytics.service';
 import { BlandPageService } from './services/bland-page.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService, ContentBlockConfig } from 'crds-ng2-content-block';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
 import { HostApplicationHelperService } from './services/host-application-helper.service';
@@ -121,13 +122,13 @@ import { LookupService } from './services/lookup.service';
 import { MiscellaneousService } from './services/miscellaneous-service';
 import { NeighborsHelperService } from './services/neighbors-helper.service';
 import { ParticipantService } from './services/participant.service';
-import { PinLabelService } from './services/pin-label.service';
 import { PinCollectionProcessingService } from './services/pin-collection-processing.service';
+import { PinLabelService } from './services/pin-label.service';
 import { PinService } from './services/pin.service';
 import { ProfileService } from './services/profile.service';
-import { SayHiService } from './services/say-hi.service';
 import { SessionService } from './services/session.service';
 import { StateService } from './services/state.service';
+import { SayHiService } from './services/say-hi.service';
 import { StoreService } from './services/store.service';
 import { UserLocationService } from './services/user-location.service';
 import { SearchService } from './services/search.service';
@@ -166,6 +167,7 @@ import { RouterModule } from '@angular/router';
     ButtonsModule,
     CollapseModule,
     CommonModule,
+    CookieModule.forRoot(),
     DatepickerModule,
     HttpModule,
     ClipboardModule,
@@ -178,10 +180,7 @@ import { RouterModule } from '@angular/router';
     TimepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     routing,
-    ContentBlockModule.forRoot({
-      endpoint: environment.CRDS_CMS_CLIENT_ENDPOINT,
-      categories: Array('finder', 'group tool')
-    })
+    ContentBlockModule
   ],
   declarations: [
     AddMeToMapComponent,
@@ -261,7 +260,7 @@ import { RouterModule } from '@angular/router';
     BlandPageGuard,
     BlandPageService,
     ContentService,
-    CookieService,
+    { provide: ContentBlockConfig, useClass: FinderContentBlockConfig },
     CreateGroupService,
     DetailedUserDataResolver,
     GroupResolver,
@@ -283,10 +282,10 @@ import { RouterModule } from '@angular/router';
     LookupService,
     MiscellaneousService,
     NeighborsHelperService,
-    PageNotFoundGuard,
     ParticipantService,
-    PinCollectionProcessingService,
     PinLabelService,
+    PinCollectionProcessingService,
+    PageNotFoundGuard,
     PinService,
     PinResolver,
     ProfileService,

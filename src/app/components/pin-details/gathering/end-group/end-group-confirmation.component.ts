@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { SessionService } from '../../../../services/session.service';
 import { StateService } from '../../../../services/state.service';
 import { ParticipantService } from '../../../../services/participant.service';
@@ -47,11 +47,11 @@ export class EndGroupConfirmationComponent implements OnInit {
       success => {
         this.participantService.clearGroupFromCache(Number(this.groupId));
         this.router.navigate(['/my']);
-        this.toast.success(this.content.getContent('endGroupConfirmationSuccessMessage'));
+        this.content.getContent('endGroupConfirmationSuccessMessage').subscribe(message => this.toast.success(message.content));
         this.state.setLoading(false);
       },
       failure => {
-        this.toast.error(this.content.getContent('endGroupConfirmationFailureMessage'));
+        this.content.getContent('endGroupConfirmationFailureMessage').subscribe(message => this.toast.error(message.content));
         this.state.setLoading(false);
       }
     );

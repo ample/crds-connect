@@ -5,7 +5,7 @@ import { EmailAddressValidator } from '../../../../validators/email-address.vali
 import { ToastsManager } from 'ng2-toastr';
 
 import { AppSettingsService } from '../../../../services/app-settings.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 import { GroupInquiryService } from '../../../../services/group-inquiry.service';
@@ -47,12 +47,12 @@ export class InviteSomeoneComponent implements OnInit {
     this.isFormSubmitted = true;
 
     if (valid) {
-      let someone = new Person(value.firstname, value.lastname, value.email);
+      const someone = new Person(value.firstname, value.lastname, value.email);
 
       this.state.setLoading(true);
       this.groupInquiryService.inviteToGroup(this.gatheringId, someone, this.appSettings.finderType).subscribe(
         success => {
-          let bpd = new BlandPageDetails(
+          const bpd = new BlandPageDetails(
             'Return to my pin',
             '<h1 class="title">Invitation Sent</h1>' +
               // tslint:disable-next-line:max-line-length
@@ -68,7 +68,7 @@ export class InviteSomeoneComponent implements OnInit {
         },
         failure => {
           this.state.setLoading(false);
-          this.toast.error(this.content.getContent('finderErrorInvite'));
+          this.content.getContent('finderErrorInvite').subscribe(message => this.toast.error(message.content));
         }
       );
     }

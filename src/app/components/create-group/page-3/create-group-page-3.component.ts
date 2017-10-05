@@ -21,15 +21,14 @@ import {
 })
 export class CreateGroupPage3Component implements OnInit {
   public locationForm: FormGroup;
+  public isSubmitted: boolean = false;
   private usStatesList: string[] = usStatesList;
-  private isSubmitted: boolean = false;
   private isAddressInitializedInEdit: boolean = false;
 
   private meetingFrequencies: Array<any> = meetingFrequencies;
 
   constructor(
     private fb: FormBuilder,
-    private groupInquiryService: GroupInquiryService,
     private state: StateService,
     private createGroupService: CreateGroupService,
     private router: Router
@@ -70,6 +69,39 @@ export class CreateGroupPage3Component implements OnInit {
     this.state.setLoading(false);
   }
 
+  public onClickIsVirtual(isVirtual: boolean): void {
+    this.initializeAddressIfInEditAndNotInitialized(isVirtual);
+
+    this.createGroupService.group.isVirtualGroup = isVirtual;
+    this.setRequiredFields(isVirtual);
+  }
+
+  public onSubmit(form: FormGroup): void {
+    this.isSubmitted = true;
+    if (form.valid) {
+      if (this.createGroupService.group.isVirtualGroup) {
+        this.createGroupService.group.address = Address.overload_Constructor_One();
+      }
+      this.createGroupService.navigateInGroupFlow(
+        GroupPageNumber.FOUR,
+        this.state.getActiveGroupPath(),
+        this.createGroupService.group.groupId
+      );
+    } else {
+      Object.keys(form.controls).forEach(name => {
+        form.controls[name].markAsTouched();
+      });
+    }
+  }
+
+  public onBack(): void {
+    this.createGroupService.navigateInGroupFlow(
+      GroupPageNumber.TWO,
+      this.state.getActiveGroupPath(),
+      this.createGroupService.group.groupId
+    );
+  }
+
   private initializeAddressIfInEditAndNotInitialized(isVirtual: boolean): void {
     if (this.state.getActiveGroupPath() === groupPaths.EDIT && !this.isAddressInitializedInEdit) {
       if (isVirtual === false) {
@@ -77,13 +109,6 @@ export class CreateGroupPage3Component implements OnInit {
         this.isAddressInitializedInEdit = true;
       }
     }
-  }
-
-  private onClickIsVirtual(isVirtual: boolean): void {
-    this.initializeAddressIfInEditAndNotInitialized(isVirtual);
-
-    this.createGroupService.group.isVirtualGroup = isVirtual;
-    this.setRequiredFields(isVirtual);
   }
 
   private makeSureModelHasAddress(): void {
@@ -117,32 +142,6 @@ export class CreateGroupPage3Component implements OnInit {
   private onClickKidsWelcome(value: boolean): void {
     this.locationForm.controls['kidsWelcome'].setValue(value);
     this.createGroupService.group.kidsWelcome = value;
-  }
-
-  public onSubmit(form: FormGroup): void {
-    this.isSubmitted = true;
-    if (form.valid) {
-      if (this.createGroupService.group.isVirtualGroup) {
-        this.createGroupService.group.address = Address.overload_Constructor_One();
-      }
-      this.createGroupService.navigateInGroupFlow(
-        GroupPageNumber.FOUR,
-        this.state.getActiveGroupPath(),
-        this.createGroupService.group.groupId
-      );
-    } else {
-      Object.keys(form.controls).forEach(name => {
-        form.controls[name].markAsTouched();
-      });
-    }
-  }
-
-  public onBack(): void {
-    this.createGroupService.navigateInGroupFlow(
-      GroupPageNumber.TWO,
-      this.state.getActiveGroupPath(),
-      this.createGroupService.group.groupId
-    );
   }
 
   private setFieldsFromExistingGroup(): void {

@@ -21,7 +21,7 @@ import { appType } from './shared/constants';
         <router-outlet></router-outlet>
       </div>
     </div>`,
-    styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -32,12 +32,12 @@ export class AppComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private appsettings: AppSettingsService,
+    public appsettings: AppSettingsService,
     private route: ActivatedRoute,
     private router: Router,
     private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private angulartics2Segment: Angulartics2Segment,
-    private state: StateService,
+    public state: StateService,
     private content: ContentService,
     public toastr: ToastsManager,
     public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
@@ -56,8 +56,25 @@ export class AppComponent implements OnInit {
     this.getAppContext();
   }
 
-  private getAppContext() {
+  public isInSpecifiedApp(appRoute: string, root: string, url: string) {
+    let rootEndsWithAppRoute: boolean = root.endsWith(appRoute) || root.endsWith(appRoute + '/');
+    let urlEndsWithAppRoute: boolean = url.endsWith(appRoute) || url.endsWith(appRoute + '/');
+    let isInConnectApp: boolean = rootEndsWithAppRoute || urlEndsWithAppRoute;
+    return isInConnectApp;
+  }
 
+  removeFauxdalClasses(val) {
+    if (val.constructor.name === 'NavigationStart') {
+      // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
+      document.querySelector('body').classList.remove('fauxdal-open');
+    }
+  }
+
+  private defaultToGroupAppType(): void {
+    this.appsettings.setAppSettings(appType.Groups);
+  }
+
+  private getAppContext() {
     let root = document.location.href.replace(this.location.path(), '');
 
     let url: string = document.location.href;
@@ -76,24 +93,6 @@ export class AppComponent implements OnInit {
     // Uncomment the following line to force Connect app when running outside
     // Maestro. But be sure not to commit!
     // this.appsettings.setAppSettings(appType.Connect);
-  }
-
-  public isInSpecifiedApp(appRoute: string, root: string, url: string) {
-    let rootEndsWithAppRoute: boolean = root.endsWith(appRoute) || root.endsWith(appRoute + '/');
-    let urlEndsWithAppRoute: boolean = url.endsWith(appRoute) || url.endsWith(appRoute + '/');
-    let isInConnectApp: boolean = rootEndsWithAppRoute || urlEndsWithAppRoute;
-    return isInConnectApp;
-  }
-
-  removeFauxdalClasses(val) {
-    if (val.constructor.name === 'NavigationStart') {
-      // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
-      document.querySelector('body').classList.remove('fauxdal-open');
-    }
-  }
-
-  private defaultToGroupAppType(): void {
-    this.appsettings.setAppSettings(appType.Groups);
   }
 
 }

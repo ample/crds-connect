@@ -2,7 +2,7 @@ import { ParticipantService } from '../../../services/participant.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { BlandPageService } from '../../../services/bland-page.service';
@@ -30,20 +30,19 @@ export class CreateGroupPage6Component implements OnInit {
   constructor(
     private blandPageService: BlandPageService,
     private fb: FormBuilder,
-    private groupInquiryService: GroupInquiryService,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private router: Router,
     private lookupService: LookupService
   ) {}
 
   ngOnInit(): void {
-    let pageHeader =
+    const pageHeader =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? textConstants.GROUP_PAGE_HEADERS.EDIT
         : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string =
+    const headerBackRoute: string =
       this.state.getActiveGroupPath() === groupPaths.EDIT
         ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
         : '/create-group/page-5';

@@ -13,7 +13,7 @@ import {
 import { AddressService } from '../../services/address.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { GroupInquiryService } from '../../services/group-inquiry.service';
 import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
@@ -52,13 +52,14 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     this.userData = this.route.snapshot.data['userData'];
-    let mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
+    const mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
-
-    let gatheringDescriptionPlaceholder: string = this.hlpr.stripHtmlFromString(
-      this.content.getContent('defaultGatheringDesc')
-    );
+    let gatheringDescriptionPlaceholder;
+    // TODO pull html sanitizer into a pipe
+    this.content.getContent('defaultGatheringDesc').subscribe(message => {
+      gatheringDescriptionPlaceholder = this.hlpr.stripHtmlFromString(message.content);
+    });
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
@@ -97,7 +98,7 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
   }
 
   public submitFormToApi(formData: HostApplicatonForm) {
-    let dto: HostRequestDto = this.hlpr.convertFormToDto(formData, this.userData.contactId);
+    const dto: HostRequestDto = this.hlpr.convertFormToDto(formData, this.userData.contactId);
 
     this.session.postHostApplication(dto).subscribe(
       success => {
@@ -111,8 +112,8 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
   }
 
   public handleError(err) {
-    let isDuplicateGatheringAddress: boolean = err.status === 406;
-
+    const isDuplicateGatheringAddress: boolean = err.status === 406;
+    // TODO: Content blocks?
     if (isDuplicateGatheringAddress) {
       this.toast.error(
         'You cannot host another gathering at the same location. ' + 'Please change the address and try again!'

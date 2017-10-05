@@ -7,11 +7,9 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 
 import { CreateGroupPage1Component } from './create-group-page-1.component';
 import { CreateGroupService } from '../create-group-data.service';
-import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { MockTestData } from '../../../shared/MockTestData';
@@ -49,11 +47,9 @@ describe('CreateGroupPage1Component', () => {
       'markPageAsPresetWithExistingData',
       'isMaxNumberOfCategoriesSelected'
     ]);
-    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
     categories = MockTestData.getSomeCategories();
     mockCreateGroupService.initializePageOne.and.returnValue(Observable.of(categories));
     mockRouter = {
@@ -75,11 +71,9 @@ describe('CreateGroupPage1Component', () => {
         },
         { provide: StateService, useValue: mockStateService },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
-        { provide: GroupInquiryService, useValue: mockGroupService },
         { provide: Router, useValue: mockRouter },
         { provide: Location, useValue: mockLocationService },
-        { provide: ToastsManager, useValue: mockToastsManager },
-        { provide: ContentService, useValue: mockContentService }
+        { provide: ToastsManager, useValue: mockToastsManager }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -130,7 +124,7 @@ describe('CreateGroupPage1Component', () => {
   it('should prevent adding a category if there are already 2 selected', () => {
     mockCreateGroupService.validateCategories.and.returnValue(false);
     mockCreateGroupService.isMaxNumberOfCategoriesSelected.and.returnValue(true);
-    mockContentService.getContent.and.returnValue('MoonUnitTests');
+    mockContentService.getContent.and.returnValue(Observable.of({ content: 'MoonUnitTests' }));
     comp.groupCategoryForm = new FormGroup({});
     comp['initializeCategories'](categories);
     comp.onSelect(categories[0]);
@@ -153,7 +147,7 @@ describe('CreateGroupPage1Component', () => {
     comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(123);
     comp.groupCategoryForm = new FormGroup({});
     comp['initializeCategories'](categories);
-    comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
+    comp.onSubmit(comp.groupCategoryForm);
     expect(comp['isSubmitted']).toBeTruthy();
     expect(comp['areCategoriesValid']).toBeTruthy();
     expect(mockCreateGroupService.validateCategories).toHaveBeenCalled();
@@ -165,7 +159,7 @@ describe('CreateGroupPage1Component', () => {
     comp.groupCategoryForm = new FormGroup({});
     comp['initializeCategories'](categories);
     comp.onSelect(categories[0]);
-    comp.onSubmit(comp.groupCategoryForm, groupPaths.ADD);
+    comp.onSubmit(comp.groupCategoryForm);
     expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).not.toHaveBeenCalled();
   });
 
@@ -185,7 +179,7 @@ describe('CreateGroupPage1Component', () => {
     comp['initializeCategories'](categories);
 
     // Call the function:
-    comp.onSubmit(comp.groupCategoryForm, groupPaths.EDIT);
+    comp.onSubmit(comp.groupCategoryForm);
 
     // Make sure that the selected groups have been set
     expect(mockCreateGroupService.addSelectedCategoriesToGroupModel).toHaveBeenCalled();
