@@ -154,6 +154,7 @@ describe('GatheringComponent', () => {
     mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp', 'isSmallGroupApp']);
     mockSessionService = jasmine.createSpyObj<SessionService>('session', ['getContactId', 'isLoggedIn', 'post', 'isAdmin']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['requestToJoinGathering']);
+    mockMiscellaneousService = jasmine.createSpyObj<MiscellaneousService>('miscellaneousService', ['reEnableScrollingInCaseFauxdalDisabledIt']);
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService',
       ['redirectToLogin', 'redirectToTarget']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo', 'goToDefaultError']);
@@ -269,7 +270,7 @@ describe('GatheringComponent', () => {
   it('should init and fail to get full address then toast', () => {
     const participants = MockTestData.getAParticipantsArray(3);
     const expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
-    mockContentService.getContent.and.returnValue(Observable.of({content: expectedText}));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: expectedText }));
     mockSessionService.post.and.returnValue(Observable.of(true));
     mockParticipantService.getParticipants.and.returnValue(Observable.of(participants));
     mockParticipantService.getCurrentUserGroupRole.and.returnValue(Observable.of(GroupRole.LEADER));
@@ -335,7 +336,7 @@ describe('GatheringComponent', () => {
 
   it('should fail with 409 (conflict) while requesting to join', () => {
     const expectedText = '<p>Looks like you have already requested to join this group.</p>';
-    mockContentService.getContent.and.returnValue(Observable.of({content: expectedText}));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: expectedText }));
     comp.isLoggedIn = true;
     mockSessionService.isLoggedIn.and.returnValue(true);
     const pin = MockTestData.getAPin(1);
@@ -366,7 +367,7 @@ describe('GatheringComponent', () => {
 
   it('should fail with error while requesting to join', () => {
     const expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
-    mockContentService.getContent.and.returnValue(Observable.of({content: expectedText}));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: expectedText }));
     comp.isLoggedIn = true;
     mockSessionService.isLoggedIn.and.returnValue(true);
     const pin = MockTestData.getAPin(1);
@@ -383,7 +384,7 @@ describe('GatheringComponent', () => {
 
   it('should toast when failing getting address', () => {
     const expectedText = '<p>Looks like there was an error. Please fix and try again</p>';
-    mockContentService.getContent.and.returnValue(Observable.of({content: expectedText}));
+    mockContentService.getContent.and.returnValue(Observable.of({ content: expectedText }));
     comp.isLoggedIn = true;
   });
 
@@ -403,7 +404,16 @@ describe('GatheringComponent', () => {
     expect(rc).toBe('(ONLINE GROUP)');
   });
 
-  it('showsocial should return true', () => {
+  it('showsocial should return true for connect app', () => {
+    mockAppSettingsService.isConnectApp.and.returnValue(true);
+    const rc = comp.showSocial();
+    expect(rc).toBe(true);
+  });
+
+  it('showsocial should return true for small group app', () => {
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(true);
+    const pin = MockTestData.getAPin(1);
+    comp['pin'] = pin;
     const rc = comp.showSocial();
     expect(rc).toBe(true);
   });
