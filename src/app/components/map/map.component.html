@@ -2,7 +2,7 @@
                  [latitude]="mapSettings.lat"
                  [longitude]="mapSettings.lng"
                  [zoom]="mapSettings.zoom"
-                 [disableDefaultUI]="mapSettings.disableDefaultUI"
+                 [disableDefaultUI]="true"
                  [zoomControl]="mapSettings.zoomControl"
                  [streetViewControl]="false">
   <agm-marker *ngFor="let pin of pinsToMap; let i = index"

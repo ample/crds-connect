@@ -11,12 +11,12 @@ import { environment } from '../../../environments/environment';
 })
 
 export class NoResultsComponent implements OnInit {
+  public isConnect: boolean = false;
   private groupUrl: string;
-  private isConnect: boolean = false;
 
   constructor(private router: Router,
               private state: StateService,
-              private appSettings: AppSettingsService) {}
+              public appSettings: AppSettingsService) {}
 
   public ngOnInit(): void {
     this.state.clearLastSearch();

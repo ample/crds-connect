@@ -1,18 +1,18 @@
-import {FormBuilder, FormControl, FormGroup, Validator, Validators} from '@angular/forms';
-import {BlandPageService} from '../../../services/bland-page.service';
-import {ParticipantService} from '../../../services/participant.service';
-import {ToastsManager} from 'ng2-toastr';
-import {Router} from '@angular/router';
-import {Observable} from 'rxjs/Rx';
-import {ContentService} from 'crds-ng2-content-block/src/content-block/content.service';
-import {PinService} from '../../../services/pin.service';
-import {ProfileService} from '../../../services/profile.service';
-import {GroupService} from '../../../services/group.service';
-import {StateService} from '../../../services/state.service';
-import {CreateGroupService} from '../create-group-data.service';
-import {Pin, Participant} from '../../../models';
-import {Component, OnInit} from '@angular/core';
-import {ViewType, groupPaths, GroupPageNumber, textConstants} from '../../../shared/constants';
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { BlandPageService } from '../../../services/bland-page.service';
+import { ParticipantService } from '../../../services/participant.service';
+import { ToastsManager } from 'ng2-toastr';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+import { ContentService } from 'crds-ng2-content-block';
+import { PinService } from '../../../services/pin.service';
+import { ProfileService } from '../../../services/profile.service';
+import { GroupService } from '../../../services/group.service';
+import { StateService } from '../../../services/state.service';
+import { CreateGroupService } from '../create-group-data.service';
+import { Pin, Participant } from '../../../models';
+import { Component, OnInit } from '@angular/core';
+import { ViewType, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 
 @Component({
@@ -20,27 +20,27 @@ import {ViewType, groupPaths, GroupPageNumber, textConstants} from '../../../sha
   templateUrl: './create-group-preview.component.html'
 })
 export class CreateGroupPreviewComponent implements OnInit {
-  private smallGroupPin: Pin;
-  private leaders: Participant[];
-  private isComponentReady: boolean = false;
-  private submitting: boolean = true;
+  public smallGroupPin: Pin;
+  public leaders: Participant[];
+  public isComponentReady: boolean = false;
+  public submitting: boolean = true;
 
-  constructor(private createGroupService: CreateGroupService,
-              private state: StateService,
-              private groupService: GroupService,
-              private profileService: ProfileService,
-              private router: Router,
-              private toastr: ToastsManager,
-              private participantService: ParticipantService,
-              private pinService: PinService,
-              private blandPageService: BlandPageService,
-              private contentService: ContentService) {}
+  constructor(public createGroupService: CreateGroupService,
+    private state: StateService,
+    private groupService: GroupService,
+    private profileService: ProfileService,
+    private router: Router,
+    private toastr: ToastsManager,
+    private participantService: ParticipantService,
+    private pinService: PinService,
+    private blandPageService: BlandPageService,
+    private contentService: ContentService) { }
 
   ngOnInit() {
-    let pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
+    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
       : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    let headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
+    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
       `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-6`
       : '/create-group/page-6';
 
@@ -48,14 +48,14 @@ export class CreateGroupPreviewComponent implements OnInit {
 
     this.smallGroupPin = this.createGroupService.getSmallGroupPinFromGroupData();
     this.createGroupService.getLeaders()
-    .subscribe(
+      .subscribe(
       (leaders) => {
         this.leaders = leaders;
       },
       (error) => {
         console.log('Error getting group leaders.');
       }
-    );
+      );
 
     this.isComponentReady = true;
     this.state.setLoading(false);
@@ -63,7 +63,7 @@ export class CreateGroupPreviewComponent implements OnInit {
 
   onSubmit(): void {
     this.state.setLoading(true);
-    let group = this.createGroupService.prepareForGroupSubmission();
+    const group = this.createGroupService.prepareForGroupSubmission();
 
     if (this.state.getActiveGroupPath() === groupPaths.EDIT) {
       group.startDate = this.createGroupService.groupBeingEdited.startDate;
@@ -81,7 +81,7 @@ export class CreateGroupPreviewComponent implements OnInit {
           this.router.navigate([`/small-group/${group.groupId}`]);
         }, (error) => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('finderGeneralError'));
+          this.contentService.getContent('finderGeneralError').subscribe(message => this.toastr.error(message.content));
           this.blandPageService.goToDefaultError('/create-group/preview');
         });
 
@@ -109,11 +109,10 @@ export class CreateGroupPreviewComponent implements OnInit {
             });
         }, (error) => {
           console.log(error);
-          this.toastr.error(this.contentService.getContent('finderGeneralError'));
+          this.contentService.getContent('finderGeneralError').subscribe(message => this.toastr.error(message.content));
           this.blandPageService.goToDefaultError('/create-group/preview');
         });
     }
-
   }
 
   onBack(): void {

@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -119,16 +119,16 @@ describe('CreateGroupPreviewComponent', () => {
     });
 
     it('should handle error on create group', () => {
-        let profileData = MockTestData.getProfileData();
+        const profileData = MockTestData.getProfileData();
         comp['createGroupService'].profileData = profileData;
         comp['createGroupService']['groupBeingEdited'] = new Group();
         comp['createGroupService']['groupBeingEdited']['startDate'] = '123';
-        let participant = MockTestData.getAParticipantsArray(1);
+        const participant = MockTestData.getAParticipantsArray(1);
         (mockCreateGroupService.prepareForGroupSubmission).and.returnValue(mockCreateGroupService.group);
         (mockParticipantService.getLoggedInUsersParticipantRecord).and.returnValue(Observable.throw({error: 'bad'}));
         (mockGroupService.createGroup).and.returnValue(Observable.of(mockCreateGroupService.group));
         (mockProfileService.postProfileData).and.returnValue(Observable.of({}));
-        (mockContentService.getContent).and.returnValue('stuff dont work');
+        (mockContentService.getContent).and.returnValue(Observable.of({content: 'stuff dont work'}));
         (mockStateService.getActiveGroupPath).and.returnValue(groupPaths.ADD);
         comp['onSubmit']();
         expect(mockCreateGroupService.prepareForGroupSubmission).toHaveBeenCalled();

@@ -2,18 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
-import { Pin, pinType } from '../../../models/pin';
-import { User } from '../../../models/user';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../models/bland-page-details';
-import { Participant } from '../../../models/participant';
-import { Address } from '../../../models/address';
+import { Address, BlandPageDetails, BlandPageType, BlandPageCause, Participant, Pin, pinType, User } from '../../../models';
 
 import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../../create-group/create-group-data.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { MiscellaneousService } from '../../../services/miscellaneous-service';
 import { PinService } from '../../../services/pin.service';
@@ -22,8 +18,7 @@ import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
 import { ListHelperService } from '../../../services/list-helper.service';
 
-import { groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
-import { GroupRole } from '../../../shared/constants';
+import { GroupRole, groupDescriptionLengthDetails, groupPaths, HttpStatusCodes } from '../../../shared/constants';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 
@@ -47,11 +42,12 @@ export class GatheringComponent implements OnInit {
   public isInGroupApp: boolean;
   public sayHiButtonText: string = 'Contact host';
   public descriptionToDisplay: string;
+  public ready = false;
   public doDisplayFullDesc: boolean;
   public adjustedLeaderNames: string[] = [];
-  private pinType: any = pinType;
+
   private participantEmails: string[];
-  private ready: boolean = false;
+  private pinType: any = pinType;
 
   constructor(private app: AppSettingsService,
     private session: SessionService,
@@ -128,7 +124,7 @@ export class GatheringComponent implements OnInit {
                   this.pin.gathering.address = address;
                 },
                 error => {
-                  this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+                  this.content.getContent('errorRetrievingFullAddress').subscribe(message => this.toast.error(message.content));
                 }
                 );
             } else {
@@ -153,10 +149,10 @@ export class GatheringComponent implements OnInit {
 
     if (approved !== undefined && trialMemberId) {
       this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
-      .subscribe(
+        .subscribe(
         success => {
           this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
-          if ( approved ) {
+          if (approved) {
             this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
           }
           this.getParticipants(true);
@@ -170,7 +166,7 @@ export class GatheringComponent implements OnInit {
 
           this.trialMemberApprovalError = true;
         }
-      );
+        );
     }
   }
 
@@ -207,8 +203,6 @@ export class GatheringComponent implements OnInit {
     this.router.navigate([`edit-group/${groupId}/page-1`]);
   }
 
-
-
   public requestToJoin() {
     const isConnectApp = this.app.isConnectApp();
     const successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
@@ -231,11 +225,11 @@ export class GatheringComponent implements OnInit {
         failure => {
           this.state.setLoading(false);
           if (failure.status === 409) {
-            this.toast.warning(this.content.getContent('finderAlreadyRequestedJoin'));
+            this.content.getContent('finderAlreadyRequestedJoin').subscribe(message => this.toast.warning(message.content));
           } else if (failure.status === 406) {
             // Already in group...do nothing.
           } else {
-            this.toast.error(this.content.getContent('finderGeneralError'));
+            this.content.getContent('finderGeneralError').subscribe(message => this.toast.error(message.content));
           }
           // If we're at the signin or register page, come back to the gathering details.
           if (!this.router.url.includes('gathering')) {

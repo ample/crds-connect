@@ -16,15 +16,14 @@ import { environment } from '../../../environments/environment';
 export class AuthenticationComponent implements OnInit {
   public buttonText: string = 'Next';
   public email: string;
+  public forgotPasswordUrl: string;
   public form: FormGroup;
   public formSubmitted: boolean;
   public loginException: boolean;
   public showMessage: boolean = false;
   public signinOption: string = 'Sign In';
   public emailRegex: string = '[^\\.]{1,}((?!.*\\.\\.).{1,}[^\\.]{1}|)\\@[a-zA-Z0-9\-]{1,}\\.[a-zA-Z]{2,}';
-
-  private forgotPasswordUrl: string;
-  private helpUrl: string;
+  public helpUrl: string;
 
   constructor(
     private analyticsService: AnalyticsService,

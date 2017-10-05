@@ -4,7 +4,7 @@ import { Router,  ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
 
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { SessionService } from '../../../../services/session.service';
 import { StateService } from '../../../../services/state.service';
 import { ParticipantService } from '../../../../services/participant.service';
@@ -58,21 +58,22 @@ describe('end-group-confirmation.component', () => {
 
   it('ends the group', () => {
     const groupId = '1234';
-    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.of(true));
+    mockSessionService.post.and.returnValue(Observable.of(true));
+    mockContentService.getContent.and.returnValue(Observable.of({content: 'message'}));
 
     comp.ngOnInit();
     comp.onEndGroup();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/my']);
-    expect(mockToastsManager.success).toHaveBeenCalled();
+    expect(mockToastsManager.success).toHaveBeenCalledWith('message');
     expect(mockContentService.getContent).toHaveBeenCalledWith('endGroupConfirmationSuccessMessage');
   });
 
   it('handles HTTP errors', () => {
-    <jasmine.Spy>(mockSessionService.post).and.returnValue(Observable.throw({status: 400}));
-
+    mockSessionService.post.and.returnValue(Observable.throw({status: 400}));
+    mockContentService.getContent.and.returnValue(Observable.of({content: 'errors'}));
     comp.ngOnInit();
     comp.onEndGroup();
-    expect(mockToastsManager.error).toHaveBeenCalled();
+    expect(mockToastsManager.error).toHaveBeenCalledWith('errors');
     expect(mockContentService.getContent).toHaveBeenCalledWith('endGroupConfirmationFailureMessage');
   });
 });

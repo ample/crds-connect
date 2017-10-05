@@ -1,7 +1,7 @@
 import { AnalyticsService } from '../../services/analytics.service';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CookieOptionsArgs, CookieService } from 'angular2-cookie/core';
+import { CookieOptions, CookieService } from 'ngx-cookie';
 import { EventEmitter } from '@angular/core';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule, JsonpModule } from '@angular/http';
