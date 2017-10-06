@@ -140,6 +140,7 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
     minimumCacheThreshold: CacheLevel,
     currentUserIdentifier: number = null
   ): boolean {
+    debugger;
     if (this.isNoCache()) {
       console.log('this.isNoCache()');
       return false;
