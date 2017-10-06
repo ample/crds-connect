@@ -17,7 +17,7 @@ import { AddressService } from '../../services/address.service';
 import { initialMapZoom, usStatesList, ViewType } from '../../shared/constants';
 import { BlandPageDetails, BlandPageCause, BlandPageType } from '../../models/bland-page-details';
 import { SessionService } from '../../services/session.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { UserLocationService } from '../../services/user-location.service';
 import { GoogleMapService } from '../../services/google-map.service';
 
@@ -66,7 +66,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
         this.userData.address = success;
       },
       error => {
-        this.toast.error(this.content.getContent('errorRetrievingFullAddress'));
+        this.content.getContent('errorRetrievingFullAddress').subscribe(message => this.toast.error(message.content));
       }
     );
   }
@@ -92,7 +92,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
           this.state.navigatedFromAddToMapComponent = true;
           this.state.postedPin = pin;
 
-          let nowAPin = new BlandPageDetails(
+          const nowAPin = new BlandPageDetails(
             'See for yourself',
             'finderNowAPin',
             BlandPageType.ContentBlock,
@@ -106,7 +106,7 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
           this.state.setLoading(false);
         },
         err => {
-          this.toast.error(this.content.getContent('finderGeneralError'));
+          this.content.getContent('finderGeneralError').subscribe(message => this.toast.error(message.content));
           this.state.setLoading(false);
           this.isFormSubmitted = false;
         }
@@ -114,13 +114,13 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public closeClick() {
+    this.location.back();
+  }
+
   private centerMapOnNewPin(pin): void {
     let zoom = this.mapHlpr.calculateZoom(initialMapZoom, pin.address.latitude, pin.address.longitude, [pin], this.state.getMyViewOrWorldView());
     let mapViewUpdate = new MapView('newPin', pin.address.latitude, pin.address.longitude, zoom);
     this.state.setMapView(mapViewUpdate);
-  }
-
-  public closeClick() {
-    this.location.back();
   }
 }

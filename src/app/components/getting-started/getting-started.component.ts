@@ -13,8 +13,8 @@ import { OnsiteGroupsUrl } from '../../shared/constants';
 export class GettingStartedComponent implements OnInit {
 
   constructor(private router: Router,
-             private state: StateService,
-             private appSettings: AppSettingsService) {}
+             public state: StateService,
+             public appSettings: AppSettingsService) {}
 
   ngOnInit() {
     this.state.setPageHeader('Getting Started', '/');

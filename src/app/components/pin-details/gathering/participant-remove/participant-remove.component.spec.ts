@@ -1,23 +1,20 @@
-/*
-* Testing a simple Angular 2 component
-* More info: https://angular.io/docs/ts/latest/guide/testing.html#!#simple-component-test
-*/
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { Location } from '@angular/common';
-import { DebugElement } from '@angular/core';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
-import { Observable } from 'rxjs';
+
+import { ParticipantRemoveComponent } from './participant-remove.component';
 
 import { BlandPageService } from '../../../../services/bland-page.service';
+import { ContentService } from 'crds-ng2-content-block';
 import { ParticipantService } from '../../../../services/participant.service';
-import { StateService } from '../../../../services/state.service';
 import { MockTestData } from '../../../../shared/MockTestData';
-import { ParticipantRemoveComponent } from './participant-remove.component';
+import { StateService } from '../../../../services/state.service';
 
 class ActivatedRouteStub {
   public params = Observable.of({ groupId: 1234, groupParticipantId: 1 });
@@ -111,10 +108,13 @@ describe('ParticipantRemoveComponent', () => {
       comp['groupParticipantId'] = 99;
       comp['redirectUrl'] = 'test';
       comp['message'] = 'The best message';
-      (mockParticipantService.removeParticipant).and.returnValue(Observable.of({}));
+      mockParticipantService.removeParticipant.and.returnValue(Observable.of({}));
+      mockContentService.getContent.and.returnValue(Observable.of({content: 'success!'}));
       comp.onSubmit(new FormGroup({}));
       expect(mockParticipantService.removeParticipant).toHaveBeenCalledWith(42, 99, 'The best message');
       expect(mockRouter.navigate).toHaveBeenCalledWith(['test']);
+      expect(mockContentService.getContent).toHaveBeenCalledWith('groupToolRemoveParticipantSuccess');
+      expect(mockToastsManager.success).toHaveBeenCalledWith('success!');
       expect(comp['isFormSubmitted']).toBeTruthy();
       expect(comp['submitting']).toBeFalsy();
     });
@@ -124,10 +124,13 @@ describe('ParticipantRemoveComponent', () => {
       comp['groupParticipantId'] = 99;
       comp['redirectUrl'] = 'test';
       comp['isRemovingSelf'] = true;
-      (mockParticipantService.removeSelfAsParticipant).and.returnValue(Observable.of({}));
+      mockParticipantService.removeSelfAsParticipant.and.returnValue(Observable.of({}));
+      mockContentService.getContent.and.returnValue(Observable.of({content: 'removed yoself'}));
       comp.onSubmit(new FormGroup({}));
       expect(mockParticipantService.removeSelfAsParticipant).toHaveBeenCalledWith(42, 99);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['test']);
+      expect(mockContentService.getContent).toHaveBeenCalledWith('groupToolRemoveMyselfSuccess');
+      expect(mockToastsManager.success).toHaveBeenCalledWith('removed yoself');
       expect(comp['isFormSubmitted']).toBeTruthy();
       expect(comp['submitting']).toBeFalsy();
     });
@@ -138,7 +141,7 @@ describe('ParticipantRemoveComponent', () => {
       comp['redirectUrl'] = 'test';
       comp['message'] = 'The best message';
       (mockParticipantService.removeParticipant).and.returnValue(Observable.throw({error: 'crap'}));
-      (mockContentService.getContent).and.returnValue('Something error happens');
+      (mockContentService.getContent).and.returnValue(Observable.of({content: 'Something error happens'}));
       comp.onSubmit(new FormGroup({}));
       expect(mockRouter.navigate).not.toHaveBeenCalled();
       expect(mockContentService.getContent).toHaveBeenCalledWith('groupToolRemoveParticipantFailure');
@@ -148,8 +151,8 @@ describe('ParticipantRemoveComponent', () => {
     });
 
     it('shouldnt submit if the form is not valid', () => {
-      let value = null;
-      let formGroup = new FormGroup({formyElement: new FormControl(value, [Validators.required])});
+      const value = null;
+      const formGroup = new FormGroup({formyElement: new FormControl(value, [Validators.required])});
       comp.onSubmit(formGroup);
       expect(comp['isFormSubmitted']).toBeTruthy();
       expect(mockParticipantService.removeParticipant).not.toHaveBeenCalled();

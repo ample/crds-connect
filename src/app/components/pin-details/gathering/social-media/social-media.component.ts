@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
   selector: 'social-media',
   templateUrl: './social-media.component.html'
 })
-export class SocialMediaComponent  {
+export class SocialMediaComponent {
 
   constructor(private toast: ToastsManager) { }
 

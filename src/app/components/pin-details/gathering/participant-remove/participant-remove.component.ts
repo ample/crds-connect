@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { ParticipantService } from '../../../../services/participant.service';
 import { StateService } from '../../../../services/state.service';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
+import { ContentService } from 'crds-ng2-content-block';
 
 @Component({
   selector: 'participant-remove',
@@ -14,14 +14,14 @@ import { ContentService } from 'crds-ng2-content-block/src/content-block/content
 })
 
 export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
+  public removeParticipantForm: FormGroup;
+  public submitting: boolean = false;
+  public isFormSubmitted: boolean = false;
+  public isRemovingSelf: boolean = false;
   private groupParticipantId: number;
   private groupId: number;
-  private isRemovingSelf: boolean = false;
   private message: string = '';
-  private removeParticipantForm: FormGroup;
   private redirectUrl: string;
-  private submitting: boolean = false;
-  private isFormSubmitted: boolean = false;
 
   constructor(private participantService: ParticipantService,
     private route: ActivatedRoute,
@@ -78,10 +78,10 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
       })
       .subscribe(done => {
         this.router.navigate([this.redirectUrl]);
-        this.toast.success(this.contentService.getContent('groupToolRemoveMyselfSuccess'));
+        this.contentService.getContent('groupToolRemoveMyselfSuccess').subscribe(message => this.toast.success(message.content));
       }, error => {
         console.log(error);
-        this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
+        this.contentService.getContent('groupToolRemoveParticipantFailure').subscribe(message => this.toast.error(message.content));
       });
       return;
     }
@@ -95,10 +95,10 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
       })
       .subscribe(done => {
         this.router.navigate([this.redirectUrl]);
-        this.toast.success(this.contentService.getContent('groupToolRemoveParticipantSuccess'));
+        this.contentService.getContent('groupToolRemoveParticipantSuccess').subscribe(message => this.toast.success(message.content));
       }, error => {
         console.log(error);
-        this.toast.error(this.contentService.getContent('groupToolRemoveParticipantFailure'));
+        this.contentService.getContent('groupToolRemoveParticipantFailure').subscribe(message => this.toast.error(message.content));
       });
     }
   }

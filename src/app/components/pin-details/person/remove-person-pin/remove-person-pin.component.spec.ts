@@ -1,5 +1,3 @@
-/* tslint:disable:no-unused-variable */
-
 import { HttpModule } from '@angular/http';
 import { Router } from '@angular/router';
 import { TestBed, inject } from '@angular/core/testing';
@@ -17,12 +15,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockComponent } from '../../../../shared/mock.component';
 import { MockTestData } from '../../../../shared/MockTestData';
 
-import { PinsShown, pinsShown } from '../../../../shared/constants'
+import { PinsShown, pinsShown } from '../../../../shared/constants';
 
 describe('Component: NoResults', () => {
   let pin;
-  let mockContentService,
-    mockStateService,
+  let mockStateService,
     mockSessionService,
     mockRouter,
     mockPinService,
@@ -32,7 +29,6 @@ describe('Component: NoResults', () => {
   beforeEach(() => {
     pin = MockTestData.getAPin();
 
-    mockContentService = jasmine.createSpyObj<ContentService>('content', ['loadData']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['getCurrentView', 'setCurrentView']);
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
@@ -52,7 +48,6 @@ describe('Component: NoResults', () => {
       providers: [
         { provide: StateService, useValue: mockStateService },
         { provide: SessionService, useValue: mockSessionService },
-        { provide: ContentService, useValue: mockContentService },
         { provide: PinService, useValue: mockPinService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         {
@@ -71,23 +66,23 @@ describe('Component: NoResults', () => {
   });
 
   it('should return to the all results view if the app was previously there', () => {
-    let mockCountOfItemsReturnedByLastSearch: number = 5;
-    let mockState: string = pinsShown.EVERYONES_STUFF;
-    let stateToReturnTo: string = this.component.determineStateToReturnTo(mockCountOfItemsReturnedByLastSearch, mockState);
+    const mockCountOfItemsReturnedByLastSearch: number = 5;
+    const mockState: string = pinsShown.EVERYONES_STUFF;
+    const stateToReturnTo: string = this.component.determineStateToReturnTo(mockCountOfItemsReturnedByLastSearch, mockState);
     expect(stateToReturnTo).toEqual(pinsShown.EVERYONES_STUFF);
   });
 
   it('should return to the all results view if coming from my stuff but deleting user\'s last pin', () => {
-    let mockCountOfItemsReturnedByLastSearch: number = 1;
-    let mockState: string = pinsShown.MY_STUFF;
-    let stateToReturnTo: string = this.component.determineStateToReturnTo(mockCountOfItemsReturnedByLastSearch, mockState);
+    const mockCountOfItemsReturnedByLastSearch: number = 1;
+    const mockState: string = pinsShown.MY_STUFF;
+    const stateToReturnTo: string = this.component.determineStateToReturnTo(mockCountOfItemsReturnedByLastSearch, mockState);
     expect(stateToReturnTo).toEqual(pinsShown.EVERYONES_STUFF);
   });
 
   it('should return to my stuff if deleting own pin from my stuff but are associated with more pins', () => {
-    let mockCountOfItemsReturnedByLastSearch: number = 5;
-    let mockState: string = pinsShown.MY_STUFF;
-    let stateToReturnTo: string = this.component.determineStateToReturnTo(mockCountOfItemsReturnedByLastSearch, mockState);
+    const mockCountOfItemsReturnedByLastSearch: number = 5;
+    const mockState: string = pinsShown.MY_STUFF;
+    const stateToReturnTo: string = this.component.determineStateToReturnTo(mockCountOfItemsReturnedByLastSearch, mockState);
     expect(stateToReturnTo).toEqual(pinsShown.MY_STUFF);
   });
 

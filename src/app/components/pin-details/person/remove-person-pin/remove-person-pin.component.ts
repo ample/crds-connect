@@ -1,17 +1,14 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, Input } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
+import { BlandPageService } from '../../../../services/bland-page.service';
+import { PinService } from '../../../../services/pin.service';
 import { StateService } from '../../../../services/state.service';
 import { SessionService } from '../../../../services/session.service';
 
-import { PinService } from '../../../../services/pin.service';
-import { Pin, pinType } from '../../../../models/pin';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../../../models/bland-page-details';
-import { BlandPageService } from '../../../../services/bland-page.service';
-
-import {PinsShown, pinsShown, ViewType } from '../../../../shared/constants';
+import { BlandPageDetails, BlandPageType, BlandPageCause, Pin, pinType } from '../../../../models';
+import { PinsShown, pinsShown, ViewType } from '../../../../shared/constants';
 
 @Component({
   selector: 'remove-person-pin',
@@ -19,17 +16,14 @@ import {PinsShown, pinsShown, ViewType } from '../../../../shared/constants';
   styles: ['.fauxdal-wrapper { overflow-y: hidden; } ']
 })
 
-export class RemovePersonPinComponent implements OnInit {
+export class RemovePersonPinComponent implements OnInit, AfterViewInit {
   @Input() pin: Pin;
-  constructor(private router: Router,
+  constructor(private blandPageService: BlandPageService,
+    private pinService: PinService,
+    private router: Router,
     private route: ActivatedRoute,
-
     private state: StateService,
-    private session: SessionService,
-
-    private content: ContentService,
-    private blandPageService: BlandPageService,
-    private pinService: PinService, ) { }
+    private session: SessionService) { }
 
   public ngOnInit(): void {
     this.pin = this.route.snapshot.data['pin'];
@@ -42,24 +36,6 @@ export class RemovePersonPinComponent implements OnInit {
     document.querySelector('body').style.overflowY = 'hidden';
   }
 
-  private determineStateToReturnTo(countOfItemsReturnedByLastSearch: number, currentState: string): string {
-    if(currentState === pinsShown.EVERYONES_STUFF) {
-      return pinsShown.EVERYONES_STUFF;
-    }
-
-    let isLastMyStuffItemBeingRemoved: boolean = countOfItemsReturnedByLastSearch < 2;
-
-    let typeOfView: string = isLastMyStuffItemBeingRemoved ? pinsShown.EVERYONES_STUFF : pinsShown.MY_STUFF;
-
-    return typeOfView;
-  }
-
-  private turnOffMyStuffIfReturningToWorldView(currentState: string): void {
-    if (currentState === pinsShown.EVERYONES_STUFF) {
-      this.state.setIsMyStuffActive(false);
-    }
-  }
-
   public removePersonPin() {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {
@@ -67,13 +43,13 @@ export class RemovePersonPinComponent implements OnInit {
         this.state.setDeletedPinIdentifier(this.pin.contactId, this.pin.pinType);
         this.state.cleanUpStateAfterPinUpdate();
         this.session.clearCache();
-        let countOfItemsInLastSearch: number = this.state.getlastSearchResults().pinSearchResults.length;
-        let viewToReturnTo: string = this.determineStateToReturnTo(countOfItemsInLastSearch, this.state.getMyViewOrWorldView());
+        const countOfItemsInLastSearch: number = this.state.getlastSearchResults().pinSearchResults.length;
+        const viewToReturnTo: string = this.determineStateToReturnTo(countOfItemsInLastSearch, this.state.getMyViewOrWorldView());
         this.turnOffMyStuffIfReturningToWorldView(viewToReturnTo);
         this.state.setMyViewOrWorldView(viewToReturnTo);
         this.state.setCurrentView(ViewType.MAP);
         this.state.setLastSearch(null);
-        let bpd = new BlandPageDetails(
+        const bpd = new BlandPageDetails(
           'Return to map',
           'You have been removed from the map',
           BlandPageType.Text,
@@ -84,7 +60,7 @@ export class RemovePersonPinComponent implements OnInit {
         this.blandPageService.primeAndGo(bpd);
       },
       err => {
-        let bpd = new BlandPageDetails(
+        const bpd = new BlandPageDetails(
           'Return to map',
           'We were not able to remove you from the map',
           BlandPageType.Text,
@@ -102,5 +78,23 @@ export class RemovePersonPinComponent implements OnInit {
     console.log(this.pin);
     this.router.navigate(['/person/', this.pin.participantId, 'edit']);
     document.querySelector('body').style.overflowY = 'auto';
+  }
+
+  private determineStateToReturnTo(countOfItemsReturnedByLastSearch: number, currentState: string): string {
+    if (currentState === pinsShown.EVERYONES_STUFF) {
+      return pinsShown.EVERYONES_STUFF;
+    }
+
+    const isLastMyStuffItemBeingRemoved: boolean = countOfItemsReturnedByLastSearch < 2;
+
+    const typeOfView: string = isLastMyStuffItemBeingRemoved ? pinsShown.EVERYONES_STUFF : pinsShown.MY_STUFF;
+
+    return typeOfView;
+  }
+
+  private turnOffMyStuffIfReturningToWorldView(currentState: string): void {
+    if (currentState === pinsShown.EVERYONES_STUFF) {
+      this.state.setIsMyStuffActive(false);
+    }
   }
 }

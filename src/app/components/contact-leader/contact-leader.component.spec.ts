@@ -87,13 +87,13 @@ describe('ContactLeaderComponent', () => {
     it('should throw an error if it fails to send a message to the leader', () => {
       let mockMsgToLeader: MsgToLeader = new MsgToLeader('lol', 'rofl');
       (mockParticipantService.submitLeaderMessageToAPI).and.returnValue(Observable.throw({}));
-      (mockContentService.getContent).and.returnValue('whee');
+      (mockContentService.getContent).and.returnValue(Observable.of({content: 'whee'}));
       comp.groupId = 2;
       comp['sendLeaderMessage'](mockMsgToLeader);
       expect(mockParticipantService.submitLeaderMessageToAPI).toHaveBeenCalledWith(2, mockMsgToLeader);
       expect(mockStateService.setLoading).toHaveBeenCalledTimes(2);
       expect(mockContentService.getContent).toHaveBeenCalledWith('groupFinderContactCrdsError');
-      expect(mockToastsManager.error).toHaveBeenCalledWith('whee', null);
+      expect(mockToastsManager.error).toHaveBeenCalledWith('whee');
     });
 
     it('should close fauxdal', () => {

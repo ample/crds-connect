@@ -12,8 +12,8 @@ import { LookupService } from '../../../services/lookup.service';
 
 
 export class CategoryComponent implements OnInit {
-  private selected: boolean = false;
-  private categories: Category[];
+  public selected: boolean = false;
+  public categories: Category[];
 
   constructor(private lookupService: LookupService,
     private filterService: FilterService) { }

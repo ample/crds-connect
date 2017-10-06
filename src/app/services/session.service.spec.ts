@@ -1,13 +1,11 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestOptions, Headers } from '@angular/http';
-import { CookieService } from 'angular2-cookie/core';
+import { CookieModule, CookieService } from 'ngx-cookie';
 import { Router } from '@angular/router';
 import { LoginRedirectService } from './login-redirect.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs/Rx';
 import * as moment from 'moment';
 
 describe('Service: Session', () => {
@@ -43,12 +41,14 @@ describe('Service: Session', () => {
 
   beforeEach(() => {
     mockLoginRedirectService = jasmine.createSpyObj<LoginRedirectService>('loginRedirectService', ['redirectToLogin']);
-    TestBed.configureTestingModule({
+    TestBed.configureTestingModule(
+      {
+        imports: [CookieModule.forRoot()],
       providers: [
+        CookieService,
         SessionService,
         MockBackend,
         BaseRequestOptions,
-        CookieService,
         {
           provide: Http,
           useFactory: (backend, options) => new Http(backend, options),

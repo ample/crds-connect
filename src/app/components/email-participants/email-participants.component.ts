@@ -28,8 +28,8 @@ export class EmailParticipantsComponent implements OnInit {
   }
 
   public displayEmailsCopiedToClipboardToast(commaSeparatedParticipantEmails: string): void {
-    let addressSuffix: string = this.participantEmails.length === 1 ? '' : 'es';
-    let toastMsg: string = `${this.participantEmails.length} email address${addressSuffix} copied to clipboard!`;
+    const addressSuffix: string = this.participantEmails.length === 1 ? '' : 'es';
+    const toastMsg: string = `${this.participantEmails.length} email address${addressSuffix} copied to clipboard!`;
     this.toastr.success(toastMsg);
   }
 
