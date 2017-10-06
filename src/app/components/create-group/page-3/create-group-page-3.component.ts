@@ -30,7 +30,7 @@ export class CreateGroupPage3Component implements OnInit {
   constructor(
     private fb: FormBuilder,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private router: Router
   ) {}
 

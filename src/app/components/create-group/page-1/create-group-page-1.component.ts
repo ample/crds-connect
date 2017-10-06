@@ -24,7 +24,7 @@ export class CreateGroupPage1Component implements OnInit {
 
   constructor(
     private content: ContentService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private route: ActivatedRoute,
     private router: Router,
     private state: StateService,

@@ -52,7 +52,7 @@ export class CreateGroupPage2Component implements OnInit {
   constructor(
     private fb: FormBuilder,
     private state: StateService,
-    private createGroupService: CreateGroupService,
+    public createGroupService: CreateGroupService,
     private groupInquiryService: GroupInquiryService,
     private router: Router,
     private lookupService: LookupService,

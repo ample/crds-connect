@@ -21,7 +21,7 @@ import { GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../..
 export class CreateGroupPage6Component implements OnInit {
   public profileForm: FormGroup;
   private sites: LookupTable[] = [];
-  private isComponentReady: boolean = false;
+  public isComponentReady: boolean = false;
   private isSubmitted: boolean = false;
   private groupVisabilityInvalid: boolean = false;
   private stateList: Array<string>;
