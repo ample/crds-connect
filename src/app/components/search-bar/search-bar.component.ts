@@ -142,7 +142,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   private searchClick(event: any) {
     let path = [];
     let node = event.target;
-    while (node !== document.body) {
+    while (node && node !== document.body) {
       path.push(node);
       node = node.parentNode;
     }
