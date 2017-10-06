@@ -11,6 +11,7 @@ export class HostOnlyComponent implements OnInit {
   constructor(private filterService: FilterService) { }
 
   ngOnInit() {
+    this.onlyShowHosts = this.filterService.getIsHostOnlyFiltered();
   }
 
   public onClick(value: boolean) {

@@ -1,9 +1,6 @@
 import { Injectable} from '@angular/core';
 
-import { AgeGroup } from '../models/age-group';
-import { Category } from '../models/category';
-import { GroupType } from '../models/group-type';
-import { SimpleSelectable} from '../models/simple-selectable';
+import { AgeGroup, Category, GroupType, SimpleSelectable, pinType } from '../models';
 
 import { awsFieldNames, DaysOfWeek, daysOfWeek, groupMeetingTimeRanges,
          awsMeetingTimeSearchStrings } from '../shared/constants';
@@ -83,10 +80,14 @@ export class FilterService {
 
   public setFilterStringHostOnly(isFilterOn: boolean): void {
     if (isFilterOn) {
-    this.filterStringHostOnly = ` (or ${awsFieldNames.HOST_ONLY}: 2 ${awsFieldNames.HOST_ONLY}: 3)`;
+    this.filterStringHostOnly = ` (or ${awsFieldNames.PIN_TYPE}: ${pinType.GATHERING} ${awsFieldNames.PIN_TYPE}: ${pinType.SITE})`;
     } else {
       this.filterStringHostOnly = null;
     }
+  }
+
+  public getIsHostOnlyFiltered(): boolean {
+    return this.filterStringHostOnly != null;
   }
 
   public setFilterStringCategories(categories: Category[]): void {
