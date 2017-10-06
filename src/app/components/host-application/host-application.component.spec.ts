@@ -1,3 +1,4 @@
+import { HostApplicatonForm } from '../../models/index';
 import { Observable } from 'rxjs/Rx';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,26 +8,23 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
-import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ContentService } from 'crds-ng2-content-block';
+import { ToastsManager } from 'ng2-toastr';
+import { TextMaskModule } from 'angular2-text-mask';
 
+import { StripTagsPipe } from '../../pipes/strip-tags.pipe';
 import { DetailedUserData } from '../../models/detailed-user-data';
-import { AddressService } from '../../services/address.service';
-import { GroupService } from '../../services/group.service';
-import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
 import { MockTestData } from '../../shared/MockTestData';
 import { HostApplicationComponent } from './host-application.component';
 
 // TODO: Finish Unit Testing this Component
-describe('HostApplicationComponent', () => {
+fdescribe('HostApplicationComponent', () => {
   let fixture: ComponentFixture<HostApplicationComponent>;
   let comp: HostApplicationComponent;
   let el;
-  let mockAddressService,
-    mockContentService,
-    mockHostApplicationHlpr,
+  let mockContentService,
     mockLocationService,
     mockRouter,
     mockStateService,
@@ -40,7 +38,6 @@ describe('HostApplicationComponent', () => {
     mockSessionService = jasmine.createSpyObj<SessionService>('sessionService', ['postHostApplication']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
     mockLocationService = jasmine.createSpyObj<Location>('location', ['back']);
-    mockHostApplicationHlpr = jasmine.createSpyObj<HostApplicationHelperService>('hlpr', ['formatPhoneForUi', 'stripHtmlFromString']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     userData = MockTestData.getADetailedUserData();
     TestBed.configureTestingModule({
@@ -48,18 +45,18 @@ describe('HostApplicationComponent', () => {
         HostApplicationComponent
       ],
       imports: [
+        TextMaskModule,
         RouterTestingModule.withRoutes([])
       ],
       providers: [
-        { provide: AddressService, useValue: mockAddressService },
         { provide: ContentService, useValue: mockContentService },
-        { provide: HostApplicationHelperService, useValue: mockHostApplicationHlpr },
         { provide: Location, useValue: mockLocationService },
         { provide: StateService, useValue: mockStateService },
         { provide: SessionService, useValue: mockSessionService },
         { provide: ToastsManager, useValue: mockToastsManager },
         { provide: ActivatedRoute, useValue: { snapshot: { data: { userData: userData } } } },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        StripTagsPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -70,7 +67,6 @@ describe('HostApplicationComponent', () => {
       fixture = TestBed.createComponent(HostApplicationComponent);
       comp = fixture.componentInstance;
 
-      // el = fixture.debugElement.query(By.css('h1'));
     });
   }));
 
@@ -84,14 +80,10 @@ describe('HostApplicationComponent', () => {
   });
 
   it('should init', () => {
-    (mockHostApplicationHlpr.formatPhoneForUi).and.returnValue(1231231234);
     const contentReturned = 'Hey this is some content';
     (mockContentService.getContent).and.returnValue(Observable.of({ content: contentReturned }));
-    (mockHostApplicationHlpr.stripHtmlFromString).and.returnValue(contentReturned);
     comp.ngOnInit();
-    expect(mockHostApplicationHlpr.formatPhoneForUi).toHaveBeenCalledWith(userData.mobilePhone);
     expect(mockContentService.getContent).toHaveBeenCalledWith('defaultGatheringDesc');
-    expect(mockHostApplicationHlpr.stripHtmlFromString).toHaveBeenCalledWith(contentReturned);
     expect(mockStateService.setLoading).toHaveBeenCalledTimes(1);
     expect(comp['userData']).toBe(userData);
   });
@@ -108,7 +100,28 @@ describe('HostApplicationComponent', () => {
     const contentReturned = 'Hey this is some content';
     (mockContentService.getContent).and.returnValue(Observable.of({ content: contentReturned }));
     comp.ngOnInit();
-    comp.hostForm.controls['contactNumber'].setValue('1234567890');
+    comp.hostForm.controls['contactNumber'].setValue('123-456-7890');
+
+    fixture.detectChanges();
+    console.log(comp.hostForm.controls['contactNumber'].errors);
     expect(comp.hostForm.controls['contactNumber'].valid).toBeTruthy();
+  });
+
+  it('should convertFormToDto with home address set to true', () => {
+    const hostForm = new HostApplicatonForm(1, MockTestData.getAnAddress(1), true, MockTestData.getAnAddress(55), '123-123-1234', 'a desc');
+    const result = comp['convertFormToDto'](hostForm, 3);
+    expect(result.address.addressId).toBe(1);
+    expect(result.contactId).toBe(3);
+    expect(result.groupDescription).toBe(hostForm.gatheringDescription);
+    expect(result.contactNumber).toBe(hostForm.contactNumber);
+  });
+
+  it('should convertFormToDto with home address set to false', () => {
+    const hostForm = new HostApplicatonForm(1, MockTestData.getAnAddress(1), false, MockTestData.getAnAddress(55), '123-123-1234', 'a desc');
+    const result = comp['convertFormToDto'](hostForm, 3);
+    expect(result.address.addressId).toBe(55);
+    expect(result.contactId).toBe(3);
+    expect(result.groupDescription).toBe(hostForm.gatheringDescription);
+    expect(result.contactNumber).toBe(hostForm.contactNumber);
   });
 });

@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { CookieModule  } from 'ngx-cookie';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { Angulartics2Module, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics, Angulartics2Segment } from 'angulartics2';
 import { AlertModule, ButtonsModule, CollapseModule, DatepickerModule, AccordionModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
@@ -100,7 +101,6 @@ import { BlandPageService } from './services/bland-page.service';
 import { ContentService, ContentBlockConfig } from 'crds-ng2-content-block';
 import { CreateGroupService } from './components/create-group/create-group-data.service';
 import { FilterService } from './services/filter.service';
-import { HostApplicationHelperService } from './services/host-application-helper.service';
 import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupService } from './services/group.service';
@@ -140,6 +140,7 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
 
 import { RouterModule } from '@angular/router';
+import { StripTagsPipe } from './pipes/strip-tags.pipe';
 
 
 @NgModule({
@@ -164,6 +165,7 @@ imports: [
   FormsModule,
   AccordionModule.forRoot(),
   SelectModule,
+  TextMaskModule,
   ToastModule.forRoot(),
   TimepickerModule.forRoot(),
   BsDropdownModule.forRoot(),
@@ -238,7 +240,8 @@ declarations: [
   GoogleMapClusterDirective,
   CreateGroupFooterComponent,
   SocialMediaComponent,
-  UtcTimeFormatPipe
+  UtcTimeFormatPipe,
+  StripTagsPipe
 ],
 providers: [
   AddressService,
@@ -262,7 +265,6 @@ providers: [
   Angulartics2GoogleAnalytics,
   Angulartics2Segment,
   GroupService,
-  HostApplicationHelperService,
   ListHelperService,
   LoginRedirectService,
   LocationService,
@@ -280,6 +282,7 @@ providers: [
   SessionService,
   StateService,
   StoreService,
+  StripTagsPipe,
   { provide: ToastOptions, useClass: CustomOptions },
   UserLocationService,
   UserDataResolver,
