@@ -20,7 +20,7 @@ import { MockTestData } from '../../shared/MockTestData';
 import { HostApplicationComponent } from './host-application.component';
 
 // TODO: Finish Unit Testing this Component
-fdescribe('HostApplicationComponent', () => {
+describe('HostApplicationComponent', () => {
   let fixture: ComponentFixture<HostApplicationComponent>;
   let comp: HostApplicationComponent;
   let el;
