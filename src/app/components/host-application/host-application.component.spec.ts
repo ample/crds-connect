@@ -19,7 +19,6 @@ import { StateService } from '../../services/state.service';
 import { MockTestData } from '../../shared/MockTestData';
 import { HostApplicationComponent } from './host-application.component';
 
-// TODO: Finish Unit Testing this Component
 describe('HostApplicationComponent', () => {
   let fixture: ComponentFixture<HostApplicationComponent>;
   let comp: HostApplicationComponent;
@@ -40,12 +39,12 @@ describe('HostApplicationComponent', () => {
     mockLocationService = jasmine.createSpyObj<Location>('location', ['back']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     userData = MockTestData.getADetailedUserData();
+
     TestBed.configureTestingModule({
       declarations: [
         HostApplicationComponent
       ],
       imports: [
-        TextMaskModule,
         RouterTestingModule.withRoutes([])
       ],
       providers: [
@@ -91,6 +90,7 @@ describe('HostApplicationComponent', () => {
   it('validate phone length - min not met', () => {
     const contentReturned = 'Hey this is some content';
     (mockContentService.getContent).and.returnValue(Observable.of({ content: contentReturned }));
+    userData.mobilePhone = '123';
     comp.ngOnInit();
     comp.hostForm.controls['contactNumber'].setValue('123');
     expect(comp.hostForm.controls['contactNumber'].valid).toBeFalsy();
@@ -99,11 +99,9 @@ describe('HostApplicationComponent', () => {
   it('validate phone length - correct length', () => {
     const contentReturned = 'Hey this is some content';
     (mockContentService.getContent).and.returnValue(Observable.of({ content: contentReturned }));
+    userData.mobilePhone = '123-456-7890';
     comp.ngOnInit();
     comp.hostForm.controls['contactNumber'].setValue('123-456-7890');
-
-    fixture.detectChanges();
-    console.log(comp.hostForm.controls['contactNumber'].errors);
     expect(comp.hostForm.controls['contactNumber'].valid).toBeTruthy();
   });
 
@@ -114,6 +112,75 @@ describe('HostApplicationComponent', () => {
     expect(result.contactId).toBe(3);
     expect(result.groupDescription).toBe(hostForm.gatheringDescription);
     expect(result.contactNumber).toBe(hostForm.contactNumber);
+  });
+
+  it('should remove address form if not home address', () => {
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
+    comp.ngOnInit();
+    spyOn(comp.hostForm, 'removeControl');
+    comp.hostForm.value.isHomeAddress = false;
+    comp.onIsHomeAddressClicked();
+    expect(comp.hostForm.removeControl).toHaveBeenCalledWith(comp.groupNameForGatheringAddress);
+  });
+
+  it('should remove address form if not home address', () => {
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
+    comp.ngOnInit();
+    spyOn(comp.hostForm, 'removeControl');
+    comp.hostForm.value.isHomeAddress = true;
+    comp.onIsHomeAddressClicked();
+    expect(comp.hostForm.removeControl).not.toHaveBeenCalled();
+  });
+
+  it('should submit if valid', () => {
+    const value = new HostApplicatonForm(1, null, true, null, null, null);
+    spyOn(comp, 'submitFormToApi');
+    comp.onSubmit({value: value, valid: true});
+    expect(comp.submitFormToApi).toHaveBeenCalledWith(value);
+  });
+
+  it('should not submit if invalid', () => {
+    const value = new HostApplicatonForm(1, null, true, null, null, null);
+    spyOn(comp, 'submitFormToApi');
+    comp.onSubmit({value: value, valid: false});
+    expect(comp.submitFormToApi).not.toHaveBeenCalled();
+  });
+
+  it('should submit to api successfully', () => {
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
+    comp.ngOnInit();
+    mockSessionService.postHostApplication.and.returnValue(Observable.of({}));
+    const value = new HostApplicatonForm(1, MockTestData.getAnAddress(), true, null, '123-123-1234', 'desc');
+    comp.submitFormToApi(value);
+    expect(mockSessionService.postHostApplication).toHaveBeenCalledWith(comp['convertFormToDto'](value, 1));
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/host-next-steps']);
+  });
+
+  it('should submit to api catch error', () => {
+    const contentReturned = 'Hey this is some content';
+    mockContentService.getContent.and.returnValue(Observable.of({ content: contentReturned }));
+    mockSessionService.postHostApplication.and.returnValue(Observable.throw({error: '404'}));
+    const value = new HostApplicatonForm(1, MockTestData.getAnAddress(), true, null, '123-123-1234', 'desc');
+    spyOn(comp, 'handleError');
+    comp.ngOnInit();
+    comp.submitFormToApi(value);
+    expect(mockSessionService.postHostApplication).toHaveBeenCalled();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
+    expect(comp.handleError).toHaveBeenCalledWith({error: '404'});
+  });
+
+  it('should handle error duplicate gathering', () => {
+    comp.handleError({status: 406});
+    expect(mockToastsManager.error).toHaveBeenCalledWith('You cannot host another gathering at the same location. ' +
+    'Please change the address and try again!');
+  });
+
+  it('should handle all other errors', () => {
+    comp.handleError({status: 404});
+    expect(mockToastsManager.error).toHaveBeenCalledWith('An error occurred, please try again later.');
   });
 
   it('should convertFormToDto with home address set to false', () => {
