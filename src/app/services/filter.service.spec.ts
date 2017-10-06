@@ -170,7 +170,7 @@ describe('Service: Filters ', () => {
 
     it('should setFilterStringHostOnly string if true is passed in', inject([FilterService], (service: any) => {
       service.setFilterStringHostOnly(true);
-      expect(service.filterStringHostOnly).toBe(` (or pintype: ${pinType.GATHERING} pintype: ${pinType.SITE}`);
+      expect(service.filterStringHostOnly).toBe(` (or pintype: ${pinType.GATHERING} pintype: ${pinType.SITE})`);
     }));
 
     it('should null setFilterStringHostOnly string if false is passed in', inject([FilterService], (service: any) => {
