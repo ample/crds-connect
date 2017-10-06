@@ -34,13 +34,13 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MeetingFrequencyComponent) public meetingFrequencyComponent: MeetingFrequencyComponent;
   @ViewChild(HostOnlyComponent) public hostOnlyComponent: HostOnlyComponent;
   @Output() cancelFilter: EventEmitter<string> = new EventEmitter();
+  @Output() applyFilters: EventEmitter<string> = new EventEmitter();
 
-  constructor( private filterService: FilterService,
-               private router: Router,
-               private state: StateService ) {}
+  constructor(private filterService: FilterService,
+              private router: Router,
+              private state: StateService ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public resetFilters(): void {
     this.childKidsWelcomeComponent.reset();
@@ -60,4 +60,7 @@ export class FiltersComponent implements OnInit {
     this.cancelFilter.emit('filter cancel');
   }
 
+  public apply(): void {
+    this.applyFilters.emit();
+  }
 }

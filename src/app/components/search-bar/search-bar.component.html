@@ -56,7 +56,7 @@
         <button type="submit" class="btn btn-secondary" id="searchBtn">
           Search
         </button>
-        <button type="button" class="btn btn-link btn-toggle pull-right hard-sides text-white" [class.active]="state.isFilterDialogOpen" id="addFilters" (click)="openFilter(true)">Apply filter</button>
+        <button type="button" class="btn btn-link btn-toggle pull-right hard-sides text-white" [class.active]="state.isFilterDialogOpen" id="addFilters" (click)="openFilter(true)">Add filters</button>
       </div>
     </form>
   </div>
@@ -65,4 +65,5 @@
 <app-filters [hidden]="!state.isFilterDialogOpen"
              [isConnectApp]="isConnectApp"
              (cancelFilter)="filterCancel()"
+             (applyFilters)="onSearch(state.searchBarText)"
              class="connect-filters connect-container connect-layout-container"></app-filters>
