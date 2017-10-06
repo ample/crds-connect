@@ -6,7 +6,7 @@
   <div class="col-xs-4"><a class="btn-link pull-right font-size-small push-ends pointer" (click)="resetFilters()">Clear All</a></div>
 </div>
 
-<accordion class="accordion">
+<accordion class="accordion" [hidden]="isConnectApp">
   <accordion-group>
     <div accordion-heading>
       Age Groups
@@ -81,3 +81,7 @@
     <meeting-frequency></meeting-frequency>
   </accordion-group>
 </accordion>
+
+<div [hidden]="!isConnectApp">
+  <app-host-only></app-host-only>
+</div>

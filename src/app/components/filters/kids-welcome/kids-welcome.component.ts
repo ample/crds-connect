@@ -21,17 +21,10 @@ export class KidsWelcomeComponent implements OnInit {
     this.setSelectedFilter();
   }
 
-
   public kidsWelcome(value: boolean): void {
         this.selected = true;
         this.areKidsWelcome = value;
         this.setFilterString();
-  }
-
-  private setFilterString(): void {
-    let welcomeFlag = this.areKidsWelcome ? 1 : 0;
-    let haveKidsWelcomeValue = this.areKidsWelcome != null || this.areKidsWelcome !== undefined;
-    this.filterService.setFilterStringKidsWelcome(welcomeFlag, haveKidsWelcomeValue);
   }
 
   public reset() {
@@ -50,5 +43,11 @@ export class KidsWelcomeComponent implements OnInit {
       }
       this.setFilterString();
     }
+  }
+
+  private setFilterString(): void {
+    const welcomeFlag = this.areKidsWelcome ? 1 : 0;
+    const haveKidsWelcomeValue = this.areKidsWelcome != null || this.areKidsWelcome !== undefined;
+    this.filterService.setFilterStringKidsWelcome(welcomeFlag, haveKidsWelcomeValue);
   }
 }

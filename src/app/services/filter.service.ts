@@ -19,6 +19,7 @@ export class FilterService {
   public filterStringMeetingDays: string = null;
   public filterStringMeetingTimes: string = null;
   public filterStringMeetingFrequencies: string = null;
+  public filterStringHostOnly: string = null;
 
   constructor() {}
 
@@ -33,6 +34,7 @@ export class FilterService {
     filterString = (this.filterStringMeetingDays != null) ? filterString + this.filterStringMeetingDays : filterString;
     filterString = (this.filterStringMeetingTimes != null) ? filterString + this.filterStringMeetingTimes : filterString;
     filterString = (this.filterStringMeetingFrequencies != null) ? filterString + this.filterStringMeetingFrequencies : filterString;
+    filterString = (this.filterStringHostOnly != null) ? filterString + this.filterStringHostOnly : filterString;
 
     return filterString;
   }
@@ -79,8 +81,15 @@ export class FilterService {
     this.filterStringAgeGroups = addFilterString;
   }
 
-  public setFilterStringCategories(categories: Category[]): void {
+  public setFilterStringHostOnly(isFilterOn: boolean): void {
+    if (isFilterOn) {
+    this.filterStringHostOnly = ` (or ${awsFieldNames.HOST_ONLY}: 2 ${awsFieldNames.HOST_ONLY}: 3)`;
+    } else {
+      this.filterStringHostOnly = null;
+    }
+  }
 
+  public setFilterStringCategories(categories: Category[]): void {
     if ( categories.filter(x => x.selected === true).length === 0) {
       this.filterStringCategories = null;
       return;

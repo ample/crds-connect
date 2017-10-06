@@ -1,4 +1,5 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
+import { HostOnlyComponent } from './host-only/host-only.component';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -22,6 +23,7 @@ import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency
 })
 
 export class FiltersComponent implements OnInit {
+  @Input() isConnectApp: boolean;
   @ViewChild(KidsWelcomeComponent) public childKidsWelcomeComponent: KidsWelcomeComponent;
   @ViewChild(AgeGroupsComponent) public childAgeGroupsComponent: AgeGroupsComponent;
   @ViewChild(OnlineOrPhysicalGroupComponent) public onlineOrPhysicalGroupComponent: OnlineOrPhysicalGroupComponent;
@@ -30,6 +32,7 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MeetingTimeComponent) public meetingTimeComponent: MeetingTimeComponent;
   @ViewChild(MeetingDayComponent) public meetingDayComponent: MeetingDayComponent;
   @ViewChild(MeetingFrequencyComponent) public meetingFrequencyComponent: MeetingFrequencyComponent;
+  @ViewChild(HostOnlyComponent) public hostOnlyComponent: HostOnlyComponent;
   @Output() cancelFilter: EventEmitter<string> = new EventEmitter();
 
   constructor( private filterService: FilterService,
@@ -48,6 +51,7 @@ export class FiltersComponent implements OnInit {
     this.meetingDayComponent.reset();
     this.meetingFrequencyComponent.reset();
     this.onlineOrPhysicalGroupComponent.reset();
+    this.hostOnlyComponent.reset();
     this.filterService.resetFilterString();
   }
 

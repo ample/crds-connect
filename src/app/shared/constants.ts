@@ -208,6 +208,7 @@ export class AwsFieldNames {
   MEETING_DAY: string;
   MEETING_FREQUENCY: string;
   MEETING_TIME: string;
+  HOST_ONLY: string;
 
   constructor () {
     this.GROUP_KIDS_WELCOME = 'groupkidswelcome';
@@ -218,6 +219,7 @@ export class AwsFieldNames {
     this.MEETING_DAY = 'groupmeetingday';
     this.MEETING_FREQUENCY = 'groupmeetingfrequency';
     this.MEETING_TIME = 'groupmeetingtime';
+    this.HOST_ONLY = 'pintype';
   }
 }
 export const awsFieldNames: AwsFieldNames = new AwsFieldNames();

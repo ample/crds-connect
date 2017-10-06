@@ -74,7 +74,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.state.setIsFilterDialogOpen(false);
     this.state.searchBarText = search;
 
-    search = search.replace(/'/g, '%27');  // Escape single quotes in the search string
+    search = (search) ? search.replace(/'/g, '%27') : search;  // Escape single quotes in the search string
 
     // This needs to go away soon -- you can have location filter and keyword search in connect.
     const locationFilter = this.appSettings.isConnectApp() ? search : this.locationBarComponent.location;
