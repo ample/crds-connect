@@ -37,4 +37,12 @@
       color: $cr-white;
     }
   }
+
+  .searchbar {
+    .input-group .form-control + .searchbar-wrapper {
+      @media (min-width: 768px) {
+        width: 294px;
+      }
+    }
+  }
 }
