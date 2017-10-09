@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ContentService } from 'crds-ng2-content-block';
 import { ToastsManager } from 'ng2-toastr';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { StripTagsPipe } from '../../pipes/strip-tags.pipe';
 import { DetailedUserData } from '../../models/detailed-user-data';
