@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
@@ -16,13 +16,13 @@ import { Pin, User } from '../../../models';
   templateUrl: 'say-hi.html'
 })
 export class SayHiComponent implements OnInit {
-
+  public sayHiForm: FormGroup;
+  public message: string = '';
   @Input() isGathering: boolean = false;
   @Input() buttonText: string = '';
   @Input() user: Pin;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
-
   private route: string;
 
   constructor(
@@ -36,6 +36,9 @@ export class SayHiComponent implements OnInit {
 
   // TODO: Rename methods?
   ngOnInit() {
+    this.sayHiForm = new FormGroup({
+      sayHiMessage: new FormControl(this.message, [Validators.max(140)]),
+    });
     this.getUserDetailsThenSayHi = this.getUserDetailsThenSayHi.bind(this);
   }
 
@@ -44,7 +47,7 @@ export class SayHiComponent implements OnInit {
     if (!this.isLoggedIn) {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.getUserDetailsThenSayHi);
     } else {
-      this.doSayHi();
+      this.doSayHi(this.message);
     }
   }
 
@@ -59,7 +62,7 @@ export class SayHiComponent implements OnInit {
             this.router.navigate(['/person/' + this.pin.participantId]);
           }
         } else {
-          this.doSayHi();
+          this.doSayHi(this.message);
         }
       },
       err => {
@@ -68,7 +71,7 @@ export class SayHiComponent implements OnInit {
     );
   }
 
-  private doSayHi() {
+  private doSayHi(theMessage: string) {
     // tslint:disable-next-line:max-line-length
     const templateText = `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
     const notificationText = (this.isGathering) ? `<p>${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</p>`
@@ -80,7 +83,7 @@ export class SayHiComponent implements OnInit {
       BlandPageCause.Success,
       ''
     );
-    this.pinService.sendHiEmail(this.user, this.pin).subscribe(
+    this.pinService.sendHiEmail(this.user, this.pin, theMessage).subscribe(
       ret => {
         this.blandPageService.primeAndGo(bpd);
       },

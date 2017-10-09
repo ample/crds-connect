@@ -254,14 +254,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
   }
 
   // POSTS
-  public sendHiEmail(user: Pin, pin: Pin): Observable<any> {
+  public sendHiEmail(user: Pin, pin: Pin, message: string): Observable<any> {
     // Create merge data for this template
     let emailInfo = {
       'fromEmailAddress': user.emailAddress,
       'toEmailAddress': pin.emailAddress,
       'subject': 'Hi',
       'body': 'Just wanted to say hi',
-      'mergeData': this.createSayHiTemplateDictionary(user, pin),
+      'mergeData': this.createSayHiTemplateDictionary(user, pin, message),
       'templateId': this.SayHiTemplateId
     };
 
@@ -283,13 +283,14 @@ export class PinService extends SmartCacheableService<PinSearchResultsDto, Searc
       .catch((err) => Observable.throw(err.json().error));
   }
 
-  public createSayHiTemplateDictionary(user: Pin, pin: Pin) {
+  public createSayHiTemplateDictionary(user: Pin, pin: Pin, userMessage: string) {
     return {
       'Community_Member_Name': user.firstName + ' ' + user.lastName.charAt(0) + '.',
       'Pin_First_Name': pin.firstName,
       'Community_Member_Email': user.emailAddress,
       'Community_Member_City': user.address.city,
-      'Community_Member_State': user.address.state
+      'Community_Member_State': user.address.state,
+      'User_Message' : userMessage
     };
   }
 
