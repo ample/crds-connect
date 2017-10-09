@@ -17,6 +17,7 @@ import { KidsWelcomeComponent } from './kids-welcome/kids-welcome.component';
 import { OnlineOrPhysicalGroupComponent } from './online-or-physical-group/online-or-physical-group.component';
 import { MeetingTimeComponent } from './meeting-time/meeting-time.component';
 import { MeetingDayComponent } from './meeting-day/meeting-day.component';
+import { HostOnlyComponent } from './host-only/host-only.component';
 import { MeetingFrequencyComponent } from './meeting-frequency/meeting-frequency.component';
 
 import { SearchOptions } from '../../models';
@@ -80,6 +81,7 @@ describe('FiltersComponent', () => {
       this.comp.meetingTimeComponent = jasmine.createSpyObj<MeetingTimeComponent>('onlineOrPhysical', ['reset']);
       this.comp.meetingDayComponent = jasmine.createSpyObj<MeetingDayComponent>('onlineOrPhysical', ['reset']);
       this.comp.meetingFrequencyComponent = jasmine.createSpyObj<MeetingFrequencyComponent>('onlineOrPhysical', ['reset']);
+      this.comp.hostOnlyComponent = jasmine.createSpyObj<HostOnlyComponent>('host', ['reset']);
     }));
 
     it('should reset filters', () => {
@@ -93,6 +95,7 @@ describe('FiltersComponent', () => {
       expect(this.comp.meetingDayComponent.reset).toHaveBeenCalled();
       expect(this.comp.meetingFrequencyComponent.reset).toHaveBeenCalled();
       expect(this.comp.onlineOrPhysicalGroupComponent.reset).toHaveBeenCalled();
+      expect(this.comp.hostOnlyComponent.reset).toHaveBeenCalled();
       expect(mockFilterService.resetFilterString).toHaveBeenCalled();
     });
 

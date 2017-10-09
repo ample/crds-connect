@@ -54,6 +54,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { GroupTypeComponent } from './components/filters/group-type/group-type.component';
 import { HandleInviteComponent } from './components/handle-invite/handle-invite.component';
 import { HostApplicationComponent } from './components/host-application/host-application.component';
+import { HostOnlyComponent } from './components/filters/host-only/host-only.component';
 import { InviteSomeoneComponent } from './components/pin-details/gathering/invite-someone/invite-someone.component';
 import { AddSomeoneComponent } from './components/pin-details/gathering/add-someone/add-someone.component';
 import { LeaderResourcesComponent } from './components/pin-details/gathering/leader-resources/leader-resources.component';
@@ -128,6 +129,7 @@ import { UserDataResolver } from './route-resolvers/user-data-resolver';
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { UtcTimeFormatPipe } from './pipes/utc-time-format.pipe';
+import { StripTagsPipe } from './pipes/strip-tags.pipe';
 
 import { BlandPageGuard } from './route-guards/bland-page-guard';
 import { GroupLeaderGuard } from './route-guards/group-leader.guard';
@@ -140,7 +142,6 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
 
 import { RouterModule } from '@angular/router';
-import { StripTagsPipe } from './pipes/strip-tags.pipe';
 
 
 @NgModule({
@@ -241,6 +242,7 @@ declarations: [
   CreateGroupFooterComponent,
   SocialMediaComponent,
   UtcTimeFormatPipe,
+  HostOnlyComponent
   StripTagsPipe
 ],
 providers: [

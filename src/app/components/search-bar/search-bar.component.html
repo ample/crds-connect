@@ -31,7 +31,7 @@
         </div>
         <app-location-bar (submit)="onSearch(state.searchBarText)" [hidden]="!shouldShowSubmit" class="force-show-desktop"></app-location-bar>
 
-        <span class="addon-btn search-desktop force-show-desktop" [hidden]="!appSettings.isSmallGroupApp()">
+        <span class="addon-btn search-desktop force-show-desktop">
           <button type="button" role="button" (click)="openFilter()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
             <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
               <use xlink:href="/assets/svgs/icons.svg#equalizer" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
@@ -62,8 +62,8 @@
   </div>
 </div>
 
-<app-filters *ngIf="!isConnectApp"
-             [hidden]="!state.isFilterDialogOpen"
+<app-filters [hidden]="!state.isFilterDialogOpen"
+             [isConnectApp]="isConnectApp"
              (cancelFilter)="filterCancel()"
              (applyFilters)="onSearch(state.searchBarText)"
              class="connect-filters connect-container connect-layout-container"></app-filters>
