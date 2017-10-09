@@ -242,7 +242,7 @@ declarations: [
   CreateGroupFooterComponent,
   SocialMediaComponent,
   UtcTimeFormatPipe,
-  HostOnlyComponent
+  HostOnlyComponent,
   StripTagsPipe
 ],
 providers: [
