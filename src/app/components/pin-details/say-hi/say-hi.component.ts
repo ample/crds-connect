@@ -17,12 +17,12 @@ import { Pin, User } from '../../../models';
 })
 export class SayHiComponent implements OnInit {
   public sayHiForm: FormGroup;
+  public message: string = '';
   @Input() isGathering: boolean = false;
   @Input() buttonText: string = '';
   @Input() user: Pin;
   @Input() pin: Pin;
   @Input() isLoggedIn: boolean = false;
-  private message: string = '';
   private route: string;
 
   constructor(
@@ -37,7 +37,7 @@ export class SayHiComponent implements OnInit {
   // TODO: Rename methods?
   ngOnInit() {
     this.sayHiForm = new FormGroup({
-      sayHiMessage: new FormControl(this.message, [Validators.required]),
+      sayHiMessage: new FormControl(this.message, [Validators.max(140)]),
     });
     this.getUserDetailsThenSayHi = this.getUserDetailsThenSayHi.bind(this);
   }

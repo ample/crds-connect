@@ -1,17 +1,16 @@
 <crds-content-block *ngIf="!isGathering" id="connectSayHi"></crds-content-block>
 
-<form novalidate [formGroup]="sayHiForm" (ngSubmit)="onSubmit(sayHiForm)">
+<form novalidate [formGroup]="sayHiForm">
   <div>
     <!-- Reason for Participant Removal-->
     <div class="form-group">
-      <label class="control-label push-half-bottom" for="sayHiMessage">YOUR MESSAGE:</label>
+      <label class="control-label push-half-bottom" for="sayHiMessage">YOUR MESSAGE (Optional):</label>
       <textarea type="text" class="form-control" maxlength="140" placeholder="" id="sayHiMessage" formControlName="sayHiMessage"
       name="sayHiMessage" [(ngModel)]="message" rows="2"></textarea>
-      <p class="error help-block" *ngIf="isFormSubmitted && !removeParticipantForm.controls['removalMessage'].valid">Message is required!</p>
     </div>
   </div>
 
-  <footer class="soft-top" [ngClass]="{'text-center': isRemovingSelf}">
+  <footer class="soft-top">
     <div class="btn-group btn-block-mobile">
       <button type="button" class="btn btn-secondary btn-block-mobile" [ngClass]="{'btn-say-hi': !isGathering}" (click)="sayHi()">{{buttonText}}</button>
     </div>
