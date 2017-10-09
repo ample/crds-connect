@@ -3,7 +3,7 @@ import { HttpModule } from '@angular/http';
 
 import { FilterService } from './filter.service';
 
-import { SimpleSelectable} from '../models/simple-selectable';
+import { SimpleSelectable, pinType} from '../models';
 
 import { daysOfWeek, groupMeetingTimeRanges, awsMeetingTimeSearchStrings, meetingFrequencyNames} from '../shared/constants';
 
@@ -167,6 +167,27 @@ describe('Service: Filters ', () => {
         expect(actualAwsMeetingFrequenciesSearchString).toEqual(expectedAwsFrequenciesSearchString);
 
     }));
+
+    it('should setFilterStringHostOnly string if true is passed in', inject([FilterService], (service: any) => {
+      service.setFilterStringHostOnly(true);
+      expect(service.filterStringHostOnly).toBe(` (or pintype: ${pinType.GATHERING} pintype: ${pinType.SITE})`);
+    }));
+
+    it('should null setFilterStringHostOnly string if false is passed in', inject([FilterService], (service: any) => {
+      service.filterStringHostOnly = 'asdf';
+      service.setFilterStringHostOnly(false);
+      expect(service.filterStringHostOnly).toBe(null);
+    }));
+
+    it('getIsHostOnlyFiltered should return true if there is a filter string', inject([FilterService], (service: any) => {
+      service.filterStringHostOnly = 'asdf';
+      expect(service.getIsHostOnlyFiltered()).toBe(true);
+    }));
+
+    it('getIsHostOnlyFiltered should return false if there is no filter string', inject([FilterService], (service: any) => {
+      expect(service.getIsHostOnlyFiltered()).toBe(false);
+    }));
+
 
     describe('getSelectedAgeGroups',  () => {
       it('should return undefined if no age group filter', inject([FilterService], (service: any) => {

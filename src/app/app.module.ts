@@ -140,6 +140,7 @@ import { WhatsAHostGuard } from './route-guards/whats-a-host-guard';
 import { SocialMediaComponent } from './components/pin-details/gathering/social-media/social-media.component';
 
 import { RouterModule } from '@angular/router';
+import { HostOnlyComponent } from './components/filters/host-only/host-only.component';
 
 
 @NgModule({
@@ -238,7 +239,8 @@ declarations: [
   GoogleMapClusterDirective,
   CreateGroupFooterComponent,
   SocialMediaComponent,
-  UtcTimeFormatPipe
+  UtcTimeFormatPipe,
+  HostOnlyComponent
 ],
 providers: [
   AddressService,
