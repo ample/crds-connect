@@ -75,21 +75,24 @@ describe('Service: Pin', () => {
   }));
 
   it('should create merge data dictionary', inject([PinService], (service: PinService) => {
+    const message = 'Star Wars';
     const expected = {
       'Community_Member_Name': 'Elmer F.',
       'Pin_First_Name': 'Buggs',
       'Community_Member_Email': 'efudd@looneytoons.com',
       'Community_Member_City': 'TesVille',
-      'Community_Member_State': 'ZZ'
+      'Community_Member_State': 'ZZ',
+      'User_Message' : message
     };
     const testUser = new Pin('Elmer', 'Fudd', 'efudd@looneytoons.com', 1, 1, mockAddress, 0, null, '', 1, 0, 999);
     const testPin = new Pin('Buggs', 'Bunny', 'bbunny@looneytoons.com', 1, 1, null, 1, null, '', 1, 0, 999);
-    const actual = service.createSayHiTemplateDictionary(testUser, testPin);
+    const actual = service.createSayHiTemplateDictionary(testUser, testPin, message);
     expect(actual.Community_Member_Name).toBe(expected.Community_Member_Name);
     expect(actual.Pin_First_Name).toBe(expected.Pin_First_Name);
     expect(actual.Community_Member_Email).toBe(expected.Community_Member_Email);
     expect(actual.Community_Member_City).toBe(expected.Community_Member_City);
     expect(actual.Community_Member_State).toBe(expected.Community_Member_State);
+    expect(actual.User_Message).toBe(message);
   }));
 
 
