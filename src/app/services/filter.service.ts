@@ -1,9 +1,6 @@
 import { Injectable} from '@angular/core';
 
-import { AgeGroup } from '../models/age-group';
-import { Category } from '../models/category';
-import { GroupType } from '../models/group-type';
-import { SimpleSelectable} from '../models/simple-selectable';
+import { AgeGroup, Category, GroupType, SimpleSelectable, pinType } from '../models';
 
 import { awsFieldNames, DaysOfWeek, daysOfWeek, groupMeetingTimeRanges,
          awsMeetingTimeSearchStrings } from '../shared/constants';
@@ -19,6 +16,7 @@ export class FilterService {
   public filterStringMeetingDays: string = null;
   public filterStringMeetingTimes: string = null;
   public filterStringMeetingFrequencies: string = null;
+  public filterStringHostOnly: string = null;
 
   constructor() {}
 
@@ -33,6 +31,7 @@ export class FilterService {
     filterString = (this.filterStringMeetingDays != null) ? filterString + this.filterStringMeetingDays : filterString;
     filterString = (this.filterStringMeetingTimes != null) ? filterString + this.filterStringMeetingTimes : filterString;
     filterString = (this.filterStringMeetingFrequencies != null) ? filterString + this.filterStringMeetingFrequencies : filterString;
+    filterString = (this.filterStringHostOnly != null) ? filterString + this.filterStringHostOnly : filterString;
 
     return filterString;
   }
@@ -79,8 +78,19 @@ export class FilterService {
     this.filterStringAgeGroups = addFilterString;
   }
 
-  public setFilterStringCategories(categories: Category[]): void {
+  public setFilterStringHostOnly(isFilterOn: boolean): void {
+    if (isFilterOn) {
+    this.filterStringHostOnly = ` (or ${awsFieldNames.PIN_TYPE}: ${pinType.GATHERING} ${awsFieldNames.PIN_TYPE}: ${pinType.SITE})`;
+    } else {
+      this.filterStringHostOnly = null;
+    }
+  }
 
+  public getIsHostOnlyFiltered(): boolean {
+    return this.filterStringHostOnly != null;
+  }
+
+  public setFilterStringCategories(categories: Category[]): void {
     if ( categories.filter(x => x.selected === true).length === 0) {
       this.filterStringCategories = null;
       return;

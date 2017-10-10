@@ -160,7 +160,7 @@ export class MockTestData {
             `firstName${designator}`,
             `lastName${designator}`,
             `${designator}112223333`,
-            '3332221111',
+            '333-222-1111',
             `email${designator}@email.com`,
             this.getAnAddress(designator)
         );
