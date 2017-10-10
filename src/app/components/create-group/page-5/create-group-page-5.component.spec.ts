@@ -16,15 +16,14 @@ import { CreateGroupPage5Component } from './create-group-page-5.component';
 describe('CreateGroupPage5Component', () => {
   let fixture: ComponentFixture<CreateGroupPage5Component>;
   let comp: CreateGroupPage5Component;
-  let mockGroupInquiryService: GroupInquiryService;
   let el;
   let mockState, mockCreateGroupService, mockRouter;
 
   beforeEach(() => {
-    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     mockState = jasmine.createSpyObj<StateService>('state', ['setLoading', 'setPageHeader', 'getActiveGroupPath']);
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', [
-      'addAgeRangesToGroupModel'
+      'addAgeRangesToGroupModel',
+      'navigateInGroupFlow'
     ]);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
@@ -32,7 +31,6 @@ describe('CreateGroupPage5Component', () => {
       declarations: [CreateGroupPage5Component, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
       providers: [
         FormBuilder,
-        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: StateService, useValue: mockState },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter }

@@ -7,23 +7,23 @@
 import { Observable } from 'rxjs/Rx';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { GroupLeaderApprovedGuard } from './group-leader-approved.guard';
-import { GroupInquiryService } from '../services/group-inquiry.service';
+import { ParticipantService } from '../services/participant.service';
 import { GroupLeaderApplicationStatus, LeaderStatus, ApplicationUrl } from '../shared/constants';
 
 describe('GroupLeaderApprovedGuard', () => {
   let guard;
 
-  let fakeRouter: any = jasmine.createSpyObj('router', ['navigate']);
+  let fakeRouter = jasmine.createSpyObj('router', ['navigate']);
   let fakeRouterState: any = {}; // RouterStateSnapshot
   let fakeActivatedRoute: any; // ActivatedRouteSnapshot
-  let mockGroupService: any = jasmine.createSpyObj<GroupInquiryService>('groupService', ['getLeaderStatus']);
+  let fakeParticipantService: any = jasmine.createSpyObj<ParticipantService>('participantService', ['getLeaderStatus']);
 
   beforeEach(() => {
-    guard = new GroupLeaderApprovedGuard(mockGroupService, fakeRouter);
+    guard = new GroupLeaderApprovedGuard(fakeRouter, fakeParticipantService);
   });
 
   it('should return true if user is a approved leader', () => {
-    mockGroupService.getLeaderStatus.and.returnValue(Observable.of(GroupLeaderApplicationStatus.APPROVED));
+    fakeParticipantService.getLeaderStatus.and.returnValue(Observable.of(GroupLeaderApplicationStatus.APPROVED));
     let result = guard.canActivate(
       {
         path: '/create-group'
@@ -32,11 +32,11 @@ describe('GroupLeaderApprovedGuard', () => {
     );
 
     expect(result).toBeTruthy();
-    expect(mockGroupService.getLeaderStatus).toHaveBeenCalled();
+    expect(fakeParticipantService.getLeaderStatus).toHaveBeenCalled();
   });
 
   it('should navigate away if user is not a approved leader', done => {
-    mockGroupService.getLeaderStatus.and.returnValue(Observable.of(GroupLeaderApplicationStatus.DENIED));
+    fakeParticipantService.getLeaderStatus.and.returnValue(Observable.of(GroupLeaderApplicationStatus.DENIED));
     let obs$ = guard.canActivate(
       {
         // this is an external link, not just route -- window.location.href

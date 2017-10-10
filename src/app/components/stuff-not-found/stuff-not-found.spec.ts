@@ -8,7 +8,7 @@ import { DebugElement } from '@angular/core';
 
 import { StuffNotFoundComponent } from './stuff-not-found.component';
 import { AppSettingsService } from '../../services/app-settings.service';
-import { GroupInquiryService } from '../../services/group-inquiry.service';
+import { ParticipantService } from '../../services/participant.service';
 import { PinService } from '../../services/pin.service';
 import { GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
@@ -17,14 +17,14 @@ describe('StuffNotFoundComponent', () => {
   let comp: StuffNotFoundComponent;
   let mockStateService;
   let mockAppSettingsService;
-  let mockGroupService;
+  let mockParticipantService;
   let mockPinService;
   let mockRouter;
 
   beforeEach(() => {
     mockStateService = jasmine.createSpyObj('state', ['setLoading', 'setPageHeader']);
     mockAppSettingsService = jasmine.createSpyObj('appSettings', ['myStuffName']);
-    mockGroupService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['getLeaderStatus']);
+    mockParticipantService = jasmine.createSpyObj<ParticipantService>('participantService', ['getLeaderStatus']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['clearPinCache']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
 
@@ -33,7 +33,7 @@ describe('StuffNotFoundComponent', () => {
       providers: [
         { provide: StateService, useValue: mockStateService },
         { provide: AppSettingsService, useValue: mockAppSettingsService },
-        { provide: GroupInquiryService, useValue: mockGroupService },
+        { provide: ParticipantService, useValue: mockParticipantService },
         { provide: PinService, useValue: mockPinService },
         { provide: Router, useValue: mockRouter }
       ],

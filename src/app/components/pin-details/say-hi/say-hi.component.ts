@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
-import { PinService } from '../../../services/pin.service';
 import { SayHiService } from '../../../services/say-hi.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
@@ -17,7 +16,6 @@ import { Pin, User } from '../../../models';
   templateUrl: 'say-hi.html'
 })
 export class SayHiComponent implements OnInit {
-
   @Input() isGathering: boolean = false;
   @Input() buttonText: string = '';
   @Input() user: Pin;
@@ -27,14 +25,13 @@ export class SayHiComponent implements OnInit {
   private route: string;
 
   constructor(
-    private pinService: PinService,
     private loginRedirectService: LoginRedirectService,
     private session: SessionService,
     private router: Router,
-    private state: StateService,
     private blandPageService: BlandPageService,
     private analytics: AnalyticsService,
-    private sayHiService: SayHiService) { }
+    private sayHiService: SayHiService
+  ) {}
 
   // TODO: Rename methods?
   ngOnInit() {
@@ -73,7 +70,8 @@ export class SayHiComponent implements OnInit {
   private doSayHi() {
     // tslint:disable-next-line:max-line-length
     const templateText = `<h1 class="title">${this.isGathering ? 'Host contacted' : 'Success!'}</h1>`;
-    const notificationText = (this.isGathering) ? `<p>${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</p>`
+    const notificationText = this.isGathering
+      ? `<p>${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}. has been notified</p>`
       : `<p>You just said hi to ${this.pin.firstName} ${this.pin.lastName.slice(0, 1)}.</p>`;
     const bpd = new BlandPageDetails(
       'Return to map',

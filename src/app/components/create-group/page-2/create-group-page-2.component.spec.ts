@@ -47,7 +47,10 @@ describe('CreateGroupPage2Component', () => {
       'setActiveGroupPath',
       'getActiveGroupPath'
     ]);
-    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', ['clearMeetingTimeData']);
+    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', [
+      'clearMeetingTimeData',
+      'navigateInGroupFlow'
+    ]);
     mockCreateGroupService.meetingTimeType = 'specific';
     mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);

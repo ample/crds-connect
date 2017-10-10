@@ -34,14 +34,14 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   private doneId: string = '';
 
   constructor(
-    private appSettings: AppSettingsService,
+    private userLocationService: UserLocationService,
     private pinService: PinService,
+    private searchService: SearchService,
     private mapHlpr: GoogleMapService,
     private neighborsHelper: NeighborsHelperService,
-    private router: Router,
     public state: StateService,
-    private userLocationService: UserLocationService,
-    private searchService: SearchService,
+    private appSettings: AppSettingsService,
+    private router: Router,
     private blandPageService: BlandPageService,
     private pinCollectionProcessingService: PinCollectionProcessingService
   ) {}

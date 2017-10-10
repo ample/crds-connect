@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Rx';
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
 import { PinService } from '../../../services/pin.service';
 import { ProfileService } from '../../../services/profile.service';
-import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import { Pin, Participant } from '../../../models';
@@ -27,12 +26,11 @@ export class CreateGroupPreviewComponent implements OnInit {
   constructor(
     private createGroupService: CreateGroupService,
     private state: StateService,
-    private groupInquiryService: GroupInquiryService,
     private profileService: ProfileService,
+    private pinService: PinService,
     private router: Router,
     private toastr: ToastsManager,
     private participantService: ParticipantService,
-    private pinService: PinService,
     private blandPageService: BlandPageService,
     private contentService: ContentService
   ) {}

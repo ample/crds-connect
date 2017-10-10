@@ -3,7 +3,6 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ToastsManager } from 'ng2-toastr';
@@ -13,6 +12,7 @@ import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 import { MockTestData } from '../../../shared/MockTestData';
+import { ContentService } from 'crds-ng2-content-block';
 
 import { Group } from '../../../models/group';
 
@@ -26,7 +26,6 @@ describe('CreateGroupPage1Component', () => {
   let mockStateService,
     mockCreateGroupService,
     mockRouter,
-    mockLocationService,
     mockToastsManager,
     mockGroupService,
     mockContentService,
@@ -45,12 +44,13 @@ describe('CreateGroupPage1Component', () => {
       'validateCategories',
       'addSelectedCategoriesToGroupModel',
       'markPageAsPresetWithExistingData',
-      'isMaxNumberOfCategoriesSelected'
+      'isMaxNumberOfCategoriesSelected',
+      'navigateInGroupFlow'
     ]);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-    mockLocationService = jasmine.createSpyObj<Location>('locationService', ['back']);
     mockToastsManager = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
     categories = MockTestData.getSomeCategories();
+    mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
     mockCreateGroupService.initializePageOne.and.returnValue(Observable.of(categories));
     mockRouter = {
       url: '/groupsv2/create-group/page-1',
@@ -72,8 +72,8 @@ describe('CreateGroupPage1Component', () => {
         { provide: StateService, useValue: mockStateService },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter },
-        { provide: Location, useValue: mockLocationService },
-        { provide: ToastsManager, useValue: mockToastsManager }
+        { provide: ToastsManager, useValue: mockToastsManager },
+        { provide: ContentService, useValue: mockContentService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });

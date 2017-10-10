@@ -21,11 +21,9 @@ describe('CreateGroupPage6Component', () => {
   let fixture: ComponentFixture<CreateGroupPage6Component>;
   let comp: CreateGroupPage6Component;
   let el;
-  let mockGroupInquiryService: GroupInquiryService;
   let mockBlandPageService, mockState, mockCreateGroupService, mockRouter, mockLookupService, mockLocationService;
   let profileData;
   beforeEach(() => {
-    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
     mockState = jasmine.createSpyObj<StateService>('state', [
       'setLoading',
@@ -33,11 +31,10 @@ describe('CreateGroupPage6Component', () => {
       'setActiveGroupPath',
       'getActiveGroupPath'
     ]);
-    mockCreateGroupService = {
-      profileData: MockTestData.getProfileData(1),
-      group: Group.overload_Constructor_CreateGroup(1),
-      initializePageSix: jasmine.createSpy('initPageSix')
-    };
+    mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', ['navigateInGroupFlow']);
+    mockCreateGroupService.profileData = MockTestData.getProfileData(1);
+    mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
+    mockCreateGroupService.initializePageSix = jasmine.createSpy('initPageSix');
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getSites']);
     mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
@@ -46,7 +43,6 @@ describe('CreateGroupPage6Component', () => {
     TestBed.configureTestingModule({
       declarations: [CreateGroupPage6Component, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
       providers: [
-        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: StateService, useValue: mockState },
         { provide: CreateGroupService, useValue: mockCreateGroupService },

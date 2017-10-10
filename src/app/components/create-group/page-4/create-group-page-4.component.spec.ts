@@ -18,13 +18,11 @@ import { CreateGroupPage4Component } from './create-group-page-4.component';
 
 describe('CreateGroupPage4Component', () => {
   let fixture: ComponentFixture<CreateGroupPage4Component>;
-  let mockGroupInquiryService: GroupInquiryService;
   let comp: CreateGroupPage4Component;
   let el;
   let mockState, mockCreateGroupService, mockRouter, mockLookupService, mockBlandPageService;
 
   beforeEach(() => {
-    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     mockState = jasmine.createSpyObj<StateService>('state', [
       'setLoading',
       'setPageHeader',
@@ -33,7 +31,8 @@ describe('CreateGroupPage4Component', () => {
     ]);
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('createGroupService', [
       'addAgeRangesToGroupModel',
-      'addGroupGenderMixTypeToGroupModel'
+      'addGroupGenderMixTypeToGroupModel',
+      'navigateInGroupFlow'
     ]);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
@@ -47,7 +46,6 @@ describe('CreateGroupPage4Component', () => {
       declarations: [CreateGroupPage4Component, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
       providers: [
         FormBuilder,
-        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: StateService, useValue: mockState },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter },

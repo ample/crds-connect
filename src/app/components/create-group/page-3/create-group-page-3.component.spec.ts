@@ -23,20 +23,19 @@ describe('CreateGroupPage3Component', () => {
   let mockState, mockCreateGroupService, mockRouter, mockLocationService;
 
   beforeEach(() => {
-    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     mockState = jasmine.createSpyObj<StateService>('state', [
       'setLoading',
       'setPageHeader',
       'setActiveGroupPath',
       'getActiveGroupPath'
     ]);
-    mockCreateGroupService = <CreateGroupService>{ group: Group.overload_Constructor_CreateGroup(1) };
+    mockCreateGroupService = jasmine.createSpyObj<GroupInquiryService>('createGroupService', ['navigateInGroupFlow']);
+    mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
     TestBed.configureTestingModule({
       declarations: [CreateGroupPage3Component, MockComponent({ selector: 'crds-content-block', inputs: ['id'] })],
       providers: [
         FormBuilder,
-        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: StateService, useValue: mockState },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter }
