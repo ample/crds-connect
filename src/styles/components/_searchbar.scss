@@ -12,10 +12,34 @@ app-filters {
     display: none;
   }
 
-
   // Connect search
   .searchbar-connect {
+    .keyword-input {
+      display: flex;
+      flex: 1 1 auto;
+    }
 
+    .location-input {
+      display: none;
+    }
+
+    .searchbar-wrapper {
+      width: calc(100% - 55px);
+    }
+
+
+    .search-btn {
+      .btn {
+        height: 42px;
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    .input-group {
+      justify-content: space-between;
+    }
   }
 
   // Groups search
