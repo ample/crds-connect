@@ -1,22 +1,22 @@
-<div class="connect-search">
+<div class="connect-search finder-search">
   <div class="connect-layout-container container">
-    <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)" [class.searchbar-groups]="!isConnectApp" [class.searchbar-expanded]="shouldShowSubmit">
-      <!-- Keyword search input -->
+    <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)" [class.searchbar-connect]="isConnectApp" [class.searchbar-groups]="!isConnectApp" [class.searchbar-expanded]="shouldShowSubmit">
       <div class="input-group">
-        <div class="search-input input-transparent">
-            <input type="search"
-                    class="form-control"
-                    id="search-bar-input"
-                    [(ngModel)]="state.searchBarText"
-                    [ngModelOptions]="{standalone: true}"
-                    (keyup)="searchKeyUp()"
-                    placeholder={{placeholderTextForSearchBar}}
-                    (focus)="showLocationBar(true)"
-                    (keydown)="showLocationBar(true)">
+          <!-- Keyword search input -->
+        <div class="keyword-input">
+          <input type="search"
+                  class="form-control"
+                  id="search-bar-input"
+                  [(ngModel)]="state.searchBarText"
+                  [ngModelOptions]="{standalone: true}"
+                  (keyup)="searchKeyUp()"
+                  placeholder={{placeholderTextForSearchBar}}
+                  (focus)="showLocationBar(true)"
+                  (keydown)="showLocationBar(true)">
           <div class="searchbar-wrapper"></div>
 
           <!-- Clear keyword search -->
-          <span class="addon-btn" [hidden]="isSearchClearHidden" [class.addon-offset]="appSettings.isSmallGroupApp() && !shouldShowSubmit">
+          <span class="addon-btn" [hidden]="isSearchClearHidden">
             <button type="button" role="button" (click)="resetSearchInput($event)">
               <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="/assets/svgs/icons.svg#close-thin" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
@@ -27,7 +27,7 @@
           <div *ngIf="appSettings.isSmallGroupApp()" class="input-separator search-desktop"></div>
 
           <!-- Filter icon button (mobile) -->
-          <span class="addon-btn search-mobile" *ngIf="appSettings.isSmallGroupApp() && !shouldShowSubmit">
+          <span class="filter-btn addon-btn" *ngIf="appSettings.isSmallGroupApp() && !shouldShowSubmit">
             <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
               <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="/assets/svgs/icons.svg#equalizer" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
@@ -36,10 +36,10 @@
           </span>
         </div>
 
-        <app-location-bar (submit)="onSearch(state.searchBarText)" [hidden]="!shouldShowSubmit" class="force-show-desktop"></app-location-bar>
+        <app-location-bar (submit)="onSearch(state.searchBarText)" [class.closed]="!shouldShowSubmit" class="location-input mobile-push-half-ends"></app-location-bar>
 
         <!-- Filter icon button (desktop) -->
-        <span class="addon-btn search-desktop force-show-desktop">
+        <span class="addon-btn filter-btn">
           <button type="button" role="button" (click)="openFilter()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
             <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
               <use xlink:href="/assets/svgs/icons.svg#equalizer" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
@@ -48,7 +48,7 @@
         </span>
 
         <!-- Search icon button (desktop) -->
-        <span class="input-group-btn" [class.search-desktop]="!isConnectApp">
+        <span class="search-btn">
           <button type="submit" class="btn btn-secondary">
             <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
               <use xlink:href="/assets/svgs/icons.svg#search" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
@@ -58,14 +58,14 @@
       </div>
 
       <!-- Map/list toggle button -->
-      <div [class.search-desktop]="shouldShowSubmit">
+      <div class="map-list-btn">
         <button type="button" class="btn btn-link btn-toggle flush-ends hard-sides push-half-left text-white" id="toggleListView" (click)="toggleView()">
           {{state.viewButtonText}}
         </button>
       </div>
 
       <!-- Mobile searchbar buttons -->
-      <div class="submit-btns search-mobile" *ngIf="shouldShowSubmit">
+      <div class="mobile-btn-group" *ngIf="shouldShowSubmit">
         <button type="submit" class="btn btn-secondary" id="searchBtn">
           Search
         </button>
