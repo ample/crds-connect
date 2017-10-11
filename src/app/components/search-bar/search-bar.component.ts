@@ -152,7 +152,10 @@ export class SearchBarComponent implements OnChanges, OnInit {
         return;
       }
     }
-    document.getElementById('search-bar-input').blur();
+    const el = document.getElementById('search-bar-input');
+    if (el) {
+      el.blur();
+    }
     this.showLocationBar(false);
   }
 
