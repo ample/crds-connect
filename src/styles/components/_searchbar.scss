@@ -16,7 +16,9 @@ app-filters {
   .searchbar-connect {
     .keyword-input {
       display: flex;
-      flex: 1 1 auto;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
     }
 
     .location-input {
@@ -24,21 +26,28 @@ app-filters {
     }
 
     .searchbar-wrapper {
-      width: calc(100% - 55px);
+      width: calc(100% - 64px);
     }
 
 
     .search-btn {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: auto;
+      width: 68px;
+
       .btn {
         height: 42px;
         line-height: 1;
         margin-top: 0;
         margin-bottom: 0;
+        width: 100%;
       }
     }
 
     .input-group {
       justify-content: space-between;
+      position: relative;
     }
   }
 
@@ -54,11 +63,17 @@ app-filters {
     .input-group {
       display: flex;
       flex-direction: column;
-      flex: 1 1 auto;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
+      justify-content: space-between;
+      position: relative;
 
       @media screen and (min-width: $screen-sm) {
         flex-direction: row;
-        flex: 1 1 0;
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 0%;
       }
 
       // Desktop filter btn
@@ -67,6 +82,7 @@ app-filters {
 
         @media screen and (min-width: $screen-sm) {
           display: inline-block;
+          min-width: 1px;
         }
       }
     }
@@ -85,10 +101,13 @@ app-filters {
 
     .keyword-input,
     .location-input {
-      flex: 1 1 auto;
+      min-width: 1px;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
 
       @media screen and (min-width: $screen-sm) {
-        flex: 1 1 0;
+        flex-basis: 0%;
       }
     }
 
@@ -120,7 +139,7 @@ app-filters {
       width: 100%;
 
       @media screen and (min-width: $screen-sm) {
-        width: calc(100% - 55px);
+        width: calc(100% - 64px);
       }
     }
 
@@ -130,15 +149,20 @@ app-filters {
 
     .search-btn {
       display: none;
+      width: 68px;
 
       @media screen and (min-width: $screen-sm) {
         display: inline-block;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
 
         .btn {
           height: 42px;
           line-height: 1;
           margin-top: 0;
           margin-bottom: 0;
+          width: 100%;
         }
       }
     }
