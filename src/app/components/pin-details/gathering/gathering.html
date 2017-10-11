@@ -42,7 +42,7 @@
       <!--below we are hiding the edit button for groups detail page because that story is not finished.-->
       <button class="btn btn-secondary" *ngIf="isLeader && app.isConnectApp()" (click)="edit()">Edit</button>
 
-      <div *ngIf="pin.pinType !== pinType.SMALL_GROUP && !isInGathering">
+      <div *ngIf="pin.pinType === pinType.PERSON && !isInGathering">
         <button class="btn btn-secondary btn-block-mobile" (click)="requestToJoin()">Connect to gathering</button>
         <say-hi [isGathering]="true" [isLoggedIn]="isLoggedIn" [user]="user" [pin]="pin" [buttonText]="sayHiButtonText"></say-hi>
       </div>
