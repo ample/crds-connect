@@ -1,10 +1,5 @@
 <form [formGroup]="locationFormGroup" (ngSubmit)="onSubmit()">
-  <div class="input-group search-input input-group-block input-group-left search-location">
-    <span class="input-group-addon search-mobile">
-      <svg class="icon" viewBox="0 0 256 256">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/svgs/icons.svg#map-marker"></use>
-      </svg>
-    </span>
+  <div class="input-group">
     <input class="form-control"
            name="location"
            placeholder="City, state or zip code"
