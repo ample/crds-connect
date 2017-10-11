@@ -13,7 +13,7 @@ import { IPService } from '../../services/ip.service';
 import { ListEntryComponent } from '../../components/list-entry/list-entry.component';
 import { ListFooterComponent } from '../../components/list-footer/list-footer.component';
 import { ListViewComponent } from '../../components/list-view/list-view.component';
-import { LocationService } from '../../services/location.service';
+import { GeoLocationService } from '../../services/geo-location.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { MapComponent } from '../../components/map/map.component';
 import { MapContentComponent } from '../../components/map-content/map-content.component';

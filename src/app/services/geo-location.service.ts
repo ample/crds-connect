@@ -1,16 +1,23 @@
+import { MapView } from '../models/index';
+import { StateService } from './state.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { crdsOakleyCoords } from '../shared/constants';
+import { crdsOakleyCoords, centerOfTheUsCoords } from '../shared/constants';
 import { GeoCoordinates } from '../models/geo-coordinates';
 
 
 @Injectable()
-export class LocationService {
-  constructor() {}
+export class GeoLocationService {
+  private wholeUsZoomLevel: number = 5;
+  constructor(private state: StateService) {}
 
-  public getCurrentPosition(): Observable<any> {
-    const positionObs = new Observable( observer => {
+  public getCurrentPosition(): Observable<GeoCoordinates> {
+    const positionObs = new Observable<GeoCoordinates>( observer => {
+      // If no input in 15s don't wait
+      window.setTimeout(() => {
+        observer.error();
+      }, 15000);
       const isGeoLocationAvailable: boolean = Boolean(navigator.geolocation);
       if (isGeoLocationAvailable) {
         this.getPositionFromGeoLocation()
@@ -30,8 +37,8 @@ export class LocationService {
     return positionObs;
   }
 
-  public getPositionFromGeoLocation(): Observable<any> {
-    const geoLocationObservable: Observable<any> = new Observable( observer => {
+  public getPositionFromGeoLocation(): Observable<GeoCoordinates> {
+    const geoLocationObservable: Observable<GeoCoordinates> = new Observable( observer => {
       let position: GeoCoordinates;
 
       navigator.geolocation.getCurrentPosition(pos => {
@@ -48,7 +55,8 @@ export class LocationService {
   }
 
   public getDefaultPosition(): GeoCoordinates {
-    return new GeoCoordinates(crdsOakleyCoords.lat, crdsOakleyCoords.lng);
+    this.state.setUseZoom(this.wholeUsZoomLevel);
+    return new GeoCoordinates(centerOfTheUsCoords.lat, centerOfTheUsCoords.lng);
   }
 
 }

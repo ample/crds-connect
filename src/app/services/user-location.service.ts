@@ -2,21 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { CacheableService, CacheLevel } from './base-service/cacheable.service';
-
 import { IPService } from './ip.service';
-import { GeoCoordinates } from '../models/geo-coordinates';
-import { GoogleMapService } from '../services/google-map.service';
-import { LocationService } from './location.service';
+import { GeoCoordinates, User } from '../models';
+import { GeoLocationService } from './geo-location.service';
 import { SessionService } from './session.service';
-import { StateService } from './state.service';
 
 @Injectable()
 export class UserLocationService extends CacheableService<GeoCoordinates> {
   constructor(private ipService: IPService,
-    private location: LocationService,
-    private session: SessionService,
-    private mapHlpr: GoogleMapService,
-    private state: StateService) {
+    private geoLocation: GeoLocationService,
+    private session: SessionService) {
     super();
   }
 
@@ -24,127 +19,67 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     super.clearCache();
   }
 
-  public GetUserLocation(): Observable<any> {
-    let locObs = new Observable(observer => {
-      if (this.session.isLoggedIn()) {
-        let contactid: number = this.session.getContactId();
-        this.getUserLocationFromUserId(contactid)
-        .subscribe(
-          success => {
-            observer.next(success);
-          },
-          failure => {
-            this.getUserLocationFromCurrentLocation()
-            .subscribe(
-              location => {
-                observer.next(location);
-              },
-              error => {
-                observer.next(this.getUserLocationFromDefault());
-              }
-            );
-          }
-        );
-      } else {
-        this.getUserLocationFromCurrentLocation()
-        .subscribe(
-          success => {
-            observer.next(success);
-          },
-          failure => {
-            this.getUserLocationFromIp()
-            .subscribe(
-              ipLocPos => {
-                observer.next(ipLocPos);
-              },
-              error => {
-                observer.next(this.getUserLocationFromDefault());
-              }
-            );
-          }
-        );
+  /* Gets the location for the center of the map. Should be subscribed to only with the first().subscribe option. Only successes are returned until the default loc */
+  public GetUserLocation(): Observable<GeoCoordinates> {
+    const contactId: number = this.session.getContactId();
+    if (this.isCachedForUser(contactId)) {
+      return Observable.of(this.getCache());
+    } else {
+      return this.getLocationFromGeolocation(contactId)
+        .concat(this.getLocationByContactId(contactId))
+        .concat(this.getUserLocationFromIpAddress(contactId))
+        .catch(err => Observable.of(this.getUserLocationFromDefault()));
+    }
+  }
+
+  private getLocationFromGeolocation(contactId: number): Observable<GeoCoordinates> {
+    return this.geoLocation.getCurrentPosition().onErrorResumeNext().map(
+      (cords: GeoCoordinates) => {
+        if (cords.lat == null || cords.lng == null) {
+          Observable.throw('No lat lng returned');
+        } else {
+          const pos = new GeoCoordinates(cords.lat, cords.lng);
+          this.setLocalCache(pos, contactId);
+          return pos;
+        }
       }
-    });
-
-    return locObs;
+    );
   }
 
-  private getUserLocationFromUserId(contactId: number): Observable<any> {
-    let profileObs = new Observable(observer => {
-      let position: GeoCoordinates;
-
-      this.session.getUserDetailsByContactId(contactId).subscribe(
-        success => {
-          position = new GeoCoordinates(success.address.latitude, success.address.longitude);
-          super.setCache(position, CacheLevel.Full, contactId);
-          observer.next(position);
-        },
-        failure => {
-          observer.error();
-        }
-      );
-
-    });
-    return profileObs;
+  private getUserLocationFromIpAddress(contactId: number): Observable<GeoCoordinates> {
+    return this.ipService.getLocationFromIP().map(
+      (cords: any) => {
+        const pos = new GeoCoordinates(cords.latitude, cords.longitude);
+        this.setLocalCache(pos, contactId);
+        return pos;
+      }
+    );
   }
 
-  private getUserLocationFromIp(): Observable<any> {
-    let contactId = this.session.getContactId();
-    let ipObs = new Observable(observer => {
-      let position: GeoCoordinates;
-
-      this.ipService.getLocationFromIP().subscribe(
-        location => {
-          position = new GeoCoordinates(location.latitude, location.longitude);
-          super.setCache(position, CacheLevel.Full, contactId);
-          observer.next(position);
-        },
-        error => {
-          observer.error();
+  private getLocationByContactId(contactId: number): Observable<GeoCoordinates> {
+    if (contactId) {
+      return this.session.getUserDetailsByContactId(contactId).onErrorResumeNext().map(
+        (userData: User) => {
+          const pos = new GeoCoordinates(userData.address.latitude, userData.address.longitude);
+          this.setLocalCache(pos, contactId);
+          return pos;
         }
       );
-    });
-    return ipObs;
+    } else {
+      return Observable.throw('No contact Id').onErrorResumeNext();
+    }
+  }
+
+  /* If there is no cache set this sets the cache. */
+  private setLocalCache(coords: GeoCoordinates, contactId: number) {
+    if (!this.getCache()) {
+      super.setCache(coords, CacheLevel.Full, contactId);
+    }
   }
 
   private getUserLocationFromDefault(): GeoCoordinates {
-    let position = this.location.getDefaultPosition();
+    const position = this.geoLocation.getDefaultPosition();
     super.setCache(position, CacheLevel.Full);
     return position;
-  }
-
-  private getUserLocationFromCurrentLocation(): Observable<any> {
-    let contactId = this.session.getContactId();
-    let locObs = new Observable(observer => {
-      // On FF, user is not allowed time to allow/block location detection
-      // assumption is block and IP detection is used
-      // REMOVED previous fix with 15 sec timeout to accomodate FF
-
-      let position: GeoCoordinates;
-
-      this.location.getCurrentPosition().subscribe(
-        location => {
-          this.mapHlpr.setDidUserAllowGeoLoc(true);
-          if (location.lat == null || location.lng == null) {
-            observer.error();
-          } else {
-            position = new GeoCoordinates(location.lat, location.lng);
-            super.setCache(position, CacheLevel.Full, contactId);
-            observer.next(position);
-          }
-        },
-        error => {
-          this.mapHlpr.setDidUserAllowGeoLoc(true);
-          observer.error();
-        }
-      );
-
-    });
-
-    return locObs;
-  }
-
-  public clearUserLocationCache(): void {
-    super.clearCache();
   }
 }

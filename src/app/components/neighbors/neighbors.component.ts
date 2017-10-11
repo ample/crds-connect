@@ -78,23 +78,10 @@ export class NeighborsComponent implements OnInit, OnDestroy {
   }
 
   private processAndDisplaySearchResults(searchLocationString, searchKeywordString, lat, lng, filterString): void {
-    // TODO: We can probably move these next three calls to be in pin service directly. But will cause more refactoring
-    // this.pinSearchResults.pinSearchResults = this.pinService.addNewPinToResultsIfNotUpdatedInAwsYet(
-    //   this.pinSearchResults.pinSearchResults
-    // );
-
-    // this.pinSearchResults.pinSearchResults = this.pinService.ensureUpdatedPinAddressIsDisplayed(
-    //   this.pinSearchResults.pinSearchResults
-    // );
-
+    // TODO: We can probably move these next three calls to be in pin service directly.
     this.pinSearchResults.pinSearchResults = this.pinCollectionProcessingService.sortPinsAndRemoveDuplicates(
       this.pinSearchResults.pinSearchResults
     );
-
-    // this.pinSearchResults.pinSearchResults = this.pinService.removePinFromResultsIfDeleted(
-    //   this.pinSearchResults.pinSearchResults,
-    //   this.state.getDeletedPinIdentifier()
-    // );
 
     this.state.setLoading(false);
 
@@ -203,7 +190,8 @@ export class NeighborsComponent implements OnInit, OnDestroy {
       filter
     );
 
-    this.userLocationService.GetUserLocation().subscribe(pos => {
+    // first is used because we only care about the first successful location from this obs
+    this.userLocationService.GetUserLocation().first().subscribe(pos => {
       if (!this.state.isMapViewSet()) {
         let initialMapView: MapView = new MapView('', pos.lat, pos.lng, initialMapZoom);
         this.state.setMapView(initialMapView);

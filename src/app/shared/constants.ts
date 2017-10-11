@@ -1,3 +1,4 @@
+import { GeoCoordinates } from '../models/index';
 import { environment } from '../../environments/environment';
 export const ApplicationUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
 
@@ -161,6 +162,11 @@ export const SmallGroupTypeId: number = 1;
 export const crdsOakleyCoords: any = {
   lat: 39.159398,
   lng: -84.423367
+};
+
+export const centerOfTheUsCoords: GeoCoordinates = {
+  lat: 39.8283,
+  lng: -98.5795
 };
 
 export const earthsRadiusInMiles: number = 3443.9;

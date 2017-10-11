@@ -20,9 +20,9 @@ import { LoginRedirectService } from '../../services/login-redirect.service';
 import { CookieService, CookieOptions } from 'ngx-cookie';
 import { PinLabelService } from '../../services/pin-label.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LocationService } from '../../services/location.service';
+import { GeoLocationService } from '../../services/geo-location.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
-import { PinService}  from '../../services/pin.service';
+import { PinService} from '../../services/pin.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { MapSettings } from '../../models/map-settings';
 import { IPService } from '../../services/ip.service';
@@ -52,7 +52,7 @@ describe('Component: Map', () => {
   beforeEach(() => {
         mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['constructor']);
         mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['constructor']);
-        mockLocationService = jasmine.createSpyObj<LocationService>('locationService', ['constructor']);
+        mockLocationService = jasmine.createSpyObj<GeoLocationService>('locationService', ['constructor']);
         mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['constructor']);
         mockPinService = jasmine.createSpyObj<PinService>('pinService', ['constructor']);
         mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('sessionService', ['constructor']);
@@ -81,7 +81,7 @@ describe('Component: Map', () => {
       providers: [
         { provide: SiteAddressService, useValue: mockSiteAddressService },
         { provide: UserLocationService, useValue: mockUserLocationService },
-        { provide: LocationService, useValue: mockLocationService },
+        { provide: GeoLocationService, useValue: mockLocationService },
         { provide: PinLabelService, useValue: mockPinLabelService },
         { provide: PinService, useValue: mockPinService },
         { provide: GoogleMapService, useValue: mockGoogleMapService },
