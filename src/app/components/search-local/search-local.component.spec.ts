@@ -11,7 +11,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { GoogleMapService } from '../../services/google-map.service';
 import { IPService } from '../../services/ip.service';
-import { LocationService } from '../../services/location.service';
+import { GeoLocationService } from '../../services/geo-location.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { NeighborsHelperService } from '../../services/neighbors-helper.service';
 import { PinLabelService } from '../../services/pin-label.service';
@@ -60,7 +60,7 @@ describe('Component: SearchLocal', () => {
     mockAnaltyics = jasmine.createSpyObj<AnalyticsService>('analytics', ['updateResultsPressed']);
     mockSiteAddressService = jasmine.createSpyObj<SiteAddressService>('siteAddressService', ['']);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
-    mockLocationService = jasmine.createSpyObj<LocationService>('locationService', ['getCurrentPosition']);
+    mockLocationService = jasmine.createSpyObj<GeoLocationService>('locationService', ['getCurrentPosition']);
     mockPinService = jasmine.createSpyObj<PinService>('pinService', ['getPinSearchResults']);
     mockPinLabelService = jasmine.createSpyObj<PinLabelService>('pinLabelService', ['constructor']);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('googleMapService', ['constructor', 'setDidUserAllowGeoLoc']);
@@ -93,7 +93,7 @@ describe('Component: SearchLocal', () => {
       ],
       providers: [
         { provide: UserLocationService, useValue: mockUserLocationService },
-        { provide: LocationService, useValue: mockLocationService },
+        { provide: GeoLocationService, useValue: mockLocationService },
         { provide: PinLabelService, useValue: mockPinLabelService },
         { provide: PinService, useValue: mockPinService },
         { provide: SiteAddressService, useValue: mockSiteAddressService },

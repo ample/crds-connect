@@ -117,7 +117,7 @@ import { SiteAddressService } from './services/site-address.service';
 import { GoogleMapService } from './services/google-map.service';
 import { GroupInquiryService } from './services/group-inquiry.service';
 import { IPService } from './services/ip.service';
-import { LocationService } from './services/location.service';
+import { GeoLocationService } from './services/geo-location.service';
 import { LoginRedirectService } from './services/login-redirect.service';
 import { LookupService } from './services/lookup.service';
 import { MiscellaneousService } from './services/miscellaneous-service';
@@ -278,10 +278,10 @@ import { RouterModule } from '@angular/router';
     GroupLeaderApprovedGuard,
     Angulartics2GoogleAnalytics,
     Angulartics2Segment,
+    GeoLocationService,
     GroupInquiryService,
     ListHelperService,
     LoginRedirectService,
-    LocationService,
     LoggedInGuard,
     LookupService,
     MiscellaneousService,

@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
-import { LocationService } from '../../services/location.service';
+import { GeoLocationService } from '../../services/geo-location.service';
 import { LookupTable } from '../../models/lookup-table';
 import { Pin, pinType } from '../../models/pin';
 import { MapView } from '../../models/map-view';
