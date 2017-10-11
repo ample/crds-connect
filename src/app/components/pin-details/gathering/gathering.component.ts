@@ -49,6 +49,7 @@ export class GatheringComponent implements OnInit {
   public isInGathering: boolean = false;
   public isLeader: boolean = false;
   public isInGroupApp: boolean;
+  public isInConnectApp: boolean;
   public sayHiButtonText: string = 'Contact host';
   public descriptionToDisplay: string;
   public ready = false;
@@ -86,6 +87,7 @@ export class GatheringComponent implements OnInit {
 
       this.approveOrDisapproveTrialMember();
 
+      this.isInConnectApp = this.app.isConnectApp();
       this.isInGroupApp = this.app.isSmallGroupApp();
       const pageTitleOnHeader: string = this.app.isConnectApp() ? 'Gathering' : 'Group';
       this.state.setPageHeader(pageTitleOnHeader, '/');
