@@ -41,12 +41,8 @@ describe('HostApplicationComponent', () => {
     userData = MockTestData.getADetailedUserData();
 
     TestBed.configureTestingModule({
-      declarations: [
-        HostApplicationComponent
-      ],
-      imports: [
-        RouterTestingModule.withRoutes([])
-      ],
+      declarations: [HostApplicationComponent],
+      imports: [RouterTestingModule.withRoutes([])],
       providers: [
         { provide: ContentService, useValue: mockContentService },
         { provide: Location, useValue: mockLocationService },
@@ -61,10 +57,11 @@ describe('HostApplicationComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(HostApplicationComponent);
-      comp = fixture.componentInstance;
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(HostApplicationComponent);
+        comp = fixture.componentInstance;
 
     });
   }));

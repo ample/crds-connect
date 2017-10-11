@@ -10,7 +10,8 @@
     "start": "./node_modules/.bin/ng serve",
     "build-local": "./node_modules/.bin/ng build --watch --aot true",
     "start-local": "./node_modules/.bin/ng serve",
-    "build": "./node_modules/.bin/ng build --environment $CRDS_ENV --prod --build-optimizer --output-hashing=none --aot true",
+    "build":
+      "./node_modules/.bin/ng build --environment $CRDS_ENV --prod --build-optimizer --output-hashing=none --aot true",
     "test": "./node_modules/.bin/ng test --reporters teamcity --single-run --code-coverage",
     "test-watch": "./node_modules/.bin/ng test",
     "test-coverage": "./node_modules/.bin/ng test --code-coverage --single-run",

@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { AppSettingsService } from '../../../../services/app-settings.service';
 import { ContentService } from 'crds-ng2-content-block';
-import { PinService } from '../../../../services/pin.service';
+import { GroupInquiryService } from '../../../../services/group-inquiry.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { ParticipantService } from '../../../../services/participant.service';
 import { StateService } from '../../../../services/state.service';
@@ -19,7 +19,6 @@ import { GroupRole } from '../../../../shared/constants';
   selector: 'add-someone',
   templateUrl: './add-someone.html'
 })
-
 export class AddSomeoneComponent implements OnInit {
   @Input() gatheringId: number;
   @Input() participantId: number;
@@ -31,13 +30,15 @@ export class AddSomeoneComponent implements OnInit {
   public matchFound: boolean = false;
   public useSelectedButtonDisabled: boolean = true;
 
-  constructor(private pinService: PinService,
+  constructor(
+    private groupInquiryService: GroupInquiryService,
     private blandPageService: BlandPageService,
     private state: StateService,
     private toast: ToastsManager,
     private content: ContentService,
     private appSettings: AppSettingsService,
-    private participantService: ParticipantService) { }
+    private participantService: ParticipantService
+  ) {}
 
   ngOnInit() {
     this.addFormGroup = new FormGroup({
@@ -59,7 +60,7 @@ export class AddSomeoneComponent implements OnInit {
     this.addToGroup(this.selectedMatch);
   }
 
-  public onSubmit({ value, valid }: { value: any, valid: boolean }) {
+  public onSubmit({ value, valid }: { value: any; valid: boolean }) {
     this.isFormSubmitted = true;
     this.matchFound = false;
     if (valid) {
@@ -67,11 +68,11 @@ export class AddSomeoneComponent implements OnInit {
       this.selectedMatch = someone;
       this.state.setLoading(true);
       // get matches
-      this.pinService.getMatch(someone).subscribe(
+      this.groupInquiryService.getMatch(someone).subscribe(
         isMatchFound => {
           // display the fauxdal so the user can decide
           this.state.setLoading(false);
-          isMatchFound === true ? this.matchFound = true : this.matchFound = false;
+          isMatchFound === true ? (this.matchFound = true) : (this.matchFound = false);
           this.selectedMatch = someone;
           this.showResultsFauxdal();
         },
@@ -86,14 +87,16 @@ export class AddSomeoneComponent implements OnInit {
   addToGroup(someone: Person) {
     // add someone to the group
     window.scrollTo(0, 0);
-    this.pinService.addToGroup(this.gatheringId, someone, GroupRole.MEMBER).subscribe(
+    this.groupInquiryService.addToGroup(this.gatheringId, someone, GroupRole.MEMBER).subscribe(
       success => {
         this.participantService.clearGroupFromCache(this.gatheringId);
         const bpd = new BlandPageDetails(
           'Return to my group',
           '<h1 class="title">Your group is growing!</h1>' +
-          // tslint:disable-next-line:max-line-length
-          `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
+            // tslint:disable-next-line:max-line-length
+            `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname
+              .slice(1)
+              .toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
           BlandPageType.Text,
           BlandPageCause.Success,
           `gathering/${this.gatheringId}`
@@ -117,5 +120,4 @@ export class AddSomeoneComponent implements OnInit {
     document.querySelector('body').style.overflowY = 'auto';
     this.showFauxdal = false;
   }
-
 }

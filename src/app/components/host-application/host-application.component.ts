@@ -20,7 +20,6 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   templateUrl: 'host-application.component.html'
 })
 export class HostApplicationComponent implements OnInit, AfterViewInit {
-
   public userData: DetailedUserData;
   public hostForm: FormGroup;
   public homeAddress: Address;
@@ -52,7 +51,6 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
       gatheringDescriptionPlaceholder = this.stripHtmlPipe.transform(message.content);
     });
 
-
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
       contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]),
@@ -74,7 +72,7 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onSubmit({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
+  public onSubmit({ value, valid }: { value: HostApplicatonForm; valid: boolean }) {
     this.isFormSubmitted = true;
     if (valid) {
       this.state.setLoading(true);
@@ -86,9 +84,10 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     const dto: HostRequestDto = this.convertFormToDto(formData, this.userData.contactId);
 
     this.session.postHostApplication(dto).subscribe(
-      (success) => {
+      success => {
         this.router.navigate(['/host-next-steps']);
-      }, (err) => {
+      },
+      err => {
         this.state.setLoading(false);
         this.handleError(err);
       }
@@ -99,8 +98,9 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     const isDuplicateGatheringAddress: boolean = err.status === 406;
     // TODO: Content blocks?
     if (isDuplicateGatheringAddress) {
-      this.toast.error('You cannot host another gathering at the same location. ' +
-        'Please change the address and try again!');
+      this.toast.error(
+        'You cannot host another gathering at the same location. ' + 'Please change the address and try again!'
+      );
     } else {
       this.toast.error('An error occurred, please try again later.');
     }

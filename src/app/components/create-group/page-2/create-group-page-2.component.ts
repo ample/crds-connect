@@ -5,7 +5,7 @@ import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagi
 
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../create-group-data.service';
-import { GroupService } from '../../../services/group.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 
@@ -15,16 +15,20 @@ import * as moment from 'moment';
 
 import {
   meetingFrequencies,
-  groupMeetingScheduleType, GroupMeetingScheduleType,
-  GroupPaths, groupPaths, GroupPageNumber,
-  textConstants, daysOfWeekList
+  groupMeetingScheduleType,
+  GroupMeetingScheduleType,
+  GroupPaths,
+  groupPaths,
+  GroupPageNumber,
+  textConstants,
+  daysOfWeekList
 } from '../../../shared/constants';
-
 
 @Component({
   selector: 'create-group-page-2',
   templateUrl: './create-group-page-2.component.html',
-  styles: [`
+  styles: [
+    `
     form > div:nth-child(2) .row div:last-child {
       white-space: normal;
       text-align: left;
@@ -34,7 +38,8 @@ import {
         text-align: right;
       }
     }
-  `]
+  `
+  ]
 })
 export class CreateGroupPage2Component implements OnInit {
   public date: Date;
@@ -44,21 +49,26 @@ export class CreateGroupPage2Component implements OnInit {
   private daysOfTheWeek: LookupTable[] = [];
   private meetingFrequencies = meetingFrequencies;
 
-  constructor(private fb: FormBuilder,
-              private state: StateService,
-              public createGroupService: CreateGroupService,
-              private groupService: GroupService,
-              private router: Router,
-              private lookupService: LookupService,
-              private blandPageService: BlandPageService) { }
+  constructor(
+    private fb: FormBuilder,
+    private state: StateService,
+    public createGroupService: CreateGroupService,
+    private groupInquiryService: GroupInquiryService,
+    private router: Router,
+    private lookupService: LookupService,
+    private blandPageService: BlandPageService
+  ) {}
 
   ngOnInit() {
-    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-      : textConstants.GROUP_PAGE_HEADERS.ADD;
+    const pageHeader =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? textConstants.GROUP_PAGE_HEADERS.EDIT
+        : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
-      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-1`
-      : '/create-group/page-1';
+    const headerBackRoute: string =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-1`
+        : '/create-group/page-1';
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
@@ -68,22 +78,28 @@ export class CreateGroupPage2Component implements OnInit {
     this.meetingTimeForm = this.setRequiredFormFields(this.meetingTimeForm, this.createGroupService.meetingTimeType);
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
 
-    if (this.state.getActiveGroupPath() === groupPaths.EDIT
-      && !this.createGroupService.wasPagePresetWithExistingData.page2) {
+    if (
+      this.state.getActiveGroupPath() === groupPaths.EDIT &&
+      !this.createGroupService.wasPagePresetWithExistingData.page2
+    ) {
       this.setFieldsFromExistingGroup();
       this.createGroupService.wasPagePresetWithExistingData.page2 = true;
     }
 
-    this.lookupService.getDaysOfTheWeek()
+    this.lookupService
+      .getDaysOfTheWeek()
       .finally(() => {
         this.state.setLoading(false);
       })
-      .subscribe(days => {
-        this.daysOfTheWeek = days;
-      }, err => {
-        console.log(err);
-        this.blandPageService.goToDefaultError('/');
-      });
+      .subscribe(
+        days => {
+          this.daysOfTheWeek = days;
+        },
+        err => {
+          console.log(err);
+          this.blandPageService.goToDefaultError('/');
+        }
+      );
   }
 
   public setupDate() {
@@ -94,7 +110,6 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   public onClick(scheduleType: string): void {
-
     this.createGroupService.meetingTimeType = scheduleType;
 
     if (scheduleType === groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE) {
@@ -104,11 +119,14 @@ export class CreateGroupPage2Component implements OnInit {
     }
 
     this.meetingTimeForm = this.updateValueAndValidityOfAllFields(this.meetingTimeForm);
-
   }
 
   public onBack(): void {
-    this.groupService.navigateInGroupFlow(GroupPageNumber.ONE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    this.createGroupService.navigateInGroupFlow(
+      GroupPageNumber.ONE,
+      this.state.getActiveGroupPath(),
+      this.createGroupService.group.groupId
+    );
   }
 
   public onSubmit(form: FormGroup) {
@@ -118,13 +136,19 @@ export class CreateGroupPage2Component implements OnInit {
       if (this.createGroupService.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
         this.createGroupService.group = this.clearGroupMeetingDay(this.createGroupService.group);
       }
-      const newDate = moment.utc(this.date).hours(this.date.getHours()).minutes(this.date.getMinutes());
+      const newDate = moment
+        .utc(this.date)
+        .hours(this.date.getHours())
+        .minutes(this.date.getMinutes());
       this.createGroupService.group.meetingTime = newDate.toISOString();
 
-      this.groupService.navigateInGroupFlow(GroupPageNumber.THREE, this.state.getActiveGroupPath(),
-        this.createGroupService.group.groupId);
+      this.createGroupService.navigateInGroupFlow(
+        GroupPageNumber.THREE,
+        this.state.getActiveGroupPath(),
+        this.createGroupService.group.groupId
+      );
     } else {
-      Object.keys(form.controls).forEach((name) => {
+      Object.keys(form.controls).forEach(name => {
         form.controls[name].markAsTouched();
       });
       this.state.setLoading(false);
@@ -181,7 +205,7 @@ export class CreateGroupPage2Component implements OnInit {
   }
 
   private onFrequencyChange(value): void {
-    const frequency = this.meetingFrequencies.find((freq) => {
+    const frequency = this.meetingFrequencies.find(freq => {
       return freq.meetingFrequencyId === +value;
     });
     this.createGroupService.group.meetingFrequency = frequency.meetingFrequencyDesc;
@@ -193,13 +217,15 @@ export class CreateGroupPage2Component implements OnInit {
     if (isGroupOnFlexibleScedule) {
       this.onClick(groupMeetingScheduleType.FLEXIBLE);
     } else {
-      this.createGroupService.group.meetingFrequencyId =
-        +this.createGroupService.groupBeingEdited['meetingFrequencyID'];
-      this.createGroupService.group.meetingFrequency = meetingFrequencies
-        .filter(mf => mf.meetingFrequencyId === +this.createGroupService.groupBeingEdited['meetingFrequencyID'])
-      [0].meetingFrequencyDesc;
+      this.createGroupService.group.meetingFrequencyId = +this.createGroupService.groupBeingEdited[
+        'meetingFrequencyID'
+      ];
+      this.createGroupService.group.meetingFrequency = meetingFrequencies.filter(
+        mf => mf.meetingFrequencyId === +this.createGroupService.groupBeingEdited['meetingFrequencyID']
+      )[0].meetingFrequencyDesc;
 
-      this.createGroupService.group.meetingDay = daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
+      this.createGroupService.group.meetingDay =
+        daysOfWeekList[this.createGroupService.groupBeingEdited.meetingDayId - 1];
       this.createGroupService.group.meetingDayId = this.createGroupService.groupBeingEdited.meetingDayId;
     }
   }
@@ -210,5 +236,4 @@ export class CreateGroupPage2Component implements OnInit {
 
     return group;
   }
-
 }
