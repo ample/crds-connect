@@ -19,6 +19,7 @@ export class UserLocationService extends CacheableService<GeoCoordinates> {
     super.clearCache();
   }
 
+  /* Gets the location for the center of the map. Should be subscribed to only with the first().subscribe option. Only successes are returned until the default loc */
   public GetUserLocation(): Observable<GeoCoordinates> {
     const contactId: number = this.session.getContactId();
     if (this.isCachedForUser(contactId)) {
