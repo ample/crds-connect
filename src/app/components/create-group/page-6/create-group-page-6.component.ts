@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { GroupService } from '../../../services/group.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { LookupTable } from '../../../models';
 import { StateService } from '../../../services/state.service';
@@ -12,48 +12,46 @@ import { CreateGroupService } from '../create-group-data.service';
 import { LookupService } from '../../../services/lookup.service';
 import { usStatesList } from '../../../shared/constants';
 
-import {
-  GroupPaths, groupPaths, GroupPageNumber,
-  textConstants
-} from '../../../shared/constants';
+import { GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 @Component({
   selector: 'create-group-page-6',
-  templateUrl: './create-group-page-6.component.html',
+  templateUrl: './create-group-page-6.component.html'
 })
 export class CreateGroupPage6Component implements OnInit {
   public profileForm: FormGroup;
-  public isComponentReady: boolean = false;
-  public isSubmitted: boolean = false;
   private sites: LookupTable[] = [];
+  public isComponentReady: boolean = false;
+  private isSubmitted: boolean = false;
   private groupVisabilityInvalid: boolean = false;
   private stateList: Array<string>;
   private lastPage = '/create-group/page-5';
 
-  constructor(private blandPageService: BlandPageService,
+  constructor(
+    private blandPageService: BlandPageService,
     private fb: FormBuilder,
-    private groupService: GroupService,
     private state: StateService,
     public createGroupService: CreateGroupService,
     private router: Router,
-    private lookupService: LookupService) { }
+    private lookupService: LookupService
+  ) {}
 
   ngOnInit(): void {
-    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-      : textConstants.GROUP_PAGE_HEADERS.ADD;
+    const pageHeader =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? textConstants.GROUP_PAGE_HEADERS.EDIT
+        : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
-      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
-      : '/create-group/page-5';
+    const headerBackRoute: string =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-5`
+        : '/create-group/page-5';
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.stateList = usStatesList;
-    Observable.forkJoin(
-      this.lookupService.getSites(),
-      this.createGroupService.initializePageSix()
-    )
-      .subscribe(dataArray => {
+    Observable.forkJoin(this.lookupService.getSites(), this.createGroupService.initializePageSix()).subscribe(
+      dataArray => {
         this.sites = dataArray[0];
         this.profileForm = this.fb.group({
           crossroadsSite: [null, Validators.required],
@@ -66,10 +64,12 @@ export class CreateGroupPage6Component implements OnInit {
         });
         this.isComponentReady = true;
         this.state.setLoading(false);
-      }, error => {
+      },
+      error => {
         console.log(error);
         this.blandPageService.goToDefaultError(this.lastPage);
-      });
+      }
+    );
   }
 
   public onSubmit(form: FormGroup): void {
@@ -84,7 +84,7 @@ export class CreateGroupPage6Component implements OnInit {
         this.router.navigate(['/create-group/preview']);
       }
     } else {
-      Object.keys(form.controls).forEach((name) => {
+      Object.keys(form.controls).forEach(name => {
         form.controls[name].markAsTouched();
       });
       this.groupVisabilityInvalid = true;
@@ -93,6 +93,10 @@ export class CreateGroupPage6Component implements OnInit {
   }
 
   public onBack(): void {
-    this.groupService.navigateInGroupFlow(GroupPageNumber.FIVE, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    this.createGroupService.navigateInGroupFlow(
+      GroupPageNumber.FIVE,
+      this.state.getActiveGroupPath(),
+      this.createGroupService.group.groupId
+    );
   }
 }

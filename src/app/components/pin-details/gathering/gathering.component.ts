@@ -2,7 +2,16 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
-import { Address, BlandPageDetails, BlandPageType, BlandPageCause, Participant, Pin, pinType, User } from '../../../models';
+import {
+  Address,
+  BlandPageDetails,
+  BlandPageType,
+  BlandPageCause,
+  Participant,
+  Pin,
+  pinType,
+  User
+} from '../../../models';
 
 import { AddressService } from '../../../services/address.service';
 import { AppSettingsService } from '../../../services/app-settings.service';
@@ -10,9 +19,9 @@ import { AnalyticsService } from '../../../services/analytics.service';
 import { BlandPageService } from '../../../services/bland-page.service';
 import { CreateGroupService } from '../../create-group/create-group-data.service';
 import { ContentService } from 'crds-ng2-content-block';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LoginRedirectService } from '../../../services/login-redirect.service';
 import { MiscellaneousService } from '../../../services/miscellaneous-service';
-import { PinService } from '../../../services/pin.service';
 import { SessionService } from '../../../services/session.service';
 import { StateService } from '../../../services/state.service';
 import { ParticipantService } from '../../../services/participant.service';
@@ -49,12 +58,13 @@ export class GatheringComponent implements OnInit {
   private participantEmails: string[];
   private pinType: any = pinType;
 
-  constructor(private app: AppSettingsService,
+  constructor(
+    private app: AppSettingsService,
     private session: SessionService,
-    private pinService: PinService,
     private router: Router,
     private loginRedirectService: LoginRedirectService,
     private blandPageService: BlandPageService,
+    private groupInquiryService: GroupInquiryService,
     private createGroupService: CreateGroupService,
     private state: StateService,
     private participantService: ParticipantService,
@@ -64,8 +74,8 @@ export class GatheringComponent implements OnInit {
     private miscellaneousService: MiscellaneousService,
     private content: ContentService,
     private analtyics: AnalyticsService,
-    public appSettingsService: AppSettingsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit() {
     if (!this.previewMode) {
@@ -101,71 +111,78 @@ export class GatheringComponent implements OnInit {
   public getParticipants(forceRefresh: boolean) {
     this.participantService.getParticipants(this.pin.gathering.groupId, forceRefresh).subscribe(
       participants => {
-        this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe((leaders) => {
+        this.participantService.getAllLeaders(this.pin.gathering.groupId).subscribe(leaders => {
           this.leaders = leaders;
         });
         this.pin.gathering.Participants = participants;
         this.participantEmails = participants.map(p => p.email);
 
-        this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(
-          role => {
-            const isInGroup: boolean = role !== GroupRole.NONE;
-            if (isInGroup) {
-              this.isInGathering = true;
-              this.isLeader = role === GroupRole.LEADER;
+        this.participantService.getCurrentUserGroupRole(this.pin.gathering.groupId).subscribe(role => {
+          let isInGroup: boolean = role !== GroupRole.NONE;
+          if (isInGroup) {
+            this.isInGathering = true;
+            this.isLeader = role === GroupRole.LEADER;
 
-              this.addressService.getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
-                .finally(() => {
-                  this.state.setLoading(false);
-                  this.ready = true;
-                })
-                .subscribe(
+            this.addressService
+              .getFullAddress(this.pin.gathering.groupId, pinType.GATHERING)
+              .finally(() => {
+                this.state.setLoading(false);
+                this.ready = true;
+              })
+              .subscribe(
                 address => {
                   this.pin.gathering.address = address;
                 },
                 error => {
-                  this.content.getContent('errorRetrievingFullAddress').subscribe(message => this.toast.error(message.content));
+                  this.content
+                    .getContent('errorRetrievingFullAddress')
+                    .subscribe(message => this.toast.error(message.content));
                 }
-                );
-            } else {
-              // Not a participant of this group.
-              this.state.setLoading(false);
-              this.ready = true;
-            }
-            this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
-          });
+              );
+          } else {
+            // Not a participant of this group.
+            this.state.setLoading(false);
+            this.ready = true;
+          }
+          this.adjustedLeaderNames = this.getAdjustedLeaderNames(this.leaders, isInGroup);
+        });
       },
       failure => {
         console.log('Could not get participants');
         this.blandPageService.goToDefaultError('');
-      });
+      }
+    );
   }
 
   public approveOrDisapproveTrialMember() {
-    const approved: boolean = (this.route.snapshot.params['approved'] === 'true');
+    const approved: boolean = this.route.snapshot.params['approved'] === 'true';
     const trialMemberId: string = this.route.snapshot.params['trialMemberId'];
 
     const baseUrl = environment.CRDS_GATEWAY_CLIENT_ENDPOINT;
 
     if (approved !== undefined && trialMemberId) {
-      this.session.post(`${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`, null)
+      this.session
+        .post(
+          `${baseUrl}api/v1.0.0/finder/pin/tryagroup/${this.pin.gathering.groupId}/${approved}/${trialMemberId}`,
+          null
+        )
         .subscribe(
-        success => {
-          this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
-          if (approved) {
-            this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
-          }
-          this.getParticipants(true);
-        },
-        failure => {
-          if (failure.status === HttpStatusCodes.CONFLICT) {
-            this.trialMemberApprovalMessage = 'This member has already been approved or denied';
-          } else {
-            this.trialMemberApprovalMessage = 'Error approving trial member';
-          }
+          success => {
+            this.trialMemberApprovalMessage = approved ? 'Trial member was approved' : 'Trial member was disapproved';
+            if (approved) {
+              this.participantService.clearGroupFromCache(this.pin.gathering.groupId);
+            }
+            this.getParticipants(true);
+          },
+          failure => {
+            if (failure.status === HttpStatusCodes.CONFLICT) {
+              this.trialMemberApprovalMessage = 'This member has already been approved or denied';
+            } else {
+              this.trialMemberApprovalMessage = 'Error approving trial member';
+            }
 
-          this.trialMemberApprovalError = true;
-        }
+            this.trialMemberApprovalError = true;
+          }
         );
     }
   }
@@ -185,10 +202,12 @@ export class GatheringComponent implements OnInit {
   }
 
   public showSocial(): boolean {
-    return (this.app.isSmallGroupApp()
-          && (!(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD)))
-          && this.isPublicGroup())
-          || this.app.isConnectApp();
+    return (
+      (this.app.isSmallGroupApp() &&
+        !(window.location.href.includes(groupPaths.EDIT) || window.location.href.includes(groupPaths.ADD)) &&
+        this.isPublicGroup()) ||
+      this.app.isConnectApp()
+    );
   }
 
   public isPublicGroup(): boolean {
@@ -205,27 +224,32 @@ export class GatheringComponent implements OnInit {
 
   public requestToJoin() {
     const isConnectApp = this.app.isConnectApp();
-    const successBodyContentBlock: string = isConnectApp ? 'finderGatheringJoinRequestSent' : 'finderGroupJoinRequestSent';
+    const successBodyContentBlock: string = isConnectApp
+      ? 'finderGatheringJoinRequestSent'
+      : 'finderGroupJoinRequestSent';
 
-    (isConnectApp) ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
+    isConnectApp ? this.analtyics.joinGathering() : this.analtyics.joinGroup();
 
     if (this.session.isLoggedIn()) {
       this.state.setLoading(true);
-      this.pinService.requestToJoinGathering(this.pin.gathering.groupId)
-        .subscribe(
+      this.groupInquiryService.requestToJoinGathering(this.pin.gathering.groupId).subscribe(
         success => {
-          this.blandPageService.primeAndGo(new BlandPageDetails(
-            'Return to map',
-            successBodyContentBlock,
-            BlandPageType.ContentBlock,
-            BlandPageCause.Success,
-            ''
-          ));
+          this.blandPageService.primeAndGo(
+            new BlandPageDetails(
+              'Return to map',
+              successBodyContentBlock,
+              BlandPageType.ContentBlock,
+              BlandPageCause.Success,
+              ''
+            )
+          );
         },
         failure => {
           this.state.setLoading(false);
           if (failure.status === 409) {
-            this.content.getContent('finderAlreadyRequestedJoin').subscribe(message => this.toast.warning(message.content));
+            this.content
+              .getContent('finderAlreadyRequestedJoin')
+              .subscribe(message => this.toast.warning(message.content));
           } else if (failure.status === 406) {
             // Already in group...do nothing.
           } else {
@@ -236,7 +260,7 @@ export class GatheringComponent implements OnInit {
             this.loginRedirectService.redirectToTarget();
           }
         }
-        );
+      );
     } else {
       this.loginRedirectService.redirectToLogin(this.router.routerState.snapshot.url, this.requestToJoin);
     }
@@ -250,12 +274,15 @@ export class GatheringComponent implements OnInit {
     if (this.doDisplayFullDesc === true || this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails) {
       return this.pin.gathering.groupDescription;
     } else {
-      return this.listHelperService.truncateTextEllipsis(this.pin.gathering.groupDescription, groupDescriptionLengthDetails);
+      return this.listHelperService.truncateTextEllipsis(
+        this.pin.gathering.groupDescription,
+        groupDescriptionLengthDetails
+      );
     }
   }
 
   public displayFullDesc(): boolean {
-    return (this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails) ? true : false;
+    return this.pin.gathering.groupDescription.length < groupDescriptionLengthDetails ? true : false;
   }
 
   public expandGroupDescription(): void {
@@ -285,8 +312,10 @@ export class GatheringComponent implements OnInit {
 
   private getAdjustedLeaderNames(leaders: Participant[], isUserParticipant: boolean): string[] {
     const adjustedLeaderNames: string[] = [];
-    leaders.forEach((leader) => {
-      const adjustedName: string = isUserParticipant ? `${leader.nickName} ${leader.lastName}` : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
+    leaders.forEach(leader => {
+      const adjustedName: string = isUserParticipant
+        ? `${leader.nickName} ${leader.lastName}`
+        : `${leader.nickName} ${leader.lastName.slice(0, 1)}.`;
       adjustedLeaderNames.push(adjustedName);
     });
     return adjustedLeaderNames;

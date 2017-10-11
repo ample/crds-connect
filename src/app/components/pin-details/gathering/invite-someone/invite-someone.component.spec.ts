@@ -8,7 +8,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { InviteSomeoneComponent } from './invite-someone.component';
 
 import { ContentService } from 'crds-ng2-content-block';
-import { PinService } from '../../../../services/pin.service';
+import { GroupInquiryService } from '../../../../services/group-inquiry.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 import { AppSettingsService } from '../../../../services/app-settings.service';
@@ -21,28 +21,33 @@ describe('InviteSomeoneComponent', () => {
   let comp: InviteSomeoneComponent;
   let el;
 
-  let mockContentService, mockFormBuilder, mockRouter, mockPinService, mockBlandPageService, mockStateService, mockToast, mockAppSettings;
+  let mockContentService,
+    mockFormBuilder,
+    mockRouter,
+    mockGroupInquiryService,
+    mockBlandPageService,
+    mockStateService,
+    mockToast,
+    mockAppSettings;
 
   beforeEach(() => {
     mockAppSettings = jasmine.createSpyObj<AppSettingsService>('app', ['setAppSettings', 'isConnectApp']);
     mockAppSettings.finderType = 'CONNECT';
     mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['inviteToGroup']);
+    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupInquiryService', ['inviteToGroup']);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
     mockContentService = jasmine.createSpyObj<ContentService>('content', ['getContent']);
 
     TestBed.configureTestingModule({
-      declarations: [
-        InviteSomeoneComponent
-      ],
+      declarations: [InviteSomeoneComponent],
       providers: [
-        { provide: AppSettingsService, useValue: mockAppSettings },
-        { provide: Router, useValue: mockRouter },
         { provide: FormBuilder, useValue: mockFormBuilder },
-        { provide: PinService, useValue: mockPinService },
+        { provide: Router, useValue: mockRouter },
+        { provide: AppSettingsService, useValue: mockAppSettings },
+        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: StateService, useValue: mockStateService },
         { provide: ToastsManager, useValue: mockToast },
@@ -52,12 +57,14 @@ describe('InviteSomeoneComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(InviteSomeoneComponent);
-      comp = fixture.componentInstance;
-    });
-  }));
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(InviteSomeoneComponent);
+        comp = fixture.componentInstance;
+      });
+    })
+  );
 
   it('component should exist', () => {
     expect(comp).toBeTruthy();
@@ -80,21 +87,23 @@ describe('InviteSomeoneComponent', () => {
     const blandPageDetails = new BlandPageDetails(
       'Return to my pin',
       '<h1 class="title">Invitation Sent</h1>' +
-      // tslint:disable-next-line:max-line-length
-      `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
+        // tslint:disable-next-line:max-line-length
+        `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname
+          .slice(1)
+          .toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been notified.</p>`,
       BlandPageType.Text,
       BlandPageCause.Success,
       `gathering/${gatheringId}`
     );
 
-    mockPinService.inviteToGroup.and.returnValue(Observable.of({}));
+    mockGroupInquiryService.inviteToGroup.and.returnValue(Observable.of({}));
     comp.gatheringId = gatheringId;
     comp.participantId = participantId;
 
     comp.onSubmit(param);
 
     expect(mockStateService.setLoading).toHaveBeenCalledWith(true);
-    expect(mockPinService.inviteToGroup).toHaveBeenCalledWith(gatheringId, someone, 'CONNECT');
+    expect(mockGroupInquiryService.inviteToGroup).toHaveBeenCalledWith(gatheringId, someone, 'CONNECT');
     expect(mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
   });
 
@@ -109,15 +118,14 @@ describe('InviteSomeoneComponent', () => {
     mockContentService.getContent.and.returnValue(Observable.of({ content: expectedText }));
     mockAppSettings.finderType = 'CONNECT';
 
-    mockPinService.inviteToGroup.and.returnValue(Observable.throw({}));
+    mockGroupInquiryService.inviteToGroup.and.returnValue(Observable.throw({}));
     comp.gatheringId = gatheringId;
     comp.participantId = participantId;
 
     comp.onSubmit(param);
 
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
-    expect(mockPinService.inviteToGroup).toHaveBeenCalledWith(gatheringId, someone, 'CONNECT');
+    expect(mockGroupInquiryService.inviteToGroup).toHaveBeenCalledWith(gatheringId, someone, 'CONNECT');
     expect(mockToast.error).toHaveBeenCalledWith(expectedText);
   });
-
 });

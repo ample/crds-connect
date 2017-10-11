@@ -4,13 +4,7 @@ import { AppSettingsService } from '../../services/app-settings.service';
 import { BlandPageService } from '../../services/bland-page.service';
 import { ContentBlockModule } from 'crds-ng2-content-block';
 import { FormsModule } from '@angular/forms';
-import {
-  GeoCoordinates,
-  Pin,
-  PinSearchRequestParams,
-  PinSearchResultsDto,
-  SearchOptions
-  } from '../../models';
+import { GeoCoordinates, Pin, PinSearchRequestParams, PinSearchResultsDto, SearchOptions } from '../../models';
 import { GoogleMapService } from '../../services/google-map.service';
 import { Http, RequestOptions, Response } from '@angular/http';
 import { HttpModule } from '@angular/http';
@@ -47,7 +41,7 @@ import { BlandPageComponent } from '../bland-page/bland-page.component';
 import { BlandPageCause, BlandPageDetails, BlandPageType } from '../../models/bland-page-details';
 import { PinIdentifier } from '../../models/pin-identifier';
 import { pinType } from '../../models/pin';
-
+import { PinCollectionProcessingService } from '../../services/pin-collection-processing.service';
 
 describe('Component: Neighbors', () => {
   let mockAppSettingsService,
@@ -60,46 +54,76 @@ describe('Component: Neighbors', () => {
     mockRouter,
     mockFilterService,
     mockBlandService,
+    mockPinCollectionProcessingService,
     subject;
 
   beforeEach(() => {
     subject = new Subject();
-    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp', 'routeToNotFoundPage']);
-    mockPinService = jasmine.createSpyObj<PinService>('pinService',
-                                                      ['getPinSearchResults', 'reSortBasedOnCenterCoords',
-                                                       'addNewPinToResultsIfNotUpdatedInAwsYet', 'ensureUpdatedPinAddressIsDisplayed',
-                                                       'sortPinsAndRemoveDuplicates', 'removePinFromResultsIfDeleted', 'buildPinSearchRequest']);
+    mockAppSettingsService = jasmine.createSpyObj<AppSettingsService>('appSettings', [
+      'isConnectApp',
+      'isSmallGroupApp',
+      'routeToNotFoundPage'
+    ]);
+    mockPinService = jasmine.createSpyObj<PinService>('pinService', [
+      'getPinSearchResults',
+      'reSortBasedOnCenterCoords',
+      'sortPinsAndRemoveDuplicates',
+      'removePinFromResultsIfDeleted',
+      'buildPinSearchRequest'
+    ]);
     mockGoogleMapService = jasmine.createSpyObj<GoogleMapService>('mapHlpr', ['emitRefreshMap']);
     mockNeighborsHelperService = jasmine.createSpyObj<NeighborsHelperService>('neighborsHelperService', ['emitChange']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate', 'navigateByUrl']);
-    mockStateService = jasmine.createSpyObj<StateService>('state', ['setUseZoom', 'setLoading', 'getMyViewOrWorldView', 'getDeletedPinIdentifier',
-                                                                    'getLastSearch', 'setCurrentView', 'getCurrentView', 'setMapView', 'getMapView',
-                                                                    'setMyViewOrWorldView', 'setLastSearch', 'setlastSearchResults',
-                                                                    'isMapViewSet', 'setLastSearchSearchString']);
-    mockSearchService = jasmine.createSpyObj<SearchService>('searchService', ['navigateToListViewIfInGroupToolAndAllGroupsOnline']);
+    mockStateService = jasmine.createSpyObj<StateService>('state', [
+      'setUseZoom',
+      'setLoading',
+      'getMyViewOrWorldView',
+      'getDeletedPinIdentifier',
+      'getLastSearch',
+      'setCurrentView',
+      'getCurrentView',
+      'setMapView',
+      'getMapView',
+      'setMyViewOrWorldView',
+      'setLastSearch',
+      'setlastSearchResults',
+      'isMapViewSet',
+      'setLastSearchSearchString'
+    ]);
+    mockSearchService = jasmine.createSpyObj<SearchService>('searchService', [
+      'navigateToListViewIfInGroupToolAndAllGroupsOnline'
+    ]);
     mockUserLocationService = jasmine.createSpyObj<UserLocationService>('userLocationService', ['GetUserLocation']);
     mockPinService.pinSearchRequestEmitter = subject;
     mockFilterService = jasmine.createSpyObj<FilterService>('filterService', ['resetFilterString']);
     mockBlandService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
-
+    mockPinCollectionProcessingService = jasmine.createSpyObj<PinCollectionProcessingService>('', [
+      'reSortBasedOnCenterCoords',
+      'sortPinsAndRemoveDuplicates'
+    ]);
     mockRouter = {
-      url: '/', routerState:
-      { snapshot:
-          { url: '/'}
-      }, navigate: jasmine.createSpy('navigate'), navigateByUrl : jasmine.createSpy('navigateByUrl')
-  };
+      url: '/',
+      routerState: {
+        snapshot: { url: '/' }
+      },
+      navigate: jasmine.createSpy('navigate'),
+      navigateByUrl: jasmine.createSpy('navigateByUrl')
+    };
 
     TestBed.configureTestingModule({
       declarations: [
         NeighborsComponent,
-        MockComponent({ selector: 'app-listview', inputs: ['searchResults']}),
-        MockComponent({ selector: 'app-map', inputs: ['searchResults']}),
-        MockComponent({ selector: 'app-search-bar', inputs:  ['isMapHidden', 'isMyStuffSearch', 'viewMap', 'search']}),
+        MockComponent({ selector: 'app-listview', inputs: ['searchResults'] }),
+        MockComponent({ selector: 'app-map', inputs: ['searchResults'] }),
+        MockComponent({ selector: 'app-search-bar', inputs: ['isMapHidden', 'isMyStuffSearch', 'viewMap', 'search'] }),
         MockComponent({ selector: 'profile-picture', inputs: ['contactId', 'wrapperClass', 'imageClass'] }),
         MockComponent({ selector: 'crds-content-block', inputs: ['id'] })
       ],
       imports: [
-        RouterTestingModule.withRoutes([]), HttpModule, ReactiveFormsModule, FormsModule,
+        RouterTestingModule.withRoutes([]),
+        HttpModule,
+        ReactiveFormsModule,
+        FormsModule,
         AgmCoreModule.forRoot({
           apiKey: 'AIzaSyArKsBK97N0Wi-69x10OL7Sx57Fwlmu6Cs'
         })
@@ -111,10 +135,10 @@ describe('Component: Neighbors', () => {
         { provide: GoogleMapService, useValue: mockGoogleMapService },
         { provide: NeighborsHelperService, useValue: mockNeighborsHelperService },
         { provide: StateService, useValue: mockStateService },
-        { provide: FilterService, useValue: mockFilterService },
         { provide: AppSettingsService, useValue: mockAppSettingsService },
         { provide: Router, useValue: mockRouter },
-        { provide: BlandPageService, useValue: mockFilterService }
+        { provide: BlandPageService, useValue: mockFilterService },
+        { provide: PinCollectionProcessingService, useValue: mockPinCollectionProcessingService }
       ]
     });
     this.fixture = TestBed.createComponent(NeighborsComponent);
@@ -126,10 +150,10 @@ describe('Component: Neighbors', () => {
   });
 
   it('should init map and get new results', () => {
-    (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
-    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
-    (mockStateService.getLastSearch).and.returnValue(null);
-    (mockPinService.buildPinSearchRequest).and.returnValue(new PinSearchRequestParams(null, null, null));
+    mockUserLocationService.GetUserLocation.and.returnValue(Observable.of({ lat: 42, lng: 42 }));
+    mockStateService.getCurrentView.and.returnValue(ViewType.MAP);
+    mockStateService.getLastSearch.and.returnValue(null);
+    mockPinService.buildPinSearchRequest.and.returnValue(new PinSearchRequestParams(null, null, null));
 
     spyOn(this.component, 'doSearch');
     this.component.ngOnInit();
@@ -140,9 +164,9 @@ describe('Component: Neighbors', () => {
   });
 
   it('should doSearch when pinSearchRequestEmitter emits', () => {
-    (mockUserLocationService.GetUserLocation).and.returnValue(Observable.of( { lat: 42, lng: 42 } ));
-    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
-    (mockStateService.getLastSearch).and.returnValue(null);
+    mockUserLocationService.GetUserLocation.and.returnValue(Observable.of({ lat: 42, lng: 42 }));
+    mockStateService.getCurrentView.and.returnValue(ViewType.MAP);
+    mockStateService.getLastSearch.and.returnValue(null);
 
     spyOn(this.component, 'doSearch');
     this.component.ngOnInit();
@@ -156,41 +180,43 @@ describe('Component: Neighbors', () => {
     let mapView: MapView = new MapView('test', 42, 42, 6);
     let searchOptions: SearchOptions = new SearchOptions('searchy Search', 'filter me', null);
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
-    (mockStateService.getMapView).and.returnValue(mapView);
-    (mockStateService.getLastSearch).and.returnValue(searchOptions);
-    (mockPinService.reSortBasedOnCenterCoords).and.returnValue(searchResults.pinSearchResults.slice());
+    mockStateService.getMapView.and.returnValue(mapView);
+    mockStateService.getLastSearch.and.returnValue(searchOptions);
+    mockPinCollectionProcessingService.reSortBasedOnCenterCoords.and.returnValue(
+      searchResults.pinSearchResults.slice()
+    );
     this.component['pinSearchResults'] = searchResults;
 
     // Toggle from map to list:
-    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
+    mockStateService.getCurrentView.and.returnValue(ViewType.MAP);
     this.component.viewChanged();
     expect(mockStateService.setCurrentView).toHaveBeenCalledWith(ViewType.LIST);
     expect(mockStateService.getMapView).toHaveBeenCalled();
-    expect(mockPinService.reSortBasedOnCenterCoords).toHaveBeenCalledWith(searchResults.pinSearchResults, new GeoCoordinates(42, 42));
+    expect(mockPinCollectionProcessingService.reSortBasedOnCenterCoords).toHaveBeenCalledWith(
+      searchResults.pinSearchResults,
+      new GeoCoordinates(42, 42)
+    );
 
     // Toggle from list to map:
-    (mockStateService.getCurrentView).and.returnValue(ViewType.LIST);
+    mockStateService.getCurrentView.and.returnValue(ViewType.LIST);
     this.component.viewChanged();
     expect(mockStateService.setCurrentView).toHaveBeenCalledWith(ViewType.MAP);
-    expect(mockStateService.getMapView).toHaveBeenCalledTimes(1);               // Check that getMapView was not called again
-    expect(mockPinService.reSortBasedOnCenterCoords).toHaveBeenCalledTimes(1);  // Check that reSortBasedOnCenterCoords was not called again
+    expect(mockStateService.getMapView).toHaveBeenCalledTimes(1); // Check that getMapView was not called again
+    expect(mockPinCollectionProcessingService.reSortBasedOnCenterCoords).toHaveBeenCalledTimes(1); // Check that reSortBasedOnCenterCoords was not called again
   });
 
   it('should processAndDisplaySearchResults', () => {
     let searchResults: PinSearchResultsDto = MockTestData.getAPinSearchResults(1);
     this.component['pinSearchResults'] = searchResults;
-    (mockStateService.getDeletedPinIdentifier).and.returnValue(new PinIdentifier(pinType.PERSON, 123));
-    (mockStateService.getCurrentView).and.returnValue(ViewType.MAP);
-    (mockPinService.addNewPinToResultsIfNotUpdatedInAwsYet).and.returnValue(searchResults.pinSearchResults);
-    (mockPinService.ensureUpdatedPinAddressIsDisplayed).and.returnValue(searchResults.pinSearchResults);
-    (mockPinService.sortPinsAndRemoveDuplicates).and.returnValue(searchResults.pinSearchResults);
-    (mockPinService.removePinFromResultsIfDeleted).and.returnValue(searchResults.pinSearchResults);
+    mockStateService.getDeletedPinIdentifier.and.returnValue(new PinIdentifier(pinType.PERSON, 123));
+    mockStateService.getCurrentView.and.returnValue(ViewType.MAP);
+    mockPinCollectionProcessingService.sortPinsAndRemoveDuplicates.and.returnValue(searchResults.pinSearchResults);
     spyOn(this.component, 'navigateAwayIfNecessary');
 
     this.component.processAndDisplaySearchResults('Searchy Search', 42, 42);
-    expect(mockPinService.addNewPinToResultsIfNotUpdatedInAwsYet).toHaveBeenCalledWith(searchResults.pinSearchResults);
-    expect(mockPinService.ensureUpdatedPinAddressIsDisplayed).toHaveBeenCalledWith(searchResults.pinSearchResults);
-    expect(mockPinService.sortPinsAndRemoveDuplicates).toHaveBeenCalledWith(searchResults.pinSearchResults);
+    expect(mockPinCollectionProcessingService.sortPinsAndRemoveDuplicates).toHaveBeenCalledWith(
+      searchResults.pinSearchResults
+    );
     expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
     expect(mockNeighborsHelperService.emitChange).toHaveBeenCalledTimes(1);
     expect(mockGoogleMapService.emitRefreshMap).toHaveBeenCalledTimes(1);
@@ -199,7 +225,7 @@ describe('Component: Neighbors', () => {
 
   it('shouldNavigateAway to no results page if pinsearch results is zero and on world map', () => {
     this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
-    (mockStateService.getMyViewOrWorldView).and.returnValue('world');
+    mockStateService.getMyViewOrWorldView.and.returnValue('world');
     spyOn(this.component, 'goToNoResultsPage');
 
     this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
@@ -211,8 +237,8 @@ describe('Component: Neighbors', () => {
 
   it('should navigate to add me to the map if in connect mode and my stuff mode and no search results', () => {
     this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
-    (mockStateService.getMyViewOrWorldView).and.returnValue('my');
-    (mockAppSettingsService.isConnectApp).and.returnValue(true);
+    mockStateService.getMyViewOrWorldView.and.returnValue('my');
+    mockAppSettingsService.isConnectApp.and.returnValue(true);
     this.component['state'].myStuffActive = true;
 
     this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
@@ -226,8 +252,8 @@ describe('Component: Neighbors', () => {
 
   it('should navigate to stuff-not-found when in my stuff mode and group mode and no results', () => {
     this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
-    (mockStateService.getMyViewOrWorldView).and.returnValue('my');
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    mockStateService.getMyViewOrWorldView.and.returnValue('my');
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(true);
     this.component['state'].myStuffActive = true;
 
     this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
@@ -237,13 +263,12 @@ describe('Component: Neighbors', () => {
     expect(mockStateService.setMyViewOrWorldView).toHaveBeenCalledWith('world');
     expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
     expect(this.component['state'].myStuffActive).toBe(false);
-
   });
 
   it('should navigate to groups-not-found when in my groups and no results', () => {
     this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
-    (mockStateService.getMyViewOrWorldView).and.returnValue('my');
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    mockStateService.getMyViewOrWorldView.and.returnValue('my');
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(true);
     this.component['state'].myStuffActive = true;
 
     this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
@@ -251,64 +276,71 @@ describe('Component: Neighbors', () => {
     expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
     expect(mockRouter.navigate).toBeTruthy(['groups-not-found']);
     expect(this.component['state'].myStuffActive).toBe(false);
-
   });
 
- it('should navigate to connections-not-found when in my connections and no results', () => {
-   this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
-   (mockStateService.getMyViewOrWorldView).and.returnValue('my');
-   (mockAppSettingsService.isSmallGroupApp).and.returnValue(false);
-   this.component['state'].myStuffActive = true;
+  it('should navigate to connections-not-found when in my connections and no results', () => {
+    this.component['pinSearchResults'] = new PinSearchResultsDto(new GeoCoordinates(12, 32), []);
+    mockStateService.getMyViewOrWorldView.and.returnValue('my');
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(false);
+    this.component['state'].myStuffActive = true;
 
-   this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
+    this.component.navigateAwayIfNecessary('searchySearch', 12, 32);
 
-   expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
-   expect(mockRouter.navigate).toBeTruthy(['connections-not-found']);
-   expect(this.component['state'].myStuffActive).toBe(false);
-
+    expect(mockAppSettingsService.routeToNotFoundPage).toHaveBeenCalled();
+    expect(mockRouter.navigate).toBeTruthy(['connections-not-found']);
+    expect(this.component['state'].myStuffActive).toBe(false);
   });
 
   it('should set last search if results > 1 and everything is awesome (with lat / lng)', () => {
     this.component['pinSearchResults'] = MockTestData.getAPinSearchResults(10);
-    (mockStateService.getMyViewOrWorldView).and.returnValue('world');
-    (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', undefined, null));
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    mockStateService.getMyViewOrWorldView.and.returnValue('world');
+    mockStateService.getLastSearch.and.returnValue(new SearchOptions('words', undefined, null));
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(true);
     this.component['state'].myStuffActive = false;
 
     this.component.navigateAwayIfNecessary(null, 'keywordSearchString', 12, 32, undefined);
-    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', undefined, null));
+    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(
+      new SearchOptions('keywordSearchString', undefined, null)
+    );
   });
 
   it('should set last search if results > 1 and everything is awesome (without lat / lng)', () => {
     this.component['pinSearchResults'] = MockTestData.getAPinSearchResults(10);
-    (mockStateService.getMyViewOrWorldView).and.returnValue('world');
-    (mockStateService.getLastSearch).and.returnValue(new SearchOptions('words', undefined, null));
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    mockStateService.getMyViewOrWorldView.and.returnValue('world');
+    mockStateService.getLastSearch.and.returnValue(new SearchOptions('words', undefined, null));
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(true);
     this.component['state'].myStuffActive = false;
 
-    this.component.navigateAwayIfNecessary(null, 'keywordSearchString',  null, undefined);
-    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(new SearchOptions('keywordSearchString', undefined, null));
-
+    this.component.navigateAwayIfNecessary(null, 'keywordSearchString', null, undefined);
+    expect(mockStateService.setLastSearch).toHaveBeenCalledWith(
+      new SearchOptions('keywordSearchString', undefined, null)
+    );
   });
 
   it('should do search', () => {
     let results = MockTestData.getAPinSearchResults(5);
-    (mockPinService.getPinSearchResults).and.returnValue(Observable.of(results));
-    (mockAppSettingsService.isSmallGroupApp).and.returnValue(true);
+    mockPinService.getPinSearchResults.and.returnValue(Observable.of(results));
+    mockAppSettingsService.isSmallGroupApp.and.returnValue(true);
     spyOn(this.component, 'processAndDisplaySearchResults');
     this.component['state'].lastSearch = new SearchOptions('words', null, null);
 
     this.component.doSearch(new PinSearchRequestParams(null, 'keywordSearchString', null));
-    expect(this.component.processAndDisplaySearchResults).toHaveBeenCalledWith(null, 'keywordSearchString', results.centerLocation.lat, results.centerLocation.lng, null);
+    expect(this.component.processAndDisplaySearchResults).toHaveBeenCalledWith(
+      null,
+      'keywordSearchString',
+      results.centerLocation.lat,
+      results.centerLocation.lng,
+      null
+    );
     expect(this.component['pinSearchResults']).toBe(results);
     expect(this.component['state'].lastSearch.search).toBe('keywordSearchString');
   });
 
   it('doSearch should handle error and go to error page', () => {
     spyOn(this.component, 'goToErrorPage');
-    (mockPinService.getPinSearchResults).and.returnValue(Observable.throw({error: 'oh noes'}));
-    (mockAppSettingsService.isConnectApp).and.returnValue(true);
-    (mockBlandService.primeAndGo).and.returnValue(true);
+    mockPinService.getPinSearchResults.and.returnValue(Observable.throw({ error: 'oh noes' }));
+    mockAppSettingsService.isConnectApp.and.returnValue(true);
+    mockBlandService.primeAndGo.and.returnValue(true);
     this.component['state'].lastSearch = new SearchOptions('words', 'filter me', null);
 
     this.component.doSearch(new PinSearchRequestParams('new words', null, null));

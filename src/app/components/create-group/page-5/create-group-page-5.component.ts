@@ -2,14 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { GroupService } from '../../../services/group.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 
-import {
-  GroupPaths, groupPaths, GroupPageNumber,
-  textConstants
-} from '../../../shared/constants';
+import { GroupPaths, groupPaths, GroupPageNumber, textConstants } from '../../../shared/constants';
 
 @Component({
   selector: 'create-group-page-5',
@@ -21,25 +18,32 @@ export class CreateGroupPage5Component implements OnInit {
   public isComponentReady: boolean = false;
   public isSubmitted: boolean = false;
 
-  constructor(private fb: FormBuilder,
-    private groupService: GroupService,
+  constructor(
+    private fb: FormBuilder,
     private state: StateService,
     public createGroupService: CreateGroupService,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-      : textConstants.GROUP_PAGE_HEADERS.ADD;
+    const pageHeader =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? textConstants.GROUP_PAGE_HEADERS.EDIT
+        : textConstants.GROUP_PAGE_HEADERS.ADD;
 
-    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
-      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-4`
-      : '/create-group/page-4';
+    const headerBackRoute: string =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-4`
+        : '/create-group/page-4';
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
     this.groupDetailsForm = this.fb.group({
       groupName: [this.createGroupService.group.groupName, [Validators.required, Validators.maxLength(35)]],
-      groupDescription: [this.createGroupService.group.groupDescription, [Validators.required, Validators.maxLength(500)]],
+      groupDescription: [
+        this.createGroupService.group.groupDescription,
+        [Validators.required, Validators.maxLength(500)]
+      ],
       availableOnline: [this.createGroupService.group.availableOnline, Validators.required]
     });
 
@@ -54,9 +58,13 @@ export class CreateGroupPage5Component implements OnInit {
     this.state.setLoading(true);
     this.isSubmitted = true;
     if (form.valid && this.createGroupService.group.availableOnline != null) {
-      this.groupService.navigateInGroupFlow(GroupPageNumber.SIX, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+      this.createGroupService.navigateInGroupFlow(
+        GroupPageNumber.SIX,
+        this.state.getActiveGroupPath(),
+        this.createGroupService.group.groupId
+      );
     } else {
-      Object.keys(form.controls).forEach((name) => {
+      Object.keys(form.controls).forEach(name => {
         form.controls[name].markAsTouched();
       });
       this.state.setLoading(false);
@@ -64,6 +72,10 @@ export class CreateGroupPage5Component implements OnInit {
   }
 
   public onBack(): void {
-    this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    this.createGroupService.navigateInGroupFlow(
+      GroupPageNumber.FOUR,
+      this.state.getActiveGroupPath(),
+      this.createGroupService.group.groupId
+    );
   }
 }

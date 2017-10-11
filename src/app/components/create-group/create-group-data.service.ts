@@ -8,10 +8,22 @@ import { LookupService } from '../../services/lookup.service';
 import { ProfileService } from '../../services/profile.service';
 import { SessionService } from '../../services/session.service';
 import { ParticipantService } from '../../services/participant.service';
-import { attributeTypes, GroupPageNumber, GroupRole, groupMeetingScheduleType } from '../../shared/constants';
-import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
+
+import {
+  attributeTypes,
+  GroupPageNumber,
+  GroupRole,
+  groupMeetingScheduleType,
+  GroupPaths,
+  groupPaths
+} from '../../shared/constants';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { UtcTimeFormatPipe } from '../../pipes/utc-time-format.pipe';
+
+import { Router, ActivatedRoute } from '@angular/router';
+
+import {} from '../../shared/constants';
 
 @Injectable()
 export class CreateGroupService {
@@ -29,11 +41,14 @@ export class CreateGroupService {
   public selectedGroupGenderMix: Attribute = Attribute.constructor_create_group();
   public selectedAgeRanges: Attribute[] = [];
 
-  constructor(private lookupService: LookupService,
+  constructor(
+    private lookupService: LookupService,
     private session: SessionService,
     private profileService: ProfileService,
     private participantService: ParticipantService,
-    private utcTimePipe: UtcTimeFormatPipe) {
+    private router: Router,
+    private utcTimePipe: UtcTimeFormatPipe
+  ) {
     this.wasPagePresetWithExistingData = new GroupEditPresetTracker();
   }
 
@@ -45,17 +60,16 @@ export class CreateGroupService {
     this.group.availableOnline = this.groupBeingEdited.availableOnline;
     this.group.primaryContactId = this.groupBeingEdited.contactId;
     this.group.contactId = this.groupBeingEdited.contactId;
-    this.group.meetingTime =  `0001-01-01T${this.groupBeingEdited.meetingTime}Z`;
+    this.group.meetingTime = `0001-01-01T${this.groupBeingEdited.meetingTime}Z`;
   }
 
   public initializePageOne(): Observable<Category[]> {
     if (!this.pageOneInitialized) {
       this.group = Group.overload_Constructor_CreateGroup(this.session.getContactId());
-      return this.lookupService.getCategories()
-        .do((cats: Category[]) => {
-          this.categories = cats;
-          this.pageOneInitialized = true;
-        });
+      return this.lookupService.getCategories().do((cats: Category[]) => {
+        this.categories = cats;
+        this.pageOneInitialized = true;
+      });
     } else {
       return Observable.of(this.categories);
     }
@@ -63,12 +77,11 @@ export class CreateGroupService {
 
   public initializePageSix(): Observable<any> {
     if (!this.pageSixInitialized) {
-      return this.profileService.getProfileData()
-        .map((response: any) => {
-          response.congregationId = null;
-          this.profileData = response;
-          this.pageSixInitialized = true;
-        });
+      return this.profileService.getProfileData().map((response: any) => {
+        response.congregationId = null;
+        this.profileData = response;
+        this.pageSixInitialized = true;
+      });
     } else {
       return Observable.of(this.profileData);
     }
@@ -80,17 +93,17 @@ export class CreateGroupService {
   }
 
   public validateCategories(): boolean {
-    this.selectedCategories = this.categories.filter((category) => {
+    this.selectedCategories = this.categories.filter(category => {
       return category.selected === true;
     });
 
-    return (this.selectedCategories.length > 0 && this.selectedCategories.length < 3);
+    return this.selectedCategories.length > 0 && this.selectedCategories.length < 3;
   }
 
   public addSelectedCategoriesToGroupModel(): void {
     let attributes: Attribute[] = [];
 
-    this.selectedCategories.forEach((cat) => {
+    this.selectedCategories.forEach(cat => {
       attributes.push(this.createCategoryDetailAttribute(cat));
     });
 
@@ -126,14 +139,26 @@ export class CreateGroupService {
   }
 
   public getSmallGroupPinFromGroupData(): Pin {
-    let pin = new Pin(this.profileData.nickName, this.profileData.lastName, this.profileData.emailAddress, this.profileData.contactId,
-      null, this.group.address, 2, _.cloneDeep(this.group), null, pinType.SMALL_GROUP, 0, this.profileData.householdId);
+    let pin = new Pin(
+      this.profileData.nickName,
+      this.profileData.lastName,
+      this.profileData.emailAddress,
+      this.profileData.contactId,
+      null,
+      this.group.address,
+      2,
+      _.cloneDeep(this.group),
+      null,
+      pinType.SMALL_GROUP,
+      0,
+      this.profileData.householdId
+    );
 
-    this.selectedCategories.forEach((cat) => {
+    this.selectedCategories.forEach(cat => {
       pin.gathering.categories.push(`${cat.name}:${cat.categoryDetail}`);
     });
 
-    this.selectedAgeRanges.forEach((ageRange) => {
+    this.selectedAgeRanges.forEach(ageRange => {
       pin.gathering.ageRanges.push(ageRange.name);
     });
 
@@ -143,7 +168,23 @@ export class CreateGroupService {
 
   public getLeaders(): Observable<Participant[]> {
     if (this.group.groupId === 0) {
-      return Observable.of([new Participant(null, null, null, null, null, null, null, true, this.profileData.lastName, this.profileData.nickName, null, null, true)]);
+      return Observable.of([
+        new Participant(
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          true,
+          this.profileData.lastName,
+          this.profileData.nickName,
+          null,
+          null,
+          true
+        )
+      ]);
     } else {
       return this.participantService.getAllLeaders(this.group.groupId);
     }
@@ -164,10 +205,10 @@ export class CreateGroupService {
   }
 
   /*
-  * This will clear meeting day, meeting time, and meeting frequency
-  * if the group is flexible
-  * else it will format the meeting time data the way it needs to be for submission
-  */
+    * This will clear meeting day, meeting time, and meeting frequency
+    * if the group is flexible
+    * else it will format the meeting time data the way it needs to be for submission
+    */
   private formatTimesAndDates(group): void {
     if (this.meetingTimeType === groupMeetingScheduleType.FLEXIBLE) {
       group.meetingDayId = null;
@@ -178,18 +219,30 @@ export class CreateGroupService {
     }
     group.meetingTime = this.utcTimePipe.transform(this.group.meetingTime);
     const startDate = moment(group.startDate);
-    group.startDate = startDate.add(startDate.utcOffset(), 'm').utc().format();
+    group.startDate = startDate
+      .add(startDate.utcOffset(), 'm')
+      .utc()
+      .format();
 
     // set start date of categories to group start date.
-    group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].attributes.forEach((cat) => {
+    group.attributeTypes[attributeTypes.GroupCategoryAttributeTypeId].attributes.forEach(cat => {
       cat.startDate = group.startDate;
     });
   }
 
   private createCategoryDetailAttribute(category: Category): Attribute {
-    let attribute = new Attribute(0, category.categoryDetail, category.desc, category.name,
-      category.categoryId, null, 0, attributeTypes.GroupCategoryAttributeTypeId,
-      null, null);
+    let attribute = new Attribute(
+      0,
+      category.categoryDetail,
+      category.desc,
+      category.name,
+      category.categoryId,
+      null,
+      0,
+      attributeTypes.GroupCategoryAttributeTypeId,
+      null,
+      null
+    );
 
     if (category.attribute != null) {
       attribute.startDate = category.attribute.startDate;
@@ -240,4 +293,11 @@ export class CreateGroupService {
     this.meetingTimeType = groupMeetingScheduleType.SPECIFIC_TIME_AND_DATE;
   }
 
+  public navigateInGroupFlow(pageToGoTo: number, editOrCreateMode: string, groupId: number): void {
+    if (editOrCreateMode === groupPaths.ADD) {
+      this.router.navigate([`/create-group/page-${pageToGoTo}`]);
+    } else if (editOrCreateMode === groupPaths.EDIT) {
+      this.router.navigate([`/edit-group/${groupId}/page-${pageToGoTo}`]);
+    }
+  }
 }

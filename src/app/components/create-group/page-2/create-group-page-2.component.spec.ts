@@ -1,17 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validator,
-  Validators
-} from '@angular/forms';
-import {
-  TestBed,
-  async,
-  ComponentFixture,
-  inject
-} from '@angular/core/testing';
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
@@ -22,7 +11,7 @@ import { CreateGroupService } from '../create-group-data.service';
 import { CreateGroupPage2Component } from './create-group-page-2.component';
 
 import { BlandPageService } from '../../../services/bland-page.service';
-import { GroupService } from '../../../services/group.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { LookupService } from '../../../services/lookup.service';
 import { StateService } from '../../../services/state.service';
 
@@ -40,7 +29,7 @@ import {
 
 describe('CreateGroupPage2Component', () => {
   let fixture: ComponentFixture<CreateGroupPage2Component>;
-  let mockGroupService: GroupService;
+  let mockGroupInquiryService: GroupInquiryService;
   let comp: CreateGroupPage2Component;
   let el;
   let mockState, mockRouter, mockLookupService, mockBlandPageService;
@@ -59,23 +48,16 @@ describe('CreateGroupPage2Component', () => {
       'getActiveGroupPath'
     ]);
     mockCreateGroupService = jasmine.createSpyObj<CreateGroupService>('cgs', [
-      'clearMeetingTimeData'
+      'clearMeetingTimeData',
+      'navigateInGroupFlow'
     ]);
     mockCreateGroupService.meetingTimeType = 'specific';
     mockCreateGroupService.group = Group.overload_Constructor_CreateGroup(1);
     mockRouter = jasmine.createSpyObj<Router>('router', ['navigate']);
-    mockLookupService = jasmine.createSpyObj<LookupService>('lookup', [
-      'getDaysOfTheWeek'
-    ]);
-    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', [
-      'goToDefaultError'
-    ]);
-    mockLookupService.getDaysOfTheWeek.and.returnValue(
-      Observable.of(daysOfTheWeek)
-    );
-    mockGroupService = jasmine.createSpyObj<GroupService>('groupService', [
-      'navigateInGroupFlow'
-    ]);
+    mockLookupService = jasmine.createSpyObj<LookupService>('lookup', ['getDaysOfTheWeek']);
+    mockBlandPageService = jasmine.createSpyObj<BlandPageService>('bps', ['goToDefaultError']);
+    mockLookupService.getDaysOfTheWeek.and.returnValue(Observable.of(daysOfTheWeek));
+    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupService', ['navigateInGroupFlow']);
     TestBed.configureTestingModule({
       declarations: [
         CreateGroupPage2Component,
@@ -88,7 +70,7 @@ describe('CreateGroupPage2Component', () => {
       ],
       providers: [
         { provide: StateService, useValue: mockState },
-        { provide: GroupService, useValue: mockGroupService },
+        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: CreateGroupService, useValue: mockCreateGroupService },
         { provide: Router, useValue: mockRouter },
         { provide: LookupService, useValue: mockLookupService },
@@ -120,10 +102,7 @@ describe('CreateGroupPage2Component', () => {
     expect(mockLookupService.getDaysOfTheWeek).toHaveBeenCalled();
     expect(mockState.setLoading).toHaveBeenCalledTimes(1);
     expect(comp['daysOfTheWeek']).toEqual(daysOfTheWeek);
-    expect(mockState.setPageHeader).toHaveBeenCalledWith(
-      textConstants.GROUP_PAGE_HEADERS.ADD,
-      '/create-group/page-1'
-    );
+    expect(mockState.setPageHeader).toHaveBeenCalledWith(textConstants.GROUP_PAGE_HEADERS.ADD, '/create-group/page-1');
   });
 
   it('init should handle error', () => {
@@ -147,22 +126,14 @@ describe('CreateGroupPage2Component', () => {
 
   it('should go back', () => {
     comp.onBack();
-    expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(
-      1,
-      undefined,
-      0
-    );
+    expect(mockCreateGroupService.navigateInGroupFlow).toHaveBeenCalledWith(1, undefined, 0);
   });
 
   it('should submit if valid', () => {
     const form = new FormGroup({});
     comp.date = new Date();
     comp.onSubmit(form);
-    expect(mockGroupService.navigateInGroupFlow).toHaveBeenCalledWith(
-      3,
-      undefined,
-      0
-    );
+    expect(mockCreateGroupService.navigateInGroupFlow).toHaveBeenCalledWith(3, undefined, 0);
     expect(mockState.setLoading).toHaveBeenCalledTimes(1);
   });
 
@@ -177,20 +148,14 @@ describe('CreateGroupPage2Component', () => {
 
   it('should update group model when meeting frequency is selected', () => {
     comp['meetingFrequencies'] = meetingFrequencies;
-    comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(
-      1
-    );
+    comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(1);
     comp['onFrequencyChange'](2);
-    expect(comp['createGroupService'].group.meetingFrequency).toBe(
-      'Every Other Week'
-    );
+    expect(comp['createGroupService'].group.meetingFrequency).toBe('Every Other Week');
   });
 
   it('should update group model when meeting day is selected', () => {
     comp['daysOfTheWeek'] = daysOfTheWeek;
-    comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(
-      1
-    );
+    comp['createGroupService'].group = Group.overload_Constructor_CreateGroup(1);
     comp['onDayChange'](3);
     expect(comp['createGroupService'].group.meetingDay).toBe('Nope');
   });

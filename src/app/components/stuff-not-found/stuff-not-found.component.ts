@@ -3,8 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AppSettingsService } from '../../services/app-settings.service';
-import { GroupService } from '../../services/group.service';
 import { PinService } from '../../services/pin.service';
+import { ParticipantService } from '../../services/participant.service';
 
 import { appType, GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../shared/constants';
 
@@ -15,26 +15,26 @@ import { appType, GroupResourcesUrl, GroupLeaderApplicationStatus } from '../../
 export class StuffNotFoundComponent implements OnInit {
   public isApprovedLeader: boolean = false;
   public isConnectApp: boolean;
-  constructor(private state: StateService,
+  constructor(
+    private state: StateService,
     private appSettings: AppSettingsService,
-    private groupService: GroupService,
+    private participantService: ParticipantService,
     private pinService: PinService,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   public ngOnInit() {
     this.isConnectApp = this.appSettings.isConnectApp();
     this.state.setPageHeader(this.appSettings.myStuffName, '/');
     this.state.setLoading(false);
 
-    this.groupService.getLeaderStatus()
-      .subscribe(status => {
-        if (status.status === GroupLeaderApplicationStatus.APPROVED) {
-          this.isApprovedLeader = true;
-        } else {
-          this.isApprovedLeader = false;
-        }
-      });
-
+    this.participantService.getLeaderStatus().subscribe(status => {
+      if (status.status === GroupLeaderApplicationStatus.APPROVED) {
+        this.isApprovedLeader = true;
+      } else {
+        this.isApprovedLeader = false;
+      }
+    });
   }
 
   public onFindAGroupClicked(): void {
