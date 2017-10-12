@@ -49,8 +49,6 @@ export class SearchBarComponent implements OnChanges, OnInit {
       this.isMyStuffSearch = isMyStuffActive;
       this.setSearchText();
     });
-
-    this.clickListener();
   }
 
   public ngOnChanges(): void {
@@ -129,30 +127,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.showLocationBar(false);
   }
 
-  private clickListener() {
-    document.body.addEventListener('touchend', (event: any) => {
-      this.searchClick(event);
-    });
-    document.body.addEventListener('click', (event: any) => {
-      this.searchClick(event);
-    });
-  }
-
-  private searchClick(event: any) {
-    let path = [];
-    let node = event.target;
-    while (node && node !== document.body) {
-      path.push(node);
-      node = node.parentNode;
-    }
-    if (!path) { return; }
-    for (let i = 0; i < path.length; i++) {
-      const classList = path[i].classList;
-      if (classList && (classList.contains('connect-search') || classList.contains('connect-filters'))) {
-        return;
-      }
-    }
-    document.getElementById('search-bar-input').blur();
+  public hideLocationBar(): void {
     this.showLocationBar(false);
   }
 

@@ -15,7 +15,7 @@ export class GroupLeaderGuard implements CanActivate {
         let groupId = route.params['groupId'];
         return this.participantService.getCurrentUserGroupRole(groupId).map(
             userGroupRole => {
-                let redirectUrl = `/${route.url[0]}/${groupId}`;
+                let redirectUrl = `/${route.url[0]}/${groupId}`.replace('end-group', 'small-group');
                 if (userGroupRole !== GroupRole.LEADER) {
                     this.router.navigate([redirectUrl]);
                 }

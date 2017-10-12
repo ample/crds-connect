@@ -207,8 +207,10 @@ export class ParticipantService extends CacheableService<Group[]> {
         if (super.isCachedForUser(contactId)) {
           cache = super.getCache();
         }
-        cache.push(Group.overload_Constructor_One(groupId, res));
-        super.setCache(cache, CacheLevel.Partial, contactId);
+        if(res.length > 0) {
+          cache.push(Group.overload_Constructor_One(groupId, res));
+          super.setCache(cache, CacheLevel.Partial, contactId);
+        }
       })
       .catch((error: any) => Observable.throw(error || 'Server exception'));
   }

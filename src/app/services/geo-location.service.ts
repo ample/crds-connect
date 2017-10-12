@@ -1,11 +1,9 @@
-import { MapView } from '../models/index';
-import { StateService } from './state.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { crdsOakleyCoords, centerOfTheUsCoords } from '../shared/constants';
-import { GeoCoordinates } from '../models/geo-coordinates';
-
+import { GeoCoordinates, MapView } from '../models';
+import { StateService } from './state.service';
 
 @Injectable()
 export class GeoLocationService {
@@ -17,7 +15,7 @@ export class GeoLocationService {
       // If no input in 15s don't wait
       window.setTimeout(() => {
         observer.error();
-      }, 15000);
+      }, 10000);
       const isGeoLocationAvailable: boolean = Boolean(navigator.geolocation);
       if (isGeoLocationAvailable) {
         this.getPositionFromGeoLocation()
