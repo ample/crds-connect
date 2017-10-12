@@ -1,4 +1,20 @@
 <crds-content-block *ngIf="!isGathering" id="connectSayHi"></crds-content-block>
-<button class="btn btn-secondary btn-block-mobile"
-        [ngClass]="{'btn-say-hi': !isGathering}"
-        (click)="sayHi()">{{buttonText}}</button>
+
+<form novalidate [formGroup]="sayHiForm">
+  <div>
+    <!-- Reason for Participant Removal-->
+    <div class="form-group">
+      <label class="control-label push-half-bottom" for="sayHiMessage">YOUR MESSAGE (Optional):</label>
+      <textarea type="text" class="form-control" maxlength="140" placeholder="" id="sayHiMessage" formControlName="sayHiMessage"
+      name="sayHiMessage" [(ngModel)]="message" rows="2"></textarea>
+    </div>
+  </div>
+
+  <footer class="soft-top">
+    <div class="btn-group btn-block-mobile">
+      <button type="button" class="btn btn-secondary btn-block-mobile" [ngClass]="{'btn-say-hi': !isGathering}" (click)="sayHi()">{{buttonText}}</button>
+    </div>
+  </footer>
+</form>
+
+

@@ -8,7 +8,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { AddSomeoneComponent } from './add-someone.component';
 
 import { ContentService } from 'crds-ng2-content-block/src/content-block/content.service';
-import { PinService } from '../../../../services/pin.service';
+import { GroupInquiryService } from '../../../../services/group-inquiry.service';
 import { BlandPageService } from '../../../../services/bland-page.service';
 import { StateService } from '../../../../services/state.service';
 import { AppSettingsService } from '../../../../services/app-settings.service';
@@ -22,11 +22,14 @@ describe('AddSomeoneComponent', () => {
   let comp: AddSomeoneComponent;
   let el;
 
-  let mockContentService, mockPinService, mockFormBuilder, mockRouter;
+  let mockContentService, mockGroupInquiryService, mockFormBuilder, mockRouter;
   let mockBlandPageService, mockStateService, mockToast, mockAppSettings, mockParticipantService;
 
   beforeEach(() => {
-    mockPinService = jasmine.createSpyObj<PinService>('pinService', ['addToGroup', 'getMatch']);
+    mockGroupInquiryService = jasmine.createSpyObj<GroupInquiryService>('groupInquiryService', [
+      'addToGroup',
+      'getMatch'
+    ]);
     mockBlandPageService = jasmine.createSpyObj<BlandPageService>('blandPageService', ['primeAndGo']);
     mockStateService = jasmine.createSpyObj<StateService>('state', ['setLoading']);
     mockToast = jasmine.createSpyObj<ToastsManager>('toast', ['error']);
@@ -39,13 +42,10 @@ describe('AddSomeoneComponent', () => {
     mockFormBuilder = jasmine.createSpyObj<FormBuilder>('fb', ['']);
     mockRouter = jasmine.createSpyObj<Router>('router', ['']);
 
-
     TestBed.configureTestingModule({
-      declarations: [
-        AddSomeoneComponent
-      ],
+      declarations: [AddSomeoneComponent],
       providers: [
-        { provide: PinService, useValue: mockPinService },
+        { provide: GroupInquiryService, useValue: mockGroupInquiryService },
         { provide: BlandPageService, useValue: mockBlandPageService },
         { provide: StateService, useValue: mockStateService },
         { provide: ToastsManager, useValue: mockToast },
@@ -57,12 +57,14 @@ describe('AddSomeoneComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(AddSomeoneComponent);
-      comp = fixture.componentInstance;
-    });
-  }));
+  beforeEach(
+    async(() => {
+      TestBed.compileComponents().then(() => {
+        fixture = TestBed.createComponent(AddSomeoneComponent);
+        comp = fixture.componentInstance;
+      });
+    })
+  );
 
   it('AddSomeoneComponent should exist', () => {
     expect(comp).toBeTruthy();
@@ -85,21 +87,23 @@ describe('AddSomeoneComponent', () => {
     const blandPageDetails = new BlandPageDetails(
       'Return to my group',
       '<h1 class="title">Your group is growing!</h1>' +
-      // tslint:disable-next-line:max-line-length
-      `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname.slice(1).toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
+        // tslint:disable-next-line:max-line-length
+        `<p>${someone.firstname.slice(0, 1).toUpperCase()}${someone.firstname
+          .slice(1)
+          .toLowerCase()} ${someone.lastname.slice(0, 1).toUpperCase()}. has been added to your group.</p>`,
       BlandPageType.Text,
       BlandPageCause.Success,
       `gathering/${gatheringId}`
     );
     const roleId = 16;
 
-    (<jasmine.Spy>mockPinService.addToGroup).and.returnValue(Observable.of({}));
+    (<jasmine.Spy>mockGroupInquiryService.addToGroup).and.returnValue(Observable.of({}));
     comp.gatheringId = gatheringId;
     comp.participantId = participantId;
 
     comp.addToGroup(someone);
 
-    expect(<jasmine.Spy>mockPinService.addToGroup).toHaveBeenCalledWith(gatheringId, someone, roleId);
+    expect(<jasmine.Spy>mockGroupInquiryService.addToGroup).toHaveBeenCalledWith(gatheringId, someone, roleId);
     expect(<jasmine.Spy>mockBlandPageService.primeAndGo).toHaveBeenCalledWith(blandPageDetails);
   });
 
@@ -110,7 +114,7 @@ describe('AddSomeoneComponent', () => {
     let participantId = 456;
     let param = { value: someone, valid: isValid };
 
-    (<jasmine.Spy>mockPinService.getMatch).and.returnValue(Observable.of({}));
+    (<jasmine.Spy>mockGroupInquiryService.getMatch).and.returnValue(Observable.of({}));
 
     comp.gatheringId = gatheringId;
     comp.participantId = participantId;
@@ -118,7 +122,6 @@ describe('AddSomeoneComponent', () => {
     comp.onSubmit(param);
 
     expect(<jasmine.Spy>mockStateService.setLoading).toHaveBeenCalledWith(true);
-    expect(<jasmine.Spy>mockPinService.getMatch).toHaveBeenCalledWith(someone);
+    expect(<jasmine.Spy>mockGroupInquiryService.getMatch).toHaveBeenCalledWith(someone);
   });
-
 });

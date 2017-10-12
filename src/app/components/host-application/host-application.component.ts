@@ -4,16 +4,11 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastsManager } from 'ng2-toastr';
-import { LeadershipApplicationType, GroupLeaderApplicationStatus, LeaderStatus, ApplicationUrl } from '../../shared/constants';
-import { AddressService } from '../../services/address.service';
-import { AppSettingsService } from '../../services/app-settings.service';
-import { BlandPageService } from '../../services/bland-page.service';
 import { ContentService } from 'crds-ng2-content-block';
-import { GroupService } from '../../services/group.service';
-import { HostApplicationHelperService } from '../../services/host-application-helper.service';
 import { LoginRedirectService } from '../../services/login-redirect.service';
 import { SessionService } from '../../services/session.service';
 import { StateService } from '../../services/state.service';
+import { StripTagsPipe } from '../../pipes/strip-tags.pipe';
 
 import { Address } from '../../models/address';
 import { HostRequestDto } from '../../models/host-request-dto';
@@ -25,42 +20,40 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   templateUrl: 'host-application.component.html'
 })
 export class HostApplicationComponent implements OnInit, AfterViewInit {
-
   public userData: DetailedUserData;
   public hostForm: FormGroup;
   public homeAddress: Address;
   public groupAddress: Address;
+  public groupNameForGatheringAddress: string = 'groupAddress';
   public isFormSubmitted: boolean = false;
   public errorMessage: string = '';
+  public mask = [/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public isHidden = true; // temporary fix for hiding isHomeAddress checkbox
 
   constructor(
-    private addressService: AddressService,
     private content: ContentService,
-    private hlpr: HostApplicationHelperService,
     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private session: SessionService,
     private state: StateService,
-    private toast: ToastsManager
+    private toast: ToastsManager,
+    private stripHtmlPipe: StripTagsPipe
   ) { }
 
   public ngOnInit() {
     this.userData = this.route.snapshot.data['userData'];
-    const mobilePhone: string = this.hlpr.formatPhoneForUi(this.userData.mobilePhone);
+    const mobilePhone: string = this.userData.mobilePhone;
     this.homeAddress = this.userData.address;
     this.groupAddress = new Address(null, '', '', '', '', '', null, null, null, null);
     let gatheringDescriptionPlaceholder;
-    // TODO pull html sanitizer into a pipe
     this.content.getContent('defaultGatheringDesc').subscribe(message => {
-      gatheringDescriptionPlaceholder = this.hlpr.stripHtmlFromString(message.content);
+      gatheringDescriptionPlaceholder = this.stripHtmlPipe.transform(message.content);
     });
-
 
     this.hostForm = new FormGroup({
       isHomeAddress: new FormControl(true, [Validators.required]),
-      contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+      contactNumber: new FormControl(mobilePhone, [Validators.required, Validators.minLength(12), Validators.maxLength(12)]),
       gatheringDescription: new FormControl(gatheringDescriptionPlaceholder, [Validators.required, Validators.maxLength(500)])
     });
 
@@ -75,11 +68,11 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
 
   public onIsHomeAddressClicked() {
     if (!this.hostForm.value.isHomeAddress) {
-      this.addressService.emitClearGroupAddressForm();
+      this.hostForm.removeControl(this.groupNameForGatheringAddress);
     }
   }
 
-  public onSubmit({ value, valid }: { value: HostApplicatonForm, valid: boolean }) {
+  public onSubmit({ value, valid }: { value: HostApplicatonForm; valid: boolean }) {
     this.isFormSubmitted = true;
     if (valid) {
       this.state.setLoading(true);
@@ -88,12 +81,13 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
   }
 
   public submitFormToApi(formData: HostApplicatonForm) {
-    const dto: HostRequestDto = this.hlpr.convertFormToDto(formData, this.userData.contactId);
+    const dto: HostRequestDto = this.convertFormToDto(formData, this.userData.contactId);
 
     this.session.postHostApplication(dto).subscribe(
-      (success) => {
+      success => {
         this.router.navigate(['/host-next-steps']);
-      }, (err) => {
+      },
+      err => {
         this.state.setLoading(false);
         this.handleError(err);
       }
@@ -104,8 +98,9 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     const isDuplicateGatheringAddress: boolean = err.status === 406;
     // TODO: Content blocks?
     if (isDuplicateGatheringAddress) {
-      this.toast.error('You cannot host another gathering at the same location. ' +
-        'Please change the address and try again!');
+      this.toast.error(
+        'You cannot host another gathering at the same location. ' + 'Please change the address and try again!'
+      );
     } else {
       this.toast.error('An error occurred, please try again later.');
     }
@@ -114,4 +109,15 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
   public closeClick() {
     this.location.back();
   }
+
+  private convertFormToDto(hostForm: HostApplicatonForm, contactId: number): HostRequestDto {
+    const dto: HostRequestDto = new HostRequestDto(
+      contactId,
+      hostForm.isHomeAddress ? hostForm.homeAddress : hostForm.groupAddress,
+      hostForm.isHomeAddress,
+      hostForm.contactNumber,
+      hostForm.gatheringDescription
+    );
+    return dto;
+  };
 }

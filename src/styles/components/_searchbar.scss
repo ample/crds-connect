@@ -7,92 +7,202 @@ app-filters {
   }
 }
 
-.searchbar {
-  .search-mobile {
-    display: none !important;
+.finder-search {
+  ::-ms-clear {
+    display: none;
   }
 
-  .input-group > .search-input {
-    display: flex;
-    flex: 1;
+  // Connect search
+  .searchbar-connect {
+    .keyword-input {
+      display: flex;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
+    }
+
+    .location-input {
+      display: none;
+    }
+
+    .searchbar-wrapper {
+      width: calc(100% - 64px);
+    }
+
+
+    .search-btn {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: auto;
+      width: 68px;
+
+      .btn {
+        height: 42px;
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 100%;
+      }
+    }
+
+    .input-group {
+      justify-content: space-between;
+      position: relative;
+    }
   }
 
-  app-location-bar {
-    flex: 1;
-  }
+  // Groups search
+  .searchbar-groups {
+    .mobile-push-half-ends {
+      @media screen and (min-width: $screen-sm) {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
 
-  .input-separator {
-    background-color: $cr-gray-light;
-    height: 26px;
-    margin: 8px 0;
-    position: relative;
-    width: 1px;
-  }
-}
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
+      justify-content: space-between;
+      position: relative;
 
-.searchbar-groups {
-  @media screen and (max-width: $screen-sm) {
-    &.searchbar-expanded {
+      @media screen and (min-width: $screen-sm) {
+        flex-direction: row;
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 0%;
+      }
+
+      // Desktop filter btn
+      > .filter-btn {
+        display: none;
+
+        @media screen and (min-width: $screen-sm) {
+          display: inline-block;
+          min-width: 1px;
+        }
+      }
+    }
+
+    .keyword-input {
+      display: flex;
+      align-items: center;
+
+      // Mobile filter btn
+      > .filter-btn {
+        @media screen and (min-width: $screen-sm) {
+          display: none;
+        }
+      }
+    }
+
+    .keyword-input,
+    .location-input {
+      min-width: 1px;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
+
+      @media screen and (min-width: $screen-sm) {
+        flex-basis: 0%;
+      }
+    }
+
+    .location-input {
       display: block;
+
+      &.closed {
+        display: none;
+
+        @media screen and (min-width: $screen-sm) {
+          display: block;
+        }
+      }
     }
 
-    .search-mobile {
-      display: block !important;
-    }
+    .input-separator {
+      background-color: $cr-gray-light;
+      height: 1.75rem;
+      position: relative;
+      width: 1px;
+      visibility: hidden;
 
-    .search-desktop {
-      display: none !important;
+      @media screen and (min-width: $screen-sm) {
+        visibility: visible;
+      }
     }
 
     .searchbar-wrapper {
       width: 100%;
+
+      @media screen and (min-width: $screen-sm) {
+        width: calc(100% - 64px);
+      }
     }
 
-    .input-group {
+    .map-list-btn {
+      display: inline-block;
+    }
+
+    .search-btn {
+      display: none;
+      width: 68px;
+
+      @media screen and (min-width: $screen-sm) {
+        display: inline-block;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
+
+        .btn {
+          height: 42px;
+          line-height: 1;
+          margin-top: 0;
+          margin-bottom: 0;
+          width: 100%;
+        }
+      }
+    }
+
+    // Expanded searchbar
+    &.searchbar-expanded {
       display: block;
-    }
 
-    input.form-control {
-      margin-bottom: 0;
-      margin-left: 0;
-    }
-
-    .search-input {
-      display: block;
-      height: 42px;
-      margin-bottom: .5rem;
-      position: relative;
-
-      &.input-transparent input.form-control {
-        background: transparent;
-        border: none;
+      @media screen and (min-width: $screen-sm) {
+        display: flex;
       }
 
-      .input-group-addon {
-        height: 38px;
-      }
+      .map-list-btn {
+        display: none;
 
-      .addon-btn {
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 4;
-      }
-
-      .addon-offset {
-        right: 28px;
+        @media screen and (min-width: $screen-sm) {
+          display: block;
+        }
       }
     }
 
-  }
+    // Button styles
+    .addon-btn {
+      button {
+        margin: .75rem .75rem 0 0;
 
-  @media screen and (min-width: $screen-sm) {
-    .search-location.input-group-left input {
-      padding-left: 10px;
+        &.active {
+          color: $cr-teal;
+        }
+      }
     }
 
-    .force-show-desktop {
-      display: block !important;
+    .mobile-btn-group {
+      button.active {
+        color: $cr-cyan;
+      }
+
+      @media screen and (min-width: $screen-sm) {
+        display: none;
+      }
     }
   }
 }

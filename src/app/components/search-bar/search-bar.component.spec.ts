@@ -187,4 +187,10 @@ describe('SearchBarComponent', () => {
     comp.filterCancel();
     expect(comp.shouldShowSubmit).toBe(false);
   });
+
+  it('should hideLocationBar', () => {
+    comp.shouldShowSubmit = true;
+    comp.hideLocationBar();
+    expect(comp.shouldShowSubmit).toBe(false);
+  });
 });

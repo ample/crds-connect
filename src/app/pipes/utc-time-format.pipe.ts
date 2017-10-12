@@ -7,7 +7,6 @@ import * as moment from 'moment';
 
 
 /**Format the date without TimeZone info*/
-
 export class UtcTimeFormatPipe implements PipeTransform {
 
 

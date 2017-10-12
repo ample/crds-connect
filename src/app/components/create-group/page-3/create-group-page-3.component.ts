@@ -3,18 +3,21 @@ import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@ang
 import { Router } from '@angular/router';
 
 import { Address } from '../../../models';
-import { GroupService } from '../../../services/group.service';
+import { GroupInquiryService } from '../../../services/group-inquiry.service';
 import { StateService } from '../../../services/state.service';
 import { CreateGroupService } from '../create-group-data.service';
 import {
-  meetingFrequencies, usStatesList, GroupPaths, groupPaths,
-  GroupPageNumber, textConstants
+  meetingFrequencies,
+  usStatesList,
+  GroupPaths,
+  groupPaths,
+  GroupPageNumber,
+  textConstants
 } from '../../../shared/constants';
-
 
 @Component({
   selector: 'create-group-page-3',
-  templateUrl: './create-group-page-3.component.html',
+  templateUrl: './create-group-page-3.component.html'
 })
 export class CreateGroupPage3Component implements OnInit {
   public locationForm: FormGroup;
@@ -24,19 +27,22 @@ export class CreateGroupPage3Component implements OnInit {
 
   private meetingFrequencies: Array<any> = meetingFrequencies;
 
-  constructor(private fb: FormBuilder,
-    private groupService: GroupService,
+  constructor(
+    private fb: FormBuilder,
     private state: StateService,
     public createGroupService: CreateGroupService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    const pageHeader = (this.state.getActiveGroupPath() === groupPaths.EDIT) ? textConstants.GROUP_PAGE_HEADERS.EDIT
-      : textConstants.GROUP_PAGE_HEADERS.ADD;
-    const headerBackRoute: string = (this.state.getActiveGroupPath() === groupPaths.EDIT) ?
-      `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-2`
-      : '/create-group/page-2';
+    let pageHeader =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? textConstants.GROUP_PAGE_HEADERS.EDIT
+        : textConstants.GROUP_PAGE_HEADERS.ADD;
+    let headerBackRoute: string =
+      this.state.getActiveGroupPath() === groupPaths.EDIT
+        ? `/edit-group/${this.createGroupService.groupBeingEdited.groupId}/page-2`
+        : '/create-group/page-2';
 
     this.state.setPageHeader(pageHeader, headerBackRoute);
 
@@ -51,15 +57,16 @@ export class CreateGroupPage3Component implements OnInit {
     });
     this.setRequiredFields(this.createGroupService.group.isVirtualGroup);
 
-    if (this.state.getActiveGroupPath() === groupPaths.EDIT
-      && !this.createGroupService.wasPagePresetWithExistingData.page3) {
+    if (
+      this.state.getActiveGroupPath() === groupPaths.EDIT &&
+      !this.createGroupService.wasPagePresetWithExistingData.page3
+    ) {
       this.setFieldsFromExistingGroup();
     }
 
     this.isAddressInitializedInEdit = !!this.createGroupService.group.address;
 
     this.state.setLoading(false);
-
   }
 
   public onClickIsVirtual(isVirtual: boolean): void {
@@ -75,16 +82,24 @@ export class CreateGroupPage3Component implements OnInit {
       if (this.createGroupService.group.isVirtualGroup) {
         this.createGroupService.group.address = Address.overload_Constructor_One();
       }
-      this.groupService.navigateInGroupFlow(GroupPageNumber.FOUR, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+      this.createGroupService.navigateInGroupFlow(
+        GroupPageNumber.FOUR,
+        this.state.getActiveGroupPath(),
+        this.createGroupService.group.groupId
+      );
     } else {
-      Object.keys(form.controls).forEach((name) => {
+      Object.keys(form.controls).forEach(name => {
         form.controls[name].markAsTouched();
       });
     }
   }
 
   public onBack(): void {
-    this.groupService.navigateInGroupFlow(GroupPageNumber.TWO, this.state.getActiveGroupPath(), this.createGroupService.group.groupId);
+    this.createGroupService.navigateInGroupFlow(
+      GroupPageNumber.TWO,
+      this.state.getActiveGroupPath(),
+      this.createGroupService.group.groupId
+    );
   }
 
   private initializeAddressIfInEditAndNotInitialized(isVirtual: boolean): void {
@@ -130,8 +145,9 @@ export class CreateGroupPage3Component implements OnInit {
   }
 
   private setFieldsFromExistingGroup(): void {
-    let isGroupVirtual: boolean = this.createGroupService.groupBeingEdited.address === null
-      || this.createGroupService.groupBeingEdited.address.addressLine1 === null;
+    let isGroupVirtual: boolean =
+      this.createGroupService.groupBeingEdited.address === null ||
+      this.createGroupService.groupBeingEdited.address.addressLine1 === null;
 
     if (isGroupVirtual) {
       this.onClickIsVirtual(true);
