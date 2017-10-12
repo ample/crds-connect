@@ -1,4 +1,4 @@
-<div class="connect-search finder-search" (clickOutside)="removeFilters()">
+<div class="connect-search finder-search" (clickOutside)="hideLocationBar()">
   <div class="connect-layout-container container">
     <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)" [class.searchbar-connect]="isConnectApp" [class.searchbar-groups]="!isConnectApp" [class.searchbar-expanded]="shouldShowSubmit">
       <div class="input-group">

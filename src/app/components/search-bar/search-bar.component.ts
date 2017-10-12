@@ -127,8 +127,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
     this.showLocationBar(false);
   }
 
-  public removeFilters(): void {
-    this.state.setIsFilterDialogOpen(false);
+  public hideLocationBar(): void {
     this.showLocationBar(false);
   }
 
