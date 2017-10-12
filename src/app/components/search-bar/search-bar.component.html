@@ -26,8 +26,8 @@
           <div *ngIf="appSettings.isSmallGroupApp()" class="input-separator search-desktop"></div>
 
           <!-- Filter icon button (mobile) -->
-          <span class="filter-btn addon-btn" *ngIf="appSettings.isSmallGroupApp() && !shouldShowSubmit">
-            <button type="button" role="button" (click)="toggleFilters()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
+          <span class="filter-btn addon-btn" *ngIf="appSettings.isSmallGroupApp()">
+            <button type="button" role="button" (click)="openFilter()" [class.open]="state.isFilterDialogOpen" [class.active]="state.isFilterActive">
               <svg class="icon icon-1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="/assets/svgs/icons.svg#equalizer" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
               </svg>
@@ -64,11 +64,11 @@
       </div>
 
       <!-- Mobile searchbar buttons -->
-      <div class="mobile-btn-group" *ngIf="shouldShowSubmit">
+      <div class="mobile-btn-group" *ngIf="appSettings.isSmallGroupApp() && shouldShowSubmit">
         <button type="submit" class="btn btn-secondary" id="searchBtn">
           Search
         </button>
-        <button type="button" class="btn btn-link btn-toggle pull-right hard-sides text-white" [class.active]="state.isFilterDialogOpen" id="addFilters" (click)="openFilter(true)">Add filters</button>
+        <button type="button" class="btn btn-link btn-toggle pull-right hard-sides text-white" [class.active]="state.isFilterDialogOpen" id="addFilters" (click)="openFilter()">Add filters</button>
       </div>
     </form>
   </div>

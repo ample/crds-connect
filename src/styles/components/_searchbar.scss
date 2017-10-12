@@ -96,6 +96,10 @@ app-filters {
         @media screen and (min-width: $screen-sm) {
           display: none;
         }
+
+        .open {
+          display: none;
+        }
       }
     }
 
@@ -180,6 +184,13 @@ app-filters {
 
         @media screen and (min-width: $screen-sm) {
           display: block;
+        }
+      }
+
+      // Mobile filter btn
+      .keyword-input {
+        .filter-btn {
+          display: none;
         }
       }
     }

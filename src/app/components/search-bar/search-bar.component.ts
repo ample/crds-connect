@@ -105,16 +105,9 @@ export class SearchBarComponent implements OnChanges, OnInit {
     document.getElementById('search-bar-input').focus();
   }
 
-  public toggleFilters(onlyToggleFilters: boolean = false): void {
-    const shouldShowDialog = !this.state.getIsFilteredDialogOpen();
-    this.state.setIsFilterDialogOpen(shouldShowDialog);
-    if (onlyToggleFilters === false && shouldShowDialog !== this.shouldShowSubmit) {
-      this.showLocationBar(shouldShowDialog);
-    }
-  }
-
   public openFilter(): void {
     this.state.setIsFilterDialogOpen(true);
+    this.shouldShowSubmit = true;
   }
 
   public showLocationBar(value): void {
@@ -124,7 +117,7 @@ export class SearchBarComponent implements OnChanges, OnInit {
   }
 
   public filterCancel(): void {
-    this.showLocationBar(false);
+    this.shouldShowSubmit = false;
   }
 
   public hideLocationBar(): void {
