@@ -97,6 +97,12 @@ app-filters {
           display: none;
         }
       }
+
+      .form-control + .searchbar-wrapper {
+        @media (min-width: $screen-sm) {
+          width: 293px;
+        }
+      }
     }
 
     .keyword-input,
@@ -121,6 +127,12 @@ app-filters {
           display: block;
         }
       }
+
+      .form-control + .searchbar-wrapper {
+        @media (min-width: $screen-sm) {
+          width: 325px;
+        }
+      }
     }
 
     .input-separator {
@@ -137,10 +149,6 @@ app-filters {
 
     .searchbar-wrapper {
       width: 100%;
-
-      @media screen and (min-width: $screen-sm) {
-        width: calc(100% - 64px);
-      }
     }
 
     .map-list-btn {
