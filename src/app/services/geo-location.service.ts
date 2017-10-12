@@ -17,7 +17,7 @@ export class GeoLocationService {
       // If no input in 15s don't wait
       window.setTimeout(() => {
         observer.error();
-      }, 15000);
+      }, 10000);
       const isGeoLocationAvailable: boolean = Boolean(navigator.geolocation);
       if (isGeoLocationAvailable) {
         this.getPositionFromGeoLocation()
