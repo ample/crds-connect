@@ -33,7 +33,7 @@ export class CacheableService<Type> {
   }
 
   /**
-     * Returns a boolean describing if the 
+     * Returns a boolean describing if the
      * cache is not set.
      */
   protected isNoCache(): boolean {
@@ -41,7 +41,7 @@ export class CacheableService<Type> {
   }
 
   /**
-     * Returns a boolean describing if the 
+     * Returns a boolean describing if the
      * cache is atleast partially set.
      */
   protected isAtLeastPartialCache(): boolean {
@@ -49,7 +49,7 @@ export class CacheableService<Type> {
   }
 
   /**
-     * Returns a boolean describing if the 
+     * Returns a boolean describing if the
      * cache is fully set.
      */
   protected isFullCache(): boolean {
@@ -71,7 +71,7 @@ export class CacheableService<Type> {
   }
 
   /**
-     * 
+     *
      * @param cache data to set for cache
      * @param cacheLevel level of cache being set
      */
@@ -109,7 +109,7 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
   }
 
   /**
-     * 
+     *
      * @param cache data to set for cache
      * @param cacheLevel level of cache being set
      * @param params params used to generate cache
@@ -120,7 +120,7 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
   }
 
   /**
-    * 
+    *
     * @param cache data to set for cache
     * @param cacheLevel level of cache being set
     */
@@ -140,7 +140,6 @@ export class SmartCacheableService<Type, ParamType> extends CacheableService<Typ
     minimumCacheThreshold: CacheLevel,
     currentUserIdentifier: number = null
   ): boolean {
-    debugger;
     if (this.isNoCache()) {
       console.log('this.isNoCache()');
       return false;

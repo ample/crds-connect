@@ -1,4 +1,4 @@
-<div class="connect-search finder-search">
+<div class="connect-search finder-search" (clickOutside)="removeFilters()">
   <div class="connect-layout-container container">
     <form action="." class="searchbar" (ngSubmit)="$event.preventDefault();onSearch(state.searchBarText)" [class.searchbar-connect]="isConnectApp" [class.searchbar-groups]="!isConnectApp" [class.searchbar-expanded]="shouldShowSubmit">
       <div class="input-group">
@@ -73,10 +73,11 @@
       </div>
     </form>
   </div>
+  <app-filters [hidden]="!state.isFilterDialogOpen"
+  [isConnectApp]="isConnectApp"
+  (cancelFilter)="filterCancel()"
+  (applyFilters)="onSearch(state.searchBarText)"
+  class="connect-filters connect-container connect-layout-container"></app-filters>
 </div>
 
-<app-filters [hidden]="!state.isFilterDialogOpen"
-             [isConnectApp]="isConnectApp"
-             (cancelFilter)="filterCancel()"
-             (applyFilters)="onSearch(state.searchBarText)"
-             class="connect-filters connect-container connect-layout-container"></app-filters>
+

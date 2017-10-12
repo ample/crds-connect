@@ -139,6 +139,7 @@ import { GroupResolver } from './route-resolvers/group-resolver';
 import { PinResolver } from './route-resolvers/pin-resolver.service';
 import { UserDataResolver } from './route-resolvers/user-data-resolver';
 
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { GoogleMapClusterDirective } from './directives/google-map-cluster.directive';
 import { OnlyTheseKeysDirective } from './directives/only-these-keys.directive';
 import { UtcTimeFormatPipe } from './pipes/utc-time-format.pipe';
@@ -191,6 +192,7 @@ import { RouterModule } from '@angular/router';
     AppComponent,
     AuthenticationComponent,
     BlandPageComponent,
+    ClickOutsideDirective,
     ContactLeaderComponent,
     CreateGroupSummaryComponent,
     CreateGroupPage1Component,
