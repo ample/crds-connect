@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve",
-    "build-local": "./node_modules/.bin/ng build --watch --aot true",
+    "build-local": "./node_modules/.bin/ng build --watch --aot true --build-optimizer",
     "start-local": "./node_modules/.bin/ng serve",
     "build":
       "./node_modules/.bin/ng build --environment $CRDS_ENV --prod --build-optimizer --output-hashing=none --aot true",
