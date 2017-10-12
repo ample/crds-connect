@@ -11,8 +11,7 @@
                   [ngModelOptions]="{standalone: true}"
                   (keyup)="searchKeyUp()"
                   placeholder={{placeholderTextForSearchBar}}
-                  (focus)="showLocationBar(true)"
-                  (keydown)="showLocationBar(true)">
+                  (click)="showLocationBar(true)">
           <div class="searchbar-wrapper"></div>
 
           <!-- Clear keyword search -->
