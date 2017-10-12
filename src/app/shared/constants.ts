@@ -1,4 +1,4 @@
-import { GeoCoordinates } from '../models/index';
+import { GeoCoordinates } from '../models';
 import { environment } from '../../environments/environment';
 export const ApplicationUrl: string = `//${environment.CRDS_ENV || 'www'}.crossroads.net/groups/leader`;
 
@@ -72,6 +72,8 @@ export const ClusterStyles = [{
 export const MaxZoomForClustering: number = 15;
 
 export const textConstants = new TextConstants();
+
+export const locationBackText: string = 'BACK';
 
 export const awsMeetingTimeSearchStrings = new AwsMeetingTimeSearchStrings();
 

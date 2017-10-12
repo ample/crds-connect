@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { AppSettingsService } from '../../services/app-settings.service';
 
-import { OnsiteGroupsUrl } from '../../shared/constants';
+import { locationBackText, OnsiteGroupsUrl } from '../../shared/constants';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class GettingStartedComponent implements OnInit {
              public appSettings: AppSettingsService) {}
 
   ngOnInit() {
-    this.state.setPageHeader('Getting Started', '/');
+    this.state.setPageHeader('Getting Started', locationBackText);
     this.state.setLoading(false);
     return true;
   }
