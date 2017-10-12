@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   crdsEnv: '',
-  CRDS_GATEWAY_CLIENT_ENDPOINT: 'https://gateway.crossroads.net/gateway/',
+  CRDS_GATEWAY_CLIENT_ENDPOINT: '/proxy/gateway/',
   CRDS_ENV: '',
   CRDS_COOKIE_DOMAIN: 'crossroads.net',
   cookieDomain: 'crossroads.net',
