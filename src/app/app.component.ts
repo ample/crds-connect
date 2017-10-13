@@ -65,6 +65,7 @@ export class AppComponent implements OnInit {
   public removeFauxdalClasses(val) {
     if (val.constructor.name === 'NavigationStart') {
       // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
+      debugger;
       document.querySelector('body').classList.remove('fauxdal-open');
     }
   }
