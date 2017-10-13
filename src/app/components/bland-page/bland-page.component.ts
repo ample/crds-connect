@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BlandPageService } from '../../services/bland-page.service';
 import { StateService } from '../../services/state.service';
@@ -9,7 +9,7 @@ import { BlandPageDetails, BlandPageType, BlandPageCause } from '../../models/bl
     selector: 'app-bland-page',
     templateUrl: 'bland-page.html'
 })
-export class BlandPageComponent implements OnInit, AfterViewInit {
+export class BlandPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public blandPageDetails: BlandPageDetails;
     public isFauxModal: boolean = false;
     public contentBlock = false;
@@ -43,6 +43,10 @@ export class BlandPageComponent implements OnInit, AfterViewInit {
         } else {
             document.querySelector('body').style.overflowY = 'auto';
         }
+    }
+    
+    ngOnDestroy() {
+        document.querySelector('body').classList.remove('fauxdal-open');
     }
 
     close() {

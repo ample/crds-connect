@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,7 +19,7 @@ import { DetailedUserData } from '../../models/detailed-user-data';
   selector: 'app-host-application',
   templateUrl: 'host-application.component.html'
 })
-export class HostApplicationComponent implements OnInit, AfterViewInit {
+export class HostApplicationComponent implements OnInit, AfterViewInit, OnDestroy {
   public userData: DetailedUserData;
   public hostForm: FormGroup;
   public homeAddress: Address;
@@ -64,6 +64,10 @@ export class HostApplicationComponent implements OnInit, AfterViewInit {
     // This component is rendered within a fauxdal,
     // so we need the following selector added to <body> element
     document.querySelector('body').classList.add('fauxdal-open');
+  }
+
+  ngOnDestroy() {
+    document.querySelector('body').classList.remove('fauxdal-open');
   }
 
   public onIsHomeAddressClicked() {

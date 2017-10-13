@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
+import { AfterViewInit, OnDestroy, Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { PinsShown, pinsShown, ViewType } from '../../../../shared/constants';
   styles: ['.fauxdal-wrapper { overflow-y: hidden; } ']
 })
 
-export class RemovePersonPinComponent implements OnInit, AfterViewInit {
+export class RemovePersonPinComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() pin: Pin;
   constructor(private blandPageService: BlandPageService,
     private pinService: PinService,
@@ -36,6 +36,10 @@ export class RemovePersonPinComponent implements OnInit, AfterViewInit {
     document.querySelector('body').style.overflowY = 'hidden';
   }
 
+  ngOnDestroy() {
+    document.querySelector('body').classList.remove('fauxdal-open');
+  }
+  
   public removePersonPin() {
     this.pinService.removePersonPin(this.pin.participantId).subscribe(
       () => {

@@ -1,5 +1,5 @@
 import { PinService } from '../../services/pin.service';
-import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -25,7 +25,7 @@ import { GoogleMapService } from '../../services/google-map.service';
   selector: 'app-add-me-to-map',
   templateUrl: 'add-me-to-map.component.html'
 })
-export class AddMeToMapComponent implements OnInit, AfterViewInit {
+export class AddMeToMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public userData: Pin;
   public addMeToMapForm: FormGroup;
@@ -75,6 +75,10 @@ export class AddMeToMapComponent implements OnInit, AfterViewInit {
     // This component is rendered within a fauxdal,
     // so we need the following selector added to <body> element
     document.querySelector('body').classList.add('fauxdal-open');
+  }
+
+  public ngOnDestroy() {
+    document.querySelector('body').classList.remove('fauxdal-open');
   }
 
   public onSubmit({valid}: {valid: boolean}) {

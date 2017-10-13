@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,7 +20,7 @@ import { MsgToLeader } from '../../models/msg-to-leader';
     templateUrl: 'contact-leader.component.html',
     styles: ['.fauxdal-wrapper { overflow-y: auto; }']
 })
-export class ContactLeaderComponent implements OnInit, AfterViewInit {
+export class ContactLeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public contactLeaderForm: FormGroup;
   public isFormSubmitted: boolean = false;
@@ -54,6 +54,10 @@ export class ContactLeaderComponent implements OnInit, AfterViewInit {
     // This component is rendered within a fauxdal,
     // so we need the following selector added to <body> element
     document.querySelector('body').classList.add('fauxdal-open');
+  }
+
+  ngOnDestroy() {
+    document.querySelector('body').classList.remove('fauxdal-open');
   }
 
   public onSubmit({ value, valid }: { value: MsgToLeader, valid: boolean }) {

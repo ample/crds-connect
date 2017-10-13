@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, OnDestroy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
@@ -13,7 +13,7 @@ import { ContentService } from 'crds-ng2-content-block';
   templateUrl: './participant-remove.component.html'
 })
 
-export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
+export class ParticipantRemoveComponent implements OnInit, AfterViewInit, OnDestroy {
   public removeParticipantForm: FormGroup;
   public submitting: boolean = false;
   public isFormSubmitted: boolean = false;
@@ -62,6 +62,10 @@ export class ParticipantRemoveComponent implements OnInit, AfterViewInit {
     document.querySelector('body').classList.add('fauxdal-open');
   }
 
+  ngOnDestroy() {
+    document.querySelector('body').classList.remove('fauxdal-open');
+  }
+  
   public closeClick() {
     this.locationService.back();
     document.querySelector('body').style.overflowY = 'auto';
