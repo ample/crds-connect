@@ -11,7 +11,7 @@ import { SearchOptions } from '../models/search-options';
 import { PinSearchRequestParams } from '../models/pin-search-request-params';
 import { GoogleMapService } from '../services/google-map.service';
 
-import { groupPaths, ViewType } from '../shared/constants';
+import { groupPaths, locationBackText, ViewType } from '../shared/constants';
 
 // TODO: This class has a lot of flags.
 // Investigate to see if they belong here and/or add some documentation.
@@ -147,10 +147,12 @@ export class StateService {
     return this.showingPinCount;
   }
 
-  public setPageHeader(title, routerLink): void {
+  /* Sets the page header and the route the back arrow takes.
+     If nothing is passed in by default the arrow will use browser back **/
+  public setPageHeader(title, routerLink = null): void {
     this.hasPageHeader = true;
     this.pageHeader['title'] = title;
-    this.pageHeader['routerLink'] = routerLink;
+    this.pageHeader['routerLink'] = routerLink == null ? locationBackText : routerLink;
   }
 
   public setUseZoom(zoom: number): void {

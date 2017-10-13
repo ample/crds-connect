@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, NavigationStart } from '@angular/router';
 
@@ -10,12 +10,15 @@ import { StateService } from '../../services/state.service';
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
 
   constructor(public appSettings: AppSettingsService,
     private router: Router,
     public state: StateService,
     private location: Location) {
+  }
+
+  public ngOnInit() {
     this.listenForRouteChange();
   }
 
