@@ -34,7 +34,7 @@
       <a *ngIf="state.pageHeader.routerLink"
         class="pull-left"
         id="noResultsBackButton"
-        routerLink="{{state.pageHeader.routerLink}}">
+        (click)="changeRoute(state.pageHeader.routerLink)">
         <svg class="icon icon-1" viewBox="0 0 256 256">
           <use xlink:href="/assets/svgs/icons.svg#chevron-left"></use>
         </svg>

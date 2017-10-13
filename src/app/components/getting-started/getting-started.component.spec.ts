@@ -14,7 +14,7 @@ describe('Component: GettingStarted', () => {
   let mockAppSettings;
 
   beforeEach(() => {
-    mockStateService = jasmine.createSpyObj<GettingStartedComponent>('gettingStartedComponent', ['constructor']);
+    mockStateService = jasmine.createSpyObj<GettingStartedComponent>('gettingStartedComponent', ['setPageHeader', 'setLoading']);
     mockAppSettings = jasmine.createSpyObj<AppSettingsService>('appSettings', ['isConnectApp', 'isSmallGroupApp']);
     TestBed.configureTestingModule({
       declarations: [
@@ -38,5 +38,11 @@ describe('Component: GettingStarted', () => {
 
   it('should create an instance', () => {
     expect(comp).toBeTruthy();
+  });
+
+  it('should init', () => {
+    comp.ngOnInit();
+    expect(mockStateService.setPageHeader).toHaveBeenCalledWith('Getting Started');
+    expect(mockStateService.setLoading).toHaveBeenCalledWith(false);
   });
 });

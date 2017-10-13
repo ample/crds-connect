@@ -17,9 +17,8 @@ export class GettingStartedComponent implements OnInit {
              public appSettings: AppSettingsService) {}
 
   ngOnInit() {
-    this.state.setPageHeader('Getting Started', '/');
+    this.state.setPageHeader('Getting Started');
     this.state.setLoading(false);
-    return true;
   }
 
   public onClickOnsiteGroups(): void {
