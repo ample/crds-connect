@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   crdsEnv: 'int',
   CRDS_GATEWAY_CLIENT_ENDPOINT: '/proxy/gateway/',
   CRDS_ENV: 'int',
