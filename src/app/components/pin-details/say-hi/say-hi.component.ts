@@ -84,7 +84,7 @@ export class SayHiComponent implements OnInit {
       BlandPageCause.Success,
       ''
     );
-    this.sayHiService.sendHiEmail(this.user, this.pin).subscribe(
+    this.sayHiService.sendHiEmail(this.user, this.pin, theMessage).subscribe(
       ret => {
         this.blandPageService.primeAndGo(bpd);
       },
