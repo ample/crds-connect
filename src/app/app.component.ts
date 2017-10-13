@@ -44,14 +44,13 @@ export class AppComponent implements OnInit {
     vRef: ViewContainerRef) {
 
     this.toastr.setRootViewContainerRef(vRef);
-
-    router.events.subscribe((val) => {
-      this.removeFauxdalClasses(val);
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    });
   }
 
   ngOnInit() {
+    this.router.events.subscribe((val) => {
+      this.removeFauxdalClasses(val);
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    });
     this.state.setLoading(true);
     this.getAppContext();
   }
@@ -63,7 +62,7 @@ export class AppComponent implements OnInit {
     return isInConnectApp;
   }
 
-  removeFauxdalClasses(val) {
+  public removeFauxdalClasses(val) {
     if (val.constructor.name === 'NavigationStart') {
       // Remove the .fauxdal-open selector from <body> element whenever the router emits a path change
       document.querySelector('body').classList.remove('fauxdal-open');
